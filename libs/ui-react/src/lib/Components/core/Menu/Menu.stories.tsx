@@ -11,6 +11,7 @@ import {
   MenuContent,
   MenuItem,
   MenuCheckboxItem,
+  MenuSwitchItem,
   MenuRadioItem,
   MenuLabel,
   MenuSeparator,
@@ -30,6 +31,7 @@ const meta = {
     MenuContent,
     MenuItem,
     MenuCheckboxItem,
+    MenuSwitchItem,
     MenuRadioItem,
     MenuLabel,
     MenuSeparator,
@@ -185,6 +187,42 @@ export const WithCheckboxItems: Story = {
             >
               Show Status Bar
             </MenuCheckboxItem>
+          </MenuGroup>
+        </MenuContent>
+      </Menu>
+    );
+  },
+};
+
+export const WithSwitchItems: Story = {
+  render: () => {
+    const [notifications, setNotifications] = useState(false);
+    const [autoUpdates, setAutoUpdates] = useState(true);
+
+    return (
+      <Menu>
+        <MenuTrigger
+          render={
+            <Button size='md' appearance='gray'>
+              Settings
+            </Button>
+          }
+        />
+        <MenuContent className='w-208'>
+          <MenuGroup>
+            <MenuLabel>Notifications</MenuLabel>
+            <MenuSwitchItem
+              checked={notifications}
+              onCheckedChange={setNotifications}
+            >
+              Notifications
+            </MenuSwitchItem>
+            <MenuSwitchItem
+              checked={autoUpdates}
+              onCheckedChange={setAutoUpdates}
+            >
+              Auto Updates
+            </MenuSwitchItem>
           </MenuGroup>
         </MenuContent>
       </Menu>

@@ -31,6 +31,7 @@ Built on top of [Base UI Menu](https://base-ui.com/react/components/menu) primit
 - **Label**: Non-interactive text labels for grouping
 - **Separator**: Visual dividers between groups
 - **CheckboxItem**: Items with checkbox selection
+- **SwitchItem**: Items with switch selection
 - **RadioItem**: Items with radio selection (single choice in group)
 - **SubMenu**: Nested menus for hierarchical options
 
@@ -48,6 +49,12 @@ Simple menu items for actions:
 For toggleable options:
 
 <Canvas of={MenuStories.WithCheckboxItems} />
+
+### Switch Items
+
+For toggleable options that should read as an on/off action rather than a checkbox:
+
+<Canvas of={MenuStories.WithSwitchItems} />
 
 ### Radio Items
 
@@ -220,6 +227,37 @@ function MyComponent() {
         >
           Show Sidebar
         </MenuCheckboxItem>
+      </MenuContent>
+    </Menu>
+  );
+}
+```
+
+### With Switch Items
+
+```tsx
+import {
+  Menu,
+  MenuTrigger,
+  MenuContent,
+  MenuSwitchItem,
+} from '@ledgerhq/lumen-ui-react';
+import { Button } from '@ledgerhq/lumen-ui-react';
+import { useState } from 'react';
+
+function MyComponent() {
+  const [notifications, setNotifications] = useState(false);
+
+  return (
+    <Menu>
+      <MenuTrigger render={<Button>Settings</Button>} />
+      <MenuContent>
+        <MenuSwitchItem
+          checked={notifications}
+          onCheckedChange={setNotifications}
+        >
+          Notifications
+        </MenuSwitchItem>
       </MenuContent>
     </Menu>
   );
