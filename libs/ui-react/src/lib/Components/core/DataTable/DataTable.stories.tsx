@@ -434,6 +434,15 @@ export const WithClickableRow: Story = {
 };
 
 export const WithRowProps: Story = {
+  parameters: {
+    docs: {
+      source: {
+        language: 'tsx',
+        format: true,
+        type: 'dynamic',
+      },
+    },
+  },
   render: (args) => {
     const table = useLumenDataTable({
       data,

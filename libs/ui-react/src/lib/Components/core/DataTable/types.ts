@@ -37,7 +37,12 @@ declare module '@tanstack/react-table' {
 
 export type DataTableRowProps = Omit<
   TableRowProps,
-  'children' | 'clickable' | 'onClick' | 'role'
+  | 'children'
+  | 'clickable'
+  | 'dangerouslySetInnerHTML'
+  | 'onClick'
+  | 'onClickCapture'
+  | 'role'
 > &
   Record<`data-${string}`, string | number | boolean | undefined>;
 
