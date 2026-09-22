@@ -976,7 +976,7 @@
       "error": {
         "default": {
           "$type": "color",
-          "$value": "{color.light.red.300}",
+          "$value": "{color.light.red.200}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1040,7 +1040,7 @@
       "warning": {
         "default": {
           "$type": "color",
-          "$value": "{color.light.yellow.300}",
+          "$value": "{color.light.yellow.200}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -1116,7 +1116,7 @@
       "success": {
         "default": {
           "$type": "color",
-          "$value": "{color.light.green.300}",
+          "$value": "{color.light.green.200}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2138,7 +2138,7 @@
       "decorative-strong": {
         "orange": {
           "$type": "color",
-          "$value": "{color.light.decorative.orange.700}",
+          "$value": "{color.light.decorative.orange.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2152,7 +2152,7 @@
         },
         "green": {
           "$type": "color",
-          "$value": "{color.light.decorative.green.700}",
+          "$value": "{color.light.decorative.green.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2166,7 +2166,7 @@
         },
         "blue": {
           "$type": "color",
-          "$value": "{color.light.decorative.blue.700}",
+          "$value": "{color.light.decorative.blue.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2180,7 +2180,7 @@
         },
         "purple": {
           "$type": "color",
-          "$value": "{color.light.decorative.purple.700}",
+          "$value": "{color.light.decorative.purple.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2194,7 +2194,7 @@
         },
         "red": {
           "$type": "color",
-          "$value": "{color.light.decorative.red.700}",
+          "$value": "{color.light.decorative.red.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2222,7 +2222,7 @@
         },
         "turquoise": {
           "$type": "color",
-          "$value": "{color.light.decorative.turquoise.700}",
+          "$value": "{color.light.decorative.turquoise.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2236,7 +2236,7 @@
         },
         "pink": {
           "$type": "color",
-          "$value": "{color.light.decorative.pink.700}",
+          "$value": "{color.light.decorative.pink.800}",
           "$description": "",
           "$extensions": {
             "com.figma": {
