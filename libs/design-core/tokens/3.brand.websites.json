@@ -1772,7 +1772,7 @@
               "SHAPE_FILL"
             ],
             "codeSyntax": {
-              "WEB": "var(--background-error);"
+              "WEB": "var(--background-error-on-interactive);"
             }
           }
         }
@@ -1831,7 +1831,7 @@
               "SHAPE_FILL"
             ],
             "codeSyntax": {
-              "WEB": "var(--background-warning);"
+              "WEB": "var(--background-warning-on-interactive);"
             }
           }
         }
@@ -1890,7 +1890,7 @@
               "SHAPE_FILL"
             ],
             "codeSyntax": {
-              "WEB": "var(--background-success);"
+              "WEB": "var(--background-success-on-interactive);"
             }
           }
         }
