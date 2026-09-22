@@ -17,8 +17,9 @@
 //      package name matches that lib's package.json, and every lib on disk is in
 //      the table (bijection).
 //   7. Internals table ↔ filesystem — every `internals/*` project is documented
-//      (bijection), carries the `scope:internal` tag, ships a `private: true`
-//      package.json, and spreads `sharedConfig` in its eslint config.
+//      (bijection), is named after its folder (unscoped), carries the
+//      `scope:internal` + `type:tooling` tags, ships a `private: true`
+//      package.json under the `@lumen/*` scope, and spreads `sharedConfig`.
 //   8. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
 //      servers with the same url/command (the one hand-synced, non-CI invariant).
 //
@@ -271,9 +272,15 @@ for (const path of internalsOnDisk) {
     err(`Internal project "${path}" exists on disk but is missing from the AGENTS.md Internals table.`);
   }
 
+  const folder = path.slice('internals/'.length);
   const project = JSON.parse(readFileSync(join(root, path, 'project.json'), 'utf8'));
-  if (!project.tags?.includes('scope:internal')) {
-    err(`"${path}/project.json" must carry the "scope:internal" tag, or the module-boundary rule will not fence it off from libs/apps.`);
+  if (project.name !== folder) {
+    err(`"${path}/project.json" is named "${project.name}" but must be the unscoped folder name "${folder}".`);
+  }
+  for (const tag of ['scope:internal', 'type:tooling']) {
+    if (!project.tags?.includes(tag)) {
+      err(`"${path}/project.json" must carry the "${tag}" tag${tag === 'scope:internal' ? ', or the module-boundary rule will not fence it off from libs/apps' : ''}.`);
+    }
   }
 
   const manifestPath = join(root, path, 'package.json');
@@ -283,6 +290,9 @@ for (const path of internalsOnDisk) {
     const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
     if (manifest.private !== true) {
       err(`"${path}/package.json" must set "private": true — internal projects are never published.`);
+    }
+    if (!manifest.name?.startsWith('@lumen/')) {
+      err(`"${path}/package.json" is named "${manifest.name}" but internal projects use the "@lumen/*" scope, never "@ledgerhq/lumen-*" which reads as publishable.`);
     }
   }
 

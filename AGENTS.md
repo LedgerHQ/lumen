@@ -150,7 +150,8 @@ content. The `scripts/check-agent-docs-drift.mjs` drift check (run in CI as the
 invariants: the AGENTS.md index and the skill folders stay in bijection,
 inter-skill references resolve, cited repo paths exist, no skill hardcodes a
 stale tool version, every skill's `paths:` globs still match at least one file,
-the Libraries table matches the libs on disk (path + package name), and
+the Libraries table matches the libs on disk (path + package name), every
+`internals/*` project matches the Internals table and its four rules, and
 `.mcp.json` and `.cursor/mcp.json` stay in parity.
 - **MCP servers are the one exception to "no duplication":** each tool hardcodes
 its own project-scoped path (Claude Code → `.mcp.json`, Cursor →

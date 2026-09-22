@@ -30,7 +30,7 @@ NEVER edit files or write to Figma before the developer accepts the report. If t
 - React Native docs: `https://ldls-react-native.vercel.app/?path=/docs/rnative-<slug>--docs`
 - Icon gallery stories: `…/?path=/story/<prefix>-icon--base&args=name:<IconName>` (the `Base` story; `<prefix>` = `react` or `rnative`)
 - `<slug>` = the component story's stable meta `id` minus the platform prefix (e.g. `react-amountinput` -> slug `amountinput`). Slugs are lowercase, no separators.
-- Platform is decided by file path / library: anything under `libs/ui-rnative*` -> `rnative-` on `ldls-react-native.vercel.app`; otherwise `react-` on `ldls.vercel.app`.
+- Platform is decided by file path / library: anything under `libs/ui-rnative` -> `rnative-` on `ldls-react-native.vercel.app`; otherwise `react-` on `ldls.vercel.app`.
 
 ## Source of truth (build this first, every run)
 
@@ -41,10 +41,8 @@ Derive the valid ids and platform availability from the story files — never ha
 rg --no-filename -o "id:\s*'(react|rnative)-[a-z0-9]+'" libs --glob '*.stories.tsx' | sort -u
 ```
 
-- `react-<slug>` ids come from `libs/ui-react*/**`; `rnative-<slug>` from `libs/ui-rnative*/**`.
-- A slug exists on a platform only if a `*.stories.tsx` defines that `<prefix>-<slug>` id. Build a `slug -> {react, rnative}` map and only ever emit links for platforms that actually have the page. Examples that are single-platform: `menu`, `select`, `dialog`, `popover`, `sidebar`, `pagination`, `table`, `linechart` (React only); `bottomsheet`, `selectlist`, `tabbar` (RN only).
-
-This complements the lint rule `tools/eslint/storybook-stable-story-id.mjs`, which enforces that every component story has a correct `id`.
+- `react-<slug>` ids come from `libs/ui-react/**`; `rnative-<slug>` from `libs/ui-rnative/**`.
+- A slug exists on a platform only if a `*.stories.tsx` defines that `<prefix>-<slug>` id. Build a `slug -> {react, rnative}` map and only ever emit links for platforms that actually have the page. Examples that are single-platform: `menu`, `select`, `dialog`, `popover`, `sidebar`, `pagination`, `table`, `donutchart`, `legend` (React only); `bottomsheet`, `selectlist`, `tabbar` (RN only). `linechart`, `point`, `referenceline` and `scrubber` are dual-platform.
 
 ## NEVER rewrite these (protected, MDX-only docs, not components)
 
@@ -69,7 +67,7 @@ Gather everything that WOULD change. Do not write anything in this phase.
 npx nx run-many -t lint -p @ledgerhq/lumen-ui-react @ledgerhq/lumen-ui-rnative
 ```
 
-Note any story missing/with an incorrect `id` (the `storybook-stable-story-id` rule), and whether it is autofixable.
+Note any story missing an `id`, or carrying one that does not match `<platform>-<slug>`. Nothing lints this, so the grep above is the only check.
 
 ### 1b. Repo links (grep only)
 
@@ -96,7 +94,7 @@ Note: the Figma MCP `use_figma` runtime does NOT implement `getDevResourcesAsync
 - `GET /v1/files/:key/dev_resources` and `GET /v1/files/:key/component_sets` (name + node_id).
 - For each Storybook dev link, parse slug + platform (RN if host is `ldls-react-native.vercel.app`, or url has `react-native_`, or name contains "RN"; else React). For component sets with no link, match the set name (normalize: lowercase + strip non-alphanumeric; aliases `tilebuttons->tilebutton`, `dialogsheet->dialog`) to a slug.
 - Desired per node: a React link if the slug exists on React, an RN link if it exists on RN. Names `"<Component> React - Storybook"` / `"<Component> RN - Storybook"`.
-- Compute the diff vs current: creates / updates / deletes, plus skipped (non-Storybook links and unmatched legacy components like `counter`, `radio`, `slider`, `donut-chart`, `legend`, `snackbar` — never touched). DO NOT call POST/PUT/DELETE in this phase.
+- Compute the diff vs current: creates / updates / deletes, plus skipped (non-Storybook links and unmatched legacy components like `counter`, `radio`, `slider`, `snackbar` — never touched). DO NOT call POST/PUT/DELETE in this phase.
 
 ---
 

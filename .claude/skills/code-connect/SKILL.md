@@ -12,7 +12,7 @@ Lumen maps Figma components to real code with **parser-based Code Connect**:
 and publishes the snippets to Figma Dev Mode (CI:
 `.github/workflows/figma-code-connect.yml`).
 
-> The whole codebase uses parser-based `.figma.tsx` files (~90 of them across
+> The whole codebase uses parser-based `.figma.tsx` files (~95 of them across
 > `libs/ui-react` and `libs/ui-rnative`). There are **no** `.figma.ts` MCP
 > template files here — don't author that style.
 
@@ -22,8 +22,8 @@ and publishes the snippets to Figma Dev Mode (CI:
   `libs/ui-rnative/src/lib/Components/core/Tag/Tag.figma.tsx`).
 - Only `libs/ui-react` and `libs/ui-rnative` have a `figma.config.json` (with a
   `codeConnect` block: `include` globs, `label` (e.g. `"React Native"`), and
-  `interactiveSetupFigmaFileUrl`). The visualization libs have no Code Connect
-  coverage. Read the config to confirm the include path — there is no
+  `interactiveSetupFigmaFileUrl`). Charts under `Components/visualization/` have
+  no Code Connect coverage. Read the config to confirm the include path — there is no
   `parser`/`paths`/`importPaths` key.
 
 ## File structure
@@ -140,4 +140,4 @@ Rules verifiable from a diff.
 | `figma.enum` maps only some Figma values | `.figma.tsx` | enum with fewer cases than the Figma property | intentionally-omitted `undefined` mappings |
 | `imports` uses a relative path instead of the published specifier | `.figma.tsx` | `'../…'` in `imports` | — |
 | `example` references a prop that isn't on the component | `.figma.tsx` | attribute not in the component's props | typed placeholder for un-mappable props |
-| `.figma.tsx` added for a lib without Code Connect | `ui-*-visualization` | new `.figma.tsx` under a visualization lib | — |
+| `.figma.tsx` added where Code Connect has no coverage | `ui-react`, `ui-rnative` | new `.figma.tsx` under `Components/visualization/` | — |

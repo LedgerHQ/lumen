@@ -2,7 +2,7 @@
 name: component-styling
 description: >-
   Use when building or styling a component in libs/ui-react or libs/ui-rnative
-  (and their visualization libs) — the cross-platform styling principles, plus
+  — the cross-platform styling principles, plus
   routing to the platform mechanics: Tailwind + cva + cn on web, useStyleSheet +
   themeJS + lx on React Native. Load this before writing component styles.
 paths: libs/ui-react/**/*.tsx, libs/ui-react/**/*.ts, libs/ui-rnative/**/*.tsx, libs/ui-rnative/**/*.ts

@@ -39,7 +39,7 @@ lumen
        └── app-sandbox-react          # Demo React application
 ```
 
-- NXJS libraries are prefixed by `@ledgerhq/lumen-*` - defined in the project.json
+- Libraries under `libs/` are prefixed by `@ledgerhq/lumen-*` - defined in the project.json
 - NPM package will match the name of the NXJS library, to make a library publishable a private:false needs to be set
 - `internals/*` projects are dev-only and never published — see `## Internals` in
   [AGENTS.md](AGENTS.md)

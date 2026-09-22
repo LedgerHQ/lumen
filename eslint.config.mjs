@@ -33,6 +33,46 @@ export const sharedConfig = defineConfig(
   defineGlobalRules({
     rules: {
       /**
+       * nx — a graph rule, not a prod/dev quality rule, so it lives at the
+       * all-files layer: libs, apps and internals are all fenced by it.
+       */
+      '@nx/enforce-module-boundaries': [
+        'error',
+        {
+          enforceBuildableLibDependency: true,
+          allow: [
+            '^.*/eslint(\\.base)?\\.config\\.[cm]?js$',
+            '^.*/eslint\\.shared\\.[cm]?js$',
+          ],
+          depConstraints: [
+            {
+              sourceTag: 'scope:internal',
+              onlyDependOnLibsWithTags: ['scope:internal', 'scope:shared'],
+            },
+            {
+              sourceTag: 'scope:shared',
+              onlyDependOnLibsWithTags: ['scope:shared'],
+            },
+            {
+              sourceTag: 'scope:react-native',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:react-native',
+                'scope:ui-shared',
+              ],
+            },
+            {
+              sourceTag: 'scope:react',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'scope:react',
+                'scope:ui-shared',
+              ],
+            },
+          ],
+        },
+      ],
+      /**
        * React
        */
       'react/self-closing-comp': ['error', { component: true, html: true }],
@@ -145,38 +185,6 @@ export const prodConfig = defineConfig(
 
       '@typescript-eslint/no-non-null-assertion': 'error',
       '@typescript-eslint/no-require-imports': 'error',
-      /**
-       * nx
-       */
-      '@nx/enforce-module-boundaries': [
-        'error',
-        {
-          enforceBuildableLibDependency: true,
-          allow: ['^.*/eslint(\\.base)?\\.config\\.[cm]?js$'],
-          depConstraints: [
-            {
-              sourceTag: 'scope:shared',
-              onlyDependOnLibsWithTags: ['scope:shared'],
-            },
-            {
-              sourceTag: 'scope:react-native',
-              onlyDependOnLibsWithTags: [
-                'scope:shared',
-                'scope:react-native',
-                'scope:ui-shared',
-              ],
-            },
-            {
-              sourceTag: 'scope:react',
-              onlyDependOnLibsWithTags: [
-                'scope:shared',
-                'scope:react',
-                'scope:ui-shared',
-              ],
-            },
-          ],
-        },
-      ],
     },
   }),
 );

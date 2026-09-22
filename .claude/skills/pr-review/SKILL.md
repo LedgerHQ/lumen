@@ -63,15 +63,14 @@ skill's `## Review checks` table — this skill does **not** restate them:
 Rules:
 
 - A single PR often touches **both** platforms (a component usually ships on web
-  and native together). When both `ui-react*` and `ui-rnative*` are touched,
+  and native together). When both `ui-react` and `ui-rnative` are touched,
   apply **both** the web and RN review checks and add the **API-parity check**:
   prop names, defaults, and variant vocabulary should match across the two
   implementations unless there's a platform reason not to (`Parity`).
 - **Never apply Tailwind rules to an RN file or `useStyleSheet` rules to a web
   file.** The token *vocabulary* is shared (`bg-muted` ↔ `t.colors.bg.muted`),
   the *mechanism* is not.
-- **Visualization / lib exceptions** are described once in the `Libraries` table
-  and in each skill's Review checks (e.g. RN charts under
+- **Chart / lib exceptions** are described once in each skill's Review checks (e.g. RN charts under
   `Components/visualization/` use `useTheme()` + flat stories, no `.mdx`/figma).
   Don't flag files a lib does not use.
 - `libs/design-core/**`: the CSS/Tailwind tokens and the JS theme objects must
@@ -164,7 +163,7 @@ parity, memoization — are owned by the `component-architecture` skill. Apply i
 
 - `.stories.tsx` and `.mdx` must reflect the current API — no references to
   removed/renamed props, default values match the implementation, interactive
-  examples still work. (Not applicable to visualization libs.)
+  examples still work. (Not applicable to RN charts under `Components/visualization/`.)
 
 ## Version plan check
 

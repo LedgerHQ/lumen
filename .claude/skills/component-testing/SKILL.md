@@ -2,7 +2,7 @@
 name: component-testing
 description: >-
   Use when writing or editing component tests in libs/ui-react or
-  libs/ui-rnative (and their visualization libs) — shared structure and coverage
+  libs/ui-rnative — shared structure and coverage
   conventions, plus the per-platform runner: Vitest + React Testing Library on
   web, Jest + React Native Testing Library on RN. Load this before writing tests.
 paths: libs/ui-react/**/*.test.tsx, libs/ui-react/**/*.test.ts, libs/ui-rnative/**/*.test.tsx, libs/ui-rnative/**/*.test.ts
