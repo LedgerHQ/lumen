@@ -1,7 +1,7 @@
 import type { Row, RowData, Table } from '@tanstack/react-table';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 import type { Breakpoints } from '../../../../types';
-import type { TableRootProps } from '../Table/types';
+import type { TableRootProps, TableRowProps } from '../Table/types';
 
 /**
  * Lumen-specific column metadata that extends TanStack's ColumnMeta.
@@ -34,6 +34,17 @@ declare module '@tanstack/react-table' {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-object-type, @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-interface
   interface ColumnMeta<TData extends RowData, TValue> extends LumenColumnMeta {}
 }
+
+export type DataTableRowProps = Omit<
+  TableRowProps,
+  | 'children'
+  | 'clickable'
+  | 'dangerouslySetInnerHTML'
+  | 'onClick'
+  | 'onClickCapture'
+  | 'role'
+> &
+  Record<`data-${string}`, string | number | boolean | undefined>;
 
 export type DataTableRootProps<TData extends RowData = RowData> = {
   /**
@@ -85,6 +96,11 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    * @default undefined
    */
   onRowClick?: (row: Row<TData>) => void;
+  /**
+   * Returns native props to apply to a rendered data row.
+   * @default undefined
+   */
+  getRowProps?: (row: Row<TData>) => DataTableRowProps | undefined;
   /**
    * Extracts a group key from a row. When provided, rows are visually
    * separated by group header rows whenever the key changes.

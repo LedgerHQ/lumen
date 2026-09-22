@@ -1,6 +1,6 @@
-import type { ColumnDef } from '@tanstack/react-table';
-import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import type { ColumnDef, Row } from '@tanstack/react-table';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import { DataTableRoot, DataTable } from './DataTable';
 import { useLumenDataTable } from './useLumenDataTable';
@@ -103,6 +103,88 @@ describe('DataTable', () => {
     // Only header row, no data rows
     const rows = screen.getAllByRole('row');
     expect(rows).toHaveLength(1);
+  });
+});
+
+describe('DataTable row props', () => {
+  it('should apply props from the TanStack row to each data row', () => {
+    const rowElements = new Map<number, HTMLTableRowElement>();
+    const getRowProps = vi.fn((row: Row<TestData>) => ({
+      'data-testid': `row-${row.original.id}`,
+      className: 'custom-row',
+      ref: (element: HTMLTableRowElement | null) => {
+        if (element) rowElements.set(row.original.id, element);
+      },
+    }));
+    const TestComponent = () => {
+      const table = useLumenDataTable({ data: testData, columns: testColumns });
+      return (
+        <DataTableRoot table={table} getRowProps={getRowProps}>
+          <DataTable />
+        </DataTableRoot>
+      );
+    };
+
+    render(<TestComponent />);
+
+    expect(getRowProps).toHaveBeenCalledTimes(testData.length);
+    expect(getRowProps.mock.calls[0][0].original).toBe(testData[0]);
+    testData.forEach(({ id }) => {
+      const row = screen.getByTestId(`row-${id}`);
+      expect(row).toHaveClass('custom-row');
+      expect(rowElements.get(id)).toBe(row);
+    });
+  });
+
+  it('should apply props only to data rows in a grouped table', () => {
+    const TestComponent = () => {
+      const table = useLumenDataTable({ data: testData, columns: testColumns });
+      return (
+        <DataTableRoot
+          table={table}
+          groupBy={(row) => row.original.price}
+          getRowProps={(row) => ({
+            'data-testid': `row-${row.original.id}`,
+          })}
+        >
+          <DataTable />
+        </DataTableRoot>
+      );
+    };
+
+    const { container } = render(<TestComponent />);
+
+    expect(screen.getAllByTestId(/^row-/)).toHaveLength(testData.length);
+    expect(container.querySelector('thead tr')).not.toHaveAttribute(
+      'data-testid',
+    );
+    expect(
+      container.querySelectorAll('tbody > tr:not([data-testid])'),
+    ).toHaveLength(testData.length);
+  });
+
+  it('should keep onRowClick behavior when row props are provided', () => {
+    const onRowClick = vi.fn();
+    const TestComponent = () => {
+      const table = useLumenDataTable({ data: testData, columns: testColumns });
+      return (
+        <DataTableRoot
+          table={table}
+          onRowClick={onRowClick}
+          getRowProps={(row) => ({
+            'data-testid': `row-${row.original.id}`,
+          })}
+        >
+          <DataTable />
+        </DataTableRoot>
+      );
+    };
+
+    render(<TestComponent />);
+    fireEvent.click(screen.getByTestId('row-1'));
+
+    expect(onRowClick).toHaveBeenCalledTimes(1);
+    expect(onRowClick.mock.calls[0][0].original).toBe(testData[0]);
   });
 });
 
