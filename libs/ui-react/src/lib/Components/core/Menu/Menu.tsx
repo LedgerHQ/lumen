@@ -300,7 +300,12 @@ const MenuSwitchItem = ({
       >
         {children}
         <span className='pointer-events-none ml-auto'>
-          <Switch selected={checked} disabled={disabled} />
+          <Switch
+            selected={checked}
+            disabled={disabled}
+            aria-hidden
+            tabIndex={-1}
+          />
         </span>
       </MenuPrimitive.CheckboxItem>
     </DisabledProvider>

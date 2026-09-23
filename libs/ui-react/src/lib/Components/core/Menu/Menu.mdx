@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as MenuStories from './Menu.stories';
 import {
   CustomTabs,
@@ -235,34 +235,7 @@ function MyComponent() {
 
 ### With Switch Items
 
-```tsx
-import {
-  Menu,
-  MenuTrigger,
-  MenuContent,
-  MenuSwitchItem,
-} from '@ledgerhq/lumen-ui-react';
-import { Button } from '@ledgerhq/lumen-ui-react';
-import { useState } from 'react';
-
-function MyComponent() {
-  const [notifications, setNotifications] = useState(false);
-
-  return (
-    <Menu>
-      <MenuTrigger render={<Button>Settings</Button>} />
-      <MenuContent>
-        <MenuSwitchItem
-          checked={notifications}
-          onCheckedChange={setNotifications}
-        >
-          Notifications
-        </MenuSwitchItem>
-      </MenuContent>
-    </Menu>
-  );
-}
-```
+<Source of={MenuStories.WithSwitchItems} />
 
 ### With Radio Items
 

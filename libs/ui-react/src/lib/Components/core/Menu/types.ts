@@ -221,7 +221,7 @@ export type MenuSwitchItemProps = {
    * @default false
    */
   closeOnClick?: boolean;
-} & Omit<MenuItemProps, 'closeOnClick'>;
+} & Omit<MenuItemProps, 'appearance' | 'closeOnClick'>;
 
 /**
  * Props for a Menu radio item component.
