@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "postinstall": "patch-package",
-    "check:agent-docs": "node scripts/check-agent-docs-drift.mjs",
-    "check:package-exports": "node scripts/check-package-exports.mjs"
+    "check:agent-docs": "node internals/repo-tools/src/ci/validators/agentDocsDrift.mjs",
+    "check:package-exports": "node internals/repo-tools/src/ci/validators/packageExports.mjs"
   },
   "private": true,
   "devDependencies": {

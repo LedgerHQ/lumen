@@ -1,0 +1,23 @@
+{
+  "name": "repo-tools",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "internals/repo-tools/src",
+  "projectType": "library",
+  "tags": ["scope:internal", "type:tooling"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "internals/repo-tools"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p tsconfig.json",
+        "cwd": "internals/repo-tools"
+      }
+    }
+  }
+}

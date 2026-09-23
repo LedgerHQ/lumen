@@ -37,11 +37,13 @@ no, it belongs here — codegen, ETL, external-API sync and their input data.
 | Path                   | Purpose                                                                                                                  |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
+| `internals/repo-tools` | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md` |
 
 Rules for adding one:
 
 - Folder = the job, named after the workflow that drives it (`sync-figma` ↔
-  `.github/workflows/sync-figma.yml`). Nx project name = folder name, unscoped.
+  `.github/workflows/sync-figma.yml`), or after its role when it serves several
+  (`repo-tools`). Nx project name = folder name, unscoped.
 - `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
   in the root manifest. Never needs a version plan.
 - Tags `["scope:internal", "type:tooling"]` in `project.json` — the tag is what
@@ -53,7 +55,8 @@ Rules for adding one:
   Filesystem *writes* into libs are expected; only imports are governed.
 - Run `npx nx sync` after adding one.
 
-`scripts/check-agent-docs-drift.mjs` enforces the table and the first four rules.
+`internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` enforces the table
+and the first four rules.
 
 ## Commands
 
@@ -145,7 +148,8 @@ maintainer task (`component-styling`, `component-anatomy`), leaving
 consumer-facing names (e.g. `lumen-code`) free for the published tree.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
 `.github/instructions/*`) are thin pointers/wrappers — they must not restate
-content. The `scripts/check-agent-docs-drift.mjs` drift check (run in CI as the
+content. The `internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` drift
+check (run in CI as the
 `agent-drift` job via `npm run check:agent-docs`) enforces the mechanical
 invariants: the AGENTS.md index and the skill folders stay in bijection,
 inter-skill references resolve, cited repo paths exist, no skill hardcodes a

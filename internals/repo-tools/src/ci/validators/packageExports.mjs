@@ -21,7 +21,9 @@ let failed = 0;
 
 for (const lib of libs) {
   const pkgDir = join('libs', lib);
-  const manifest = JSON.parse(readFileSync(join(pkgDir, 'package.json'), 'utf-8'));
+  const manifest = JSON.parse(
+    readFileSync(join(pkgDir, 'package.json'), 'utf-8'),
+  );
   if (manifest.private) continue;
 
   const { messages, pkg } = await publint({
