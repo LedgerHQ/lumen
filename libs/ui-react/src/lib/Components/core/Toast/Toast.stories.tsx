@@ -83,14 +83,33 @@ export const LoadingShowcase: Story = {
 };
 
 export const ResponsivenessShowcase: Story = {
-  args: {
-    appearance: 'success',
-    title:
-      'This is a very long toast message that will be truncated on a single line',
-    action: { label: 'Undo', onAction: () => {} },
-    onClose: () => {},
-  },
-  render: (args) => <Toast {...args} />,
+  render: () => (
+    <div className='flex w-400 flex-col gap-8'>
+      <Toast
+        appearance='info'
+        title='Report ready for review'
+        action={{ label: 'Open', onAction: () => {} }}
+        onClose={() => {}}
+      />
+      <Toast
+        appearance='success'
+        title='Report ready for review in 30 minutes'
+        action={{ label: 'Download the report', onAction: () => {} }}
+        onClose={() => {}}
+      />
+      <Toast
+        appearance='success'
+        title='This is a very long toast message that wraps over up to five lines without an action'
+        onClose={() => {}}
+      />
+      <Toast
+        appearance='error'
+        title='This is a very long toast message that wraps over up to five lines'
+        action={{ label: 'Retry the upload', onAction: () => {} }}
+        onClose={() => {}}
+      />
+    </div>
+  ),
 };
 
 const APPEARANCE_ITEMS = [
@@ -108,6 +127,31 @@ const POSITION_ITEMS = [
   { label: 'Top left', value: 'top-left' },
   { label: 'Bottom left', value: 'bottom-left' },
 ];
+
+const RANDOM_APPEARANCES: ToastAppearance[] = [
+  'info',
+  'success',
+  'warning',
+  'error',
+];
+
+const RANDOM_TITLES = [
+  'Payment done',
+  'Report ready for review in 30 minutes',
+  'This is a very long toast message that wraps over up to five lines without an action',
+  'This is a very long toast message that wraps over up to five lines',
+];
+
+const RANDOM_ACTION_LABELS = [
+  'Open',
+  'Undo',
+  'Retry',
+  'Download the report',
+  'Retry the upload',
+];
+
+const pickRandom = <T,>(items: readonly T[]): T =>
+  items[Math.floor(Math.random() * items.length)];
 
 const PlaygroundControls = ({
   position,
@@ -168,6 +212,26 @@ const PlaygroundControls = ({
         isFull
       >
         Notify
+      </Button>
+      <Button
+        appearance='base'
+        size='sm'
+        onClick={() =>
+          toast.notify({
+            appearance: pickRandom(RANDOM_APPEARANCES),
+            title: pickRandom(RANDOM_TITLES),
+            action:
+              Math.random() > 0.5
+                ? {
+                    label: pickRandom(RANDOM_ACTION_LABELS),
+                    onAction: () => {},
+                  }
+                : undefined,
+          })
+        }
+        isFull
+      >
+        Notify random
       </Button>
     </div>
   );

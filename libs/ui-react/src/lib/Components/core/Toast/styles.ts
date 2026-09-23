@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import type { ToastPosition } from './types';
 
 export const toastVariants = cva(
-  'flex min-h-56 w-400 max-w-full items-center gap-8 rounded-md bg-interactive py-8 pr-10 text-on-interactive',
+  'flex min-h-56 w-400 max-w-full items-start gap-8 rounded-md bg-interactive py-8 pr-10 text-on-interactive',
   {
     variants: {
       hasLeading: {
@@ -36,8 +36,8 @@ export const collapseVariants = cva(
         bottom: 'justify-end',
       },
       exiting: {
-        true: 'z-0 h-0',
-        false: 'z-10 h-64',
+        true: 'z-0',
+        false: 'z-10',
       },
     },
   },

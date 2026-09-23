@@ -11,10 +11,10 @@ describe('Toast', () => {
       expect(screen.getByText('Payment done')).toBeInTheDocument();
     });
 
-    it('should truncate the title on a single line', () => {
+    it('should wrap the title over up to five lines', () => {
       render(<Toast title='A very long toast title' />);
       expect(screen.getByText('A very long toast title')).toHaveClass(
-        'truncate',
+        'line-clamp-5',
       );
     });
 
@@ -35,6 +35,52 @@ describe('Toast', () => {
     it('should render a spinner while loading', () => {
       render(<Toast title='Uploading' loading />);
       expect(screen.getByRole('img')).toBeInTheDocument();
+    });
+  });
+
+  describe('Layout', () => {
+    it('should give the title right breathing room', () => {
+      render(<Toast title='Report ready' />);
+      expect(screen.getByText('Report ready')).toHaveClass('pr-16');
+    });
+
+    it('should not shift the action when there is no leading icon', () => {
+      render(
+        <Toast
+          appearance='info'
+          title='Report ready'
+          action={{ label: 'Open', onAction: vi.fn() }}
+        />,
+      );
+      expect(screen.getByRole('button', { name: 'Open' })).not.toHaveClass(
+        '-ml-16',
+      );
+    });
+
+    it('should shift the action to align its label with the title when there is a leading icon', () => {
+      render(
+        <Toast
+          appearance='success'
+          title='Report ready'
+          action={{ label: 'Open', onAction: vi.fn() }}
+        />,
+      );
+      expect(screen.getByRole('button', { name: 'Open' })).toHaveClass(
+        '-ml-16',
+      );
+    });
+
+    it('should shift the action to align its label with the title when loading', () => {
+      render(
+        <Toast
+          loading
+          title='Uploading'
+          action={{ label: 'Cancel', onAction: vi.fn() }}
+        />,
+      );
+      expect(screen.getByRole('button', { name: 'Cancel' })).toHaveClass(
+        '-ml-16',
+      );
     });
   });
 
