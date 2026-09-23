@@ -16,6 +16,28 @@ project carries only `lint`, `typecheck` and `test`.
 | `src/ci/` | Workflow helpers that replace inline bash |
 | `src/lib/` | Shared helpers (Nx graph access, logging) |
 
+## Workflow helpers
+
+| Script | Replaces | Used by |
+| --- | --- | --- |
+| `ci/fixLcovPaths.mjs` | two hand-kept lib lists in `pr.yml` | `pr.yml` job `unit-testing` |
+| `ci/getPublishableProjects.mjs` | the `--projects='libs/*'` glob | `publish-dev-packages.yml` |
+| `ci/generateTarballs.mjs` | ~45 lines of inline bash | `publish-dev-packages.yml` |
+
+`generateTarballs.mjs` runs locally for a dry run — it patches `libs/*` versions
+in place, so revert afterwards:
+
+```bash
+PR_NUMBER=999 HEAD_SHA=abcdef1234567890 REPO=LedgerHQ/lumen \
+AFFECTED_PROJECTS='@ledgerhq/lumen-utils-shared' \
+RUNNER_TEMP=$(mktemp -d) GITHUB_OUTPUT=/dev/null \
+node internals/repo-tools/src/ci/generateTarballs.mjs
+git checkout -- libs/
+```
+
+> `npm pack` must be given an **absolute** path. A bare `libs/foo` is read as a
+> GitHub `owner/repo` shorthand and npm tries to clone it.
+
 ## Validators
 
 | Script | npm script | Runs in |

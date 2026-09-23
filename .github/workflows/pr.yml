@@ -126,25 +126,13 @@ jobs:
           fi
 
       - name: Fix lcov paths to be relative to workspace root
-        run: |
-          for lib in ui-react utils-shared design-core; do
-            lcov="libs/$lib/test-output/vitest/coverage/lcov.info"
-            [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
-          done
-          for lib in ui-rnative; do
-            lcov="libs/$lib/test-output/jest/coverage/lcov.info"
-            [ -f "$lcov" ] && sed -i "s|^SF:|SF:libs/$lib/|" "$lcov" || true
-          done
+        run: node internals/repo-tools/src/ci/fixLcovPaths.mjs
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
         with:
           name: coverage
-          path: |
-            libs/ui-react/test-output/vitest/coverage/lcov.info
-            libs/ui-rnative/test-output/jest/coverage/lcov.info
-            libs/utils-shared/test-output/vitest/coverage/lcov.info
-            libs/design-core/test-output/vitest/coverage/lcov.info
+          path: libs/*/test-output/*/coverage/lcov.info
           if-no-files-found: warn
 
   sonar:
