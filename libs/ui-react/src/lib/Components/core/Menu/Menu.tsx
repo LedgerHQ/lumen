@@ -62,7 +62,7 @@ const contentStyles = cva(
 
 const itemStyles = cva(
   cn(
-    'relative flex cursor-default items-center gap-12 select-none',
+    'relative flex cursor-pointer items-center gap-12 select-none',
     'h-44 rounded-sm px-8 outline-hidden',
     'body-2-semi-bold',
     'transition-colors',
