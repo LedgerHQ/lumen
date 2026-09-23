@@ -28,8 +28,9 @@ with the `useToast` hook.
 
 - **Leading (optional)**: a status icon for success, warning and error, or a
   spinner while loading. Info has no icon.
-- **Title**: the message, shown on a single line and truncated.
-- **Action (optional)**: a single text button. Pressing it never dismisses the
+- **Title**: the message, wrapping over up to five lines, then truncating.
+- **Action (optional)**: a single text button, inline beside a single-line
+  title or on its own row under a wrapped one. Pressing it never dismisses the
   toast.
 - **Close**: dismisses the toast. Hidden when `dismissible` is `false`.
 
@@ -51,6 +52,16 @@ Appearance drives the leading icon and the default timing:
 - **loading**: a spinner via the `loading` flag. Persists until updated or dismissed.
 
 <Canvas of={ToastStories.AppearanceShowcase} />
+
+### Layout
+
+The action's placement is automatic, driven by the title, so there is no prop
+for it. While the title fits on one line, the action sits inline beside it.
+Once the title needs more than one line, the action drops to its own row
+underneath instead of squeezing onto the title's last line. The title itself
+wraps over up to five lines, then truncates with an ellipsis.
+
+<Canvas of={ToastStories.ResponsivenessShowcase} />
 
 ### Position
 
@@ -96,7 +107,17 @@ entering from the edge.
 Wrap your app once with `ToastProvider`. It renders the queue viewport in a
 portal, so there is no separate viewport to mount.
 
-<Source of={ToastStories.WithProvider} />
+```tsx
+import { ToastProvider } from '@ledgerhq/lumen-ui-react';
+
+function App() {
+  return (
+    <ToastProvider position='bottom-right' maxItems={3}>
+      <Routes />
+    </ToastProvider>
+  );
+}
+```
 
 ### Triggering toasts
 

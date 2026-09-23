@@ -40,6 +40,8 @@ const ToastQueueItem = ({
   onDismiss: () => void;
 }) => {
   const exiting = item.exiting ?? false;
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
 
   useToastTimer({
     durationMs: item.durationMs,
@@ -47,6 +49,16 @@ const ToastQueueItem = ({
     exiting,
     onExpire: onDismiss,
   });
+
+  useEffect(() => {
+    const element = contentRef.current;
+    if (!element || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(([entry]) => {
+      setMeasuredHeight(entry.contentRect.height + 8);
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   const onDismissRef = useRef(onDismiss);
   onDismissRef.current = onDismiss;
@@ -70,8 +82,10 @@ const ToastQueueItem = ({
     <div
       data-slot='toast-collapse'
       className={collapseVariants({ edge, exiting })}
+      style={{ height: exiting ? 0 : (measuredHeight ?? undefined) }}
     >
       <div
+        ref={contentRef}
         data-slot='toast-item'
         className={resolveMotionClass()}
         style={exiting ? { animationFillMode: 'forwards' } : undefined}

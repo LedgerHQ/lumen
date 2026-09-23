@@ -34,7 +34,7 @@ export type ToastNotifyOptions = {
    */
   loading?: boolean;
   /**
-   * The main text. Rendered on a single line and truncated.
+   * The main text. Wraps over up to five lines, then truncates.
    * @required
    */
   title: string;

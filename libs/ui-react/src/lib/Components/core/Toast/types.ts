@@ -41,16 +41,19 @@ export type ToastProps = {
    */
   loading?: boolean;
   /**
-   * The main text. Rendered on a single line and truncated with an ellipsis.
+   * The main text. Wraps over up to five lines, then truncates.
    * @required
    */
   title: string;
   /**
    * Optional trailing action button. Pressing it does not dismiss the toast.
+   * It wraps onto its own row, aligned with the title, when it cannot share
+   * the title's row.
    */
   action?: ToastAction;
   /**
-   * Optional close handler. When provided, a close button is rendered.
+   * Optional close handler. When provided, a close button is rendered, pinned
+   * to the top right whatever the title and action wrap to.
    */
   onClose?: () => void;
   /**

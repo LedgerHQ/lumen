@@ -70,23 +70,31 @@ export const Toast = ({
       {...props}
     >
       {loading ? (
-        <Spinner size={20} className='shrink-0 text-on-interactive' />
+        <div className='pt-10'>
+          <Spinner size={20} className='shrink-0 text-on-interactive' />
+        </div>
       ) : (
         appearance !== 'info' && (
-          <span className='flex shrink-0'>{statusIconMap[appearance]}</span>
+          <span className='flex shrink-0 pt-10'>
+            {statusIconMap[appearance]}
+          </span>
         )
       )}
-      <p className='min-w-0 flex-1 truncate body-2'>{title}</p>
-      {action && (
-        <Button
-          appearance='base'
-          size='sm'
-          className='shrink-0 text-on-interactive'
-          onClick={action.onAction}
-        >
-          {action.label}
-        </Button>
-      )}
+      <div className='flex min-w-0 flex-1 flex-wrap items-start gap-8'>
+        <p className='line-clamp-5 min-w-0 flex-auto pt-10 pr-16 body-2 last:pb-10'>
+          {title}
+        </p>
+        {action && (
+          <Button
+            appearance='base'
+            size='sm'
+            className={cn('shrink-0', hasLeading && '-ml-16')}
+            onClick={action.onAction}
+          >
+            {action.label}
+          </Button>
+        )}
+      </div>
       {onClose && (
         <IconButton
           appearance='base'

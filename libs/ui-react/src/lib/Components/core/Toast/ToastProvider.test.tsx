@@ -246,10 +246,11 @@ describe('ToastProvider', () => {
       });
 
       const slot = document.querySelector('[data-slot="toast-collapse"]');
-      expect(slot).toHaveClass('h-64', 'z-10');
+      expect(slot).toHaveClass('z-10');
 
       fireEvent.click(screen.getByRole('button', { name: CLOSE_LABEL }));
-      expect(slot).toHaveClass('h-0', 'z-0');
+      expect(slot).toHaveClass('z-0');
+      expect(slot).toHaveStyle({ height: '0px' });
 
       flushExit();
       expect(screen.queryByText('Careful')).not.toBeInTheDocument();
