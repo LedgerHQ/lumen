@@ -198,13 +198,39 @@ export const WithNeutralHint: Story = {
 };
 
 export const WithMultilineTextarea: Story = {
-  args: {
-    label: 'Note',
-    multiline: true,
-    minLines: 2,
-    maxLines: 5,
-    helperText: 'Grows from 2 to 5 lines, then scrolls',
-  },
+  render: () => (
+    <div className='flex flex-col gap-24'>
+      <div>
+        <h3 className='mb-8 body-1-semi-bold'>minLines 1, no label</h3>
+        <TextInput
+          multiline
+          minLines={1}
+          maxLines={5}
+          helperText='Grows from 1 to 5 lines, then scrolls'
+        />
+      </div>
+      <div>
+        <h3 className='mb-8 body-1-semi-bold'>minLines 1, with label</h3>
+        <TextInput
+          label='Note'
+          multiline
+          minLines={1}
+          maxLines={5}
+          helperText='Grows from 1 to 5 lines, then scrolls'
+        />
+      </div>
+      <div>
+        <h3 className='mb-8 body-1-semi-bold'>minLines 2, with label</h3>
+        <TextInput
+          label='Note'
+          multiline
+          minLines={2}
+          maxLines={5}
+          helperText='Grows from 2 to 5 lines, then scrolls'
+        />
+      </div>
+    </div>
+  ),
 };
 
 export const WithMultilineFixedHeight: Story = {

@@ -68,10 +68,6 @@ const useStyles = ({
           ...t.typographies.body1,
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         },
-        // A multiline field top-aligns its row instead of centring it. iOS centres a
-        // Text's glyph inside an explicit line height but leaves the field's at the
-        // bottom of it, so only there does the prefix need the field's natural metrics
-        // to share a line with it.
         multiline && RuntimeConstants.isIOS && { lineHeight: 0 },
       ]),
     }),

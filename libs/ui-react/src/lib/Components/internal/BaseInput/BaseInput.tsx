@@ -214,7 +214,7 @@ export const BaseInput = ({
         )}
 
         {multiline && trailing ? (
-          <div className='pt-2'>{trailing}</div>
+          <div className={label && 'pt-8'}>{trailing}</div>
         ) : (
           trailing
         )}

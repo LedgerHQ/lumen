@@ -164,7 +164,7 @@ const useAnimatedDigitStrip = ({
   return { animatedStyle };
 };
 
-// Horizontal breathing room for the clip box so glyphs that are slightly wider
+// Horizontal breathing room for the clip box so letters that are slightly wider
 // than the measured `targetWidth` are not cut on their left/right edges. RN has
 // no per-axis overflow, so we extend the clip box horizontally while keeping the
 // vertical clip tight to `lineHeight`
