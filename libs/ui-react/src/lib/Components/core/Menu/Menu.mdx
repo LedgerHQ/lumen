@@ -44,23 +44,12 @@ Simple menu items for actions:
 <Canvas of={MenuStories.Base} />
 <Controls of={MenuStories.Base} />
 
-### Checkbox Items
+### Selectable Item Types
 
-For toggleable options:
+Checkbox items toggle options, switch items read as an on/off action rather
+than a checkbox, and radio items pick a single value from multiple options:
 
-<Canvas of={MenuStories.WithCheckboxItems} />
-
-### Switch Items
-
-For toggleable options that should read as an on/off action rather than a checkbox:
-
-<Canvas of={MenuStories.WithSwitchItems} />
-
-### Radio Items
-
-For single selection from multiple options:
-
-<Canvas of={MenuStories.WithRadioItems} />
+<Canvas of={MenuStories.ItemTypeShowcase} />
 
 ### Submenus
 
@@ -235,7 +224,7 @@ function MyComponent() {
 
 ### With Switch Items
 
-<Source of={MenuStories.WithSwitchItems} />
+<Source of={MenuStories.ItemTypeShowcase} />
 
 ### With Radio Items
 

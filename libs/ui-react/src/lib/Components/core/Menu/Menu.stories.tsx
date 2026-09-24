@@ -1,3 +1,4 @@
+import { Menu as MenuPrimitive } from '@base-ui/react/menu';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Duplicate, PenEdit, Trash } from '../../symbols';
@@ -151,109 +152,69 @@ export const WithGroups: Story = {
   ),
 };
 
-export const WithCheckboxItems: Story = {
+export const ItemTypeShowcase: Story = {
   render: () => {
     const [showPanel, setShowPanel] = useState(false);
     const [showActivityBar, setShowActivityBar] = useState(true);
-    const [showStatusBar, setShowStatusBar] = useState(true);
-
-    return (
-      <Menu>
-        <MenuTrigger
-          render={
-            <Button size='md' appearance='gray'>
-              View Options
-            </Button>
-          }
-        />
-        <MenuContent className='w-208'>
-          <MenuGroup>
-            <MenuLabel>Appearance</MenuLabel>
-            <MenuCheckboxItem
-              checked={showPanel}
-              onCheckedChange={setShowPanel}
-            >
-              Show Panel
-            </MenuCheckboxItem>
-            <MenuCheckboxItem
-              checked={showActivityBar}
-              onCheckedChange={setShowActivityBar}
-            >
-              Show Activity Bar
-            </MenuCheckboxItem>
-            <MenuCheckboxItem
-              checked={showStatusBar}
-              onCheckedChange={setShowStatusBar}
-            >
-              Show Status Bar
-            </MenuCheckboxItem>
-          </MenuGroup>
-        </MenuContent>
-      </Menu>
-    );
-  },
-};
-
-export const WithSwitchItems: Story = {
-  render: () => {
     const [notifications, setNotifications] = useState(false);
     const [autoUpdates, setAutoUpdates] = useState(true);
-
-    return (
-      <Menu>
-        <MenuTrigger
-          render={
-            <Button size='md' appearance='gray'>
-              Settings
-            </Button>
-          }
-        />
-        <MenuContent className='w-208'>
-          <MenuGroup>
-            <MenuLabel>Notifications</MenuLabel>
-            <MenuSwitchItem
-              checked={notifications}
-              onCheckedChange={setNotifications}
-            >
-              Notifications
-            </MenuSwitchItem>
-            <MenuSwitchItem
-              checked={autoUpdates}
-              onCheckedChange={setAutoUpdates}
-            >
-              Auto Updates
-            </MenuSwitchItem>
-          </MenuGroup>
-        </MenuContent>
-      </Menu>
-    );
-  },
-};
-
-export const WithRadioItems: Story = {
-  render: () => {
     const [position, setPosition] = useState('bottom');
 
     return (
-      <Menu>
-        <MenuTrigger
-          render={
-            <Button appearance='gray' size='md'>
-              Panel Position
-            </Button>
-          }
-        />
-        <MenuContent className='w-208'>
-          <MenuGroup>
-            <MenuLabel>Panel Position</MenuLabel>
-            <MenuRadioGroup value={position} onValueChange={setPosition}>
-              <MenuRadioItem value='top'>Top</MenuRadioItem>
-              <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
-              <MenuRadioItem value='right'>Right</MenuRadioItem>
-            </MenuRadioGroup>
-          </MenuGroup>
-        </MenuContent>
-      </Menu>
+      <div className='flex items-start gap-16'>
+        <MenuPrimitive.Root open modal={false}>
+          <div className='w-208 rounded-sm bg-muted p-8'>
+            <MenuGroup>
+              <MenuLabel>Appearance</MenuLabel>
+              <MenuCheckboxItem
+                checked={showPanel}
+                onCheckedChange={setShowPanel}
+              >
+                Show Panel
+              </MenuCheckboxItem>
+              <MenuCheckboxItem
+                checked={showActivityBar}
+                onCheckedChange={setShowActivityBar}
+              >
+                Show Activity Bar
+              </MenuCheckboxItem>
+            </MenuGroup>
+          </div>
+        </MenuPrimitive.Root>
+
+        <MenuPrimitive.Root open modal={false}>
+          <div className='w-208 rounded-sm bg-muted p-8'>
+            <MenuGroup>
+              <MenuLabel>Panel Position</MenuLabel>
+              <MenuRadioGroup value={position} onValueChange={setPosition}>
+                <MenuRadioItem value='top'>Top</MenuRadioItem>
+                <MenuRadioItem value='bottom'>Bottom</MenuRadioItem>
+                <MenuRadioItem value='right'>Right</MenuRadioItem>
+              </MenuRadioGroup>
+            </MenuGroup>
+          </div>
+        </MenuPrimitive.Root>
+
+        <MenuPrimitive.Root open modal={false}>
+          <div className='w-208 rounded-sm bg-muted p-8'>
+            <MenuGroup>
+              <MenuLabel>Notifications</MenuLabel>
+              <MenuSwitchItem
+                checked={notifications}
+                onCheckedChange={setNotifications}
+              >
+                Notifications
+              </MenuSwitchItem>
+              <MenuSwitchItem
+                checked={autoUpdates}
+                onCheckedChange={setAutoUpdates}
+              >
+                Auto Updates
+              </MenuSwitchItem>
+            </MenuGroup>
+          </div>
+        </MenuPrimitive.Root>
+      </div>
     );
   },
 };
@@ -409,6 +370,7 @@ export const CompleteExample: Story = {
   render: () => {
     const [showPanel, setShowPanel] = useState(false);
     const [showActivityBar, setShowActivityBar] = useState(true);
+    const [notifications, setNotifications] = useState(false);
     const [position, setPosition] = useState('bottom');
 
     return (
@@ -442,6 +404,16 @@ export const CompleteExample: Story = {
             >
               Show Activity Bar
             </MenuCheckboxItem>
+          </MenuGroup>
+          <MenuSeparator />
+          <MenuGroup>
+            <MenuLabel>Notifications</MenuLabel>
+            <MenuSwitchItem
+              checked={notifications}
+              onCheckedChange={setNotifications}
+            >
+              Notifications
+            </MenuSwitchItem>
           </MenuGroup>
           <MenuSeparator />
           <MenuGroup>
