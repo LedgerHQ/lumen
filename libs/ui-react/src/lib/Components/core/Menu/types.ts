@@ -221,7 +221,10 @@ export type MenuSwitchItemProps = {
    * @default false
    */
   closeOnClick?: boolean;
-} & Omit<MenuItemProps, 'appearance' | 'closeOnClick'>;
+} & Pick<
+  MenuItemProps,
+  'className' | 'disabled' | 'label' | keyof ComponentPropsWithRef<'div'>
+>;
 
 /**
  * Props for a Menu radio item component.

@@ -20,7 +20,7 @@ export type MenuListProps = {
   children: ReactNode;
 } & Omit<StyledViewProps, 'children'>;
 
-export type MenuListItemProps = {
+type MenuListItemBaseProps = {
   /**
    * Text describing the action, truncated to a single line.
    */
@@ -29,6 +29,15 @@ export type MenuListItemProps = {
    * Icon rendered before the label.
    */
   icon?: IconComponent;
+  /**
+   * Prevents interaction and dims the content.
+   *
+   * @default false
+   */
+  disabled?: boolean;
+};
+
+export type MenuListItemProps = {
   /**
    * Visual treatment of the label and icon. Use `red` for irreversible or
    * dangerous actions.
@@ -37,32 +46,13 @@ export type MenuListItemProps = {
    */
   appearance?: MenuListItemAppearance;
   /**
-   * Prevents interaction and dims the content.
-   *
-   * @default false
-   */
-  disabled?: boolean;
-  /**
    * Action to run when the item is pressed.
    */
   onPress?: StyledPressableProps['onPress'];
-} & Omit<StyledPressableProps, 'children' | 'onPress'>;
+} & MenuListItemBaseProps &
+  Omit<StyledPressableProps, 'children' | 'onPress'>;
 
 export type MenuListSwitchItemProps = {
-  /**
-   * Text describing the action, truncated to a single line.
-   */
-  label: string;
-  /**
-   * Icon rendered before the label.
-   */
-  icon?: IconComponent;
-  /**
-   * Prevents interaction and dims the content.
-   *
-   * @default false
-   */
-  disabled?: boolean;
   /**
    * The controlled checked state of the switch.
    * @default false
@@ -77,4 +67,5 @@ export type MenuListSwitchItemProps = {
    * The callback function called when the checked state changes.
    */
   onCheckedChange?: (checked: boolean) => void;
-} & Omit<StyledPressableProps, 'children' | 'onPress'>;
+} & MenuListItemBaseProps &
+  Omit<StyledPressableProps, 'children' | 'onPress'>;

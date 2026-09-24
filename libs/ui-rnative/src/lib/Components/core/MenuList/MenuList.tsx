@@ -73,16 +73,8 @@ const useItemStyles = ({
  *   <MenuListItem icon={Trash} label="Remove" appearance="red" onPress={handleRemove} />
  * </MenuList>
  */
-export const MenuList = ({
-  children,
-  lx,
-  style,
-  ref,
-  ...props
-}: MenuListProps) => (
-  <Box lx={lx} style={style} ref={ref} {...props}>
-    {children}
-  </Box>
+export const MenuList = ({ children, ...props }: MenuListProps) => (
+  <Box {...props}>{children}</Box>
 );
 
 /**
