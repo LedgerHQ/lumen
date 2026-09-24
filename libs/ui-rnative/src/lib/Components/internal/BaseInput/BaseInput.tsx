@@ -103,9 +103,7 @@ export const BaseInput = ({
           onPress={() => inputRef.current?.focus()}
           disabled={disabled}
         >
-          {prefix ? (
-            <View style={styles.prefixContainer}>{prefix}</View>
-          ) : null}
+          {prefix ? <View style={styles.prefixContainer}>{prefix}</View> : null}
 
           <TextInput
             ref={composedRef}
