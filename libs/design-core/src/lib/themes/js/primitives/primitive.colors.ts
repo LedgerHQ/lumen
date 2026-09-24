@@ -800,7 +800,7 @@ export const primitiveColorTokens = {
       },
       yellow: {
         '100': '#41361b',
-        '200': '#5b4b20',
+        '200': '#5e5820',
         '300': '#776f25',
         '400': '#987f2c',
         '500': '#ceae2c',
