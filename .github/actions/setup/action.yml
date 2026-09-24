@@ -6,7 +6,7 @@ description: >-
 
 inputs:
   node-version:
-    description: Node.js version to install. Defaults to the version pinned in `.prototools`.
+    description: Node.js version to install. Defaults to the version pinned in `.mise.toml`.
     required: false
     default: '22.13.1'
   install:
