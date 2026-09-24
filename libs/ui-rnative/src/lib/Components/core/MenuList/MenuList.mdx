@@ -40,9 +40,18 @@ Set `disabled` on individual `MenuListItem`s to prevent interaction. The label a
 
 <Canvas of={MenuListStories.DisabledShowcase} />
 
+### Switch item
+
+Use `MenuListSwitchItem` for a toggleable action. It renders a label, an optional leading icon, and a trailing `Switch`. Pressing anywhere on the item toggles the switch.
+
+`MenuListSwitchItem` supports controlled (`checked` / `onCheckedChange`) and uncontrolled (`defaultChecked`) usage, same as `Switch`.
+
+<Canvas of={MenuListStories.SwitchItemShowcase} />
+<Controls of={MenuListStories.SwitchItemShowcase} />
+
 ## Accessibility
 
-Each `MenuListItem` has `accessibilityRole='button'` and sets `accessibilityState={{ disabled }}` to reflect its interaction state to assistive technologies.
+Each `MenuListItem` has `accessibilityRole='button'` and sets `accessibilityState={{ disabled }}` to reflect its interaction state to assistive technologies. `MenuListSwitchItem` uses `accessibilityRole='switch'` and additionally reflects `checked` in its `accessibilityState`.
 
   </Tab>
 
@@ -61,6 +70,10 @@ Each `MenuListItem` has `accessibilityRole='button'` and sets `accessibilityStat
 ### Disabled Items
 
 <Source of={MenuListStories.DisabledShowcase} />
+
+### Switch Item
+
+<Source of={MenuListStories.SwitchItemShowcase} />
 
   </Tab>
 </CustomTabs>

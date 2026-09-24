@@ -6,14 +6,17 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { ReactElement } from 'react';
+import { useControllableState } from '../../../../utils/useControllableState';
 import { Check, ChevronRight } from '../../symbols';
 import { Divider } from '../Divider';
+import { Switch } from '../Switch';
 import type {
   MenuProps,
   MenuTriggerProps,
   MenuContentProps,
   MenuItemProps,
   MenuCheckboxItemProps,
+  MenuSwitchItemProps,
   MenuRadioItemProps,
   MenuRadioValue,
   MenuLabelProps,
@@ -59,7 +62,7 @@ const contentStyles = cva(
 
 const itemStyles = cva(
   cn(
-    'relative flex cursor-default items-center gap-12 select-none',
+    'relative flex cursor-pointer items-center gap-12 select-none',
     'h-44 rounded-sm px-8 outline-hidden',
     'body-2-semi-bold',
     'transition-colors',
@@ -260,6 +263,55 @@ const MenuCheckboxItem = ({
   );
 };
 
+const MenuSwitchItem = ({
+  ref,
+  className,
+  children,
+  checked: checkedProp,
+  defaultChecked,
+  onCheckedChange: onCheckedChangeProp,
+  disabled: disabledProp,
+  label,
+  closeOnClick,
+  ...props
+}: MenuSwitchItemProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'MenuSwitchItem',
+    mergeWith: { disabled: disabledProp },
+  });
+  const [checked, onCheckedChange] = useControllableState({
+    prop: checkedProp,
+    onChange: onCheckedChangeProp,
+    defaultProp: defaultChecked ?? false,
+  });
+
+  return (
+    <DisabledProvider value={{ disabled }}>
+      <MenuPrimitive.CheckboxItem
+        ref={ref}
+        data-slot='menu-switch-item'
+        label={label}
+        checked={checked}
+        disabled={disabled}
+        closeOnClick={closeOnClick ?? false}
+        className={cn(itemStyles(), className)}
+        onCheckedChange={onCheckedChange}
+        {...props}
+      >
+        {children}
+        <span className='pointer-events-none ml-auto'>
+          <Switch
+            selected={checked}
+            disabled={disabled}
+            aria-hidden
+            tabIndex={-1}
+          />
+        </span>
+      </MenuPrimitive.CheckboxItem>
+    </DisabledProvider>
+  );
+};
+
 const MenuRadioItem = <T extends MenuRadioValue = MenuRadioValue>({
   ref,
   className,
@@ -311,6 +363,7 @@ export {
   MenuContent,
   MenuItem,
   MenuCheckboxItem,
+  MenuSwitchItem,
   MenuRadioItem,
   MenuLabel,
   MenuSeparator,

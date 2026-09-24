@@ -189,6 +189,44 @@ export type MenuCheckboxItemProps = {
 } & Omit<MenuItemProps, 'closeOnClick'>;
 
 /**
+ * Props for a Menu switch item component.
+ *
+ * An item that can be controlled and rendered like a switch.
+ */
+export type MenuSwitchItemProps = {
+  /**
+   * The controlled checked state of the switch.
+   * Must be used in conjunction with `onCheckedChange`.
+   */
+  checked?: boolean;
+
+  /**
+   * The checked state of the switch when it is initially rendered.
+   * Use when you do not need to control its checked state.
+   *
+   * @default false
+   */
+  defaultChecked?: boolean;
+
+  /**
+   * Event handler called when the checked state changes.
+   *
+   * @param checked - The new checked state
+   */
+  onCheckedChange?: (checked: boolean) => void;
+
+  /**
+   * Whether the menu closes when this item is clicked.
+   *
+   * @default false
+   */
+  closeOnClick?: boolean;
+} & Pick<
+  MenuItemProps,
+  'className' | 'disabled' | 'label' | keyof ComponentPropsWithRef<'div'>
+>;
+
+/**
  * Props for a Menu radio item component.
  *
  * An item that can be controlled and rendered like a radio button.

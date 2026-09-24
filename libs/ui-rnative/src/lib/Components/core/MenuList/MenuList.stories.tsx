@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives';
 import { Settings, Trash, Unlink } from '../../symbols';
-import { MenuList, MenuListItem } from './MenuList';
+import { MenuList, MenuListItem, MenuListSwitchItem } from './MenuList';
 
 const iconMap = {
   None: undefined,
@@ -14,7 +14,7 @@ const meta = {
   id: 'rnative-menulist',
   title: 'Core/MenuList',
   component: MenuList,
-  subcomponents: { MenuListItem },
+  subcomponents: { MenuListItem, MenuListSwitchItem },
   parameters: {
     docs: {
       source: { language: 'tsx', format: true, type: 'dynamic' },
@@ -82,6 +82,34 @@ export const AppearanceShowcase: Story = {
           appearance='red'
           onPress={() => {}}
         />
+      </MenuList>
+    </Box>
+  ),
+};
+
+export const SwitchItemShowcase: StoryObj<typeof MenuListSwitchItem> = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  argTypes: {
+    icon: {
+      options: Object.keys(iconMap),
+      mapping: iconMap,
+      control: { type: 'select' },
+    },
+    onCheckedChange: { action: 'checkedChange' },
+  },
+  args: {
+    label: 'Notifications',
+    disabled: false,
+    defaultChecked: false,
+    icon: Settings,
+  },
+  render: (args) => (
+    <Box lx={{ width: 's320' }}>
+      <MenuList>
+        <MenuListSwitchItem {...args} />
       </MenuList>
     </Box>
   ),

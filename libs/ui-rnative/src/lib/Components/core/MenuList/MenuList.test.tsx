@@ -1,9 +1,9 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, waitFor } from '@testing-library/react-native';
 import { View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { MenuList, MenuListItem } from './MenuList';
+import { MenuList, MenuListItem, MenuListSwitchItem } from './MenuList';
 import type { IconComponent } from './types';
 
 const TestIcon: IconComponent = ({ size, color }) => (
@@ -131,5 +131,75 @@ describe('MenuListItem', () => {
     );
 
     expect(getByTestId('icon').props.accessibilityLabel).toBe('error');
+  });
+});
+
+describe('MenuListSwitchItem', () => {
+  it('renders the label', () => {
+    const { getByText } = render(
+      <TestWrapper>
+        <MenuListSwitchItem label='Notifications' />
+      </TestWrapper>,
+    );
+
+    expect(getByText('Notifications')).toBeTruthy();
+  });
+
+  it('uncontrolled: toggles checked state on press', async () => {
+    const { getByRole } = render(
+      <TestWrapper>
+        <MenuListSwitchItem label='Notifications' defaultChecked={false} />
+      </TestWrapper>,
+    );
+
+    const item = getByRole('switch');
+    expect(item.props.accessibilityState?.checked).toBe(false);
+
+    fireEvent.press(item);
+
+    await waitFor(() =>
+      expect(item.props.accessibilityState?.checked).toBe(true),
+    );
+  });
+
+  it('controlled: calls onCheckedChange but state is controlled by parent', async () => {
+    const onCheckedChange = jest.fn();
+    const { getByRole } = render(
+      <TestWrapper>
+        <MenuListSwitchItem
+          label='Notifications'
+          checked={false}
+          onCheckedChange={onCheckedChange}
+        />
+      </TestWrapper>,
+    );
+
+    fireEvent.press(getByRole('switch'));
+
+    await waitFor(() => expect(onCheckedChange).toHaveBeenCalledWith(true));
+    await waitFor(() =>
+      expect(getByRole('switch').props.accessibilityState?.checked).toBe(false),
+    );
+  });
+
+  it('does not toggle when disabled', async () => {
+    const onCheckedChange = jest.fn();
+    const { getByRole } = render(
+      <TestWrapper>
+        <MenuListSwitchItem
+          label='Notifications'
+          disabled
+          defaultChecked={false}
+          onCheckedChange={onCheckedChange}
+        />
+      </TestWrapper>,
+    );
+
+    const item = getByRole('switch');
+    expect(item.props.accessibilityState?.disabled).toBe(true);
+
+    fireEvent.press(item);
+
+    await waitFor(() => expect(onCheckedChange).not.toHaveBeenCalled());
   });
 });

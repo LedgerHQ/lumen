@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as MenuStories from './Menu.stories';
 import {
   CustomTabs,
@@ -31,6 +31,7 @@ Built on top of [Base UI Menu](https://base-ui.com/react/components/menu) primit
 - **Label**: Non-interactive text labels for grouping
 - **Separator**: Visual dividers between groups
 - **CheckboxItem**: Items with checkbox selection
+- **SwitchItem**: Items with switch selection
 - **RadioItem**: Items with radio selection (single choice in group)
 - **SubMenu**: Nested menus for hierarchical options
 
@@ -43,17 +44,12 @@ Simple menu items for actions:
 <Canvas of={MenuStories.Base} />
 <Controls of={MenuStories.Base} />
 
-### Checkbox Items
+### Selectable Item Types
 
-For toggleable options:
+Checkbox items toggle options, switch items read as an on/off action rather
+than a checkbox, and radio items pick a single value from multiple options:
 
-<Canvas of={MenuStories.WithCheckboxItems} />
-
-### Radio Items
-
-For single selection from multiple options:
-
-<Canvas of={MenuStories.WithRadioItems} />
+<Canvas of={MenuStories.ItemTypeShowcase} />
 
 ### Submenus
 
@@ -225,6 +221,10 @@ function MyComponent() {
   );
 }
 ```
+
+### With Switch Items
+
+<Source of={MenuStories.ItemTypeShowcase} />
 
 ### With Radio Items
 
