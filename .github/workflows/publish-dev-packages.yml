@@ -58,7 +58,8 @@ jobs:
       - name: Determine affected libraries
         id: affected
         run: |
-          AFFECTED=$(npx nx show projects --affected --projects='libs/*' 2>/dev/null || true)
+          PUBLISHABLE=$(node internals/repo-tools/src/ci/getPublishableProjects.mjs | paste -sd, -)
+          AFFECTED=$(npx nx show projects --affected --projects="$PUBLISHABLE" 2>/dev/null || true)
           if [ -z "$AFFECTED" ]; then
             echo "No affected libraries found"
             echo "has_affected=false" >> "$GITHUB_OUTPUT"
@@ -82,62 +83,8 @@ jobs:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           REPO: ${{ github.repository }}
-        run: |
-          SHORT_SHA="${HEAD_SHA:0:7}"
-          TAG="dev-pr-${PR_NUMBER}"
-          TARBALL_DIR="${RUNNER_TEMP}/dev-package-tarballs"
-          COMMENT_FILE="${RUNNER_TEMP}/dev-packages-comment.md"
-          mkdir -p "${TARBALL_DIR}"
-          TABLE_ROWS=""
-
-          while IFS= read -r PROJECT; do
-            [ -z "$PROJECT" ] && continue
-
-            for lib_dir in libs/*/; do
-              PKG_JSON="${lib_dir}package.json"
-              [ -f "$PKG_JSON" ] || continue
-              PKG_NAME=$(node -p "require('./${PKG_JSON}').name")
-
-              if [ "$PKG_NAME" = "$PROJECT" ]; then
-                CURRENT_VERSION=$(node -p "require('./${PKG_JSON}').version")
-                DEV_VERSION="${CURRENT_VERSION}-pr.${PR_NUMBER}.${SHORT_SHA}"
-
-                node -e "
-                  const fs = require('fs');
-                  const pkg = JSON.parse(fs.readFileSync('${PKG_JSON}', 'utf8'));
-                  pkg.version = '${DEV_VERSION}';
-                  fs.writeFileSync('${PKG_JSON}', JSON.stringify(pkg, null, 2) + '\n');
-                "
-
-                echo "::group::Packing ${PKG_NAME}@${DEV_VERSION}"
-                TARBALL_FILENAME=$(npm pack "${lib_dir}" --pack-destination "${TARBALL_DIR}" --json \
-                  | node -e "process.stdout.write(JSON.parse(require('fs').readFileSync(0,'utf8'))[0].filename)")
-                echo "::endgroup::"
-
-                TARBALL_URL="https://github.com/${REPO}/releases/download/${TAG}/${TARBALL_FILENAME}"
-                TABLE_ROWS="${TABLE_ROWS}| \`${PKG_NAME}\` | \`${DEV_VERSION}\` | \`npm i ${TARBALL_URL}\` |"$'\n'
-                break
-              fi
-            done
-          done <<< "${{ steps.affected.outputs.projects }}"
-
-          {
-            echo '<!-- dev-packages-comment -->'
-            echo '### 📦 Dev packages published'
-            echo ''
-            echo 'Tarballs are hosted as assets on a per-PR GitHub pre-release and are deleted automatically when this PR is closed.'
-            echo ''
-            echo '| Package | Version | Install |'
-            echo '|---------|---------|---------|'
-            printf '%s' "$TABLE_ROWS"
-            echo ''
-            echo "> **Release:** [\`${TAG}\`](https://github.com/${REPO}/releases/tag/${TAG})"
-            echo "> **Commit:** \`${HEAD_SHA}\`"
-          } > "$COMMENT_FILE"
-
-          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
-          echo "tarball_dir=${TARBALL_DIR}" >> "$GITHUB_OUTPUT"
-          echo "short_sha=${SHORT_SHA}" >> "$GITHUB_OUTPUT"
+          AFFECTED_PROJECTS: ${{ steps.affected.outputs.projects }}
+        run: node internals/repo-tools/src/ci/generateTarballs.mjs
 
       - name: Publish tarballs to GitHub pre-release
         if: steps.affected.outputs.has_affected == 'true'

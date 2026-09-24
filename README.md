@@ -119,6 +119,8 @@ lumen/
 │   ├── ui-rnative/    # React Native components
 │   ├── design-core/   # Design tokens and themes
 │   └── utils-shared/  # Shared utilities
+├── internals/         # Dev-only Nx projects, never published
+│   └── sync-figma/    # Figma sync: tokens, symbols, code-syntax
 └── apps/
     ├── app-sandbox-rnative  # Demo React-Native application
     └── app-sandbox-react    # Demo React application

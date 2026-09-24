@@ -1,13 +1,16 @@
 import figma from '@figma/code-connect';
 import CryptoIcon from '@ledgerhq/crypto-icons/native';
-import {
-  IconButton,
-  NavBarCoinCapsule,
-  NavBarTrailing,
-  TileDescription,
-} from '@ledgerhq/lumen-ui-rnative';
 import { Settings } from '../../symbols';
-import { NavBar, NavBarBackButton, NavBarContent, NavBarTitle } from './NavBar';
+import { IconButton } from '../IconButton';
+import { TileDescription } from '../Tile';
+import {
+  NavBar,
+  NavBarBackButton,
+  NavBarCoinCapsule,
+  NavBarContent,
+  NavBarTitle,
+  NavBarTrailing,
+} from './NavBar';
 
 figma.connect(
   NavBar,

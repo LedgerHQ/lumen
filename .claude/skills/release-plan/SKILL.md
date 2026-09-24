@@ -77,3 +77,6 @@ are defined authoritatively in `nx.json` under
 `*.stories.*`, `*.md`, `*.mdx`, `*.figma.@(ts|tsx)`, `tsconfig*.json`, eslint
 configs, `jest.config.*`, `test-setup.*`, `*.snap`, `.storybook/**`. A PR
 touching only these needs no plan.
+
+`internals/*` is outside `release.projects`, so a PR touching only `internals/*`
+never needs a plan.

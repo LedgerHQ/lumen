@@ -102,7 +102,7 @@ Rules verifiable from a diff.
 
 | Check | Applies to | Detect | Skip |
 | --- | --- | --- | --- |
-| Doc doesn't use the two-tab Overview / Implementation structure | `.mdx` | missing `<Tab label='Overview'>` / `'Implementation'` | visualization libs (no `.mdx`) |
+| Doc doesn't use the two-tab Overview / Implementation structure | `.mdx` | missing `<Tab label='Overview'>` / `'Implementation'` | RN charts under `Components/visualization/` (no `.mdx`) |
 | Implementation example is a hand-written ` ```tsx ` block where a story exists | `.mdx` | fenced code duplicating a story instead of `<Source of={…} />` | snippets no story covers |
 | Doc references a removed/renamed prop or a stale default | `.mdx` | prop names vs current `types.ts` | — |
 | Table uses raw Tailwind palette instead of tokens | `.mdx` | `text-gray-`, arbitrary sizes in table markup | — |

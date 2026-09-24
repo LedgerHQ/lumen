@@ -36,7 +36,7 @@ jobs:
           set-shas: 'false'
 
       - name: Export Design Tokens from Figma
-        run: npx nx run @ledgerhq/lumen-design-core:figma-export
+        run: npx nx run sync-figma:figma-export
         env:
           FIGMA_API_TOKEN: ${{ secrets.FIGMA_API_TOKEN }}
           FIGMA_FOUNDATIONS_FILE_KEY: ${{ github.event.inputs.figma_foundations_file_key || vars.FIGMA_FOUNDATIONS_FILE_KEY }}
@@ -45,7 +45,7 @@ jobs:
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: design-tokens
-          path: libs/design-core/tokens/
+          path: internals/sync-figma/tokens/
 
   figma-download-svgs:
     name: Download SVGs from Figma
@@ -62,7 +62,7 @@ jobs:
           set-shas: 'false'
 
       - name: Download SVGs from Figma
-        run: npx nx run @ledgerhq/lumen-design-core:figma-download-svgs
+        run: npx nx run sync-figma:figma-download-svgs
         env:
           FIGMA_API_TOKEN: ${{ secrets.FIGMA_API_TOKEN }}
           FIGMA_SYMBOLS_FILE_KEY: ${{ github.event.inputs.figma_symbols_file_key || vars.FIGMA_SYMBOLS_FILE_KEY }}
@@ -93,10 +93,10 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: design-tokens
-          path: libs/design-core/tokens/
+          path: internals/sync-figma/tokens/
 
       - name: Run Design Tokens ETL
-        run: npx nx run @ledgerhq/lumen-design-core:design-tokens-etl
+        run: npx nx run sync-figma:design-tokens-etl
 
       - name: Upload processed tokens artifacts
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
@@ -127,7 +127,7 @@ jobs:
 
       - name: Generate React Symbol Components
         run: |
-          npx nx run @ledgerhq/lumen-design-core:generate-symbols-react
+          npx nx run sync-figma:generate-symbols-react
           npx nx run-many --targets=build-deps --all
           npx nx run-many --target=lint --fix
 
@@ -160,7 +160,7 @@ jobs:
 
       - name: Generate React Native Symbol Components
         run: |
-          npx nx run @ledgerhq/lumen-design-core:generate-symbols-react-native
+          npx nx run sync-figma:generate-symbols-react-native
           npx nx run-many --targets=build-deps --all
           npx nx run-many --target=lint --fix
 
@@ -189,7 +189,7 @@ jobs:
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: design-tokens
-          path: libs/design-core/tokens/
+          path: internals/sync-figma/tokens/
 
       - name: Download processed design tokens artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0

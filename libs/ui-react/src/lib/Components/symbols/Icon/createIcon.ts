@@ -1,8 +1,4 @@
-import {
-  cn,
-  toPascalCase,
-  useDisabledContext,
-} from '@ledgerhq/lumen-utils-shared';
+import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import type { SVGProps } from 'react';
 import { createElement } from 'react';
 import { Icon } from './Icon';
@@ -39,7 +35,7 @@ const createIcon = (
     });
   };
 
-  Component.displayName = toPascalCase(iconName);
+  Component.displayName = iconName;
 
   return Component;
 };

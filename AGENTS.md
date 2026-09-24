@@ -9,6 +9,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
 Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
+Dev-only tooling lives outside `libs/` in `internals/` — see `## Internals`.
 
 ## Libraries
 
@@ -26,6 +27,36 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 
 
 
+
+## Internals
+
+`internals/*` holds Nx projects that are **local/dev-only and never published**.
+Litmus test: *would a consumer of `@ledgerhq/lumen-*` ever load this code?* If
+no, it belongs here — codegen, ETL, external-API sync and their input data.
+
+| Path                   | Purpose                                                                                                                  |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
+| `internals/repo-tools` | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md` |
+
+Rules for adding one:
+
+- Folder = the job, named after the workflow that drives it (`sync-figma` ↔
+  `.github/workflows/sync-figma.yml`), or after its role when it serves several
+  (`repo-tools`). Nx project name = folder name, unscoped.
+- `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
+  in the root manifest. Never needs a version plan.
+- Tags `["scope:internal", "type:tooling"]` in `project.json` — the tag is what
+  the boundary rule matches on when a lib tries to import it.
+- Code in `src/`, spreading `sharedConfig` — the dev profile, same as `apps/*`.
+  `prodConfig` is for published libs.
+- May import `scope:internal` and `scope:shared` only, and nothing under `libs/`
+  or `apps/` may import it — see `depConstraints` in `eslint.config.mjs`.
+  Filesystem *writes* into libs are expected; only imports are governed.
+- Run `npx nx sync` after adding one.
+
+`internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` enforces the table
+and the first four rules.
 
 ## Commands
 
@@ -53,7 +84,8 @@ authoritative conventions; when a skill conflicts with this file, the skill wins
 agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
 an Nx version plan in `.nx/version-plans/` — bump type always `patch`, one
-package per file (see the `release-plan` skill).
+package per file (see the `release-plan` skill). `internals/*` is never
+published, so changes there need no plan.
 
 
 
@@ -116,12 +148,14 @@ maintainer task (`component-styling`, `component-anatomy`), leaving
 consumer-facing names (e.g. `lumen-code`) free for the published tree.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
 `.github/instructions/*`) are thin pointers/wrappers — they must not restate
-content. The `scripts/check-agent-docs-drift.mjs` drift check (run in CI as the
+content. The `internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` drift
+check (run in CI as the
 `agent-drift` job via `npm run check:agent-docs`) enforces the mechanical
 invariants: the AGENTS.md index and the skill folders stay in bijection,
 inter-skill references resolve, cited repo paths exist, no skill hardcodes a
 stale tool version, every skill's `paths:` globs still match at least one file,
-the Libraries table matches the libs on disk (path + package name), and
+the Libraries table matches the libs on disk (path + package name), every
+`internals/*` project matches the Internals table and its four rules, and
 `.mcp.json` and `.cursor/mcp.json` stay in parity.
 - **MCP servers are the one exception to "no duplication":** each tool hardcodes
 its own project-scoped path (Claude Code → `.mcp.json`, Cursor →
