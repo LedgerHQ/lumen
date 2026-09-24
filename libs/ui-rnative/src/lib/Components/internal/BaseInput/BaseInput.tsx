@@ -103,7 +103,9 @@ export const BaseInput = ({
           onPress={() => inputRef.current?.focus()}
           disabled={disabled}
         >
-          {prefix}
+          {prefix ? (
+            <View style={styles.prefixContainer}>{prefix}</View>
+          ) : null}
 
           <TextInput
             ref={composedRef}
@@ -206,9 +208,10 @@ const useRowStyles = ({
       const borderWidth =
         statusBorderColor && !isFocused ? t.borderWidth.s1 : t.borderWidth.s2;
 
-      const { paddingVertical } = getMultilineLayout(t, hasLabel);
+      const { paddingVertical, lineHeight } = getMultilineLayout(t, hasLabel);
       const iosLineBoxOffset =
         multiline && RuntimeConstants.isIOS ? t.spacings.s2 : 0;
+      const bottomAlignPrefix = multiline && RuntimeConstants.isIOS;
 
       return {
         container: StyleSheet.flatten([
@@ -242,6 +245,12 @@ const useRowStyles = ({
               minLines,
               maxLines,
             }),
+          },
+        ]),
+        prefixContainer: StyleSheet.flatten([
+          bottomAlignPrefix && {
+            height: lineHeight,
+            justifyContent: 'flex-end' as const,
           },
         ]),
         suffixContainer: StyleSheet.flatten([
@@ -324,9 +333,15 @@ const useFooterStyles = () => {
 };
 
 const useStyles = (params: StyleParams) => {
-  const { container, suffixContainer } = useRowStyles(params);
+  const { container, prefixContainer, suffixContainer } = useRowStyles(params);
   const { input } = useInputStyles(params);
   const { footerContainer } = useFooterStyles();
 
-  return { container, input, suffixContainer, footerContainer };
+  return {
+    container,
+    prefixContainer,
+    input,
+    suffixContainer,
+    footerContainer,
+  };
 };

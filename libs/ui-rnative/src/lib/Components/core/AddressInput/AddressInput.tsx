@@ -1,5 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
 import { RuntimeConstants } from '../../../utils';
@@ -25,11 +25,9 @@ export const AddressInput = ({
   const styles = useStyles({ disabled, multiline });
 
   const actualPrefix = (
-    <View style={styles.prefixLine}>
-      <Text accessible={false} style={styles.prefix}>
-        {prefix}
-      </Text>
-    </View>
+    <Text accessible={false} style={styles.prefix}>
+      {prefix}
+    </Text>
   );
 
   const actualSuffix =
@@ -64,27 +62,15 @@ const useStyles = ({
   multiline: boolean;
 }) => {
   return useStyleSheet(
-    (t) => {
-      // iOS parks field letters at the bottom of the line box, so the prefix
-      // sits there too instead of being centred in it.
-      const bottomAlignPrefix = multiline && RuntimeConstants.isIOS;
-
-      return {
-        prefixLine: StyleSheet.flatten([
-          bottomAlignPrefix && {
-            height: t.typographies.body1.lineHeight,
-            justifyContent: 'flex-end' as const,
-          },
-        ]),
-        prefix: StyleSheet.flatten([
-          {
-            ...t.typographies.body1,
-            color: disabled ? t.colors.text.disabled : t.colors.text.base,
-          },
-          bottomAlignPrefix && { lineHeight: 0 },
-        ]),
-      };
-    },
+    (t) => ({
+      prefix: StyleSheet.flatten([
+        {
+          ...t.typographies.body1,
+          color: disabled ? t.colors.text.disabled : t.colors.text.base,
+        },
+        multiline && RuntimeConstants.isIOS && { lineHeight: 0 },
+      ]),
+    }),
     [disabled, multiline],
   );
 };
