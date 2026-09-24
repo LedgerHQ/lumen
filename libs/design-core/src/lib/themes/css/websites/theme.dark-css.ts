@@ -102,18 +102,18 @@ export const tokens = {
       'var(--color-dark-red-600-30)',
     '--color-background-error-transparent-pressed':
       'var(--color-dark-red-600-40)',
-    '--color-background-error': 'var(--color-dark-red-300)',
+    '--color-background-error': 'var(--color-dark-red-200)',
     '--color-background-error-strong': 'var(--color-dark-red-600)',
     '--color-background-error-transparent-0': 'var(--color-dark-red-600-0)',
     '--color-background-warning-transparent': 'var(--color-dark-yellow-600-15)',
-    '--color-background-warning': 'var(--color-dark-yellow-300)',
+    '--color-background-warning': 'var(--color-dark-yellow-200)',
     '--color-background-warning-strong': 'var(--color-dark-yellow-600)',
     '--color-background-success-transparent': 'var(--color-dark-green-600-15)',
     '--color-background-success-transparent-hover':
       'var(--color-dark-green-600-30)',
     '--color-background-success-transparent-pressed':
       'var(--color-dark-green-600-40)',
-    '--color-background-success': 'var(--color-dark-green-300)',
+    '--color-background-success': 'var(--color-dark-green-200)',
     '--color-background-success-strong': 'var(--color-dark-green-600)',
     '--color-background-success-transparent-0': 'var(--color-dark-green-600-0)',
     '--color-background-native': '#c3c3c3',
@@ -127,20 +127,20 @@ export const tokens = {
     '--color-background-gradient-overlay-80': 'var(--color-dark-grey-050-80)',
     '--color-background-gradient-overlay-0': 'var(--color-dark-grey-050-0)',
     '--color-background-decorative-blue':
-      'var(--color-dark-decorative-blue-400)',
+      'var(--color-dark-decorative-blue-200)',
     '--color-background-decorative-pink':
-      'var(--color-dark-decorative-pink-400)',
+      'var(--color-dark-decorative-pink-200)',
     '--color-background-decorative-turquoise':
-      'var(--color-dark-decorative-turquoise-400)',
+      'var(--color-dark-decorative-turquoise-200)',
     '--color-background-decorative-yellow':
-      'var(--color-dark-decorative-yellow-400)',
+      'var(--color-dark-decorative-yellow-200)',
     '--color-background-decorative-orange':
-      'var(--color-dark-decorative-orange-400)',
-    '--color-background-decorative-red': 'var(--color-dark-decorative-red-400)',
+      'var(--color-dark-decorative-orange-200)',
+    '--color-background-decorative-red': 'var(--color-dark-decorative-red-200)',
     '--color-background-decorative-green':
-      'var(--color-dark-decorative-green-400)',
+      'var(--color-dark-decorative-green-200)',
     '--color-background-decorative-purple':
-      'var(--color-dark-decorative-purple-400)',
+      'var(--color-dark-decorative-purple-200)',
     '--color-text-black': 'var(--color-dark-constant-950)',
     '--color-text-white': 'var(--color-dark-constant-050)',
     '--color-text-white-hover': 'var(--color-dark-constant-200)',
