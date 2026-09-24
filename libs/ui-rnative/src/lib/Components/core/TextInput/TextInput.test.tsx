@@ -15,8 +15,6 @@ import type { TextInputProps } from './types';
 const { borderWidth, colors, sizes, spacings } = ledgerLiveThemes.dark;
 const { body1, body2 } = ledgerLiveThemes.dark.typographies.xs.body;
 
-// Labelled fields use body2 plus a reserved label row; unlabelled (AddressInput)
-// use body1. Chrome is padding (and that label row) so minLines={1} matches s48.
 const geometries: {
   name: string;
   props: Partial<TextInputProps>;
@@ -204,8 +202,6 @@ describe('TextInput', () => {
     });
   });
 
-  // The height itself is native, so the bounds are all these tests can reach: the
-  // container carries the minLines floor, the input box carries the ceiling.
   describe('Multiline', () => {
     afterEach(() => {
       jest.restoreAllMocks();
@@ -237,8 +233,6 @@ describe('TextInput', () => {
       expect(style.minHeight).toBeUndefined();
     });
 
-    // A single line is centred by the row, so it keeps the natural metrics iOS
-    // needs to sit level with a prefix.
     it('leaves a single-line iOS field on its natural line height', () => {
       jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
 
@@ -263,8 +257,6 @@ describe('TextInput', () => {
           expect(field().props.style.maxHeight).toBeUndefined();
         });
 
-        // The border sits inside the height the floor sets, so the padding gives
-        // those pixels back — otherwise the last line grows the field past it.
         it('pays for the border out of the padding', () => {
           renderCase({ minLines: 2 });
 
@@ -275,8 +267,6 @@ describe('TextInput', () => {
           );
         });
 
-        // iOS hangs an explicit line height's leading above the letters, so the row
-        // trades bottom padding for top to put the text back in the middle.
         it('trades padding for the iOS line box without changing the total', () => {
           jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
 
@@ -290,16 +280,12 @@ describe('TextInput', () => {
           );
         });
 
-        // Row is top-aligned, so the clear button sits above the text unless it is
-        // pushed down onto the first line — past the label row when there is one.
         it('drops the clear button onto the first line', () => {
           renderCase({ minLines: 2, value: 'Hello' });
 
           expect(clearButtonBox()?.props.style.marginTop).toBe(suffixOffset);
         });
 
-        // A box taller than its text would drop the value below the placeholder on
-        // Android, which centres a line within its box.
         it('keeps the input box a single line whatever the floor is', () => {
           renderCase({ minLines: 3 });
 
@@ -333,8 +319,6 @@ describe('TextInput', () => {
           expect(field().props.style.maxHeight).toBe(2 * lineHeight);
         });
 
-        // Natural metrics run shorter than the token, which would leave the floor
-        // and the ceiling a few pixels off per line.
         it.each(['isAndroid', 'isIOS'] as const)(
           'takes the token line height whatever %s reports',
           (platform) => {

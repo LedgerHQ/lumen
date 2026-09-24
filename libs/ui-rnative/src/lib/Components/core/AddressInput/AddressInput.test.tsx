@@ -43,8 +43,6 @@ describe('AddressInput', () => {
       expect(prefix()).toBeTruthy();
     });
 
-    // The row is top-aligned when multiline, so BaseInput sizes the prefix slot
-    // to the first line and parks iOS glyphs at the bottom of it.
     it('sits the prefix on the first iOS line of a multiline field', () => {
       jest.spyOn(RuntimeConstants, 'isIOS', 'get').mockReturnValue(true);
 
