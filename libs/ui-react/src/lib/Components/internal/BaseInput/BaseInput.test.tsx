@@ -465,6 +465,41 @@ describe('BaseInput', () => {
       expect(screen.queryByLabelText(CLEAR_LABEL)).not.toBeInTheDocument();
     });
 
+    it('keeps the clear button flush without a label so the collapsed field stays at 48px', () => {
+      render(<BaseInput multiline defaultValue='hello' {...createProps()} />);
+
+      const trailing = screen.getByLabelText(CLEAR_LABEL).parentElement;
+
+      expect(trailing).not.toHaveClass('pt-8');
+      expect(trailing?.parentElement).toHaveClass('min-h-48', 'pt-12', 'pb-10');
+    });
+
+    it('keeps the suffix flush without a label so the collapsed field stays at 48px', () => {
+      render(
+        <BaseInput multiline suffix={<span>MAX</span>} {...createProps()} />,
+      );
+
+      const trailing = screen.getByText('MAX').parentElement;
+
+      expect(trailing).not.toHaveClass('pt-8');
+      expect(trailing?.parentElement).toHaveClass('min-h-48', 'pt-12', 'pb-10');
+    });
+
+    it('nudges the trailing content below the label band when a label is shown', () => {
+      render(
+        <BaseInput
+          label='Note'
+          multiline
+          defaultValue='hello'
+          {...createProps()}
+        />,
+      );
+
+      expect(screen.getByLabelText(CLEAR_LABEL).parentElement).toHaveClass(
+        'pt-8',
+      );
+    });
+
     it('keeps helper text, counter and disabled semantics', () => {
       render(
         <BaseInput
