@@ -1,5 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
 import { RuntimeConstants } from '../../../utils';
@@ -25,9 +25,11 @@ export const AddressInput = ({
   const styles = useStyles({ disabled, multiline });
 
   const actualPrefix = (
-    <Text accessible={false} style={styles.prefix}>
-      {prefix}
-    </Text>
+    <View style={styles.prefixLine}>
+      <Text accessible={false} style={styles.prefix}>
+        {prefix}
+      </Text>
+    </View>
   );
 
   const actualSuffix =
@@ -62,19 +64,27 @@ const useStyles = ({
   multiline: boolean;
 }) => {
   return useStyleSheet(
-    (t) => ({
-      prefix: StyleSheet.flatten([
-        {
-          ...t.typographies.body1,
-          color: disabled ? t.colors.text.disabled : t.colors.text.base,
-        },
-        // A multiline field top-aligns its row instead of centring it. iOS centres a
-        // Text's glyph inside an explicit line height but leaves the field's at the
-        // bottom of it, so only there does the prefix need the field's natural metrics
-        // to share a line with it.
-        multiline && RuntimeConstants.isIOS && { lineHeight: 0 },
-      ]),
-    }),
+    (t) => {
+      // iOS parks field letters at the bottom of the line box, so the prefix
+      // sits there too instead of being centred in it.
+      const bottomAlignPrefix = multiline && RuntimeConstants.isIOS;
+
+      return {
+        prefixLine: StyleSheet.flatten([
+          bottomAlignPrefix && {
+            height: t.typographies.body1.lineHeight,
+            justifyContent: 'flex-end' as const,
+          },
+        ]),
+        prefix: StyleSheet.flatten([
+          {
+            ...t.typographies.body1,
+            color: disabled ? t.colors.text.disabled : t.colors.text.base,
+          },
+          bottomAlignPrefix && { lineHeight: 0 },
+        ]),
+      };
+    },
     [disabled, multiline],
   );
 };

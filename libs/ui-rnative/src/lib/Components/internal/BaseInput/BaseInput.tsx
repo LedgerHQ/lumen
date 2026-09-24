@@ -207,6 +207,8 @@ const useRowStyles = ({
         statusBorderColor && !isFocused ? t.borderWidth.s1 : t.borderWidth.s2;
 
       const { paddingVertical } = getMultilineLayout(t, hasLabel);
+      const iosLineBoxOffset =
+        multiline && RuntimeConstants.isIOS ? t.spacings.s2 : 0;
 
       return {
         container: StyleSheet.flatten([
@@ -233,7 +235,8 @@ const useRowStyles = ({
             isEditable && { borderColor: t.colors.border.active },
           multiline && {
             alignItems: 'flex-start',
-            paddingVertical,
+            paddingTop: paddingVertical - borderWidth - iosLineBoxOffset,
+            paddingBottom: paddingVertical - borderWidth + iosLineBoxOffset,
             minHeight: getMultilineMinHeight(t, {
               hasLabel,
               minLines,
@@ -247,7 +250,7 @@ const useRowStyles = ({
             alignItems: 'center',
             justifyContent: 'center',
           },
-          multiline && { marginTop: t.spacings.s2 },
+          multiline && { marginTop: hasLabel ? t.spacings.s8 : t.spacings.s2 },
         ]),
       };
     },
@@ -294,10 +297,10 @@ const useInputStyles = ({
             paddingTop: 0,
             paddingBottom: 0,
             marginTop: labelRowHeight,
+            lineHeight,
             minHeight: lineHeight,
             maxHeight: maxLines ? maxLines * lineHeight : undefined,
           },
-          multiline && RuntimeConstants.isAndroid && { lineHeight },
         ]),
       };
     },
