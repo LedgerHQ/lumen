@@ -1,5 +1,5 @@
-import { useToastContext } from './ToastProvider';
-import type { ToastController } from './types';
+import type { ToastController } from '../types';
+import { useToastContext } from './useToastContext';
 
 /**
  * Returns the imperative toast controller. Must be called from a component

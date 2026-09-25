@@ -3,10 +3,10 @@ import { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Box } from '../../primitives';
 import { Button } from '../Button';
+import { useToast } from './hooks/useToast';
 import { Toast } from './Toast';
 import { ToastProvider } from './ToastProvider';
 import type { ToastPosition } from './types';
-import { useToast } from './useToast';
 
 const meta = {
   component: Toast,
