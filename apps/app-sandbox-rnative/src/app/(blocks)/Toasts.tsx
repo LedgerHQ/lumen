@@ -1,3 +1,4 @@
+import type { ToastAppearance } from '@ledgerhq/lumen-ui-rnative';
 import { Box, Button, useToast } from '@ledgerhq/lumen-ui-rnative';
 import { useToastControls } from '../../hooks/useToastControls';
 
@@ -8,6 +9,31 @@ const simulateSaveProfile = () =>
       1500,
     ),
   );
+
+const RANDOM_APPEARANCES: ToastAppearance[] = [
+  'info',
+  'success',
+  'warning',
+  'error',
+];
+
+const RANDOM_TITLES = [
+  'Payment done',
+  'Report ready for review in 30 minutes',
+  'This is a very long toast message that wraps over up to five lines without an action',
+  'This is a very long toast message that wraps over up to five lines',
+];
+
+const RANDOM_ACTION_LABELS = [
+  'Open',
+  'Undo',
+  'Retry',
+  'Download the report',
+  'Retry the upload',
+];
+
+const pickRandom = <T,>(items: readonly T[]): T =>
+  items[Math.floor(Math.random() * items.length)];
 
 export default function Toasts() {
   const toast = useToast();
@@ -32,6 +58,24 @@ export default function Toasts() {
         </Button>
       </Box>
 
+      <Button
+        appearance='base'
+        onPress={() =>
+          toast.notify({
+            appearance: pickRandom(RANDOM_APPEARANCES),
+            title: pickRandom(RANDOM_TITLES),
+            action:
+              Math.random() > 0.5
+                ? {
+                    label: pickRandom(RANDOM_ACTION_LABELS),
+                    onAction: () => console.log('Retry'),
+                  }
+                : undefined,
+          })
+        }
+      >
+        Notify random
+      </Button>
       <Button
         appearance='base'
         onPress={() => toast.info({ title: 'Info toast' })}

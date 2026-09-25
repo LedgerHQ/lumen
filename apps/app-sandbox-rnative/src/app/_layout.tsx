@@ -39,6 +39,7 @@ export default function RootLayout() {
             value={{ position: toastPosition, setPosition: setToastPosition }}
           >
             <ToastProvider
+              maxItems={3}
               position={toastPosition}
               insets={{ left: 10, right: 10 }}
             >
