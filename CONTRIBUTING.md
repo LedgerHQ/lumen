@@ -59,23 +59,23 @@ git clone https://github.com/your-org/lumen.git
 cd lumen
 ```
 
-2. Setup proto
-Proto is a pluggable version manager, a unified toolchain.
-[Installation docs](https://moonrepo.dev/docs/proto/install)
+2. Setup mise
+mise is a pluggable version manager, a unified toolchain.
+[Installation docs](https://mise.jdx.dev/getting-started.html)
 
-You might need to run this command to sync your bashprofile, or zshrc
+You might need to run this command to activate mise in your shell (add it to your bashprofile, or zshrc)
 ```bash
-proto setup
+mise activate
 ```
 
 Then run install to synchronize tools versions
 ```bash
-proto install
+mise install
 ```
 
-Then proto use
+Then trust and use the pinned versions
 ```bash
-proto use
+mise use
 ```
 
 
