@@ -52,6 +52,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'TextInputs', title: 'TextInput' },
   { slug: 'ThemeProviderToggles', title: 'ThemeProviderToggle' },
   { slug: 'Tiles', title: 'Tile' },
+  { slug: 'Toasts', title: 'Toast' },
   { slug: 'Tooltips', title: 'Tooltip' },
   { slug: 'Trends', title: 'Trend' },
 ];

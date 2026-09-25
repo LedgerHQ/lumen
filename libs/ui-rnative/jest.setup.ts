@@ -187,7 +187,26 @@ jest.mock('react-native-gesture-handler', () => {
       Tap: makeGesture,
       LongPress: makeGesture,
       Fling: makeGesture,
-      Simultaneous: makeGesture,
+      // Simultaneous gestures all receive the same touch, so a handler both
+      // define (e.g. onFinalize) must run once per gesture, not be overwritten.
+      Simultaneous: (...gestures: any[]) => {
+        const composed = makeGesture();
+        const handlers = composed.__handlers as Record<string, any>;
+        for (const gesture of gestures) {
+          for (const [name, handler] of Object.entries(
+            (gesture?.__handlers ?? {}) as Record<string, any>,
+          )) {
+            const previous = handlers[name];
+            handlers[name] = previous
+              ? (...args: any[]) => {
+                  previous(...args);
+                  handler(...args);
+                }
+              : handler;
+          }
+        }
+        return composed;
+      },
       Exclusive: makeGesture,
       Race: makeGesture,
     },
