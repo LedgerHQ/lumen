@@ -74,7 +74,9 @@ Each status has a Lumen default: info and success auto-dismiss after 5s;
 warning and error persist. Override globally with the provider's `durations`,
 or per item with `duration` — milliseconds, and `0` disables auto-dismiss.
 Duration is resolved when the item is created, and again when an update
-changes appearance, loading, or duration.
+changes appearance, loading, or duration. Touching a toast — holding it or
+dragging it mid-swipe — pauses its timer; releasing resumes from the remaining
+time.
 
 ### Queue
 
@@ -91,6 +93,9 @@ web). Extra items wait in a FIFO backlog and appear as slots free up.
 - Dismissal is a swipe gesture, not a button — there is no separate
   accessible element to activate to dismiss a toast. Setting `dismissible`
   to `false` disables the swipe.
+- Touching a toast pauses its auto-dismiss timer (the native equivalent of
+  web hover), satisfying "pause on timed content". This covers both a still
+  hold and an in-progress swipe; releasing resumes from the remaining time.
 
 </Tab>
 

@@ -10,9 +10,9 @@ import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { act, render, screen } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
+import { useToast } from './hooks/useToast';
 import { ToastProvider } from './ToastProvider';
 import type { ToastController, ToastProviderProps } from './types';
-import { useToast } from './useToast';
 
 let controller: ToastController;
 
@@ -113,6 +113,81 @@ describe('ToastProvider', () => {
 
       expect(screen.queryByText('First')).toBeNull();
       screen.getByText('Second');
+    });
+
+    it('should pause the timer while held and resume remaining time on release', () => {
+      const { getByTestId } = renderProvider();
+      act(() => {
+        controller.info({ title: 'Hold me' });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      const entry = getByTestId('toast-entry');
+      act(() => {
+        entry.props.onStart();
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(60000);
+      });
+      screen.getByText('Hold me');
+
+      act(() => {
+        entry.props.onFinalize();
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(2999);
+      });
+      screen.getByText('Hold me');
+
+      act(() => {
+        jest.advanceTimersByTime(1);
+      });
+      flushExit();
+      expect(screen.queryByText('Hold me')).toBeNull();
+    });
+
+    it('should stay paused while swiping and resume once the toast springs back', () => {
+      const { getByTestId } = renderProvider();
+      act(() => {
+        controller.info({ title: 'Swipe me' });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(2000);
+      });
+
+      const entry = getByTestId('toast-entry');
+      act(() => {
+        entry.props.onBegin();
+        entry.props.onStart();
+        entry.props.onUpdate({ translationX: 40 });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(60000);
+      });
+      screen.getByText('Swipe me');
+
+      act(() => {
+        entry.props.onEnd({ translationX: 20 });
+        entry.props.onFinalize();
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(2999);
+      });
+      screen.getByText('Swipe me');
+
+      act(() => {
+        jest.advanceTimersByTime(1);
+      });
+      flushExit();
+      expect(screen.queryByText('Swipe me')).toBeNull();
     });
 
     it('should restart the timer when a loading toast becomes a success', () => {
