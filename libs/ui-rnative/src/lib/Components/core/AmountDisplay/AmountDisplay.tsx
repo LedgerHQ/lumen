@@ -10,7 +10,7 @@ import Animated, {
 import { useCommonTranslation } from '../../../../i18n';
 import type { LumenTypographyTokenName } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
-import { RuntimeConstants } from '../../../utils';
+import { RuntimeConstants, useGet } from '../../../utils';
 import { Pulse } from '../../animations/Pulse';
 import { useTimingConfig } from '../../animations/useTimingConfig';
 import { Box } from '../../primitives';
@@ -135,11 +135,13 @@ const useAnimatedDigitStrip = ({
     duration: 700,
     easing: 'easeInOut',
   });
+  // Avoid restarting withTiming when theme rebuilds a new config object
+  const getTimingConfig = useGet(timingConfig);
 
   useEffect(() => {
     if (animate) {
-      translateY.value = withTiming(-value * lineHeight, timingConfig);
-      width.value = withTiming(targetWidth, timingConfig);
+      translateY.value = withTiming(-value * lineHeight, getTimingConfig());
+      width.value = withTiming(targetWidth, getTimingConfig());
     } else {
       translateY.value = -value * lineHeight;
       width.value = targetWidth;
@@ -151,7 +153,7 @@ const useAnimatedDigitStrip = ({
     animate,
     width,
     targetWidth,
-    timingConfig,
+    getTimingConfig,
   ]);
 
   const animatedStyle = useAnimatedStyle(
@@ -185,6 +187,7 @@ const DigitStrip = memo(
 
     return (
       <Animated.View
+        collapsable={false}
         style={{
           height: lineHeight,
           width: animate ? width : targetWidth,
@@ -203,7 +206,10 @@ const DigitStrip = memo(
             alignItems: 'center',
           }}
         >
-          <Animated.View style={[animatedStyle, { alignItems: 'center' }]}>
+          <Animated.View
+            collapsable={false}
+            style={[animatedStyle, { alignItems: 'center' }]}
+          >
             {DIGITS.map((d) => (
               <Text
                 allowFontScaling={false}
@@ -236,8 +242,9 @@ const DigitStripList = memo(
         );
       }
       return (
+        // Remount when animate flips so width stays either SharedValue or number
         <DigitStrip
-          key={key}
+          key={`${key}-${animate}`}
           value={Number(item.value) as DigitStripProps['value']}
           animate={animate}
           textStyle={textStyle}

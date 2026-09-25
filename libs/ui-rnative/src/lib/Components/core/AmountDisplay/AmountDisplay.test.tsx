@@ -1,12 +1,16 @@
-import { describe, it, expect } from '@jest/globals';
+import { afterEach, describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { render, screen } from '@testing-library/react-native';
+import { cleanup, render, screen } from '@testing-library/react-native';
+import { useRef } from 'react';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { AmountDisplay } from './AmountDisplay';
 import type { FormattedValue } from './types';
 
-const TestWrapper: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
+const TestWrapper: React.FC<{
+  children: React.ReactNode;
+  themes?: typeof ledgerLiveThemes;
+}> = ({ children, themes = ledgerLiveThemes }) => (
+  <ThemeProvider themes={themes} colorScheme='dark' locale='en'>
     {children}
   </ThemeProvider>
 );
@@ -330,6 +334,136 @@ describe('AmountDisplay', () => {
         );
         expect(clippingWrapper.length).toBeGreaterThan(0);
       });
+    });
+  });
+
+  describe('re-rendering a mounted instance', () => {
+    afterEach(() => {
+      // Unmount first: restoring a spied hook on a mounted tree breaks the
+      // hook order of any late re-render
+      cleanup();
+      jest.restoreAllMocks();
+    });
+
+    it('updates the digit strips when the value changes while animating', () => {
+      const { rerender } = render(
+        <TestWrapper>
+          <AmountDisplay
+            value={1234.56}
+            formatter={createFormatter()}
+            animate={true}
+          />
+        </TestWrapper>,
+      );
+
+      expect(getDigitStripValues()).toEqual([1, 2, 3, 4, 5, 6]);
+
+      rerender(
+        <TestWrapper>
+          <AmountDisplay
+            value={9876.54}
+            formatter={createFormatter({
+              integerPart: '9876',
+              decimalPart: '54',
+            })}
+            animate={true}
+          />
+        </TestWrapper>,
+      );
+
+      expect(getDigitStripValues()).toEqual([9, 8, 7, 6, 5, 4]);
+      getDigitStripWidths().forEach((width) => {
+        expect(typeof width).not.toBe('number');
+      });
+    });
+
+    it('keeps the digit strip geometry correct when animate is toggled', () => {
+      const formatter = createFormatter();
+      const tree = (animate: boolean) => (
+        <TestWrapper>
+          <AmountDisplay
+            value={1234.56}
+            formatter={formatter}
+            animate={animate}
+          />
+        </TestWrapper>
+      );
+
+      const { rerender } = render(tree(true));
+      rerender(tree(false));
+
+      expect(getDigitStripValues()).toEqual([1, 2, 3, 4, 5, 6]);
+      getDigitStripWidths().forEach((width) => {
+        expect(typeof width).toBe('number');
+      });
+
+      rerender(tree(true));
+
+      expect(getDigitStripValues()).toEqual([1, 2, 3, 4, 5, 6]);
+      getDigitStripWidths().forEach((width) => {
+        expect(typeof width).not.toBe('number');
+      });
+    });
+
+    it('swaps between bullets and digits when hidden is toggled', () => {
+      const formatter = createFormatter();
+      const tree = (isHidden: boolean) => (
+        <TestWrapper>
+          <AmountDisplay
+            value={1234.56}
+            formatter={formatter}
+            hidden={isHidden}
+          />
+        </TestWrapper>
+      );
+
+      const { rerender } = render(tree(false));
+      rerender(tree(true));
+
+      expect(screen.getByText('••••', hidden)).toBeTruthy();
+      expect(getDigitStripValues()).toEqual([]);
+
+      rerender(tree(false));
+
+      expect(screen.queryByText('••••', hidden)).toBeNull();
+      expect(getDigitStripValues()).toEqual([1, 2, 3, 4, 5, 6]);
+    });
+
+    it('does not restart digit animations when an equivalent theme object is passed', () => {
+      const Reanimated = jest.requireMock('react-native-reanimated') as {
+        useSharedValue: (initial: unknown) => { value: unknown };
+        withTiming: (
+          toValue: unknown,
+          config?: { duration?: number },
+        ) => unknown;
+      };
+      // The global mock creates a new shared value on every render, which
+      // would re-run the digit-strip effect regardless of the timing config
+      const useStableSharedValue = (initial: unknown): { value: unknown } =>
+        useRef({ value: initial }).current;
+      jest
+        .spyOn(Reanimated, 'useSharedValue')
+        .mockImplementation(useStableSharedValue);
+      const withTiming = jest.spyOn(Reanimated, 'withTiming');
+      // Pulse also reschedules when the theme object changes, so only the
+      // digit-strip duration is tracked
+      const digitStripAnimations = () =>
+        withTiming.mock.calls.filter(([, config]) => config?.duration === 700);
+
+      const formatter = createFormatter();
+      const tree = () => (
+        <TestWrapper themes={{ ...ledgerLiveThemes }}>
+          <AmountDisplay value={1234.56} formatter={formatter} animate={true} />
+        </TestWrapper>
+      );
+
+      const { rerender } = render(tree());
+      expect(digitStripAnimations().length).toBeGreaterThan(0);
+
+      withTiming.mockClear();
+      rerender(tree());
+
+      expect(digitStripAnimations()).toEqual([]);
     });
   });
 });
