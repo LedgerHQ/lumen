@@ -59,23 +59,25 @@ describe('Toast', () => {
   });
 
   describe('Layout', () => {
-    it('should lay the surface out as a wrapping row, so an action that does not fit drops to its own line right-aligned', () => {
+    it('should wrap the title and action together, so an action that does not fit drops to its own line under the title', () => {
       const { getByTestId } = render(
         <TestWrapper>
           <Toast
-            testID='toast'
             title='Report ready'
             action={{ label: 'Download the report', onAction: jest.fn() }}
           />
         </TestWrapper>,
       );
-      expect(getByTestId('toast').props.style).toEqual(
+      expect(getByTestId('toast-text-action').props.style).toEqual(
         expect.objectContaining({
           flexDirection: 'row',
           flexWrap: 'wrap',
-          justifyContent: 'flex-end',
+          alignItems: 'flex-start',
         }),
       );
+      expect(
+        getByTestId('toast-text-action').props.style.justifyContent,
+      ).toBeUndefined();
     });
   });
 
