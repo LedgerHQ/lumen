@@ -75,8 +75,12 @@ const useToastStyles = ({
           flexBasis: 'auto',
           paddingTop: t.spacings.s10,
           paddingBottom: hasAction ? undefined : t.spacings.s10,
+          paddingRight: t.spacings.s16,
         },
       ]),
+      actionButton: {
+        marginLeft: hasLeading ? -t.spacings.s16 : undefined,
+      },
     }),
     [hasLeading, hasAction],
   );
@@ -142,7 +146,12 @@ export const Toast = ({
           {title}
         </Text>
         {action && (
-          <Button appearance='base' size='sm' onPress={action.onAction}>
+          <Button
+            appearance='base'
+            size='sm'
+            onPress={action.onAction}
+            style={styles.actionButton}
+          >
             {action.label}
           </Button>
         )}
