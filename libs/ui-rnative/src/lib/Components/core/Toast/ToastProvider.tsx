@@ -4,7 +4,8 @@ import {
   useToastQueue,
   useToastTimer,
 } from '@ledgerhq/lumen-utils-shared';
-import { useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { LayoutChangeEvent } from 'react-native';
 import { useWindowDimensions, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -14,7 +15,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { scheduleOnRN } from 'react-native-worklets';
-import { useStyleSheet } from '../../../../styles';
+import { useStyleSheet, useTheme } from '../../../../styles';
 import { useTimingConfig } from '../../animations/useTimingConfig';
 import { Toast } from './Toast';
 import type {
@@ -52,7 +53,6 @@ const useToastViewportStyles = ({
         right: insets.right ?? 0,
         zIndex: 50,
         alignItems: 'center',
-        gap: t.spacings.s8,
         flexDirection: position === 'top' ? 'column' : 'column-reverse',
         top:
           position === 'top'
@@ -75,24 +75,16 @@ const useToastViewportStyles = ({
     ],
   );
 
-const ToastQueueItem = ({
-  item,
-  position,
+const useToastLifecycle = ({
+  durationMs,
+  exiting,
   onDismiss,
 }: {
-  item: ToastItem;
-  position: ToastPosition;
+  durationMs: number;
+  exiting: boolean;
   onDismiss: () => void;
-}) => {
-  const exiting = item.exiting ?? false;
-  const { width: windowWidth } = useWindowDimensions();
-
-  useToastTimer({
-    durationMs: item.durationMs,
-    paused: false,
-    exiting,
-    onExpire: onDismiss,
-  });
+}): void => {
+  useToastTimer({ durationMs, paused: false, exiting, onExpire: onDismiss });
 
   const onDismissRef = useRef(onDismiss);
   onDismissRef.current = onDismiss;
@@ -104,7 +96,20 @@ const ToastQueueItem = ({
     );
     return () => clearTimeout(timeoutId);
   }, [exiting]);
+};
 
+const useToastMotion = ({
+  position,
+  exiting,
+  dismissible,
+  onDismiss,
+}: {
+  position: ToastPosition;
+  exiting: boolean;
+  dismissible: boolean;
+  onDismiss: () => void;
+}) => {
+  const { width: windowWidth } = useWindowDimensions();
   const enterTiming = useTimingConfig({ duration: 200, easing: 'easeIn' });
   const exitTiming = useTimingConfig({ duration: 200, easing: 'easeOut' });
   const enterOffset = position === 'top' ? -10 : 10;
@@ -113,6 +118,8 @@ const ToastQueueItem = ({
   const translateY = useSharedValue(enterOffset);
   const translateX = useSharedValue(0);
 
+  const onDismissRef = useRef(onDismiss);
+  onDismissRef.current = onDismiss;
   const dismissedViaSwipeRef = useRef(false);
   const handleSwipeDismissRef = useRef(() => {
     dismissedViaSwipeRef.current = true;
@@ -146,7 +153,7 @@ const ToastQueueItem = ({
   );
 
   const pan = Gesture.Pan()
-    .enabled(item.dismissible)
+    .enabled(dismissible)
     .activeOffsetX([-10, 10])
     .failOffsetY([-10, 10])
     .onUpdate((e) => {
@@ -166,17 +173,80 @@ const ToastQueueItem = ({
       }
     });
 
+  return { animatedStyle, pan };
+};
+
+const useToastCollapse = ({
+  position,
+  exiting,
+}: {
+  position: ToastPosition;
+  exiting: boolean;
+}) => {
+  const { theme } = useTheme();
+  const [measuredHeight, setMeasuredHeight] = useState<number>();
+  const handleLayout = useCallback((event: LayoutChangeEvent) => {
+    setMeasuredHeight(event.nativeEvent.layout.height);
+  }, []);
+
+  const collapseStyle = useMemo(() => {
+    const fullHeight =
+      measuredHeight === undefined
+        ? undefined
+        : measuredHeight + theme.spacings.s8;
+    return {
+      width: '100%',
+      justifyContent: position === 'top' ? 'flex-start' : 'flex-end',
+      height: exiting ? 0 : fullHeight,
+      transitionProperty: 'height',
+      transitionDuration: EXIT_ANIMATION_MS,
+      transitionTimingFunction: 'ease-out',
+    } as const;
+  }, [exiting, measuredHeight, position, theme.spacings.s8]);
+
+  return { collapseStyle, handleLayout };
+};
+
+const ToastQueueItem = ({
+  item,
+  position,
+  onDismiss,
+}: {
+  item: ToastItem;
+  position: ToastPosition;
+  onDismiss: () => void;
+}) => {
+  const exiting = item.exiting ?? false;
+
+  useToastLifecycle({ durationMs: item.durationMs, exiting, onDismiss });
+  const { animatedStyle, pan } = useToastMotion({
+    position,
+    exiting,
+    dismissible: item.dismissible,
+    onDismiss,
+  });
+  const { collapseStyle, handleLayout } = useToastCollapse({
+    position,
+    exiting,
+  });
+
   return (
-    <GestureDetector gesture={pan}>
-      <Animated.View testID='toast-entry' style={animatedStyle}>
-        <Toast
-          appearance={item.appearance}
-          loading={item.loading}
-          title={item.title}
-          action={item.action}
-        />
-      </Animated.View>
-    </GestureDetector>
+    <Animated.View style={collapseStyle}>
+      <GestureDetector gesture={pan}>
+        <Animated.View
+          testID='toast-entry'
+          style={animatedStyle}
+          onLayout={handleLayout}
+        >
+          <Toast
+            appearance={item.appearance}
+            loading={item.loading}
+            title={item.title}
+            action={item.action}
+          />
+        </Animated.View>
+      </GestureDetector>
+    </Animated.View>
   );
 };
 

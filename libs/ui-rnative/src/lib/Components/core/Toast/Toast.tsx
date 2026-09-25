@@ -31,50 +31,62 @@ const iconColorMap: Record<
   error: 'errorOnInteractive',
 };
 
-const useToastStyles = ({ hasLeading }: { hasLeading: boolean }) =>
+const useToastStyles = ({
+  hasLeading,
+  hasAction,
+}: {
+  hasLeading: boolean;
+  hasAction: boolean;
+}) =>
   useStyleSheet(
     (t) => ({
       root: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
+        gap: t.spacings.s8,
         minHeight: t.sizes.s56,
         width: '100%',
-        columnGap: t.spacings.s8,
-        rowGap: t.spacings.s4,
         borderRadius: t.borderRadius.md,
         backgroundColor: t.colors.bg.interactive,
         paddingVertical: t.spacings.s8,
-        paddingRight: t.spacings.s10,
+        paddingRight: t.spacings.s20,
         paddingLeft: hasLeading ? t.spacings.s12 : t.spacings.s16,
       },
-      content: {
+      iconWrapper: {
+        flexShrink: 0,
+        paddingTop: t.spacings.s10,
+      },
+      textAction: {
         flexDirection: 'row',
-        alignItems: 'center',
-        gap: t.spacings.s8,
-        minHeight: t.sizes.s40,
+        flexWrap: 'wrap',
+        alignItems: 'flex-start',
+        columnGap: t.spacings.s8,
+        rowGap: t.spacings.s4,
         flexGrow: 1,
         flexShrink: 1,
         flexBasis: 'auto',
       },
-      iconWrapper: {
-        flexShrink: 0,
-      },
       title: StyleSheet.flatten([
         t.typographies.body2,
-        { color: t.colors.text.onInteractive, flexShrink: 1 },
+        {
+          color: t.colors.text.onInteractive,
+          flexShrink: 0,
+          flexGrow: 1,
+          flexBasis: 'auto',
+          paddingTop: t.spacings.s10,
+          paddingBottom: hasAction ? undefined : t.spacings.s10,
+        },
       ]),
     }),
-    [hasLeading],
+    [hasLeading, hasAction],
   );
 
 /**
  * A single toast item: an inverted surface with a status icon or spinner, a
  * title that wraps up to five lines, and an optional action inline beside
  * the title. When the two cannot share a row, the action wraps onto its own
- * row, right-aligned. Dismissal is a swipe gesture, owned by `ToastProvider`
- * — this component never dismisses itself.
+ * row, under the title's left edge. Dismissal is a swipe gesture, owned by
+ * `ToastProvider` — this component never dismisses itself.
  *
  * This is the presentational piece. For the queue, timing and imperative API,
  * use `ToastProvider` + `useToast`.
@@ -95,20 +107,15 @@ export const Toast = ({
   loading = false,
   title,
   action,
-  lx = {},
-  style,
-  ref,
   ...props
 }: ToastProps) => {
   const hasLeading = loading || appearance !== 'info';
-  const styles = useToastStyles({ hasLeading });
+  const styles = useToastStyles({ hasLeading, hasAction: Boolean(action) });
   const IconComponent = appearance === 'info' ? null : iconsMap[appearance];
 
   return (
     <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.root, style])}
+      style={styles.root}
       accessibilityLiveRegion={
         appearance === 'warning' || appearance === 'error'
           ? 'assertive'
@@ -116,30 +123,30 @@ export const Toast = ({
       }
       {...props}
     >
-      <View style={styles.content}>
-        {loading ? (
-          <View style={styles.iconWrapper}>
-            <Spinner testID='toast-spinner' size={20} color='onInteractive' />
+      {loading ? (
+        <View style={styles.iconWrapper}>
+          <Spinner testID='toast-spinner' size={20} color='onInteractive' />
+        </View>
+      ) : (
+        IconComponent && (
+          <View testID='toast-icon' style={styles.iconWrapper}>
+            <IconComponent
+              size={20}
+              lx={{ color: iconColorMap[appearance as NonInfoAppearance] }}
+            />
           </View>
-        ) : (
-          IconComponent && (
-            <View testID='toast-icon' style={styles.iconWrapper}>
-              <IconComponent
-                size={20}
-                lx={{ color: iconColorMap[appearance as NonInfoAppearance] }}
-              />
-            </View>
-          )
-        )}
+        )
+      )}
+      <View testID='toast-text-action' style={styles.textAction}>
         <Text style={styles.title} numberOfLines={TITLE_MAX_LINES}>
           {title}
         </Text>
+        {action && (
+          <Button appearance='base' size='sm' onPress={action.onAction}>
+            {action.label}
+          </Button>
+        )}
       </View>
-      {action && (
-        <Button appearance='base' size='sm' onPress={action.onAction}>
-          {action.label}
-        </Button>
-      )}
     </Box>
   );
 };
