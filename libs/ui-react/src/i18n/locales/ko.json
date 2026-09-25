@@ -25,6 +25,9 @@
     "banner": {
       "closeAriaLabel": "닫기"
     },
+    "toast": {
+      "closeAriaLabel": "닫기"
+    },
     "link": {
       "opensInNewTabAriaLabel": "(새 탭에서 열기)"
     },

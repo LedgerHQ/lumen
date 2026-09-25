@@ -37,6 +37,7 @@ export * from './SegmentedControl';
 export * from './Select';
 export * from './SideBar';
 export * from './Skeleton';
+export * from './Toast';
 export * from './Spinner';
 export * from './Spot';
 export * from './Stepper';
