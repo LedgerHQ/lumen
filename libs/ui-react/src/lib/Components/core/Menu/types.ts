@@ -221,10 +221,8 @@ export type MenuSwitchItemProps = {
    * @default false
    */
   closeOnClick?: boolean;
-} & Pick<
-  MenuItemProps,
-  'className' | 'disabled' | 'label' | keyof ComponentPropsWithRef<'div'>
->;
+} & Pick<MenuItemProps, 'className' | 'disabled' | 'label'> &
+  ComponentPropsWithRef<'div'>;
 
 /**
  * Props for a Menu radio item component.
