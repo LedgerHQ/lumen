@@ -26,7 +26,7 @@ const statusIconMap: Record<Exclude<ToastAppearance, 'info'>, ReactNode> = {
  * spinner, a one-line title, an optional trailing action and a close button.
  *
  * This is the presentational piece. For the queue, timing and imperative API,
- * use `ToastProvider` + `useToast`.
+ * use `Toaster` + `toast`.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-toast--docs Guidelines}
  *

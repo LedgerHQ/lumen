@@ -1,10 +1,15 @@
 import {
-  createSafeContext,
-  createToastController,
-  useToastQueue,
+  resolveMaxItems,
+  toastStore,
   useToastTimer,
 } from '@ledgerhq/lumen-utils-shared';
-import { useEffect, useMemo, useRef, useState, type FocusEvent } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FocusEvent,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   collapseVariants,
@@ -14,19 +19,9 @@ import {
   slideExitVariants,
 } from './styles';
 import { Toast } from './Toast';
-import type {
-  ToastController,
-  ToastItem,
-  ToastPosition,
-  ToastProviderProps,
-} from './types';
+import type { ToastItem, ToasterProps, ToastPosition } from './types';
 
 const EXIT_ANIMATION_MS = 300;
-
-const [ToastContextProvider, useToastContext] =
-  createSafeContext<ToastController>('ToastProvider');
-
-export { useToastContext };
 
 const ToastQueueItem = ({
   item,
@@ -103,51 +98,52 @@ const ToastQueueItem = ({
 };
 
 /**
- * Provides the imperative toast controller to `useToast` and renders the
- * queue viewport in a portal on `document.body`. Wrap your app once; there is no
- * separate viewport component to mount.
+ * Subscribes to the module-level toast store and renders the queue viewport
+ * in a portal on `document.body`. Mount it once, anywhere in the tree — it
+ * takes no children. `toast.*` from `@ledgerhq/lumen-utils-shared` works even
+ * before this mounts, or from outside the React tree entirely.
+ *
+ * Mount exactly one `<Toaster />` for the whole app. Every instance renders
+ * the full queue, so a second one duplicates every toast on screen — mounting
+ * more than one logs a console warning in development.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-toast--docs Guidelines}
  *
  * @example
- * import { ToastProvider } from '@ledgerhq/lumen-ui-react';
+ * import { Toaster } from '@ledgerhq/lumen-ui-react';
  *
  * function App() {
  *   return (
- *     <ToastProvider position="bottom-right" maxItems={3}>
+ *     <>
+ *       <Toaster position="bottom-right" maxItems={3} />
  *       <Routes />
- *     </ToastProvider>
+ *     </>
  *   );
  * }
  */
-export const ToastProvider = ({
-  children,
+export const Toaster = ({
   maxItems = 3,
   position = 'bottom-right',
   durations,
-}: ToastProviderProps) => {
-  const {
-    items,
-    maxItems: slotCount,
-    add,
-    update,
-    dismiss,
-    dismissAll,
-  } = useToastQueue(maxItems, durations);
+}: ToasterProps) => {
+  const items = useSyncExternalStore(
+    toastStore.subscribe,
+    toastStore.getSnapshot,
+  );
   const [hovered, setHovered] = useState(false);
   const [focusWithin, setFocusWithin] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
+    return toastStore.registerRenderer();
   }, []);
 
-  const controller = useMemo(
-    () => createToastController({ add, update, dismiss, dismissAll }),
-    [add, update, dismiss, dismissAll],
-  );
+  useEffect(() => {
+    toastStore.configure({ maxItems, durations });
+  }, [maxItems, durations]);
 
-  const visibleItems = items.slice(0, slotCount);
+  const visibleItems = items.slice(0, resolveMaxItems(maxItems));
 
   const handleMouseEnter = () => setHovered(true);
   const handleMouseLeave = () => setHovered(false);
@@ -157,32 +153,28 @@ export const ToastProvider = ({
     setFocusWithin(false);
   };
 
-  return (
-    <ToastContextProvider value={controller}>
-      {children}
-      {mounted &&
-        createPortal(
-          // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-          <div
-            data-slot='toast-viewport'
-            className={positionVariants({ position })}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          >
-            {visibleItems.map((item) => (
-              <ToastQueueItem
-                key={item.id}
-                item={item}
-                position={position}
-                paused={hovered || focusWithin}
-                onDismiss={() => dismiss(item.id)}
-              />
-            ))}
-          </div>,
-          document.body,
-        )}
-    </ToastContextProvider>
+  if (!mounted) return null;
+
+  return createPortal(
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div
+      data-slot='toast-viewport'
+      className={positionVariants({ position })}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
+    >
+      {visibleItems.map((item) => (
+        <ToastQueueItem
+          key={item.id}
+          item={item}
+          position={position}
+          paused={hovered || focusWithin}
+          onDismiss={() => toastStore.dismiss(item.id)}
+        />
+      ))}
+    </div>,
+    document.body,
   );
 };

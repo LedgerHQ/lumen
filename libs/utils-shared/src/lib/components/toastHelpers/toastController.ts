@@ -1,3 +1,4 @@
+import { toastStore } from './toastStore';
 import type {
   ToastController,
   ToastNotifyOptions,
@@ -71,3 +72,10 @@ export const createToastController = ({
     },
   };
 };
+
+/**
+ * Module-level singleton bound to `toastStore`. Callable from anywhere —
+ * event handlers, thunks, sagas, non-component code — with no provider or
+ * render required.
+ */
+export const toast = createToastController(toastStore);

@@ -1,3 +1,4 @@
+import { toast } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Button } from '../Button';
@@ -9,9 +10,8 @@ import {
   SelectTrigger,
 } from '../Select';
 import { Toast } from './Toast';
-import { ToastProvider } from './ToastProvider';
+import { Toaster } from './Toaster';
 import type { ToastAppearance, ToastPosition } from './types';
-import { useToast } from './useToast';
 
 const meta = {
   component: Toast,
@@ -164,8 +164,6 @@ const PlaygroundControls = ({
   onAppearanceChange: (appearance: ToastAppearance) => void;
   onPositionChange: (position: ToastPosition) => void;
 }) => {
-  const toast = useToast();
-
   return (
     <div className='flex w-256 flex-wrap gap-8'>
       <Select
@@ -243,83 +241,77 @@ export const WithProvider: Story = {
     const [appearance, setAppearance] = useState<ToastAppearance>('info');
 
     return (
-      <ToastProvider
-        position={position}
-        maxItems={3}
-        durations={{
-          info: 3000,
-          success: 3000,
-          warning: 3000,
-          error: 3000,
-        }}
-      >
+      <>
+        <Toaster
+          position={position}
+          durations={{
+            info: 3000,
+            success: 3000,
+            warning: 3000,
+            error: 3000,
+          }}
+        />
         <PlaygroundControls
           position={position}
           appearance={appearance}
           onAppearanceChange={setAppearance}
           onPositionChange={setPosition}
         />
-      </ToastProvider>
+      </>
     );
   },
 };
 
-const UpdateDemo = () => {
-  const toast = useToast();
-
-  return (
-    <Button
-      appearance='base'
-      onClick={() => {
-        const { id } = toast.loading({ title: 'Uploading…' });
-        setTimeout(() => {
-          toast.update(id, {
-            appearance: 'success',
-            loading: false,
-            title: 'Upload complete',
-          });
-        }, 2000);
-      }}
-    >
-      Upload file
-    </Button>
-  );
-};
+const UpdateDemo = () => (
+  <Button
+    appearance='base'
+    onClick={() => {
+      const { id } = toast.loading({ title: 'Uploading…' });
+      setTimeout(() => {
+        toast.update(id, {
+          appearance: 'success',
+          loading: false,
+          title: 'Upload complete',
+        });
+      }, 2000);
+    }}
+  >
+    Upload file
+  </Button>
+);
 
 export const WithUpdate: Story = {
   render: () => (
-    <ToastProvider>
+    <>
+      <Toaster />
       <UpdateDemo />
-    </ToastProvider>
+    </>
   ),
 };
 
 const simulateSaveProfile = () =>
   new Promise<void>((resolve) => setTimeout(resolve, 2000));
 
-const PromiseDemo = () => {
-  const toast = useToast();
-
-  return (
-    <Button
-      appearance='base'
-      onClick={() =>
-        toast.promise(simulateSaveProfile(), {
-          loading: { title: 'Saving…' },
-          success: { title: 'Profile saved' },
-          error: { title: 'Could not save' },
-        })
-      }
-    >
-      Save profile
-    </Button>
-  );
-};
+const PromiseDemo = () => (
+  <Button
+    appearance='base'
+    onClick={() =>
+      toast.promise(simulateSaveProfile(), {
+        loading: { title: 'Saving…' },
+        success: { title: 'Profile saved' },
+        error: { title: 'Could not save' },
+      })
+    }
+  >
+    Save profile
+  </Button>
+);
 
 export const WithPromise: Story = {
   render: () => (
-    <ToastProvider>
+    <>
+      <Toaster />
       <PromiseDemo />
-    </ToastProvider>
+    </>
   ),
 };

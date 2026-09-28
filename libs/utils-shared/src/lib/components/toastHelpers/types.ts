@@ -59,6 +59,23 @@ export type ToastNotifyOptions = {
 export type ToastUpdateOptions = Partial<ToastNotifyOptions>;
 
 /**
+ * Toaster config applied to the store via `toastStore.configure`. Set by
+ * the mounted `<Toaster />` whenever its own props change.
+ */
+export type ToastStoreConfig = {
+  /**
+   * Maximum number of toasts visible at once. Non-positive-integer values
+   * fall back to the store's default.
+   */
+  maxItems: number;
+  /**
+   * Per-appearance duration overrides, layered over the Lumen status
+   * defaults.
+   */
+  durations?: Partial<Record<ToastAppearance, number>>;
+};
+
+/**
  * Per-state options for `toast.promise`. `appearance` and `loading` are
  * derived from the promise lifecycle, so they cannot be set here.
  */
@@ -106,7 +123,8 @@ export type ToastItem = {
 };
 
 /**
- * The imperative controller returned by `useToast`.
+ * The `toast` singleton. Call `notify`, the appearance shortcuts, or
+ * `promise` from anywhere, with no hook or provider.
  */
 export type ToastController = {
   /**

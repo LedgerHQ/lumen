@@ -1,24 +1,12 @@
+import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
-import { ToastProvider } from './ToastProvider';
-import type { ToastController, ToastProviderProps } from './types';
-import { useToast } from './useToast';
+import { Toaster } from './Toaster';
+import type { ToasterProps } from './types';
 
-let controller: ToastController;
-
-const Capture = () => {
-  controller = useToast();
-  return null;
-};
-
-const renderProvider = (props?: Omit<ToastProviderProps, 'children'>) =>
-  render(
-    <ToastProvider {...props}>
-      <Capture />
-    </ToastProvider>,
-  );
+const renderToaster = (props?: ToasterProps) => render(<Toaster {...props} />);
 
 const EXIT_ANIMATION_MS = 300;
 
@@ -30,7 +18,11 @@ const flushExit = (): void => {
 
 const CLOSE_LABEL = 'components.toast.closeAriaLabel';
 
-describe('ToastProvider', () => {
+describe('Toaster', () => {
+  beforeEach(() => {
+    resetToastStore();
+  });
+
   describe('Timing', () => {
     beforeEach(() => {
       vi.useFakeTimers();
@@ -44,17 +36,27 @@ describe('ToastProvider', () => {
     });
 
     it('should render a toast on notify', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.info({ title: 'Hello' });
+        toast.info({ title: 'Hello' });
       });
       expect(screen.getByText('Hello')).toBeInTheDocument();
     });
 
-    it('should auto-dismiss info after the short duration', () => {
-      renderProvider();
+    it('should show a toast that was notified before the toaster mounted', () => {
       act(() => {
-        controller.info({ title: 'Hello' });
+        toast.info({ title: 'Queued early' });
+      });
+      expect(screen.queryByText('Queued early')).not.toBeInTheDocument();
+
+      renderToaster();
+      expect(screen.getByText('Queued early')).toBeInTheDocument();
+    });
+
+    it('should auto-dismiss info after the short duration', () => {
+      renderToaster();
+      act(() => {
+        toast.info({ title: 'Hello' });
       });
 
       act(() => {
@@ -72,9 +74,9 @@ describe('ToastProvider', () => {
     });
 
     it('should keep warning toasts until dismissed', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.warning({ title: 'Careful' });
+        toast.warning({ title: 'Careful' });
       });
 
       act(() => {
@@ -84,10 +86,10 @@ describe('ToastProvider', () => {
     });
 
     it('should queue items past maxItems and promote them as slots free', () => {
-      renderProvider({ maxItems: 1 });
+      renderToaster({ maxItems: 1 });
       act(() => {
-        controller.info({ title: 'First' });
-        controller.info({ title: 'Second' });
+        toast.info({ title: 'First' });
+        toast.info({ title: 'Second' });
       });
 
       expect(screen.getByText('First')).toBeInTheDocument();
@@ -103,14 +105,14 @@ describe('ToastProvider', () => {
     });
 
     it('should not keep a per-item duration across an update that omits it', () => {
-      renderProvider();
+      renderToaster();
       let id = '';
       act(() => {
-        id = controller.loading({ title: 'Loading', duration: 10000 }).id;
+        id = toast.loading({ title: 'Loading', duration: 10000 }).id;
       });
 
       act(() => {
-        controller.update(id, {
+        toast.update(id, {
           appearance: 'success',
           loading: false,
           title: 'Done',
@@ -125,10 +127,10 @@ describe('ToastProvider', () => {
     });
 
     it('should restart the timer when a loading toast becomes a success', () => {
-      renderProvider();
+      renderToaster();
       let id = '';
       act(() => {
-        id = controller.loading({ title: 'Loading' }).id;
+        id = toast.loading({ title: 'Loading' }).id;
       });
 
       act(() => {
@@ -137,7 +139,7 @@ describe('ToastProvider', () => {
       expect(screen.getByText('Loading')).toBeInTheDocument();
 
       act(() => {
-        controller.update(id, {
+        toast.update(id, {
           appearance: 'success',
           loading: false,
           title: 'Done',
@@ -152,14 +154,18 @@ describe('ToastProvider', () => {
       expect(screen.queryByText('Done')).not.toBeInTheDocument();
     });
 
-    it('should pause timers while the viewport is hovered and restart on leave', () => {
-      renderProvider();
+    it('should pause timers while the viewport is hovered and resume the remaining time on leave', () => {
+      renderToaster();
       act(() => {
-        controller.info({ title: 'Hover me' });
+        toast.info({ title: 'Hover me' });
       });
 
       const viewport = document.querySelector('[data-slot="toast-viewport"]');
       expect(viewport).not.toBeNull();
+
+      act(() => {
+        vi.advanceTimersByTime(2000);
+      });
 
       fireEvent.mouseEnter(viewport as Element);
       act(() => {
@@ -169,16 +175,21 @@ describe('ToastProvider', () => {
 
       fireEvent.mouseLeave(viewport as Element);
       act(() => {
-        vi.advanceTimersByTime(5000);
+        vi.advanceTimersByTime(2999);
+      });
+      expect(screen.getByText('Hover me')).toBeInTheDocument();
+
+      act(() => {
+        vi.advanceTimersByTime(1);
       });
       flushExit();
       expect(screen.queryByText('Hover me')).not.toBeInTheDocument();
     });
 
     it('should stay paused when the pointer leaves while focus is still inside', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.info({
+        toast.info({
           title: 'Focus me',
           action: { label: 'Undo', onAction: () => {} },
         });
@@ -205,9 +216,9 @@ describe('ToastProvider', () => {
     });
 
     it('should stay paused while focus moves between controls of a toast', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.info({
+        toast.info({
           title: 'Tab me',
           action: { label: 'Undo', onAction: () => {} },
         });
@@ -240,9 +251,9 @@ describe('ToastProvider', () => {
     });
 
     it('should collapse the stack slot while exiting', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.warning({ title: 'Careful' });
+        toast.warning({ title: 'Careful' });
       });
 
       const slot = document.querySelector('[data-slot="toast-collapse"]');
@@ -257,9 +268,9 @@ describe('ToastProvider', () => {
     });
 
     it('should dismiss via the close button', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.warning({ title: 'Careful' });
+        toast.warning({ title: 'Careful' });
       });
 
       fireEvent.click(screen.getByRole('button', { name: CLOSE_LABEL }));
@@ -268,9 +279,9 @@ describe('ToastProvider', () => {
     });
 
     it('should not render a close button when dismissible is false', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.warning({ title: 'Sticky', dismissible: false });
+        toast.warning({ title: 'Sticky', dismissible: false });
       });
 
       expect(
@@ -279,15 +290,15 @@ describe('ToastProvider', () => {
     });
 
     it('should dismiss a single item by id and dismiss all', () => {
-      renderProvider();
+      renderToaster();
       let first = '';
       act(() => {
-        first = controller.warning({ title: 'A' }).id;
-        controller.warning({ title: 'B' });
+        first = toast.warning({ title: 'A' }).id;
+        toast.warning({ title: 'B' });
       });
 
       act(() => {
-        controller.dismiss(first);
+        toast.dismiss(first);
       });
       expect(screen.getByText('A')).toBeInTheDocument();
 
@@ -296,7 +307,7 @@ describe('ToastProvider', () => {
       expect(screen.getByText('B')).toBeInTheDocument();
 
       act(() => {
-        controller.dismissAll();
+        toast.dismissAll();
       });
       flushExit();
       expect(screen.queryByText('B')).not.toBeInTheDocument();
@@ -305,11 +316,7 @@ describe('ToastProvider', () => {
 
   describe('promise', () => {
     it('should move the toast from loading to success', async () => {
-      render(
-        <ToastProvider>
-          <Capture />
-        </ToastProvider>,
-      );
+      render(<Toaster />);
 
       let resolveFn: (value: string) => void = () => {};
       const promise = new Promise<string>((resolve) => {
@@ -317,7 +324,7 @@ describe('ToastProvider', () => {
       });
 
       act(() => {
-        controller.promise(promise, {
+        toast.promise(promise, {
           loading: { title: 'Saving' },
           success: { title: 'Saved' },
           error: { title: 'Failed' },
@@ -330,11 +337,7 @@ describe('ToastProvider', () => {
     });
 
     it('should drop the loading action when success omits it', async () => {
-      render(
-        <ToastProvider>
-          <Capture />
-        </ToastProvider>,
-      );
+      render(<Toaster />);
 
       let resolveFn: (value: string) => void = () => {};
       const promise = new Promise<string>((resolve) => {
@@ -342,7 +345,7 @@ describe('ToastProvider', () => {
       });
 
       act(() => {
-        controller.promise(promise, {
+        toast.promise(promise, {
           loading: {
             title: 'Saving',
             action: { label: 'Cancel', onAction: () => {} },
@@ -363,11 +366,7 @@ describe('ToastProvider', () => {
     });
 
     it('should drop the loading action when error omits it', async () => {
-      render(
-        <ToastProvider>
-          <Capture />
-        </ToastProvider>,
-      );
+      render(<Toaster />);
 
       let rejectFn: (reason: unknown) => void = () => {};
       const promise = new Promise<string>((_resolve, reject) => {
@@ -375,7 +374,7 @@ describe('ToastProvider', () => {
       });
 
       act(() => {
-        controller.promise(promise, {
+        toast.promise(promise, {
           loading: {
             title: 'Saving',
             action: { label: 'Cancel', onAction: () => {} },
@@ -396,11 +395,7 @@ describe('ToastProvider', () => {
     });
 
     it('should move the toast from loading to error on rejection', async () => {
-      render(
-        <ToastProvider>
-          <Capture />
-        </ToastProvider>,
-      );
+      render(<Toaster />);
 
       let rejectFn: (reason: unknown) => void = () => {};
       const promise = new Promise<string>((_resolve, reject) => {
@@ -408,7 +403,7 @@ describe('ToastProvider', () => {
       });
 
       act(() => {
-        controller.promise(promise, {
+        toast.promise(promise, {
           loading: { title: 'Saving' },
           success: { title: 'Saved' },
           error: { title: 'Failed' },
@@ -432,9 +427,9 @@ describe('ToastProvider', () => {
     ] as const)(
       'should slide in from the anchored edge for %s',
       (position, animationClass) => {
-        renderProvider({ position });
+        renderToaster({ position });
         act(() => {
-          controller.warning({ title: 'Hello' });
+          toast.warning({ title: 'Hello' });
         });
         expect(document.querySelector('[data-slot="toast-item"]')).toHaveClass(
           animationClass,
@@ -443,11 +438,20 @@ describe('ToastProvider', () => {
     );
   });
 
-  describe('useToast', () => {
-    it('should throw when used outside a provider', () => {
-      const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-      expect(() => render(<Capture />)).toThrow(/ToastProvider/);
-      errorSpy.mockRestore();
+  describe('Multiple instances', () => {
+    it('warns when a second Toaster mounts while one is already mounted', () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+      const first = renderToaster();
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      const second = renderToaster();
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+      expect(warnSpy.mock.calls[0][0]).toContain('<Toaster />');
+
+      first.unmount();
+      second.unmount();
+      warnSpy.mockRestore();
     });
   });
 });

@@ -2,7 +2,7 @@ import type {
   ToastAction,
   ToastAppearance,
 } from '@ledgerhq/lumen-utils-shared';
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef } from 'react';
 
 export type {
   ToastAction,
@@ -63,10 +63,9 @@ export type ToastProps = {
 } & Omit<ComponentPropsWithRef<'div'>, 'title'>;
 
 /**
- * Props for `ToastProvider`.
+ * Props for `Toaster`.
  */
-export type ToastProviderProps = {
-  children: ReactNode;
+export type ToasterProps = {
   /**
    * Maximum number of toasts visible at once. Must be a positive integer.
    * Extra items wait in a FIFO backlog and appear as visible slots free up.
