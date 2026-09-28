@@ -15,7 +15,13 @@
     "report": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx internals/lumen-adoption/src/report.ts"
+        "command": "npx tsx internals/lumen-adoption/src/report.ts --format markdown"
+      }
+    },
+    "report-summary": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/lumen-adoption/src/report.ts --format summary"
       }
     },
     "discover": {

@@ -9,14 +9,14 @@ description: >-
 # Lumen adoption report
 
 ```bash
-npx nx run lumen-adoption:report     # prints the table; also writes report.md/report.html/report.slack.txt
-npx nx run lumen-adoption:discover   # diffs data/consumers.json against a fresh code search, never writes it
+npx nx run lumen-adoption:report            # full markdown table (GitHub/PR/terminal)
+npx nx run lumen-adoption:report-summary    # Slack-ready bulleted summary instead
+npx nx run lumen-adoption:discover          # diffs data/consumers.json against a fresh code search, never writes it
 ```
 
 Logic and details live in
 [internals/lumen-adoption](../../../internals/lumen-adoption) — read its
-README and source rather than duplicating them here. Present the printed
-table to the user as-is; don't re-derive it. If asked for a Slack-ready
-version, use `report.slack.txt` rather than reformatting the markdown table
-yourself. To add a repo `discover` finds, hand-edit
+README and source rather than duplicating them here. Use `report` for a full
+table, `report-summary` for Slack — present whichever one printed as-is,
+don't reformat it yourself. To add a repo `discover` finds, hand-edit
 `internals/lumen-adoption/data/consumers.json`.

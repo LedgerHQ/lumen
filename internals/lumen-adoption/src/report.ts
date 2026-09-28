@@ -9,6 +9,7 @@ import {
   type LumenPackage,
 } from './config.js';
 import { classifyVersion } from './lib/classify.js';
+import { parseReportFormat } from './lib/cliArgs.js';
 import { getRepoFileContent } from './lib/github.js';
 import * as log from './lib/logging.js';
 import { getLatestVersion } from './lib/npmRegistry.js';
@@ -142,6 +143,12 @@ async function buildReport(): Promise<{
 }
 
 async function main(): Promise<void> {
+  // --format markdown (default): full table, printed below, for GitHub/PRs.
+  // --format summary: the same data as the terse Slack bullet list instead.
+  // Either way, all three report files are always written — this only picks
+  // what gets printed to stdout.
+  const format = parseReportFormat(process.argv.slice(2));
+
   const { rows, latestVersions } = await buildReport();
 
   const markdown = renderMarkdownReport(rows, latestVersions);
@@ -155,7 +162,7 @@ async function main(): Promise<void> {
   log.step(
     `Written ${REPORT_MARKDOWN_PATH}, ${REPORT_HTML_PATH}, ${REPORT_SLACK_PATH}\n`,
   );
-  console.log(markdown);
+  console.log(format === 'summary' ? slack : markdown);
 }
 
 main().catch((error: unknown) => {

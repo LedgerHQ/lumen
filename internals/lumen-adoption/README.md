@@ -8,14 +8,16 @@ Dev-only, no version plan needed — see `## Internals` in
 ## Usage
 
 ```bash
-npx nx run lumen-adoption:report     # writes report.md + report.html + report.slack.txt, prints the table
-npx nx run lumen-adoption:discover   # diffs data/consumers.json against a fresh code search — never writes it
+npx nx run lumen-adoption:report            # prints the full markdown table (--format markdown)
+npx nx run lumen-adoption:report-summary    # prints the Slack-ready bulleted summary instead (--format summary)
+npx nx run lumen-adoption:discover          # diffs data/consumers.json against a fresh code search — never writes it
 npx nx run lumen-adoption:test
 ```
 
-`report.slack.txt` is pre-formatted for pasting into Slack (a bulleted list
-grouped by severity, non-green rows only) — see `renderSlackReport` for why a
-table doesn't work there.
+Both `report` targets write all three output files every run —
+`report.md`, `report.html`, `report.slack.txt` — `--format` only picks what
+gets printed to stdout. Pass a different value directly if needed:
+`npx tsx internals/lumen-adoption/src/report.ts --format summary`.
 
 ## Design notes
 
