@@ -211,7 +211,7 @@ function useRootStyles({
         ...(tabLayout === 'fixed'
           ? { width: '100%' }
           : { alignSelf: 'flex-start' }),
-        borderRadius: t.borderRadius.md,
+        borderRadius: t.borderRadius.sm,
         backgroundColor:
           appearance === 'background' ? t.colors.bg.surface : 'transparent',
       },
