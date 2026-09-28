@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Box, RadialGradient, Text } from '../../primitives';
+import { Bell, Settings, Trash, Unlink } from '../../symbols';
 import { Button } from '../Button';
+import { MenuList, MenuListItem, MenuListSwitchItem } from '../MenuList';
 import { SearchInput } from '../SearchInput';
 import { Spot } from '../Spot';
 import { BottomSheet } from './BottomSheet';
@@ -930,6 +932,55 @@ export const WithFooter: Story = {
               Cancel
             </Button>
           </BottomSheetFooter>
+        </BottomSheet>
+      </Box>
+    );
+  },
+};
+
+export const WithMenuList: Story = {
+  args: {
+    snapPoints: null,
+    enableDynamicSizing: true,
+  },
+  render: (args) => {
+    const bottomSheetRef = useBottomSheetRef();
+
+    return (
+      <Box
+        lx={{
+          height: 's320',
+          width: 'full',
+          alignItems: 'center',
+          justifyContent: 'center',
+          paddingTop: 's32',
+        }}
+      >
+        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+          Toggle open
+        </Button>
+        <BottomSheet {...args} ref={bottomSheetRef}>
+          <BottomSheetView>
+            <BottomSheetHeader
+              title='Device Options'
+              density='compact'
+              description='Manage this device'
+            />
+            <MenuList>
+              <MenuListItem label='Rename device' icon={Settings} />
+              <MenuListItem label='Unlink device' icon={Unlink} />
+              <MenuListSwitchItem
+                label='Notifications'
+                icon={Bell}
+                defaultChecked
+              />
+              <MenuListItem
+                label='Remove device'
+                icon={Trash}
+                appearance='red'
+              />
+            </MenuList>
+          </BottomSheetView>
         </BottomSheet>
       </Box>
     );

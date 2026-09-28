@@ -1,12 +1,15 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import type { LumenTextStyle } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
+import { useControllableState } from '../../../utils';
 import { Box, Pressable, Text } from '../../primitives';
+import { Switch } from '../Switch';
 import type {
   MenuListItemAppearance,
   MenuListItemProps,
   MenuListProps,
+  MenuListSwitchItemProps,
 } from './types';
 
 const resolveContentColor = (
@@ -70,16 +73,8 @@ const useItemStyles = ({
  *   <MenuListItem icon={Trash} label="Remove" appearance="red" onPress={handleRemove} />
  * </MenuList>
  */
-export const MenuList = ({
-  children,
-  lx,
-  style,
-  ref,
-  ...props
-}: MenuListProps) => (
-  <Box lx={lx} style={style} ref={ref} {...props}>
-    {children}
-  </Box>
+export const MenuList = ({ children, ...props }: MenuListProps) => (
+  <Box {...props}>{children}</Box>
 );
 
 /**
@@ -157,6 +152,94 @@ const MenuListItemInner = ({
       <Text style={styles.label} numberOfLines={1}>
         {label}
       </Text>
+    </Box>
+  );
+};
+
+/**
+ * A toggleable action inside a `MenuList`: a label, an optional leading icon
+ * and a trailing `Switch`. Pressing anywhere on the item toggles the switch.
+ *
+ * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-menulist--docs Storybook}
+ *
+ * @example
+ * <MenuListSwitchItem label="Notifications" icon={Bell} defaultChecked />
+ */
+export const MenuListSwitchItem = ({
+  label,
+  icon: Icon,
+  disabled: disabledProp = false,
+  checked: checkedProp,
+  defaultChecked = false,
+  onCheckedChange: onCheckedChangeProp,
+  accessibilityState,
+  lx,
+  style,
+  ref,
+  ...props
+}: MenuListSwitchItemProps) => {
+  const disabled = useDisabledContext({
+    consumerName: 'MenuListSwitchItem',
+    mergeWith: { disabled: disabledProp },
+  });
+  const [checked, onCheckedChange] = useControllableState({
+    prop: checkedProp,
+    onChange: onCheckedChangeProp,
+    defaultProp: defaultChecked,
+  });
+
+  return (
+    <Pressable
+      ref={ref}
+      lx={lx}
+      style={style}
+      onPress={() => onCheckedChange(!checked)}
+      disabled={disabled}
+      accessibilityRole='switch'
+      accessibilityState={{ ...accessibilityState, disabled, checked }}
+      {...props}
+    >
+      {({ pressed }) => (
+        <MenuListSwitchItemInner
+          label={label}
+          icon={Icon}
+          pressed={pressed}
+          disabled={disabled}
+          checked={!!checked}
+        />
+      )}
+    </Pressable>
+  );
+};
+
+const MenuListSwitchItemInner = ({
+  label,
+  icon: Icon,
+  pressed,
+  disabled,
+  checked,
+}: {
+  label: string;
+  icon: MenuListSwitchItemProps['icon'];
+  pressed: boolean;
+  disabled: boolean;
+  checked: boolean;
+}) => {
+  const styles = useItemStyles({ pressed, disabled, appearance: 'base' });
+
+  return (
+    <Box style={styles.container}>
+      {Icon && <Icon size={24} color={resolveContentColor(disabled, 'base')} />}
+      <Text style={styles.label} numberOfLines={1}>
+        {label}
+      </Text>
+      <View
+        pointerEvents='none'
+        accessibilityElementsHidden
+        importantForAccessibility='no-hide-descendants'
+      >
+        <Switch checked={checked} disabled={disabled} />
+      </View>
     </Box>
   );
 };

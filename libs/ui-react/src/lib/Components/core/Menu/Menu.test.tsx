@@ -6,6 +6,7 @@ import {
   MenuContent,
   MenuItem,
   MenuCheckboxItem,
+  MenuSwitchItem,
   MenuRadioGroup,
   MenuRadioItem,
   createMenuRadioGroup,
@@ -108,6 +109,82 @@ describe('Menu', () => {
     fireEvent.click(screen.getByText('Checkbox Item'));
 
     expect(onCheckedChange).toHaveBeenCalledWith(true, expect.any(Object));
+  });
+
+  it('handles controlled switch items', async () => {
+    const onCheckedChange = vi.fn();
+
+    render(
+      <Menu>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
+        <MenuContent>
+          <MenuSwitchItem checked={false} onCheckedChange={onCheckedChange}>
+            Switch Item
+          </MenuSwitchItem>
+        </MenuContent>
+      </Menu>,
+    );
+
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Switch Item')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Switch Item'));
+
+    expect(onCheckedChange).toHaveBeenCalledWith(true);
+  });
+
+  it('toggles uncontrolled switch items on click', async () => {
+    render(
+      <Menu>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
+        <MenuContent>
+          <MenuSwitchItem defaultChecked={false}>Switch Item</MenuSwitchItem>
+        </MenuContent>
+      </Menu>,
+    );
+
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Switch Item')).toBeInTheDocument();
+    });
+
+    expect(screen.getByText('Switch Item')).toHaveAttribute('data-unchecked');
+
+    fireEvent.click(screen.getByText('Switch Item'));
+
+    await waitFor(() => {
+      expect(screen.getByText('Switch Item')).toHaveAttribute('data-checked');
+    });
+  });
+
+  it('does not toggle disabled switch items', async () => {
+    const onCheckedChange = vi.fn();
+
+    render(
+      <Menu>
+        <MenuTrigger render={<button type='button'>Open Menu</button>} />
+        <MenuContent>
+          <MenuSwitchItem
+            disabled
+            defaultChecked={false}
+            onCheckedChange={onCheckedChange}
+          >
+            Switch Item
+          </MenuSwitchItem>
+        </MenuContent>
+      </Menu>,
+    );
+
+    openMenu(screen.getByRole('button', { name: 'Open Menu' }));
+    await waitFor(() => {
+      expect(screen.getByText('Switch Item')).toBeInTheDocument();
+    });
+
+    fireEvent.click(screen.getByText('Switch Item'));
+
+    expect(onCheckedChange).not.toHaveBeenCalled();
   });
 
   it('handles radio items', async () => {

@@ -6,10 +6,17 @@ import {
   Button,
   MenuList,
   MenuListItem,
+  MenuListSwitchItem,
   Text,
   useBottomSheetRef,
 } from '@ledgerhq/lumen-ui-rnative';
-import { Devices, Trash, Unlink } from '@ledgerhq/lumen-ui-rnative/symbols';
+import {
+  Eye,
+  Devices,
+  Lock,
+  Trash,
+  Unlink,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
 
 const SectionLabel = ({ children }: { children: string }) => (
   <Text
@@ -40,6 +47,12 @@ export default function MenuLists() {
         />
       </MenuList>
 
+      <SectionLabel>Switch items</SectionLabel>
+      <MenuList>
+        <MenuListSwitchItem icon={Eye} label='Show currency' />
+        <MenuListSwitchItem icon={Lock} label='Auto-lock' defaultChecked />
+      </MenuList>
+
       <SectionLabel>Disabled items</SectionLabel>
       <MenuList>
         <MenuListItem
@@ -55,6 +68,7 @@ export default function MenuLists() {
           disabled
           onPress={() => ''}
         />
+        <MenuListSwitchItem icon={Eye} label='Show currency' disabled />
       </MenuList>
 
       <SectionLabel>Inside BottomSheet</SectionLabel>
@@ -80,6 +94,7 @@ export default function MenuLists() {
                   ref.current?.dismiss();
                 }}
               />
+              <MenuListSwitchItem icon={Eye} label='Show currency' />
               <MenuListItem
                 icon={Trash}
                 label='Remove'
