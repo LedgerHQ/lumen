@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import type { LumenPackage } from '../config.js';
-import { renderMarkdownTable, renderSummaryLine } from './render.js';
+import {
+  renderMarkdownTable,
+  renderSummaryLine,
+  renderSlackReport,
+} from './render.js';
 import type { ReportRow } from './render.js';
 
 const latestVersions: Record<LumenPackage, string> = {
@@ -73,5 +77,21 @@ describe('renderSummaryLine', () => {
     expect(summary).toContain('ui-react@0.1.59');
     expect(summary).toContain('🟢 3 current');
     expect(summary).toContain('🔴 2 far behind/diverged');
+  });
+});
+
+describe('renderSlackReport', () => {
+  it('fences the table and drops fully-current rows', () => {
+    const slack = renderSlackReport(rows, latestVersions);
+    expect(slack).toContain('```');
+    expect(slack).toContain('LedgerHQ/app-openpgp');
+    expect(slack).not.toContain('LedgerHQ/ledger-live');
+  });
+
+  it('skips the fence and celebrates when everything is current', () => {
+    const allCurrent = [rows[0]];
+    const slack = renderSlackReport(allCurrent, latestVersions);
+    expect(slack).not.toContain('```');
+    expect(slack).toContain('latest version');
   });
 });

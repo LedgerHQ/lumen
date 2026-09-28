@@ -5,6 +5,7 @@ import {
   CONSUMERS_DATA_PATH,
   REPORT_MARKDOWN_PATH,
   REPORT_HTML_PATH,
+  REPORT_SLACK_PATH,
   type LumenPackage,
 } from './config.js';
 import { classifyVersion } from './lib/classify.js';
@@ -14,6 +15,7 @@ import { getLatestVersion } from './lib/npmRegistry.js';
 import {
   renderMarkdownReport,
   renderHtmlReport,
+  renderSlackReport,
   type Cell,
   type ReportRow,
 } from './lib/render.js';
@@ -144,11 +146,15 @@ async function main(): Promise<void> {
 
   const markdown = renderMarkdownReport(rows, latestVersions);
   const html = renderHtmlReport(rows, latestVersions);
+  const slack = renderSlackReport(rows, latestVersions);
 
   writeFileSync(REPORT_MARKDOWN_PATH, `${markdown}\n`);
   writeFileSync(REPORT_HTML_PATH, html);
+  writeFileSync(REPORT_SLACK_PATH, `${slack}\n`);
 
-  log.step(`Written ${REPORT_MARKDOWN_PATH} and ${REPORT_HTML_PATH}\n`);
+  log.step(
+    `Written ${REPORT_MARKDOWN_PATH}, ${REPORT_HTML_PATH}, ${REPORT_SLACK_PATH}\n`,
+  );
   console.log(markdown);
 }
 

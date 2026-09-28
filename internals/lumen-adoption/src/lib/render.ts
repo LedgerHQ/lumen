@@ -107,6 +107,35 @@ export function renderMarkdownReport(
   ].join('\n');
 }
 
+function isRowFullyCurrent(row: ReportRow): boolean {
+  return LUMEN_PACKAGES.every((pkg) => {
+    const status = row.cells[pkg].status;
+    return status === 'not-used' || status === 'current';
+  });
+}
+
+/**
+ * Slack's mrkdwn doesn't render markdown tables at all — pasted raw, this
+ * table would just show as broken pipe-delimited text. Wrapping it in a
+ * ``` code fence renders it monospaced, which is what the equal-width
+ * column padding in `renderMarkdownTable` is for. Only non-green rows are
+ * included, since Slack messages read worse than a terminal/PR view for a
+ * long list that's mostly "nothing to see here".
+ */
+export function renderSlackReport(
+  rows: ReportRow[],
+  latestVersions: Record<LumenPackage, string>,
+): string {
+  const summary = renderSummaryLine(rows, latestVersions);
+  const flaggedRows = rows.filter((row) => !isRowFullyCurrent(row));
+
+  if (flaggedRows.length === 0) {
+    return `${summary}\n\nAll tracked repos are on the latest version. 🎉`;
+  }
+
+  return [summary, '```', renderMarkdownTable(flaggedRows), '```'].join('\n');
+}
+
 const STATUS_COLOR: Record<AdoptionStatus, string> = {
   current: '#1e7d32',
   behind: '#8a6100',

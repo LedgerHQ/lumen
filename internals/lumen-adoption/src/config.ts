@@ -18,6 +18,7 @@ export const CONSUMERS_DATA_PATH =
   'internals/lumen-adoption/data/consumers.json';
 export const REPORT_MARKDOWN_PATH = 'internals/lumen-adoption/report.md';
 export const REPORT_HTML_PATH = 'internals/lumen-adoption/report.html';
+export const REPORT_SLACK_PATH = 'internals/lumen-adoption/report.slack.txt';
 
 export const GITHUB_ORG = 'LedgerHQ';
 export const SOURCE_REPO = 'LedgerHQ/lumen';

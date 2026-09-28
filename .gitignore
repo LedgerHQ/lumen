@@ -140,3 +140,4 @@ mise.toml
 # generated reports
 internals/lumen-adoption/report.md
 internals/lumen-adoption/report.html
+internals/lumen-adoption/report.slack.txt

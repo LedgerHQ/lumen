@@ -8,10 +8,13 @@ Dev-only, no version plan needed — see `## Internals` in
 ## Usage
 
 ```bash
-npx nx run lumen-adoption:report     # writes report.md + report.html, prints the table
+npx nx run lumen-adoption:report     # writes report.md + report.html + report.slack.txt, prints the table
 npx nx run lumen-adoption:discover   # diffs data/consumers.json against a fresh code search — never writes it
 npx nx run lumen-adoption:test
 ```
+
+`report.slack.txt` is pre-formatted for pasting into Slack (fenced, non-green
+rows only) — see `renderSlackReport` for why plain markdown doesn't work there.
 
 ## Design notes
 
