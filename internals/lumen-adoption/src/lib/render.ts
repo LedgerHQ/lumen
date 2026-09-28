@@ -62,14 +62,38 @@ export function renderSummaryLine(
   ].join('\n');
 }
 
+/** Code-point count, not UTF-16 length — a single emoji is one code point.
+ * Doesn't account for terminal font rendering width (see the README note on
+ * status emoji), but is the right unit for "characters" everywhere else. */
+function codePointLength(text: string): number {
+  return [...text].length;
+}
+
+function padCell(text: string, width: number): string {
+  return text + ' '.repeat(Math.max(0, width - codePointLength(text)));
+}
+
 export function renderMarkdownTable(rows: ReportRow[]): string {
-  const header = `| Repo | ${LUMEN_PACKAGES.map(shortPackageName).join(' | ')} |`;
-  const separator = `|---|${LUMEN_PACKAGES.map(() => '---').join('|')}|`;
-  const body = rows.map((row) => {
-    const cells = LUMEN_PACKAGES.map((pkg) => cellText(row.cells[pkg]));
-    return `| ${row.repo} | ${cells.join(' | ')} |`;
-  });
-  return [header, separator, ...body].join('\n');
+  const headerCells = ['Repo', ...LUMEN_PACKAGES.map(shortPackageName)];
+  const bodyCells = rows.map((row) => [
+    row.repo,
+    ...LUMEN_PACKAGES.map((pkg) => cellText(row.cells[pkg])),
+  ]);
+
+  const columnWidths = headerCells.map((header, columnIndex) =>
+    Math.max(
+      codePointLength(header),
+      ...bodyCells.map((cells) => codePointLength(cells[columnIndex])),
+    ),
+  );
+
+  const formatRow = (cells: string[]): string =>
+    `| ${cells.map((cell, columnIndex) => padCell(cell, columnWidths[columnIndex])).join(' | ')} |`;
+  const separator = `|${columnWidths.map((width) => '-'.repeat(width + 2)).join('|')}|`;
+
+  return [formatRow(headerCells), separator, ...bodyCells.map(formatRow)].join(
+    '\n',
+  );
 }
 
 export function renderMarkdownReport(

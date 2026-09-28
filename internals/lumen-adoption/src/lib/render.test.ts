@@ -51,12 +51,19 @@ const rows: ReportRow[] = [
 describe('renderMarkdownTable', () => {
   it('renders one row per repo with a status emoji per package', () => {
     const table = renderMarkdownTable(rows);
-    expect(table).toContain(
-      '| LedgerHQ/ledger-live | 🟢 0.1.59 | 🟢 0.1.62 | 🟢 0.1.29 |',
+    expect(table).toMatch(
+      /\| LedgerHQ\/ledger-live\s+\| 🟢 0\.1\.59\s+\| 🟢 0\.1\.62\s+\| 🟢 0\.1\.29\s+\|/,
     );
-    expect(table).toContain(
-      '| LedgerHQ/app-openpgp | 🔴 0.1.40 (19 behind) | — | 🔴 0.1.17 (12 behind) |',
+    expect(table).toMatch(
+      /\| LedgerHQ\/app-openpgp\s+\| 🔴 0\.1\.40 \(19 behind\)\s+\| —\s+\| 🔴 0\.1\.17 \(12 behind\)\s+\|/,
     );
+  });
+
+  it('pads every row (including the header) to the same column widths', () => {
+    const lines = renderMarkdownTable(rows).split('\n');
+    const [lineWidth] = new Set(lines.map((line) => [...line].length));
+    expect(new Set(lines.map((line) => [...line].length)).size).toBe(1);
+    expect(lineWidth).toBeGreaterThan(0);
   });
 });
 

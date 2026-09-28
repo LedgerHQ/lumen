@@ -24,6 +24,7 @@ import {
   stripSemverRangePrefix,
   readYamlScalarPath,
 } from './lib/resolveVersion.js';
+import { sortRowsByAdoption } from './lib/sortRows.js';
 
 type ConsumerEntry = {
   repo: string;
@@ -135,7 +136,7 @@ async function buildReport(): Promise<{
     log.ok(consumer.repo);
   }
 
-  return { rows, latestVersions };
+  return { rows: sortRowsByAdoption(rows), latestVersions };
 }
 
 async function main(): Promise<void> {
