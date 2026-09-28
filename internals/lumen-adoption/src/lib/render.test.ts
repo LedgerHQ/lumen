@@ -50,6 +50,22 @@ const rows: ReportRow[] = [
       },
     },
   },
+  {
+    repo: 'LedgerHQ/borrow-live-app',
+    cells: {
+      '@ledgerhq/lumen-ui-react': {
+        status: 'behind',
+        version: '0.1.58',
+        patchesBehind: 1,
+      },
+      '@ledgerhq/lumen-ui-rnative': { status: 'not-used' },
+      '@ledgerhq/lumen-design-core': {
+        status: 'behind',
+        version: '0.1.28',
+        patchesBehind: 1,
+      },
+    },
+  },
 ];
 
 describe('renderMarkdownTable', () => {
@@ -81,17 +97,25 @@ describe('renderSummaryLine', () => {
 });
 
 describe('renderSlackReport', () => {
-  it('fences the table and drops fully-current rows', () => {
+  it('groups non-current rows into a red and a yellow bulleted section', () => {
     const slack = renderSlackReport(rows, latestVersions);
-    expect(slack).toContain('```');
-    expect(slack).toContain('LedgerHQ/app-openpgp');
+    expect(slack).not.toContain('|'); // no table — bullets only
+    expect(slack).toContain('*🔴 Far behind / diverged*');
+    expect(slack).toContain(
+      '• *LedgerHQ/app-openpgp* — ui-react 19 behind, design-core 12 behind',
+    );
+    expect(slack).toContain('*🟡 Behind*');
+    expect(slack).toContain(
+      '• *LedgerHQ/borrow-live-app* — ui-react 1 behind, design-core 1 behind',
+    );
     expect(slack).not.toContain('LedgerHQ/ledger-live');
   });
 
-  it('skips the fence and celebrates when everything is current', () => {
+  it('celebrates when everything is current, with no section headings', () => {
     const allCurrent = [rows[0]];
     const slack = renderSlackReport(allCurrent, latestVersions);
-    expect(slack).not.toContain('```');
+    expect(slack).not.toContain('*🔴');
+    expect(slack).not.toContain('*🟡');
     expect(slack).toContain('latest version');
   });
 });

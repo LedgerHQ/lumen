@@ -1,5 +1,6 @@
 import { LUMEN_PACKAGES, type LumenPackage } from '../config.js';
 import type { AdoptionStatus } from './classify.js';
+import { rowSeverityTier } from './sortRows.js';
 
 export type Cell =
   | { status: 'not-used' }
@@ -107,33 +108,63 @@ export function renderMarkdownReport(
   ].join('\n');
 }
 
-function isRowFullyCurrent(row: ReportRow): boolean {
-  return LUMEN_PACKAGES.every((pkg) => {
-    const status = row.cells[pkg].status;
-    return status === 'not-used' || status === 'current';
-  });
+/** One package's status as a fragment for the Slack bullet line, e.g.
+ * `ui-react 20 behind` — `undefined` for `not-used`/`current` cells, since a
+ * repo's Slack line only calls out what needs attention. */
+function cellFragment(
+  packageName: LumenPackage,
+  cell: Cell,
+): string | undefined {
+  if (cell.status === 'not-used' || cell.status === 'current') return undefined;
+
+  const short = shortPackageName(packageName);
+  if (cell.status === 'unresolved') return `${short} unresolved`;
+  if (cell.status === 'diverged') return `${short} major/minor mismatch`;
+  return `${short} ${cell.patchesBehind} behind`;
 }
 
+function rowBullet(row: ReportRow): string {
+  const fragments = LUMEN_PACKAGES.map((pkg) =>
+    cellFragment(pkg, row.cells[pkg]),
+  ).filter((fragment): fragment is string => fragment !== undefined);
+  return `• *${row.repo}* — ${fragments.join(', ')}`;
+}
+
+const TIER_HEADING: Record<'red' | 'behind', string> = {
+  red: '🔴 Far behind / diverged',
+  behind: '🟡 Behind',
+};
+
 /**
- * Slack's mrkdwn doesn't render markdown tables at all — pasted raw, this
- * table would just show as broken pipe-delimited text. Wrapping it in a
- * ``` code fence renders it monospaced, which is what the equal-width
- * column padding in `renderMarkdownTable` is for. Only non-green rows are
- * included, since Slack messages read worse than a terminal/PR view for a
- * long list that's mostly "nothing to see here".
+ * Slack's mrkdwn doesn't render markdown tables — even fenced, a wide table
+ * wraps badly in a narrow message pane (especially on mobile), which is what
+ * made the first version of this report hard to read. A bulleted list
+ * grouped by severity uses only Slack's native bold/bullet formatting, so it
+ * never depends on column alignment surviving Slack's renderer. Fully-green
+ * rows are omitted — a Slack message is for what needs attention, not a
+ * full inventory (see `renderMarkdownReport`/`renderHtmlReport` for that).
  */
 export function renderSlackReport(
   rows: ReportRow[],
   latestVersions: Record<LumenPackage, string>,
 ): string {
   const summary = renderSummaryLine(rows, latestVersions);
-  const flaggedRows = rows.filter((row) => !isRowFullyCurrent(row));
 
-  if (flaggedRows.length === 0) {
+  const redRows = rows.filter((row) => rowSeverityTier(row) === 'red');
+  const behindRows = rows.filter((row) => rowSeverityTier(row) === 'behind');
+
+  if (redRows.length === 0 && behindRows.length === 0) {
     return `${summary}\n\nAll tracked repos are on the latest version. 🎉`;
   }
 
-  return [summary, '```', renderMarkdownTable(flaggedRows), '```'].join('\n');
+  const sections = [
+    redRows.length > 0 &&
+      [`*${TIER_HEADING.red}*`, ...redRows.map(rowBullet)].join('\n'),
+    behindRows.length > 0 &&
+      [`*${TIER_HEADING.behind}*`, ...behindRows.map(rowBullet)].join('\n'),
+  ].filter((section): section is string => section !== false);
+
+  return [summary, '', sections.join('\n\n')].join('\n');
 }
 
 const STATUS_COLOR: Record<AdoptionStatus, string> = {

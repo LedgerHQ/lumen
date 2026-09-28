@@ -23,6 +23,18 @@ function rowSeverity(row: ReportRow): number {
   return worst;
 }
 
+export type SeverityTier = 'current' | 'behind' | 'red';
+
+/** Same three-tier grouping `sortRowsByAdoption` sorts by, exposed for
+ * renderers that group rows (e.g. the Slack report) rather than just order
+ * them. `far-behind`, `diverged` and `unresolved` all collapse to `red`. */
+export function rowSeverityTier(row: ReportRow): SeverityTier {
+  const rank = rowSeverity(row);
+  if (rank === 0) return 'current';
+  if (rank === 1) return 'behind';
+  return 'red';
+}
+
 /** A patch count to sort by: `not-used`/`current` are 0 (nothing to flag),
  * `diverged`/`unresolved` sort last within their tier since there's no
  * meaningful "how many patches behind" for them. */

@@ -13,8 +13,9 @@ npx nx run lumen-adoption:discover   # diffs data/consumers.json against a fresh
 npx nx run lumen-adoption:test
 ```
 
-`report.slack.txt` is pre-formatted for pasting into Slack (fenced, non-green
-rows only) — see `renderSlackReport` for why plain markdown doesn't work there.
+`report.slack.txt` is pre-formatted for pasting into Slack (a bulleted list
+grouped by severity, non-green rows only) — see `renderSlackReport` for why a
+table doesn't work there.
 
 ## Design notes
 
