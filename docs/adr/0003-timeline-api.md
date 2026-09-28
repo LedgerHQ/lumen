@@ -1,14 +1,9 @@
-# ADR 0003 — Timeline API
+# Timeline API
 
-- **Status:** Accepted
 - **Date:** 2026-09-27
 - **References:**
   - [Figma — Timeline](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=21938-58196)
   - [ReUI Timeline](https://reui.io/docs/components/base/timeline)
-
-`Timeline` is a vertical compound component in `libs/ui-react` and `libs/ui-rnative`. The public names, defaults, and behaviour below are the same on both platforms. Web parts also accept `div` props. Native parts accept the usual view props.
-
-The indicator and the line are drawn by `TimelineItem`. They are not public parts.
 
 ## Usage
 
@@ -121,6 +116,7 @@ Omit a part to hide it. A `Tag` goes in a `TimelineItemContentRow` beside the ti
 
 ## Decisions
 
+- **The indicator and the line are drawn by TimelineItem**. They are not public parts.
 - **No `type` prop.** Figma splits progress and display into two components. The public API uses one. The neutral timeline is the absence of a current step.
 - **The line is derived from `currentStep`.** ReUI does the same: a separator turns done when the next item is completed (`step <= activeStep`). There is no per-item connector prop. The line above an item continues from the previous item's completion.
 - **The indicator is not a slot.** `TimelineItem` picks it. Neutral dot when there is no current step. Success or empty circle from `currentStep`. `status` covers error, pending, and loading, which a single step number cannot describe.
