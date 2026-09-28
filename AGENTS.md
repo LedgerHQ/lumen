@@ -38,6 +38,7 @@ no, it belongs here — codegen, ETL, external-API sync and their input data.
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
 | `internals/repo-tools` | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md` |
+| `internals/lumen-adoption` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md` |
 
 Rules for adding one:
 
@@ -122,6 +123,7 @@ cross-platform and routes internally by lib (web vs React Native) using the
 | opening a PR from the current branch (manual — run `/open-pr`)            | `open-pr`                |
 | reviewing a PR, a branch, or code changes                                 | `pr-review`              |
 | running Nx tasks/generators, or asking workspace questions                | `nx`                     |
+| checking Lumen version adoption across consumer repos                     | `lumen-adoption-report`  |
 
 
 

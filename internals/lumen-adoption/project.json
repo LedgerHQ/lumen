@@ -1,0 +1,28 @@
+{
+  "name": "lumen-adoption",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "internals/lumen-adoption/src",
+  "projectType": "library",
+  "tags": ["scope:internal", "type:tooling"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "internals/lumen-adoption"
+      }
+    },
+    "report": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/lumen-adoption/src/report.ts"
+      }
+    },
+    "discover": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/lumen-adoption/src/discover.ts"
+      }
+    }
+  }
+}
