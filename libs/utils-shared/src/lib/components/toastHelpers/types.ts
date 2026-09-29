@@ -59,23 +59,6 @@ export type ToastNotifyOptions = {
 export type ToastUpdateOptions = Partial<ToastNotifyOptions>;
 
 /**
- * Toaster config applied to the store via `toastStore.configure`. Set by
- * the mounted `<Toaster />` whenever its own props change.
- */
-export type ToastStoreConfig = {
-  /**
-   * Maximum number of toasts visible at once. Non-positive-integer values
-   * fall back to the store's default.
-   */
-  maxItems: number;
-  /**
-   * Per-appearance duration overrides, layered over the Lumen status
-   * defaults.
-   */
-  durations?: Partial<Record<ToastAppearance, number>>;
-};
-
-/**
  * Per-state options for `toast.promise`. `appearance` and `loading` are
  * derived from the promise lifecycle, so they cannot be set here.
  */
@@ -103,18 +86,12 @@ export type ToastItem = {
   loading: boolean;
   title: string;
   /**
-   * Resolved lifetime in milliseconds. `Infinity` means the item persists
-   * until dismissed or updated.
+   * Per-item duration as passed to `toast.*`. The Toaster resolves the
+   * effective lifetime against its own `durations`.
    */
-  durationMs: number;
+  duration?: number;
   dismissible: boolean;
   action?: ToastAction;
-  /**
-   * Set when the item was added while every visible slot was taken, so it
-   * waited in the backlog. The view uses it to animate the promotion from
-   * behind the stack rather than from the anchored edge.
-   */
-  queued?: boolean;
   /**
    * Set on the first `dismiss`. A second `dismiss` after the exit animation
    * drops the item from the list.
@@ -158,8 +135,9 @@ export type ToastController = {
     id: string;
   };
   /**
-   * Patches a live toast. Recomputes `durationMs` when appearance, loading,
-   * or duration changes (e.g. a loading toast becoming a success). Pass
+   * Patches a live toast. Changing appearance or loading without a
+   * `duration` drops the previous per-item duration (e.g. a loading toast
+   * becoming a success gets the success timing). Pass
    * `action: undefined` to remove a trailing action.
    */
   update: (id: string, options: ToastUpdateOptions) => void;

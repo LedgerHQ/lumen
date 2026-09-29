@@ -2,7 +2,6 @@ import type {
   ToastAppearance,
   ToastItem,
   ToastNotifyOptions,
-  ToastStoreConfig,
   ToastUpdateOptions,
 } from './types';
 
@@ -24,7 +23,7 @@ const DEFAULT_MAX_ITEMS = 3;
 export const resolveMaxItems = (maxItems: number): number =>
   Number.isInteger(maxItems) && maxItems >= 1 ? maxItems : DEFAULT_MAX_ITEMS;
 
-const resolveDurationMs = (
+export const resolveDurationMs = (
   item: {
     appearance: ToastAppearance;
     loading: boolean;
@@ -51,26 +50,15 @@ const createToastId = (): string => {
   return `toast-${Date.now()}-${fallbackIdCounter}`;
 };
 
-const toItem = (
-  id: string,
-  options: ToastNotifyOptions,
-  durations?: Partial<Record<ToastAppearance, number>>,
-): ToastItem => {
-  const appearance = options.appearance ?? 'info';
-  const loading = options.loading ?? false;
-  return {
-    id,
-    appearance,
-    loading,
-    title: options.title,
-    durationMs: resolveDurationMs(
-      { appearance, loading, duration: options.duration },
-      durations,
-    ),
-    dismissible: options.dismissible ?? true,
-    action: options.action,
-  };
-};
+const toItem = (id: string, options: ToastNotifyOptions): ToastItem => ({
+  id,
+  appearance: options.appearance ?? 'info',
+  loading: options.loading ?? false,
+  title: options.title,
+  duration: options.duration,
+  dismissible: options.dismissible ?? true,
+  action: options.action,
+});
 
 const stripUndefined = (patch: ToastUpdateOptions): ToastUpdateOptions => {
   const result: ToastUpdateOptions = {};
@@ -84,8 +72,6 @@ const stripUndefined = (patch: ToastUpdateOptions): ToastUpdateOptions => {
 
 let items: ToastItem[] = [];
 const listeners = new Set<() => void>();
-let resolvedMaxItems = DEFAULT_MAX_ITEMS;
-let durations: Partial<Record<ToastAppearance, number>> | undefined;
 let mountedRenderers = 0;
 
 const notify = (): void => {
@@ -99,28 +85,9 @@ const subscribe = (listener: () => void): (() => void) => {
 
 const getSnapshot = (): ToastItem[] => items;
 
-/**
- * Applies toaster config (slot count, duration overrides). Called by
- * the mounted `<Toaster />` whenever its props change; safe to call before
- * anything has mounted since `add`/`update` fall back to the defaults above.
- */
-const configure = ({
-  maxItems,
-  durations: nextDurations,
-}: ToastStoreConfig): void => {
-  resolvedMaxItems = resolveMaxItems(maxItems);
-  durations = nextDurations;
-};
-
 const add = (options: ToastNotifyOptions): string => {
   const id = createToastId();
-  items = [
-    ...items,
-    {
-      ...toItem(id, options, durations),
-      queued: items.length >= resolvedMaxItems,
-    },
-  ];
+  items = [...items, toItem(id, options)];
   notify();
   return id;
 };
@@ -129,27 +96,18 @@ const update = (id: string, rawPatch: ToastUpdateOptions): void => {
   const index = items.findIndex((item) => item.id === id);
   if (index === -1) return;
 
-  const current = items[index];
-  const { duration, ...fields } = stripUndefined(rawPatch);
+  const patch = stripUndefined(rawPatch);
+  // A timing change without an explicit duration drops the previous per-item
+  // one, so a loading toast turning into a success gets the success timing.
   const timingChanged =
-    duration !== undefined ||
-    fields.loading !== undefined ||
-    fields.appearance !== undefined;
-
-  const next = timingChanged
-    ? {
-        ...current,
-        ...fields,
-        durationMs: resolveDurationMs(
-          {
-            appearance: fields.appearance ?? current.appearance,
-            loading: fields.loading ?? current.loading,
-            duration,
-          },
-          durations,
-        ),
-      }
-    : { ...current, ...fields };
+    patch.duration !== undefined ||
+    patch.loading !== undefined ||
+    patch.appearance !== undefined;
+  const next = {
+    ...items[index],
+    ...patch,
+    ...(timingChanged && { duration: patch.duration }),
+  };
 
   items = items.map((item, i) => (i === index ? next : item));
   notify();
@@ -159,20 +117,16 @@ const dismiss = (id: string): void => {
   const index = items.findIndex((item) => item.id === id);
   if (index === -1) return;
 
-  const item = items[index];
-  items =
-    item.exiting || index >= resolvedMaxItems
-      ? items.filter((entry) => entry.id !== id)
-      : items.map((entry) =>
-          entry.id === id ? { ...entry, exiting: true } : entry,
-        );
+  items = items[index].exiting
+    ? items.filter((entry) => entry.id !== id)
+    : items.map((entry) =>
+        entry.id === id ? { ...entry, exiting: true } : entry,
+      );
   notify();
 };
 
 const dismissAll = (): void => {
-  items = items
-    .filter((_, index) => index < resolvedMaxItems)
-    .map((item) => ({ ...item, exiting: true }));
+  items = items.map((item) => ({ ...item, exiting: true }));
   notify();
 };
 
@@ -204,14 +158,14 @@ const registerRenderer = (): (() => void) => {
  * `useSyncExternalStore`; `createToastController` builds the imperative
  * `toast.*` API on top of `add`/`update`/`dismiss`/`dismissAll`.
  *
- * Duration is resolved at add/update. `dismiss` is two-phase for visible
- * items: the first call flags `exiting` so the wrapper can animate, the
- * second drops it. Backlog items are not mounted, so they drop immediately.
+ * The store only holds what `toast.*` was called with; anything that depends
+ * on `<Toaster />` props (duration, visible slots) is resolved by the Toaster.
+ * `dismiss` is two-phase: the first call flags `exiting` so the view can
+ * animate, the second drops it.
  */
 export const toastStore = {
   subscribe,
   getSnapshot,
-  configure,
   registerRenderer,
   add,
   update,
@@ -226,7 +180,5 @@ export const toastStore = {
 export const resetToastStore = (): void => {
   items = [];
   listeners.clear();
-  resolvedMaxItems = DEFAULT_MAX_ITEMS;
-  durations = undefined;
   mountedRenderers = 0;
 };

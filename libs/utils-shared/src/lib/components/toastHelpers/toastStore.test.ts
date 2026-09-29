@@ -1,110 +1,24 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { resetToastStore, resolveMaxItems, toastStore } from './toastStore';
+import {
+  resetToastStore,
+  resolveDurationMs,
+  resolveMaxItems,
+  toastStore,
+} from './toastStore';
 
 describe('toastStore', () => {
   beforeEach(() => {
     resetToastStore();
-    toastStore.configure({ maxItems: 3 });
-  });
-
-  describe('duration resolution', () => {
-    it('applies the Lumen default per appearance', () => {
-      toastStore.add({ appearance: 'info', title: 'Info' });
-      toastStore.add({ appearance: 'success', title: 'Success' });
-      toastStore.add({ appearance: 'warning', title: 'Warning' });
-      toastStore.add({ appearance: 'error', title: 'Error' });
-
-      const [info, success, warning, error] = toastStore.getSnapshot();
-      expect(info.durationMs).toBe(5000);
-      expect(success.durationMs).toBe(5000);
-      expect(warning.durationMs).toBe(Infinity);
-      expect(error.durationMs).toBe(Infinity);
-    });
-
-    it('persists loading items regardless of appearance', () => {
-      toastStore.add({
-        appearance: 'success',
-        loading: true,
-        title: 'Uploading',
-      });
-
-      expect(toastStore.getSnapshot()[0].durationMs).toBe(Infinity);
-    });
-
-    it('lets a per-item duration win over the appearance default', () => {
-      toastStore.add({ appearance: 'info', title: 'Custom', duration: 1234 });
-
-      expect(toastStore.getSnapshot()[0].durationMs).toBe(1234);
-    });
-
-    it('lets toaster duration overrides win over the default, but not over a per-item duration', () => {
-      toastStore.configure({ maxItems: 3, durations: { info: 8000 } });
-
-      toastStore.add({ appearance: 'info', title: 'Overridden' });
-      toastStore.add({
-        appearance: 'info',
-        title: 'Still per-item',
-        duration: 5000,
-      });
-
-      const [overridden, perItem] = toastStore.getSnapshot();
-      expect(overridden.durationMs).toBe(8000);
-      expect(perItem.durationMs).toBe(5000);
-    });
-
-    it('treats a resolved 0 as persist (Infinity), from a per-item duration, a toaster override, or the appearance default', () => {
-      toastStore.configure({ maxItems: 3, durations: { success: 0 } });
-
-      toastStore.add({ appearance: 'error', title: 'Default persists' });
-      toastStore.add({ appearance: 'success', title: 'Override persists' });
-      toastStore.add({
-        appearance: 'info',
-        title: 'Per-item persists',
-        duration: 0,
-      });
-
-      const [defaultPersists, overridePersists, perItemPersists] =
-        toastStore.getSnapshot();
-      expect(defaultPersists.durationMs).toBe(Infinity);
-      expect(overridePersists.durationMs).toBe(Infinity);
-      expect(perItemPersists.durationMs).toBe(Infinity);
-    });
-  });
-
-  describe('backlog', () => {
-    it('flags only the items added while every visible slot is taken', () => {
-      toastStore.configure({ maxItems: 1 });
-
-      toastStore.add({ title: 'Visible' });
-      toastStore.add({ title: 'Backlog' });
-
-      const [visible, backlog] = toastStore.getSnapshot();
-      expect(visible.queued).toBe(false);
-      expect(backlog.queued).toBe(true);
-    });
   });
 
   describe('update', () => {
-    it('recomputes durationMs when appearance/loading changes (e.g. loading -> success)', () => {
-      const id = toastStore.add({ title: 'Loading', loading: true });
-      expect(toastStore.getSnapshot()[0].durationMs).toBe(Infinity);
-
-      toastStore.update(id, {
-        appearance: 'success',
-        loading: false,
-        title: 'Done',
-      });
-      expect(toastStore.getSnapshot()[0].durationMs).toBe(5000);
-      expect(toastStore.getSnapshot()[0].title).toBe('Done');
-    });
-
-    it('leaves durationMs untouched when the patch does not affect timing', () => {
+    it('keeps the per-item duration when the patch does not affect timing', () => {
       const id = toastStore.add({ title: 'Original', duration: 1234 });
 
       toastStore.update(id, { title: 'Renamed' });
 
-      expect(toastStore.getSnapshot()[0].durationMs).toBe(1234);
+      expect(toastStore.getSnapshot()[0].duration).toBe(1234);
       expect(toastStore.getSnapshot()[0].title).toBe('Renamed');
     });
 
@@ -150,28 +64,16 @@ describe('toastStore', () => {
       expect(toastStore.getSnapshot()).toHaveLength(0);
     });
 
-    it('removes a backlog item immediately, without the exiting phase', () => {
-      toastStore.configure({ maxItems: 1 });
-      toastStore.add({ title: 'Visible' });
-      const backlogId = toastStore.add({ title: 'Backlog' });
-
-      toastStore.dismiss(backlogId);
-      const snapshot = toastStore.getSnapshot();
-      expect(snapshot).toHaveLength(1);
-      expect(snapshot[0].title).toBe('Visible');
-    });
-
-    it('dismissAll flags visible items as exiting and drops the backlog outright', () => {
-      toastStore.configure({ maxItems: 1 });
-      toastStore.add({ title: 'Visible' });
-      toastStore.add({ title: 'Backlog' });
+    it('dismissAll flags every item as exiting', () => {
+      toastStore.add({ title: 'A' });
+      toastStore.add({ title: 'B' });
 
       toastStore.dismissAll();
 
-      const snapshot = toastStore.getSnapshot();
-      expect(snapshot).toHaveLength(1);
-      expect(snapshot[0].title).toBe('Visible');
-      expect(snapshot[0].exiting).toBe(true);
+      expect(toastStore.getSnapshot().map((item) => item.exiting)).toEqual([
+        true,
+        true,
+      ]);
     });
 
     it('is a no-op for an unknown id', () => {
@@ -182,33 +84,6 @@ describe('toastStore', () => {
 
       expect(toastStore.getSnapshot()).toBe(before);
     });
-  });
-
-  describe('maxItems', () => {
-    it.each([1.5, Number.NaN, -1, 0, Number.POSITIVE_INFINITY])(
-      'falls back to 3 when maxItems is %s',
-      (maxItems) => {
-        toastStore.configure({ maxItems });
-
-        toastStore.add({ title: 'A' });
-        toastStore.add({ title: 'B' });
-        toastStore.add({ title: 'C' });
-        toastStore.add({ title: 'D' });
-
-        const snapshot = toastStore.getSnapshot();
-        expect(snapshot.map((item) => item.queued)).toEqual([
-          false,
-          false,
-          false,
-          true,
-        ]);
-
-        const thirdId = snapshot[2].id;
-        toastStore.dismiss(thirdId);
-        expect(toastStore.getSnapshot()[2].exiting).toBe(true);
-        expect(toastStore.getSnapshot()).toHaveLength(4);
-      },
-    );
   });
 
   describe('subscribe', () => {
@@ -287,5 +162,44 @@ describe('resolveMaxItems', () => {
 
   it('accepts any positive integer', () => {
     expect(resolveMaxItems(5)).toBe(5);
+  });
+});
+
+describe('resolveDurationMs', () => {
+  it('applies the Lumen default per appearance, and persists loading items', () => {
+    expect(resolveDurationMs({ appearance: 'info', loading: false })).toBe(
+      5000,
+    );
+    expect(resolveDurationMs({ appearance: 'error', loading: false })).toBe(
+      Infinity,
+    );
+    expect(resolveDurationMs({ appearance: 'info', loading: true })).toBe(
+      Infinity,
+    );
+  });
+
+  it('lets a per-item duration win over toaster overrides, which win over the default', () => {
+    const durations = { info: 8000 };
+    expect(
+      resolveDurationMs({ appearance: 'info', loading: false }, durations),
+    ).toBe(8000);
+    expect(
+      resolveDurationMs(
+        { appearance: 'info', loading: false, duration: 1234 },
+        durations,
+      ),
+    ).toBe(1234);
+  });
+
+  it('treats a resolved 0 as persist', () => {
+    expect(
+      resolveDurationMs(
+        { appearance: 'success', loading: false },
+        { success: 0 },
+      ),
+    ).toBe(Infinity);
+    expect(
+      resolveDurationMs({ appearance: 'info', loading: false, duration: 0 }),
+    ).toBe(Infinity);
   });
 });

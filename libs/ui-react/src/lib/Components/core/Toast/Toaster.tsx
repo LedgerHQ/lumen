@@ -1,6 +1,8 @@
 import {
+  resolveDurationMs,
   resolveMaxItems,
   toastStore,
+  useToastBacklog,
   useToastTimer,
 } from '@ledgerhq/lumen-utils-shared';
 import {
@@ -30,11 +32,15 @@ const getServerSnapshot = (): ToastItem[] => NO_TOASTS;
 
 const ToastQueueItem = ({
   item,
+  durationMs,
+  queued,
   position,
   paused,
   onDismiss,
 }: {
   item: ToastItem;
+  durationMs: number;
+  queued: boolean;
   position: ToastPosition;
   paused: boolean;
   onDismiss: () => void;
@@ -44,7 +50,7 @@ const ToastQueueItem = ({
   const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
 
   useToastTimer({
-    durationMs: item.durationMs,
+    durationMs,
     paused,
     exiting,
     onExpire: onDismiss,
@@ -74,7 +80,7 @@ const ToastQueueItem = ({
   const edge = position.startsWith('top') ? 'top' : 'bottom';
   const resolveMotionClass = (): string => {
     if (exiting) return slideExitVariants({ position });
-    if (item.queued) return queuedEnterVariants({ edge });
+    if (queued) return queuedEnterVariants({ edge });
     return slideEnterVariants({ position });
   };
 
@@ -145,11 +151,9 @@ export const Toaster = ({
     return toastStore.registerRenderer();
   }, []);
 
-  useEffect(() => {
-    toastStore.configure({ maxItems, durations });
-  }, [maxItems, durations]);
-
-  const visibleItems = items.slice(0, resolveMaxItems(maxItems));
+  const visibleSlots = resolveMaxItems(maxItems);
+  const visibleItems = items.slice(0, visibleSlots);
+  const isQueued = useToastBacklog(items, visibleSlots);
 
   const handleMouseEnter = () => setHovered(true);
   const handleMouseLeave = () => setHovered(false);
@@ -175,6 +179,8 @@ export const Toaster = ({
         <ToastQueueItem
           key={item.id}
           item={item}
+          durationMs={resolveDurationMs(item, durations)}
+          queued={isQueued(item.id)}
           position={position}
           paused={hovered || focusWithin}
           onDismiss={() => toastStore.dismiss(item.id)}

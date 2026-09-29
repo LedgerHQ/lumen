@@ -1,5 +1,6 @@
 import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { useLayoutEffect } from 'react';
 import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
@@ -52,6 +53,30 @@ describe('Toaster', () => {
 
       renderToaster();
       expect(screen.getByText('Queued early')).toBeInTheDocument();
+    });
+
+    it('should apply Toaster props to toasts fired before its effects run', () => {
+      const EarlyNotifier = () => {
+        useLayoutEffect(() => {
+          toast.info({ title: 'First' });
+          toast.info({ title: 'Second' });
+        }, []);
+        return null;
+      };
+      render(
+        <>
+          <EarlyNotifier />
+          <Toaster maxItems={1} durations={{ info: 1000 }} />
+        </>,
+      );
+
+      expect(screen.queryByText('Second')).not.toBeInTheDocument();
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      flushExit();
+      expect(screen.queryByText('First')).not.toBeInTheDocument();
+      expect(screen.getByText('Second')).toBeInTheDocument();
     });
 
     it('should auto-dismiss info after the short duration', () => {
