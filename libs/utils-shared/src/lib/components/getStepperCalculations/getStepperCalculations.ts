@@ -1,5 +1,5 @@
 export type StepperCalculationsInput = {
-  /** Current step number (1-based). Use 0 or negative for minimal dot. */
+  /** Current step number (1-based). Use 0 or negative for empty progress. */
   currentStep: number;
   /** Total number of steps. */
   totalSteps: number;
@@ -24,12 +24,14 @@ export type StepperCalculationsOutput = {
   cy: number;
   /** Full circle circumference. */
   circumference: number;
-  /** strokeDasharray for the gray track circle. */
-  trackDashArray: string;
-  /** strokeDasharray for the progress (purple) circle. */
+  /** dasharray for the gray track and progress circles. */
   progressDashArray: string;
-  /** strokeDashoffset for the progress (purple) circle. */
+  /** strokeDasharray for the mask circle that reveals the progress. */
+  progressMaskDashArray: string;
+  /** strokeDashoffset for the mask circle; animate it to sweep clockwise. */
   progressDashOffset: number;
+  /** Rotation in degrees (around the center) to apply to the mask circle. */
+  progressMaskRotation: number;
 };
 
 /**
@@ -71,16 +73,10 @@ export const getStepperCalculations = ({
   const SEGMENT_GAP = 12;
   const segmentLength = circumference / totalSteps - SEGMENT_GAP;
 
-  const filledLength =
-    currentStep === 0
-      ? 0
-      : currentStep === totalSteps
-        ? circumference
-        : currentStep * segmentLength + SEGMENT_GAP * (currentStep - 1);
-
-  const trackDashArray = `${segmentLength} ${SEGMENT_GAP}`;
-  const progressDashArray = `${circumference} ${circumference}`;
-  const progressDashOffset = circumference - filledLength;
+  const progressDashArray = `${segmentLength} ${SEGMENT_GAP}`;
+  const progressMaskDashArray = `${circumference} ${circumference}`;
+  const progressDashOffset = circumference * (1 - progress);
+  const progressMaskRotation = -((SEGMENT_GAP / 2 / r) * 180) / Math.PI;
 
   return {
     displayLabel,
@@ -89,8 +85,9 @@ export const getStepperCalculations = ({
     cx,
     cy,
     circumference,
-    trackDashArray,
     progressDashArray,
+    progressMaskDashArray,
     progressDashOffset,
+    progressMaskRotation,
   };
 };

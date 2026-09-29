@@ -2,14 +2,14 @@ import {
   getStepperCalculations,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
-import { useEffect } from 'react';
+import { useEffect, useId } from 'react';
 import Animated, {
   cancelAnimation,
   useAnimatedProps,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import Svg, { Circle } from 'react-native-svg';
+import Svg, { Circle, Defs, Mask } from 'react-native-svg';
 import { useCommonTranslation } from '../../../../i18n';
 import { useTheme } from '../../../../styles';
 import { useTimingConfig } from '../../animations/useTimingConfig';
@@ -56,7 +56,7 @@ const useAnimatedProgress = ({
  *
  * @example
  * <Stepper currentStep={1} totalSteps={4} />
- * <Stepper currentStep={0} totalSteps={9} disabled /> // Shows minimal dot, disabled style
+ * <Stepper currentStep={0} totalSteps={9} disabled /> // Empty progress, disabled style
  */
 export const Stepper = ({
   lx = {},
@@ -71,6 +71,7 @@ export const Stepper = ({
     consumerName: 'Stepper',
     mergeWith: { disabled: disabledProp },
   });
+  const maskId = useId();
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
 
@@ -79,9 +80,10 @@ export const Stepper = ({
     r,
     cx,
     cy,
-    trackDashArray,
     progressDashArray,
+    progressMaskDashArray,
     progressDashOffset,
+    progressMaskRotation,
   } = getStepperCalculations({
     currentStep,
     totalSteps,
@@ -136,9 +138,32 @@ export const Stepper = ({
           stroke={theme.colors.border.mutedSubtle}
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
-          strokeDasharray={trackDashArray}
+          strokeDasharray={progressDashArray}
         />
-        <AnimatedCircle
+        <Defs>
+          <Mask
+            id={maskId}
+            maskUnits='userSpaceOnUse'
+            x={0}
+            y={0}
+            width={SIZE}
+            height={SIZE}
+          >
+            <AnimatedCircle
+              cx={cx}
+              cy={cy}
+              r={r}
+              fill='none'
+              stroke='white'
+              strokeWidth={STROKE_WIDTH}
+              strokeDasharray={progressMaskDashArray}
+              rotation={progressMaskRotation}
+              origin={`${cx}, ${cy}`}
+              animatedProps={animatedProgress}
+            />
+          </Mask>
+        </Defs>
+        <Circle
           cx={cx}
           cy={cy}
           r={r}
@@ -151,7 +176,7 @@ export const Stepper = ({
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={progressDashArray}
-          animatedProps={animatedProgress}
+          mask={`url(#${maskId})`}
         />
       </Svg>
       <Box
