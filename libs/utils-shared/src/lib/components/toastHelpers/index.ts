@@ -1,4 +1,5 @@
 export { useToastBacklog } from './useToastBacklog';
+export { EXIT_ANIMATION_MS, useToastLifecycle } from './useToastLifecycle';
 export { useToastTimer } from './useToastTimer';
 export { createToastController, toast } from './toastController';
 export {

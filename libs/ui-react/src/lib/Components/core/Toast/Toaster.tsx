@@ -3,7 +3,7 @@ import {
   resolveMaxItems,
   toastStore,
   useToastBacklog,
-  useToastTimer,
+  useToastLifecycle,
 } from '@ledgerhq/lumen-utils-shared';
 import {
   useEffect,
@@ -22,8 +22,6 @@ import {
 } from './styles';
 import { Toast } from './Toast';
 import type { ToastItem, ToasterProps, ToastPosition } from './types';
-
-const EXIT_ANIMATION_MS = 300;
 
 // Toasts only come from client-side events, so the server always renders an
 // empty queue. Module-level so React sees the same reference on every call.
@@ -49,12 +47,7 @@ const ToastQueueItem = ({
   const contentRef = useRef<HTMLDivElement>(null);
   const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
 
-  useToastTimer({
-    durationMs,
-    paused,
-    exiting,
-    onExpire: onDismiss,
-  });
+  useToastLifecycle({ durationMs, paused, exiting, onDismiss });
 
   useEffect(() => {
     const element = contentRef.current;
@@ -65,17 +58,6 @@ const ToastQueueItem = ({
     observer.observe(element);
     return () => observer.disconnect();
   }, []);
-
-  const onDismissRef = useRef(onDismiss);
-  onDismissRef.current = onDismiss;
-  useEffect(() => {
-    if (!exiting) return;
-    const timeoutId = setTimeout(
-      () => onDismissRef.current(),
-      EXIT_ANIMATION_MS,
-    );
-    return () => clearTimeout(timeoutId);
-  }, [exiting]);
 
   const edge = position.startsWith('top') ? 'top' : 'bottom';
   const resolveMotionClass = (): string => {
