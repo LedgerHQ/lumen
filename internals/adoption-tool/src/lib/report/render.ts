@@ -1,15 +1,7 @@
 import { LUMEN_PACKAGES, type LumenPackage } from '../../config.js';
 import type { AdoptionStatus } from './classify.js';
 import { rowSeverityTier } from './sortRows.js';
-
-export type Cell =
-  | { status: 'not-used' }
-  | { status: AdoptionStatus; version: string; patchesBehind?: number };
-
-export type ReportRow = {
-  repo: string;
-  cells: Record<LumenPackage, Cell>;
-};
+import type { Cell, LatestVersions, ReportRow } from './types.js';
 
 const STATUS_EMOJI: Record<AdoptionStatus, string> = {
   current: '🟢',
@@ -23,7 +15,8 @@ function cellText(cell: Cell): string {
   if (cell.status === 'not-used') return '—';
 
   const emoji = STATUS_EMOJI[cell.status];
-  if (cell.status === 'unresolved') return `${emoji} unresolved`;
+  if (cell.status === 'unresolved')
+    return `${emoji} unresolved (${cell.reason})`;
   if (cell.status === 'diverged')
     return `${emoji} ${cell.version} (major/minor mismatch)`;
   if (cell.status === 'current') return `${emoji} ${cell.version}`;
@@ -34,11 +27,8 @@ function shortPackageName(packageName: LumenPackage): string {
   return packageName.replace('@ledgerhq/lumen-', '');
 }
 
-export function renderSummaryLine(
-  rows: ReportRow[],
-  latestVersions: Record<LumenPackage, string>,
-): string {
-  const counts = {
+function countStatuses(rows: ReportRow[]): Record<AdoptionStatus, number> {
+  const counts: Record<AdoptionStatus, number> = {
     current: 0,
     behind: 0,
     'far-behind': 0,
@@ -52,6 +42,14 @@ export function renderSummaryLine(
       counts[cell.status] += 1;
     }
   }
+  return counts;
+}
+
+export function renderSummaryLine(
+  rows: ReportRow[],
+  latestVersions: LatestVersions,
+): string {
+  const counts = countStatuses(rows);
 
   const latestLine = LUMEN_PACKAGES.map(
     (pkg) => `${shortPackageName(pkg)}@${latestVersions[pkg]}`,
@@ -78,7 +76,9 @@ export function renderMarkdownTable(rows: ReportRow[]): string {
   const headerCells = ['Repo', ...LUMEN_PACKAGES.map(shortPackageName)];
   const bodyCells = rows.map((row) => [
     row.repo,
-    ...LUMEN_PACKAGES.map((pkg) => cellText(row.cells[pkg])),
+    ...LUMEN_PACKAGES.map((pkg) =>
+      cellText(row.cells[pkg]).replace(/\|/g, '\\|'),
+    ),
   ]);
 
   const columnWidths = headerCells.map((header, columnIndex) =>
@@ -97,14 +97,19 @@ export function renderMarkdownTable(rows: ReportRow[]): string {
   );
 }
 
+const VERSION_SOURCE_NOTE =
+  "Versions come from each repo's declared dependency (package.json or pnpm catalog), not its lockfile — a `^`/`~` range shows its lower bound.";
+
 export function renderMarkdownReport(
   rows: ReportRow[],
-  latestVersions: Record<LumenPackage, string>,
+  latestVersions: LatestVersions,
 ): string {
   return [
     renderSummaryLine(rows, latestVersions),
     '',
     renderMarkdownTable(rows),
+    '',
+    `_${VERSION_SOURCE_NOTE}_`,
   ].join('\n');
 }
 
@@ -153,7 +158,7 @@ const TIER_HEADING: Record<'red' | 'behind' | 'current', string> = {
  */
 export function renderSlackReport(
   rows: ReportRow[],
-  latestVersions: Record<LumenPackage, string>,
+  latestVersions: LatestVersions,
 ): string {
   const summary = renderSummaryLine(rows, latestVersions);
 
@@ -215,7 +220,7 @@ function htmlCell(cell: Cell): string {
 
 export function renderHtmlReport(
   rows: ReportRow[],
-  latestVersions: Record<LumenPackage, string>,
+  latestVersions: LatestVersions,
 ): string {
   const header = LUMEN_PACKAGES.map(
     (pkg) => `<th>${shortPackageName(pkg)}</th>`,
@@ -250,7 +255,27 @@ export function renderHtmlReport(
 ${body}
 </tbody>
 </table>
+<p><small>${htmlEscape(VERSION_SOURCE_NOTE)}</small></p>
 </body>
 </html>
 `;
+}
+
+/** Machine-readable snapshot for diffing runs over time — the markdown table
+ * is for people, this is what a dashboard or trend script should read. */
+export function renderJsonReport(
+  rows: ReportRow[],
+  latestVersions: LatestVersions,
+  generatedAt: Date,
+): string {
+  return JSON.stringify(
+    {
+      generatedAt: generatedAt.toISOString(),
+      latest: latestVersions,
+      summary: countStatuses(rows),
+      rows,
+    },
+    null,
+    2,
+  );
 }

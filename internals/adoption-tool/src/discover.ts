@@ -1,14 +1,12 @@
-import { readFileSync } from 'node:fs';
-import {
-  LUMEN_PACKAGES,
-  GITHUB_ORG,
-  SOURCE_REPO,
-  CONSUMERS_DATA_PATH,
-} from './config.js';
+import { LUMEN_PACKAGES, GITHUB_ORG, SOURCE_REPO } from './config.js';
 import { diffRegistry } from './lib/discover/discoverDiff.js';
-import type { ConsumerEntry } from './lib/shared/consumers.js';
+import { loadConsumers } from './lib/shared/consumers.js';
 import { searchPackageJsonUsage } from './lib/shared/github.js';
 import * as log from './lib/shared/logging.js';
+
+// A big monorepo (ledger-live) can have dozens of workspaces on `catalog:`;
+// listing them all buries the few worth a look.
+const MAX_UNTRACKED_LISTED = 8;
 
 /**
  * Best-effort refresh check: re-runs the GitHub code search that originally
@@ -18,9 +16,7 @@ import * as log from './lib/shared/logging.js';
  * a human to confirm before they change the deterministic `report` run.
  */
 async function main(): Promise<void> {
-  const consumers = JSON.parse(
-    readFileSync(CONSUMERS_DATA_PATH, 'utf-8'),
-  ) as ConsumerEntry[];
+  const consumers = loadConsumers();
 
   log.step(`Searching GitHub code search across org:${GITHUB_ORG}...`);
   const foundPathsByRepo = new Map<string, Set<string>>();
@@ -35,13 +31,17 @@ async function main(): Promise<void> {
     log.ok(`${pkg}: ${hits.length} package.json hits`);
   }
 
-  const { newRepos, missingRepos, stalePaths } = diffRegistry(
+  const { newRepos, missingRepos, stalePaths, untrackedPaths } = diffRegistry(
     consumers,
     foundPathsByRepo,
   );
+  const untrackedCount = untrackedPaths.reduce(
+    (total, { paths }) => total + paths.length,
+    0,
+  );
 
   console.log(
-    `\n${newRepos.length} new repo(s), ${missingRepos.length} registry repo(s) not re-found, ${stalePaths.length} registry path(s) no longer found.\n`,
+    `\n${newRepos.length} new repo(s), ${missingRepos.length} registry repo(s) not re-found, ${stalePaths.length} registry path(s) no longer found, ${untrackedCount} untracked path(s) in known repos.\n`,
   );
 
   if (newRepos.length > 0) {
@@ -71,10 +71,26 @@ async function main(): Promise<void> {
     }
   }
 
+  if (untrackedPaths.length > 0) {
+    console.log(
+      '\nFound in a tracked repo but not read by the registry — add to packageJsonPaths if that workspace really consumes Lumen:',
+    );
+    for (const { repo, paths } of untrackedPaths) {
+      console.log(`  ? ${repo}`);
+      for (const path of paths.slice(0, MAX_UNTRACKED_LISTED)) {
+        console.log(`      ${path}`);
+      }
+      if (paths.length > MAX_UNTRACKED_LISTED) {
+        console.log(`      … +${paths.length - MAX_UNTRACKED_LISTED} more`);
+      }
+    }
+  }
+
   if (
     newRepos.length === 0 &&
     missingRepos.length === 0 &&
-    stalePaths.length === 0
+    stalePaths.length === 0 &&
+    untrackedPaths.length === 0
   ) {
     console.log('No changes detected.');
   }

@@ -24,6 +24,12 @@
         "command": "npx tsx internals/adoption-tool/src/report.ts --format summary"
       }
     },
+    "report-json": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/report.ts --format json"
+      }
+    },
     "owners": {
       "executor": "nx:run-commands",
       "options": {

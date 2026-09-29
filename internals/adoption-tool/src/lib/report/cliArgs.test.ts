@@ -39,6 +39,10 @@ describe('parseReportFormat', () => {
     expect(parseReportFormat(['--format', 'summary'])).toBe('summary');
   });
 
+  it('accepts --format json', () => {
+    expect(parseReportFormat(['--format', 'json'])).toBe('json');
+  });
+
   it('accepts --format markdown explicitly', () => {
     expect(parseReportFormat(['--format', 'markdown'])).toBe('markdown');
   });

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import type { ReportRow } from './render.js';
-import { sortRowsByAdoption } from './sortRows.js';
+import { sortRowsByAdoption, worstCell } from './sortRows.js';
+import type { Cell, ReportRow } from './types.js';
 
 function row(repo: string, cells: Partial<ReportRow['cells']>): ReportRow {
   return {
@@ -110,7 +110,10 @@ describe('sortRowsByAdoption', () => {
       '@ledgerhq/lumen-ui-react': { status: 'diverged', version: '1.0.0' },
     });
     const unresolved = row('unresolved', {
-      '@ledgerhq/lumen-ui-react': { status: 'unresolved', version: 'catalog:' },
+      '@ledgerhq/lumen-ui-react': {
+        status: 'unresolved',
+        reason: 'catalog: not in pnpm catalog',
+      },
     });
 
     expect(
@@ -130,5 +133,70 @@ describe('sortRowsByAdoption', () => {
     expect(sortRowsByAdoption([greenWithGaps]).map((r) => r.repo)).toEqual([
       'green-with-gaps',
     ]);
+  });
+});
+
+describe('sortRowsByAdoption tie-breaks', () => {
+  it('falls through to the next column and the repo name when two rows are unresolved on the same package', () => {
+    const unresolved: Cell = { status: 'unresolved', reason: 'spec "latest"' };
+    const b = row('b', { '@ledgerhq/lumen-ui-react': unresolved });
+    const a = row('a', {
+      '@ledgerhq/lumen-ui-react': unresolved,
+      '@ledgerhq/lumen-design-core': {
+        status: 'behind',
+        version: '0.1.28',
+        patchesBehind: 1,
+      },
+    });
+    const c = row('c', { '@ledgerhq/lumen-ui-react': unresolved });
+
+    // Same first column (Infinity vs Infinity): the design-core column then
+    // puts the 1-behind row after the untouched ones, and ties go by name.
+    expect(sortRowsByAdoption([c, a, b]).map((r) => r.repo)).toEqual([
+      'b',
+      'c',
+      'a',
+    ]);
+  });
+});
+
+describe('worstCell', () => {
+  const current: Cell = {
+    status: 'current',
+    version: '0.1.7',
+    patchesBehind: 0,
+  };
+  const behind: Cell = { status: 'behind', version: '0.1.5', patchesBehind: 2 };
+  const farBehind: Cell = {
+    status: 'far-behind',
+    version: '0.1.0',
+    patchesBehind: 7,
+  };
+  const evenFurther: Cell = {
+    status: 'far-behind',
+    version: '0.0.1',
+    patchesBehind: 30,
+  };
+  const unresolved: Cell = { status: 'unresolved', reason: 'spec "latest"' };
+
+  it('is not-used when nothing declares the package', () => {
+    expect(worstCell([])).toEqual({ status: 'not-used' });
+    expect(worstCell([{ status: 'not-used' }, { status: 'not-used' }])).toEqual(
+      { status: 'not-used' },
+    );
+  });
+
+  it('ignores not-used cells when another path declares the package', () => {
+    expect(worstCell([{ status: 'not-used' }, current])).toBe(current);
+  });
+
+  it('picks the highest severity', () => {
+    expect(worstCell([current, farBehind, behind])).toBe(farBehind);
+    expect(worstCell([farBehind, unresolved, behind])).toBe(unresolved);
+  });
+
+  it('picks the most patches behind within the same severity', () => {
+    expect(worstCell([farBehind, evenFurther])).toBe(evenFurther);
+    expect(worstCell([evenFurther, farBehind])).toBe(evenFurther);
   });
 });

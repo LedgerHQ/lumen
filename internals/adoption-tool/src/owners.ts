@@ -1,8 +1,8 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import {
   CATALOG_REPO,
-  CONSUMERS_DATA_PATH,
   CROSS_CUTTING_CATALOG_TEAMS,
+  GITHUB_CONCURRENCY,
   OWNERS_MARKDOWN_PATH,
 } from './config.js';
 import { parseCatalogTeams, type CatalogTeam } from './lib/owners/catalog.js';
@@ -15,29 +15,20 @@ import {
   renderOwnersMarkdown,
   renderOwnersSummary,
 } from './lib/owners/renderOwners.js';
+import { mapWithConcurrency } from './lib/shared/concurrency.js';
+import { loadConsumers } from './lib/shared/consumers.js';
 import { getRepoFileContent, listRepoFiles } from './lib/shared/github.js';
 import * as log from './lib/shared/logging.js';
-
-type ConsumerEntry = { repo: string };
-
-const CATALOG_FETCH_BATCH = 8;
 
 async function loadCatalogTeams(): Promise<CatalogTeam[]> {
   const files = (await listRepoFiles(CATALOG_REPO)).filter(
     (path) => path.startsWith('domains/') && path.endsWith('.c4'),
   );
 
-  const teams: CatalogTeam[] = [];
-  for (let i = 0; i < files.length; i += CATALOG_FETCH_BATCH) {
-    const batch = files.slice(i, i + CATALOG_FETCH_BATCH);
-    const texts = await Promise.all(
-      batch.map((path) => getRepoFileContent(CATALOG_REPO, path)),
-    );
-    for (const text of texts) {
-      if (text) teams.push(...parseCatalogTeams(text));
-    }
-  }
-  return teams;
+  const texts = await mapWithConcurrency(files, GITHUB_CONCURRENCY, (path) =>
+    getRepoFileContent(CATALOG_REPO, path),
+  );
+  return texts.flatMap((text) => (text ? parseCatalogTeams(text) : []));
 }
 
 async function findCodeowners(
@@ -58,9 +49,7 @@ async function findCodeowners(
  * them, so nothing here is written back to `data/consumers.json`.
  */
 async function main(): Promise<void> {
-  const consumers = JSON.parse(
-    readFileSync(CONSUMERS_DATA_PATH, 'utf-8'),
-  ) as ConsumerEntry[];
+  const consumers = loadConsumers();
 
   log.step(`Reading team catalog from ${CATALOG_REPO}...`);
   const catalog = await loadCatalogTeams();
@@ -69,23 +58,43 @@ async function main(): Promise<void> {
   );
 
   log.step(`Reading CODEOWNERS for ${consumers.length} consumer repos...`);
-  const rows: RepoOwnership[] = [];
-  for (const consumer of consumers) {
-    const codeowners = await findCodeowners(consumer.repo);
-    rows.push(
-      buildRepoOwnership(
-        consumer.repo,
-        codeowners,
-        catalog,
-        CROSS_CUTTING_CATALOG_TEAMS,
-      ),
-    );
-    log.ok(`${consumer.repo}${codeowners ? '' : ' (no CODEOWNERS)'}`);
-  }
+  const failedRepos: string[] = [];
+  const results = await mapWithConcurrency(
+    consumers,
+    GITHUB_CONCURRENCY,
+    async ({ repo }): Promise<RepoOwnership | undefined> => {
+      try {
+        const codeowners = await findCodeowners(repo);
+        log.ok(`${repo}${codeowners ? '' : ' (no CODEOWNERS)'}`);
+        return buildRepoOwnership(
+          repo,
+          codeowners,
+          catalog,
+          CROSS_CUTTING_CATALOG_TEAMS,
+        );
+      } catch (error) {
+        // Left out rather than shown as "unowned": a failed lookup says
+        // nothing about who owns the repo.
+        failedRepos.push(repo);
+        log.warn(
+          `${repo}: ${error instanceof Error ? error.message : String(error)}`,
+        );
+        return undefined;
+      }
+    },
+  );
+  const rows = results.filter((row): row is RepoOwnership => row !== undefined);
 
   writeFileSync(OWNERS_MARKDOWN_PATH, `${renderOwnersMarkdown(rows)}\n`);
   log.step(`Table written to ${OWNERS_MARKDOWN_PATH}\n`);
   console.log(renderOwnersSummary(rows));
+
+  if (failedRepos.length > 0) {
+    log.warn(
+      `${failedRepos.length} repo(s) could not be read and are missing above: ${failedRepos.join(', ')}`,
+    );
+    process.exitCode = 1;
+  }
 }
 
 main().catch((error: unknown) => {

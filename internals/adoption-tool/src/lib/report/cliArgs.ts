@@ -14,13 +14,14 @@ export function parseCliArgs(args: string[]): Record<string, string> {
   return params;
 }
 
-export type ReportFormat = 'markdown' | 'summary';
+export type ReportFormat = 'markdown' | 'summary' | 'json';
 
-const VALID_REPORT_FORMATS: ReportFormat[] = ['markdown', 'summary'];
+const VALID_REPORT_FORMATS: ReportFormat[] = ['markdown', 'summary', 'json'];
 
 /** `--format markdown` (default): the full table, everything, for
  * GitHub/PRs/terminal. `--format summary`: the severity-grouped bulleted
- * list meant for Slack — see `renderSlackReport`. */
+ * list meant for Slack — see `renderSlackReport`. `--format json`: the
+ * machine-readable snapshot — see `renderJsonReport`. */
 export function parseReportFormat(args: string[]): ReportFormat {
   const { format = 'markdown' } = parseCliArgs(args);
   if (!VALID_REPORT_FORMATS.includes(format as ReportFormat)) {

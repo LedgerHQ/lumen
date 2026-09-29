@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import type { LumenPackage } from '../../config.js';
 import {
+  renderHtmlReport,
+  renderJsonReport,
+  renderMarkdownReport,
   renderMarkdownTable,
   renderSummaryLine,
   renderSlackReport,
 } from './render.js';
-import type { ReportRow } from './render.js';
+import type { ReportRow } from './types.js';
 
 const latestVersions: Record<LumenPackage, string> = {
   '@ledgerhq/lumen-ui-react': '0.1.59',
@@ -127,5 +130,83 @@ describe('renderSlackReport', () => {
     expect(slack).not.toContain('🟡 Behind');
     expect(slack).toContain('latest version');
     expect(slack).toContain('🟢 On track');
+  });
+});
+
+const unresolvedRow: ReportRow = {
+  repo: 'LedgerHQ/moved-repo',
+  cells: {
+    '@ledgerhq/lumen-ui-react': {
+      status: 'unresolved',
+      reason: 'apps/web/package.json not found',
+    },
+    '@ledgerhq/lumen-ui-rnative': {
+      status: 'unresolved',
+      reason: 'spec "^1.0.0 || ^2.0.0"',
+    },
+    '@ledgerhq/lumen-design-core': { status: 'not-used' },
+  },
+};
+
+describe('unresolved cells', () => {
+  it('shows the reason in the markdown table and escapes pipes', () => {
+    const table = renderMarkdownTable([unresolvedRow]);
+    expect(table).toContain('⚪ unresolved (apps/web/package.json not found)');
+    expect(table).toContain('spec "^1.0.0 \\|\\| ^2.0.0"');
+  });
+
+  it('keeps every table line the same width even with escaped pipes', () => {
+    const lines = renderMarkdownTable([unresolvedRow, ...rows]).split('\n');
+    expect(new Set(lines.map((line) => [...line].length)).size).toBe(1);
+  });
+
+  it('counts unresolved cells in the summary line', () => {
+    expect(renderSummaryLine([unresolvedRow], latestVersions)).toContain(
+      '⚪ 2 unresolved',
+    );
+  });
+
+  it('shows the reason in the html report', () => {
+    expect(renderHtmlReport([unresolvedRow], latestVersions)).toContain(
+      'unresolved (apps/web/package.json not found)',
+    );
+  });
+
+  it('lists the repo in the red Slack section', () => {
+    const slack = renderSlackReport([unresolvedRow], latestVersions);
+    expect(slack).toContain(
+      '• LedgerHQ/moved-repo — ui-react unresolved, ui-rnative unresolved',
+    );
+  });
+});
+
+describe('version source note', () => {
+  it('explains that versions are declared ranges, not lockfile versions', () => {
+    expect(renderMarkdownReport(rows, latestVersions)).toContain('lockfile');
+    expect(renderHtmlReport(rows, latestVersions)).toContain('lockfile');
+  });
+});
+
+describe('renderJsonReport', () => {
+  it('emits a parseable snapshot with a timestamp, latest versions, summary and rows', () => {
+    const generatedAt = new Date('2026-01-02T03:04:05.000Z');
+    const parsed = JSON.parse(
+      renderJsonReport([...rows, unresolvedRow], latestVersions, generatedAt),
+    );
+
+    expect(parsed.generatedAt).toBe('2026-01-02T03:04:05.000Z');
+    expect(parsed.latest).toEqual(latestVersions);
+    expect(parsed.summary).toEqual({
+      current: 3,
+      behind: 2,
+      'far-behind': 2,
+      diverged: 0,
+      unresolved: 2,
+    });
+    expect(parsed.rows).toHaveLength(4);
+    expect(parsed.rows[3].cells['@ledgerhq/lumen-ui-react']).toEqual({
+      status: 'unresolved',
+      reason: 'apps/web/package.json not found',
+    });
   });
 });

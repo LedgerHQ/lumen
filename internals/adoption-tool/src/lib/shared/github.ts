@@ -1,4 +1,10 @@
 import { execFileSync } from 'node:child_process';
+import { fetchWithRetry } from './http.js';
+
+const GITHUB_API = 'https://api.github.com';
+const JSON_MEDIA_TYPE = 'application/vnd.github+json';
+// Serves file contents as plain text: no base64 round-trip, and no 1 MB cap.
+const RAW_MEDIA_TYPE = 'application/vnd.github.raw+json';
 
 let cachedToken: string | undefined;
 
@@ -28,12 +34,29 @@ function getGithubToken(): string {
   }
 }
 
-function githubHeaders(): Record<string, string> {
-  return {
-    Authorization: `Bearer ${getGithubToken()}`,
-    Accept: 'application/vnd.github+json',
-    'X-GitHub-Api-Version': '2022-11-28',
-  };
+function githubFetch(
+  path: string,
+  accept: string = JSON_MEDIA_TYPE,
+): Promise<Response> {
+  return fetchWithRetry(`${GITHUB_API}${path}`, {
+    headers: {
+      Authorization: `Bearer ${getGithubToken()}`,
+      Accept: accept,
+      'X-GitHub-Api-Version': '2022-11-28',
+    },
+  });
+}
+
+async function githubError(what: string, response: Response): Promise<Error> {
+  const body = await response.text().catch(() => '');
+  const detail = body ? ` — ${body.slice(0, 200)}` : '';
+  return new Error(
+    `GitHub ${what}: ${response.status} ${response.statusText}${detail}`,
+  );
+}
+
+function encodePath(path: string): string {
+  return path.split('/').map(encodeURIComponent).join('/');
 }
 
 /**
@@ -46,22 +69,15 @@ export async function getRepoFileContent(
   repo: string,
   path: string,
 ): Promise<string | undefined> {
-  const response = await fetch(
-    `https://api.github.com/repos/${repo}/contents/${path}`,
-    { headers: githubHeaders() },
+  const response = await githubFetch(
+    `/repos/${repo}/contents/${encodePath(path)}`,
+    RAW_MEDIA_TYPE,
   );
 
   if (response.status === 404) return undefined;
-  if (!response.ok) {
-    throw new Error(
-      `GitHub contents ${repo}/${path}: ${response.status} ${response.statusText}`,
-    );
-  }
-
-  const data = (await response.json()) as { content: string; encoding: string };
-  return Buffer.from(data.content, data.encoding as BufferEncoding).toString(
-    'utf-8',
-  );
+  if (!response.ok)
+    throw await githubError(`contents ${repo}/${path}`, response);
+  return response.text();
 }
 
 /**
@@ -69,16 +85,10 @@ export async function getRepoFileContent(
  * far cheaper than walking directories through the Contents API.
  */
 export async function listRepoFiles(repo: string): Promise<string[]> {
-  const response = await fetch(
-    `https://api.github.com/repos/${repo}/git/trees/HEAD?recursive=1`,
-    { headers: githubHeaders() },
+  const response = await githubFetch(
+    `/repos/${repo}/git/trees/HEAD?recursive=1`,
   );
-
-  if (!response.ok) {
-    throw new Error(
-      `GitHub tree ${repo}: ${response.status} ${response.statusText}`,
-    );
-  }
+  if (!response.ok) throw await githubError(`tree ${repo}`, response);
 
   const data = (await response.json()) as {
     tree: { path: string; type: string }[];
@@ -113,15 +123,11 @@ export async function searchPackageJsonUsage(
   // Search results are capped at 1000, but a single page (100) is easily
   // exceeded by a monorepo with one package.json per workspace package.
   for (let page = 1; page <= 10; page += 1) {
-    const response = await fetch(
-      `https://api.github.com/search/code?q=${query}&per_page=${perPage}&page=${page}`,
-      { headers: githubHeaders() },
+    const response = await githubFetch(
+      `/search/code?q=${query}&per_page=${perPage}&page=${page}`,
     );
-
     if (!response.ok) {
-      throw new Error(
-        `GitHub code search for ${packageName}: ${response.status} ${response.statusText}`,
-      );
+      throw await githubError(`code search for ${packageName}`, response);
     }
 
     const data = (await response.json()) as {

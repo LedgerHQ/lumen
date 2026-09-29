@@ -13,12 +13,17 @@ export type LumenPackage = (typeof LUMEN_PACKAGES)[number];
  */
 export const FAR_BEHIND_THRESHOLD = 5;
 
+/** Parallel repos in flight; kept low since GitHub's secondary rate limit
+ * throttles bursts long before the hourly quota runs out. */
+export const GITHUB_CONCURRENCY = 6;
+
 /** Targets run without a `cwd`, so these are workspace-root-relative. */
 export const CONSUMERS_DATA_PATH =
   'internals/adoption-tool/data/consumers.json';
 export const REPORT_MARKDOWN_PATH = 'internals/adoption-tool/report.md';
 export const REPORT_HTML_PATH = 'internals/adoption-tool/report.html';
 export const REPORT_SLACK_PATH = 'internals/adoption-tool/report.slack.txt';
+export const REPORT_JSON_PATH = 'internals/adoption-tool/report.json';
 
 export const OWNERS_MARKDOWN_PATH = 'internals/adoption-tool/owners.md';
 

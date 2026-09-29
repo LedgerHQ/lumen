@@ -6,6 +6,9 @@ export type RegistryDiff = {
   /** Registry paths that search no longer finds although the repo still
    * matches — the dependency likely moved to another package.json. */
   stalePaths: { repo: string; path: string; foundPaths: string[] }[];
+  /** Paths search found in a tracked repo that the registry doesn't read —
+   * another workspace may have started depending on Lumen. */
+  untrackedPaths: { repo: string; paths: string[] }[];
 };
 
 export function diffRegistry(
@@ -34,5 +37,13 @@ export function diffRegistry(
       }));
   });
 
-  return { newRepos, missingRepos, stalePaths };
+  const untrackedPaths = consumers.flatMap((entry) => {
+    const found = foundPathsByRepo.get(entry.repo);
+    if (!found) return [];
+    const tracked = new Set(registryPaths(entry));
+    const paths = [...found].filter((path) => !tracked.has(path)).sort();
+    return paths.length > 0 ? [{ repo: entry.repo, paths }] : [];
+  });
+
+  return { newRepos, missingRepos, stalePaths, untrackedPaths };
 }

@@ -1,119 +1,116 @@
-import { readFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import {
+  GITHUB_CONCURRENCY,
   LUMEN_PACKAGES,
-  FAR_BEHIND_THRESHOLD,
-  CONSUMERS_DATA_PATH,
   REPORT_MARKDOWN_PATH,
   REPORT_HTML_PATH,
   REPORT_SLACK_PATH,
+  REPORT_JSON_PATH,
   type LumenPackage,
 } from './config.js';
-import { classifyVersion } from './lib/report/classify.js';
-import { parseReportFormat } from './lib/report/cliArgs.js';
+import {
+  buildConsumerRow,
+  failedConsumerRow,
+} from './lib/report/buildConsumerRow.js';
+import { parseReportFormat, type ReportFormat } from './lib/report/cliArgs.js';
 import { getLatestVersion } from './lib/report/npmRegistry.js';
 import {
   renderMarkdownReport,
   renderHtmlReport,
+  renderJsonReport,
   renderSlackReport,
-  type Cell,
-  type ReportRow,
 } from './lib/report/render.js';
-import { resolveDependency } from './lib/report/resolveDependency.js';
 import { sortRowsByAdoption } from './lib/report/sortRows.js';
-import {
-  packageJsonPathFor,
-  type ConsumerEntry,
-} from './lib/shared/consumers.js';
+import type { LatestVersions, ReportRow } from './lib/report/types.js';
+import { mapWithConcurrency } from './lib/shared/concurrency.js';
+import { loadConsumers } from './lib/shared/consumers.js';
 import { getRepoFileContent } from './lib/shared/github.js';
 import * as log from './lib/shared/logging.js';
 
+type RepoFailure = { repo: string; message: string };
+
+async function fetchLatestVersions(): Promise<LatestVersions> {
+  const entries = await Promise.all(
+    LUMEN_PACKAGES.map(
+      async (pkg) => [pkg, await getLatestVersion(pkg)] as const,
+    ),
+  );
+  for (const [pkg, version] of entries) log.ok(`${pkg} → ${version}`);
+  return Object.fromEntries(entries) as Record<LumenPackage, string>;
+}
+
+/**
+ * One unreadable repo (transient GitHub failure, revoked access) must not
+ * throw away the other rows: it becomes an `unresolved` row and is reported
+ * in `failures`, so the caller can still publish the rest and exit non-zero.
+ */
 async function buildReport(): Promise<{
   rows: ReportRow[];
-  latestVersions: Record<LumenPackage, string>;
+  latestVersions: LatestVersions;
+  failures: RepoFailure[];
 }> {
-  const consumers = JSON.parse(
-    readFileSync(CONSUMERS_DATA_PATH, 'utf-8'),
-  ) as ConsumerEntry[];
+  const consumers = loadConsumers();
 
   log.step('Fetching latest published versions from npm...');
-  const latestVersions = {} as Record<LumenPackage, string>;
-  for (const pkg of LUMEN_PACKAGES) {
-    latestVersions[pkg] = await getLatestVersion(pkg);
-    log.ok(`${pkg} → ${latestVersions[pkg]}`);
-  }
+  const latestVersions = await fetchLatestVersions();
 
   log.step(`Resolving versions for ${consumers.length} consumer repos...`);
-  const rows: ReportRow[] = [];
-  for (const consumer of consumers) {
-    // Fetched once per repo (not per package): repos without a pnpm catalog
-    // simply get `undefined` here and every lookup falls through to the
-    // anchor package.json's explicit version, as usual.
-    const pnpmWorkspaceYaml = await getRepoFileContent(
-      consumer.repo,
-      'pnpm-workspace.yaml',
-    );
-
-    const packageJsonCache = new Map<string, string | undefined>();
-    const cells = {} as Record<LumenPackage, Cell>;
-    for (const pkg of LUMEN_PACKAGES) {
-      const packageJsonPath = packageJsonPathFor(consumer, pkg);
-      if (!packageJsonCache.has(packageJsonPath)) {
-        const text = await getRepoFileContent(consumer.repo, packageJsonPath);
-        if (text === undefined) {
-          log.warn(
-            `${consumer.repo}: ${packageJsonPath} not found — update data/consumers.json`,
-          );
-        }
-        packageJsonCache.set(packageJsonPath, text);
+  const failures: RepoFailure[] = [];
+  const rows = await mapWithConcurrency(
+    consumers,
+    GITHUB_CONCURRENCY,
+    async (consumer) => {
+      try {
+        const row = await buildConsumerRow(
+          consumer,
+          latestVersions,
+          getRepoFileContent,
+        );
+        log.ok(consumer.repo);
+        return row;
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        failures.push({ repo: consumer.repo, message });
+        log.warn(`${consumer.repo}: ${message}`);
+        return failedConsumerRow(consumer.repo);
       }
-      const version = resolveDependency(
-        packageJsonCache.get(packageJsonPath),
-        pkg,
-        pnpmWorkspaceYaml,
-      );
-      if (!version) {
-        cells[pkg] = { status: 'not-used' };
-        continue;
-      }
-      const classification = classifyVersion(
-        version,
-        latestVersions[pkg],
-        FAR_BEHIND_THRESHOLD,
-      );
-      cells[pkg] = {
-        status: classification.status,
-        version,
-        patchesBehind: classification.patchesBehind,
-      };
-    }
-    rows.push({ repo: consumer.repo, cells });
-    log.ok(consumer.repo);
-  }
+    },
+  );
 
-  return { rows: sortRowsByAdoption(rows), latestVersions };
+  return { rows: sortRowsByAdoption(rows), latestVersions, failures };
 }
 
 async function main(): Promise<void> {
-  // --format markdown (default): full table, printed below, for GitHub/PRs.
-  // --format summary: the same data as the terse Slack bullet list instead.
-  // Either way, all three report files are always written — this only picks
-  // what gets printed to stdout.
+  // --format only picks what is printed to stdout (markdown table by default,
+  // the Slack bullet list for `summary`, the machine-readable snapshot for
+  // `json`); every report file is always written.
   const format = parseReportFormat(process.argv.slice(2));
 
-  const { rows, latestVersions } = await buildReport();
+  const { rows, latestVersions, failures } = await buildReport();
 
-  const markdown = renderMarkdownReport(rows, latestVersions);
+  const outputs: Record<ReportFormat, string> = {
+    markdown: renderMarkdownReport(rows, latestVersions),
+    summary: renderSlackReport(rows, latestVersions),
+    json: renderJsonReport(rows, latestVersions, new Date()),
+  };
   const html = renderHtmlReport(rows, latestVersions);
-  const slack = renderSlackReport(rows, latestVersions);
 
-  writeFileSync(REPORT_MARKDOWN_PATH, `${markdown}\n`);
+  writeFileSync(REPORT_MARKDOWN_PATH, `${outputs.markdown}\n`);
   writeFileSync(REPORT_HTML_PATH, html);
-  writeFileSync(REPORT_SLACK_PATH, `${slack}\n`);
+  writeFileSync(REPORT_SLACK_PATH, `${outputs.summary}\n`);
+  writeFileSync(REPORT_JSON_PATH, `${outputs.json}\n`);
 
   log.step(
-    `Written ${REPORT_MARKDOWN_PATH}, ${REPORT_HTML_PATH}, ${REPORT_SLACK_PATH}\n`,
+    `Written ${REPORT_MARKDOWN_PATH}, ${REPORT_HTML_PATH}, ${REPORT_SLACK_PATH}, ${REPORT_JSON_PATH}\n`,
   );
-  console.log(format === 'summary' ? slack : markdown);
+  console.log(outputs[format]);
+
+  if (failures.length > 0) {
+    log.warn(
+      `${failures.length} repo(s) could not be read and are shown as unresolved: ${failures.map(({ repo }) => repo).join(', ')}`,
+    );
+    process.exitCode = 1;
+  }
 }
 
 main().catch((error: unknown) => {

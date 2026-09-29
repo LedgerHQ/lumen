@@ -1,3 +1,5 @@
+import { fetchWithRetry } from '../shared/http.js';
+
 const latestVersionCache = new Map<string, string>();
 
 /**
@@ -11,7 +13,12 @@ export async function getLatestVersion(packageName: string): Promise<string> {
   const cached = latestVersionCache.get(packageName);
   if (cached) return cached;
 
-  const response = await fetch(`https://registry.npmjs.org/${packageName}`);
+  // The abbreviated packument is enough for `dist-tags` and much smaller than
+  // the full one, which lists every published version.
+  const response = await fetchWithRetry(
+    `https://registry.npmjs.org/${packageName}`,
+    { headers: { Accept: 'application/vnd.npm.install-v1+json' } },
+  );
   if (!response.ok) {
     throw new Error(
       `npm registry ${packageName}: ${response.status} ${response.statusText}`,
