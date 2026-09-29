@@ -1,11 +1,17 @@
 import { Box, IconButton, Stepper } from '@ledgerhq/lumen-ui-rnative';
-import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
+import {
+  ArrowLeft,
+  ArrowRight,
+  Check,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useEffect, useRef, useState } from 'react';
 
 const MAX_STEPS = 8;
 
 export default function Steppers() {
   const [step, setStep] = useState(1);
+  const [isSuccess, setIsSuccess] = useState(false);
+
   const [autoStep, setAutoStep] = useState(0);
 
   const isReversing = useRef(false);
@@ -29,7 +35,7 @@ export default function Steppers() {
         <Box
           lx={{
             flexDirection: 'row',
-            gap: 's16',
+            gap: 's12',
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -41,7 +47,11 @@ export default function Steppers() {
             appearance='transparent'
             onPress={() => setStep((v) => Math.max(0, v - 1))}
           />
-          <Stepper currentStep={step} totalSteps={5} />
+          <Stepper
+            appearance={isSuccess ? 'success' : 'accent'}
+            currentStep={step}
+            totalSteps={5}
+          />
           <IconButton
             icon={ArrowRight}
             size='xs'
@@ -49,6 +59,22 @@ export default function Steppers() {
             appearance='transparent'
             onPress={() => setStep((v) => Math.min(5, v + 1))}
           />
+          <Box
+            lx={{
+              flexDirection: 'row',
+              gap: 's4',
+              position: 'absolute',
+            }}
+            style={{ right: -36 }}
+          >
+            <IconButton
+              icon={Check}
+              size='xs'
+              accessibilityLabel='Toggle success'
+              appearance={isSuccess ? 'base' : 'transparent'}
+              onPress={() => setIsSuccess((s) => !s)}
+            />
+          </Box>
         </Box>
       </Box>
 
@@ -62,6 +88,22 @@ export default function Steppers() {
       >
         {Array.from({ length: MAX_STEPS }).map((_, i) => (
           <Stepper
+            currentStep={Math.max(0, Math.min(autoStep, i + 1))}
+            totalSteps={i + 1}
+          />
+        ))}
+      </Box>
+      <Box
+        lx={{
+          gap: 's12',
+          width: 'full',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}
+      >
+        {Array.from({ length: MAX_STEPS }).map((_, i) => (
+          <Stepper
+            appearance='success'
             currentStep={Math.max(0, Math.min(autoStep, i + 1))}
             totalSteps={i + 1}
           />

@@ -21,6 +21,7 @@ const STROKE_WIDTH = 4;
  */
 export const Stepper = ({
   className,
+  appearance = 'accent',
   currentStep,
   totalSteps,
   disabled: disabledProp = false,
@@ -80,7 +81,7 @@ export const Stepper = ({
           fill='none'
           stroke='currentColor'
           strokeLinecap='round'
-          className='stroke-muted-subtle'
+          className='bg-muted-transparent-hover'
           style={{
             strokeWidth: `${STROKE_WIDTH}px`,
             strokeDasharray: progressDashArray,
@@ -118,7 +119,11 @@ export const Stepper = ({
           strokeLinecap='round'
           mask={`url(#${maskId})`}
           className={cn(
-            disabled ? 'stroke-muted-subtle-hover' : 'stroke-active',
+            disabled
+              ? 'stroke-muted-subtle-hover'
+              : appearance === 'success'
+                ? 'bg-success-strong'
+                : 'bg-active',
             'transition-[stroke] duration-300 ease-in-out',
           )}
           style={{

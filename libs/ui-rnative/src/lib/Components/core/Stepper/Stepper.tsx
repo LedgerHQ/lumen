@@ -60,6 +60,7 @@ const useAnimatedProgress = ({
  */
 export const Stepper = ({
   lx = {},
+  appearance = 'accent',
   currentStep,
   totalSteps,
   disabled: disabledProp = false,
@@ -135,7 +136,7 @@ export const Stepper = ({
           cy={cy}
           r={r}
           fill='none'
-          stroke={theme.colors.border.mutedSubtle}
+          stroke={theme.colors.bg.mutedTransparentHover}
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={progressDashArray}
@@ -170,7 +171,9 @@ export const Stepper = ({
           stroke={
             disabled
               ? theme.colors.border.mutedSubtleHover
-              : theme.colors.border.active
+              : appearance === 'success'
+                ? theme.colors.bg.successStrong
+                : theme.colors.bg.active
           }
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}

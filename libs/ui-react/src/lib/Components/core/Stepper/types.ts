@@ -2,7 +2,12 @@ import type { ComponentPropsWithRef } from 'react';
 
 export type StepperProps = {
   /**
-   * Current step number (1-based). Use 0 or negative to show minimal dot (before starting).
+   * The visual style of the stepper's segments.
+   * @default accent
+   */
+  appearance?: 'accent' | 'success';
+  /**
+   * Current step number (1-based).
    */
   currentStep: number;
   /**
@@ -10,7 +15,7 @@ export type StepperProps = {
    */
   totalSteps: number;
   /**
-   * Whether the stepper is disabled. Changes the progress arc to a muted style.
+   * Whether the stepper is disabled. Changes the progress to a muted style.
    * @default false
    */
   disabled?: boolean;
