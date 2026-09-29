@@ -1,4 +1,10 @@
-import { resolveMaxItems, toastStore } from '@ledgerhq/lumen-utils-shared';
+import {
+  resolveDurationMs,
+  resolveMaxItems,
+  toastStore,
+  useToastBacklog,
+  useToastLifecycle,
+} from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
@@ -6,7 +12,6 @@ import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToastCollapse } from './hooks/useToastCollapse';
 import { useToastGesture } from './hooks/useToastGesture';
-import { useToastLifecycle } from './hooks/useToastLifecycle';
 import { useToastMotion } from './hooks/useToastMotion';
 import { useToastViewportStyles } from './hooks/useToastViewportStyles';
 import { Toast } from './Toast';
@@ -14,22 +19,19 @@ import type { ToasterProps, ToastItem, ToastPosition } from './types';
 
 const ToastQueueItem = ({
   item,
+  durationMs,
   position,
   onDismiss,
 }: {
   item: ToastItem;
+  durationMs: number;
   position: ToastPosition;
   onDismiss: () => void;
 }) => {
   const exiting = item.exiting ?? false;
   const [held, setHeld] = useState(false);
 
-  useToastLifecycle({
-    durationMs: item.durationMs,
-    paused: held,
-    exiting,
-    onDismiss,
-  });
+  useToastLifecycle({ durationMs, paused: held, exiting, onDismiss });
   const { animatedStyle, translateX, markDismissedViaSwipe } = useToastMotion({
     position,
     exiting,
@@ -118,11 +120,9 @@ export const Toaster = ({
 
   useEffect(() => toastStore.registerRenderer(), []);
 
-  useEffect(() => {
-    toastStore.configure({ maxItems, durations });
-  }, [maxItems, durations]);
-
-  const visibleItems = items.slice(0, resolveMaxItems(maxItems));
+  const visibleSlots = resolveMaxItems(maxItems);
+  const visibleItems = items.slice(0, visibleSlots);
+  useToastBacklog(items, visibleSlots);
 
   return (
     <View
@@ -134,6 +134,7 @@ export const Toaster = ({
         <ToastQueueItem
           key={item.id}
           item={item}
+          durationMs={resolveDurationMs(item, durations)}
           position={position}
           onDismiss={() => toastStore.dismiss(item.id)}
         />

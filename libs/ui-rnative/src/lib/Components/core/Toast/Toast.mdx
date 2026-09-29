@@ -71,10 +71,12 @@ inset below/above the safe area automatically.
 ### Timing
 
 Each status has a Lumen default: info and success auto-dismiss after 5s;
-warning and error persist. Override globally with the provider's `durations`,
+warning and error persist. Override globally with `Toaster`'s `durations`,
 or per item with `duration` — milliseconds, and `0` disables auto-dismiss.
-Duration is resolved when the item is created, and again when an update
-changes appearance, loading, or duration. Touching a toast — holding it or
+`Toaster` resolves each toast's duration from its own `durations` when it
+renders, so toasts fired before it mounts still get them. An update that
+changes appearance or loading without a `duration` drops the previous
+per-item one. Touching a toast — holding it or
 dragging it mid-swipe — pauses its timer; releasing resumes from the remaining
 time.
 

@@ -9,6 +9,7 @@ import {
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
 import { act, render, screen } from '@testing-library/react-native';
+import { useLayoutEffect, type ReactNode } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Toaster } from './Toaster';
@@ -19,13 +20,19 @@ const initialMetrics = {
   insets: { top: 0, left: 0, right: 0, bottom: 0 },
 };
 
+const TestProviders = ({ children }: { children: ReactNode }) => (
+  <SafeAreaProvider initialMetrics={initialMetrics}>
+    <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
+      {children}
+    </ThemeProvider>
+  </SafeAreaProvider>
+);
+
 const renderToaster = (props?: ToasterProps) =>
   render(
-    <SafeAreaProvider initialMetrics={initialMetrics}>
-      <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-        <Toaster {...props} />
-      </ThemeProvider>
-    </SafeAreaProvider>,
+    <TestProviders>
+      <Toaster {...props} />
+    </TestProviders>,
   );
 
 const EXIT_ANIMATION_MS = 300;
@@ -59,6 +66,39 @@ describe('Toaster', () => {
         toast.info({ title: 'Hello' });
       });
       screen.getByText('Hello');
+    });
+
+    it('should show a toast that was notified before the toaster mounted', () => {
+      act(() => {
+        toast.info({ title: 'Queued early' });
+      });
+
+      renderToaster();
+      screen.getByText('Queued early');
+    });
+
+    it('should apply Toaster props to toasts fired before its effects run', () => {
+      const EarlyNotifier = () => {
+        useLayoutEffect(() => {
+          toast.info({ title: 'First' });
+          toast.info({ title: 'Second' });
+        }, []);
+        return null;
+      };
+      render(
+        <TestProviders>
+          <EarlyNotifier />
+          <Toaster maxItems={1} durations={{ info: 1000 }} />
+        </TestProviders>,
+      );
+
+      expect(screen.queryByText('Second')).toBeNull();
+      act(() => {
+        jest.advanceTimersByTime(1000);
+      });
+      flushExit();
+      expect(screen.queryByText('First')).toBeNull();
+      screen.getByText('Second');
     });
 
     it('should auto-dismiss info after the default 5s', () => {
@@ -122,7 +162,7 @@ describe('Toaster', () => {
 
       const entry = getByTestId('toast-entry');
       act(() => {
-        entry.props.onStart();
+        entry.props.onTouchesDown();
       });
 
       act(() => {
@@ -131,7 +171,7 @@ describe('Toaster', () => {
       screen.getByText('Hold me');
 
       act(() => {
-        entry.props.onFinalize();
+        entry.props.onTouchesUp({ numberOfTouches: 0 });
       });
 
       act(() => {
@@ -158,8 +198,7 @@ describe('Toaster', () => {
 
       const entry = getByTestId('toast-entry');
       act(() => {
-        entry.props.onBegin();
-        entry.props.onStart();
+        entry.props.onTouchesDown();
         entry.props.onUpdate({ translationX: 40 });
       });
 
