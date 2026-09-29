@@ -70,14 +70,17 @@ export const getStepperCalculations = ({
 
   const SEGMENT_GAP = 12;
   const segmentLength = circumference / totalSteps - SEGMENT_GAP;
-  const trackDashArray = `${segmentLength} ${SEGMENT_GAP}`;
 
   const filledLength =
-    currentStep * segmentLength + SEGMENT_GAP * (currentStep - 1);
-  const offset = circumference - filledLength;
+    currentStep === 0
+      ? 0
+      : currentStep === totalSteps
+        ? circumference
+        : currentStep * segmentLength + SEGMENT_GAP * (currentStep - 1);
 
+  const trackDashArray = `${segmentLength} ${SEGMENT_GAP}`;
   const progressDashArray = `${circumference} ${circumference}`;
-  const progressDashOffset = offset;
+  const progressDashOffset = circumference - filledLength;
 
   return {
     displayLabel,
