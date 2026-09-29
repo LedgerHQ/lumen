@@ -1,8 +1,8 @@
+import { EXIT_ANIMATION_MS } from '@ledgerhq/lumen-utils-shared';
 import { useCallback, useMemo, useState } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import { useTheme } from '../../../../../styles';
 import type { ToastPosition } from '../types';
-import { EXIT_ANIMATION_MS } from './useToastLifecycle';
 
 type UseToastCollapseArgs = {
   position: ToastPosition;
