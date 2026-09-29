@@ -7,32 +7,23 @@ import {
   jest,
 } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
 import { act, render, screen } from '@testing-library/react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
-import { useToast } from './hooks/useToast';
-import { ToastProvider } from './ToastProvider';
-import type { ToastController, ToastProviderProps } from './types';
-
-let controller: ToastController;
-
-const Capture = () => {
-  controller = useToast();
-  return null;
-};
+import { Toaster } from './Toaster';
+import type { ToasterProps } from './types';
 
 const initialMetrics = {
   frame: { x: 0, y: 0, width: 320, height: 640 },
   insets: { top: 0, left: 0, right: 0, bottom: 0 },
 };
 
-const renderProvider = (props?: Omit<ToastProviderProps, 'children'>) =>
+const renderToaster = (props?: ToasterProps) =>
   render(
     <SafeAreaProvider initialMetrics={initialMetrics}>
       <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
-        <ToastProvider {...props}>
-          <Capture />
-        </ToastProvider>
+        <Toaster {...props} />
       </ThemeProvider>
     </SafeAreaProvider>,
   );
@@ -45,7 +36,11 @@ const flushExit = (): void => {
   });
 };
 
-describe('ToastProvider', () => {
+describe('Toaster', () => {
+  beforeEach(() => {
+    resetToastStore();
+  });
+
   describe('Timing', () => {
     beforeEach(() => {
       jest.useFakeTimers();
@@ -59,17 +54,17 @@ describe('ToastProvider', () => {
     });
 
     it('should render a toast on notify', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.info({ title: 'Hello' });
+        toast.info({ title: 'Hello' });
       });
       screen.getByText('Hello');
     });
 
     it('should auto-dismiss info after the default 5s', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.info({ title: 'Hello' });
+        toast.info({ title: 'Hello' });
       });
 
       act(() => {
@@ -85,9 +80,9 @@ describe('ToastProvider', () => {
     });
 
     it('should keep warning toasts until dismissed', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.warning({ title: 'Careful' });
+        toast.warning({ title: 'Careful' });
       });
 
       act(() => {
@@ -97,10 +92,10 @@ describe('ToastProvider', () => {
     });
 
     it('should queue items past maxItems and promote them as slots free', () => {
-      renderProvider({ maxItems: 1 });
+      renderToaster({ maxItems: 1 });
       act(() => {
-        controller.info({ title: 'First' });
-        controller.info({ title: 'Second' });
+        toast.info({ title: 'First' });
+        toast.info({ title: 'Second' });
       });
 
       screen.getByText('First');
@@ -116,9 +111,9 @@ describe('ToastProvider', () => {
     });
 
     it('should pause the timer while held and resume remaining time on release', () => {
-      const { getByTestId } = renderProvider();
+      const { getByTestId } = renderToaster();
       act(() => {
-        controller.info({ title: 'Hold me' });
+        toast.info({ title: 'Hold me' });
       });
 
       act(() => {
@@ -152,9 +147,9 @@ describe('ToastProvider', () => {
     });
 
     it('should stay paused while swiping and resume once the toast springs back', () => {
-      const { getByTestId } = renderProvider();
+      const { getByTestId } = renderToaster();
       act(() => {
-        controller.info({ title: 'Swipe me' });
+        toast.info({ title: 'Swipe me' });
       });
 
       act(() => {
@@ -191,10 +186,10 @@ describe('ToastProvider', () => {
     });
 
     it('should restart the timer when a loading toast becomes a success', () => {
-      renderProvider();
+      renderToaster();
       let id = '';
       act(() => {
-        id = controller.loading({ title: 'Loading' }).id;
+        id = toast.loading({ title: 'Loading' }).id;
       });
 
       act(() => {
@@ -203,7 +198,7 @@ describe('ToastProvider', () => {
       screen.getByText('Loading');
 
       act(() => {
-        controller.update(id, {
+        toast.update(id, {
           appearance: 'success',
           loading: false,
           title: 'Done',
@@ -221,10 +216,10 @@ describe('ToastProvider', () => {
 
   describe('Defaults', () => {
     it('should default maxItems to 1', () => {
-      renderProvider();
+      renderToaster();
       act(() => {
-        controller.info({ title: 'First' });
-        controller.info({ title: 'Second' });
+        toast.info({ title: 'First' });
+        toast.info({ title: 'Second' });
       });
 
       screen.getByText('First');
@@ -232,19 +227,19 @@ describe('ToastProvider', () => {
     });
 
     it('should default position to bottom', () => {
-      const { getByTestId } = renderProvider();
+      const { getByTestId } = renderToaster();
       const viewport = getByTestId('toast-viewport');
       expect(viewport.props.style.bottom).toBeDefined();
       expect(viewport.props.style.top).toBeUndefined();
     });
 
     it('should default insets to 0 and still apply the breathing-room gap', () => {
-      const { getByTestId } = renderProvider();
+      const { getByTestId } = renderToaster();
       expect(getByTestId('toast-viewport').props.style.bottom).toBe(24);
     });
 
     it('adds a custom bottom inset to the gap instead of replacing it', () => {
-      const { getByTestId } = renderProvider({ insets: { bottom: 80 } });
+      const { getByTestId } = renderToaster({ insets: { bottom: 80 } });
       expect(getByTestId('toast-viewport').props.style.bottom).toBe(104);
     });
   });
@@ -262,15 +257,15 @@ describe('ToastProvider', () => {
     });
 
     it('should dismiss a single item by id and dismiss all', () => {
-      renderProvider({ maxItems: 2 });
+      renderToaster({ maxItems: 2 });
       let first = '';
       act(() => {
-        first = controller.warning({ title: 'A' }).id;
-        controller.warning({ title: 'B' });
+        first = toast.warning({ title: 'A' }).id;
+        toast.warning({ title: 'B' });
       });
 
       act(() => {
-        controller.dismiss(first);
+        toast.dismiss(first);
       });
       screen.getByText('A');
 
@@ -279,16 +274,16 @@ describe('ToastProvider', () => {
       screen.getByText('B');
 
       act(() => {
-        controller.dismissAll();
+        toast.dismissAll();
       });
       flushExit();
       expect(screen.queryByText('B')).toBeNull();
     });
 
     it('should dismiss on a swipe past the threshold', () => {
-      const { getByTestId } = renderProvider();
+      const { getByTestId } = renderToaster();
       act(() => {
-        controller.warning({ title: 'Swipe me' });
+        toast.warning({ title: 'Swipe me' });
       });
 
       const entry = getByTestId('toast-entry');
@@ -301,9 +296,9 @@ describe('ToastProvider', () => {
     });
 
     it('should spring back and stay visible on a swipe under the threshold', () => {
-      const { getByTestId } = renderProvider();
+      const { getByTestId } = renderToaster();
       act(() => {
-        controller.warning({ title: 'Stays put' });
+        toast.warning({ title: 'Stays put' });
       });
 
       const entry = getByTestId('toast-entry');
@@ -317,7 +312,7 @@ describe('ToastProvider', () => {
 
   describe('promise', () => {
     it('should move the toast from loading to success', async () => {
-      renderProvider();
+      renderToaster();
 
       let resolveFn: (value: string) => void = () => {};
       const promise = new Promise<string>((resolve) => {
@@ -325,7 +320,7 @@ describe('ToastProvider', () => {
       });
 
       act(() => {
-        controller.promise(promise, {
+        toast.promise(promise, {
           loading: { title: 'Saving' },
           success: { title: 'Saved' },
           error: { title: 'Failed' },
@@ -338,23 +333,21 @@ describe('ToastProvider', () => {
     });
   });
 
-  describe('useToast', () => {
-    it('should throw when used outside a provider', () => {
-      const errorSpy = jest.spyOn(console, 'error').mockImplementation(() => {
+  describe('Multiple instances', () => {
+    it('warns when a second Toaster mounts while one is already mounted', () => {
+      const warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {
         return;
       });
-      expect(() =>
-        render(
-          <ThemeProvider
-            themes={ledgerLiveThemes}
-            colorScheme='dark'
-            locale='en'
-          >
-            <Capture />
-          </ThemeProvider>,
-        ),
-      ).toThrow(/ToastProvider/);
-      errorSpy.mockRestore();
+
+      const first = renderToaster();
+      expect(warnSpy).not.toHaveBeenCalled();
+
+      const second = renderToaster();
+      expect(warnSpy).toHaveBeenCalledTimes(1);
+
+      first.unmount();
+      second.unmount();
+      warnSpy.mockRestore();
     });
   });
 });

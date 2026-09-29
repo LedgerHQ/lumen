@@ -90,10 +90,10 @@ const useToastStyles = ({
  * title that wraps up to five lines, and an optional action inline beside
  * the title. When the two cannot share a row, the action wraps onto its own
  * row, under the title's left edge. Dismissal is a swipe gesture, owned by
- * `ToastProvider` — this component never dismisses itself.
+ * `Toaster` — this component never dismisses itself.
  *
  * This is the presentational piece. For the queue, timing and imperative API,
- * use `ToastProvider` + `useToast`.
+ * use `Toaster` + `toast`.
  *
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-toast--docs Guidelines}
  *

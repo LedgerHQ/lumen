@@ -1,5 +1,5 @@
 import type { ToastAppearance } from '@ledgerhq/lumen-ui-rnative';
-import { Box, Button, useToast } from '@ledgerhq/lumen-ui-rnative';
+import { Box, Button, toast } from '@ledgerhq/lumen-ui-rnative';
 import { useToastControls } from '../../hooks/useToastControls';
 
 const simulateSaveProfile = () =>
@@ -36,7 +36,6 @@ const pickRandom = <T,>(items: readonly T[]): T =>
   items[Math.floor(Math.random() * items.length)];
 
 export default function Toasts() {
-  const toast = useToast();
   const { position, setPosition } = useToastControls();
 
   return (
@@ -99,7 +98,10 @@ export default function Toasts() {
         onPress={() =>
           toast.error({
             title: 'Payment failed',
-            action: { label: 'Retry', onAction: () => console.log('Retry') },
+            action: {
+              label: 'Retry',
+              onAction: () => toast.success({ title: 'Retried!' }),
+            },
           })
         }
       >

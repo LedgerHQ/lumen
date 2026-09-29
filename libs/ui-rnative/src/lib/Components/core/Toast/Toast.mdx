@@ -13,8 +13,8 @@ import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
 Toasts are brief, non-blocking messages that confirm an action or surface a
 status. They appear in a queued stack, are timed by status, and can carry a
-single action. Mount a `ToastProvider` once and trigger toasts imperatively
-with the `useToast` hook.
+single action. Mount a `Toaster` once and trigger toasts imperatively with the
+`toast` object, importable from anywhere — no provider or hook required.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=21016-59623&m=dev).
 
@@ -103,24 +103,24 @@ web). Extra items wait in a FIFO backlog and appear as slots free up.
 
 ### Setup
 
-Wrap your app once with `ToastProvider`, near the root. It renders the queue
-viewport as an absolutely-positioned overlay, so there is no separate
-viewport to mount. Requires `react-native-gesture-handler`'s
-`GestureHandlerRootView` and `react-native-safe-area-context`'s
-`SafeAreaProvider` above it in the tree:
+Mount `Toaster` once, near the app root — it takes no children and renders
+the queue viewport as an absolutely-positioned overlay, so there is no
+separate viewport to mount. Mounting more than one duplicates every toast on
+screen and logs a console warning in development. Requires
+`react-native-gesture-handler`'s `GestureHandlerRootView` and
+`react-native-safe-area-context`'s `SafeAreaProvider` above it in the tree:
 
 ```tsx
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { ToastProvider } from '@ledgerhq/lumen-ui-rnative';
+import { Toaster } from '@ledgerhq/lumen-ui-rnative';
 
 function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <ToastProvider position='bottom'>
-          <Screens />
-        </ToastProvider>
+        <Toaster position='bottom' />
+        <Screens />
       </SafeAreaProvider>
     </GestureHandlerRootView>
   );

@@ -1,22 +1,16 @@
-import {
-  createToastController,
-  useToastQueue,
-} from '@ledgerhq/lumen-utils-shared';
-import { useMemo, useState } from 'react';
+import { resolveMaxItems, toastStore } from '@ledgerhq/lumen-utils-shared';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useToastCollapse } from './hooks/useToastCollapse';
-import { ToastContextProvider, useToastContext } from './hooks/useToastContext';
 import { useToastGesture } from './hooks/useToastGesture';
 import { useToastLifecycle } from './hooks/useToastLifecycle';
 import { useToastMotion } from './hooks/useToastMotion';
 import { useToastViewportStyles } from './hooks/useToastViewportStyles';
 import { Toast } from './Toast';
-import type { ToastItem, ToastPosition, ToastProviderProps } from './types';
-
-export { useToastContext };
+import type { ToasterProps, ToastItem, ToastPosition } from './types';
 
 const ToastQueueItem = ({
   item,
@@ -75,9 +69,14 @@ const ToastQueueItem = ({
 };
 
 /**
- * Provides the imperative toast controller to `useToast` and renders the
- * queue viewport as an absolutely-positioned overlay. Mount once, near the
- * app root — there is no separate viewport component to mount.
+ * Subscribes to the module-level toast store and renders the queue viewport
+ * as an absolutely-positioned overlay. Mount it once, near the app root — it
+ * takes no children. `toast.*` from `@ledgerhq/lumen-utils-shared` works even
+ * before this mounts, or from outside the React tree entirely.
+ *
+ * Mount exactly one `<Toaster />` for the whole app. Every instance renders
+ * the full queue, so a second one duplicates every toast on screen — mounting
+ * more than one logs a console warning in development.
  *
  * Toasts are dismissed by swiping left or right; there is no close icon.
  * Touching a toast — a hold or an in-progress swipe — pauses its auto-dismiss
@@ -88,26 +87,26 @@ const ToastQueueItem = ({
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-toast--docs Guidelines}
  *
  * @example
- * import { ToastProvider } from '@ledgerhq/lumen-ui-rnative';
+ * import { Toaster } from '@ledgerhq/lumen-ui-rnative';
  *
  * function App() {
  *   return (
- *     <ToastProvider position="bottom" maxItems={1}>
+ *     <>
+ *       <Toaster position="bottom" maxItems={1} />
  *       <Screens />
- *     </ToastProvider>
+ *     </>
  *   );
  * }
  */
-export const ToastProvider = ({
-  children,
+export const Toaster = ({
   maxItems = 1,
   position = 'bottom',
   insets = {},
   durations,
-}: ToastProviderProps) => {
-  const { items, add, update, dismiss, dismissAll } = useToastQueue(
-    maxItems,
-    durations,
+}: ToasterProps) => {
+  const items = useSyncExternalStore(
+    toastStore.subscribe,
+    toastStore.getSnapshot,
   );
   const safeAreaInsets = useSafeAreaInsets();
   const viewportStyles = useToastViewportStyles({
@@ -117,30 +116,28 @@ export const ToastProvider = ({
     insets,
   });
 
-  const controller = useMemo(
-    () => createToastController({ add, update, dismiss, dismissAll }),
-    [add, update, dismiss, dismissAll],
-  );
+  useEffect(() => toastStore.registerRenderer(), []);
 
-  const visibleItems = items.slice(0, maxItems);
+  useEffect(() => {
+    toastStore.configure({ maxItems, durations });
+  }, [maxItems, durations]);
+
+  const visibleItems = items.slice(0, resolveMaxItems(maxItems));
 
   return (
-    <ToastContextProvider value={controller}>
-      {children}
-      <View
-        testID='toast-viewport'
-        pointerEvents='box-none'
-        style={viewportStyles.root}
-      >
-        {visibleItems.map((item) => (
-          <ToastQueueItem
-            key={item.id}
-            item={item}
-            position={position}
-            onDismiss={() => dismiss(item.id)}
-          />
-        ))}
-      </View>
-    </ToastContextProvider>
+    <View
+      testID='toast-viewport'
+      pointerEvents='box-none'
+      style={viewportStyles.root}
+    >
+      {visibleItems.map((item) => (
+        <ToastQueueItem
+          key={item.id}
+          item={item}
+          position={position}
+          onDismiss={() => toastStore.dismiss(item.id)}
+        />
+      ))}
+    </View>
   );
 };
