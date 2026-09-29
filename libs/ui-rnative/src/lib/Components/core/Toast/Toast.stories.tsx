@@ -1,11 +1,11 @@
+import { toast } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Box } from '../../primitives';
 import { Button } from '../Button';
-import { useToast } from './hooks/useToast';
 import { Toast } from './Toast';
-import { ToastProvider } from './ToastProvider';
+import { Toaster } from './Toaster';
 import type { ToastPosition } from './types';
 
 const meta = {
@@ -100,8 +100,6 @@ const PlaygroundControls = ({
   position: ToastPosition;
   onPositionChange: (position: ToastPosition) => void;
 }) => {
-  const toast = useToast();
-
   return (
     <Box lx={{ flexDirection: 'row', gap: 's8', flexWrap: 'wrap' }}>
       <Button
@@ -135,46 +133,40 @@ export const WithProvider: Story = {
 
     return (
       <SafeAreaProvider>
-        <ToastProvider position={position} durations={{ info: 3000 }}>
-          <PlaygroundControls
-            position={position}
-            onPositionChange={setPosition}
-          />
-        </ToastProvider>
+        <Toaster position={position} durations={{ info: 3000 }} />
+        <PlaygroundControls
+          position={position}
+          onPositionChange={setPosition}
+        />
       </SafeAreaProvider>
     );
   },
 };
 
-const UpdateDemo = () => {
-  const toast = useToast();
-
-  return (
-    <Button
-      appearance='base'
-      size='sm'
-      onPress={() => {
-        const { id } = toast.loading({ title: 'Uploading…' });
-        setTimeout(() => {
-          toast.update(id, {
-            appearance: 'success',
-            loading: false,
-            title: 'Upload complete',
-          });
-        }, 2000);
-      }}
-    >
-      Upload file
-    </Button>
-  );
-};
+const UpdateDemo = () => (
+  <Button
+    appearance='base'
+    size='sm'
+    onPress={() => {
+      const { id } = toast.loading({ title: 'Uploading…' });
+      setTimeout(() => {
+        toast.update(id, {
+          appearance: 'success',
+          loading: false,
+          title: 'Upload complete',
+        });
+      }, 2000);
+    }}
+  >
+    Upload file
+  </Button>
+);
 
 export const WithUpdate: Story = {
   render: () => (
     <SafeAreaProvider>
-      <ToastProvider>
-        <UpdateDemo />
-      </ToastProvider>
+      <Toaster />
+      <UpdateDemo />
     </SafeAreaProvider>
   ),
 };
@@ -182,32 +174,27 @@ export const WithUpdate: Story = {
 const simulateSaveProfile = () =>
   new Promise<void>((resolve) => setTimeout(resolve, 2000));
 
-const PromiseDemo = () => {
-  const toast = useToast();
-
-  return (
-    <Button
-      appearance='base'
-      size='sm'
-      onPress={() =>
-        toast.promise(simulateSaveProfile(), {
-          loading: { title: 'Saving…' },
-          success: { title: 'Profile saved' },
-          error: { title: 'Could not save' },
-        })
-      }
-    >
-      Save profile
-    </Button>
-  );
-};
+const PromiseDemo = () => (
+  <Button
+    appearance='base'
+    size='sm'
+    onPress={() =>
+      toast.promise(simulateSaveProfile(), {
+        loading: { title: 'Saving…' },
+        success: { title: 'Profile saved' },
+        error: { title: 'Could not save' },
+      })
+    }
+  >
+    Save profile
+  </Button>
+);
 
 export const WithPromise: Story = {
   render: () => (
     <SafeAreaProvider>
-      <ToastProvider>
-        <PromiseDemo />
-      </ToastProvider>
+      <Toaster />
+      <PromiseDemo />
     </SafeAreaProvider>
   ),
 };

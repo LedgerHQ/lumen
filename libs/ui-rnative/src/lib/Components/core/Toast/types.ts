@@ -2,7 +2,6 @@ import type {
   ToastAction,
   ToastAppearance,
 } from '@ledgerhq/lumen-utils-shared';
-import type { ReactNode } from 'react';
 import type { StyledViewProps } from '../../../../styles';
 
 // Re-exported for consumers importing from '@ledgerhq/lumen-ui-rnative': the
@@ -67,10 +66,9 @@ export type ToastProps = {
 } & StyledViewProps;
 
 /**
- * Props for `ToastProvider`.
+ * Props for `Toaster`.
  */
-export type ToastProviderProps = {
-  children: ReactNode;
+export type ToasterProps = {
   /**
    * Maximum number of toasts visible at once. Extra items wait in a FIFO
    * backlog and appear as visible slots free up.

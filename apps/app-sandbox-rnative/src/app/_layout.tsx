@@ -7,7 +7,7 @@ import {
   BottomSheetModalProvider,
   GlobalTooltipBottomSheet,
   ThemeProvider,
-  ToastProvider,
+  Toaster,
 } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import { Stack, useSegments } from 'expo-router';
@@ -38,16 +38,15 @@ export default function RootLayout() {
           <ToastControlsProvider
             value={{ position: toastPosition, setPosition: setToastPosition }}
           >
-            <ToastProvider
+            <Toaster
               maxItems={3}
               position={toastPosition}
               insets={{ left: 10, right: 10 }}
-            >
-              <BottomSheetModalProvider>
-                <RootNavigator />
-                <GlobalTooltipBottomSheet />
-              </BottomSheetModalProvider>
-            </ToastProvider>
+            />
+            <BottomSheetModalProvider>
+              <RootNavigator />
+              <GlobalTooltipBottomSheet />
+            </BottomSheetModalProvider>
           </ToastControlsProvider>
         </ThemeControlsProvider>
       </ThemeProvider>

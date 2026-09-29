@@ -47,6 +47,7 @@ export const useToastGesture = ({
     .enabled(dismissible)
     .activeOffsetX([-10, 10])
     .failOffsetY([-10, 10])
+    .cancelsTouchesInView(false)
     .onBegin(() => {
       'worklet';
       scheduleOnRN(handleHoldStartRef.current);
