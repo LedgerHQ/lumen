@@ -44,6 +44,10 @@ export const sharedConfig = defineConfig(
             '^.*/eslint(\\.base)?\\.config\\.[cm]?js$',
             '^.*/eslint\\.shared\\.[cm]?js$',
           ],
+          // Internals are dev-only tooling that is never published, so nothing
+          // that ships (libs, apps) may import them. The allow-lists below
+          // already exclude `scope:internal`; the explicit `notDependOn…`
+          // keeps that true if someone widens an allow-list later.
           depConstraints: [
             {
               sourceTag: 'scope:internal',
@@ -52,6 +56,7 @@ export const sharedConfig = defineConfig(
             {
               sourceTag: 'scope:shared',
               onlyDependOnLibsWithTags: ['scope:shared'],
+              notDependOnLibsWithTags: ['scope:internal'],
             },
             {
               sourceTag: 'scope:react-native',
@@ -60,6 +65,7 @@ export const sharedConfig = defineConfig(
                 'scope:react-native',
                 'scope:ui-shared',
               ],
+              notDependOnLibsWithTags: ['scope:internal'],
             },
             {
               sourceTag: 'scope:react',
@@ -68,6 +74,7 @@ export const sharedConfig = defineConfig(
                 'scope:react',
                 'scope:ui-shared',
               ],
+              notDependOnLibsWithTags: ['scope:internal'],
             },
           ],
         },

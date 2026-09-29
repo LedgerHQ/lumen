@@ -123,16 +123,24 @@ function cellFragment(
   return `${short} ${cell.patchesBehind} behind`;
 }
 
+function currentBullet(row: ReportRow): string {
+  const used = LUMEN_PACKAGES.filter(
+    (pkg) => row.cells[pkg].status !== 'not-used',
+  ).map(shortPackageName);
+  return `• ${row.repo} — ${used.join(', ')}`;
+}
+
 function rowBullet(row: ReportRow): string {
   const fragments = LUMEN_PACKAGES.map((pkg) =>
     cellFragment(pkg, row.cells[pkg]),
   ).filter((fragment): fragment is string => fragment !== undefined);
-  return `• *${row.repo}* — ${fragments.join(', ')}`;
+  return `• ${row.repo} — ${fragments.join(', ')}`;
 }
 
-const TIER_HEADING: Record<'red' | 'behind', string> = {
+const TIER_HEADING: Record<'red' | 'behind' | 'current', string> = {
   red: '🔴 Far behind / diverged',
   behind: '🟡 Behind',
+  current: '🟢 On track',
 };
 
 /**
@@ -140,9 +148,8 @@ const TIER_HEADING: Record<'red' | 'behind', string> = {
  * wraps badly in a narrow message pane (especially on mobile), which is what
  * made the first version of this report hard to read. A bulleted list
  * grouped by severity uses only Slack's native bold/bullet formatting, so it
- * never depends on column alignment surviving Slack's renderer. Fully-green
- * rows are omitted — a Slack message is for what needs attention, not a
- * full inventory (see `renderMarkdownReport`/`renderHtmlReport` for that).
+ * never depends on column alignment surviving Slack's renderer. Worst
+ * sections come first so what needs attention is read before the green list.
  */
 export function renderSlackReport(
   rows: ReportRow[],
@@ -150,21 +157,30 @@ export function renderSlackReport(
 ): string {
   const summary = renderSummaryLine(rows, latestVersions);
 
-  const redRows = rows.filter((row) => rowSeverityTier(row) === 'red');
-  const behindRows = rows.filter((row) => rowSeverityTier(row) === 'behind');
-
-  if (redRows.length === 0 && behindRows.length === 0) {
-    return `${summary}\n\nAll tracked repos are on the latest version. 🎉`;
-  }
+  const tierRows = (tier: 'red' | 'behind' | 'current'): ReportRow[] =>
+    rows.filter((row) => rowSeverityTier(row) === tier);
+  const redRows = tierRows('red');
+  const behindRows = tierRows('behind');
+  const currentRows = tierRows('current');
 
   const sections = [
     redRows.length > 0 &&
-      [`*${TIER_HEADING.red}*`, ...redRows.map(rowBullet)].join('\n'),
+      [TIER_HEADING.red, ...redRows.map(rowBullet)].join('\n'),
     behindRows.length > 0 &&
-      [`*${TIER_HEADING.behind}*`, ...behindRows.map(rowBullet)].join('\n'),
+      [TIER_HEADING.behind, ...behindRows.map(rowBullet)].join('\n'),
+    currentRows.length > 0 &&
+      [TIER_HEADING.current, ...currentRows.map(currentBullet)].join('\n'),
   ].filter((section): section is string => section !== false);
 
-  return [summary, '', sections.join('\n\n')].join('\n');
+  const allCurrent = redRows.length === 0 && behindRows.length === 0;
+  return [
+    summary,
+    '',
+    ...(allCurrent
+      ? ['All tracked repos are on the latest version. 🎉', '']
+      : []),
+    sections.join('\n\n'),
+  ].join('\n');
 }
 
 const STATUS_COLOR: Record<AdoptionStatus, string> = {

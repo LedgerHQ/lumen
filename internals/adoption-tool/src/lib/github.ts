@@ -64,6 +64,34 @@ export async function getRepoFileContent(
   );
 }
 
+/**
+ * Lists every file path in a repo's default branch with one Git Trees call —
+ * far cheaper than walking directories through the Contents API.
+ */
+export async function listRepoFiles(repo: string): Promise<string[]> {
+  const response = await fetch(
+    `https://api.github.com/repos/${repo}/git/trees/HEAD?recursive=1`,
+    { headers: githubHeaders() },
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      `GitHub tree ${repo}: ${response.status} ${response.statusText}`,
+    );
+  }
+
+  const data = (await response.json()) as {
+    tree: { path: string; type: string }[];
+    truncated: boolean;
+  };
+  if (data.truncated) {
+    throw new Error(`GitHub tree ${repo} is truncated; can't list all files.`);
+  }
+  return data.tree
+    .filter((node) => node.type === 'blob')
+    .map((node) => node.path);
+}
+
 export type CodeSearchHit = { repo: string; path: string };
 
 /**

@@ -97,25 +97,35 @@ describe('renderSummaryLine', () => {
 });
 
 describe('renderSlackReport', () => {
-  it('groups non-current rows into a red and a yellow bulleted section', () => {
+  it('groups rows into red, yellow and green bulleted sections', () => {
     const slack = renderSlackReport(rows, latestVersions);
     expect(slack).not.toContain('|'); // no table — bullets only
-    expect(slack).toContain('*🔴 Far behind / diverged*');
+    expect(slack).toContain('🔴 Far behind / diverged');
     expect(slack).toContain(
-      '• *LedgerHQ/app-openpgp* — ui-react 19 behind, design-core 12 behind',
+      '• LedgerHQ/app-openpgp — ui-react 19 behind, design-core 12 behind',
     );
-    expect(slack).toContain('*🟡 Behind*');
+    expect(slack).toContain('🟡 Behind');
     expect(slack).toContain(
-      '• *LedgerHQ/borrow-live-app* — ui-react 1 behind, design-core 1 behind',
+      '• LedgerHQ/borrow-live-app — ui-react 1 behind, design-core 1 behind',
     );
-    expect(slack).not.toContain('LedgerHQ/ledger-live');
+    expect(slack).toContain('🟢 On track');
+    expect(slack).toContain(
+      '• LedgerHQ/ledger-live — ui-react, ui-rnative, design-core',
+    );
+    expect(slack.indexOf('🔴 Far behind')).toBeLessThan(
+      slack.indexOf('🟡 Behind'),
+    );
+    expect(slack.indexOf('🟡 Behind')).toBeLessThan(
+      slack.indexOf('🟢 On track'),
+    );
   });
 
   it('celebrates when everything is current, with no section headings', () => {
     const allCurrent = [rows[0]];
     const slack = renderSlackReport(allCurrent, latestVersions);
-    expect(slack).not.toContain('*🔴');
-    expect(slack).not.toContain('*🟡');
+    expect(slack).not.toContain('🔴 Far behind');
+    expect(slack).not.toContain('🟡 Behind');
     expect(slack).toContain('latest version');
+    expect(slack).toContain('🟢 On track');
   });
 });

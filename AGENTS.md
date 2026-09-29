@@ -38,7 +38,7 @@ no, it belongs here — codegen, ETL, external-API sync and their input data.
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
 | `internals/repo-tools` | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md` |
-| `internals/lumen-adoption` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md` |
+| `internals/adoption-tool` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md` |
 
 Rules for adding one:
 

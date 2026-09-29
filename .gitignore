@@ -138,6 +138,7 @@ mise.toml
 .claude/settings.local.json
 
 # generated reports
-internals/lumen-adoption/report.md
-internals/lumen-adoption/report.html
-internals/lumen-adoption/report.slack.txt
+internals/adoption-tool/report.md
+internals/adoption-tool/report.html
+internals/adoption-tool/report.slack.txt
+internals/adoption-tool/owners.md

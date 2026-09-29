@@ -1,7 +1,7 @@
 {
-  "name": "lumen-adoption",
+  "name": "adoption-tool",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "internals/lumen-adoption/src",
+  "sourceRoot": "internals/adoption-tool/src",
   "projectType": "library",
   "tags": ["scope:internal", "type:tooling"],
   "targets": {
@@ -9,25 +9,31 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "vitest --run",
-        "cwd": "internals/lumen-adoption"
+        "cwd": "internals/adoption-tool"
       }
     },
     "report": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx internals/lumen-adoption/src/report.ts --format markdown"
+        "command": "npx tsx internals/adoption-tool/src/report.ts --format markdown"
       }
     },
     "report-summary": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx internals/lumen-adoption/src/report.ts --format summary"
+        "command": "npx tsx internals/adoption-tool/src/report.ts --format summary"
+      }
+    },
+    "owners": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/owners.ts"
       }
     },
     "discover": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx internals/lumen-adoption/src/discover.ts"
+        "command": "npx tsx internals/adoption-tool/src/discover.ts"
       }
     }
   }
