@@ -43,7 +43,7 @@ export const Stepper = ({
     progressDashArray,
     progressMaskDashArray,
     progressDashOffset,
-    progressMaskRotation,
+    dashPatternOffset,
   } = getStepperCalculations({
     currentStep,
     totalSteps,
@@ -70,7 +70,7 @@ export const Stepper = ({
         width={SIZE}
         height={SIZE}
         viewBox={`0 0 ${SIZE} ${SIZE}`}
-        className='rotate-135'
+        className='-rotate-90'
         aria-hidden
       >
         <circle
@@ -84,7 +84,7 @@ export const Stepper = ({
           style={{
             strokeWidth: `${STROKE_WIDTH}px`,
             strokeDasharray: progressDashArray,
-            strokeDashoffset: 0,
+            strokeDashoffset: dashPatternOffset,
           }}
         />
         <mask
@@ -101,7 +101,6 @@ export const Stepper = ({
             r={r}
             fill='none'
             stroke='white'
-            transform={`rotate(${progressMaskRotation} ${cx} ${cy})`}
             className='transition-[stroke-dashoffset] duration-300 ease-in-out'
             style={{
               strokeWidth: `${STROKE_WIDTH}px`,
@@ -125,6 +124,7 @@ export const Stepper = ({
           style={{
             strokeWidth: `${STROKE_WIDTH}px`,
             strokeDasharray: progressDashArray,
+            strokeDashoffset: dashPatternOffset,
           }}
         />
       </svg>

@@ -83,7 +83,7 @@ export const Stepper = ({
     progressDashArray,
     progressMaskDashArray,
     progressDashOffset,
-    progressMaskRotation,
+    dashPatternOffset,
   } = getStepperCalculations({
     currentStep,
     totalSteps,
@@ -139,6 +139,7 @@ export const Stepper = ({
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={progressDashArray}
+          strokeDashoffset={dashPatternOffset}
         />
         <Defs>
           <Mask
@@ -157,8 +158,6 @@ export const Stepper = ({
               stroke='white'
               strokeWidth={STROKE_WIDTH}
               strokeDasharray={progressMaskDashArray}
-              rotation={progressMaskRotation}
-              origin={`${cx}, ${cy}`}
               animatedProps={animatedProgress}
             />
           </Mask>
@@ -176,6 +175,7 @@ export const Stepper = ({
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={progressDashArray}
+          strokeDashoffset={dashPatternOffset}
           mask={`url(#${maskId})`}
         />
       </Svg>

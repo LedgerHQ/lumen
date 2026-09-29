@@ -30,8 +30,8 @@ export type StepperCalculationsOutput = {
   progressMaskDashArray: string;
   /** strokeDashoffset for the mask circle; animate it to sweep clockwise. */
   progressDashOffset: number;
-  /** Rotation in degrees (around the center) to apply to the mask circle. */
-  progressMaskRotation: number;
+  /** strokeDashoffset for the track and progress circles; centers the first gap at the path start. */
+  dashPatternOffset: number;
 };
 
 /**
@@ -70,13 +70,16 @@ export const getStepperCalculations = ({
   const cy = size / 2;
   const circumference = 2 * Math.PI * r;
 
-  const SEGMENT_GAP = 12;
-  const segmentLength = circumference / totalSteps - SEGMENT_GAP;
+  const GAP_DEGREES = 12;
+  const gapLength =
+    totalSteps <= 1 ? 0 : (GAP_DEGREES / 360) * circumference + strokeWidth;
 
-  const progressDashArray = `${segmentLength} ${SEGMENT_GAP}`;
+  const segmentLength = Math.max(circumference / totalSteps - gapLength, 0);
+
+  const progressDashArray = `${segmentLength} ${gapLength}`;
   const progressMaskDashArray = `${circumference} ${circumference}`;
   const progressDashOffset = circumference * (1 - progress);
-  const progressMaskRotation = -((SEGMENT_GAP / 2 / r) * 180) / Math.PI;
+  const dashPatternOffset = segmentLength + gapLength / 2;
 
   return {
     displayLabel,
@@ -88,6 +91,6 @@ export const getStepperCalculations = ({
     progressDashArray,
     progressMaskDashArray,
     progressDashOffset,
-    progressMaskRotation,
+    dashPatternOffset,
   };
 };
