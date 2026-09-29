@@ -1,5 +1,6 @@
 import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
@@ -452,6 +453,14 @@ describe('Toaster', () => {
       first.unmount();
       second.unmount();
       warnSpy.mockRestore();
+    });
+  });
+
+  describe('SSR', () => {
+    it('should server-render an empty queue even when toasts are pending', () => {
+      toast.warning({ title: 'Queued before render' });
+
+      expect(renderToString(<Toaster />)).toBe('');
     });
   });
 });

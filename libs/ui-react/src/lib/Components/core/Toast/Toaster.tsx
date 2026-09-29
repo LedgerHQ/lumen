@@ -23,6 +23,11 @@ import type { ToastItem, ToasterProps, ToastPosition } from './types';
 
 const EXIT_ANIMATION_MS = 300;
 
+// Toasts only come from client-side events, so the server always renders an
+// empty queue. Module-level so React sees the same reference on every call.
+const NO_TOASTS: ToastItem[] = [];
+const getServerSnapshot = (): ToastItem[] => NO_TOASTS;
+
 const ToastQueueItem = ({
   item,
   position,
@@ -129,6 +134,7 @@ export const Toaster = ({
   const items = useSyncExternalStore(
     toastStore.subscribe,
     toastStore.getSnapshot,
+    getServerSnapshot,
   );
   const [hovered, setHovered] = useState(false);
   const [focusWithin, setFocusWithin] = useState(false);
