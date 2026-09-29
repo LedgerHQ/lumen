@@ -10,6 +10,7 @@ import {
 } from './config.js';
 import { classifyVersion } from './lib/classify.js';
 import { parseReportFormat } from './lib/cliArgs.js';
+import { packageJsonPathFor, type ConsumerEntry } from './lib/consumers.js';
 import { getRepoFileContent } from './lib/github.js';
 import * as log from './lib/logging.js';
 import { getLatestVersion } from './lib/npmRegistry.js';
@@ -20,71 +21,8 @@ import {
   type Cell,
   type ReportRow,
 } from './lib/render.js';
-import {
-  extractDependencyValue,
-  isCatalogReference,
-  catalogNameFromReference,
-  stripSemverRangePrefix,
-  readYamlScalarPath,
-} from './lib/resolveVersion.js';
+import { resolveDependency } from './lib/resolveDependency.js';
 import { sortRowsByAdoption } from './lib/sortRows.js';
-
-type ConsumerEntry = {
-  repo: string;
-  packageJsonPath: string;
-  notes?: string;
-};
-
-function readCatalogVersion(
-  pnpmWorkspaceYaml: string,
-  packageName: LumenPackage,
-  catalogName: string | undefined,
-): string | undefined {
-  const path = catalogName
-    ? ['catalogs', catalogName, packageName]
-    : ['catalog', packageName];
-  const catalogVersion = readYamlScalarPath(pnpmWorkspaceYaml, path);
-  return catalogVersion ? stripSemverRangePrefix(catalogVersion) : undefined;
-}
-
-/**
- * Resolves one package's version for a repo. The anchor package.json is only
- * where we *start* looking, not the only source of truth: in a pnpm-catalog
- * monorepo (e.g. ledger-live), the anchor file may legitimately not declare
- * every Lumen package (design-core at the root, ui-react three levels down
- * in a feature package) even though the whole repo shares one pinned version
- * via the default catalog — so an anchor miss falls back to checking the
- * default catalog directly before concluding the package truly isn't used.
- */
-async function resolveDependencyVersion(
-  repo: string,
-  packageJsonPath: string,
-  packageName: LumenPackage,
-  pnpmWorkspaceYaml: string | undefined,
-): Promise<string | undefined> {
-  const packageJsonText = await getRepoFileContent(repo, packageJsonPath);
-  const rawValue = packageJsonText
-    ? extractDependencyValue(packageJsonText, packageName)
-    : undefined;
-
-  if (rawValue && !isCatalogReference(rawValue)) {
-    return stripSemverRangePrefix(rawValue);
-  }
-
-  if (!pnpmWorkspaceYaml) return undefined;
-
-  if (rawValue) {
-    return readCatalogVersion(
-      pnpmWorkspaceYaml,
-      packageName,
-      catalogNameFromReference(rawValue),
-    );
-  }
-
-  // Anchor didn't declare this package at all — see if the repo's default
-  // catalog pins it anyway (a different package.json in the monorepo uses it).
-  return readCatalogVersion(pnpmWorkspaceYaml, packageName, undefined);
-}
 
 async function buildReport(): Promise<{
   rows: ReportRow[];
@@ -112,11 +50,21 @@ async function buildReport(): Promise<{
       'pnpm-workspace.yaml',
     );
 
+    const packageJsonCache = new Map<string, string | undefined>();
     const cells = {} as Record<LumenPackage, Cell>;
     for (const pkg of LUMEN_PACKAGES) {
-      const version = await resolveDependencyVersion(
-        consumer.repo,
-        consumer.packageJsonPath,
+      const packageJsonPath = packageJsonPathFor(consumer, pkg);
+      if (!packageJsonCache.has(packageJsonPath)) {
+        const text = await getRepoFileContent(consumer.repo, packageJsonPath);
+        if (text === undefined) {
+          log.warn(
+            `${consumer.repo}: ${packageJsonPath} not found — update data/consumers.json`,
+          );
+        }
+        packageJsonCache.set(packageJsonPath, text);
+      }
+      const version = resolveDependency(
+        packageJsonCache.get(packageJsonPath),
         pkg,
         pnpmWorkspaceYaml,
       );

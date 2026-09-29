@@ -6,6 +6,10 @@
   {
     "repo": "LedgerHQ/ledger-live",
     "packageJsonPath": "package.json",
+    "packageJsonPaths": {
+      "@ledgerhq/lumen-ui-react": "apps/ledger-live-desktop/package.json",
+      "@ledgerhq/lumen-ui-rnative": "apps/ledger-live-mobile/package.json"
+    },
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
   },
   {
@@ -52,11 +56,17 @@
   {
     "repo": "LedgerHQ/ledger-button",
     "packageJsonPath": "packages/ledger-button/package.json",
+    "packageJsonPaths": {
+      "@ledgerhq/lumen-ui-react": "apps/test-dapp/package.json"
+    },
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
   },
   {
     "repo": "LedgerHQ/ledger-button-public",
     "packageJsonPath": "packages/ledger-button/package.json",
+    "packageJsonPaths": {
+      "@ledgerhq/lumen-ui-react": "apps/test-dapp/package.json"
+    },
     "notes": "pnpm catalog — public mirror of ledger-button"
   },
   {

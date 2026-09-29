@@ -27,6 +27,13 @@ never live GitHub search — because search alone isn't deterministic enough to
 drive a report people track over time (see the top of `discover.ts` for why).
 Fold `discover`'s findings into the registry by hand, in a reviewable PR.
 
+Each entry's `packageJsonPath` is where the dependency is read; in monorepos
+where a Lumen package is declared by a different workspace package.json, add a
+per-package override under `packageJsonPaths`. A `catalog:` version is only
+resolved from `pnpm-workspace.yaml` after a package.json actually declares the
+package, and a declared-but-unresolvable one shows as `unresolved`, not `—`.
+`discover` also flags registry paths that code search no longer finds.
+
 `owners` combines two sources because neither is complete alone: the
 `LedgerHQ/architecture-as-code` catalog (team ↔ repo links and each team's
 `github-teams`) and every consumer's own CODEOWNERS, whose team handles are

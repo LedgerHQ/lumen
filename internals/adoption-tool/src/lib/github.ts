@@ -107,22 +107,34 @@ export async function searchPackageJsonUsage(
   const query = encodeURIComponent(
     `org:${org} "${packageName}" filename:package.json`,
   );
-  const response = await fetch(
-    `https://api.github.com/search/code?q=${query}&per_page=100`,
-    { headers: githubHeaders() },
-  );
+  const perPage = 100;
+  const hits: CodeSearchHit[] = [];
 
-  if (!response.ok) {
-    throw new Error(
-      `GitHub code search for ${packageName}: ${response.status} ${response.statusText}`,
+  // Search results are capped at 1000, but a single page (100) is easily
+  // exceeded by a monorepo with one package.json per workspace package.
+  for (let page = 1; page <= 10; page += 1) {
+    const response = await fetch(
+      `https://api.github.com/search/code?q=${query}&per_page=${perPage}&page=${page}`,
+      { headers: githubHeaders() },
     );
-  }
 
-  const data = (await response.json()) as {
-    items: { path: string; repository: { full_name: string } }[];
-  };
-  return data.items.map((item) => ({
-    repo: item.repository.full_name,
-    path: item.path,
-  }));
+    if (!response.ok) {
+      throw new Error(
+        `GitHub code search for ${packageName}: ${response.status} ${response.statusText}`,
+      );
+    }
+
+    const data = (await response.json()) as {
+      total_count: number;
+      items: { path: string; repository: { full_name: string } }[];
+    };
+    hits.push(
+      ...data.items.map((item) => ({
+        repo: item.repository.full_name,
+        path: item.path,
+      })),
+    );
+    if (data.items.length < perPage || hits.length >= data.total_count) break;
+  }
+  return hits;
 }
