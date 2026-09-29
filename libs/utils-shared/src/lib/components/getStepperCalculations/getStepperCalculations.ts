@@ -9,8 +9,6 @@ export type StepperCalculationsInput = {
   label?: string;
   /** Stroke width in pixels. @default 4 */
   strokeWidth?: number;
-  /** Percentage of full circle to show as arc (0–1). @default 0.75 (270°) */
-  arcPercentage?: number;
 };
 
 export type StepperCalculationsOutput = {
@@ -65,7 +63,6 @@ export const getStepperCalculations = ({
   size,
   label,
   strokeWidth = 4,
-  arcPercentage = 0.75,
 }: StepperCalculationsInput): StepperCalculationsOutput => {
   // Clamp currentStep: minimum 0, maximum totalSteps
   const clampedCurrentStep = Math.min(Math.max(currentStep, 0), totalSteps);
@@ -80,7 +77,7 @@ export const getStepperCalculations = ({
   const circumference = 2 * Math.PI * r;
 
   // Arc calculations
-  const trackArcLength = circumference * arcPercentage;
+  const trackArcLength = circumference;
   const dashOffset = trackArcLength * (1 - progress);
 
   // Minimal dot handling (currentStep <= 0 means "not started")

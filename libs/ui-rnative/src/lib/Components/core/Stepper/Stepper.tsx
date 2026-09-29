@@ -126,7 +126,7 @@ export const Stepper = ({
         width={SIZE}
         height={SIZE}
         viewBox={`0 0 ${SIZE} ${SIZE}`}
-        style={{ transform: [{ rotate: '135deg' }] }}
+        style={{ transform: [{ rotate: '-90deg' }] }}
       >
         <Circle
           cx={cx}
