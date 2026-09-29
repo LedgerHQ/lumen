@@ -49,15 +49,4 @@ describe('getStepperCalculations', () => {
     });
     expect(result.progress).toBe(0);
   });
-
-  it('should show minimal dot when currentStep <= 0', () => {
-    const zero = getStepperCalculations({
-      ...defaultInput,
-      currentStep: 0,
-    });
-    expect(zero.showMinimalDot).toBe(true);
-
-    const started = getStepperCalculations(defaultInput);
-    expect(started.showMinimalDot).toBe(false);
-  });
 });

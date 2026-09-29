@@ -137,7 +137,6 @@ export const Stepper = ({
           strokeLinecap='round'
           strokeWidth={STROKE_WIDTH}
           strokeDasharray={trackDashArray}
-          strokeDashoffset={0}
         />
         <AnimatedCircle
           cx={cx}
