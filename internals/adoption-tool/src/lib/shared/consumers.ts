@@ -1,4 +1,4 @@
-import type { LumenPackage } from '../config.js';
+import type { LumenPackage } from '../../config.js';
 
 export type ConsumerEntry = {
   repo: string;

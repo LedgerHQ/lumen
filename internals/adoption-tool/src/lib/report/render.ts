@@ -1,4 +1,4 @@
-import { LUMEN_PACKAGES, type LumenPackage } from '../config.js';
+import { LUMEN_PACKAGES, type LumenPackage } from '../../config.js';
 import type { AdoptionStatus } from './classify.js';
 import { rowSeverityTier } from './sortRows.js';
 

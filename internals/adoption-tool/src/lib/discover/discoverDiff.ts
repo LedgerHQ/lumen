@@ -1,4 +1,4 @@
-import { registryPaths, type ConsumerEntry } from './consumers.js';
+import { registryPaths, type ConsumerEntry } from '../shared/consumers.js';
 
 export type RegistryDiff = {
   newRepos: { repo: string; paths: string[] }[];

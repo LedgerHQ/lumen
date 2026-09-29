@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import type { LumenPackage } from '../config.js';
+import type { LumenPackage } from '../../config.js';
 import {
   renderMarkdownTable,
   renderSummaryLine,

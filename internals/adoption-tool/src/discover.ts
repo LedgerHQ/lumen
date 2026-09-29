@@ -5,10 +5,10 @@ import {
   SOURCE_REPO,
   CONSUMERS_DATA_PATH,
 } from './config.js';
-import type { ConsumerEntry } from './lib/consumers.js';
-import { diffRegistry } from './lib/discoverDiff.js';
-import { searchPackageJsonUsage } from './lib/github.js';
-import * as log from './lib/logging.js';
+import { diffRegistry } from './lib/discover/discoverDiff.js';
+import type { ConsumerEntry } from './lib/shared/consumers.js';
+import { searchPackageJsonUsage } from './lib/shared/github.js';
+import * as log from './lib/shared/logging.js';
 
 /**
  * Best-effort refresh check: re-runs the GitHub code search that originally

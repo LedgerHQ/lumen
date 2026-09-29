@@ -1,4 +1,4 @@
-import { LUMEN_PACKAGES } from '../config.js';
+import { LUMEN_PACKAGES } from '../../config.js';
 import type { AdoptionStatus } from './classify.js';
 import type { Cell, ReportRow } from './render.js';
 

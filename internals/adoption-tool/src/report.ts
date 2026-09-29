@@ -8,21 +8,24 @@ import {
   REPORT_SLACK_PATH,
   type LumenPackage,
 } from './config.js';
-import { classifyVersion } from './lib/classify.js';
-import { parseReportFormat } from './lib/cliArgs.js';
-import { packageJsonPathFor, type ConsumerEntry } from './lib/consumers.js';
-import { getRepoFileContent } from './lib/github.js';
-import * as log from './lib/logging.js';
-import { getLatestVersion } from './lib/npmRegistry.js';
+import { classifyVersion } from './lib/report/classify.js';
+import { parseReportFormat } from './lib/report/cliArgs.js';
+import { getLatestVersion } from './lib/report/npmRegistry.js';
 import {
   renderMarkdownReport,
   renderHtmlReport,
   renderSlackReport,
   type Cell,
   type ReportRow,
-} from './lib/render.js';
-import { resolveDependency } from './lib/resolveDependency.js';
-import { sortRowsByAdoption } from './lib/sortRows.js';
+} from './lib/report/render.js';
+import { resolveDependency } from './lib/report/resolveDependency.js';
+import { sortRowsByAdoption } from './lib/report/sortRows.js';
+import {
+  packageJsonPathFor,
+  type ConsumerEntry,
+} from './lib/shared/consumers.js';
+import { getRepoFileContent } from './lib/shared/github.js';
+import * as log from './lib/shared/logging.js';
 
 async function buildReport(): Promise<{
   rows: ReportRow[];

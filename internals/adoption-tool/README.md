@@ -20,6 +20,22 @@ Both `report` targets write all three output files every run —
 gets printed to stdout. Pass a different value directly if needed:
 `npx tsx internals/adoption-tool/src/report.ts --format summary`.
 
+## Layout
+
+Each command is an entry script in `src/` that only orchestrates; its logic
+lives in the `src/lib/` folder named after it, and cross-command code in `shared/`.
+
+```
+src/
+  report.ts  owners.ts  discover.ts   entry scripts, one per Nx target
+  config.ts                           packages, thresholds, paths
+  lib/
+    report/     versions → classify → sort → render (markdown / HTML / Slack)
+    owners/     architecture-as-code catalog + CODEOWNERS → repo owners
+    discover/   code-search results vs. the registry diff
+    shared/     GitHub client, logging, the consumers.json entry type
+```
+
 ## Design notes
 
 `report` only ever reads the git-tracked `data/consumers.json` registry —
@@ -45,5 +61,5 @@ Needs a GitHub token (`GITHUB_TOKEN`/`GH_TOKEN`, or falls back to
 JFrog registry first, but it mirrors out to public npm.
 
 Everything else — pnpm catalog resolution, patch-only diffing, sort and
-status rules — is documented as comments at the point of use in `src/lib/*.ts`;
+status rules — is documented as comments at the point of use in `src/lib/**`;
 read those rather than this file, so there's one place to keep in sync.

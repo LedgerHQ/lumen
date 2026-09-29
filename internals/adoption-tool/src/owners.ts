@@ -5,15 +5,18 @@ import {
   CROSS_CUTTING_CATALOG_TEAMS,
   OWNERS_MARKDOWN_PATH,
 } from './config.js';
-import { parseCatalogTeams, type CatalogTeam } from './lib/catalog.js';
-import { CODEOWNERS_PATHS } from './lib/codeowners.js';
-import { getRepoFileContent, listRepoFiles } from './lib/github.js';
-import * as log from './lib/logging.js';
-import { buildRepoOwnership, type RepoOwnership } from './lib/ownership.js';
+import { parseCatalogTeams, type CatalogTeam } from './lib/owners/catalog.js';
+import { CODEOWNERS_PATHS } from './lib/owners/codeowners.js';
+import {
+  buildRepoOwnership,
+  type RepoOwnership,
+} from './lib/owners/ownership.js';
 import {
   renderOwnersMarkdown,
   renderOwnersSummary,
-} from './lib/renderOwners.js';
+} from './lib/owners/renderOwners.js';
+import { getRepoFileContent, listRepoFiles } from './lib/shared/github.js';
+import * as log from './lib/shared/logging.js';
 
 type ConsumerEntry = { repo: string };
 

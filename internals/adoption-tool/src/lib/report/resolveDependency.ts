@@ -1,4 +1,4 @@
-import type { LumenPackage } from '../config.js';
+import type { LumenPackage } from '../../config.js';
 import {
   extractDependencyValue,
   isCatalogReference,
