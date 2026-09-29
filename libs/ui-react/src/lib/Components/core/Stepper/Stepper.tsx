@@ -3,6 +3,7 @@ import {
   getStepperCalculations,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
+import { useId } from 'react';
 import type { StepperProps } from './types';
 
 const SIZE = 48;
@@ -16,7 +17,7 @@ const STROKE_WIDTH = 4;
  *
  * @example
  * <Stepper currentStep={1} totalSteps={4} />
- * <Stepper currentStep={0} totalSteps={9} disabled /> // Shows minimal dot, disabled style
+ * <Stepper currentStep={0} totalSteps={9} disabled /> // Empty progress, disabled style
  */
 export const Stepper = ({
   className,
@@ -32,14 +33,17 @@ export const Stepper = ({
     mergeWith: { disabled: disabledProp },
   });
 
+  const maskId = useId();
+
   const {
     displayLabel,
     r,
     cx,
     cy,
-    trackDashArray,
     progressDashArray,
+    progressMaskDashArray,
     progressDashOffset,
+    progressMaskRotation,
   } = getStepperCalculations({
     currentStep,
     totalSteps,
@@ -79,10 +83,33 @@ export const Stepper = ({
           className='stroke-muted-subtle'
           style={{
             strokeWidth: `${STROKE_WIDTH}px`,
-            strokeDasharray: trackDashArray,
+            strokeDasharray: progressDashArray,
             strokeDashoffset: 0,
           }}
         />
+        <mask
+          id={maskId}
+          maskUnits='userSpaceOnUse'
+          x={0}
+          y={0}
+          width={SIZE}
+          height={SIZE}
+        >
+          <circle
+            cx={cx}
+            cy={cy}
+            r={r}
+            fill='none'
+            stroke='white'
+            transform={`rotate(${progressMaskRotation} ${cx} ${cy})`}
+            className='transition-[stroke-dashoffset] duration-300 ease-in-out'
+            style={{
+              strokeWidth: `${STROKE_WIDTH}px`,
+              strokeDasharray: progressMaskDashArray,
+              strokeDashoffset: progressDashOffset,
+            }}
+          />
+        </mask>
         <circle
           cx={cx}
           cy={cy}
@@ -90,14 +117,14 @@ export const Stepper = ({
           fill='none'
           stroke='currentColor'
           strokeLinecap='round'
+          mask={`url(#${maskId})`}
           className={cn(
             disabled ? 'stroke-muted-subtle-hover' : 'stroke-active',
-            'transition-[stroke-dashoffset,stroke] duration-300 ease-in-out',
+            'transition-[stroke] duration-300 ease-in-out',
           )}
           style={{
             strokeWidth: `${STROKE_WIDTH}px`,
             strokeDasharray: progressDashArray,
-            strokeDashoffset: progressDashOffset,
           }}
         />
       </svg>
