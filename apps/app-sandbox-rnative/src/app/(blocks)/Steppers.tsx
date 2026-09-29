@@ -1,18 +1,18 @@
-import { Box, Text, IconButton, Stepper } from '@ledgerhq/lumen-ui-rnative';
-import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
+import { Box, IconButton, Stepper } from '@ledgerhq/lumen-ui-rnative';
 import { ArrowLeft, ArrowRight } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useEffect, useRef, useState } from 'react';
 
-export default function Steppers() {
-  const { theme } = useTheme();
+const MAX_STEPS = 8;
 
+export default function Steppers() {
   const [step, setStep] = useState(1);
   const [autoStep, setAutoStep] = useState(0);
+
   const isReversing = useRef(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (autoStep >= 8) {
+      if (autoStep >= MAX_STEPS) {
         isReversing.current = true;
       } else if (autoStep <= 0) {
         isReversing.current = false;
@@ -54,40 +54,29 @@ export default function Steppers() {
 
       <Box
         lx={{
-          gap: 's16',
+          gap: 's12',
           width: 'full',
           flexDirection: 'row',
           flexWrap: 'wrap',
         }}
       >
-        {Array.from({ length: 8 }).map((_, i) => (
+        {Array.from({ length: MAX_STEPS }).map((_, i) => (
           <Stepper
             currentStep={Math.max(0, Math.min(autoStep, i + 1))}
             totalSteps={i + 1}
           />
         ))}
       </Box>
-
-      {/* Disabled stepper */}
-      <Box lx={{ gap: 's8', alignItems: 'center' }}>
-        <Text
-          lx={{ color: 'muted' }}
-          style={{ ...theme.typographies.body3SemiBold }}
-        >
-          Disabled
-        </Text>
+      <Box
+        lx={{
+          gap: 's12',
+          width: 'full',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+        }}
+      >
+        <Stepper currentStep={1} totalSteps={1} label='🎉' />
         <Stepper currentStep={2} totalSteps={5} disabled />
-      </Box>
-
-      {/* Custom label stepper */}
-      <Box lx={{ gap: 's8', alignItems: 'center' }}>
-        <Text
-          lx={{ color: 'muted' }}
-          style={{ ...theme.typographies.body3SemiBold }}
-        >
-          Custom label
-        </Text>
-        <Stepper currentStep={3} totalSteps={5} label='A' />
       </Box>
     </Box>
   );
