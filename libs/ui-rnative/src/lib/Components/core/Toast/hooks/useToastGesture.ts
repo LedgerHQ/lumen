@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import { useWindowDimensions } from 'react-native';
-import { Gesture } from 'react-native-gesture-handler';
+import { Gesture, type PanGesture } from 'react-native-gesture-handler';
 import { withTiming, type SharedValue } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
@@ -14,7 +14,7 @@ type UseToastGestureArgs = {
 };
 
 type UseToastGestureReturn = {
-  gesture: ReturnType<typeof Gesture.Simultaneous>;
+  gesture: PanGesture;
 };
 
 export const useToastGesture = ({
@@ -33,24 +33,28 @@ export const useToastGesture = ({
 
   const onHoldChangeRef = useRef(onHoldChange);
   onHoldChangeRef.current = onHoldChange;
-  const activeGesturesRef = useRef(0);
   const handleHoldStartRef = useRef(() => {
-    activeGesturesRef.current += 1;
     onHoldChangeRef.current(true);
   });
   const handleHoldEndRef = useRef(() => {
-    activeGesturesRef.current = Math.max(0, activeGesturesRef.current - 1);
-    if (activeGesturesRef.current === 0) onHoldChangeRef.current(false);
+    onHoldChangeRef.current(false);
   });
 
   const pan = Gesture.Pan()
-    .enabled(dismissible)
     .activeOffsetX([-10, 10])
     .failOffsetY([-10, 10])
     .cancelsTouchesInView(false)
-    .onBegin(() => {
+    .onTouchesDown(() => {
       'worklet';
       scheduleOnRN(handleHoldStartRef.current);
+    })
+    .onTouchesUp((e) => {
+      'worklet';
+      if (e.numberOfTouches === 0) scheduleOnRN(handleHoldEndRef.current);
+    })
+    .onTouchesCancelled(() => {
+      'worklet';
+      scheduleOnRN(handleHoldEndRef.current);
     })
     .onFinalize(() => {
       'worklet';
@@ -58,10 +62,12 @@ export const useToastGesture = ({
     })
     .onUpdate((e) => {
       'worklet';
+      if (!dismissible) return;
       translateX.value = e.translationX;
     })
     .onEnd((e) => {
       'worklet';
+      if (!dismissible) return;
       if (Math.abs(e.translationX) > SWIPE_DISMISS_THRESHOLD_PX) {
         translateX.value = withTiming(
           e.translationX > 0 ? windowWidth : -windowWidth,
@@ -73,17 +79,5 @@ export const useToastGesture = ({
       }
     });
 
-  const hold = Gesture.LongPress()
-    .minDuration(0)
-    .cancelsTouchesInView(false)
-    .onStart(() => {
-      'worklet';
-      scheduleOnRN(handleHoldStartRef.current);
-    })
-    .onFinalize(() => {
-      'worklet';
-      scheduleOnRN(handleHoldEndRef.current);
-    });
-
-  return { gesture: Gesture.Simultaneous(pan, hold) };
+  return { gesture: pan };
 };
