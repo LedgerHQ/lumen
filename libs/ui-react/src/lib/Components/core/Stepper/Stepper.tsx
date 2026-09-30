@@ -135,19 +135,17 @@ export const Stepper = ({
       </svg>
       <span className='absolute inset-0 m-4 flex items-center justify-center text-base'>
         {label ? (
-          <span className={cn('body-2-semi-bold', disabled && 'text-disabled')}>
+          <span className={cn('body-2', disabled && 'text-disabled')}>
             {label}
           </span>
         ) : (
           <span>
-            <span
-              className={cn('body-1-semi-bold', disabled && 'text-disabled')}
-            >
+            <span className={cn('body-2', disabled && 'text-disabled')}>
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </span>
             <span
               className={cn(
-                'body-2-semi-bold',
+                'body-2',
                 disabled ? 'text-disabled' : 'text-muted',
               )}
             >

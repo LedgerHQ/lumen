@@ -196,7 +196,7 @@ export const Stepper = ({
       >
         {label ? (
           <Text
-            typography='body2SemiBold'
+            typography='body2'
             lx={{ color: disabled ? 'disabled' : 'base' }}
             maxFontSizeMultiplier={1.4}
           >
@@ -205,14 +205,14 @@ export const Stepper = ({
         ) : (
           <>
             <Text
-              typography='body1SemiBold'
+              typography='body2'
               lx={{ color: disabled ? 'disabled' : 'base' }}
               maxFontSizeMultiplier={1.4}
             >
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </Text>
             <Text
-              typography='body2SemiBold'
+              typography='body2'
               lx={{ color: disabled ? 'disabled' : 'muted' }}
               maxFontSizeMultiplier={1.4}
             >
