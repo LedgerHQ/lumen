@@ -21,7 +21,7 @@ const STROKE_WIDTH = 4;
 
 const SIZES = {
   md: { px: 48, token: 's48', typography: 'body2' },
-  lg: { px: 72, token: 's72', typography: 'body1' },
+  lg: { px: 72, token: 's72', typography: 'heading4' },
 } as const;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);

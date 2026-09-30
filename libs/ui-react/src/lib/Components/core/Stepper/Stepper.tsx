@@ -10,7 +10,7 @@ const STROKE_WIDTH = 4;
 
 const SIZES = {
   md: { px: 48, root: 'size-48', label: 'body-2' },
-  lg: { px: 72, root: 'size-72', label: 'body-1' },
+  lg: { px: 72, root: 'size-72', label: 'heading-4' },
 } as const;
 
 /**
