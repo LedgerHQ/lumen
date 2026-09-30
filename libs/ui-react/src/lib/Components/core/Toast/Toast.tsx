@@ -81,7 +81,6 @@ export const Toast = ({
         )
       )}
       <div className='flex min-w-0 flex-1 flex-wrap items-start gap-8'>
-        {/* Padding stays off the clamped node: -webkit-line-clamp lets the next line paint into vertical padding. */}
         <div className='min-w-0 flex-auto pt-10 pr-16 last:pb-10'>
           <p className='line-clamp-5 body-2'>{title}</p>
         </div>
