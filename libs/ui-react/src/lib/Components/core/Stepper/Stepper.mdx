@@ -1,7 +1,10 @@
 import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as StepperStories from './Stepper.stories';
-import { CustomTabs, Tab, SetupNote } from '../../../../../.storybook/components';
-
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
 
 <Meta title='Core/Stepper' of={StepperStories} />
 
@@ -26,6 +29,7 @@ All stepper designs are created and managed in our components library. This ensu
 ## 🎯 Anatomy
 
 The Stepper consists of:
+
 - **Track**: One muted segment per step, separated by gaps
 - **Progress**: Completed steps filled with color, sweeping clockwise from the top
 - **Label**: Centered text showing "current/total" steps (e.g., "2/4")
@@ -38,8 +42,8 @@ The gap between the first and last segments is centered at the top (12 o'clock).
 
 **Default label**: The default label is "currentStep/totalSteps" (e.g., "2/4").
 
-
 ### Step Ranges
+
 - **`totalSteps`** must be between **2** and **8**
 - **`currentStep`** must be between **0** and **`totalSteps`**
 
@@ -53,12 +57,20 @@ The Stepper supports two appearances for the progress: `accent` (default) and `s
 
 <Canvas of={StepperStories.AppearanceShowcase} />
 
+## 📐 Sizes
+
+The Stepper comes in two sizes:
+
+- **`md`** (default): 48×48px
+- **`lg`**: 72×72px
+
+<Canvas of={StepperStories.SizeShowcase} />
+
 ## Disabled State
 
 The Stepper supports a disabled state that changes the progress to a muted appearance:
 
 <Canvas of={StepperStories.DisabledShowcase} />
-
 
 ## Custom Labels
 
@@ -66,9 +78,7 @@ By default, the stepper displays "currentStep/totalSteps" (e.g., "2/4"). You can
 
 <Canvas of={StepperStories.WithCustomLabel} />
 
-
-> ⚠️ **Note**: The label and step counts are automatically truncated if they overflow the circular indicator. Keep custom labels short to ensure readability within the 48px circle.
-
+> ⚠️ **Note**: The label and step counts are automatically truncated if they overflow the circular indicator. Keep custom labels short to ensure readability within the circle.
 
 ---
 
@@ -119,6 +129,10 @@ function OnboardingFlow() {
 
 <Source of={StepperStories.AppearanceShowcase} />
 
+### Sizes
+
+<Source of={StepperStories.SizeShowcase} />
+
 ### With Disabled State
 
 Control the visual state based on step completion:
@@ -131,17 +145,11 @@ function MultiStepForm() {
 
   return (
     <div className='flex gap-16'>
-      <Stepper 
-        currentStep={1} 
-        totalSteps={3} 
-      />
-      <Stepper 
-        currentStep={2} 
-        totalSteps={3} 
-      />
-      <Stepper 
-        currentStep={0} 
-        totalSteps={3} 
+      <Stepper currentStep={1} totalSteps={3} />
+      <Stepper currentStep={2} totalSteps={3} />
+      <Stepper
+        currentStep={0}
+        totalSteps={3}
         disabled // Not started
       />
     </div>
@@ -159,17 +167,16 @@ import { Stepper } from '@ledgerhq/lumen-ui-react';
 function LocalizedStepper() {
   const currentStep = 3;
   const totalSteps = 5;
-  
+
   return (
-    <Stepper 
-      currentStep={currentStep} 
+    <Stepper
+      currentStep={currentStep}
       totalSteps={totalSteps}
       label={`Étape ${currentStep} sur ${totalSteps}`}
     />
   );
 }
 ```
-
 
 </Tab>
 </CustomTabs>

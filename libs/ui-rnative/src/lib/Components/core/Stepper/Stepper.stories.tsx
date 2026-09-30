@@ -14,6 +14,7 @@ const meta = {
     currentStep: { control: 'number' },
     totalSteps: { control: 'number' },
     appearance: { control: 'select', options: ['accent', 'success'] },
+    size: { control: 'select', options: ['md', 'lg'] },
     disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Stepper>;
@@ -47,6 +48,29 @@ export const AppearanceShowcase: Story = {
           Success
         </Text>
         <Stepper currentStep={4} totalSteps={4} appearance='success' />
+      </Box>
+    </Box>
+  ),
+};
+
+export const SizeShowcase: Story = {
+  args: {
+    currentStep: 2,
+    totalSteps: 4,
+  },
+  render: () => (
+    <Box lx={{ flexDirection: 'row', gap: 's32', alignItems: 'center' }}>
+      <Box lx={{ alignItems: 'center', gap: 's8' }}>
+        <Text typography='body3' lx={{ color: 'muted' }}>
+          Medium (md)
+        </Text>
+        <Stepper currentStep={2} totalSteps={4} size='md' />
+      </Box>
+      <Box lx={{ alignItems: 'center', gap: 's8' }}>
+        <Text typography='body3' lx={{ color: 'muted' }}>
+          Large (lg)
+        </Text>
+        <Stepper currentStep={2} totalSteps={4} size='lg' />
       </Box>
     </Box>
   ),
