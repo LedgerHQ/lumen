@@ -6,6 +6,7 @@ const meta = {
   component: CardButton,
   id: 'react-cardbutton',
   title: 'Core/CardButton',
+  tags: ['deprecated'],
   parameters: {
     docs: {
       source: {
