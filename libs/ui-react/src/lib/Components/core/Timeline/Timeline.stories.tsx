@@ -15,7 +15,6 @@ import {
   TimelineItemTitle,
   TimelineItemTrailing,
 } from './Timeline';
-import { Button } from '../Button';
 
 const meta = {
   component: TimelineItem,
@@ -70,10 +69,11 @@ export const Base: Story = {
               Confirmed on device
             </TimelineItemDescription>
           </TimelineItemLeading>
-          <TimelineItemTrailing className='body-2-semi-bold text-muted'>0.42 ETH</TimelineItemTrailing>
+          <TimelineItemTrailing className='body-2-semi-bold text-muted'>
+            0.42 ETH
+          </TimelineItemTrailing>
         </TimelineItemHeader>
-        <TimelineItemBody>Viewed in Ledger Live.
-        </TimelineItemBody>
+        <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
       </TimelineItem>
       <TimelineItem status='todo'>
         <TimelineItemHeader>
@@ -202,118 +202,4 @@ export const WithCollapse: Story = {
       </Timeline>
     );
   },
-};
-
-export const UsageShowcase: Story = {
-  parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
-  },
-  render: () => (
-    <div className='flex gap-4'>
-      <Timeline className='w-320'>
-        <TimelineItem status='success'>
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>
-        </TimelineItem>
-        <TimelineItem status='success'>
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>
-        </TimelineItem>
-        <TimelineItem status='success'>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-        <TimelineItem status='loading'>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-        <TimelineItem status='todo'>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-      </Timeline>
-      <Timeline className='w-320'>
-        <TimelineItem status='todo'>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-        <TimelineItem status='todo'>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-        <TimelineItem status='todo'>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-      </Timeline>
-      <Timeline className='w-320'>
-        <TimelineItem>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-        <TimelineItem>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-        <TimelineItem>
-          {' '}
-          <TimelineItemHeader>
-            <TimelineItemLeading>
-              {' '}
-              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>{' '}
-            </TimelineItemLeading>
-          </TimelineItemHeader>{' '}
-        </TimelineItem>
-      </Timeline>
-    </div>
-  ),
 };

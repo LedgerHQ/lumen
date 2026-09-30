@@ -49,6 +49,9 @@ export default meta;
 type Story = StoryObj<typeof TimelineItem>;
 
 export const Base: Story = {
+  args: {
+    status: 'todo',
+  },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },

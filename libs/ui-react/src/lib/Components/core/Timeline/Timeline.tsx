@@ -1,6 +1,5 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useMemo } from 'react';
 import {
   CheckmarkCircleFill,
   ClockFill,
@@ -132,13 +131,8 @@ export const TimelineItem = ({
   className,
   ...props
 }: TimelineItemProps) => {
-  const itemContext = useMemo<TimelineItemContextValue>(
-    () => ({ status }),
-    [status],
-  );
-
   return (
-    <TimelineItemProvider value={itemContext}>
+    <TimelineItemProvider value={{ status }}>
       <div
         ref={ref}
         data-status={status ?? 'neutral'}

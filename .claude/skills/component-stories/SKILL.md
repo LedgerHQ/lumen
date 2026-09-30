@@ -127,5 +127,5 @@ Rules verifiable from a diff.
 | Base story named `Default`/`Primary`/`Basic` instead of `Base` | all stories | export name | — |
 | Showcase/feature story off-convention | all stories | not `{Property}Showcase` / `With{Feature}` / `ResponsivenessShowcase` | — |
 | Missing `layout: 'centered'` + `backgrounds: { default: 'light' }` | all stories | `Base` parameters | — |
-| `type: 'code'` or a hand-written `docs.source.code` | all stories | `docs.source` override on meta or a story | — |
+| `type: 'code'` or a hand-written `docs.source.code` | all stories | `docs.source.type: 'code'` or a `source.code` string | meta `type: 'dynamic'` with no `source.code` |
 | `argTypes` duplicated for props docgen already infers | all stories | manual `argTypes` for plain unions/booleans/strings | overrides docgen can't express (actions, select mappings, hiding) |
