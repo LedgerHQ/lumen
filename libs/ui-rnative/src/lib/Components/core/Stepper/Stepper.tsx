@@ -50,7 +50,7 @@ const useAnimatedProgress = ({
 
 /**
  * A circular stepper component showing progress as current step out of total steps.
- * Renders a track arc with a progress arc and a center label.
+ * Renders a segmented track with progress and a center label.
  *
  * @see [Figma – Stepper](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11977-94&m=dev)
  *
