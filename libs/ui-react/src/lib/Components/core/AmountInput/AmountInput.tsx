@@ -116,6 +116,7 @@ export const AmountInput = ({
   decimalSeparator = '.',
   value,
   onChange,
+  placeholder,
   ...props
 }: AmountInputProps) => {
   const disabled = useDisabledContext({
@@ -136,8 +137,10 @@ export const AmountInput = ({
       },
     });
 
+  const mirrorValue = inputValue === '' ? (placeholder ?? '') : inputValue;
+
   const { spanRef, inputRef } = useAutoWidthInput({
-    inputValue,
+    inputValue: mirrorValue,
     currencyText,
     size,
   });
@@ -174,7 +177,7 @@ export const AmountInput = ({
         aria-hidden='true'
         style={textStyle}
       >
-        {inputValue}
+        {mirrorValue}
       </span>
 
       <input
@@ -183,6 +186,7 @@ export const AmountInput = ({
         inputMode='decimal'
         disabled={disabled}
         value={inputValue}
+        placeholder={placeholder}
         onChange={handleChange}
         onAnimationEnd={() => setIsChanging(false)}
         className={cn(inputStyles({ size, isChanging }), className)}
