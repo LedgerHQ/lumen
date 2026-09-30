@@ -17,11 +17,9 @@ import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import type { StepperProps } from './types';
 
-const STROKE_WIDTH = 4;
-
 const SIZES = {
-  md: { px: 48, token: 's48', typography: 'body2' },
-  lg: { px: 72, token: 's72', typography: 'heading4' },
+  md: { px: 48, strokeWidth: 4, token: 's48', typography: 'body2' },
+  lg: { px: 72, strokeWidth: 6, token: 's72', typography: 'heading4' },
 } as const;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -81,7 +79,12 @@ export const Stepper = ({
   const maskId = useId();
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
-  const { px: diameter, token: sizeToken, typography } = SIZES[size];
+  const {
+    px: diameter,
+    strokeWidth,
+    token: sizeToken,
+    typography,
+  } = SIZES[size];
 
   const {
     displayLabel,
@@ -97,7 +100,7 @@ export const Stepper = ({
     totalSteps,
     size: diameter,
     label,
-    strokeWidth: STROKE_WIDTH,
+    strokeWidth,
   });
 
   const animatedProgress = useAnimatedProgress({
@@ -145,7 +148,7 @@ export const Stepper = ({
           fill='none'
           stroke={theme.colors.bg.mutedTransparentHover}
           strokeLinecap='round'
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={strokeWidth}
           strokeDasharray={progressDashArray}
           strokeDashoffset={dashPatternOffset}
         />
@@ -164,7 +167,7 @@ export const Stepper = ({
               r={r}
               fill='none'
               stroke='white'
-              strokeWidth={STROKE_WIDTH}
+              strokeWidth={strokeWidth}
               strokeDasharray={progressMaskDashArray}
               animatedProps={animatedProgress}
             />
@@ -183,7 +186,7 @@ export const Stepper = ({
                 : theme.colors.bg.active
           }
           strokeLinecap='round'
-          strokeWidth={STROKE_WIDTH}
+          strokeWidth={strokeWidth}
           strokeDasharray={progressDashArray}
           strokeDashoffset={dashPatternOffset}
           mask={`url(#${maskId})`}

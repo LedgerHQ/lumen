@@ -31,7 +31,7 @@ export default function Steppers() {
   return (
     <Box lx={{ gap: 's32', width: 'full' }}>
       {/* Interactive stepper */}
-      <Box lx={{ gap: 's16', alignItems: 'center' }}>
+      <Box lx={{ gap: 's8', alignItems: 'center' }}>
         <Box
           lx={{
             flexDirection: 'row',
@@ -59,22 +59,15 @@ export default function Steppers() {
             appearance='transparent'
             onPress={() => setStep((v) => Math.min(5, v + 1))}
           />
-          <Box
-            lx={{
-              flexDirection: 'row',
-              gap: 's4',
-              position: 'absolute',
-            }}
-            style={{ right: -36 }}
-          >
-            <IconButton
-              icon={Check}
-              size='xs'
-              accessibilityLabel='Toggle success'
-              appearance={isSuccess ? 'base' : 'transparent'}
-              onPress={() => setIsSuccess((s) => !s)}
-            />
-          </Box>
+        </Box>
+        <Box>
+          <IconButton
+            icon={Check}
+            size='xs'
+            accessibilityLabel='Toggle success'
+            appearance={isSuccess ? 'base' : 'transparent'}
+            onPress={() => setIsSuccess((s) => !s)}
+          />
         </Box>
       </Box>
 

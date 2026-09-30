@@ -6,11 +6,9 @@ import {
 import { useId } from 'react';
 import type { StepperProps } from './types';
 
-const STROKE_WIDTH = 4;
-
 const SIZES = {
-  md: { px: 48, root: 'size-48', label: 'body-2' },
-  lg: { px: 72, root: 'size-72', label: 'heading-4' },
+  md: { px: 48, strokeWidth: 4, root: 'size-48', label: 'body-2' },
+  lg: { px: 72, strokeWidth: 6, root: 'size-72', label: 'heading-4' },
 } as const;
 
 /**
@@ -41,7 +39,12 @@ export const Stepper = ({
   });
 
   const maskId = useId();
-  const { px: diameter, root: rootSizeClass, label: labelClass } = SIZES[size];
+  const {
+    px: diameter,
+    strokeWidth,
+    root: rootSizeClass,
+    label: labelClass,
+  } = SIZES[size];
 
   const {
     displayLabel,
@@ -57,7 +60,7 @@ export const Stepper = ({
     totalSteps,
     size: diameter,
     label,
-    strokeWidth: STROKE_WIDTH,
+    strokeWidth,
   });
 
   return (
@@ -91,7 +94,7 @@ export const Stepper = ({
           strokeLinecap='round'
           className='stroke-(--background-muted-transparent-hover)'
           style={{
-            strokeWidth: `${STROKE_WIDTH}px`,
+            strokeWidth: `${strokeWidth}px`,
             strokeDasharray: progressDashArray,
             strokeDashoffset: dashPatternOffset,
           }}
@@ -112,7 +115,7 @@ export const Stepper = ({
             stroke='white'
             className='transition-[stroke-dashoffset] duration-300 ease-in-out'
             style={{
-              strokeWidth: `${STROKE_WIDTH}px`,
+              strokeWidth: `${strokeWidth}px`,
               strokeDasharray: progressMaskDashArray,
               strokeDashoffset: progressDashOffset,
             }}
@@ -135,7 +138,7 @@ export const Stepper = ({
             'transition-[stroke] duration-300 ease-in-out',
           )}
           style={{
-            strokeWidth: `${STROKE_WIDTH}px`,
+            strokeWidth: `${strokeWidth}px`,
             strokeDasharray: progressDashArray,
             strokeDashoffset: dashPatternOffset,
           }}
