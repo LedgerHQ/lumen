@@ -1,4 +1,7 @@
-import { createSafeContext, isTextChildren } from '@ledgerhq/lumen-utils-shared';
+import {
+  createSafeContext,
+  isTextChildren,
+} from '@ledgerhq/lumen-utils-shared';
 import type { Key, ReactNode } from 'react';
 import { Children, Fragment, isValidElement } from 'react';
 import { StyleSheet } from 'react-native';
