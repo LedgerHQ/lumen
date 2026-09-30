@@ -80,7 +80,7 @@ describe('Stepper Component', () => {
     expect(stepper).toBeTruthy();
   });
 
-  it('should handle currentStep <= 0 (minimal dot)', async () => {
+  it('should handle currentStep <= 0', async () => {
     const { findByLabelText } = render(
       <TestWrapper>
         <Stepper currentStep={0} totalSteps={4} />

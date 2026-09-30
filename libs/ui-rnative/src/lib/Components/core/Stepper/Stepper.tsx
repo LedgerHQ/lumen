@@ -56,7 +56,7 @@ const useAnimatedProgress = ({
  *
  * @example
  * <Stepper currentStep={1} totalSteps={4} />
- * <Stepper currentStep={0} totalSteps={9} disabled /> // Empty progress, disabled style
+ * <Stepper currentStep={0} totalSteps={8} disabled /> // Empty progress, disabled style
  */
 export const Stepper = ({
   lx = {},

@@ -49,4 +49,25 @@ describe('getStepperCalculations', () => {
     });
     expect(result.progress).toBe(0);
   });
+
+  it('should reveal progress proportionally via the mask offset', () => {
+    const { progressDashOffset, circumference } =
+      getStepperCalculations(defaultInput);
+
+    expect(progressDashOffset).toBeCloseTo(circumference / 2);
+    expect(
+      getStepperCalculations({ ...defaultInput, currentStep: 0 })
+        .progressDashOffset,
+    ).toBeCloseTo(circumference);
+  });
+
+  it('should not split a single step into segments', () => {
+    const { progressDashArray, circumference } = getStepperCalculations({
+      ...defaultInput,
+      currentStep: 1,
+      totalSteps: 1,
+    });
+
+    expect(progressDashArray).toBe(`${circumference} 0`);
+  });
 });
