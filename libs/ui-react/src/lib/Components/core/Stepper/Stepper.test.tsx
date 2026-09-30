@@ -49,6 +49,22 @@ describe('Stepper Component', () => {
     expect(stepper).toHaveClass('bg-accent');
   });
 
+  it('should render md size by default', () => {
+    const { container } = render(<Stepper currentStep={2} totalSteps={4} />);
+    const stepper = container.querySelector('[role="progressbar"]');
+    expect(stepper).toHaveClass('size-48');
+    expect(container.querySelector('svg')).toHaveAttribute('width', '48');
+  });
+
+  it('should render lg size', () => {
+    const { container } = render(
+      <Stepper currentStep={2} totalSteps={4} size='lg' />,
+    );
+    const stepper = container.querySelector('[role="progressbar"]');
+    expect(stepper).toHaveClass('size-72');
+    expect(container.querySelector('svg')).toHaveAttribute('width', '72');
+  });
+
   it('should fully hide progress when currentStep <= 0', () => {
     const { container } = render(<Stepper currentStep={0} totalSteps={4} />);
     const maskCircle = container.querySelectorAll('circle')[1] as SVGElement;
