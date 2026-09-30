@@ -25,11 +25,11 @@ The Stepper component provides visual feedback for multi-step processes and work
 ## 🎯 Anatomy
 
 The Stepper consists of:
-- **Track Circle**: A muted circular background showing the full progress path
-- **Progress Arc**: A colored arc that fills clockwise from the top, representing completed progress
+- **Track**: One muted segment per step, separated by gaps
+- **Progress**: Completed steps filled with color, sweeping clockwise from the top
 - **Label**: Centered text showing "current/total" steps (e.g., "2/4")
 
-The progress arc starts at the top (12 o'clock position) and fills clockwise. When at 0% progress, a small dot appears at the top instead of an empty arc.
+The gap between the first and last segments is centered at the top (12 o'clock). At 0 progress, no segment is filled.
 
 ---
 
@@ -39,17 +39,22 @@ The progress arc starts at the top (12 o'clock position) and fills clockwise. Wh
 
 
 ### Step Ranges
-- **`totalSteps`** must be between **2** and **9**
+- **`totalSteps`** must be between **2** and **8**
 - **`currentStep`** must be between **0** and **`totalSteps`**
-- Use `currentStep={0}` to show the initial state (minimal dot before starting)
 
-> ⚠️ Using more than **9** total steps or exceeding the valid range may cause the UI to break and text to be truncated inside the circular indicator.
+> ⚠️ Using more than **8** total steps or exceeding the valid range may cause the UI to break and text to be truncated inside the circular indicator.
 
 > ⚠️ Values outside valid ranges are automatically clamped: **`currentStep`** is kept between **0** and **`totalSteps`**.
 
-## 🎨 Disabled State
+## 🎨 Appearance
 
-The Stepper supports a disabled state that changes the progress arc to a muted appearance:
+The Stepper supports two appearances for the progress: `accent` (default) and `success`.
+
+<Canvas of={StepperStories.AppearanceShowcase} />
+
+## Disabled State
+
+The Stepper supports a disabled state that changes the progress to a muted appearance:
 
 <Canvas of={StepperStories.DisabledShowcase} />
 
@@ -100,6 +105,13 @@ function OnboardingFlow() {
     </View>
   );
 }
+```
+
+### Appearance
+
+```tsx
+<Stepper currentStep={2} totalSteps={4} />
+<Stepper currentStep={4} totalSteps={4} appearance='success' />
 ```
 
 ### With Disabled State
