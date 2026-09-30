@@ -155,6 +155,20 @@ describe('unresolved cells', () => {
     expect(table).toContain('spec "^1.0.0 \\|\\| ^2.0.0"');
   });
 
+  it('escapes a backslash so it cannot cancel the pipe escape after it', () => {
+    const row: ReportRow = {
+      repo: 'LedgerHQ/odd-spec',
+      cells: {
+        ...unresolvedRow.cells,
+        '@ledgerhq/lumen-ui-react': {
+          status: 'unresolved',
+          reason: 'spec "a\\|b"',
+        },
+      },
+    };
+    expect(renderMarkdownTable([row])).toContain('spec "a\\\\\\|b"');
+  });
+
   it('keeps every table line the same width even with escaped pipes', () => {
     const lines = renderMarkdownTable([unresolvedRow, ...rows]).split('\n');
     expect(new Set(lines.map((line) => [...line].length)).size).toBe(1);

@@ -72,12 +72,18 @@ function padCell(text: string, width: number): string {
   return text + ' '.repeat(Math.max(0, width - codePointLength(text)));
 }
 
+// Backslash first: an unescaped `\` before a `|` would otherwise cancel the
+// pipe's escape and split the cell.
+function escapeMarkdownTableCell(text: string): string {
+  return text.replace(/\\/g, '\\\\').replace(/\|/g, '\\|');
+}
+
 export function renderMarkdownTable(rows: ReportRow[]): string {
   const headerCells = ['Repo', ...LUMEN_PACKAGES.map(shortPackageName)];
   const bodyCells = rows.map((row) => [
     row.repo,
     ...LUMEN_PACKAGES.map((pkg) =>
-      cellText(row.cells[pkg]).replace(/\|/g, '\\|'),
+      escapeMarkdownTableCell(cellText(row.cells[pkg])),
     ),
   ]);
 
