@@ -7,6 +7,11 @@ export type StepperProps = {
    */
   appearance?: 'accent' | 'success';
   /**
+   * The overall dimensions of the stepper.
+   * @default md
+   */
+  size?: 'md' | 'lg';
+  /**
    * Current step number (1-based).
    */
   currentStep: number;

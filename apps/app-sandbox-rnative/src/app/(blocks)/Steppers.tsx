@@ -122,6 +122,16 @@ export default function Steppers() {
         <Stepper currentStep={1} totalSteps={1} label='🎉' />
         <Stepper currentStep={2} totalSteps={5} disabled />
       </Box>
+      <Box
+        lx={{
+          gap: 's12',
+          flexDirection: 'row',
+          alignItems: 'center',
+        }}
+      >
+        <Stepper size='md' currentStep={2} totalSteps={5} />
+        <Stepper size='lg' currentStep={2} totalSteps={5} />
+      </Box>
     </Box>
   );
 }

@@ -6,8 +6,12 @@ import {
 import { useId } from 'react';
 import type { StepperProps } from './types';
 
-const SIZE = 48;
 const STROKE_WIDTH = 4;
+
+const SIZES = {
+  md: { px: 48, root: 'size-48', label: 'body-2' },
+  lg: { px: 72, root: 'size-72', label: 'body-1' },
+} as const;
 
 /**
  * A circular stepper component showing progress as current step out of total steps.
@@ -18,10 +22,12 @@ const STROKE_WIDTH = 4;
  * @example
  * <Stepper currentStep={1} totalSteps={4} />
  * <Stepper currentStep={0} totalSteps={8} disabled /> // Empty progress, disabled style
+ * <Stepper currentStep={2} totalSteps={4} size="lg" />
  */
 export const Stepper = ({
   className,
   appearance = 'accent',
+  size = 'md',
   currentStep,
   totalSteps,
   disabled: disabledProp = false,
@@ -35,6 +41,7 @@ export const Stepper = ({
   });
 
   const maskId = useId();
+  const { px: diameter, root: rootSizeClass, label: labelClass } = SIZES[size];
 
   const {
     displayLabel,
@@ -48,7 +55,7 @@ export const Stepper = ({
   } = getStepperCalculations({
     currentStep,
     totalSteps,
-    size: SIZE,
+    size: diameter,
     label,
     strokeWidth: STROKE_WIDTH,
   });
@@ -62,15 +69,16 @@ export const Stepper = ({
       aria-valuemax={totalSteps}
       aria-label={displayLabel}
       className={cn(
-        'relative flex size-48 shrink-0 items-center justify-center rounded-full',
+        'relative flex shrink-0 items-center justify-center rounded-full',
+        rootSizeClass,
         className,
       )}
       {...props}
     >
       <svg
-        width={SIZE}
-        height={SIZE}
-        viewBox={`0 0 ${SIZE} ${SIZE}`}
+        width={diameter}
+        height={diameter}
+        viewBox={`0 0 ${diameter} ${diameter}`}
         className='-rotate-90'
         aria-hidden
       >
@@ -93,8 +101,8 @@ export const Stepper = ({
           maskUnits='userSpaceOnUse'
           x={0}
           y={0}
-          width={SIZE}
-          height={SIZE}
+          width={diameter}
+          height={diameter}
         >
           <circle
             cx={cx}
@@ -135,17 +143,17 @@ export const Stepper = ({
       </svg>
       <span className='absolute inset-0 m-4 flex items-center justify-center text-base'>
         {label ? (
-          <span className={cn('body-2', disabled && 'text-disabled')}>
+          <span className={cn(labelClass, disabled && 'text-disabled')}>
             {label}
           </span>
         ) : (
           <span>
-            <span className={cn('body-2', disabled && 'text-disabled')}>
+            <span className={cn(labelClass, disabled && 'text-disabled')}>
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </span>
             <span
               className={cn(
-                'body-2',
+                labelClass,
                 disabled ? 'text-disabled' : 'text-muted',
               )}
             >

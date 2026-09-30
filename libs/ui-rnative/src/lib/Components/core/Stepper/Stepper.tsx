@@ -17,8 +17,12 @@ import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import type { StepperProps } from './types';
 
-const SIZE = 48;
 const STROKE_WIDTH = 4;
+
+const SIZES = {
+  md: { px: 48, token: 's48', typography: 'body2' },
+  lg: { px: 72, token: 's72', typography: 'body1' },
+} as const;
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
@@ -57,10 +61,12 @@ const useAnimatedProgress = ({
  * @example
  * <Stepper currentStep={1} totalSteps={4} />
  * <Stepper currentStep={0} totalSteps={8} disabled /> // Empty progress, disabled style
+ * <Stepper currentStep={2} totalSteps={4} size="lg" />
  */
 export const Stepper = ({
   lx = {},
   appearance = 'accent',
+  size = 'md',
   currentStep,
   totalSteps,
   disabled: disabledProp = false,
@@ -75,6 +81,7 @@ export const Stepper = ({
   const maskId = useId();
   const { t } = useCommonTranslation();
   const { theme } = useTheme();
+  const { px: diameter, token: sizeToken, typography } = SIZES[size];
 
   const {
     displayLabel,
@@ -88,7 +95,7 @@ export const Stepper = ({
   } = getStepperCalculations({
     currentStep,
     totalSteps,
-    size: SIZE,
+    size: diameter,
     label,
     strokeWidth: STROKE_WIDTH,
   });
@@ -115,8 +122,8 @@ export const Stepper = ({
         })
       }
       lx={{
-        width: 's48',
-        height: 's48',
+        width: sizeToken,
+        height: sizeToken,
         flexShrink: 0,
         alignItems: 'center',
         justifyContent: 'center',
@@ -126,9 +133,9 @@ export const Stepper = ({
       {...props}
     >
       <Svg
-        width={SIZE}
-        height={SIZE}
-        viewBox={`0 0 ${SIZE} ${SIZE}`}
+        width={diameter}
+        height={diameter}
+        viewBox={`0 0 ${diameter} ${diameter}`}
         style={{ transform: [{ rotate: '-90deg' }] }}
       >
         <Circle
@@ -148,8 +155,8 @@ export const Stepper = ({
             maskUnits='userSpaceOnUse'
             x={0}
             y={0}
-            width={SIZE}
-            height={SIZE}
+            width={diameter}
+            height={diameter}
           >
             <AnimatedCircle
               cx={cx}
@@ -196,7 +203,7 @@ export const Stepper = ({
       >
         {label ? (
           <Text
-            typography='body2'
+            typography={typography}
             lx={{ color: disabled ? 'disabled' : 'base' }}
             maxFontSizeMultiplier={1.4}
           >
@@ -205,14 +212,14 @@ export const Stepper = ({
         ) : (
           <>
             <Text
-              typography='body2'
+              typography={typography}
               lx={{ color: disabled ? 'disabled' : 'base' }}
               maxFontSizeMultiplier={1.4}
             >
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </Text>
             <Text
-              typography='body2'
+              typography={typography}
               lx={{ color: disabled ? 'disabled' : 'muted' }}
               maxFontSizeMultiplier={1.4}
             >
