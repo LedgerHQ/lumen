@@ -99,7 +99,8 @@ export const ResponsivenessShowcase: Story = {
       />
       <Toast
         appearance='success'
-        title='This is a very long toast message that wraps over up to five lines without an action'
+        title='This is a very long toast message that wraps over up to five lines without an action, it should truncate when five lines are reached and show an ellipsis, but the action should be visible and clickable and the toast should be clickable'
+        action={{ label: 'Download the report', onAction: () => {} }}
         onClose={() => {}}
       />
       <Toast

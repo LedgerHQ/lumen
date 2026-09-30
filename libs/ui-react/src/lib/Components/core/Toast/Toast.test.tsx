@@ -13,9 +13,10 @@ describe('Toast', () => {
 
     it('should wrap the title over up to five lines', () => {
       render(<Toast title='A very long toast title' />);
-      expect(screen.getByText('A very long toast title')).toHaveClass(
-        'line-clamp-5',
-      );
+      const title = screen.getByText('A very long toast title');
+      expect(title).toHaveClass('line-clamp-5');
+      expect(title).not.toHaveClass('pt-10');
+      expect(title).not.toHaveClass('last:pb-10');
     });
 
     it('should not render a leading icon for the info appearance', () => {
@@ -41,7 +42,11 @@ describe('Toast', () => {
   describe('Layout', () => {
     it('should give the title right breathing room', () => {
       render(<Toast title='Report ready' />);
-      expect(screen.getByText('Report ready')).toHaveClass('pr-16');
+      expect(screen.getByText('Report ready').parentElement).toHaveClass(
+        'pr-16',
+        'pt-10',
+        'last:pb-10',
+      );
     });
 
     it('should not shift the action when there is no leading icon', () => {
