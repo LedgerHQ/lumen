@@ -170,7 +170,7 @@ export const Stepper = ({
           fill='none'
           stroke={
             disabled
-              ? theme.colors.border.mutedSubtleHover
+              ? theme.colors.bg.mutedTransparentDisabled
               : appearance === 'success'
                 ? theme.colors.bg.successStrong
                 : theme.colors.bg.active
@@ -197,7 +197,7 @@ export const Stepper = ({
         {label ? (
           <Text
             typography='body2SemiBold'
-            lx={{ color: 'base' }}
+            lx={{ color: disabled ? 'disabled' : 'base' }}
             maxFontSizeMultiplier={1.4}
           >
             {label}
@@ -206,14 +206,14 @@ export const Stepper = ({
           <>
             <Text
               typography='body1SemiBold'
-              lx={{ color: 'base' }}
+              lx={{ color: disabled ? 'disabled' : 'base' }}
               maxFontSizeMultiplier={1.4}
             >
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </Text>
             <Text
               typography='body2SemiBold'
-              lx={{ color: 'muted' }}
+              lx={{ color: disabled ? 'disabled' : 'muted' }}
               maxFontSizeMultiplier={1.4}
             >
               /{totalSteps}

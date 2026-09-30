@@ -27,16 +27,16 @@ describe('Stepper Component', () => {
 
   it('should render active stroke by default', () => {
     const { container } = render(<Stepper currentStep={1} totalSteps={4} />);
-    const progressCircle = container.querySelectorAll('circle')[1];
-    expect(progressCircle).toHaveClass('stroke-active');
+    const progressCircle = container.querySelectorAll('circle')[2];
+    expect(progressCircle).toHaveClass('bg-active');
   });
 
   it('should render disabled stroke when disabled', () => {
     const { container } = render(
       <Stepper currentStep={2} totalSteps={4} disabled />,
     );
-    const progressCircle = container.querySelectorAll('circle')[1];
-    expect(progressCircle).toHaveClass('stroke-muted-subtle-hover');
+    const progressCircle = container.querySelectorAll('circle')[2];
+    expect(progressCircle).toHaveClass('bg-muted-transparent-disabled');
   });
 
   it('should apply custom className', () => {
