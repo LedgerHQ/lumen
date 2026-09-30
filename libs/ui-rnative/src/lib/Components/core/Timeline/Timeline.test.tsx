@@ -70,6 +70,27 @@ describe('Timeline', () => {
       expect(screen.getByText('Viewed in Ledger Live.')).toBeTruthy();
     });
 
+    it('should render string children in the trailing slot and the body', () => {
+      render(
+        <TestWrapper>
+          <Timeline>
+            <TimelineItem>
+              <TimelineItemHeader>
+                <TimelineItemLeading>
+                  <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
+                </TimelineItemLeading>
+                <TimelineItemTrailing>0.42 ETH</TimelineItemTrailing>
+              </TimelineItemHeader>
+              <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
+            </TimelineItem>
+          </Timeline>
+        </TestWrapper>,
+      );
+
+      expect(screen.getByText('0.42 ETH')).toBeTruthy();
+      expect(screen.getByText('Viewed in Ledger Live.')).toBeTruthy();
+    });
+
     it('should forward ref, testID, and style on the root', () => {
       const ref = createRef<View>();
 
@@ -222,6 +243,32 @@ describe('Timeline', () => {
       expect(StyleSheet.flatten(lastIn.props.style).opacity).not.toBe(0);
       expect(screen.getAllByTestId('timeline-line-out', hidden)).toHaveLength(
         1,
+      );
+    });
+
+    it('should position items grouped in a fragment as siblings', () => {
+      render(
+        <TestWrapper>
+          <Timeline>
+            <>
+              <Item status='success' title='First' />
+              <Item status='pending' title='Second' />
+            </>
+            <Item status='todo' title='Last' />
+          </Timeline>
+        </TestWrapper>,
+      );
+
+      const [firstIn, secondIn, lastIn] = screen.getAllByTestId(
+        'timeline-line-in',
+        hidden,
+      );
+
+      expect(StyleSheet.flatten(firstIn.props.style).opacity).toBe(0);
+      expect(StyleSheet.flatten(secondIn.props.style).opacity).not.toBe(0);
+      expect(StyleSheet.flatten(lastIn.props.style).opacity).not.toBe(0);
+      expect(screen.getAllByTestId('timeline-line-out', hidden)).toHaveLength(
+        2,
       );
     });
   });

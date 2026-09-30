@@ -105,7 +105,7 @@ export type TimelineItemDescriptionProps = {
  */
 export type TimelineItemTrailingProps = {
   /**
-   * Amount, tag, or text.
+   * Amount, tag, or text. A string or number is wrapped so it can render.
    * @required
    */
   children: ReactNode;
@@ -116,7 +116,7 @@ export type TimelineItemTrailingProps = {
  */
 export type TimelineItemBodyProps = {
   /**
-   * Content indented past the indicator.
+   * Content indented past the indicator. A string or number is wrapped so it can render.
    * @required
    */
   children: ReactNode;

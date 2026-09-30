@@ -1,5 +1,6 @@
-import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
-import { Children, isValidElement } from 'react';
+import { createSafeContext, isTextChildren } from '@ledgerhq/lumen-utils-shared';
+import type { Key, ReactNode } from 'react';
+import { Children, Fragment, isValidElement } from 'react';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { Box, Text } from '../../primitives';
@@ -31,6 +32,28 @@ type TimelinePosition = {
   isFirst: boolean;
   isLast: boolean;
 };
+
+type TimelineChild = {
+  key: Key;
+  node: ReactNode;
+};
+
+const flattenTimelineChildren = (
+  children: ReactNode,
+  keyPrefix = '',
+): TimelineChild[] =>
+  Children.toArray(children).flatMap((child, index) => {
+    const key = `${keyPrefix}${isValidElement(child) ? (child.key ?? index) : index}`;
+
+    if (
+      isValidElement<{ children?: ReactNode }>(child) &&
+      child.type === Fragment
+    ) {
+      return flattenTimelineChildren(child.props.children, `${key}/`);
+    }
+
+    return [{ key, node: child }];
+  });
 
 const [TimelineItemProvider, useTimelineItemContext] =
   createSafeContext<TimelineItemContextValue>('TimelineItem');
@@ -289,7 +312,7 @@ export const Timeline = ({
   ...props
 }: TimelineProps) => {
   const styles = useTimelineStyles();
-  const items = Children.toArray(children);
+  const items = flattenTimelineChildren(children);
 
   return (
     <Box
@@ -298,15 +321,15 @@ export const Timeline = ({
       style={StyleSheet.flatten([styles.root, style])}
       {...props}
     >
-      {items.map((child, index) => (
+      {items.map(({ key, node }, index) => (
         <TimelinePositionProvider
-          key={isValidElement(child) ? (child.key ?? index) : index}
+          key={key}
           value={{
             isFirst: index === 0,
             isLast: index === items.length - 1,
           }}
         >
-          {child}
+          {node}
         </TimelinePositionProvider>
       ))}
     </Box>
@@ -523,7 +546,7 @@ export const TimelineItemTrailing = ({
       style={StyleSheet.flatten([styles.trailing, style])}
       {...props}
     >
-      {children}
+      {isTextChildren(children) ? <Text>{children}</Text> : children}
     </Box>
   );
 };
@@ -547,7 +570,7 @@ export const TimelineItemBody = ({
       style={StyleSheet.flatten([styles.body, style])}
       {...props}
     >
-      {children}
+      {isTextChildren(children) ? <Text>{children}</Text> : children}
     </Box>
   );
 };
