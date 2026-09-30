@@ -5,14 +5,10 @@ import {
   useToastBacklog,
   useToastLifecycle,
 } from '@ledgerhq/lumen-utils-shared';
-import {
-  useEffect,
-  useRef,
-  useState,
-  useSyncExternalStore,
-  type FocusEvent,
-} from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
+import { useToastCollapse } from './hooks/useToastCollapse';
+import { useToastViewportPause } from './hooks/useToastViewportPause';
 import {
   collapseVariants,
   positionVariants,
@@ -44,20 +40,9 @@ const ToastQueueItem = ({
   onDismiss: () => void;
 }) => {
   const exiting = item.exiting ?? false;
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [measuredHeight, setMeasuredHeight] = useState<number | null>(null);
+  const { contentRef, height } = useToastCollapse();
 
   useToastLifecycle({ durationMs, paused, exiting, onDismiss });
-
-  useEffect(() => {
-    const element = contentRef.current;
-    if (!element || typeof ResizeObserver === 'undefined') return;
-    const observer = new ResizeObserver(([entry]) => {
-      setMeasuredHeight(entry.contentRect.height + 8);
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
 
   const edge = position.startsWith('top') ? 'top' : 'bottom';
   const resolveMotionClass = (): string => {
@@ -70,7 +55,7 @@ const ToastQueueItem = ({
     <div
       data-slot='toast-collapse'
       className={collapseVariants({ edge, exiting })}
-      style={{ height: exiting ? 0 : (measuredHeight ?? undefined) }}
+      style={{ height: exiting ? 0 : height }}
     >
       <div
         ref={contentRef}
@@ -124,9 +109,8 @@ export const Toaster = ({
     toastStore.getSnapshot,
     getServerSnapshot,
   );
-  const [hovered, setHovered] = useState(false);
-  const [focusWithin, setFocusWithin] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { paused, viewportProps } = useToastViewportPause();
 
   useEffect(() => {
     setMounted(true);
@@ -137,25 +121,13 @@ export const Toaster = ({
   const visibleItems = items.slice(0, visibleSlots);
   const isQueued = useToastBacklog(items, visibleSlots);
 
-  const handleMouseEnter = () => setHovered(true);
-  const handleMouseLeave = () => setHovered(false);
-  const handleFocus = () => setFocusWithin(true);
-  const handleBlur = (event: FocusEvent<HTMLDivElement>) => {
-    if (event.currentTarget.contains(event.relatedTarget)) return;
-    setFocusWithin(false);
-  };
-
   if (!mounted) return null;
 
   return createPortal(
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       data-slot='toast-viewport'
       className={positionVariants({ position })}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      onFocus={handleFocus}
-      onBlur={handleBlur}
+      {...viewportProps}
     >
       {visibleItems.map((item) => (
         <ToastQueueItem
@@ -164,7 +136,7 @@ export const Toaster = ({
           durationMs={resolveDurationMs(item, durations)}
           queued={isQueued(item.id)}
           position={position}
-          paused={hovered || focusWithin}
+          paused={paused}
           onDismiss={() => toastStore.dismiss(item.id)}
         />
       ))}

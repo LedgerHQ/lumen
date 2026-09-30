@@ -241,6 +241,32 @@ describe('Toaster', () => {
       expect(screen.queryByText('Focus me')).not.toBeInTheDocument();
     });
 
+    it('should resume on pointer leave after clicking the action', () => {
+      renderToaster();
+      act(() => {
+        toast.info({
+          title: 'Click me',
+          action: { label: 'Undo', onAction: () => {} },
+        });
+      });
+
+      const viewport = document.querySelector('[data-slot="toast-viewport"]');
+      const action = screen.getByRole('button', { name: 'Undo' });
+
+      fireEvent.mouseEnter(viewport as Element);
+      fireEvent.pointerDown(action);
+      fireEvent.focus(action);
+      fireEvent.pointerUp(action);
+      fireEvent.click(action);
+      fireEvent.mouseLeave(viewport as Element);
+
+      act(() => {
+        vi.advanceTimersByTime(5000);
+      });
+      flushExit();
+      expect(screen.queryByText('Click me')).not.toBeInTheDocument();
+    });
+
     it('should stay paused while focus moves between controls of a toast', () => {
       renderToaster();
       act(() => {
