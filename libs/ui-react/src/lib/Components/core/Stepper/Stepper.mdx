@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as StepperStories from './Stepper.stories';
 import { CustomTabs, Tab, SetupNote } from '../../../../../.storybook/components';
 
@@ -117,10 +117,7 @@ function OnboardingFlow() {
 
 ### Appearance
 
-```tsx
-<Stepper currentStep={2} totalSteps={4} />
-<Stepper currentStep={4} totalSteps={4} appearance='success' />
-```
+<Source of={StepperStories.AppearanceShowcase} />
 
 ### With Disabled State
 

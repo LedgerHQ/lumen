@@ -94,7 +94,7 @@ export const DisabledShowcase: Story = {
         code: `
 <Stepper currentStep={2} totalSteps={4} />
 <Stepper currentStep={2} totalSteps={4} disabled />
-<Stepper currentStep={0} totalSteps={9} />
+<Stepper currentStep={0} totalSteps={8} />
 `,
       },
     },

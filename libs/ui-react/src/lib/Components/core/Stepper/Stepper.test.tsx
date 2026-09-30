@@ -28,7 +28,7 @@ describe('Stepper Component', () => {
   it('should render active stroke by default', () => {
     const { container } = render(<Stepper currentStep={1} totalSteps={4} />);
     const progressCircle = container.querySelectorAll('circle')[2];
-    expect(progressCircle).toHaveClass('bg-active');
+    expect(progressCircle).toHaveClass('[stroke:var(--background-active)]');
   });
 
   it('should render disabled stroke when disabled', () => {
@@ -36,7 +36,9 @@ describe('Stepper Component', () => {
       <Stepper currentStep={2} totalSteps={4} disabled />,
     );
     const progressCircle = container.querySelectorAll('circle')[2];
-    expect(progressCircle).toHaveClass('bg-muted-transparent-disabled');
+    expect(progressCircle).toHaveClass(
+      '[stroke:var(--background-muted-transparent-disabled)]',
+    );
   });
 
   it('should apply custom className', () => {
@@ -47,16 +49,12 @@ describe('Stepper Component', () => {
     expect(stepper).toHaveClass('bg-accent');
   });
 
-  it('should handle currentStep <= 0 (minimal dot)', () => {
+  it('should fully hide progress when currentStep <= 0', () => {
     const { container } = render(<Stepper currentStep={0} totalSteps={4} />);
-    const progressCircle = container.querySelectorAll(
-      'circle',
-    )[1] as SVGElement;
-    // When currentStep is 0, the offset should position a minimal visible dot
+    const maskCircle = container.querySelectorAll('circle')[1] as SVGElement;
     const circumference = 2 * Math.PI * ((48 - 4) / 2);
-    const trackArcLength = circumference * 0.75;
-    const strokeDashoffset = parseFloat(progressCircle.style.strokeDashoffset);
-    expect(strokeDashoffset).toBeCloseTo(trackArcLength - 2);
+    const strokeDashoffset = parseFloat(maskCircle.style.strokeDashoffset);
+    expect(strokeDashoffset).toBeCloseTo(circumference);
   });
 
   it('should clamp currentStep to totalSteps', () => {

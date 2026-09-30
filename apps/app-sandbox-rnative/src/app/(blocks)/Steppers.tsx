@@ -88,6 +88,7 @@ export default function Steppers() {
       >
         {Array.from({ length: MAX_STEPS }).map((_, i) => (
           <Stepper
+            key={i + 1}
             currentStep={Math.max(0, Math.min(autoStep, i + 1))}
             totalSteps={i + 1}
           />
@@ -103,6 +104,7 @@ export default function Steppers() {
       >
         {Array.from({ length: MAX_STEPS }).map((_, i) => (
           <Stepper
+            key={i + 1}
             appearance='success'
             currentStep={Math.max(0, Math.min(autoStep, i + 1))}
             totalSteps={i + 1}

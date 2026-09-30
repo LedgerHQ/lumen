@@ -74,7 +74,10 @@ export const getStepperCalculations = ({
   const gapLength =
     totalSteps <= 1 ? 0 : (GAP_DEGREES / 360) * circumference + strokeWidth;
 
-  const segmentLength = Math.max(circumference / totalSteps - gapLength, 0);
+  const segmentLength =
+    totalSteps <= 1
+      ? circumference
+      : Math.max(circumference / totalSteps - gapLength, 0);
 
   const progressDashArray = `${segmentLength} ${gapLength}`;
   const progressMaskDashArray = `${circumference} ${circumference}`;
