@@ -1,0 +1,54 @@
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import * as TimelineStories from './Timeline.stories';
+
+<Meta title='Core/Timeline' of={TimelineStories} />
+
+# Timeline
+
+## Introduction
+
+Timeline lays out a vertical sequence of events. Each item is a display: the parent passes `status` for the indicator and title tone.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=21938-58196).
+
+## Anatomy
+
+<Canvas of={TimelineStories.Base} />
+
+- **Timeline**: Vertical list of items. Holds no state.
+- **TimelineItem**: One event. Draws the indicator and the lines.
+- **TimelineItemHeader**: Row beside the indicator.
+- **TimelineItemLeading**: Caption, title, and description column.
+- **TimelineItemLeadingRow**: Title or description beside an optional tag.
+- **TimelineItemCaption**: Overline. A date is the common case.
+- **TimelineItemTitle**: Title.
+- **TimelineItemDescription**: Description.
+- **TimelineItemTrailing**: End-aligned slot. Amount, tag, or text.
+- **TimelineItemBody**: Block under the header, indented past the indicator.
+
+## Properties
+
+<Canvas of={TimelineStories.Base} />
+<Controls of={TimelineStories.Base} />
+
+### Informative timeline
+
+Omit `status`. Each item uses the filled dot and a base title. Use this for a log of events.
+
+<Canvas of={TimelineStories.WithInformative} />
+
+### Progress timeline
+
+Set `status` on each item. `success`, `error`, `pending`, and `loading` use their icon and a base title. `todo` uses an empty circle and a muted title.
+
+<Canvas of={TimelineStories.StatusShowcase} />
+
+### Collapse
+
+Timeline does not collapse an item. To show and hide `TimelineItemBody`, build it in the parent: keep the open state there, put a chevron in `TimelineItemTrailing`, and render the body only while that state is open.
+
+<Canvas of={TimelineStories.WithCollapse} />
+
+## Accessibility
+
+Timeline is a display. The title carries the meaning of the item. Status icons are decorative, except the loading indicator, which exposes its own label.

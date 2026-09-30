@@ -48,7 +48,7 @@ export const Base: Story = {
 
 ### Docs source type
 
-Stories with interactive controls (`args` on `Base`) must use dynamic docs source so the code snippet updates when controls change. Set this on the story `meta`:
+Set dynamic docs source once on the story `meta`. Every story inherits it, including showcases and feature stories that have no `args`. Storybook extracts the snippet from the `render` function, so `<Source of={…} />` in the MDX stays in sync with the story.
 
 ```typescript
 const meta = {
@@ -65,8 +65,9 @@ const meta = {
 } satisfies Meta<typeof Component>;
 ```
 
-- Use `type: 'dynamic'` — not `'code'` — when the story exposes `args` / Controls.
-- Use `type: 'code'` only for static showcase stories with a fixed, hand-written `parameters.docs.source.code` block.
+- Do not set `docs.source.type` to `'code'`.
+- Do not hand-write `parameters.docs.source.code`. A second copy of the JSX drifts from the render.
+- Do not override the meta source on an individual story.
 
 ### Controls
 
@@ -126,5 +127,5 @@ Rules verifiable from a diff.
 | Base story named `Default`/`Primary`/`Basic` instead of `Base` | all stories | export name | — |
 | Showcase/feature story off-convention | all stories | not `{Property}Showcase` / `With{Feature}` / `ResponsivenessShowcase` | — |
 | Missing `layout: 'centered'` + `backgrounds: { default: 'light' }` | all stories | `Base` parameters | — |
-| `type: 'code'` on a story that exposes `args`/Controls | all stories | `docs.source.type` vs presence of `args` | static showcase with hand-written `source.code` |
+| `type: 'code'` or a hand-written `docs.source.code` | all stories | `docs.source` override on meta or a story | — |
 | `argTypes` duplicated for props docgen already infers | all stories | manual `argTypes` for plain unions/booleans/strings | overrides docgen can't express (actions, select mappings, hiding) |
