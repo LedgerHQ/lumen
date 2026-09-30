@@ -23,6 +23,9 @@
     },
     {
       "path": "./internals/sync-figma"
+    },
+    {
+      "path": "./internals/adoption-tool"
     }
   ],
   "ts-node": {

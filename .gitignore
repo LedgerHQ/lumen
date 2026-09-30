@@ -136,3 +136,10 @@ mise.toml
 
 .claude/worktrees
 .claude/settings.local.json
+
+# generated reports
+internals/adoption-tool/report.md
+internals/adoption-tool/report.html
+internals/adoption-tool/report.slack.txt
+internals/adoption-tool/report.json
+internals/adoption-tool/owners.md

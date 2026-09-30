@@ -1,0 +1,88 @@
+[
+  {
+    "repo": "LedgerHQ/agent-intent-frontend",
+    "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/ledger-live",
+    "packageJsonPath": "package.json",
+    "packageJsonPaths": {
+      "@ledgerhq/lumen-ui-react": ["apps/ledger-live-desktop/package.json"],
+      "@ledgerhq/lumen-ui-rnative": ["apps/ledger-live-mobile/package.json"]
+    },
+    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
+  },
+  {
+    "repo": "LedgerHQ/device-sdk-ts",
+    "packageJsonPath": "apps/device-mock-server-ui/package.json"
+  },
+  {
+    "repo": "LedgerHQ/app-openpgp",
+    "packageJsonPath": "clients/wui/package.json"
+  },
+  {
+    "repo": "LedgerHQ/app-passwords",
+    "packageJsonPath": "clients/wui/package.json"
+  },
+  {
+    "repo": "LedgerHQ/borrow-live-app",
+    "packageJsonPath": "packages/ui/package.json"
+  },
+  {
+    "repo": "LedgerHQ/earn-live-app",
+    "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/swap-live-app",
+    "packageJsonPath": "apps/live-app/package.json",
+    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
+  },
+  {
+    "repo": "LedgerHQ/perps-live-app",
+    "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/ecommerce-shop-frontend",
+    "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/crypto-icons",
+    "packageJsonPath": "lib/package.json"
+  },
+  {
+    "repo": "LedgerHQ/gravitee",
+    "packageJsonPath": "promotion-console/package.json"
+  },
+  {
+    "repo": "LedgerHQ/ledger-button",
+    "packageJsonPath": "packages/ledger-button/package.json",
+    "packageJsonPaths": {
+      "@ledgerhq/lumen-ui-react": ["apps/test-dapp/package.json"]
+    },
+    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
+  },
+  {
+    "repo": "LedgerHQ/ledger-button-public",
+    "packageJsonPath": "packages/ledger-button/package.json",
+    "packageJsonPaths": {
+      "@ledgerhq/lumen-ui-react": ["apps/test-dapp/package.json"]
+    },
+    "notes": "pnpm catalog — public mirror of ledger-button"
+  },
+  {
+    "repo": "LedgerHQ/protect-frontend-lumen",
+    "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/revault",
+    "packageJsonPath": "packages/web/package.json"
+  },
+  {
+    "repo": "LedgerHQ/is-privacy-request",
+    "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/les-multisig",
+    "packageJsonPath": "packages/web/package.json"
+  }
+]

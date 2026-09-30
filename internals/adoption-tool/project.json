@@ -1,0 +1,46 @@
+{
+  "name": "adoption-tool",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "internals/adoption-tool/src",
+  "projectType": "library",
+  "tags": ["scope:internal", "type:tooling"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "internals/adoption-tool"
+      }
+    },
+    "report": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/report.ts --format markdown"
+      }
+    },
+    "report-summary": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/report.ts --format summary"
+      }
+    },
+    "report-json": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/report.ts --format json"
+      }
+    },
+    "owners": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/owners.ts"
+      }
+    },
+    "discover": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/discover.ts"
+      }
+    }
+  }
+}
