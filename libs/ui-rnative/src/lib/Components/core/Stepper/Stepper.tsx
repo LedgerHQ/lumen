@@ -146,7 +146,7 @@ export const Stepper = ({
           cy={cy}
           r={r}
           fill='none'
-          stroke={theme.colors.bg.mutedTransparentHover}
+          stroke={theme.colors.border.mutedSubtle}
           strokeLinecap='round'
           strokeWidth={strokeWidth}
           strokeDasharray={progressDashArray}
@@ -180,10 +180,10 @@ export const Stepper = ({
           fill='none'
           stroke={
             disabled
-              ? theme.colors.bg.mutedTransparentDisabled
+              ? theme.colors.border.mutedSubtleHover
               : appearance === 'success'
-                ? theme.colors.bg.successStrong
-                : theme.colors.bg.active
+                ? theme.colors.border.success
+                : theme.colors.border.active
           }
           strokeLinecap='round'
           strokeWidth={strokeWidth}
