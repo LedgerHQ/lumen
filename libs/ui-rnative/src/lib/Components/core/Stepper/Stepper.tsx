@@ -209,6 +209,7 @@ export const Stepper = ({
             typography={typography}
             lx={{ color: disabled ? 'disabled' : 'base' }}
             maxFontSizeMultiplier={1.4}
+            numberOfLines={1}
           >
             {label}
           </Text>

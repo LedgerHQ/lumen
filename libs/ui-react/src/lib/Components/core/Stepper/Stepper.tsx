@@ -3,6 +3,7 @@ import {
   getStepperCalculations,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
+import { cva } from 'class-variance-authority';
 import { useId } from 'react';
 import type { StepperProps } from './types';
 
@@ -10,6 +11,26 @@ const SIZES = {
   md: { px: 48, strokeWidth: 4, root: 'size-48', label: 'body-2' },
   lg: { px: 72, strokeWidth: 6, root: 'size-72', label: 'heading-4' },
 } as const;
+
+const progressVariants = cva('transition-[stroke] duration-300 ease-in-out', {
+  variants: {
+    appearance: { accent: '', success: '' },
+    disabled: { true: '', false: '' },
+  },
+  compoundVariants: [
+    {
+      appearance: 'accent',
+      disabled: false,
+      class: 'stroke-(--border-active)',
+    },
+    {
+      appearance: 'success',
+      disabled: false,
+      class: 'stroke-(--border-success)',
+    },
+    { disabled: true, class: 'stroke-(--border-muted-subtle-hover)' },
+  ],
+});
 
 /**
  * A circular stepper component showing progress as current step out of total steps.
@@ -129,14 +150,7 @@ export const Stepper = ({
           stroke='currentColor'
           strokeLinecap='round'
           mask={`url(#${maskId})`}
-          className={cn(
-            disabled
-              ? 'stroke-(--border-muted-subtle-hover)'
-              : appearance === 'success'
-                ? 'stroke-(--border-success)'
-                : 'stroke-(--border-active)',
-            'transition-[stroke] duration-300 ease-in-out',
-          )}
+          className={progressVariants({ appearance, disabled })}
           style={{
             strokeWidth: `${strokeWidth}px`,
             strokeDasharray: progressDashArray,
@@ -144,13 +158,15 @@ export const Stepper = ({
           }}
         />
       </svg>
-      <span className='absolute inset-0 m-4 flex items-center justify-center text-base'>
+      <span className='absolute inset-0 m-4 flex min-w-0 items-center justify-center text-base'>
         {label ? (
-          <span className={cn(labelClass, disabled && 'text-disabled')}>
+          <span
+            className={cn(labelClass, 'truncate', disabled && 'text-disabled')}
+          >
             {label}
           </span>
         ) : (
-          <span>
+          <span className='truncate'>
             <span className={cn(labelClass, disabled && 'text-disabled')}>
               {Math.min(Math.max(currentStep, 0), totalSteps)}
             </span>

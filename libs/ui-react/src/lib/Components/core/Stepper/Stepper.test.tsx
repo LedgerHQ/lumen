@@ -36,9 +36,14 @@ describe('Stepper Component', () => {
       <Stepper currentStep={2} totalSteps={4} disabled />,
     );
     const progressCircle = container.querySelectorAll('circle')[2];
-    expect(progressCircle).toHaveClass(
-      'stroke-(--border-muted-subtle-hover)',
+    expect(progressCircle).toHaveClass('stroke-(--border-muted-subtle-hover)');
+  });
+
+  it('should truncate long labels', () => {
+    const { getByText } = render(
+      <Stepper currentStep={1} totalSteps={4} label='A very long label' />,
     );
+    expect(getByText('A very long label')).toHaveClass('truncate');
   });
 
   it('should apply custom className', () => {
