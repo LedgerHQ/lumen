@@ -103,6 +103,15 @@ export const Stepper = ({
     strokeWidth,
   });
 
+  const activeColor =
+    appearance === 'success'
+      ? theme.colors.border.success
+      : theme.colors.border.active;
+
+  const progressColor = disabled
+    ? theme.colors.border.mutedSubtleHover
+    : activeColor;
+
   const animatedProgress = useAnimatedProgress({
     progressDashOffset,
   });
@@ -178,13 +187,7 @@ export const Stepper = ({
           cy={cy}
           r={r}
           fill='none'
-          stroke={
-            disabled
-              ? theme.colors.border.mutedSubtleHover
-              : appearance === 'success'
-                ? theme.colors.border.success
-                : theme.colors.border.active
-          }
+          stroke={progressColor}
           strokeLinecap='round'
           strokeWidth={strokeWidth}
           strokeDasharray={progressDashArray}
