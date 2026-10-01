@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Switch icon component for React Native.
+ * ArrowBottomLeft icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,37 +15,30 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Switch } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { ArrowBottomLeft } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Switch />
+ * <ArrowBottomLeft />
  *
  * @example
  * // With custom size and style
- * <Switch size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <ArrowBottomLeft size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Switch} size="md">
+ * <Button icon={ArrowBottomLeft} size="md">
  *   Click me
  * </Button>
  */
-export const Switch = createIcon(
-  'Switch',
+export const ArrowBottomLeft = createIcon(
+  'ArrowBottomLeft',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      d='M4.6 4.8h6.8a3.2 3.2 0 0 1 0 6.4H4.6a3.2 3.2 0 0 1 0-6.4'
-      clipRule='evenodd'
-    />
-    <Path
-      fill='currentColor'
-      fillRule='evenodd'
-      d='M4.495 6.667c-.736 0-1.334.597-1.328 1.333a1.334 1.334 0 1 0 1.328-1.333'
-      clipRule='evenodd'
+      d='m4.7 11.3 6.6-6.6m-1.885 6.6H4.7V6.585'
     />
   </Svg>,
 );
