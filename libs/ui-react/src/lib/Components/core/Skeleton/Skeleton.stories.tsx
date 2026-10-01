@@ -48,7 +48,7 @@ export const WithTile: Story = {
 };
 
 export const WithTable: Story = {
-  render: () => <Skeleton component='table' className='w-560' />,
+  render: () => <Skeleton component='table' className='w-576' />,
 };
 
 export const SizeShowcase: Story = {

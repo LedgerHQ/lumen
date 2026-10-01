@@ -59,7 +59,7 @@ export const Base: Story = {
     children: null,
   },
   render: (args) => (
-    <Box lx={{ width: 's400' }}>
+    <Box lx={{ width: 's448' }}>
       <MediaBanner {...args}>
         <MediaBannerTitle>Firmware Update</MediaBannerTitle>
         <MediaBannerDescription>Keep your Nano updated!</MediaBannerDescription>
@@ -88,7 +88,7 @@ export const Truncation: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ width: 's400' }}>
+    <Box lx={{ width: 's448' }}>
       <MediaBanner imageUrl={IMAGE_URL} onClose={() => console.log('close')}>
         <MediaBannerTitle>
           Earn Up to 12% APY With Staking Now And Much More Rewards Awaiting You
@@ -109,7 +109,7 @@ export const WithBrokenImage: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ width: 's400' }}>
+    <Box lx={{ width: 's448' }}>
       <MediaBanner
         imageUrl='https://broken-url.invalid/image.jpg'
         onClose={() => console.log('close')}
@@ -132,7 +132,7 @@ export const Clickable: Story = {
     const [count, setCount] = useState(0);
 
     return (
-      <Box lx={{ width: 's400', gap: 's8' }}>
+      <Box lx={{ width: 's448', gap: 's8' }}>
         <MediaBanner
           imageUrl={IMAGE_URL}
           onPress={() => setCount((c) => c + 1)}
@@ -170,7 +170,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <Box lx={{ width: 's400' }}>
+      <Box lx={{ width: 's448' }}>
         <MediaBanner imageUrl={IMAGE_URL} onClose={() => setVisible(false)}>
           <MediaBannerTitle>
             Earn Up to 12% APY With Staking Now!

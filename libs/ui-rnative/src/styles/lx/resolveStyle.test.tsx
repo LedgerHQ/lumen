@@ -127,7 +127,7 @@ describe('resolve-style', () => {
               height: 's96',
               minWidth: 's48',
               minHeight: 's24',
-              maxWidth: 's400',
+              maxWidth: 's448',
               maxHeight: 's192',
             }),
           { wrapper },
@@ -137,7 +137,7 @@ describe('resolve-style', () => {
         expect(result.current.height).toBe(96);
         expect(result.current.minWidth).toBe(48);
         expect(result.current.minHeight).toBe(24);
-        expect(result.current.maxWidth).toBe(400);
+        expect(result.current.maxWidth).toBe(448);
         expect(result.current.maxHeight).toBe(192);
       });
 

@@ -396,7 +396,7 @@ export const LayoutShowcase: Story = {
     },
   },
   render: (args) => (
-    <div className='flex w-480 flex-col gap-32'>
+    <div className='flex w-512 flex-col gap-32'>
       <Card {...args} className='w-fit'>
         <CardHeader>
           <CardLeading>

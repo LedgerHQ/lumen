@@ -26,7 +26,7 @@ export const Base: Story = {
     <>
       <Box
         lx={{
-          minHeight: 's400',
+          minHeight: 's448',
           alignItems: 'center',
           justifyContent: 'center',
           padding: 's24',
@@ -55,7 +55,7 @@ export const WithCustomContent: Story = {
     <>
       <Box
         lx={{
-          minHeight: 's400',
+          minHeight: 's448',
           alignItems: 'center',
           justifyContent: 'center',
           padding: 's24',
@@ -96,7 +96,7 @@ export const WithMultipleTooltips: Story = {
     <>
       <Box
         lx={{
-          minHeight: 's400',
+          minHeight: 's448',
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'center',
@@ -152,7 +152,7 @@ export const WithChangeCallback: Story = {
       <>
         <Box
           lx={{
-            minHeight: 's400',
+            minHeight: 's448',
             alignItems: 'center',
             justifyContent: 'center',
             padding: 's24',

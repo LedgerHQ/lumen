@@ -340,7 +340,7 @@ export const ActiveState: Story = {
 
 export const ResponsiveLayout: Story = {
   render: () => (
-    <div className='flex w-480 flex-col gap-32'>
+    <div className='flex w-512 flex-col gap-32'>
       <ListItem className='w-fit' onClick={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />

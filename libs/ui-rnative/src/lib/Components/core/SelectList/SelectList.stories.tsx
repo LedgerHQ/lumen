@@ -53,7 +53,7 @@ const meta = {
             padding: 's24',
             alignItems: 'flex-start',
             width: 's320',
-            height: 's480',
+            height: 's512',
           }}
         >
           <Story />
