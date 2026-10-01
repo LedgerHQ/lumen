@@ -81,7 +81,7 @@ export const ContentTypesShowcase: Story = {
 export const TruncateShowcase: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
-    <div className='flex max-w-160 items-center gap-4'>
+    <div className='flex max-w-176 items-center gap-4'>
       <Tag label='Very long custom Tag text that should truncate' />
     </div>
   ),

@@ -109,7 +109,7 @@ Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicat
 `onScrollBottom` fires within `128` pixels (about two rows) of the bottom. Set `scrollBottomThreshold` to load earlier, e.g. `scrollBottomThreshold={800}`.  
 
 Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
-A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
+A fixed height on `TableRoot` (e.g. `className="h-512"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />
 
@@ -321,7 +321,7 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
 
 ```tsx
 <TableRoot
-  className='h-480'
+  className='h-512'
   loading={loading}
   onScrollBottom={loadMore}
 >

@@ -438,7 +438,7 @@ export const WithResponsiveHorizontalScroll: Story = {
 
 export const WithClickableRow: Story = {
   render: (args) => (
-    <div className='w-480 text-base'>
+    <div className='w-512 text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -482,7 +482,7 @@ export const WithActiveRow: Story = {
     const [activeSymbol, setActiveSymbol] = useState(smallData[1].symbol);
 
     return (
-      <div className='w-480 text-base'>
+      <div className='w-512 text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -550,7 +550,7 @@ export const WithInfiniteLoading: Story = {
       <div className='w-3xl text-base'>
         <TableRoot
           {...args}
-          className='h-480'
+          className='h-512'
           loading={loading}
           onScrollBottom={loadMore}
         >

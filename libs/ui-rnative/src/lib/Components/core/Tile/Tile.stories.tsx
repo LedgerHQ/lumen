@@ -151,7 +151,7 @@ export const HorizontalList: Story = {
         lx={{
           position: 'relative',
           flexDirection: 'row',
-          width: 's480',
+          width: 's512',
           backgroundColor: 'base',
         }}
       >
@@ -168,7 +168,7 @@ export const HorizontalList: Story = {
       <Box
         lx={{
           flexDirection: 'row',
-          width: 's480',
+          width: 's512',
           position: 'relative',
           backgroundColor: 'base',
           overflow: 'scroll',

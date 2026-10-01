@@ -39,7 +39,7 @@ type Story = StoryObj<typeof Subheader>;
 
 export const Base: Story = {
   render: () => (
-    <div className='w-400 bg-canvas p-8 text-base'>
+    <div className='w-448 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow>
           <SubheaderTitle>Section Title</SubheaderTitle>
@@ -55,7 +55,7 @@ export const Base: Story = {
 
 export const InteractiveRow: Story = {
   render: () => (
-    <div className='w-400 bg-canvas p-8 text-base'>
+    <div className='w-448 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow onClick={() => console.log('Row clicked')}>
           <SubheaderTitle>Accounts</SubheaderTitle>
@@ -73,7 +73,7 @@ export const InteractiveRow: Story = {
 
 export const WithInfoIcon: Story = {
   render: () => (
-    <div className='w-400 bg-canvas p-8 text-base'>
+    <div className='w-448 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow>
           <SubheaderTitle>Section with Info</SubheaderTitle>
@@ -96,7 +96,7 @@ export const WithInfoIcon: Story = {
 
 export const WithAction: Story = {
   render: () => (
-    <div className='w-400 bg-canvas p-8 text-base'>
+    <div className='w-448 bg-canvas p-8 text-base'>
       <Subheader>
         <div className='flex w-full items-center justify-between gap-24'>
           <SubheaderRow className='min-w-0 flex-1'>

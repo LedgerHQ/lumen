@@ -42,7 +42,7 @@ export const Base: Story = {
         render={<Button appearance='gray'>Open Popover</Button>}
       />
 
-      <PopoverContent className='w-400'>
+      <PopoverContent className='w-448'>
         <div className='flex flex-col gap-24'>
           <div className='flex items-center gap-12'>
             <Avatar
@@ -111,7 +111,7 @@ export const WidthShowcase: Story = {
 
       <Popover>
         <PopoverTrigger
-          render={<Button appearance='gray'>Fixed (max-w 400px)</Button>}
+          render={<Button appearance='gray'>Fixed (max-w 448px)</Button>}
         />
 
         <PopoverContent width='fixed'>
@@ -260,7 +260,7 @@ export const WithControlledState: Story = {
           />
 
           <PopoverContent>
-            <div className='flex w-400 flex-col gap-16'>
+            <div className='flex w-448 flex-col gap-16'>
               <div className='flex flex-col gap-24'>
                 <div className='flex items-center gap-12'>
                   <Avatar

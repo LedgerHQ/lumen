@@ -158,7 +158,7 @@ describe('Popover', () => {
     await waitFor(() => {
       const popup = document.querySelector('[data-slot="popover-content"]');
       expect(popup).toBeInTheDocument();
-      expect(popup).toHaveClass('w-400');
+      expect(popup).toHaveClass('w-448');
     });
   });
 

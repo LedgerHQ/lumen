@@ -57,7 +57,7 @@ export const Size: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => (
-    <div className='flex w-560 flex-col gap-24'>
+    <div className='flex w-576 flex-col gap-24'>
       {SIZES.map((size) => (
         <div key={size} className='w-full'>
           <AmountInput
@@ -80,7 +80,7 @@ export const Alignment: Story = {
     onChange: () => console.log('onChange triggered'),
   },
   render: () => (
-    <div className='flex w-560 flex-col gap-24'>
+    <div className='flex w-576 flex-col gap-24'>
       {ALIGNMENTS.map((align) => (
         <div key={align} className='w-full'>
           <AmountInput
