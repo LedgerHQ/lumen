@@ -44,5 +44,6 @@ export * from './TextInput';
 export * from './ThemeProvider';
 export * from './Tile';
 export * from './TileButton';
+export * from './Timeline';
 export * from './Tooltip';
 export * from './Trend';

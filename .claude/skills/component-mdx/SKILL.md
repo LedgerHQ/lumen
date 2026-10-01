@@ -55,7 +55,7 @@ import * as ComponentStories from './Component.stories';
 </Tab>
 ```
 
-- Pair each `<Source>` with a real story export — the snippet stays in sync with Storybook (`type: 'dynamic'` on stories keeps it accurate when controls change).
+- Pair each `<Source>` with a real story export. Stories keep `docs.source.type: 'dynamic'` on the meta (see `component-stories`), including showcases, so the snippet is generated from `render` and is not a second copy of the JSX.
 - Do not duplicate story code as manual ` ```tsx ` blocks in the Implementation tab.
 
 See the `component-stories` skill for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
