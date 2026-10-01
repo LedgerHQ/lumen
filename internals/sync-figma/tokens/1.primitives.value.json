@@ -9772,9 +9772,51 @@
         }
       }
     },
-    "160": {
+    "176": {
       "$type": "number",
-      "$value": 160,
+      "$value": 176,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "GAP"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "192": {
+      "$type": "number",
+      "$value": 192,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "GAP"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "208": {
+      "$type": "number",
+      "$value": 208,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "GAP"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "224": {
+      "$type": "number",
+      "$value": 224,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -10407,9 +10449,7 @@
       "$extensions": {
         "com.figma": {
           "hiddenFromPublishing": true,
-          "scopes": [
-            "ALL_SCOPES"
-          ],
+          "scopes": [],
           "codeSyntax": {}
         }
       }
@@ -10878,9 +10918,9 @@
         }
       }
     },
-    "400": {
+    "384": {
       "$type": "number",
-      "$value": 400,
+      "$value": 384,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -10892,9 +10932,9 @@
         }
       }
     },
-    "480": {
+    "448": {
       "$type": "number",
-      "$value": 480,
+      "$value": 448,
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -10906,9 +10946,107 @@
         }
       }
     },
-    "560": {
+    "512": {
       "$type": "number",
-      "$value": 560,
+      "$value": 512,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "576": {
+      "$type": "number",
+      "$value": 576,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "672": {
+      "$type": "number",
+      "$value": 672,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "768": {
+      "$type": "number",
+      "$value": 768,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "896": {
+      "$type": "number",
+      "$value": 896,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "1024": {
+      "$type": "number",
+      "$value": 1024,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "1152": {
+      "$type": "number",
+      "$value": 1152,
+      "$description": "",
+      "$extensions": {
+        "com.figma": {
+          "hiddenFromPublishing": false,
+          "scopes": [
+            "WIDTH_HEIGHT"
+          ],
+          "codeSyntax": {}
+        }
+      }
+    },
+    "1280": {
+      "$type": "number",
+      "$value": 1280,
       "$description": "",
       "$extensions": {
         "com.figma": {
