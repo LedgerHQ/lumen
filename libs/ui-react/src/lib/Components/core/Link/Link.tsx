@@ -13,6 +13,7 @@ const linkVariants = cva(
         base: 'text-base hover:text-base-hover active:text-base-pressed',
         accent:
           'text-interactive hover:text-interactive-hover active:text-interactive-pressed',
+        gray: 'text-muted hover:text-muted-hover active:text-muted-pressed',
         inherit: '',
       },
       size: {

@@ -46,11 +46,13 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
       const textColors: Record<Appearance, string> = {
         base: t.colors.text.base,
         accent: t.colors.text.interactive,
+        gray: t.colors.text.muted,
       };
 
       const pressedTextColors: Record<Appearance, string> = {
         base: t.colors.text.basePressed,
         accent: t.colors.text.interactivePressed,
+        gray: t.colors.text.mutedPressed,
       };
 
       const color = pressed
