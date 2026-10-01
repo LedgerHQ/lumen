@@ -80,7 +80,7 @@ describe('Stepper Component', () => {
     expect(stepper).toBeTruthy();
   });
 
-  it('should handle currentStep <= 0 (minimal dot)', async () => {
+  it('should handle currentStep <= 0', async () => {
     const { findByLabelText } = render(
       <TestWrapper>
         <Stepper currentStep={0} totalSteps={4} />
@@ -108,6 +108,34 @@ describe('Stepper Component', () => {
     );
     expect(getByText('0')).toBeTruthy();
     expect(getByText('/4')).toBeTruthy();
+  });
+
+  it('should render md size by default', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Stepper currentStep={2} totalSteps={4} testID='stepper' />
+      </TestWrapper>,
+    );
+    const style = getByTestId('stepper').props.style;
+    const flatStyle = Array.isArray(style)
+      ? Object.assign({}, ...style)
+      : style;
+    expect(flatStyle.width).toBe(48);
+    expect(flatStyle.height).toBe(48);
+  });
+
+  it('should render lg size', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Stepper currentStep={2} totalSteps={4} size='lg' testID='stepper' />
+      </TestWrapper>,
+    );
+    const style = getByTestId('stepper').props.style;
+    const flatStyle = Array.isArray(style)
+      ? Object.assign({}, ...style)
+      : style;
+    expect(flatStyle.width).toBe(72);
+    expect(flatStyle.height).toBe(72);
   });
 
   it('should apply custom lx props', () => {

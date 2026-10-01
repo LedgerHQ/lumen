@@ -19,6 +19,8 @@ const meta = {
   argTypes: {
     currentStep: { control: 'number', min: 1 },
     totalSteps: { control: 'number', min: 1 },
+    appearance: { control: 'select', options: ['accent', 'success'] },
+    size: { control: 'select', options: ['md', 'lg'] },
     disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Stepper>;
@@ -45,6 +47,56 @@ export const Base: Story = {
   },
 };
 
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <div className='flex items-center gap-32'>
+      <div className='flex flex-col items-center gap-8'>
+        <span className='body-3 text-muted'>Accent</span>
+        <Stepper currentStep={2} totalSteps={4} appearance='accent' />
+      </div>
+      <div className='flex flex-col items-center gap-8'>
+        <span className='body-3 text-muted'>Success</span>
+        <Stepper currentStep={4} totalSteps={4} appearance='success' />
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Stepper currentStep={2} totalSteps={4} appearance="accent" />
+<Stepper currentStep={4} totalSteps={4} appearance="success" />
+`,
+      },
+    },
+  },
+};
+
+export const SizeShowcase: Story = {
+  render: () => (
+    <div className='flex items-center gap-32'>
+      <div className='flex flex-col items-center gap-8'>
+        <span className='body-3 text-muted'>Medium (md)</span>
+        <Stepper currentStep={2} totalSteps={4} size='md' />
+      </div>
+      <div className='flex flex-col items-center gap-8'>
+        <span className='body-3 text-muted'>Large (lg)</span>
+        <Stepper currentStep={2} totalSteps={4} size='lg' />
+      </div>
+    </div>
+  ),
+  parameters: {
+    docs: {
+      source: {
+        code: `
+<Stepper currentStep={2} totalSteps={4} size="md" />
+<Stepper currentStep={2} totalSteps={4} size="lg" />
+`,
+      },
+    },
+  },
+};
+
 export const DisabledShowcase: Story = {
   render: () => (
     <div className='flex flex-col items-center gap-32'>
@@ -57,8 +109,8 @@ export const DisabledShowcase: Story = {
         <Stepper currentStep={2} totalSteps={4} disabled />
       </div>
       <div className='flex flex-col items-center gap-8'>
-        <span className='body-3 text-muted'>Unstarted (0/9)</span>
-        <Stepper currentStep={0} totalSteps={9} />
+        <span className='body-3 text-muted'>Unstarted (0/8)</span>
+        <Stepper currentStep={0} totalSteps={8} />
       </div>
     </div>
   ),
@@ -68,7 +120,7 @@ export const DisabledShowcase: Story = {
         code: `
 <Stepper currentStep={2} totalSteps={4} />
 <Stepper currentStep={2} totalSteps={4} disabled />
-<Stepper currentStep={0} totalSteps={9} />
+<Stepper currentStep={0} totalSteps={8} />
 `,
       },
     },

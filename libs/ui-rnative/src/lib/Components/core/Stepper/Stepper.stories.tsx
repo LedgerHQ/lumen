@@ -13,6 +13,8 @@ const meta = {
   argTypes: {
     currentStep: { control: 'number' },
     totalSteps: { control: 'number' },
+    appearance: { control: 'select', options: ['accent', 'success'] },
+    size: { control: 'select', options: ['md', 'lg'] },
     disabled: { control: 'boolean' },
   },
 } satisfies Meta<typeof Stepper>;
@@ -26,6 +28,52 @@ export const Base: Story = {
     totalSteps: 4,
   },
   render: (args) => <Stepper {...args} />,
+};
+
+export const AppearanceShowcase: Story = {
+  args: {
+    currentStep: 2,
+    totalSteps: 4,
+  },
+  render: () => (
+    <Box lx={{ flexDirection: 'row', gap: 's32', alignItems: 'center' }}>
+      <Box lx={{ alignItems: 'center', gap: 's8' }}>
+        <Text typography='body3' lx={{ color: 'muted' }}>
+          Accent
+        </Text>
+        <Stepper currentStep={2} totalSteps={4} appearance='accent' />
+      </Box>
+      <Box lx={{ alignItems: 'center', gap: 's8' }}>
+        <Text typography='body3' lx={{ color: 'muted' }}>
+          Success
+        </Text>
+        <Stepper currentStep={4} totalSteps={4} appearance='success' />
+      </Box>
+    </Box>
+  ),
+};
+
+export const SizeShowcase: Story = {
+  args: {
+    currentStep: 2,
+    totalSteps: 4,
+  },
+  render: () => (
+    <Box lx={{ flexDirection: 'row', gap: 's32', alignItems: 'center' }}>
+      <Box lx={{ alignItems: 'center', gap: 's8' }}>
+        <Text typography='body3' lx={{ color: 'muted' }}>
+          Medium (md)
+        </Text>
+        <Stepper currentStep={2} totalSteps={4} size='md' />
+      </Box>
+      <Box lx={{ alignItems: 'center', gap: 's8' }}>
+        <Text typography='body3' lx={{ color: 'muted' }}>
+          Large (lg)
+        </Text>
+        <Stepper currentStep={2} totalSteps={4} size='lg' />
+      </Box>
+    </Box>
+  ),
 };
 
 export const DisabledShowcase: Story = {
@@ -49,9 +97,9 @@ export const DisabledShowcase: Story = {
       </Box>
       <Box lx={{ alignItems: 'center', gap: 's8' }}>
         <Text typography='body3' lx={{ color: 'muted' }}>
-          Unstarted (0/9)
+          Unstarted (0/8)
         </Text>
-        <Stepper currentStep={0} totalSteps={9} />
+        <Stepper currentStep={0} totalSteps={8} />
       </Box>
     </Box>
   ),

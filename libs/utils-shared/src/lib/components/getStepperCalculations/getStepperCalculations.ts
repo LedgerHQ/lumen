@@ -1,5 +1,5 @@
 export type StepperCalculationsInput = {
-  /** Current step number (1-based). Use 0 or negative for minimal dot. */
+  /** Current step number (1-based). Use 0 or negative for empty progress. */
   currentStep: number;
   /** Total number of steps. */
   totalSteps: number;
@@ -9,8 +9,6 @@ export type StepperCalculationsInput = {
   label?: string;
   /** Stroke width in pixels. @default 4 */
   strokeWidth?: number;
-  /** Percentage of full circle to show as arc (0–1). @default 0.75 (270°) */
-  arcPercentage?: number;
 };
 
 export type StepperCalculationsOutput = {
@@ -26,16 +24,14 @@ export type StepperCalculationsOutput = {
   cy: number;
   /** Full circle circumference. */
   circumference: number;
-  /** Length of the visible arc (track). */
-  trackArcLength: number;
-  /** strokeDasharray for the gray track circle. */
-  trackDashArray: string;
-  /** strokeDasharray for the progress (purple) circle. */
+  /** dasharray for the gray track and progress circles. */
   progressDashArray: string;
-  /** strokeDashoffset for the progress (purple) circle. */
+  /** strokeDasharray for the mask circle that reveals the progress. */
+  progressMaskDashArray: string;
+  /** strokeDashoffset for the mask circle; animate it to sweep clockwise. */
   progressDashOffset: number;
-  /** Whether to show minimal dot instead of progress arc. */
-  showMinimalDot: boolean;
+  /** strokeDashoffset for the track and progress circles; centers the first gap at the path start. */
+  dashPatternOffset: number;
 };
 
 /**
@@ -54,8 +50,6 @@ export type StepperCalculationsOutput = {
  *
  * // calcs.displayLabel → '2/4'
  * // calcs.progress → 0.5
- * // calcs.trackDashArray → '<trackArcLength> <circumference>'
- * // calcs.progressDashArray → '<trackArcLength> <circumference>'
  * // calcs.progressDashOffset → offset for 50% fill
  * ```
  */
@@ -65,28 +59,30 @@ export const getStepperCalculations = ({
   size,
   label,
   strokeWidth = 4,
-  arcPercentage = 0.75,
 }: StepperCalculationsInput): StepperCalculationsOutput => {
-  // Clamp currentStep: minimum 0, maximum totalSteps
   const clampedCurrentStep = Math.min(Math.max(currentStep, 0), totalSteps);
 
   const displayLabel = label ?? `${clampedCurrentStep}/${totalSteps}`;
   const progress = totalSteps <= 0 ? 0 : clampedCurrentStep / totalSteps;
 
-  // SVG circle geometry
   const r = (size - strokeWidth) / 2;
   const cx = size / 2;
   const cy = size / 2;
   const circumference = 2 * Math.PI * r;
 
-  // Arc calculations
-  const trackArcLength = circumference * arcPercentage;
-  const dashOffset = trackArcLength * (1 - progress);
+  const GAP_DEGREES = 12;
+  const gapLength =
+    totalSteps <= 1 ? 0 : (GAP_DEGREES / 360) * circumference + strokeWidth;
 
-  // Minimal dot handling (currentStep <= 0 means "not started")
-  const showMinimalDot = clampedCurrentStep <= 0;
-  const progressDashArray = `${trackArcLength} ${circumference}`;
-  const progressDashOffset = showMinimalDot ? trackArcLength - 2 : dashOffset;
+  const segmentLength =
+    totalSteps <= 1
+      ? circumference
+      : Math.max(circumference / totalSteps - gapLength, 0);
+
+  const progressDashArray = `${segmentLength} ${gapLength}`;
+  const progressMaskDashArray = `${circumference} ${circumference}`;
+  const progressDashOffset = circumference * (1 - progress);
+  const dashPatternOffset = segmentLength + gapLength / 2;
 
   return {
     displayLabel,
@@ -95,10 +91,9 @@ export const getStepperCalculations = ({
     cx,
     cy,
     circumference,
-    trackArcLength,
-    trackDashArray: `${trackArcLength} ${circumference}`,
     progressDashArray,
+    progressMaskDashArray,
     progressDashOffset,
-    showMinimalDot,
+    dashPatternOffset,
   };
 };
