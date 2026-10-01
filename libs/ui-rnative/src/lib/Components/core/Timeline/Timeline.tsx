@@ -2,7 +2,7 @@ import {
   createSafeContext,
   isTextChildren,
 } from '@ledgerhq/lumen-utils-shared';
-import type { Key, ReactNode } from 'react';
+import type { Key, ReactElement, ReactNode } from 'react';
 import { Children, Fragment, isValidElement } from 'react';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
@@ -72,10 +72,12 @@ const useTimelineStyles = () =>
     (t) => ({
       root: {
         width: t.sizes.full,
+        minWidth: 0,
         flexDirection: 'column',
       },
       item: {
         width: t.sizes.full,
+        minWidth: 0,
         flexDirection: 'column',
         position: 'relative',
       },
@@ -83,7 +85,7 @@ const useTimelineStyles = () =>
         position: 'absolute',
         top: 0,
         bottom: 0,
-        left: 0,
+        start: 0,
         width: t.sizes.s32,
         flexDirection: 'column',
         alignItems: 'center',
@@ -120,7 +122,7 @@ const useTimelineStyles = () =>
         borderRadius: t.borderRadius.full,
         backgroundColor: t.colors.bg.mutedPressed,
       },
-      todoRing: {
+      idleRing: {
         width: t.sizes.s20,
         height: t.sizes.s20,
         borderRadius: t.borderRadius.full,
@@ -131,6 +133,7 @@ const useTimelineStyles = () =>
         flexDirection: 'row',
         alignItems: 'center',
         minHeight: t.sizes.s64,
+        minWidth: 0,
         gap: t.spacings.s8,
       },
       leading: {
@@ -147,7 +150,11 @@ const useTimelineStyles = () =>
       },
       caption: StyleSheet.flatten([
         t.typographies.body4,
-        { color: t.colors.text.muted },
+        {
+          minWidth: 0,
+          flexShrink: 1,
+          color: t.colors.text.muted,
+        },
       ]),
       description: StyleSheet.flatten([
         t.typographies.body3,
@@ -158,13 +165,14 @@ const useTimelineStyles = () =>
         },
       ]),
       trailing: {
-        marginLeft: 'auto',
+        marginStart: 'auto',
         flexShrink: 0,
         flexDirection: 'column',
         alignItems: 'flex-end',
       },
       body: {
         marginStart: t.spacings.s40,
+        minWidth: 0,
         paddingTop: t.spacings.s8,
         paddingBottom: t.spacings.s12,
       },
@@ -190,62 +198,42 @@ const useTitleStyles = (muted: boolean) =>
 const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
   const styles = useTimelineStyles();
   const decorative = status !== 'loading';
-
-  const indicator = () => {
-    switch (status) {
-      case 'success':
-        return (
-          <CheckmarkCircleFill
-            accessible={false}
-            color='success'
-            size={24}
-            testID='timeline-indicator-success'
-          />
-        );
-      case 'error':
-        return (
-          <DeleteCircleFill
-            accessible={false}
-            color='error'
-            size={24}
-            testID='timeline-indicator-error'
-          />
-        );
-      case 'pending':
-        return (
-          <ClockFill
-            accessible={false}
-            color='muted'
-            size={24}
-            testID='timeline-indicator-pending'
-          />
-        );
-      case 'loading':
-        return (
-          <Spinner
-            color='muted'
-            size={24}
-            testID='timeline-indicator-loading'
-          />
-        );
-      case 'todo':
-        return (
-          <Box
-            accessible={false}
-            style={styles.todoRing}
-            testID='timeline-indicator-todo'
-          />
-        );
-      case undefined:
-        return (
-          <Box
-            accessible={false}
-            style={styles.neutralDot}
-            testID='timeline-indicator-neutral'
-          />
-        );
-    }
-  };
+  const indicatorByStatus = {
+    success: (
+      <CheckmarkCircleFill
+        accessible={false}
+        color='success'
+        size={24}
+        testID='timeline-indicator-success'
+      />
+    ),
+    error: (
+      <DeleteCircleFill
+        accessible={false}
+        color='error'
+        size={24}
+        testID='timeline-indicator-error'
+      />
+    ),
+    pending: (
+      <ClockFill
+        accessible={false}
+        color='muted'
+        size={24}
+        testID='timeline-indicator-pending'
+      />
+    ),
+    loading: (
+      <Spinner color='muted' size={24} testID='timeline-indicator-loading' />
+    ),
+    idle: (
+      <Box
+        accessible={false}
+        style={styles.idleRing}
+        testID='timeline-indicator-idle'
+      />
+    ),
+  } satisfies Record<TimelineItemStatus, ReactElement>;
 
   return (
     <Box
@@ -253,7 +241,15 @@ const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
       importantForAccessibility={decorative ? 'no-hide-descendants' : 'auto'}
       style={styles.indicator}
     >
-      {indicator()}
+      {status ? (
+        indicatorByStatus[status]
+      ) : (
+        <Box
+          accessible={false}
+          style={styles.neutralDot}
+          testID='timeline-indicator-neutral'
+        />
+      )}
     </Box>
   );
 };
@@ -359,6 +355,7 @@ export const TimelineItem = ({
         ref={ref}
         lx={lx}
         style={StyleSheet.flatten([styles.item, style])}
+        testID='timeline-item'
         {...props}
       >
         <TimelineRail />
@@ -473,7 +470,7 @@ export const TimelineItemCaption = ({
 };
 
 /**
- * Title. A `todo` item uses the muted tone.
+ * Title. An `idle` item uses the muted tone.
  */
 export const TimelineItemTitle = ({
   ref,
@@ -486,7 +483,7 @@ export const TimelineItemTitle = ({
     consumerName: 'TimelineItemTitle',
     contextRequired: true,
   });
-  const styles = useTitleStyles(status === 'todo');
+  const styles = useTitleStyles(status === 'idle');
 
   return (
     <Text

@@ -74,11 +74,9 @@ describe('Timeline', () => {
 
       expect(screen.getByText('Payment confirmed')).toHaveClass('text-base');
       expect(
-        document.querySelector('[data-indicator="neutral"]'),
+        screen.getByTestId('timeline-indicator-neutral'),
       ).toBeInTheDocument();
-      expect(
-        document.querySelector('[data-status="neutral"]'),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId('timeline-item')).toBeInTheDocument();
     });
 
     it.each<[TimelineItemStatus, string]>([
@@ -86,7 +84,7 @@ describe('Timeline', () => {
       ['error', 'error'],
       ['pending', 'pending'],
       ['loading', 'loading'],
-      ['todo', 'todo'],
+      ['idle', 'idle'],
     ])('should render the %s indicator', (status, indicator) => {
       render(
         <Timeline>
@@ -95,14 +93,14 @@ describe('Timeline', () => {
       );
 
       expect(
-        document.querySelector(`[data-indicator="${indicator}"]`),
+        screen.getByTestId(`timeline-indicator-${indicator}`),
       ).toBeInTheDocument();
     });
 
-    it('should mute the title of a todo item', () => {
+    it('should mute the title of an idle item', () => {
       render(
         <Timeline>
-          <Item title='Waiting' status='todo' />
+          <Item title='Waiting' status='idle' />
         </Timeline>,
       );
 
@@ -117,8 +115,12 @@ describe('Timeline', () => {
         </Timeline>,
       );
 
-      const first = screen.getByText('First').closest('[data-status]');
-      const second = screen.getByText('Second').closest('[data-status]');
+      const first = screen
+        .getByText('First')
+        .closest('[data-testid="timeline-item"]');
+      const second = screen
+        .getByText('Second')
+        .closest('[data-testid="timeline-item"]');
       expect(first?.querySelector('[data-line="out"]')).toHaveClass(
         'border-muted-subtle-hover',
       );
@@ -131,12 +133,16 @@ describe('Timeline', () => {
       render(
         <Timeline>
           <Item title='First' status='success' />
-          <Item title='Last' status='todo' />
+          <Item title='Last' status='idle' />
         </Timeline>,
       );
 
-      const first = screen.getByText('First').closest('[data-status]');
-      const last = screen.getByText('Last').closest('[data-status]');
+      const first = screen
+        .getByText('First')
+        .closest('[data-testid="timeline-item"]');
+      const last = screen
+        .getByText('Last')
+        .closest('[data-testid="timeline-item"]');
 
       expect(first).toHaveClass('group/item');
       expect(first?.querySelector('[data-line="in"]')).toHaveClass(

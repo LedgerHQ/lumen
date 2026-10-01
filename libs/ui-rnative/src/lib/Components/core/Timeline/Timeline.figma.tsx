@@ -49,7 +49,7 @@ figma.connect(
           </TimelineItem>
         ),
         progress: (
-          <TimelineItem status='todo'>
+          <TimelineItem status='idle'>
             <TimelineItemHeader>
               <TimelineItemLeading>
                 <TimelineItemCaption>12 Mar 2024</TimelineItemCaption>

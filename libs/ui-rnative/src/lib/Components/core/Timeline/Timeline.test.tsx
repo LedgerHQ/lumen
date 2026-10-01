@@ -148,7 +148,7 @@ describe('Timeline', () => {
       ['error', 'timeline-indicator-error'],
       ['pending', 'timeline-indicator-pending'],
       ['loading', 'timeline-indicator-loading'],
-      ['todo', 'timeline-indicator-todo'],
+      ['idle', 'timeline-indicator-idle'],
     ])('should render the %s indicator', async (status, testID) => {
       render(
         <TestWrapper>
@@ -177,11 +177,11 @@ describe('Timeline', () => {
       });
     });
 
-    it('should mute the title of a todo item', () => {
+    it('should mute the title of an idle item', () => {
       render(
         <TestWrapper>
           <Timeline>
-            <Item status='todo' title='Waiting' />
+            <Item status='idle' title='Waiting' />
           </Timeline>
         </TestWrapper>,
       );
@@ -191,7 +191,7 @@ describe('Timeline', () => {
       ).toEqual(expect.objectContaining({ color: colors.text.muted }));
       expect(
         StyleSheet.flatten(
-          screen.getByTestId('timeline-indicator-todo', hidden).props.style,
+          screen.getByTestId('timeline-indicator-idle', hidden).props.style,
         ),
       ).toEqual(
         expect.objectContaining({
@@ -229,7 +229,7 @@ describe('Timeline', () => {
         <TestWrapper>
           <Timeline>
             <Item status='success' title='First' />
-            <Item status='todo' title='Last' />
+            <Item status='idle' title='Last' />
           </Timeline>
         </TestWrapper>,
       );
@@ -254,7 +254,7 @@ describe('Timeline', () => {
               <Item status='success' title='First' />
               <Item status='pending' title='Second' />
             </>
-            <Item status='todo' title='Last' />
+            <Item status='idle' title='Last' />
           </Timeline>
         </TestWrapper>,
       );

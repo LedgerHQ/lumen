@@ -49,7 +49,7 @@ type Story = StoryObj<typeof TimelineItem>;
 
 export const Base: Story = {
   args: {
-    status: 'todo',
+    status: 'idle',
   },
   parameters: {
     layout: 'centered',
@@ -75,7 +75,7 @@ export const Base: Story = {
         </TimelineItemHeader>
         <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
       </TimelineItem>
-      <TimelineItem status='todo'>
+      <TimelineItem status='idle'>
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Funds available</TimelineItemTitle>
@@ -131,9 +131,11 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Broadcasting</TimelineItemTitle>
+            <TimelineItemDescription>
+              Waiting for the network.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
-        <TimelineItemBody>Waiting for the network.</TimelineItemBody>
       </TimelineItem>
       <TimelineItem status='error'>
         <TimelineItemHeader>
@@ -149,7 +151,7 @@ export const StatusShowcase: Story = {
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
-      <TimelineItem status='todo'>
+      <TimelineItem status='idle'>
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Settled</TimelineItemTitle>
@@ -202,4 +204,34 @@ export const WithCollapse: Story = {
       </Timeline>
     );
   },
+};
+
+export const ResponsivenessShowcase: Story = {
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+  },
+  render: () => (
+    <Timeline className='w-208'>
+      <TimelineItem status='success'>
+        <TimelineItemHeader>
+          <TimelineItemLeading>
+            <TimelineItemCaption>
+              12 Mar 2024 · Confirmed on device
+            </TimelineItemCaption>
+            <TimelineItemLeadingRow>
+              <TimelineItemTitle>
+                Payment confirmed on the hardware wallet
+              </TimelineItemTitle>
+              <Tag appearance='success' size='sm' label='Confirmed' />
+            </TimelineItemLeadingRow>
+            <TimelineItemDescription>
+              Confirmed on device after review
+            </TimelineItemDescription>
+          </TimelineItemLeading>
+          <TimelineItemTrailing>0.42 ETH</TimelineItemTrailing>
+        </TimelineItemHeader>
+      </TimelineItem>
+    </Timeline>
+  ),
 };

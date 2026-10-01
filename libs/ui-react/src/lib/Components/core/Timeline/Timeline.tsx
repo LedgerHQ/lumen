@@ -1,5 +1,6 @@
 import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { ReactElement } from 'react';
 import {
   CheckmarkCircleFill,
   ClockFill,
@@ -36,40 +37,32 @@ const titleVariants = cva('min-w-0 truncate body-2-semi-bold', {
   },
 });
 
+const neutralIndicator = (
+  <span aria-hidden className='size-12 rounded-full bg-muted-pressed' />
+);
+
+const indicatorByStatus = {
+  success: (
+    <CheckmarkCircleFill aria-hidden className='text-success' size={24} />
+  ),
+  error: <DeleteCircleFill aria-hidden className='text-error' size={24} />,
+  pending: <ClockFill aria-hidden className='text-muted' size={24} />,
+  loading: <Spinner className='text-muted' size={24} />,
+  idle: (
+    <span
+      aria-hidden
+      className='size-20 rounded-full border-2 border-muted-subtle-hover'
+    />
+  ),
+} satisfies Record<TimelineItemStatus, ReactElement>;
+
 const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
-  const indicator = () => {
-    switch (status) {
-      case 'success':
-        return (
-          <CheckmarkCircleFill aria-hidden className='text-success' size={24} />
-        );
-      case 'error':
-        return (
-          <DeleteCircleFill aria-hidden className='text-error' size={24} />
-        );
-      case 'pending':
-        return <ClockFill aria-hidden className='text-muted' size={24} />;
-      case 'loading':
-        return <Spinner className='text-muted' size={24} />;
-      case 'todo':
-        return (
-          <span
-            aria-hidden
-            className='size-20 rounded-full border-2 border-muted-subtle-hover'
-          />
-        );
-      case undefined:
-        return (
-          <span aria-hidden className='size-12 rounded-full bg-muted-pressed' />
-        );
-    }
-  };
   return (
     <span
       className='mt-16 flex size-32 shrink-0 items-center justify-center self-start'
-      data-indicator={status ?? 'neutral'}
+      data-testid={`timeline-indicator-${status ?? 'neutral'}`}
     >
-      {indicator()}
+      {status ? indicatorByStatus[status] : neutralIndicator}
     </span>
   );
 };
@@ -114,7 +107,11 @@ export const Timeline = ({
   ...props
 }: TimelineProps) => {
   return (
-    <div ref={ref} className={cn('flex w-full flex-col', className)} {...props}>
+    <div
+      ref={ref}
+      className={cn('flex w-full min-w-0 flex-col', className)}
+      {...props}
+    >
       {children}
     </div>
   );
@@ -135,8 +132,11 @@ export const TimelineItem = ({
     <TimelineItemProvider value={{ status }}>
       <div
         ref={ref}
-        data-status={status ?? 'neutral'}
-        className={cn('group/item relative flex w-full flex-col', className)}
+        data-testid='timeline-item'
+        className={cn(
+          'group/item relative flex w-full min-w-0 flex-col',
+          className,
+        )}
         {...props}
       >
         <TimelineRail />
@@ -163,7 +163,10 @@ export const TimelineItemHeader = ({
   return (
     <div
       ref={ref}
-      className={cn('flex min-h-64 items-center gap-8', className)}
+      className={cn(
+        'flex min-h-64 w-full min-w-0 items-center gap-8',
+        className,
+      )}
       {...props}
     >
       <TimelineIndicator status={status} />
@@ -224,7 +227,7 @@ export const TimelineItemCaption = ({
   return (
     <div
       ref={ref}
-      className={cn('truncate body-4 text-muted', className)}
+      className={cn('min-w-0 truncate body-4 text-muted', className)}
       {...props}
     >
       {children}
@@ -233,7 +236,7 @@ export const TimelineItemCaption = ({
 };
 
 /**
- * Title. A `todo` item uses the muted tone.
+ * Title. An `idle` item uses the muted tone.
  */
 export const TimelineItemTitle = ({
   ref,
@@ -249,7 +252,7 @@ export const TimelineItemTitle = ({
   return (
     <div
       ref={ref}
-      className={cn(titleVariants({ muted: status === 'todo' }), className)}
+      className={cn(titleVariants({ muted: status === 'idle' }), className)}
       {...props}
     >
       {children}
@@ -312,7 +315,7 @@ export const TimelineItemBody = ({
   return (
     <div
       ref={ref}
-      className={cn('ms-40 pt-8 pb-12 body-3 text-muted', className)}
+      className={cn('ms-40 min-w-0 pt-8 pb-12 body-3 text-muted', className)}
       {...props}
     >
       {children}

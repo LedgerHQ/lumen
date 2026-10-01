@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { StyledTextProps, StyledViewProps } from '../../../../styles';
 
 export type TimelineItemStatus =
-  | 'todo'
+  | 'idle'
   | 'success'
   | 'error'
   | 'pending'
@@ -25,6 +25,7 @@ export type TimelineProps = {
 export type TimelineItemProps = {
   /**
    * Indicator and title tone. Omit it for a neutral item.
+   * @default undefined
    */
   status?: TimelineItemStatus;
   /**

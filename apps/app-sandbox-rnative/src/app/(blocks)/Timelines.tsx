@@ -28,7 +28,7 @@ const SectionLabel = ({ children }: { children: string }) => (
 
 const BaseExample = () => (
   <Timeline lx={{ width: 's320' }}>
-    <TimelineItem status='todo'>
+    <TimelineItem status='idle'>
       <TimelineItemHeader>
         <TimelineItemLeading>
           <TimelineItemCaption>12 Mar 2024</TimelineItemCaption>
@@ -50,7 +50,7 @@ const BaseExample = () => (
         </Text>
       </TimelineItemBody>
     </TimelineItem>
-    <TimelineItem status='todo'>
+    <TimelineItem status='idle'>
       <TimelineItemHeader>
         <TimelineItemLeading>
           <TimelineItemTitle>Funds available</TimelineItemTitle>
@@ -73,13 +73,11 @@ const StatusExample = () => (
       <TimelineItemHeader>
         <TimelineItemLeading>
           <TimelineItemTitle>Broadcasting</TimelineItemTitle>
+          <TimelineItemDescription>
+            Waiting for the network.
+          </TimelineItemDescription>
         </TimelineItemLeading>
       </TimelineItemHeader>
-      <TimelineItemBody>
-        <Text typography='body3' lx={{ color: 'muted' }}>
-          Waiting for the network.
-        </Text>
-      </TimelineItemBody>
     </TimelineItem>
     <TimelineItem status='error'>
       <TimelineItemHeader>
@@ -95,7 +93,7 @@ const StatusExample = () => (
         </TimelineItemLeading>
       </TimelineItemHeader>
     </TimelineItem>
-    <TimelineItem status='todo'>
+    <TimelineItem status='idle'>
       <TimelineItemHeader>
         <TimelineItemLeading>
           <TimelineItemTitle>Settled</TimelineItemTitle>
@@ -150,7 +148,7 @@ const CollapseExample = () => {
 const TitleOnlyItem = ({
   status,
 }: {
-  status?: 'success' | 'loading' | 'todo';
+  status?: 'success' | 'loading' | 'idle';
 }) => (
   <TimelineItem status={status}>
     <TimelineItemHeader>
