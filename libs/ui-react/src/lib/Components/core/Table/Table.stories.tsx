@@ -193,7 +193,7 @@ export const Base: Story = {
 export const AppearanceShowcase: Story = {
   render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
-      <div className='w-400'>
+      <div className='w-448'>
         <TableRoot {...args} appearance={appearance}>
           <Table>
             <TableHeader>
@@ -279,7 +279,7 @@ export const ResponsiveLayout: Story = {
 
 export const WithClickableRow: Story = {
   render: (args) => (
-    <div className='w-480 text-base'>
+    <div className='w-512 text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -343,7 +343,7 @@ export const WithInfiniteLoading: Story = {
       <div className='w-3xl text-base'>
         <TableRoot
           {...args}
-          className='h-480'
+          className='h-512'
           loading={loading}
           onScrollBottom={loadMore}
         >

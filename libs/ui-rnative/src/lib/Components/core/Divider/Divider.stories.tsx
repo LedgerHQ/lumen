@@ -82,7 +82,7 @@ export const InList: Story = {
     <Box
       lx={{
         width: 'full',
-        maxWidth: 's400',
+        maxWidth: 's448',
         backgroundColor: 'canvas',
         borderRadius: 'lg',
         borderWidth: 's1',

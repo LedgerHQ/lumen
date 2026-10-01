@@ -163,7 +163,7 @@ export const LabelTruncate: Story = {
       <p className='body-4-semi-bold text-muted'>
         This container has a fixed width.
       </p>
-      <div className='w-400 p-16'>
+      <div className='w-448 p-16'>
         <Button icon={Plus}>
           This Base button has a fixed width container that should fit the
           content width.

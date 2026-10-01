@@ -66,7 +66,7 @@ export const Base: Story = {
     const [value, setValue] = useState<string | null>(null);
 
     return (
-      <div className='w-400'>
+      <div className='w-448'>
         <Select
           items={baseOptions}
           value={value}
@@ -110,7 +110,7 @@ export const WithGroups: Story = {
     const [value, setValue] = useState<string | null>(null);
 
     return (
-      <div className='w-400'>
+      <div className='w-448'>
         <Select items={produceItems} value={value} onValueChange={setValue}>
           <SelectTrigger aria-label='Select option' label='Category' />
           <SelectContent>
@@ -133,7 +133,7 @@ export const WithGroupsAndSearch: Story = {
     const [value, setValue] = useState<string | null>(null);
 
     return (
-      <div className='w-400'>
+      <div className='w-448'>
         <Select items={produceItems} value={value} onValueChange={setValue}>
           <SelectTrigger aria-label='Select category' label='Category' />
           <SelectContent>
@@ -206,7 +206,7 @@ export const WithSearch: Story = {
     const [value, setValue] = useState<string | null>(null);
 
     return (
-      <div className='w-400'>
+      <div className='w-448'>
         <Select items={countryOptions} value={value} onValueChange={setValue}>
           <SelectTrigger aria-label='Select country' label='Country' />
           <SelectContent>
@@ -243,7 +243,7 @@ export const WithCustomFilter: Story = {
     ];
 
     return (
-      <div className='w-400'>
+      <div className='w-448'>
         <Select
           items={tokenOptions}
           value={value}
@@ -745,7 +745,7 @@ export const LeadingContentShowcase: Story = {
 
     return (
       <div className='flex flex-col gap-24 p-32'>
-        <div className='w-400'>
+        <div className='w-448'>
           <p className='mb-8 body-3 text-muted'>Small coin (24px)</p>
           <Select
             items={cryptoItemsWithDescription}
@@ -770,7 +770,7 @@ export const LeadingContentShowcase: Story = {
           </Select>
         </div>
 
-        <div className='w-400'>
+        <div className='w-448'>
           <p className='mb-8 body-3 text-muted'>Medium coin (32px)</p>
           <Select
             items={cryptoItemsWithDescription}
@@ -800,7 +800,7 @@ export const LeadingContentShowcase: Story = {
           </Select>
         </div>
 
-        <div className='w-400'>
+        <div className='w-448'>
           <p className='mb-8 body-3 text-muted'>Interface icon (20px)</p>
           <Select
             items={iconOptions}
@@ -862,7 +862,7 @@ export const ControlledSearch: Story = {
     );
 
     return (
-      <div className='w-400'>
+      <div className='w-448'>
         <Select
           items={allReviewers}
           filteredItems={filteredItems}

@@ -3,7 +3,8 @@ import { useResolvedTheme, useSampleAccentColor } from '../';
 
 export const SizeTable = () => {
   const theme = useResolvedTheme();
-  const cells = Object.entries(theme.sizes);
+  // `full` is a JS-only alias for 100%, not a `--size-*` CSS token.
+  const cells = Object.entries(theme.sizes).filter(([key]) => key !== 'full');
   const accentColor = useSampleAccentColor();
 
   const formatCSSToken = (key: string): string => {
@@ -11,7 +12,7 @@ export const SizeTable = () => {
   };
 
   const renderSample = (value: number | string) => {
-    const numericValue = value === '100%' ? 100 : Number(value);
+    const numericValue = Number(value);
 
     if (numericValue >= 100) {
       return (
@@ -51,7 +52,7 @@ export const SizeTable = () => {
               <code>{`theme.sizes.${key}`}</code>
             </td>
             <td>
-              <code>{key === 'full' ? '100%' : `${value}px`}</code>
+              <code>{`${value}px`}</code>
             </td>
             <td>{renderSample(value)}</td>
           </tr>

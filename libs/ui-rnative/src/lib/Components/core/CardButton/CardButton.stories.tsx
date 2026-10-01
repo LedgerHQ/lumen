@@ -217,7 +217,7 @@ export const AppearanceShowcase: Story = {
           flexDirection: 'column',
           gap: 's16',
           padding: 's8',
-          maxWidth: 's400',
+          maxWidth: 's448',
         }}
       >
         {appearances.map(({ name, appearance }) => (
@@ -244,7 +244,7 @@ export const ContentVariations: Story = {
         flexDirection: 'column',
         gap: 's16',
         padding: 's8',
-        maxWidth: 's400',
+        maxWidth: 's448',
       }}
     >
       <CardButton
@@ -287,7 +287,7 @@ export const StatesShowcase: Story = {
         flexDirection: 'column',
         gap: 's16',
         padding: 's8',
-        maxWidth: 's400',
+        maxWidth: 's448',
       }}
     >
       <CardButton
