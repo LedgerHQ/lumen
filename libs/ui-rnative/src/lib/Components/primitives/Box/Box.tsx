@@ -14,7 +14,7 @@ import { createStyledView } from '../../../../styles';
  * import { Box } from '@ledgerhq/lumen-ui-rnative';
  *
  * // Basic usage with token props
- * <Box lx={{ width: 's400', marginTop: 's4', gap: 's12', alignItems: 'center' }}>
+ * <Box lx={{ width: 's448', marginTop: 's4', gap: 's12', alignItems: 'center' }}>
  *   <Text>Content</Text>
  * </Box>
  *

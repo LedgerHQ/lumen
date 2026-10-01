@@ -180,7 +180,7 @@ export const CompositionShowcase: Story = {
     },
   },
   render: () => (
-    <div className='flex w-400 flex-col gap-16'>
+    <div className='flex w-448 flex-col gap-16'>
       <MediaCard {...baseArgs}>
         <MediaCardTitle>Title only</MediaCardTitle>
       </MediaCard>

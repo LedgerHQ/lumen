@@ -381,7 +381,7 @@ export const ResponsiveLayout: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
+    <Box lx={{ flexDirection: 'column', width: 's512', gap: 's32' }}>
       <ListItem lx={{ alignSelf: 'flex-start' }} onPress={() => {}}>
         <ListItemLeading>
           <Spot size={48} appearance='icon' icon={Settings} />

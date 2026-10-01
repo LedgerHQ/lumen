@@ -153,7 +153,7 @@ export const WithSecondaryAction: Story = {
         code: `
 <Tile
   onLongPress={() => alert('Long press - secondary action triggered!')}
-  lx={{ maxWidth: 's160' }}
+  lx={{ maxWidth: 's176' }}
 >
   <Spot appearance="icon" icon={Settings} />
   <TileContent>
@@ -177,7 +177,7 @@ export const HorizontalList: Story = {
         lx={{
           position: 'relative',
           flexDirection: 'row',
-          width: 's480',
+          width: 's512',
           backgroundColor: 'base',
         }}
       >
@@ -194,7 +194,7 @@ export const HorizontalList: Story = {
       <Box
         lx={{
           flexDirection: 'row',
-          width: 's480',
+          width: 's512',
           position: 'relative',
           backgroundColor: 'base',
           overflow: 'scroll',

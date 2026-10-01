@@ -52,7 +52,7 @@ const SizeSample = ({
   value: number | string;
   accentColor: string;
 }) => {
-  const numericValue = value === '100%' ? 100 : Number(value);
+  const numericValue = Number(value);
 
   if (numericValue >= 100) {
     return (
@@ -72,12 +72,6 @@ const SizeSample = ({
   );
 };
 
-const formatSizeToken = (key: string): string =>
-  key === 'full' ? '--size-full' : `--size-${stripSizePrefix(key)}`;
-
-const formatSizeValue = (value: number | string): string =>
-  value === '100%' ? '100%' : `${value}px`;
-
 /**
  * Table for the shared `sizes` scale, used by the Width, Height and Size docs.
  * Only the Tailwind utility prefix (`w` / `h` / `size`) differs between them.
@@ -88,14 +82,10 @@ export const SizeTable = ({
   utilityPrefix: 'w' | 'h' | 'size';
 }) => (
   <DimensionTable
-    select={(theme) => theme.sizes}
-    cssToken={formatSizeToken}
-    utility={(key) =>
-      key === 'full'
-        ? `${utilityPrefix}-full`
-        : `${utilityPrefix}-${stripSizePrefix(key)}`
-    }
-    formatValue={formatSizeValue}
+    // `full` is a JS-only alias for 100%, not a `--size-*` CSS token.
+    select={({ sizes: { full: _full, ...sizes } }) => sizes}
+    cssToken={(key) => `--size-${stripSizePrefix(key)}`}
+    utility={(key) => `${utilityPrefix}-${stripSizePrefix(key)}`}
     renderSample={(value, accentColor) => (
       <SizeSample value={value} accentColor={accentColor} />
     )}
