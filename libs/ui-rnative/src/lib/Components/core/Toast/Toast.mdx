@@ -87,14 +87,16 @@ web). Extra items wait in a FIFO backlog and appear as slots free up.
 
 ### Accessibility
 
-- The toast surface sets `accessibilityLiveRegion`: `assertive` for warning
-  and error, `polite` otherwise. This is respected by Android TalkBack; iOS
-  VoiceOver has no direct equivalent for an unprompted live-region
-  announcement, so an iOS-specific announcement strategy is a possible
-  follow-up, not yet implemented.
-- Dismissal is a swipe gesture, not a button — there is no separate
-  accessible element to activate to dismiss a toast. Setting `dismissible`
-  to `false` disables the swipe.
+- Each toast is announced when it appears or its title changes. Android
+  TalkBack reads the surface's `accessibilityLiveRegion` (`assertive` for
+  warning and error, `polite` otherwise); iOS VoiceOver has no live regions,
+  so `Toaster` posts the title as an announcement, interrupting current
+  speech only for warning and error.
+- Screen readers capture swipes, so `Toaster` exposes each toast as a single
+  element labelled by its title, with dismissal and the inline action as
+  accessibility actions (VoiceOver rotor, TalkBack actions menu). On iOS the
+  two-finger escape scrub also dismisses. Setting `dismissible` to `false`
+  removes both the swipe and the dismiss action.
 - Touching a toast pauses its auto-dismiss timer (the native equivalent of
   web hover), satisfying "pause on timed content". This covers both a still
   hold and an in-progress swipe; releasing resumes from the remaining time.

@@ -10,6 +10,7 @@ import { View } from 'react-native';
 import { GestureDetector } from 'react-native-gesture-handler';
 import Animated from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useToastAccessibility } from './hooks/useToastAccessibility';
 import { useToastCollapse } from './hooks/useToastCollapse';
 import { useToastGesture } from './hooks/useToastGesture';
 import { useToastMotion } from './hooks/useToastMotion';
@@ -49,6 +50,11 @@ const ToastQueueItem = ({
     position,
     exiting,
   });
+  const accessibilityProps = useToastAccessibility({
+    item,
+    exiting,
+    onDismiss,
+  });
 
   return (
     <Animated.View style={collapseStyle}>
@@ -57,6 +63,7 @@ const ToastQueueItem = ({
           testID='toast-entry'
           style={animatedStyle}
           onLayout={handleLayout}
+          {...accessibilityProps}
         >
           <Toast
             appearance={item.appearance}
@@ -81,6 +88,8 @@ const ToastQueueItem = ({
  * more than one logs a console warning in development.
  *
  * Toasts are dismissed by swiping left or right; there is no close icon.
+ * Screen-reader users get the dismissal and the inline action as accessibility
+ * actions instead, and each toast is announced when it appears or changes.
  * Touching a toast — a hold or an in-progress swipe — pauses its auto-dismiss
  * timer until the finger is released.
  * Requires `react-native-gesture-handler`'s `GestureHandlerRootView` at the

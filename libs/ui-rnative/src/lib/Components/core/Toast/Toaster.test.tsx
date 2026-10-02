@@ -7,9 +7,10 @@ import {
   jest,
 } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
-import { act, render, screen } from '@testing-library/react-native';
+import { toast, toastStore } from '@ledgerhq/lumen-utils-shared';
+import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { useLayoutEffect, type ReactNode } from 'react';
+import { AccessibilityInfo, Platform } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Toaster } from './Toaster';
@@ -37,6 +38,13 @@ const renderToaster = (props?: ToasterProps) =>
 
 const EXIT_ANIMATION_MS = 300;
 
+const clearToastItems = (): void => {
+  for (const { id } of toastStore.getSnapshot()) {
+    toastStore.dismiss(id);
+    toastStore.dismiss(id);
+  }
+};
+
 const flushExit = (): void => {
   act(() => {
     jest.advanceTimersByTime(EXIT_ANIMATION_MS);
@@ -45,7 +53,7 @@ const flushExit = (): void => {
 
 describe('Toaster', () => {
   beforeEach(() => {
-    resetToastStore();
+    clearToastItems();
   });
 
   describe('Timing', () => {
@@ -346,6 +354,131 @@ describe('Toaster', () => {
       });
 
       screen.getByText('Stays put');
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      act(() => {
+        jest.runOnlyPendingTimers();
+      });
+      jest.useRealTimers();
+    });
+
+    it('should expose the toast as one element labelled by its title', () => {
+      renderToaster();
+      act(() => {
+        toast.info({ title: 'Saved' });
+      });
+
+      const entry = screen.getByTestId('toast-entry');
+      expect(entry.props.accessible).toBe(true);
+      expect(entry.props.accessibilityLabel).toBe('Saved');
+    });
+
+    it('should dismiss through the dismiss accessibility action', () => {
+      renderToaster();
+      act(() => {
+        toast.warning({ title: 'Dismiss me' });
+      });
+
+      fireEvent(screen.getByTestId('toast-entry'), 'accessibilityAction', {
+        nativeEvent: { actionName: 'dismiss' },
+      });
+      flushExit();
+      expect(screen.queryByText('Dismiss me')).toBeNull();
+    });
+
+    it('should dismiss on the iOS escape gesture', () => {
+      renderToaster();
+      act(() => {
+        toast.warning({ title: 'Escape me' });
+      });
+
+      fireEvent(screen.getByTestId('toast-entry'), 'accessibilityEscape');
+      flushExit();
+      expect(screen.queryByText('Escape me')).toBeNull();
+    });
+
+    it('should expose the inline action as an accessibility action', () => {
+      const onAction = jest.fn();
+      renderToaster();
+      act(() => {
+        toast.warning({
+          title: 'Deleted',
+          action: { label: 'Undo', onAction },
+        });
+      });
+
+      const entry = screen.getByTestId('toast-entry');
+      expect(entry.props.accessibilityActions).toContainEqual({
+        name: 'toastAction',
+        label: 'Undo',
+      });
+      fireEvent(entry, 'accessibilityAction', {
+        nativeEvent: { actionName: 'toastAction' },
+      });
+      expect(onAction).toHaveBeenCalledTimes(1);
+      screen.getByText('Deleted');
+    });
+
+    it('should not offer dismissal for a non-dismissible toast', () => {
+      renderToaster();
+      act(() => {
+        toast.info({ title: 'Locked', dismissible: false });
+      });
+
+      const entry = screen.getByTestId('toast-entry');
+      expect(entry.props.accessibilityActions).toEqual([]);
+      expect(entry.props.onAccessibilityEscape).toBeUndefined();
+    });
+
+    describe('on iOS', () => {
+      const originalOS = Platform.OS;
+
+      beforeEach(() => {
+        Platform.OS = 'ios';
+      });
+
+      afterEach(() => {
+        Platform.OS = originalOS;
+      });
+
+      it('should announce the title, interrupting only for warning and error', () => {
+        const announce = jest
+          .spyOn(AccessibilityInfo, 'announceForAccessibilityWithOptions')
+          .mockImplementation(() => undefined);
+        renderToaster({ maxItems: 2 });
+        act(() => {
+          toast.info({ title: 'Heads up' });
+          toast.error({ title: 'Failed' });
+        });
+
+        expect(announce).toHaveBeenCalledWith('Heads up', { queue: true });
+        expect(announce).toHaveBeenCalledWith('Failed', { queue: false });
+        announce.mockRestore();
+      });
+
+      it('should announce again when the title changes', () => {
+        const announce = jest
+          .spyOn(AccessibilityInfo, 'announceForAccessibilityWithOptions')
+          .mockImplementation(() => undefined);
+        renderToaster();
+        let id = '';
+        act(() => {
+          id = toast.info({ title: 'Uploading', loading: true }).id;
+        });
+        act(() => {
+          toast.update(id, { title: 'Uploaded', appearance: 'success' });
+        });
+
+        expect(announce).toHaveBeenLastCalledWith('Uploaded', { queue: true });
+        announce.mockRestore();
+      });
     });
   });
 
