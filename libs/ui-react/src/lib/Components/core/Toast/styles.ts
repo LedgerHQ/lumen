@@ -2,7 +2,7 @@ import { cva } from 'class-variance-authority';
 import type { ToastPosition } from './types';
 
 export const toastVariants = cva(
-  'flex min-h-56 w-400 max-w-full items-start gap-8 rounded-md bg-interactive py-8 pr-10 text-on-interactive',
+  'flex min-h-56 w-full items-start gap-8 rounded-md bg-interactive py-8 pr-10 text-on-interactive',
   {
     variants: {
       hasLeading: {
@@ -13,22 +13,24 @@ export const toastVariants = cva(
   },
 );
 
-export const positionVariants = cva('pointer-events-none fixed z-toast flex', {
-  variants: {
-    position: {
-      'top-left': 'top-24 left-24 flex-col items-start',
-      'top-center': 'top-24 right-24 left-24 flex-col items-center',
-      'top-right': 'top-24 right-24 flex-col items-end',
-      'bottom-left': 'bottom-24 left-24 flex-col-reverse items-start',
-      'bottom-center':
-        'right-24 bottom-24 left-24 flex-col-reverse items-center',
-      'bottom-right': 'right-24 bottom-24 flex-col-reverse items-end',
-    } satisfies Record<ToastPosition, string>,
+export const positionVariants = cva(
+  'pointer-events-none fixed inset-x-24 z-toast flex',
+  {
+    variants: {
+      position: {
+        'top-left': 'top-24 flex-col items-start',
+        'top-center': 'top-24 flex-col items-center',
+        'top-right': 'top-24 flex-col items-end',
+        'bottom-left': 'bottom-24 flex-col-reverse items-start',
+        'bottom-center': 'bottom-24 flex-col-reverse items-center',
+        'bottom-right': 'bottom-24 flex-col-reverse items-end',
+      } satisfies Record<ToastPosition, string>,
+    },
   },
-});
+);
 
 export const collapseVariants = cva(
-  'pointer-events-auto flex flex-col transition-[height] duration-300 ease-out',
+  'pointer-events-auto flex w-full max-w-400 flex-col transition-[height] duration-300 ease-out',
   {
     variants: {
       edge: {

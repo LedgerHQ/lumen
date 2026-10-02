@@ -44,12 +44,16 @@ export const Base: Story = {
     title: 'Your transaction was sent',
     onClose: () => {},
   },
-  render: (args) => <Toast {...args} />,
+  render: (args) => (
+    <div className='w-400'>
+      <Toast {...args} />
+    </div>
+  ),
 };
 
 export const AppearanceShowcase: Story = {
   render: () => (
-    <div className='flex flex-col gap-8'>
+    <div className='flex w-400 flex-col gap-8'>
       <Toast
         appearance='info'
         title='Your transaction was sent'
@@ -70,7 +74,11 @@ export const WithAction: Story = {
     action: { label: 'Retry', onAction: () => {} },
     onClose: () => {},
   },
-  render: (args) => <Toast {...args} />,
+  render: (args) => (
+    <div className='w-400'>
+      <Toast {...args} />
+    </div>
+  ),
 };
 
 export const LoadingShowcase: Story = {
