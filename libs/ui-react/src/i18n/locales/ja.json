@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "閉じる"
     },
-    "toast": {
-      "closeAriaLabel": "閉じる"
-    },
     "link": {
       "opensInNewTabAriaLabel": "（新しいタブで開く）"
     },

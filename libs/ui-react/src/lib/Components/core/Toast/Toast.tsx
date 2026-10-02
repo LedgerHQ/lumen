@@ -102,7 +102,7 @@ export const Toast = ({
           className='shrink-0'
           icon={Close}
           onClick={() => onClose()}
-          aria-label={closeAriaLabel || t('components.toast.closeAriaLabel')}
+          aria-label={closeAriaLabel || t('common.closeAriaLabel')}
         />
       )}
     </div>

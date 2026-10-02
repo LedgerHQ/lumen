@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "Schließen"
     },
-    "toast": {
-      "closeAriaLabel": "Schließen"
-    },
     "link": {
       "opensInNewTabAriaLabel": "(Öffnet in neuem Tab)"
     },

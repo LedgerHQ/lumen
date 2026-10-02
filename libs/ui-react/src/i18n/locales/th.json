@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "ปิด"
     },
-    "toast": {
-      "closeAriaLabel": "ปิด"
-    },
     "link": {
       "opensInNewTabAriaLabel": "(เปิดในแท็บใหม่)"
     },

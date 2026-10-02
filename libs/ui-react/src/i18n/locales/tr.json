@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "Kapat"
     },
-    "toast": {
-      "closeAriaLabel": "Kapat"
-    },
     "link": {
       "opensInNewTabAriaLabel": "(yeni sekmede açılır)"
     },
