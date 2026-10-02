@@ -5,10 +5,7 @@
 ## 📦 Installation
 
 ```bash
-npm install @ledgerhq/lumen-design-core
-
-# Install required peer dependency
-npm install tailwindcss@^4.1.17 @tailwindcss/postcss
+npm install @ledgerhq/lumen-design-core tailwindcss@^4.1.17 @tailwindcss/postcss
 ```
 
 **Note:** Tailwind CSS v4.x is the supported peer dependency.

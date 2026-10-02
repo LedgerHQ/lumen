@@ -43,28 +43,13 @@ Lumen typography uses the **Inter** font. You must load it in your project for t
 2 . **Configure Tailwind:**
 See our [Setup Tailwind](?path=/docs/getting-started-setup-tailwind--docs) guide for complete setup instructions.
 
-3 . Install `lumen-ui-react` package:
-
-Install the package:
+3 . Install the packages and their peer dependencies:
 
 ```bash
-npm install @ledgerhq/lumen-ui-react
-```
-
-And its peer dependencies:
-
-```bash
-npm install clsx tailwind-merge class-variance-authority
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core tailwindcss@^4.1.17 react react-dom
 ```
 
 4 . Start using components:
-
-```bash
-# Install peer dependency related to the button component
-npm install @radix-ui/react-slot
-```
-
-`@radix-ui/react-slot`: This dependency is used internally by the Button component to enable flexible composition patterns. It allows the Button to merge its props with child elements when needed.
 
 ```tsx
 import { Button } from '@ledgerhq/lumen-ui-react';
