@@ -2,140 +2,9 @@ import { toast } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Button } from '../Button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectList,
-  SelectTrigger,
-} from '../Select';
 import { Toast } from './Toast';
 import { Toaster } from './Toaster';
-import type { ToastAppearance, ToastPosition } from './types';
-
-const meta = {
-  component: Toast,
-  id: 'react-toast',
-  title: 'Core/Toast',
-  parameters: {
-    layout: 'centered',
-    backgrounds: { default: 'light' },
-    docs: {
-      source: {
-        language: 'tsx',
-        format: true,
-        type: 'dynamic',
-      },
-    },
-  },
-  argTypes: {
-    action: { control: false },
-    onClose: { control: false },
-    ref: { control: false },
-  },
-} satisfies Meta<typeof Toast>;
-
-export default meta;
-type Story = StoryObj<typeof Toast>;
-
-export const Base: Story = {
-  args: {
-    appearance: 'info',
-    title: 'Your transaction was sent',
-    onClose: () => {},
-  },
-  render: (args) => (
-    <div className='w-400'>
-      <Toast {...args} />
-    </div>
-  ),
-};
-
-export const AppearanceShowcase: Story = {
-  render: () => (
-    <div className='flex w-400 flex-col gap-8'>
-      <Toast
-        appearance='info'
-        title='Your transaction was sent'
-        onClose={() => {}}
-      />
-      <Toast appearance='success' title='Payment done' onClose={() => {}} />
-      <Toast appearance='warning' title='Low balance' onClose={() => {}} />
-      <Toast appearance='error' title='Payment failed' onClose={() => {}} />
-      <Toast loading title='Processing payment' onClose={() => {}} />
-    </div>
-  ),
-};
-
-export const WithAction: Story = {
-  args: {
-    appearance: 'error',
-    title: 'Payment failed',
-    action: { label: 'Retry', onAction: () => {} },
-    onClose: () => {},
-  },
-  render: (args) => (
-    <div className='w-400'>
-      <Toast {...args} />
-    </div>
-  ),
-};
-
-export const LoadingShowcase: Story = {
-  args: {
-    loading: true,
-    title: 'Processing payment',
-    action: { label: 'Cancel', onAction: () => {} },
-  },
-  render: (args) => <Toast {...args} />,
-};
-
-export const ResponsivenessShowcase: Story = {
-  render: () => (
-    <div className='flex w-400 flex-col gap-8'>
-      <Toast
-        appearance='info'
-        title='Report ready for review'
-        action={{ label: 'Open', onAction: () => {} }}
-        onClose={() => {}}
-      />
-      <Toast
-        appearance='success'
-        title='Report ready for review in 30 minutes'
-        action={{ label: 'Download the report', onAction: () => {} }}
-        onClose={() => {}}
-      />
-      <Toast
-        appearance='success'
-        title='This is a very long toast message that wraps over up to five lines without an action, it should truncate when five lines are reached and show an ellipsis, but the action should be visible and clickable and the toast should be clickable'
-        action={{ label: 'Download the report', onAction: () => {} }}
-        onClose={() => {}}
-      />
-      <Toast
-        appearance='error'
-        title='This is a very long toast message that wraps over up to five lines'
-        action={{ label: 'Retry the upload', onAction: () => {} }}
-        onClose={() => {}}
-      />
-    </div>
-  ),
-};
-
-const APPEARANCE_ITEMS = [
-  { label: 'Info', value: 'info' },
-  { label: 'Success', value: 'success' },
-  { label: 'Warning', value: 'warning' },
-  { label: 'Error', value: 'error' },
-];
-
-const POSITION_ITEMS = [
-  { label: 'Top center', value: 'top-center' },
-  { label: 'Bottom center', value: 'bottom-center' },
-  { label: 'Top right', value: 'top-right' },
-  { label: 'Bottom right', value: 'bottom-right' },
-  { label: 'Top left', value: 'top-left' },
-  { label: 'Bottom left', value: 'bottom-left' },
-];
+import type { ToastAppearance } from './types';
 
 const RANDOM_APPEARANCES: ToastAppearance[] = [
   'info',
@@ -162,113 +31,159 @@ const RANDOM_ACTION_LABELS = [
 const pickRandom = <T,>(items: readonly T[]): T =>
   items[Math.floor(Math.random() * items.length)];
 
-const PlaygroundControls = ({
-  position,
-  appearance,
-  onAppearanceChange,
-  onPositionChange,
-}: {
-  position: ToastPosition;
-  appearance: ToastAppearance;
-  onAppearanceChange: (appearance: ToastAppearance) => void;
-  onPositionChange: (position: ToastPosition) => void;
-}) => {
+const showRandomToast = (): void => {
+  toast.notify({
+    appearance: pickRandom(RANDOM_APPEARANCES),
+    title: pickRandom(RANDOM_TITLES),
+    action:
+      Math.random() > 0.5
+        ? { label: pickRandom(RANDOM_ACTION_LABELS), onAction: () => {} }
+        : undefined,
+  });
+};
+
+const meta = {
+  component: Toaster,
+  id: 'react-toast',
+  title: 'Core/Toast',
+  parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
+    docs: {
+      source: {
+        language: 'tsx',
+        format: true,
+        type: 'dynamic',
+      },
+    },
+  },
+  argTypes: {
+    durations: { control: 'object' },
+  },
+} satisfies Meta<typeof Toaster>;
+
+export default meta;
+type Story = StoryObj<typeof Toaster>;
+
+export const Base: Story = {
+  args: {
+    position: 'bottom-right',
+    maxItems: 3,
+    durations: {
+      info: 3000,
+      success: 3000,
+      warning: 3000,
+      error: 3000,
+    },
+  },
+  render: (args) => (
+    <>
+      <Toaster {...args} />
+      <div className='flex w-256 flex-col items-center gap-8'>
+        <Button
+          appearance='base'
+          size='sm'
+          onClick={() => toast.info({ title: 'Your transaction was sent' })}
+        >
+          Show Info
+        </Button>
+        <Button
+          appearance='base'
+          size='sm'
+          onClick={() => toast.success({ title: 'Payment done' })}
+        >
+          Show Success
+        </Button>
+        <Button
+          appearance='base'
+          size='sm'
+          onClick={() => toast.warning({ title: 'Low balance' })}
+        >
+          Show Warning
+        </Button>
+        <Button
+          appearance='base'
+          size='sm'
+          onClick={() => toast.error({ title: 'Payment failed' })}
+        >
+          Show Error
+        </Button>
+        <Button
+          appearance='base'
+          size='sm'
+          onClick={() => toast.loading({ title: 'Processing payment' })}
+        >
+          Show Loading
+        </Button>
+        <Button appearance='base' size='sm' onClick={showRandomToast}>
+          Show Random
+        </Button>
+      </div>
+    </>
+  ),
+};
+
+export const WithAction: Story = {
+  render: () => (
+    <>
+      <Toaster />
+      <Button
+        appearance='base'
+        onClick={() =>
+          toast.error({
+            title: 'Payment failed',
+            action: { label: 'Retry', onAction: () => {} },
+          })
+        }
+      >
+        Show actionable toast
+      </Button>
+    </>
+  ),
+};
+
+export const WithDuration: Story = {
+  render: () => (
+    <>
+      <Toaster />
+      <Button
+        appearance='base'
+        onClick={() => toast.success({ title: 'Payment done' })}
+      >
+        Show auto-dismissing toast
+      </Button>
+    </>
+  ),
+};
+
+const DismissDemo = () => {
+  const [id, setId] = useState<string | null>(null);
+
   return (
-    <div className='flex w-256 flex-wrap gap-8'>
-      <Select
-        items={APPEARANCE_ITEMS}
-        value={appearance}
-        onValueChange={(value) =>
-          onAppearanceChange((value ?? 'info') as ToastAppearance)
+    <Button
+      appearance='base'
+      onClick={() => {
+        if (id === null) {
+          const next = toast.error({ title: 'Unable to save' });
+          setId(next.id);
+          return;
         }
-      >
-        <SelectTrigger />
-        <SelectContent>
-          <SelectList
-            renderItem={(item) => (
-              <SelectItem value={item.value}>{item.label}</SelectItem>
-            )}
-          />
-        </SelectContent>
-      </Select>
-      <Select
-        items={POSITION_ITEMS}
-        value={position}
-        onValueChange={(value) =>
-          onPositionChange((value as ToastPosition) ?? 'bottom-right')
-        }
-      >
-        <SelectTrigger />
-        <SelectContent>
-          <SelectList
-            renderItem={(item) => (
-              <SelectItem value={item.value}>{item.label}</SelectItem>
-            )}
-          />
-        </SelectContent>
-      </Select>
-      <Button
-        appearance='base'
-        size='sm'
-        onClick={() =>
-          toast.notify({
-            appearance,
-            title: `${appearance[0].toUpperCase()}${appearance.slice(1)} toast`,
-          })
-        }
-        isFull
-      >
-        Notify
-      </Button>
-      <Button
-        appearance='base'
-        size='sm'
-        onClick={() =>
-          toast.notify({
-            appearance: pickRandom(RANDOM_APPEARANCES),
-            title: pickRandom(RANDOM_TITLES),
-            action:
-              Math.random() > 0.5
-                ? {
-                    label: pickRandom(RANDOM_ACTION_LABELS),
-                    onAction: () => {},
-                  }
-                : undefined,
-          })
-        }
-        isFull
-      >
-        Notify random
-      </Button>
-    </div>
+        toast.dismiss(id);
+        setId(null);
+      }}
+    >
+      {id === null ? 'Show toast' : 'Hide toast'}
+    </Button>
   );
 };
 
-export const WithProvider: Story = {
-  render: () => {
-    const [position, setPosition] = useState<ToastPosition>('bottom-right');
-    const [appearance, setAppearance] = useState<ToastAppearance>('info');
-
-    return (
-      <>
-        <Toaster
-          position={position}
-          durations={{
-            info: 3000,
-            success: 3000,
-            warning: 3000,
-            error: 3000,
-          }}
-        />
-        <PlaygroundControls
-          position={position}
-          appearance={appearance}
-          onAppearanceChange={setAppearance}
-          onPositionChange={setPosition}
-        />
-      </>
-    );
-  },
+export const WithDismiss: Story = {
+  render: () => (
+    <>
+      <Toaster />
+      <DismissDemo />
+    </>
+  ),
 };
 
 const UpdateDemo = () => (
@@ -322,5 +237,26 @@ export const WithPromise: Story = {
       <Toaster />
       <PromiseDemo />
     </>
+  ),
+};
+
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <div className='flex w-400 flex-col gap-8'>
+      <Toast
+        appearance='info'
+        title='Your transaction was sent'
+        onClose={() => {}}
+      />
+      <Toast appearance='success' title='Payment done' onClose={() => {}} />
+      <Toast appearance='warning' title='Low balance' onClose={() => {}} />
+      <Toast
+        appearance='error'
+        title='Payment failed'
+        action={{ label: 'Retry', onAction: () => {} }}
+        onClose={() => {}}
+      />
+      <Toast loading title='Processing payment' onClose={() => {}} />
+    </div>
   ),
 };

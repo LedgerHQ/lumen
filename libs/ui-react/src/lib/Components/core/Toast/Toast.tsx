@@ -23,7 +23,7 @@ const statusIconMap: Record<Exclude<ToastAppearance, 'info'>, ReactNode> = {
 
 /**
  * A single toast item: an inverted, compact surface with a status icon or
- * spinner, a one-line title, an optional trailing action and a close button.
+ * spinner, a title, an optional trailing action and a close button.
  *
  * This is the presentational piece. For the queue, timing and imperative API,
  * use `Toaster` + `toast`.

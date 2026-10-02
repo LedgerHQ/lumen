@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 
-// Included in the slot height so the exit transition collapses the gap
-// between stacked toasts along with the content.
 const STACK_GAP_PX = 8;
 
 type UseToastCollapseReturn = {

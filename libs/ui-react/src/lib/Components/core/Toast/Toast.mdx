@@ -17,29 +17,132 @@ import {
 
 Toasts are brief, non-blocking messages that confirm an action or surface a
 status. They appear in a queued stack, are timed by status, and can carry a
-single action. Mount a `Toaster` once and trigger toasts imperatively with the
-`toast` object, importable from anywhere — no provider or hook required.
+single action.
+
+Mount `Toaster` once and call `toast` from anywhere — no provider or hook
+required. `Toaster` owns the queue, timing, and placement, and renders each
+item for you. `position`, `maxItems`, and `durations` configure that queue.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=21016-59623&m=dev).
 
-## Anatomy
-
-<Canvas of={ToastStories.WithAction} />
-
-- **Leading (optional)**: a status icon for success, warning and error, or a
-  spinner while loading. Info has no icon.
-- **Title**: the message, wrapping over up to five lines, then truncating.
-- **Action (optional)**: a single text button, inline beside a single-line
-  title or on its own row under a wrapped one. Pressing it never dismisses the
-  toast.
-- **Close**: dismisses the toast. Hidden when `dismissible` is `false`.
-
-## Properties
-
-### Overview
-
 <Canvas of={ToastStories.Base} />
 <Controls of={ToastStories.Base} />
+
+### `toast`
+
+Call `toast` from anywhere. Every method that enqueues a toast returns `{ id }`.
+`info`, `success`, `warning`, and `error` set `appearance` for you.
+`loading` also sets the spinner.
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Method</th>
+        <th className='p-12 text-left text-on-accent body-2'>Description</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.notify(options)</td>
+        <td className='p-12 text-muted'>Enqueues a toast.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.info(options)</td>
+        <td className='p-12 text-muted'>Info. Auto-dismisses after 5s.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.success(options)</td>
+        <td className='p-12 text-muted'>Success. Auto-dismisses after 5s.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.warning(options)</td>
+        <td className='p-12 text-muted'>Warning. Persists until dismissed.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.error(options)</td>
+        <td className='p-12 text-muted'>Error. Persists until dismissed.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.loading(options)</td>
+        <td className='p-12 text-muted'>
+          Spinner. Persists until updated or dismissed.
+        </td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.update(id, options)</td>
+        <td className='p-12 text-muted'>Patches a live toast. Keeps the same id.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.dismiss(id)</td>
+        <td className='p-12 text-muted'>Dismisses one toast.</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>toast.dismissAll()</td>
+        <td className='p-12 text-muted'>Dismisses every toast, visible or queued.</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>toast.promise(promise, options)</td>
+        <td className='p-12 text-muted'>
+          Loading, then success or error, on one id.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+`options` for `notify` and the shortcuts:
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>Option</th>
+        <th className='p-12 text-left text-on-accent body-2'>Description</th>
+        <th className='p-12 text-left text-on-accent body-2'>Default</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>title</td>
+        <td className='p-12 text-muted'>The message.</td>
+        <td className='p-12 text-muted'>Required</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>appearance</td>
+        <td className='p-12 text-muted'>info, success, warning, or error.</td>
+        <td className='p-12 text-muted'>info</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>loading</td>
+        <td className='p-12 text-muted'>Replaces the status icon with a spinner.</td>
+        <td className='p-12 text-muted'>false</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>duration</td>
+        <td className='p-12 text-muted'>
+          Milliseconds for this item. 0 disables auto-dismiss.
+        </td>
+        <td className='p-12 text-muted'>Status default</td>
+      </tr>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>dismissible</td>
+        <td className='p-12 text-muted'>Shows the close button.</td>
+        <td className='p-12 text-muted'>true</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>action</td>
+        <td className='p-12 text-muted'>
+          {'{ label, onAction }'}. Pressing it does not dismiss the toast.
+        </td>
+        <td className='p-12 text-muted'>—</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+`toast.promise` takes `{ loading, success, error }` instead. `success` and
+`error` may be the next state, or a function of the result.
 
 ### Appearance
 
@@ -49,27 +152,21 @@ Appearance drives the leading icon and the default timing:
 - **success**: positive outcome. Auto-dismisses after 5s.
 - **warning**: caution. Persists until dismissed.
 - **error**: failure. Persists until dismissed.
-- **loading**: a spinner via the `loading` flag. Persists until updated or dismissed.
+- **loading**: `toast.loading` shows a spinner. Persists until updated or dismissed.
 
-<Canvas of={ToastStories.AppearanceShowcase} />
+### Actions
 
-### Layout
+Pass `action` with a label and `onAction`. Pressing it never dismisses the
+toast, so it is well suited to a retry.
 
-The action's placement is automatic, driven by the title, so there is no prop
-for it. While the title fits on one line, the action sits inline beside it.
-Once the title needs more than one line, the action drops to its own row
-underneath instead of squeezing onto the title's last line. The title itself
-wraps over up to five lines, then truncates with an ellipsis.
+The action's placement is automatic. While the title fits on one line, the
+action sits inline beside it. Once the title needs more than one line, the
+action drops to its own row underneath. The title itself wraps, then truncates
+with an ellipsis past a few lines.
 
-<Canvas of={ToastStories.ResponsivenessShowcase} />
+<Canvas of={ToastStories.WithAction} />
 
-### Position
-
-Position the toast at the top, bottom, left, right, or center of the screen.
-
-<Canvas of={ToastStories.WithProvider} />
-
-### Timing
+### Dismissal
 
 Each status has a Lumen default: info and success auto-dismiss after 5s;
 warning and error persist. Override globally with `Toaster`'s `durations`,
@@ -81,13 +178,28 @@ resumes from the remaining time. An update that changes appearance, loading,
 or duration restarts the timer at its newly resolved duration (for example
 loading to success).
 
+<Canvas of={ToastStories.WithDuration} />
+
+### Programmatic dismissal
+
+`toast.notify` and the appearance shortcuts return `{ id }`. Pass that id to
+`toast.dismiss` when the toast is no longer relevant. `toast.dismissAll`
+clears the queue.
+
+<Canvas of={ToastStories.WithDismiss} />
+
+### Position
+
+`position` anchors the queue to a corner or edge of the screen. Items enter
+from that same edge: corner stacks from the side, center stacks from the top
+or bottom.
+
 ### Queue
 
 Up to `maxItems` toasts are visible at once (default 3). Extra items wait in a
-FIFO backlog and appear as slots free up. Corner stacks slide in from the side;
-center stacks slide in from the top or bottom. Items waiting in the backlog are
-stacked on the pile, so they slide out from behind the visible toasts instead of
-entering from the edge.
+FIFO backlog and appear as slots free up. Items waiting in the backlog are
+stacked on the pile, so they slide out from behind the visible toasts instead
+of entering from the edge.
 
 ### Accessibility
 
@@ -96,6 +208,15 @@ entering from the edge.
 - Focus is never moved into the toast.
 - Hovering the stack pauses the timers, satisfying "pause on timed content".
   Leaving the stack resumes from the remaining time.
+
+## The `Toast` item
+
+`Toaster` renders a `Toast` for each queued item. The variants below are that
+surface. Render `Toast` yourself only when you need finer control, or when you
+are plugging the item into a notification system you already own. You then
+handle queueing, timing, and dismissal yourself.
+
+<Canvas of={ToastStories.AppearanceShowcase} />
 
 </Tab>
 
@@ -124,13 +245,19 @@ function App() {
 
 ### Triggering toasts
 
-<Source of={ToastStories.WithProvider} />
+<Source of={ToastStories.Base} />
 
 ### With an action
 
-The action button never dismisses the toast, so it is well suited to a retry.
-
 <Source of={ToastStories.WithAction} />
+
+### Dismissal
+
+<Source of={ToastStories.WithDuration} />
+
+### Programmatic dismissal
+
+<Source of={ToastStories.WithDismiss} />
 
 ### Loading and updates
 
