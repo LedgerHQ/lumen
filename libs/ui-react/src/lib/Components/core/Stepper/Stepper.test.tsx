@@ -28,7 +28,7 @@ describe('Stepper Component', () => {
   it('should render active stroke by default', () => {
     const { container } = render(<Stepper currentStep={1} totalSteps={4} />);
     const progressCircle = container.querySelectorAll('circle')[2];
-    expect(progressCircle).toHaveClass('stroke-(--border-active)');
+    expect(progressCircle).toHaveClass('stroke-active');
   });
 
   it('should render disabled stroke when disabled', () => {
@@ -36,7 +36,7 @@ describe('Stepper Component', () => {
       <Stepper currentStep={2} totalSteps={4} disabled />,
     );
     const progressCircle = container.querySelectorAll('circle')[2];
-    expect(progressCircle).toHaveClass('stroke-(--border-muted-subtle-hover)');
+    expect(progressCircle).toHaveClass('stroke-muted-subtle-hover');
   });
 
   it('should truncate long labels', () => {
