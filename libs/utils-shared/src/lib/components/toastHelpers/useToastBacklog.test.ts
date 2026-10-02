@@ -1,7 +1,7 @@
-import { renderHook } from '@testing-library/react';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { act, renderHook } from '@testing-library/react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { toastStore } from './toastStore';
+import { resetToastStore, toastStore } from './toastStore';
 import type { ToastItem } from './types';
 import { useToastBacklog } from './useToastBacklog';
 
@@ -15,6 +15,10 @@ const toast = (id: string, exiting?: boolean): ToastItem => ({
 });
 
 describe('useToastBacklog', () => {
+  beforeEach(() => {
+    resetToastStore();
+  });
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -33,13 +37,14 @@ describe('useToastBacklog', () => {
       expect(result.current(alsoQueued.id)).toBe(true);
     });
 
-    it('keeps an item marked after it is promoted into a visible slot', () => {
+    it('marks a promoted id as queued', () => {
       const [first, queued] = ['a', 'b'].map((id) => toast(id));
       const { result, rerender } = renderHook(
         ({ items }) => useToastBacklog(items, 1),
         { initialProps: { items: [first, queued] } },
       );
 
+      expect(result.current(first.id)).toBe(false);
       expect(result.current(queued.id)).toBe(true);
 
       rerender({ items: [queued] });
@@ -113,6 +118,45 @@ describe('useToastBacklog', () => {
       renderHook(() => useToastBacklog([toast('visible'), toast('queued')], 1));
 
       expect(dismiss).not.toHaveBeenCalled();
+    });
+
+    it('removes a dismissed backlog item without an exit animation', () => {
+      const visibleId = toastStore.add({ title: 'Visible' });
+      const queuedId = toastStore.add({ title: 'Queued' });
+      const stillQueuedId = toastStore.add({ title: 'Still queued' });
+      const { rerender } = renderHook(
+        ({ items }) => useToastBacklog(items, 1),
+        { initialProps: { items: toastStore.getSnapshot() } },
+      );
+
+      act(() => {
+        toastStore.dismiss(queuedId);
+      });
+      rerender({ items: toastStore.getSnapshot() });
+
+      expect(toastStore.getSnapshot().map((item) => item.id)).toEqual([
+        visibleId,
+        stillQueuedId,
+      ]);
+    });
+
+    it('finishes dismissAll for backlog items and leaves visible ones exiting', () => {
+      const visibleId = toastStore.add({ title: 'Visible' });
+      toastStore.add({ title: 'Queued' });
+      toastStore.add({ title: 'Also queued' });
+      const { rerender } = renderHook(
+        ({ items }) => useToastBacklog(items, 1),
+        { initialProps: { items: toastStore.getSnapshot() } },
+      );
+
+      act(() => {
+        toastStore.dismissAll();
+      });
+      rerender({ items: toastStore.getSnapshot() });
+
+      expect(toastStore.getSnapshot()).toEqual([
+        expect.objectContaining({ id: visibleId, exiting: true }),
+      ]);
     });
   });
 });
