@@ -59,7 +59,7 @@ export type ToastProps = {
   title: string;
   /**
    * Optional trailing action button. Pressing it does not dismiss the toast.
-   * It wraps onto its own row, right-aligned, when it cannot share the title's
+   * It wraps onto its own row, left-aligned, when it cannot share the title's
    * row.
    */
   action?: ToastAction;
