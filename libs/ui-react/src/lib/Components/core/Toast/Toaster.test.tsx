@@ -1,4 +1,4 @@
-import { resetToastStore, toast } from '@ledgerhq/lumen-utils-shared';
+import { toast, toastStore } from '@ledgerhq/lumen-utils-shared';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { useLayoutEffect } from 'react';
 import { renderToString } from 'react-dom/server';
@@ -12,6 +12,13 @@ const renderToaster = (props?: ToasterProps) => render(<Toaster {...props} />);
 
 const EXIT_ANIMATION_MS = 300;
 
+const clearToastItems = (): void => {
+  for (const { id } of toastStore.getSnapshot()) {
+    toastStore.dismiss(id);
+    toastStore.dismiss(id);
+  }
+};
+
 const flushExit = (): void => {
   act(() => {
     vi.advanceTimersByTime(EXIT_ANIMATION_MS);
@@ -22,7 +29,7 @@ const CLOSE_LABEL = 'common.closeAriaLabel';
 
 describe('Toaster', () => {
   beforeEach(() => {
-    resetToastStore();
+    clearToastItems();
   });
 
   describe('Timing', () => {
