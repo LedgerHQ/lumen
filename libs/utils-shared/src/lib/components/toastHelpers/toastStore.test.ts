@@ -84,6 +84,37 @@ describe('toastStore', () => {
 
       expect(toastStore.getSnapshot()).toBe(before);
     });
+
+    it('dismissAll on an empty queue keeps the snapshot and does not notify', () => {
+      const listener = vi.fn();
+      toastStore.subscribe(listener);
+      const before = toastStore.getSnapshot();
+
+      toastStore.dismissAll();
+
+      expect(toastStore.getSnapshot()).toBe(before);
+      expect(listener).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('snapshots', () => {
+    it('shares one empty array between the client snapshot and the server snapshot', () => {
+      const empty = toastStore.getSnapshot();
+
+      expect(empty).toHaveLength(0);
+      expect(empty).toBe(toastStore.getServerSnapshot());
+      expect(toastStore.getSnapshot()).toBe(empty);
+    });
+
+    it('keeps the server snapshot empty when the client queue has toasts', () => {
+      const empty = toastStore.getServerSnapshot();
+
+      toastStore.add({ title: 'Hello' });
+
+      expect(toastStore.getServerSnapshot()).toBe(empty);
+      expect(toastStore.getServerSnapshot()).toHaveLength(0);
+      expect(toastStore.getSnapshot()).not.toBe(empty);
+    });
   });
 
   describe('subscribe', () => {

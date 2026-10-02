@@ -19,9 +19,6 @@ import {
 import { Toast } from './Toast';
 import type { ToastItem, ToasterProps, ToastPosition } from './types';
 
-const NO_TOASTS: ToastItem[] = [];
-const getServerSnapshot = (): ToastItem[] => NO_TOASTS;
-
 const ToastQueueItem = ({
   item,
   durationMs,
@@ -105,7 +102,7 @@ export const Toaster = ({
   const items = useSyncExternalStore(
     toastStore.subscribe,
     toastStore.getSnapshot,
-    getServerSnapshot,
+    toastStore.getServerSnapshot,
   );
   const [mounted, setMounted] = useState(false);
   const { paused, viewportProps } = useToastViewportPause();

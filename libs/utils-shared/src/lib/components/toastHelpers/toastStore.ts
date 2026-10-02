@@ -15,6 +15,7 @@ const DEFAULT_DURATIONS: Record<ToastAppearance, number> = {
 };
 
 const DEFAULT_MAX_ITEMS = 3;
+const EMPTY_TOASTS: ToastItem[] = [];
 
 /**
  * `slice` and index comparisons disagree on fractions/NaN/negatives. Only a
@@ -70,7 +71,7 @@ const stripUndefined = (patch: ToastUpdateOptions): ToastUpdateOptions => {
   return result;
 };
 
-let items: ToastItem[] = [];
+let items: ToastItem[] = EMPTY_TOASTS;
 const listeners = new Set<() => void>();
 let mountedRenderers = 0;
 
@@ -85,6 +86,8 @@ const subscribe = (listener: () => void): (() => void) => {
 
 const getSnapshot = (): ToastItem[] => items;
 
+const getServerSnapshot = (): ToastItem[] => EMPTY_TOASTS;
+
 const add = (options: ToastNotifyOptions): string => {
   const id = createToastId();
   items = [...items, toItem(id, options)];
@@ -97,8 +100,7 @@ const update = (id: string, rawPatch: ToastUpdateOptions): void => {
   if (index === -1) return;
 
   const patch = stripUndefined(rawPatch);
-  // A timing change without an explicit duration drops the previous per-item
-  // one, so a loading toast turning into a success gets the success timing.
+
   const timingChanged =
     patch.duration !== undefined ||
     patch.loading !== undefined ||
@@ -126,6 +128,7 @@ const dismiss = (id: string): void => {
 };
 
 const dismissAll = (): void => {
+  if (items.length === 0) return;
   items = items.map((item) => ({ ...item, exiting: true }));
   notify();
 };
@@ -154,9 +157,9 @@ const registerRenderer = (): (() => void) => {
 /**
  * Owns the toast queue outside React, so it's reachable from anywhere
  * (thunks, sagas, non-component code) — not just from inside a mounted
- * component tree. `subscribe`/`getSnapshot` are meant to be handed straight to
- * `useSyncExternalStore`; `createToastController` builds the imperative
- * `toast.*` API on top of `add`/`update`/`dismiss`/`dismissAll`.
+ * component tree. `subscribe`/`getSnapshot`/`getServerSnapshot` are meant to be
+ * handed straight to `useSyncExternalStore`; `createToastController` builds
+ * the imperative `toast.*` API on top of `add`/`update`/`dismiss`/`dismissAll`.
  *
  * The store only holds what `toast.*` was called with; anything that depends
  * on `<Toaster />` props (duration, visible slots) is resolved by the Toaster.
@@ -166,6 +169,7 @@ const registerRenderer = (): (() => void) => {
 export const toastStore = {
   subscribe,
   getSnapshot,
+  getServerSnapshot,
   registerRenderer,
   add,
   update,
@@ -178,7 +182,7 @@ export const toastStore = {
  * public API — do not call from application code.
  */
 export const resetToastStore = (): void => {
-  items = [];
+  items = EMPTY_TOASTS;
   listeners.clear();
   mountedRenderers = 0;
 };
