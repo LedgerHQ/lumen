@@ -10,7 +10,7 @@ These rules help AI assistants:
 ✅ **Design tokens** - Use Lumen tokens instead of Tailwind defaults  
 ✅ **Configuration** - Set up Tailwind with required Lumen content paths  
 ✅ **Figma extraction** - Map Figma variables to Tailwind classes correctly  
-✅ **Dependencies** - Recommend required Radix UI peer dependencies
+✅ **Dependencies** - Install only the required peers (`react`, `react-dom`, `tailwindcss`, `@ledgerhq/lumen-design-core`)
 
 ## Usage by AI Tool
 
