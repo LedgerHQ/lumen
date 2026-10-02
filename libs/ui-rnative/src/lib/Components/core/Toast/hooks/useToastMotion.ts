@@ -10,6 +10,7 @@ import type { ToastPosition } from '../types';
 
 type UseToastMotionArgs = {
   position: ToastPosition;
+  queued: boolean;
   exiting: boolean;
 };
 
@@ -21,11 +22,15 @@ type UseToastMotionReturn = {
 
 export const useToastMotion = ({
   position,
+  queued,
   exiting,
 }: UseToastMotionArgs): UseToastMotionReturn => {
   const enterTiming = useTimingConfig({ duration: 200, easing: 'easeIn' });
   const exitTiming = useTimingConfig({ duration: 200, easing: 'easeOut' });
-  const enterOffset = position === 'top' ? -10 : 10;
+  const edgeOffset = position === 'top' ? -10 : 10;
+  // A toast promoted from the backlog slides out from behind the stack
+  // rather than from the anchored edge.
+  const enterOffset = queued ? -edgeOffset : edgeOffset;
 
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(enterOffset);
@@ -47,9 +52,9 @@ export const useToastMotion = ({
       exiting ? exitTiming : enterTiming,
     );
     if (exiting && !dismissedViaSwipeRef.current) {
-      translateY.value = withTiming(enterOffset, exitTiming);
+      translateY.value = withTiming(edgeOffset, exitTiming);
     }
-  }, [exiting, enterTiming, exitTiming, enterOffset, opacity, translateY]);
+  }, [exiting, enterTiming, exitTiming, edgeOffset, opacity, translateY]);
 
   const animatedStyle = useAnimatedStyle(
     () => ({

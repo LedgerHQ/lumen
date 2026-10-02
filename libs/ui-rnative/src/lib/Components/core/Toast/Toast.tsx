@@ -147,6 +147,7 @@ export const Toast = ({
         </Text>
         {action && (
           <Button
+            testID='toast-action'
             appearance='base'
             size='sm'
             onPress={action.onAction}

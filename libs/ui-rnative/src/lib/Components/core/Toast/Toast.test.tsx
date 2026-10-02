@@ -1,6 +1,7 @@
 import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { fireEvent, render } from '@testing-library/react-native';
+import { StyleSheet } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Toast } from './Toast';
 
@@ -78,6 +79,89 @@ describe('Toast', () => {
       expect(
         getByTestId('toast-text-action').props.style.justifyContent,
       ).toBeUndefined();
+    });
+
+    it('should not shift the action when there is no leading icon', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Toast
+            appearance='info'
+            title='Report ready'
+            action={{ label: 'Open', onAction: jest.fn() }}
+          />
+        </TestWrapper>,
+      );
+      expect(
+        StyleSheet.flatten(getByTestId('toast-action').props.style).marginLeft,
+      ).toBeUndefined();
+    });
+
+    it('should shift the action to align its label with the title when there is a leading icon', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Toast
+            appearance='success'
+            title='Report ready'
+            action={{ label: 'Open', onAction: jest.fn() }}
+          />
+        </TestWrapper>,
+      );
+      expect(
+        StyleSheet.flatten(getByTestId('toast-action').props.style).marginLeft,
+      ).toBe(-16);
+    });
+
+    it('should shift the action to align its label with the title when loading', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <Toast
+            loading
+            title='Uploading'
+            action={{ label: 'Cancel', onAction: jest.fn() }}
+          />
+        </TestWrapper>,
+      );
+      expect(
+        StyleSheet.flatten(getByTestId('toast-action').props.style).marginLeft,
+      ).toBe(-16);
+    });
+  });
+
+  describe('Accessibility', () => {
+    it('should announce info and success politely', () => {
+      const { getByTestId, rerender } = render(
+        <TestWrapper>
+          <Toast testID='toast' title='Info' appearance='info' />
+        </TestWrapper>,
+      );
+      expect(getByTestId('toast').props.accessibilityLiveRegion).toBe('polite');
+
+      rerender(
+        <TestWrapper>
+          <Toast testID='toast' title='Saved' appearance='success' />
+        </TestWrapper>,
+      );
+      expect(getByTestId('toast').props.accessibilityLiveRegion).toBe('polite');
+    });
+
+    it('should announce warning and error assertively', () => {
+      const { getByTestId, rerender } = render(
+        <TestWrapper>
+          <Toast testID='toast' title='Careful' appearance='warning' />
+        </TestWrapper>,
+      );
+      expect(getByTestId('toast').props.accessibilityLiveRegion).toBe(
+        'assertive',
+      );
+
+      rerender(
+        <TestWrapper>
+          <Toast testID='toast' title='Failed' appearance='error' />
+        </TestWrapper>,
+      );
+      expect(getByTestId('toast').props.accessibilityLiveRegion).toBe(
+        'assertive',
+      );
     });
   });
 

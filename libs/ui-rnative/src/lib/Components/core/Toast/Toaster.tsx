@@ -21,11 +21,13 @@ import type { ToasterProps, ToastItem, ToastPosition } from './types';
 const ToastQueueItem = ({
   item,
   durationMs,
+  queued,
   position,
   onDismiss,
 }: {
   item: ToastItem;
   durationMs: number;
+  queued: boolean;
   position: ToastPosition;
   onDismiss: () => void;
 }) => {
@@ -35,6 +37,7 @@ const ToastQueueItem = ({
   useToastLifecycle({ durationMs, paused: held, exiting, onDismiss });
   const { animatedStyle, translateX, markDismissedViaSwipe } = useToastMotion({
     position,
+    queued,
     exiting,
   });
   const { gesture } = useToastGesture({
@@ -57,7 +60,7 @@ const ToastQueueItem = ({
   });
 
   return (
-    <Animated.View style={collapseStyle}>
+    <Animated.View testID='toast-collapse' style={collapseStyle}>
       <GestureDetector gesture={gesture}>
         <Animated.View
           testID='toast-entry'
@@ -131,7 +134,7 @@ export const Toaster = ({
 
   const visibleSlots = resolveMaxItems(maxItems);
   const visibleItems = items.slice(0, visibleSlots);
-  useToastBacklog(items, visibleSlots);
+  const isQueued = useToastBacklog(items, visibleSlots);
 
   return (
     <View
@@ -144,6 +147,7 @@ export const Toaster = ({
           key={item.id}
           item={item}
           durationMs={resolveDurationMs(item, durations)}
+          queued={isQueued(item.id)}
           position={position}
           onDismiss={() => toastStore.dismiss(item.id)}
         />
