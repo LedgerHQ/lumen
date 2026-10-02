@@ -19,7 +19,7 @@ const meta = {
   argTypes: {
     appearance: {
       control: 'select',
-      options: ['base', 'accent'],
+      options: ['base', 'accent', 'gray'],
       description: 'The visual style appearance of the link',
     },
     size: {

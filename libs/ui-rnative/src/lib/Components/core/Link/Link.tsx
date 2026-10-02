@@ -89,7 +89,7 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
 };
 
 /**
- * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
+ * A customizable link component that supports multiple color appearances, optional underline, sizes, icons, and external link handling.
  * Opens URLs using React Native's Linking API.
  *
  * Rendered as a `Text`, so it can be nested inside a paragraph of text and flows
