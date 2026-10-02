@@ -10,7 +10,7 @@ const mediaCardVariants = {
   root: cva(
     [
       'group relative overflow-hidden rounded-md',
-      'flex h-[164px] w-full flex-col items-start justify-end p-12',
+      'flex h-176 w-full flex-col items-start justify-end p-12',
       'bg-muted text-left',
     ],
     {

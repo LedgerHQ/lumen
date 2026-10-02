@@ -78,7 +78,7 @@ describe('Dialog', () => {
     expect(screen.getByText('Controlled Content')).toBeInTheDocument();
   });
 
-  it('applies fit height variant by default (max-h-560)', async () => {
+  it('applies fit height variant by default (max-h-576)', async () => {
     const user = userEvent.setup();
     render(
       <Dialog>
@@ -95,11 +95,11 @@ describe('Dialog', () => {
 
     const content = document.querySelector('[data-slot="dialog-content"]');
     expect(content).toBeInTheDocument();
-    expect(content).toHaveClass('max-h-560');
-    expect(content).not.toHaveClass('h-560');
+    expect(content).toHaveClass('max-h-576');
+    expect(content).not.toHaveClass('h-576');
   });
 
-  it('applies fixed height variant (h-560)', async () => {
+  it('applies fixed height variant (h-576)', async () => {
     const user = userEvent.setup();
     render(
       <Dialog height='fixed'>
@@ -116,8 +116,8 @@ describe('Dialog', () => {
 
     const content = document.querySelector('[data-slot="dialog-content"]');
     expect(content).toBeInTheDocument();
-    expect(content).toHaveClass('h-560');
-    expect(content).not.toHaveClass('max-h-560');
+    expect(content).toHaveClass('h-576');
+    expect(content).not.toHaveClass('max-h-576');
   });
 
   it('applies basis-auto to DialogBody in fit mode', async () => {

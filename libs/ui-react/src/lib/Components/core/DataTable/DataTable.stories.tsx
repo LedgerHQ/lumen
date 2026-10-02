@@ -314,7 +314,7 @@ export const Base: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -350,14 +350,14 @@ export const AppearanceShowcase: Story = {
 
     return (
       <div className='flex gap-24 text-base'>
-        <div className='w-400'>
+        <div className='w-448'>
           <DataTableRoot table={noBackgroundTable} appearance='no-background'>
-            <DataTable className='max-h-400' />
+            <DataTable className='max-h-448' />
           </DataTableRoot>
         </div>
-        <div className='w-400'>
+        <div className='w-448'>
           <DataTableRoot table={plainTable} appearance='plain'>
-            <DataTable className='max-h-400' />
+            <DataTable className='max-h-448' />
           </DataTableRoot>
         </div>
       </div>
@@ -427,7 +427,7 @@ export const WithClickableRow: Story = {
         table={table}
         onRowClick={(row) => console.log(row)}
       >
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -475,7 +475,7 @@ export const WithRowProps: Story = {
           'aria-label': `${row.original.name} asset`,
         })}
       >
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -538,7 +538,7 @@ export const ColumnsLayout: Story = {
         table={table}
         appearance={args.appearance ?? 'plain'}
       >
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -607,7 +607,7 @@ export const WithGroupHeader: Story = {
           </>
         )}
       >
-        <DataTable className='max-h-480' tabIndex={0} />
+        <DataTable className='max-h-512' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -676,7 +676,7 @@ export const WithCustomHeader: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -744,7 +744,7 @@ export const WithoutStickyHeader: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' tabIndex={0} />
+        <DataTable className='max-h-448' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -814,7 +814,7 @@ export const WithSorting: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -892,7 +892,7 @@ export const WithGlobalFilter: Story = {
             </Button>
           </TableActionBarTrailing>
         </TableActionBar>
-        <DataTable className='max-h-400' tabIndex={0} />
+        <DataTable className='max-h-448' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -1074,7 +1074,7 @@ export const WithServerSideState: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
       </DataTableRoot>
     );
   },
@@ -1153,7 +1153,7 @@ export const WithPagination: Story = {
         paginationMode='pagination'
         className='flex flex-col gap-16'
       >
-        <DataTable className='max-h-400' />
+        <DataTable className='max-h-448' />
         <div className='flex justify-center'>
           <Pagination
             page={pageIndex + 1}

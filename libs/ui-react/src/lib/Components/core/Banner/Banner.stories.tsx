@@ -365,7 +365,7 @@ export const NaturalWidth: Story = {
 
 export const ResponsiveLayout: Story = {
   render: () => (
-    <div className='grid w-400 grid-cols-1 gap-16 bg-muted-pressed p-16'>
+    <div className='grid w-448 grid-cols-1 gap-16 bg-muted-pressed p-16'>
       <div className='body-4-semi-bold text-muted'>
         Container with a fixed width
       </div>

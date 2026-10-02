@@ -110,7 +110,7 @@ To verify or discover additional color tokens, explore:
 ### Size (Width & Height)
 
 - Size utilities use a **pixel-based scale** (not rem-based like default Tailwind)
-- The number in each utility corresponds directly to pixels (e.g., `h-64` = `64px`, `w-160` = `160px`)
+- The number in each utility corresponds directly to pixels (e.g., `h-64` = `64px`, `w-176` = `176px`)
 - Available size utilities:
   - Width: `w-{size}`, `min-w-{size}`, `max-w-{size}`
   - Height: `h-{size}`, `min-h-{size}`, `max-h-{size}`
