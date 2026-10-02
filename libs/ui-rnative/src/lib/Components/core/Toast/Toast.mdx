@@ -1,6 +1,10 @@
 import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as ToastStories from './Toast.stories';
-import { CustomTabs, Tab } from '../../../../../.storybook/components';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
 
 <Meta title='Core/Toast' of={ToastStories} />
 
@@ -13,29 +17,153 @@ import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
 Toasts are brief, non-blocking messages that confirm an action or surface a
 status. They appear in a queued stack, are timed by status, and can carry a
-single action. Mount a `Toaster` once and trigger toasts imperatively with the
-`toast` object, importable from anywhere — no provider or hook required.
+single action.
+
+Mount `Toaster` once and call `toast` from anywhere — no provider or hook
+required. `Toaster` owns the queue, timing, and placement, and renders each
+item for you. `position`, `maxItems`, `insets`, and `durations` configure that
+queue.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=21016-59623&m=dev).
 
-## Anatomy
-
-<Canvas of={ToastStories.WithAction} />
-
-- **Leading (optional)**: a status icon for success, warning and error, or a
-  spinner while loading. Info has no icon.
-- **Title**: the message, wrapping over up to five lines.
-- **Action (optional)**: a single text button, inline beside the title, wrapping
-  onto its own row when it no longer fits. Pressing it never dismisses the toast.
-- **Dismissal**: unlike web, there is no close icon. Toasts are dismissed by
-  swiping left or right, unless `dismissible` is `false`.
-
-## Properties
-
-### Overview
-
 <Canvas of={ToastStories.Base} />
 <Controls of={ToastStories.Base} />
+
+### `toast`
+
+Call `toast` from anywhere. Every method that enqueues a toast returns `{ id }`.
+`info`, `success`, `warning`, and `error` set `appearance` for you.
+`loading` also sets the spinner.
+
+<table style={{ width: '100%' }}>
+  <thead>
+    <tr>
+      <th style={{ textAlign: 'left' }}>Method</th>
+      <th style={{ textAlign: 'left' }}>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <b>toast.notify(options)</b>
+      </td>
+      <td>Enqueues a toast.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.info(options)</b>
+      </td>
+      <td>Info. Auto-dismisses after 5s.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.success(options)</b>
+      </td>
+      <td>Success. Auto-dismisses after 5s.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.warning(options)</b>
+      </td>
+      <td>Warning. Persists until dismissed.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.error(options)</b>
+      </td>
+      <td>Error. Persists until dismissed.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.loading(options)</b>
+      </td>
+      <td>Spinner. Persists until updated or dismissed.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.update(id, options)</b>
+      </td>
+      <td>Patches a live toast. Keeps the same id.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.dismiss(id)</b>
+      </td>
+      <td>Dismisses one toast.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.dismissAll()</b>
+      </td>
+      <td>Dismisses every toast, visible or queued.</td>
+    </tr>
+    <tr>
+      <td>
+        <b>toast.promise(promise, options)</b>
+      </td>
+      <td>Loading, then success or error, on one id.</td>
+    </tr>
+  </tbody>
+</table>
+
+`options` for `notify` and the shortcuts:
+
+<table style={{ width: '100%' }}>
+  <thead>
+    <tr>
+      <th style={{ textAlign: 'left' }}>Option</th>
+      <th style={{ textAlign: 'left' }}>Description</th>
+      <th style={{ textAlign: 'left' }}>Default</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <b>title</b>
+      </td>
+      <td>The message.</td>
+      <td>Required</td>
+    </tr>
+    <tr>
+      <td>
+        <b>appearance</b>
+      </td>
+      <td>info, success, warning, or error.</td>
+      <td>info</td>
+    </tr>
+    <tr>
+      <td>
+        <b>loading</b>
+      </td>
+      <td>Replaces the status icon with a spinner.</td>
+      <td>false</td>
+    </tr>
+    <tr>
+      <td>
+        <b>duration</b>
+      </td>
+      <td>Milliseconds for this item. 0 disables auto-dismiss.</td>
+      <td>Status default</td>
+    </tr>
+    <tr>
+      <td>
+        <b>dismissible</b>
+      </td>
+      <td>Allows the swipe and the dismiss accessibility action.</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>
+        <b>action</b>
+      </td>
+      <td>{'{ label, onAction }'}. Pressing it does not dismiss the toast.</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+
+`toast.promise` takes `{ loading, success, error }` instead. `success` and
+`error` may be the next state, or a function of the result.
 
 ### Appearance
 
@@ -45,45 +173,58 @@ Appearance drives the leading icon and the default timing:
 - **success**: positive outcome. Auto-dismisses after 5s.
 - **warning**: caution. Persists until dismissed.
 - **error**: failure. Persists until dismissed.
-- **loading**: a spinner via the `loading` flag. Persists until updated or dismissed.
+- **loading**: `toast.loading` shows a spinner. Persists until updated or dismissed.
 
-<Canvas of={ToastStories.AppearanceShowcase} />
+### Actions
 
-### Layout
+Pass `action` with a label and `onAction`. Pressing it never dismisses the
+toast, so it is well suited to a retry.
 
-The surface is a wrapping row, so the action placement is automatic — there is
-no prop for it. The action shares the title row while both fit; once the label
-is too long to sit beside the title, it wraps onto its own row underneath,
-left-aligned. The title wraps over up to five lines, then truncates with an
-ellipsis. Keep messages short anyway — a toast is not the place for a
-paragraph.
+The action's placement is automatic. While the title and the action fit on
+one row, the action sits inline beside the title. Otherwise the action drops
+to its own row underneath, aligned with the title. The title itself wraps,
+then truncates with an ellipsis past five lines.
 
-<Canvas of={ToastStories.WrappingShowcase} />
+<Canvas of={ToastStories.WithAction} />
 
-### Position
+### Dismissal
 
-Position the queue at the `top` or `bottom` of the screen — RN has no
-left/right/center variants. Items enter and are anchored from that edge, and
-inset below/above the safe area automatically.
-
-<Canvas of={ToastStories.WithProvider} />
-
-### Timing
+Unlike web, there is no close icon: toasts are dismissed by swiping left or
+right, unless `dismissible` is `false`.
 
 Each status has a Lumen default: info and success auto-dismiss after 5s;
 warning and error persist. Override globally with `Toaster`'s `durations`,
 or per item with `duration` — milliseconds, and `0` disables auto-dismiss.
-`Toaster` resolves each toast's duration from its own `durations` when it
-renders, so toasts fired before it mounts still get them. An update that
-changes appearance or loading without a `duration` drops the previous
-per-item one. Touching a toast — holding it or
-dragging it mid-swipe — pauses its timer; releasing resumes from the remaining
-time.
+Duration is resolved when the item is created, and again when an update
+changes appearance, loading, or duration. Timers start only when an item
+becomes visible, and touching a toast — holding it or dragging it mid-swipe —
+pauses its timer; releasing resumes from the remaining time. An update that
+changes appearance, loading, or duration restarts the timer at its newly
+resolved duration (for example loading to success).
+
+<Canvas of={ToastStories.WithDuration} />
+
+### Programmatic dismissal
+
+`toast.notify` and the appearance shortcuts return `{ id }`. Pass that id to
+`toast.dismiss` when the toast is no longer relevant. `toast.dismissAll`
+clears the queue.
+
+<Canvas of={ToastStories.WithDismiss} />
+
+### Position
+
+`position` anchors the queue to the `top` or `bottom` of the screen — there
+are no left, right, or center variants on React Native. Items enter from that
+same edge, and clear the safe area automatically. Use `insets` to clear extra
+obstructions such as a custom tab bar.
 
 ### Queue
 
-Up to `maxItems` toasts are visible at once (default **1** on RN, vs. 3 on
-web). Extra items wait in a FIFO backlog and appear as slots free up.
+Up to `maxItems` toasts are visible at once (default 1, vs. 3 on web). Extra
+items wait in a FIFO backlog and appear as slots free up. Items waiting in the
+backlog are stacked on the pile, so they slide out from behind the visible
+toasts instead of entering from the edge.
 
 ### Accessibility
 
@@ -98,19 +239,29 @@ web). Extra items wait in a FIFO backlog and appear as slots free up.
   two-finger escape scrub also dismisses. Setting `dismissible` to `false`
   removes both the swipe and the dismiss action.
 - Touching a toast pauses its auto-dismiss timer (the native equivalent of
-  web hover), satisfying "pause on timed content". This covers both a still
-  hold and an in-progress swipe; releasing resumes from the remaining time.
+  web hover), satisfying "pause on timed content".
+
+## The `Toast` item
+
+`Toaster` renders a `Toast` for each queued item. The variants below are that
+surface. Render `Toast` yourself only when you need finer control, or when you
+are plugging the item into a notification system you already own. You then
+handle queueing, timing, and dismissal yourself.
+
+<Canvas of={ToastStories.AppearanceShowcase} />
 
 </Tab>
 
   <Tab label="Implementation">
+
+<SetupNote />
 
 ### Setup
 
 Mount `Toaster` once, near the app root — it takes no children and renders
 the queue viewport as an absolutely-positioned overlay, so there is no
 separate viewport to mount. Mounting more than one duplicates every toast on
-screen and logs a console warning in development. Requires
+screen and logs a console warning. Requires
 `react-native-gesture-handler`'s `GestureHandlerRootView` and
 `react-native-safe-area-context`'s `SafeAreaProvider` above it in the tree:
 
@@ -123,7 +274,7 @@ function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaProvider>
-        <Toaster position='bottom' />
+        <Toaster position='bottom' maxItems={1} />
         <Screens />
       </SafeAreaProvider>
     </GestureHandlerRootView>
@@ -133,13 +284,19 @@ function App() {
 
 ### Triggering toasts
 
-<Source of={ToastStories.WithProvider} />
+<Source of={ToastStories.Base} />
 
 ### With an action
 
-The action button never dismisses the toast, so it is well suited to a retry.
-
 <Source of={ToastStories.WithAction} />
+
+### Dismissal
+
+<Source of={ToastStories.WithDuration} />
+
+### Programmatic dismissal
+
+<Source of={ToastStories.WithDismiss} />
 
 ### Loading and updates
 

@@ -59,8 +59,8 @@ export type ToastProps = {
   title: string;
   /**
    * Optional trailing action button. Pressing it does not dismiss the toast.
-   * It wraps onto its own row, left-aligned, when it cannot share the title's
-   * row.
+   * It wraps onto its own row, aligned with the title, when it cannot share
+   * the title's row.
    */
   action?: ToastAction;
 } & StyledViewProps;
@@ -70,8 +70,8 @@ export type ToastProps = {
  */
 export type ToasterProps = {
   /**
-   * Maximum number of toasts visible at once. Extra items wait in a FIFO
-   * backlog and appear as visible slots free up.
+   * Maximum number of toasts visible at once. Must be a positive integer.
+   * Extra items wait in a FIFO backlog and appear as visible slots free up.
    * @default 1
    */
   maxItems?: number;

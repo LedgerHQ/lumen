@@ -39,7 +39,7 @@ export default function Toasts() {
   const { position, setPosition } = useToastControls();
 
   return (
-    <Box lx={{ flexDirection: 'column', gap: 's12' }}>
+    <Box lx={{ flexDirection: 'column', gap: 's12' }} style={{ width: '100%' }}>
       <Box lx={{ flexDirection: 'row', gap: 's8' }}>
         <Button
           appearance={position === 'top' ? 'base' : 'no-background'}

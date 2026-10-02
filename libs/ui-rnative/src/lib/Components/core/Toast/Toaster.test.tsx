@@ -158,6 +158,28 @@ describe('Toaster', () => {
       screen.getByText('Second');
     });
 
+    it('should not keep a per-item duration across an update that omits it', () => {
+      renderToaster();
+      let id = '';
+      act(() => {
+        id = toast.loading({ title: 'Loading', duration: 10000 }).id;
+      });
+
+      act(() => {
+        toast.update(id, {
+          appearance: 'success',
+          loading: false,
+          title: 'Done',
+        });
+      });
+
+      act(() => {
+        jest.advanceTimersByTime(5000);
+      });
+      flushExit();
+      expect(screen.queryByText('Done')).toBeNull();
+    });
+
     it('should pause the timer while held and resume remaining time on release', () => {
       const { getByTestId } = renderToaster();
       act(() => {
@@ -303,6 +325,22 @@ describe('Toaster', () => {
       jest.useRealTimers();
     });
 
+    it('should collapse the stack slot while exiting', () => {
+      renderToaster();
+      let id = '';
+      act(() => {
+        id = toast.warning({ title: 'Careful' }).id;
+      });
+
+      act(() => {
+        toast.dismiss(id);
+      });
+      expect(screen.getByTestId('toast-collapse')).toHaveStyle({ height: 0 });
+
+      flushExit();
+      expect(screen.queryByText('Careful')).toBeNull();
+    });
+
     it('should dismiss a single item by id and dismiss all', () => {
       renderToaster({ maxItems: 2 });
       let first = '';
@@ -386,6 +424,9 @@ describe('Toaster', () => {
         toast.warning({ title: 'Dismiss me' });
       });
 
+      expect(
+        screen.getByTestId('toast-entry').props.accessibilityActions,
+      ).toContainEqual({ name: 'dismiss', label: 'Close' });
       fireEvent(screen.getByTestId('toast-entry'), 'accessibilityAction', {
         nativeEvent: { actionName: 'dismiss' },
       });
@@ -502,6 +543,103 @@ describe('Toaster', () => {
 
       resolveFn('ok');
       expect(await screen.findByText('Saved')).toBeTruthy();
+    });
+
+    it('should drop the loading action when success omits it', async () => {
+      renderToaster();
+
+      let resolveFn: (value: string) => void = () => {};
+      const promise = new Promise<string>((resolve) => {
+        resolveFn = resolve;
+      });
+
+      act(() => {
+        toast.promise(promise, {
+          loading: {
+            title: 'Saving',
+            action: { label: 'Cancel', onAction: () => {} },
+          },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      screen.getByText('Cancel');
+
+      resolveFn('ok');
+      expect(await screen.findByText('Saved')).toBeTruthy();
+      expect(screen.queryByText('Cancel')).toBeNull();
+    });
+
+    it('should drop the loading action when error omits it', async () => {
+      renderToaster();
+
+      let rejectFn: (reason: unknown) => void = () => {};
+      const promise = new Promise<string>((_resolve, reject) => {
+        rejectFn = reject;
+      });
+
+      act(() => {
+        toast.promise(promise, {
+          loading: {
+            title: 'Saving',
+            action: { label: 'Cancel', onAction: () => {} },
+          },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      screen.getByText('Cancel');
+
+      rejectFn(new Error('nope'));
+      expect(await screen.findByText('Failed')).toBeTruthy();
+      expect(screen.queryByText('Cancel')).toBeNull();
+    });
+
+    it('should restore dismissal when error omits dismissible', async () => {
+      renderToaster();
+
+      let rejectFn: (reason: unknown) => void = () => {};
+      const promise = new Promise<string>((_resolve, reject) => {
+        rejectFn = reject;
+      });
+
+      act(() => {
+        toast.promise(promise, {
+          loading: { title: 'Saving', dismissible: false },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      expect(
+        screen.getByTestId('toast-entry').props.onAccessibilityEscape,
+      ).toBeUndefined();
+
+      rejectFn(new Error('nope'));
+      expect(await screen.findByText('Failed')).toBeTruthy();
+      expect(
+        screen.getByTestId('toast-entry').props.accessibilityActions,
+      ).toContainEqual(expect.objectContaining({ name: 'dismiss' }));
+    });
+
+    it('should move the toast from loading to error on rejection', async () => {
+      renderToaster();
+
+      let rejectFn: (reason: unknown) => void = () => {};
+      const promise = new Promise<string>((_resolve, reject) => {
+        rejectFn = reject;
+      });
+
+      act(() => {
+        toast.promise(promise, {
+          loading: { title: 'Saving' },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      screen.getByText('Saving');
+
+      rejectFn(new Error('nope'));
+      expect(await screen.findByText('Failed')).toBeTruthy();
     });
   });
 
