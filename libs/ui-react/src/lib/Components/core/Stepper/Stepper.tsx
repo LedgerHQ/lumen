@@ -21,14 +21,14 @@ const progressVariants = cva('transition-[stroke] duration-300 ease-in-out', {
     {
       appearance: 'accent',
       disabled: false,
-      class: 'stroke-(--border-active)',
+      class: 'stroke-active',
     },
     {
       appearance: 'success',
       disabled: false,
-      class: 'stroke-(--border-success)',
+      class: 'stroke-success',
     },
-    { disabled: true, class: 'stroke-(--border-muted-subtle-hover)' },
+    { disabled: true, class: 'stroke-muted-subtle-hover' },
   ],
 });
 
@@ -113,7 +113,7 @@ export const Stepper = ({
           fill='none'
           stroke='currentColor'
           strokeLinecap='round'
-          className='stroke-(--border-muted-subtle)'
+          className='stroke-muted-subtle'
           style={{
             strokeWidth: `${strokeWidth}px`,
             strokeDasharray: progressDashArray,
