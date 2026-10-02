@@ -56,6 +56,7 @@ export const createToastController = ({
             appearance: 'success',
             loading: false,
             action: state.action,
+            dismissible: state.dismissible ?? true,
           });
         },
         (error: unknown) => {
@@ -65,6 +66,7 @@ export const createToastController = ({
             appearance: 'error',
             loading: false,
             action: state.action,
+            dismissible: state.dismissible ?? true,
           });
         },
       );

@@ -446,6 +446,32 @@ describe('Toaster', () => {
       ).not.toBeInTheDocument();
     });
 
+    it('should restore the close button when error omits dismissible', async () => {
+      render(<Toaster />);
+
+      let rejectFn: (reason: unknown) => void = () => {};
+      const promise = new Promise<string>((_resolve, reject) => {
+        rejectFn = reject;
+      });
+
+      act(() => {
+        toast.promise(promise, {
+          loading: { title: 'Saving', dismissible: false },
+          success: { title: 'Saved' },
+          error: { title: 'Failed' },
+        });
+      });
+      expect(
+        screen.queryByRole('button', { name: CLOSE_LABEL }),
+      ).not.toBeInTheDocument();
+
+      rejectFn(new Error('nope'));
+      expect(await screen.findByText('Failed')).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', { name: CLOSE_LABEL }),
+      ).toBeInTheDocument();
+    });
+
     it('should move the toast from loading to error on rejection', async () => {
       render(<Toaster />);
 

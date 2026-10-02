@@ -19,8 +19,6 @@ import {
 import { Toast } from './Toast';
 import type { ToastItem, ToasterProps, ToastPosition } from './types';
 
-// Toasts only come from client-side events, so the server always renders an
-// empty queue. Module-level so React sees the same reference on every call.
 const NO_TOASTS: ToastItem[] = [];
 const getServerSnapshot = (): ToastItem[] => NO_TOASTS;
 
