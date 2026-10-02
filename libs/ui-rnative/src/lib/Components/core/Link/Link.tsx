@@ -46,11 +46,13 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
       const textColors: Record<Appearance, string> = {
         base: t.colors.text.base,
         accent: t.colors.text.interactive,
+        gray: t.colors.text.muted,
       };
 
       const pressedTextColors: Record<Appearance, string> = {
         base: t.colors.text.basePressed,
         accent: t.colors.text.interactivePressed,
+        gray: t.colors.text.mutedPressed,
       };
 
       const color = pressed
@@ -87,7 +89,7 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
 };
 
 /**
- * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
+ * A customizable link component that supports multiple color appearances, optional underline, sizes, icons, and external link handling.
  * Opens URLs using React Native's Linking API.
  *
  * Rendered as a `Text`, so it can be nested inside a paragraph of text and flows

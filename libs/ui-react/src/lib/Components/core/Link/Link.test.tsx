@@ -59,6 +59,18 @@ describe('Link Component', () => {
     expect(linkElement).toHaveClass('text-interactive');
   });
 
+  it('should apply correct classes for gray appearance', () => {
+    render(
+      <Link href='/' appearance='gray'>
+        Gray
+      </Link>,
+    );
+    const linkElement = screen.getByRole('link');
+    expect(linkElement).toHaveClass('text-muted');
+    expect(linkElement).toHaveClass('hover:text-muted-hover');
+    expect(linkElement).toHaveClass('active:text-muted-pressed');
+  });
+
   it('should render as child with merged props', () => {
     render(
       <Link asChild appearance='base' size='md'>

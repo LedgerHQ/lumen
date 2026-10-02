@@ -34,7 +34,7 @@ const meta = {
 
 export default meta;
 type Story = StoryObj<typeof Link>;
-type LinkAppearance = 'base' | 'accent' | 'inherit';
+type LinkAppearance = 'base' | 'accent' | 'gray' | 'inherit';
 
 export const Base: Story = {
   args: {
@@ -139,6 +139,7 @@ export const AppearanceShowcase: Story = {
     const appearances: { name: string; appearance: LinkAppearance }[] = [
       { name: 'Base', appearance: 'base' },
       { name: 'Accent', appearance: 'accent' },
+      { name: 'Gray', appearance: 'gray' },
     ];
 
     return (

@@ -74,6 +74,7 @@ describe('Link Component', () => {
     it.each([
       ['base', colors.text.base],
       ['accent', colors.text.interactive],
+      ['gray', colors.text.muted],
     ])(
       'should apply %s appearance with correct text color',
       (appearance, expectedColor) => {
@@ -142,6 +143,7 @@ describe('Link Component', () => {
     it.each([
       ['base', colors.text.base, colors.text.basePressed],
       ['accent', colors.text.interactive, colors.text.interactivePressed],
+      ['gray', colors.text.muted, colors.text.mutedPressed],
     ])(
       'should apply the %s pressed color while pressed',
       (appearance, restingColor, pressedColor) => {

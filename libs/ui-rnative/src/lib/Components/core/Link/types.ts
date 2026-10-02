@@ -9,7 +9,7 @@ export type LinkProps = {
    * The visual style of the link.
    * @default base
    */
-  appearance?: 'base' | 'accent';
+  appearance?: 'base' | 'accent' | 'gray';
   /**
    * The size variant of the link.
    * @default md
