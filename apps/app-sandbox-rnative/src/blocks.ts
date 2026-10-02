@@ -53,6 +53,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'ThemeProviderToggles', title: 'ThemeProviderToggle' },
   { slug: 'Tiles', title: 'Tile' },
   { slug: 'Timelines', title: 'Timeline' },
+  { slug: 'Toasts', title: 'Toast' },
   { slug: 'Tooltips', title: 'Tooltip' },
   { slug: 'Trends', title: 'Trend' },
 ];
