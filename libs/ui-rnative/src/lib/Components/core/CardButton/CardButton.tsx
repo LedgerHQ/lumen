@@ -97,6 +97,8 @@ const useStyles = ({
  *
  * It supports different appearances. Takes only the necessary width based on content. The chevron can be hidden if needed.
  *
+ * @deprecated Use Card instead.
+ *
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-cardbutton--docs Guidelines}
  *
  * @warning The `lx` prop should only be used for layout adjustments like margins or positioning.
