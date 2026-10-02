@@ -44,46 +44,46 @@ Call `toast` from anywhere. Every method that enqueues a toast returns `{ id }`.
     </thead>
     <tbody className='bg-canvas'>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.notify(options)</td>
+        <td className='p-12 text-accent'>toast.notify(options)</td>
         <td className='p-12 text-muted'>Enqueues a toast.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.info(options)</td>
-        <td className='p-12 text-muted'>Info. Auto-dismisses after 5s.</td>
+        <td className='bg-base-hover p-12 text-accent'>toast.info(options)</td>
+        <td className='bg-base-hover p-12 text-muted'>Info. Auto-dismisses after 5s.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.success(options)</td>
+        <td className='p-12 text-accent'>toast.success(options)</td>
         <td className='p-12 text-muted'>Success. Auto-dismisses after 5s.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.warning(options)</td>
-        <td className='p-12 text-muted'>Warning. Persists until dismissed.</td>
+        <td className='bg-base-hover p-12 text-accent'>toast.warning(options)</td>
+        <td className='bg-base-hover p-12 text-muted'>Warning. Persists until dismissed.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.error(options)</td>
+        <td className='p-12 text-accent'>toast.error(options)</td>
         <td className='p-12 text-muted'>Error. Persists until dismissed.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.loading(options)</td>
-        <td className='p-12 text-muted'>
+        <td className='bg-base-hover p-12 text-accent'>toast.loading(options)</td>
+        <td className='bg-base-hover p-12 text-muted'>
           Spinner. Persists until updated or dismissed.
         </td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.update(id, options)</td>
+        <td className='p-12 text-accent'>toast.update(id, options)</td>
         <td className='p-12 text-muted'>Patches a live toast. Keeps the same id.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.dismiss(id)</td>
-        <td className='p-12 text-muted'>Dismisses one toast.</td>
+        <td className='bg-base-hover p-12 text-accent'>toast.dismiss(id)</td>
+        <td className='bg-base-hover p-12 text-muted'>Dismisses one toast.</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>toast.dismissAll()</td>
+        <td className='p-12 text-accent'>toast.dismissAll()</td>
         <td className='p-12 text-muted'>Dismisses every toast, visible or queued.</td>
       </tr>
       <tr>
-        <td className='text-accent p-12'>toast.promise(promise, options)</td>
-        <td className='p-12 text-muted'>
+        <td className='bg-base-hover p-12 text-accent'>toast.promise(promise, options)</td>
+        <td className='bg-base-hover p-12 text-muted'>
           Loading, then success or error, on one id.
         </td>
       </tr>
@@ -104,38 +104,38 @@ Call `toast` from anywhere. Every method that enqueues a toast returns `{ id }`.
     </thead>
     <tbody className='bg-canvas'>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>title</td>
+        <td className='p-12 text-accent'>title</td>
         <td className='p-12 text-muted'>The message.</td>
         <td className='p-12 text-muted'>Required</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>appearance</td>
-        <td className='p-12 text-muted'>info, success, warning, or error.</td>
-        <td className='p-12 text-muted'>info</td>
+        <td className='bg-base-hover p-12 text-accent'>appearance</td>
+        <td className='bg-base-hover p-12 text-muted'>info, success, warning, or error.</td>
+        <td className='bg-base-hover p-12 text-muted'>info</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>loading</td>
+        <td className='p-12 text-accent'>loading</td>
         <td className='p-12 text-muted'>Replaces the status icon with a spinner.</td>
         <td className='p-12 text-muted'>false</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>duration</td>
-        <td className='p-12 text-muted'>
+        <td className='bg-base-hover p-12 text-accent'>duration</td>
+        <td className='bg-base-hover p-12 text-muted'>
           Milliseconds for this item. 0 disables auto-dismiss.
         </td>
-        <td className='p-12 text-muted'>Status default</td>
+        <td className='bg-base-hover p-12 text-muted'>Status default</td>
       </tr>
       <tr className='border-b border-muted'>
-        <td className='text-accent p-12'>dismissible</td>
+        <td className='p-12 text-accent'>dismissible</td>
         <td className='p-12 text-muted'>Shows the close button.</td>
         <td className='p-12 text-muted'>true</td>
       </tr>
       <tr>
-        <td className='text-accent p-12'>action</td>
-        <td className='p-12 text-muted'>
+        <td className='bg-base-hover p-12 text-accent'>action</td>
+        <td className='bg-base-hover p-12 text-muted'>
           {'{ label, onAction }'}. Pressing it does not dismiss the toast.
         </td>
-        <td className='p-12 text-muted'>—</td>
+        <td className='bg-base-hover p-12 text-muted'>—</td>
       </tr>
     </tbody>
   </table>
@@ -228,7 +228,7 @@ handle queueing, timing, and dismissal yourself.
 Mount `Toaster` once, anywhere in the tree — it takes no children and renders
 the queue viewport in a portal, so there is no separate viewport to mount.
 Mounting more than one duplicates every toast on screen and logs a console
-warning in development.
+warning.
 
 ```tsx
 import { Toaster } from '@ledgerhq/lumen-ui-react';
