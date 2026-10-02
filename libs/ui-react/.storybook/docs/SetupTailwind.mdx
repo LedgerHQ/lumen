@@ -23,19 +23,12 @@ Our Tailwind implementation includes:
 
 ### Prerequisites
 
-> **Note:** This guide assumes you already have Tailwind CSS v4.x installed in your project. Our Design System is built and tested with Tailwind CSS v4. If you haven't installed Tailwind CSS yet, please follow the [official Tailwind CSS installation guide](https://tailwindcss.com/docs/installation) first.
+> **Note:** This guide assumes you already have Tailwind CSS v4.x installed in your project, with its PostCSS or Vite plugin (`@tailwindcss/postcss` or `@tailwindcss/vite`). Our Design System is built and tested with Tailwind CSS v4. If you haven't installed Tailwind CSS yet, please follow the [official Tailwind CSS installation guide](https://tailwindcss.com/docs/installation) first.
 
-Install `lumen-design-core` and `lumen-ui-react` packages:
+Install `lumen-design-core` (the Tailwind preset), `lumen-ui-react` (the components) and their peer dependencies:
 
 ```bash
-# Install the Design Core package where the tailwind preset lives
-npm install @ledgerhq/lumen-design-core
-
-# Install the React UI Kit package where the components lives
-npm install @ledgerhq/lumen-ui-react
-
-# Install peer dependencies
-npm install tailwindcss@^4.1.17 @tailwindcss/postcss @tailwindcss/vite react@^18.3.1 clsx tailwind-merge class-variance-authority
+npm install @ledgerhq/lumen-design-core @ledgerhq/lumen-ui-react tailwindcss@^4.1.17 react react-dom
 ```
 
 ---
@@ -137,7 +130,7 @@ We recommend creating utility functions to help you work with Tailwind classes. 
 
 **Creating Class Names Utility**
 
-Create your class names utility file (e.g., `utils/cn.ts`):
+Lumen ships with its own copies of these libraries, so this utility is optional. To use it in your own code, install `clsx` and `tailwind-merge` (plus `class-variance-authority` for variants) in your project, then create your class names utility file (e.g., `utils/cn.ts`):
 
 ```typescript
 import { ClassValue, clsx } from 'clsx';

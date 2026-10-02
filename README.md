@@ -18,8 +18,7 @@ Lumen is a comprehensive design system that provides consistent UI components fo
 1. Install the packages and their peer dependencies:
 
 ```bash
-# Install the UI Kit and required peer dependencies
-npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core clsx tailwind-merge class-variance-authority
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core tailwindcss@^4.1.17 react react-dom
 ```
 
 2. Configure Tailwind:
@@ -49,13 +48,6 @@ export default config;
 ```
 
 3. Use components:
-
-```bash
-# Install peer dependency related to the button component
-npm install @radix-ui/react-slot
-```
-
-`@radix-ui/react-slot`: This dependency is used internally by the Button component to enable flexible composition patterns. It allows the Button to merge its props with child elements when needed.
 
 ```tsx
 import { Button } from '@ledgerhq/lumen-ui-react';
