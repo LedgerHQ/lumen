@@ -111,13 +111,13 @@ The SearchInput component takes the **full width** of its parent container by de
 
 ```tsx
 // ✅ Preferred: Direct width control
-<SearchInput placeholder="Search..." className="max-w-md" />
+<SearchInput placeholder="Search..." className="max-w-448" />
 
 // ✅ Responsive width control
-<SearchInput placeholder="Search..." className="w-full md:max-w-md" />
+<SearchInput placeholder="Search..." className="w-full md:max-w-448" />
 
 // Alternative: Container wrapper
-<div className="max-w-md">
+<div className="max-w-448">
   <SearchInput placeholder="Search..." />
 </div>
 

@@ -54,6 +54,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
         spotWidth,
         spotHeight,
         iconStrokeWidth,
+        containers: {},
         extend: {
           zIndex,
           height: size,

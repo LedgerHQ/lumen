@@ -45,7 +45,7 @@ export const Base: Story = {
 <CardButton
   appearance="base"
   title="Basic Card Button"
-  className="max-w-md"
+  className="max-w-448"
 />
 `,
       },
@@ -58,7 +58,7 @@ export const WithIcon: Story = {
     appearance: 'base',
     title: 'Settings',
     icon: Settings,
-    className: 'max-w-md',
+    className: 'max-w-448',
   },
   parameters: {
     docs: {
@@ -68,7 +68,7 @@ export const WithIcon: Story = {
   appearance="base"
   title="Settings"
   icon={Settings}
-  className="max-w-md"
+  className="max-w-448"
 />
 `,
       },
@@ -81,7 +81,7 @@ export const WithDescription: Story = {
     appearance: 'base',
     title: 'Payment Method',
     description: 'Add or manage your payment options',
-    className: 'max-w-md',
+    className: 'max-w-448',
   },
   parameters: {
     docs: {
@@ -91,7 +91,7 @@ export const WithDescription: Story = {
   appearance="base"
   title="Payment Method"
   description="Add or manage your payment options"
-  className="max-w-md"
+  className="max-w-448"
 />
 `,
       },
@@ -104,7 +104,7 @@ export const WithoutChevron: Story = {
     appearance: 'base',
     title: 'Navigate Forward',
     hideChevron: true,
-    className: 'max-w-md',
+    className: 'max-w-448',
   },
   parameters: {
     docs: {
@@ -114,7 +114,7 @@ export const WithoutChevron: Story = {
   appearance="base"
   title="Navigate Forward"
   hideChevron
-  className="max-w-md"
+  className="max-w-448"
 />
 `,
       },
@@ -128,7 +128,7 @@ export const FullFeatures: Story = {
     title: 'Account Settings',
     description: 'Manage your account preferences and security',
     icon: Settings,
-    className: 'max-w-md',
+    className: 'max-w-448',
   },
   parameters: {
     docs: {
@@ -139,7 +139,7 @@ export const FullFeatures: Story = {
   title="Account Settings"
   description="Manage your account preferences and security"
   icon={Settings}
-  className="max-w-md"
+  className="max-w-448"
 />
 `,
       },
@@ -188,7 +188,7 @@ export const AppearanceShowcase: Story = {
     ];
 
     return (
-      <div className='flex max-w-md flex-col gap-16 p-8'>
+      <div className='flex max-w-448 flex-col gap-16 p-8'>
         {appearances.map(({ name, appearance }) => (
           <CardButton
             key={appearance}
@@ -205,7 +205,7 @@ export const AppearanceShowcase: Story = {
 
 export const ContentVariations: Story = {
   render: () => (
-    <div className='flex max-w-md flex-col gap-16 p-8'>
+    <div className='flex max-w-448 flex-col gap-16 p-8'>
       <CardButton
         appearance='base'
         title='With Description'
@@ -238,7 +238,7 @@ export const ContentVariations: Story = {
 
 export const StatesShowcase: Story = {
   render: () => (
-    <div className='flex max-w-md flex-col gap-16 p-8'>
+    <div className='flex max-w-448 flex-col gap-16 p-8'>
       <CardButton
         appearance='base'
         title='Base Default'
