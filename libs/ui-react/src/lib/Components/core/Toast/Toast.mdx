@@ -28,118 +28,30 @@ item for you. `position`, `maxItems`, and `durations` configure that queue.
 <Canvas of={ToastStories.Base} />
 <Controls of={ToastStories.Base} />
 
-### `toast`
-
 Call `toast` from anywhere. Every method that enqueues a toast returns `{ id }`.
 `info`, `success`, `warning`, and `error` set `appearance` for you.
 `loading` also sets the spinner.
 
-<div className='my-24 overflow-hidden rounded-lg'>
-  <table className='w-full'>
-    <thead>
-      <tr className='border-b border-muted bg-muted'>
-        <th className='p-12 text-left text-on-accent body-2'>Method</th>
-        <th className='p-12 text-left text-on-accent body-2'>Description</th>
-      </tr>
-    </thead>
-    <tbody className='bg-canvas'>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>toast.notify(options)</td>
-        <td className='p-12 text-muted'>Enqueues a toast.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='bg-base-hover p-12 text-accent'>toast.info(options)</td>
-        <td className='bg-base-hover p-12 text-muted'>Info. Auto-dismisses after 5s.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>toast.success(options)</td>
-        <td className='p-12 text-muted'>Success. Auto-dismisses after 5s.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='bg-base-hover p-12 text-accent'>toast.warning(options)</td>
-        <td className='bg-base-hover p-12 text-muted'>Warning. Persists until dismissed.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>toast.error(options)</td>
-        <td className='p-12 text-muted'>Error. Persists until dismissed.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='bg-base-hover p-12 text-accent'>toast.loading(options)</td>
-        <td className='bg-base-hover p-12 text-muted'>
-          Spinner. Persists until updated or dismissed.
-        </td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>toast.update(id, options)</td>
-        <td className='p-12 text-muted'>Patches a live toast. Keeps the same id.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='bg-base-hover p-12 text-accent'>toast.dismiss(id)</td>
-        <td className='bg-base-hover p-12 text-muted'>Dismisses one toast.</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>toast.dismissAll()</td>
-        <td className='p-12 text-muted'>Dismisses every toast, visible or queued.</td>
-      </tr>
-      <tr>
-        <td className='bg-base-hover p-12 text-accent'>toast.promise(promise, options)</td>
-        <td className='bg-base-hover p-12 text-muted'>
-          Loading, then success or error, on one id.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+- `toast.notify(options)`: enqueues a toast.
+- `toast.info(options)`: info. Auto-dismisses after 5s.
+- `toast.success(options)`: success. Auto-dismisses after 5s.
+- `toast.warning(options)`: warning. Persists until dismissed.
+- `toast.error(options)`: error. Persists until dismissed.
+- `toast.loading(options)`: spinner. Persists until updated or dismissed.
+- `toast.update(id, options)`: patches a live toast. Keeps the same id.
+- `toast.dismiss(id)`: dismisses one toast.
+- `toast.dismissAll()`: dismisses every toast, visible or queued.
+- `toast.promise(promise, options)`: loading, then success or error, on one id.
 
-`options` for `notify` and the shortcuts:
+`notify` and the shortcuts take these options:
 
-<div className='my-24 overflow-hidden rounded-lg'>
-  <table className='w-full'>
-    <thead>
-      <tr className='border-b border-muted bg-muted'>
-        <th className='p-12 text-left text-on-accent body-2'>Option</th>
-        <th className='p-12 text-left text-on-accent body-2'>Description</th>
-        <th className='p-12 text-left text-on-accent body-2'>Default</th>
-      </tr>
-    </thead>
-    <tbody className='bg-canvas'>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>title</td>
-        <td className='p-12 text-muted'>The message.</td>
-        <td className='p-12 text-muted'>Required</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='bg-base-hover p-12 text-accent'>appearance</td>
-        <td className='bg-base-hover p-12 text-muted'>info, success, warning, or error.</td>
-        <td className='bg-base-hover p-12 text-muted'>info</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>loading</td>
-        <td className='p-12 text-muted'>Replaces the status icon with a spinner.</td>
-        <td className='p-12 text-muted'>false</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='bg-base-hover p-12 text-accent'>duration</td>
-        <td className='bg-base-hover p-12 text-muted'>
-          Milliseconds for this item. 0 disables auto-dismiss.
-        </td>
-        <td className='bg-base-hover p-12 text-muted'>Status default</td>
-      </tr>
-      <tr className='border-b border-muted'>
-        <td className='p-12 text-accent'>dismissible</td>
-        <td className='p-12 text-muted'>Shows the close button.</td>
-        <td className='p-12 text-muted'>true</td>
-      </tr>
-      <tr>
-        <td className='bg-base-hover p-12 text-accent'>action</td>
-        <td className='bg-base-hover p-12 text-muted'>
-          {'{ label, onAction }'}. Pressing it does not dismiss the toast.
-        </td>
-        <td className='bg-base-hover p-12 text-muted'>—</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+- `title` (required): the message.
+- `appearance`: info, success, warning, or error. Defaults to info.
+- `loading`: replaces the status icon with a spinner. Defaults to false.
+- `duration`: milliseconds for this item. `0` disables auto-dismiss. Defaults
+  to the status default.
+- `dismissible`: shows the close button. Defaults to true.
+- `action`: `{ label, onAction }`. Pressing it does not dismiss the toast.
 
 `toast.promise` takes `{ loading, success, error }` instead. `success` and
 `error` may be the next state, or a function of the result.
@@ -154,6 +66,8 @@ Appearance drives the leading icon and the default timing:
 - **error**: failure. Persists until dismissed.
 - **loading**: `toast.loading` shows a spinner. Persists until updated or dismissed.
 
+<Canvas of={ToastStories.AppearanceShowcase} />
+
 ### Actions
 
 Pass `action` with a label and `onAction`. Pressing it never dismisses the
@@ -166,19 +80,15 @@ with an ellipsis past a few lines.
 
 <Canvas of={ToastStories.WithAction} />
 
-### Dismissal
+### Durations
 
-Each status has a Lumen default: info and success auto-dismiss after 5s;
-warning and error persist. Override globally with `Toaster`'s `durations`,
-or per item with `duration` — milliseconds, and `0` disables auto-dismiss.
-Duration is resolved when the item is created, and again when an update
-changes appearance, loading, or duration. Timers start only when an item
-becomes visible, and hovering the stack pauses them — leaving the stack
-resumes from the remaining time. An update that changes appearance, loading,
-or duration restarts the timer at its newly resolved duration (for example
-loading to success).
+`Toaster`'s `durations` replaces the Lumen timing for the appearances you
+list, in milliseconds. `0` keeps that appearance on screen until dismissed. A
+`duration` on an individual toast overrides this configuration. The timer
+starts when the toast becomes visible, and starts again when an update changes
+appearance, loading, or duration.
 
-<Canvas of={ToastStories.WithDuration} />
+<Canvas of={ToastStories.WithDurations} />
 
 ### Programmatic dismissal
 
@@ -216,8 +126,6 @@ surface. Render `Toast` yourself only when you need finer control, or when you
 are plugging the item into a notification system you already own. You then
 handle queueing, timing, and dismissal yourself.
 
-<Canvas of={ToastStories.AppearanceShowcase} />
-
 </Tab>
 
   <Tab label="Implementation">
@@ -245,15 +153,15 @@ function App() {
 
 ### Triggering toasts
 
-<Source of={ToastStories.Base} />
+<Source of={ToastStories.AppearanceShowcase} />
 
 ### With an action
 
 <Source of={ToastStories.WithAction} />
 
-### Dismissal
+### Durations
 
-<Source of={ToastStories.WithDuration} />
+<Source of={ToastStories.WithDurations} />
 
 ### Programmatic dismissal
 

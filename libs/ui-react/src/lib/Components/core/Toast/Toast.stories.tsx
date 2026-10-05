@@ -31,21 +31,11 @@ const RANDOM_ACTION_LABELS = [
 const pickRandom = <T,>(items: readonly T[]): T =>
   items[Math.floor(Math.random() * items.length)];
 
-const showRandomToast = (): void => {
-  toast.notify({
-    appearance: pickRandom(RANDOM_APPEARANCES),
-    title: pickRandom(RANDOM_TITLES),
-    action:
-      Math.random() > 0.5
-        ? { label: pickRandom(RANDOM_ACTION_LABELS), onAction: () => {} }
-        : undefined,
-  });
-};
-
 const meta = {
   component: Toaster,
   id: 'react-toast',
   title: 'Core/Toast',
+  subcomponents: { Toast },
   parameters: {
     layout: 'centered',
     backgrounds: { default: 'light' },
@@ -53,7 +43,6 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
       },
     },
   },
@@ -69,16 +58,32 @@ export const Base: Story = {
   args: {
     position: 'bottom-right',
     maxItems: 3,
-    durations: {
-      info: 3000,
-      success: 3000,
-      warning: 3000,
-      error: 3000,
-    },
   },
   render: (args) => (
     <>
       <Toaster {...args} />
+      <Button
+        appearance='base'
+        onClick={() =>
+          toast.notify({
+            appearance: 'success',
+            title: 'Payment done',
+            duration: 5000,
+            dismissible: true,
+            action: { label: 'View', onAction: () => {} },
+          })
+        }
+      >
+        Show toast
+      </Button>
+    </>
+  ),
+};
+
+export const AppearanceShowcase: Story = {
+  render: () => (
+    <>
+      <Toaster />
       <div className='flex w-256 flex-col items-center gap-8'>
         <Button
           appearance='base'
@@ -115,7 +120,23 @@ export const Base: Story = {
         >
           Show Loading
         </Button>
-        <Button appearance='base' size='sm' onClick={showRandomToast}>
+        <Button
+          appearance='base'
+          size='sm'
+          onClick={() =>
+            toast.notify({
+              appearance: pickRandom(RANDOM_APPEARANCES),
+              title: pickRandom(RANDOM_TITLES),
+              action:
+                Math.random() > 0.5
+                  ? {
+                      label: pickRandom(RANDOM_ACTION_LABELS),
+                      onAction: () => {},
+                    }
+                  : undefined,
+            })
+          }
+        >
           Show Random
         </Button>
       </div>
@@ -142,121 +163,96 @@ export const WithAction: Story = {
   ),
 };
 
-export const WithDuration: Story = {
+export const WithDurations: Story = {
   render: () => (
     <>
-      <Toaster />
-      <Button
-        appearance='base'
-        onClick={() => toast.success({ title: 'Payment done' })}
-      >
-        Show auto-dismissing toast
-      </Button>
+      <Toaster durations={{ success: 3000 }} />
+      <div className='flex flex-col items-center gap-8'>
+        <Button
+          appearance='base'
+          onClick={() => toast.success({ title: 'Payment done' })}
+        >
+          Show success
+        </Button>
+        <Button
+          appearance='base'
+          onClick={() => toast.warning({ title: 'Low balance', duration: 0 })}
+        >
+          Show persistent warning
+        </Button>
+      </div>
     </>
   ),
-};
-
-const DismissDemo = () => {
-  const [id, setId] = useState<string | null>(null);
-
-  return (
-    <Button
-      appearance='base'
-      onClick={() => {
-        if (id === null) {
-          const next = toast.error({ title: 'Unable to save' });
-          setId(next.id);
-          return;
-        }
-        toast.dismiss(id);
-        setId(null);
-      }}
-    >
-      {id === null ? 'Show toast' : 'Hide toast'}
-    </Button>
-  );
 };
 
 export const WithDismiss: Story = {
-  render: () => (
-    <>
-      <Toaster />
-      <DismissDemo />
-    </>
-  ),
-};
+  render: () => {
+    const [id, setId] = useState<string | null>(null);
 
-const UpdateDemo = () => (
-  <Button
-    appearance='base'
-    onClick={() => {
-      const { id } = toast.loading({ title: 'Uploading…' });
-      setTimeout(() => {
-        toast.update(id, {
-          appearance: 'success',
-          loading: false,
-          title: 'Upload complete',
-        });
-      }, 2000);
-    }}
-  >
-    Upload file
-  </Button>
-);
+    return (
+      <>
+        <Toaster />
+        <Button
+          appearance='base'
+          onClick={() => {
+            if (id === null) {
+              const next = toast.error({ title: 'Unable to save' });
+              setId(next.id);
+              return;
+            }
+            toast.dismiss(id);
+            setId(null);
+          }}
+        >
+          {id === null ? 'Show toast' : 'Hide toast'}
+        </Button>
+      </>
+    );
+  },
+};
 
 export const WithUpdate: Story = {
   render: () => (
     <>
       <Toaster />
-      <UpdateDemo />
+      <Button
+        appearance='base'
+        onClick={() => {
+          const { id } = toast.loading({ title: 'Uploading…' });
+          setTimeout(() => {
+            toast.update(id, {
+              appearance: 'success',
+              loading: false,
+              title: 'Upload complete',
+            });
+          }, 2000);
+        }}
+      >
+        Upload file
+      </Button>
     </>
   ),
 };
-
-const simulateSaveProfile = () =>
-  new Promise<void>((resolve) => setTimeout(resolve, 2000));
-
-const PromiseDemo = () => (
-  <Button
-    appearance='base'
-    onClick={() =>
-      toast.promise(simulateSaveProfile(), {
-        loading: { title: 'Saving…' },
-        success: { title: 'Profile saved' },
-        error: { title: 'Could not save' },
-      })
-    }
-  >
-    Save profile
-  </Button>
-);
 
 export const WithPromise: Story = {
   render: () => (
     <>
       <Toaster />
-      <PromiseDemo />
+      <Button
+        appearance='base'
+        onClick={() =>
+          toast.promise(
+            new Promise<void>((resolve) => setTimeout(resolve, 2000)),
+            {
+              loading: { title: 'Saving…' },
+              success: { title: 'Profile saved' },
+              error: { title: 'Could not save' },
+            },
+          )
+        }
+      >
+        Save profile
+      </Button>
     </>
-  ),
-};
-
-export const AppearanceShowcase: Story = {
-  render: () => (
-    <div className='flex w-400 flex-col gap-8'>
-      <Toast
-        appearance='info'
-        title='Your transaction was sent'
-        onClose={() => {}}
-      />
-      <Toast appearance='success' title='Payment done' onClose={() => {}} />
-      <Toast appearance='warning' title='Low balance' onClose={() => {}} />
-      <Toast
-        appearance='error'
-        title='Payment failed'
-        action={{ label: 'Retry', onAction: () => {} }}
-        onClose={() => {}}
-      />
-      <Toast loading title='Processing payment' onClose={() => {}} />
-    </div>
   ),
 };

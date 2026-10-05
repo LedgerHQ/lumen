@@ -78,7 +78,7 @@ const ToastQueueItem = ({
  *
  * Mount exactly one `<Toaster />` for the whole app. Every instance renders
  * the full queue, so a second one duplicates every toast on screen — mounting
- * more than one logs a console warning in development.
+ * more than one logs a console warning.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-toast--docs Guidelines}
  *
