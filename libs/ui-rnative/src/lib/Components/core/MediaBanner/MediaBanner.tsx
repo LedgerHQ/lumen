@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet, useTheme } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Box, LinearGradient, Pressable, Text } from '../../primitives';
 import { Close } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';

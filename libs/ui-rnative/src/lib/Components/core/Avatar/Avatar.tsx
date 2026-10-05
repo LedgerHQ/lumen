@@ -2,12 +2,12 @@ import type { TypographyDefinition } from '@ledgerhq/lumen-design-core';
 import { AVATAR_COLOR_KEYS, capitalize } from '@ledgerhq/lumen-utils-shared';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, View } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import {
   useStyleSheet,
   useTheme,
   type LumenStyleSheetTheme,
 } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Box } from '../../primitives';
 import { User } from '../../symbols';
 import type { IconSize, IconProps } from '../../symbols/Icon';

@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from 'react';
 import type { ColorSchemeName } from 'react-native';
-import type { SupportedLocale } from '../../../../i18n/languages';
 import type { LumenThemes } from '../../../../styles';
+import type { SupportedLocale } from '../../../../translations/languages';
 
 export type ThemeProviderProps = PropsWithChildren & {
   /**

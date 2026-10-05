@@ -7,9 +7,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import { useCommonTranslation } from '../../../../i18n';
 import type { LumenTypographyTokenName } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { RuntimeConstants, useGet } from '../../../utils';
 import { Pulse } from '../../animations/Pulse';
 import { useTimingConfig } from '../../animations/useTimingConfig';

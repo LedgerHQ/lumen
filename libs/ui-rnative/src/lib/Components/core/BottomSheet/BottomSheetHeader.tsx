@@ -1,8 +1,8 @@
 import { useBottomSheet } from '@gorhom/bottom-sheet';
 import { useCallback } from 'react';
 import { StyleSheet } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Box, Text } from '../../primitives';
 import { ArrowLeft, Close } from '../../symbols';
 import { IconButton } from '../IconButton';

@@ -10,8 +10,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import Svg, { Circle, Defs, Mask } from 'react-native-svg';
-import { useCommonTranslation } from '../../../../i18n';
 import { useTheme } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { useTimingConfig } from '../../animations/useTimingConfig';
 import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
