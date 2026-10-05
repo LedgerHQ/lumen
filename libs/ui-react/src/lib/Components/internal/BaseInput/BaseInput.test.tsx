@@ -14,7 +14,7 @@ const createProps = (
   ...overrides,
 });
 
-const CLEAR_LABEL = 'Clear input';
+const CLEAR_LABEL = 'components.baseInput.clearInputAriaLabel';
 
 const LINE_HEIGHT = 20;
 

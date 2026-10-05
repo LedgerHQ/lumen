@@ -106,9 +106,11 @@ export const createTranslations = <
     t: (key, params) => translate(locale, key, params),
   });
 
-  // The default value lets components render translated strings even when no
-  // provider is mounted above them.
-  const TranslationsContext = createContext(createContextValue(defaultLocale));
+  // Without a provider, keys render as-is (as i18next does before resources
+  // load), so tests and stories can render components without any setup.
+  const TranslationsContext = createContext<
+    TranslationsContextValue<Locale, Dictionary>
+  >({ locale: defaultLocale, t: (key) => key });
 
   const TranslationsProvider: FC<TranslationsProviderProps<Locale>> = ({
     locale,

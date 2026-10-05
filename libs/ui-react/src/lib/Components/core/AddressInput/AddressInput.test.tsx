@@ -63,7 +63,9 @@ describe('AddressInput', () => {
     expect(input).toBeInTheDocument();
 
     // Check that the QR code button is present
-    const qrButton = screen.getByLabelText('Scan QR code');
+    const qrButton = screen.getByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).toBeInTheDocument();
 
     // Check that the QR code icon is present (it should be in the DOM as an SVG)
@@ -80,7 +82,9 @@ describe('AddressInput', () => {
     expect(input).toBeInTheDocument();
 
     // Check that the QR code button is NOT present
-    const qrButton = screen.queryByLabelText('Scan QR code');
+    const qrButton = screen.queryByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).not.toBeInTheDocument();
 
     // Check that no SVG icon is present
@@ -120,7 +124,9 @@ describe('AddressInput', () => {
       />,
     );
 
-    const clearButton = screen.getByLabelText('Clear input');
+    const clearButton = screen.getByLabelText(
+      'components.baseInput.clearInputAriaLabel',
+    );
     expect(clearButton).toBeInTheDocument();
   });
 
@@ -133,11 +139,15 @@ describe('AddressInput', () => {
     );
 
     // When there's content, the clear button should be visible
-    const clearButton = screen.getByLabelText('Clear input');
+    const clearButton = screen.getByLabelText(
+      'components.baseInput.clearInputAriaLabel',
+    );
     expect(clearButton).toBeInTheDocument();
 
     // QR button should not be visible (no onQrCodeClick provided)
-    const qrButton = screen.queryByLabelText('Scan QR code');
+    const qrButton = screen.queryByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).not.toBeInTheDocument();
   });
 
@@ -150,7 +160,9 @@ describe('AddressInput', () => {
       />,
     );
 
-    const clearButton = screen.queryByLabelText('Clear input');
+    const clearButton = screen.queryByLabelText(
+      'components.baseInput.clearInputAriaLabel',
+    );
     expect(clearButton).not.toBeInTheDocument();
   });
 
@@ -164,7 +176,9 @@ describe('AddressInput', () => {
       />,
     );
 
-    const clearButton = screen.getByLabelText('Clear input');
+    const clearButton = screen.getByLabelText(
+      'components.baseInput.clearInputAriaLabel',
+    );
     fireEvent.click(clearButton);
 
     expect(handleClear).toHaveBeenCalled();
@@ -228,7 +242,9 @@ describe('AddressInput', () => {
       />,
     );
 
-    const qrButton = screen.getByLabelText('Scan QR code');
+    const qrButton = screen.getByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     fireEvent.click(qrButton);
 
     expect(handleQrClick).toHaveBeenCalled();
@@ -243,7 +259,9 @@ describe('AddressInput', () => {
       />,
     );
 
-    const qrButton = screen.getByLabelText('Scan QR code');
+    const qrButton = screen.getByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).toBeInTheDocument();
     expect(qrButton).not.toBeDisabled();
   });
@@ -259,11 +277,15 @@ describe('AddressInput', () => {
     );
 
     // When there's content, the QR code button should be hidden
-    const qrButton = screen.queryByLabelText('Scan QR code');
+    const qrButton = screen.queryByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).not.toBeInTheDocument();
 
     // And the clear button should be visible instead
-    const clearButton = screen.getByLabelText('Clear input');
+    const clearButton = screen.getByLabelText(
+      'components.baseInput.clearInputAriaLabel',
+    );
     expect(clearButton).toBeInTheDocument();
   });
 
@@ -289,7 +311,9 @@ describe('AddressInput', () => {
     expect(input).toHaveAttribute('placeholder', 'Enter destination address');
 
     // Check QR code button
-    const qrButton = screen.getByLabelText('Scan QR code');
+    const qrButton = screen.getByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).toBeInTheDocument();
     expect(qrButton).not.toBeDisabled();
 
@@ -307,7 +331,9 @@ describe('AddressInput', () => {
     );
 
     // Without onQrCodeClick, no QR code button
-    let qrButton = screen.queryByLabelText('Scan QR code');
+    let qrButton = screen.queryByLabelText(
+      'components.addressInput.qrCodeAriaLabel',
+    );
     expect(qrButton).not.toBeInTheDocument();
 
     // With onQrCodeClick, QR code button appears
@@ -320,7 +346,7 @@ describe('AddressInput', () => {
       />,
     );
 
-    qrButton = screen.getByLabelText('Scan QR code');
+    qrButton = screen.getByLabelText('components.addressInput.qrCodeAriaLabel');
     expect(qrButton).toBeInTheDocument();
   });
 });

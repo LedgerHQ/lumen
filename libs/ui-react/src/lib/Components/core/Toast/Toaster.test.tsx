@@ -25,7 +25,7 @@ const flushExit = (): void => {
   });
 };
 
-const CLOSE_LABEL = 'Close';
+const CLOSE_LABEL = 'common.closeAriaLabel';
 
 describe('Toaster', () => {
   beforeEach(() => {

@@ -75,10 +75,10 @@ describe('createTranslations', () => {
   });
 
   describe('useTranslations', () => {
-    it('uses the default locale without a provider', () => {
+    it('returns keys as-is without a provider', () => {
       render(<Label translationKey='common.close' />);
 
-      expect(screen.getByTestId('label').textContent).toBe('Close');
+      expect(screen.getByTestId('label').textContent).toBe('common.close');
       expect(screen.getByTestId('label').getAttribute('data-locale')).toBe(
         'en',
       );
@@ -152,7 +152,7 @@ describe('createTranslations', () => {
         </TranslationsProvider>,
       );
 
-      expect(screen.getByTestId('other').textContent).toBe('Close');
+      expect(screen.getByTestId('other').textContent).toBe('common.close');
     });
   });
 });

@@ -166,7 +166,10 @@ describe('Banner Component', () => {
     const handleClose = vi.fn();
     render(<Banner title='Banner' onClose={handleClose} />);
     const closeButton = screen.getByRole('button');
-    expect(closeButton).toHaveAttribute('aria-label', 'Close');
+    expect(closeButton).toHaveAttribute(
+      'aria-label',
+      'components.banner.closeAriaLabel',
+    );
   });
 
   it('should apply custom aria-label to close button when provided', () => {
