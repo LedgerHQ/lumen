@@ -7,6 +7,7 @@ const meta = {
   component: CardButton,
   id: 'rnative-cardbutton',
   title: 'Core/CardButton',
+  tags: ['deprecated'],
   parameters: {
     docs: {
       source: {

@@ -24,6 +24,8 @@ const buttonVariants = cva(
  *
  * It supports different appearances. takes full width by default. The chevron can be hidden if needed.
  *
+ * @deprecated Use Card instead.
+ *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-cardbutton--docs Guidelines}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
