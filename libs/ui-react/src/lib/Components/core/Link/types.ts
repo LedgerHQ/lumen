@@ -6,7 +6,7 @@ export type LinkProps = {
    * The visual style of the link.
    * @default inherit
    */
-  appearance?: 'base' | 'accent' | 'inherit';
+  appearance?: 'base' | 'accent' | 'gray' | 'inherit';
   /**
    * The size variant of the link.
    * @default inherit

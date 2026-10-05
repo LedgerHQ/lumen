@@ -13,6 +13,7 @@ const linkVariants = cva(
         base: 'text-base hover:text-base-hover active:text-base-pressed',
         accent:
           'text-interactive hover:text-interactive-hover active:text-interactive-pressed',
+        gray: 'text-muted hover:text-muted-hover active:text-muted-pressed',
         inherit: '',
       },
       size: {
@@ -39,7 +40,7 @@ const linkVariants = cva(
 );
 
 /**
- * A customizable link component that supports base and accent color appearances, optional underline, sizes, icons, and external link handling.
+ * A customizable link component that supports multiple color appearances, optional underline, sizes, icons, and external link handling.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-link--docs Guidelines}
  *

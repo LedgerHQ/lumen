@@ -23,6 +23,9 @@ export default function Links() {
       >
         Open Ledger store
       </Link>
+      <Link appearance='gray' size='sm' href={href} isExternal>
+        Learn how Ledger keeps your keys safe
+      </Link>
       <Link
         icon={Screens}
         size='sm'
@@ -39,13 +42,13 @@ export default function Links() {
       <Box
         lx={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
       >
-        <Text typography='body3' lx={{ color: 'base' }}>
+        <Text typography='body2' lx={{ color: 'base' }}>
           If you require assistance, please contact us via our{' '}
         </Text>
         <Link size='sm' isExternal href='https://github.com/LedgerHQ/lumen'>
           support page
         </Link>
-        <Text typography='body3' lx={{ color: 'base' }}>
+        <Text typography='body2' lx={{ color: 'base' }}>
           {' '}
           during business hours (9am-5pm).
         </Text>
@@ -54,11 +57,11 @@ export default function Links() {
         lx={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center' }}
       >
         <Link size='sm' isExternal href='https://github.com/LedgerHQ/lumen'>
-          <Text typography='body3' lx={{ color: 'base' }}>
+          <Text typography='body2' lx={{ color: 'base' }}>
             If you require assistance, please contact us via our{' '}
           </Text>
           support page
-          <Text typography='body3' lx={{ color: 'base' }}>
+          <Text typography='body2' lx={{ color: 'base' }}>
             {' '}
             during business hours (9am-5pm).
           </Text>

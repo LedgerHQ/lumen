@@ -23,6 +23,7 @@ figma.connect(
       appearance: figma.enum('appearance', {
         base: 'base',
         accent: 'accent',
+        gray: 'gray',
       }),
       size: figma.enum('size', {
         sm: 'sm',
