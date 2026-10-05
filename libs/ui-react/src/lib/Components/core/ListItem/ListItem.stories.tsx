@@ -56,11 +56,7 @@ export const Base: Story = {
   render: (args) => (
     <ListItem {...args}>
       <ListItemLeading>
-        <Spot
-          appearance='icon'
-          icon={Settings}
-          size={args.density === 'compact' ? 32 : 48}
-        />
+        <Spot icon={Settings} size={args.density === 'compact' ? 32 : 48} />
         <ListItemContent>
           <ListItemTitle>Item with Icon and Description</ListItemTitle>
           {args.density === 'expanded' && (
@@ -76,7 +72,7 @@ export const Base: Story = {
         code: `
 <ListItem>
   <ListItemLeading>
-    <Spot appearance="icon" icon={Settings} size={density === 'compact' ? 32 : 48} />
+    <Spot icon={Settings} size={density === 'compact' ? 32 : 48} />
     <ListItemContent>
       <ListItemTitle>Item with Icon and Description</ListItemTitle>
       {density === 'expanded' && (
@@ -108,7 +104,7 @@ export const DensityShowcase: Story = {
 
       <ListItem density='compact'>
         <ListItemLeading>
-          <Spot size={32} appearance='icon' icon={Wallet} />
+          <Spot size={32} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Compact with value</ListItemTitle>
           </ListItemContent>
@@ -133,7 +129,7 @@ export const DensityShowcase: Story = {
 
       <ListItem density='expanded'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Expanded with value</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -157,7 +153,7 @@ export const InteractiveShowcase: Story = {
           <div className='body-4-semi-bold text-muted'>Info</div>
           <ListItem>
             <ListItemLeading>
-              <Spot size={48} appearance='icon' icon={Settings} />
+              <Spot size={48} icon={Settings} />
               <ListItemContent>
                 <ListItemTitle>Display only</ListItemTitle>
                 <ListItemDescription>No hover or focus</ListItemDescription>
@@ -173,7 +169,7 @@ export const InteractiveShowcase: Story = {
 
           <ListItem>
             <ListItemLeading>
-              <Spot size={48} appearance='icon' icon={Wallet} />
+              <Spot size={48} icon={Wallet} />
               <ListItemContent>
                 <ListItemTitle>Static item</ListItemTitle>
                 <ListItemDescription>Not clickable</ListItemDescription>
@@ -189,7 +185,7 @@ export const InteractiveShowcase: Story = {
           <div className='body-4-semi-bold text-muted'>Interactive</div>
           <ListItem onClick={() => {}}>
             <ListItemLeading>
-              <Spot size={48} appearance='icon' icon={Settings} />
+              <Spot size={48} icon={Settings} />
               <ListItemContent>
                 <ListItemTitle>Navigation</ListItemTitle>
                 <ListItemDescription>
@@ -204,7 +200,7 @@ export const InteractiveShowcase: Story = {
 
           <ListItem onClick={() => setSelected(!selected)}>
             <ListItemLeading>
-              <Spot size={48} appearance='icon' icon={Wallet} />
+              <Spot size={48} icon={Wallet} />
               <ListItemContent>
                 <ListItemTitle>Toggle</ListItemTitle>
                 <ListItemDescription>Click to toggle</ListItemDescription>
@@ -241,7 +237,7 @@ export const DisabledState: Story = {
     <div className='flex w-320 flex-col gap-4'>
       <ListItem {...args}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Disabled Item</ListItemTitle>
             <ListItemDescription>This item is disabled</ListItemDescription>
@@ -258,7 +254,7 @@ export const DisabledState: Story = {
 
       <ListItem {...args} onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Disabled Item</ListItemTitle>
             <ListItemDescription>This item is disabled</ListItemDescription>
@@ -271,7 +267,7 @@ export const DisabledState: Story = {
 
       <ListItem {...args}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -306,7 +302,7 @@ export const ActiveState: Story = {
     <div className='flex w-320 flex-col gap-4'>
       <ListItem {...args}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Active Item</ListItemTitle>
             <ListItemDescription>
@@ -318,7 +314,7 @@ export const ActiveState: Story = {
 
       <ListItem {...args} onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Active Interactive</ListItemTitle>
             <ListItemDescription>Hover for muted-hover</ListItemDescription>
@@ -331,7 +327,7 @@ export const ActiveState: Story = {
 
       <ListItem {...args} disabled>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Active Disabled</ListItemTitle>
             <ListItemDescription>Uses bg-disabled</ListItemDescription>
@@ -347,7 +343,7 @@ export const ResponsiveLayout: Story = {
     <div className='flex w-480 flex-col gap-32'>
       <ListItem className='w-fit' onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Fit content</ListItemTitle>
             <ListItemDescription>Short</ListItemDescription>
@@ -360,7 +356,7 @@ export const ResponsiveLayout: Story = {
 
       <ListItem className='w-320' onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>
               Defined width (320px) with a long title that truncates
@@ -378,7 +374,7 @@ export const ResponsiveLayout: Story = {
 
       <ListItem className='w-320'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemContentRow>
               <ListItemTitle>
@@ -415,7 +411,7 @@ export const ResponsiveLayout: Story = {
 
       <ListItem className='w-full' onClick={() => {}}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Full width (fills parent)</ListItemTitle>
             <ListItemDescription>
@@ -439,7 +435,7 @@ export const PriorityShowcase: Story = {
       </div>
       <ListItem priority='end'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Long title competing with trailing value content
@@ -458,7 +454,7 @@ export const PriorityShowcase: Story = {
       <div className='body-4-semi-bold text-muted'>priority="start"</div>
       <ListItem priority='start'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Long title competing with trailing value content
@@ -482,7 +478,7 @@ export const CompositionShowcase: Story = {
     <div className='flex max-w-320 flex-col gap-4'>
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Simple composition</ListItemTitle>
           </ListItemContent>
@@ -491,7 +487,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Crypto icon</ListItemTitle>
             <ListItemContentRow>
@@ -508,7 +504,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -524,7 +520,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>Custom style</ListItemDescription>
@@ -542,7 +538,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>Custom style</ListItemDescription>
@@ -560,7 +556,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -573,7 +569,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Tag Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -586,7 +582,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemContentRow>
               <ListItemTitle>Complex 1</ListItemTitle>
@@ -608,7 +604,7 @@ export const CompositionShowcase: Story = {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Complex 2</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>

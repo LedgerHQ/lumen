@@ -14,7 +14,7 @@ describe('ThemeProvider', () => {
       <ThemeProvider themes={ledgerLiveThemes}>
         <Button testID='child'>Hello World</Button>
         <Tile>Tile</Tile>
-        <Spot appearance='icon' icon={Wallet} />
+        <Spot icon={Wallet} />
         <Box>
           <Text>Text</Text>
         </Box>

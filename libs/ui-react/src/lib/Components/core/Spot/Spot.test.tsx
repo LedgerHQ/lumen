@@ -18,7 +18,7 @@ describe('Spot', () => {
       .spyOn(console, 'error')
       .mockImplementation(() => undefined);
 
-    render(<Spot appearance='icon' icon={TestIcon} />);
+    render(<Spot icon={TestIcon} />);
 
     expect(screen.getByLabelText('Test icon')).toHaveAttribute('width', '20');
     expect(
@@ -32,10 +32,24 @@ describe('Spot', () => {
     ).toBe(false);
   });
 
-  it('should render a number without forwarding the number prop to the DOM', () => {
-    const { container } = render(<Spot appearance='number' number={5} />);
+  it('should paint only the icon when fill is transparent', () => {
+    const { container } = render(<Spot appearance='success' icon={TestIcon} />);
 
-    expect(screen.getByText('5')).toBeVisible();
-    expect(container.firstElementChild).not.toHaveAttribute('number');
+    expect(container.firstElementChild).toHaveClass(
+      'bg-muted-transparent',
+      'text-success',
+    );
+    expect(container.firstElementChild).not.toHaveClass('bg-success');
+  });
+
+  it('should paint the circle and a paired text color when fill is plain', () => {
+    const { container } = render(
+      <Spot appearance='success' fill='plain' icon={TestIcon} />,
+    );
+
+    expect(container.firstElementChild).toHaveClass(
+      'bg-success',
+      'text-success-strong',
+    );
   });
 });

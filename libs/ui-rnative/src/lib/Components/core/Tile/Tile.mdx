@@ -104,7 +104,7 @@ function MyComponent() {
       onPress={() => console.log('Primary action')}
       onLongPress={() => console.log('Secondary action')}
     >
-      <Spot appearance='icon' icon={Settings} />
+      <Spot icon={Settings} />
       <TileContent>
         <TileTitle>Settings</TileTitle>
         <TileDescription>Manage preferences</TileDescription>
@@ -133,7 +133,7 @@ import {
 import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile appearance='card'>
-  <Spot appearance='icon' icon={Bitcoin} />
+  <Spot icon={Bitcoin} />
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
@@ -148,7 +148,7 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 ```tsx
 <Tile disabled>
-  <Spot appearance='icon' icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Settings</TileTitle>
     <TileDescription>Unavailable</TileDescription>
@@ -168,7 +168,7 @@ import { View } from 'react-native';
 // In a grid where other tiles have more content
 <View style={{ flexDirection: 'row', gap: 8 }}>
   <Tile appearance='card'>
-    <Spot appearance='icon' icon={CryptoBitcoinCoin} />
+    <Spot icon={CryptoBitcoinCoin} />
     <TileContent>
       <TileTitle>Title</TileTitle>
       <TileDescription>Description</TileDescription>
@@ -180,7 +180,7 @@ import { View } from 'react-native';
 
   {/* Show more tile with centered content */}
   <Tile appearance='card' centered>
-    <Spot appearance='icon' icon={ChevronRight} />
+    <Spot icon={ChevronRight} />
     <TileContent>
       <TileTitle>Show more</TileTitle>
     </TileContent>
@@ -201,7 +201,7 @@ import {
 import { CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 
 <Tile onPress={() => console.log('Clicked!')}>
-  <Spot appearance='icon' icon={CryptoBitcoinCoin} />
+  <Spot icon={CryptoBitcoinCoin} />
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
@@ -220,7 +220,7 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
     const Icon = item.icon;
     return (
       <Tile key={item.id} lx={{ width: 's128', flexShrink: 0 }}>
-        <Spot appearance='icon' icon={Icon} />
+        <Spot icon={Icon} />
         <TileContent>
           <TileTitle>{item.title}</TileTitle>
           <TileDescription>{item.description}</TileDescription>
@@ -238,7 +238,7 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
   onPress={() => console.log('Primary action')}
   onLongPress={() => console.log('Secondary action - show menu')}
 >
-  <Spot appearance='icon' icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Settings</TileTitle>
     <TileDescription>Long press for options</TileDescription>

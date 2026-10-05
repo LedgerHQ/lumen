@@ -1,54 +1,48 @@
 import type { ComponentType } from 'react';
+import type { StyleProp, TextStyle } from 'react-native';
 import type { StyledViewProps } from '../../../../styles';
-import type { IconProps } from '../../symbols/Icon';
+import type { IconSize } from '../../symbols/Icon';
 
 export type SpotAppearance =
-  | 'icon'
-  | 'bluetooth'
-  | 'check'
+  | 'base'
+  | 'success'
   | 'error'
   | 'warning'
-  | 'info'
-  | 'loader'
-  | 'number';
+  | 'muted'
+  | 'decorative-blue'
+  | 'decorative-pink'
+  | 'decorative-purple'
+  | 'decorative-green'
+  | 'decorative-turquoise'
+  | 'decorative-yellow'
+  | 'decorative-orange'
+  | 'decorative-red';
 
-type IconSpotProps = {
-  /**
-   * Displays a custom icon with neutral base styling.
-   */
-  appearance: 'icon';
-  /**
-   * A React component to be rendered as the icon. Required when appearance is 'icon'.
-   */
-  icon: ComponentType<IconProps>;
-};
-
-type NumberSpotProps = {
-  /**
-   * Displays a single digit (0-9) with number styling.
-   */
-  appearance: 'number';
-  /**
-   * A single digit from 0 to 9 to display. Required when appearance is 'number'.
-   */
-  number: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-};
-
-type StatusSpotProps = {
-  /**
-   * Self-contained predefined status indicators with semantic styling.
-   */
-  appearance: Exclude<SpotAppearance, 'icon' | 'number'>;
-};
-
-export type DiscriminatedSpotProps =
-  | IconSpotProps
-  | NumberSpotProps
-  | StatusSpotProps;
+export type SpotFill = 'transparent' | 'plain';
 
 export type SpotSize = 32 | 40 | 48 | 56 | 72;
 
+export type SpotIcon = ComponentType<{
+  size?: IconSize;
+  style?: StyleProp<TextStyle>;
+}>;
+
 export type SpotProps = {
+  /**
+   * Color palette for the icon, and for the circle when `fill` is plain.
+   * @default 'base'
+   */
+  appearance?: SpotAppearance;
+  /**
+   * Circle treatment. Transparent keeps a muted transparent fill. Plain uses the palette's solid background and paired text color.
+   * @default 'transparent'
+   */
+  fill?: SpotFill;
+  /**
+   * Icon rendered inside the circle.
+   * @required
+   */
+  icon: SpotIcon;
   /**
    * Whether the spot is disabled.
    * @default false
@@ -59,5 +53,4 @@ export type SpotProps = {
    * @default 48
    */
   size?: SpotSize;
-} & DiscriminatedSpotProps &
-  StyledViewProps;
+} & StyledViewProps;

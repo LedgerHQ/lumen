@@ -101,7 +101,7 @@ describe('ContentBanner', () => {
     const { getByText, getByTestId } = render(
       <TestWrapper>
         <ContentBanner testID='content-banner'>
-          <Spot appearance='icon' icon={Settings} />
+          <Spot icon={Settings} />
           <ContentBannerContent>
             <ContentBannerTitle>With Spot</ContentBannerTitle>
           </ContentBannerContent>

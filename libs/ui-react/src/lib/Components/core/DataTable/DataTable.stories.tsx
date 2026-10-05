@@ -264,7 +264,7 @@ export const Base: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -376,7 +376,7 @@ export const WithClickableRow: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -496,7 +496,7 @@ export const ColumnsLayout: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -555,7 +555,7 @@ export const WithGroupHeader: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -624,7 +624,7 @@ export const WithCustomHeader: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -697,7 +697,7 @@ export const WithoutStickyHeader: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -764,7 +764,7 @@ export const WithSorting: Story = {
           header: 'Asset',
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -833,7 +833,7 @@ export const WithGlobalFilter: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -940,7 +940,7 @@ export const WithInfiniteLoading: Story = {
           header: 'Asset',
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -1018,7 +1018,7 @@ export const WithServerSideState: Story = {
           header: 'Asset',
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}
@@ -1093,7 +1093,7 @@ export const WithPagination: Story = {
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
-              <Spot appearance='icon' icon={Android} />
+              <Spot icon={Android} />
               <TableCellContent>
                 <TableCellContentTitle>
                   {row.original.name}

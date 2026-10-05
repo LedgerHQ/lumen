@@ -1,6 +1,11 @@
 import figma from '@figma/code-connect';
 import { Button } from '../../core/Button/Button';
 import { Spot } from '../../core/Spot/Spot';
+import {
+  CheckmarkCircleFill,
+  DeleteCircleFill,
+  InformationFill,
+} from '../../symbols';
 
 /**
  * InfoState is a custom screen-level layout — there is no reusable component in Lumen.
@@ -16,13 +21,14 @@ figma.connect(
     imports: [
       '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
       "import { Spot } from '@ledgerhq/lumen-ui-react'",
+      "import { CheckmarkCircleFill, DeleteCircleFill, InformationFill } from '@ledgerhq/lumen-ui-react/symbols'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
     example: () => (
       <div className='relative flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
         <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
         <div className='flex w-full flex-col items-center gap-24'>
-          <Spot appearance='check' size={72} />
+          <Spot appearance='success' icon={CheckmarkCircleFill} size={72} />
           <div className='flex flex-col items-center gap-8 text-center'>
             <h3 className='heading-4-semi-bold text-base'>Title</h3>
             <p className='body-2 text-muted'>Description</p>
@@ -59,13 +65,14 @@ figma.connect(
     imports: [
       '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
       "import { Spot } from '@ledgerhq/lumen-ui-react'",
+      "import { CheckmarkCircleFill, DeleteCircleFill, InformationFill } from '@ledgerhq/lumen-ui-react/symbols'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
     example: () => (
       <div className='relative flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
         <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
         <div className='flex w-full flex-col items-center gap-24'>
-          <Spot appearance='error' size={72} />
+          <Spot appearance='error' icon={DeleteCircleFill} size={72} />
           <div className='flex flex-col items-center gap-8 text-center'>
             <h3 className='heading-4-semi-bold text-base'>Title</h3>
             <p className='body-2 text-muted'>Description</p>
@@ -102,13 +109,14 @@ figma.connect(
     imports: [
       '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
       "import { Spot } from '@ledgerhq/lumen-ui-react'",
+      "import { CheckmarkCircleFill, DeleteCircleFill, InformationFill } from '@ledgerhq/lumen-ui-react/symbols'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
     example: () => (
       <div className='relative flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
         <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
         <div className='flex w-full flex-col items-center gap-24'>
-          <Spot appearance='info' size={72} />
+          <Spot appearance='muted' icon={InformationFill} size={72} />
           <div className='flex flex-col items-center gap-8 text-center'>
             <h3 className='heading-4-semi-bold text-base'>Title</h3>
             <p className='body-2 text-muted'>Description</p>
@@ -145,12 +153,13 @@ figma.connect(
     imports: [
       '/* ⚠️ CUSTOM LAYOUT ⚠️ — no reusable InfoState component exists in Lumen */',
       "import { Spot } from '@ledgerhq/lumen-ui-react'",
+      "import { CheckmarkCircleFill, DeleteCircleFill, InformationFill } from '@ledgerhq/lumen-ui-react/symbols'",
       "import { Button } from '@ledgerhq/lumen-ui-react'",
     ],
     example: () => (
       <div className='flex flex-col items-center gap-32 overflow-hidden px-16 py-24'>
         <div className='flex w-full flex-col items-center gap-24'>
-          <Spot appearance='check' size={72} />
+          <Spot appearance='success' icon={CheckmarkCircleFill} size={72} />
           <div className='flex flex-col items-center gap-8 text-center'>
             <h3 className='heading-4-semi-bold text-base'>Title</h3>
             <p className='body-2 text-muted'>Description</p>

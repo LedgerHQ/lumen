@@ -1,33 +1,42 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useMemo } from 'react';
-import {
-  BluetoothCircleFill,
-  CheckmarkCircleFill,
-  DeleteCircleFill,
-  InformationFill,
-  WarningFill,
-} from '../../symbols';
 import type { IconSize } from '../../symbols/Icon';
-import { Spinner } from '../Spinner';
 import type { SpotProps, SpotSize } from './types';
 
+const iconSizeMap: Record<SpotSize, IconSize> = {
+  32: 12,
+  40: 16,
+  48: 20,
+  56: 24,
+  72: 40,
+};
+
 const spotVariants = cva(
-  'flex shrink-0 items-center justify-center rounded-full bg-muted-transparent',
+  'flex shrink-0 items-center justify-center rounded-full',
   {
     variants: {
+      fill: {
+        transparent: 'bg-muted-transparent',
+        plain: '',
+      },
       appearance: {
-        icon: 'text-base',
-        bluetooth: 'text-[#0082FC]',
-        check: 'text-success',
-        error: 'text-error',
-        warning: 'text-warning',
-        info: 'text-muted',
-        loader: '',
-        number: 'heading-5 text-base',
+        base: '',
+        success: '',
+        error: '',
+        warning: '',
+        muted: '',
+        'decorative-blue': '',
+        'decorative-pink': '',
+        'decorative-purple': '',
+        'decorative-green': '',
+        'decorative-turquoise': '',
+        'decorative-yellow': '',
+        'decorative-orange': '',
+        'decorative-red': '',
       },
       disabled: {
-        true: 'text-disabled',
+        true: '',
+        false: '',
       },
       size: {
         32: 'spot-h-32 spot-w-32',
@@ -37,111 +46,144 @@ const spotVariants = cva(
         72: 'spot-h-72 spot-w-72',
       },
     },
+    compoundVariants: [
+      { fill: 'transparent', appearance: 'base', class: 'text-base' },
+      { fill: 'transparent', appearance: 'success', class: 'text-success' },
+      { fill: 'transparent', appearance: 'error', class: 'text-error' },
+      { fill: 'transparent', appearance: 'warning', class: 'text-warning' },
+      { fill: 'transparent', appearance: 'muted', class: 'text-muted' },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-blue',
+        class: 'text-decorative-blue',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-pink',
+        class: 'text-decorative-pink',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-purple',
+        class: 'text-decorative-purple',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-green',
+        class: 'text-decorative-green',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-turquoise',
+        class: 'text-decorative-turquoise',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-yellow',
+        class: 'text-decorative-yellow',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-orange',
+        class: 'text-decorative-orange',
+      },
+      {
+        fill: 'transparent',
+        appearance: 'decorative-red',
+        class: 'text-decorative-red',
+      },
+      { fill: 'plain', appearance: 'base', class: 'bg-muted text-base' },
+      {
+        fill: 'plain',
+        appearance: 'success',
+        class: 'bg-success text-success-strong',
+      },
+      {
+        fill: 'plain',
+        appearance: 'error',
+        class: 'bg-error text-error-strong',
+      },
+      {
+        fill: 'plain',
+        appearance: 'warning',
+        class: 'bg-warning text-warning-strong',
+      },
+      {
+        fill: 'plain',
+        appearance: 'muted',
+        class: 'bg-muted-pressed text-muted',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-blue',
+        class: 'bg-decorative-blue text-decorative-strong-blue',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-pink',
+        class: 'bg-decorative-pink text-decorative-strong-pink',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-purple',
+        class: 'bg-decorative-purple text-decorative-strong-purple',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-green',
+        class: 'bg-decorative-green text-decorative-strong-green',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-turquoise',
+        class: 'bg-decorative-turquoise text-decorative-strong-turquoise',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-yellow',
+        class: 'bg-decorative-yellow text-decorative-strong-yellow',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-orange',
+        class: 'bg-decorative-orange text-decorative-strong-orange',
+      },
+      {
+        fill: 'plain',
+        appearance: 'decorative-red',
+        class: 'bg-decorative-red text-decorative-strong-red',
+      },
+      { disabled: true, class: 'text-disabled' },
+    ],
   },
 );
 
 /**
- * A circular status indicator component that displays different types of content based on appearance.
- *
- * Uses a discriminated union type system where the required props depend on the `appearance` value:
- * - `'icon'` appearance requires an `icon` prop
- * - `'number'` appearance requires a `number` prop
- * - All other appearances are self-contained
+ * A circular icon container. `appearance` selects the color palette and `fill` selects whether that palette paints only the icon or the circle as well.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-spot--docs Storybook}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
- * Do not use it to modify the spot's core appearance (colors, size, etc). Use the `appearance` prop instead.
+ * Do not use it to modify the spot's core appearance (colors, size, etc). Use the `appearance` and `fill` props instead.
  *
  * @example
  * import { Spot } from '@ledgerhq/lumen-ui-react';
+ * import { Settings, CheckmarkCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
  *
- * // Custom icon spot
- * import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
- *
- * <Spot appearance="icon" icon={Settings} />
- *
- * // Number spot
- * <Spot appearance="number" number={5} />
- *
- * // Status indicators (no additional props needed)
- * <Spot appearance="check" />
- * <Spot appearance="error" />
- * <Spot appearance="warning" />
- * <Spot appearance="loader" />
- *
- * // Bluetooth states
- * <Spot appearance="bluetooth" />
- * <Spot appearance="bluetooth" disabled />
+ * <Spot icon={Settings} />
+ * <Spot appearance="success" icon={CheckmarkCircleFill} />
+ * <Spot appearance="success" fill="plain" icon={Settings} />
  */
-export const Spot = (props: SpotProps) => {
-  const requestedSize = props.size ?? 48;
-
-  const sizeMap: Record<SpotSize, IconSize> = {
-    32: 12,
-    40: 16,
-    48: 20,
-    56: 24,
-    72: 40,
-  };
-
-  const numberTypographyMap: Record<SpotSize, string> = {
-    32: 'body-2-semi-bold',
-    40: 'body-1-semi-bold',
-    48: 'heading-5',
-    56: 'heading-4',
-    72: 'heading-2',
-  };
-
-  const calculatedIconSize = sizeMap[requestedSize] ?? 20;
-  const calculatedNumberTypography =
-    numberTypographyMap[requestedSize] ?? 'heading-5';
-
-  const { componentProps, content } = useMemo(() => {
-    if (props.appearance === 'icon') {
-      const { icon: Icon, ...componentProps } = props;
-      return {
-        componentProps,
-        content: <Icon size={calculatedIconSize} />,
-      };
-    }
-
-    if (props.appearance === 'number') {
-      const { number, ...componentProps } = props;
-      return {
-        componentProps,
-        content: <span className={calculatedNumberTypography}>{number}</span>,
-      };
-    }
-
-    const content = (() => {
-      switch (props.appearance) {
-        case 'bluetooth':
-          return <BluetoothCircleFill size={calculatedIconSize} />;
-        case 'check':
-          return <CheckmarkCircleFill size={calculatedIconSize} />;
-        case 'error':
-          return <DeleteCircleFill size={calculatedIconSize} />;
-        case 'warning':
-          return <WarningFill size={calculatedIconSize} />;
-        case 'info':
-          return <InformationFill size={calculatedIconSize} />;
-        case 'loader':
-          return <Spinner size={calculatedIconSize} />;
-      }
-    })();
-
-    return { componentProps: props, content };
-  }, [props, calculatedIconSize, calculatedNumberTypography]);
-
-  const {
-    appearance,
-    className,
-    disabled: disabledProp = false,
-    size = 48,
-    ref,
-    ...rest
-  } = componentProps;
+export const Spot = ({
+  appearance = 'base',
+  fill = 'transparent',
+  icon: Icon,
+  disabled: disabledProp = false,
+  size = 48,
+  className,
+  ref,
+  ...rest
+}: SpotProps) => {
   const disabled = useDisabledContext({
     consumerName: 'Spot',
     mergeWith: { disabled: disabledProp },
@@ -152,15 +194,16 @@ export const Spot = (props: SpotProps) => {
       ref={ref}
       className={cn(
         spotVariants({
-          disabled,
           appearance,
+          fill,
+          disabled,
           size,
         }),
         className,
       )}
       {...rest}
     >
-      {content}
+      <Icon size={iconSizeMap[size]} />
     </div>
   );
 };

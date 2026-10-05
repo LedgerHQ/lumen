@@ -31,7 +31,7 @@ figma.connect(
         onClose={props.onClose}
         closeAriaLabel='Close content banner'
       >
-        <Spot appearance='icon' icon={Wallet} size={48} />
+        <Spot icon={Wallet} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>

@@ -1,6 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Apps, Chart1 } from '../../symbols';
+import {
+  Apps,
+  Chart1,
+  CheckmarkCircleFill,
+  DeleteCircleFill,
+  InformationFill,
+} from '../../symbols';
 import { Button } from '../Button';
 import {
   ListItem,
@@ -256,7 +262,7 @@ export const HeightLayouts: Story = {
                 {Array.from({ length: 10 }).map((_, i) => (
                   <ListItem>
                     <ListItemLeading>
-                      <Spot appearance='icon' icon={Chart1} />
+                      <Spot icon={Chart1} />
                       <ListItemContent>
                         <ListItemTitle>Content item</ListItemTitle>
                         <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -565,7 +571,7 @@ export const WithListsContent: Story = {
               <div className='-mx-24 flex gap-8 overflow-x-auto px-24'>
                 {Array.from({ length: 12 }).map((_, i) => (
                   <Tile>
-                    <Spot appearance='icon' icon={Apps} />
+                    <Spot icon={Apps} />
                     <TileContent>
                       <TileTitle>Action {i + 1}</TileTitle>
                     </TileContent>
@@ -582,7 +588,7 @@ export const WithListsContent: Story = {
                 {Array.from({ length: 12 }).map((_, i) => (
                   <ListItem>
                     <ListItemLeading>
-                      <Spot appearance='icon' icon={Chart1} />
+                      <Spot icon={Chart1} />
                       <ListItemContent>
                         <ListItemTitle>Content item</ListItemTitle>
                         <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -619,7 +625,7 @@ export const WithStickyBodyContent: Story = {
             {Array.from({ length: 12 }).map((_, i) => (
               <ListItem key={i}>
                 <ListItemLeading>
-                  <Spot appearance='icon' icon={Chart1} />
+                  <Spot icon={Chart1} />
                   <ListItemContent>
                     <ListItemTitle>Content item</ListItemTitle>
                     <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -651,7 +657,7 @@ export const WithScrollbar: Story = {
             {Array.from({ length: 10 }).map((_, i) => (
               <ListItem key={i}>
                 <ListItemLeading>
-                  <Spot appearance='icon' icon={Chart1} />
+                  <Spot icon={Chart1} />
                   <ListItemContent>
                     <ListItemTitle>Content item</ListItemTitle>
                     <ListItemDescription>{`item ${i + 1}.`}</ListItemDescription>
@@ -679,7 +685,7 @@ export const InfoStateVariants: Story = {
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error' />
-                <Spot appearance='error' size={72} />
+                <Spot appearance='error' icon={DeleteCircleFill} size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
                   <h3 className='heading-4-semi-bold text-base'>Title</h3>
                   <p className='body-2 text-muted'>Description</p>
@@ -710,7 +716,11 @@ export const InfoStateVariants: Story = {
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success' />
-                <Spot appearance='check' size={72} />
+                <Spot
+                  appearance='success'
+                  icon={CheckmarkCircleFill}
+                  size={72}
+                />
                 <div className='flex flex-col items-center gap-12 text-center'>
                   <h3 className='heading-4-semi-bold text-base'>Title</h3>
                   <p className='body-2 text-muted'>Description</p>
@@ -741,7 +751,7 @@ export const InfoStateVariants: Story = {
             <DialogBody>
               <div className='flex flex-col items-center gap-24 overflow-hidden'>
                 <div className='pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted' />
-                <Spot appearance='info' size={72} />
+                <Spot appearance='muted' icon={InformationFill} size={72} />
                 <div className='flex flex-col items-center gap-12 text-center'>
                   <h3 className='heading-4-semi-bold text-base'>Title</h3>
                   <p className='body-2 text-muted'>Description</p>
@@ -779,7 +789,7 @@ export const InfoStateVariants: Story = {
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error" />
-        <Spot appearance="error" size={72} />
+        <Spot appearance="error" icon={DeleteCircleFill} size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
           <h3 className="heading-4-semi-bold text-base">Title</h3>
           <p className="body-2 text-muted">Description</p>
@@ -807,7 +817,7 @@ export const InfoStateVariants: Story = {
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success" />
-        <Spot appearance="check" size={72} />
+        <Spot appearance="success" icon={CheckmarkCircleFill} size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
           <h3 className="heading-4-semi-bold text-base">Title</h3>
           <p className="body-2 text-muted">Description</p>
@@ -835,7 +845,7 @@ export const InfoStateVariants: Story = {
     <DialogBody>
       <div className="flex flex-col items-center gap-24 overflow-hidden">
         <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted" />
-        <Spot appearance="info" size={72} />
+        <Spot appearance="muted" icon={InformationFill} size={72} />
         <div className="flex flex-col items-center gap-12 text-center">
           <h3 className="heading-4-semi-bold text-base">Title</h3>
           <p className="body-2 text-muted">Description</p>

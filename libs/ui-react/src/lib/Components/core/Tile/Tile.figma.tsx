@@ -32,7 +32,7 @@ const sharedProps = {
   }),
   leadingContent: figma.enum('leading-icon', {
     coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
-    spot: <Spot appearance='icon' icon={Settings} />,
+    spot: <Spot icon={Settings} />,
     'interface-icon': <Placeholder size={24} />,
   }),
 };

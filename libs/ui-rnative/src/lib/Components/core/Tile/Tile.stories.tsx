@@ -1,6 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box, Text } from '../../primitives';
-import { Settings, Plus, User, Apps, ChevronRight } from '../../symbols';
+import {
+  Settings,
+  Plus,
+  User,
+  Apps,
+  ChevronRight,
+  CheckmarkCircleFill,
+} from '../../symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
 import {
@@ -62,7 +69,7 @@ export const Base: Story = {
   },
   render: (args) => (
     <Tile {...args} lx={{ maxWidth: 's112' }}>
-      <Spot appearance='icon' icon={Settings} />
+      <Spot icon={Settings} />
       <TileContent>
         <TileTitle>Item with Spot and Description</TileTitle>
         <TileDescription>Additional information</TileDescription>
@@ -74,7 +81,7 @@ export const Base: Story = {
       source: {
         code: `
 <Tile lx={{ maxWidth: 's112' }}>
-  <Spot appearance="icon" icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Item with Spot and Description</TileTitle>
     <TileDescription>Additional information</TileDescription>
@@ -93,20 +100,20 @@ export const VariantsShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Tile lx={{ maxWidth: 's176' }}>
-        <Spot appearance='icon' icon={User} />
+        <Spot icon={User} />
         <TileContent>
           <TileTitle>User</TileTitle>
           <TileDescription>With description</TileDescription>
         </TileContent>
       </Tile>
       <Tile lx={{ maxWidth: 's176' }}>
-        <Spot appearance='icon' icon={Plus} />
+        <Spot icon={Plus} />
         <TileContent>
           <TileTitle>Without Description</TileTitle>
         </TileContent>
       </Tile>
       <Tile lx={{ maxWidth: 's176' }}>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
@@ -116,7 +123,7 @@ export const VariantsShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile lx={{ maxWidth: 's176' }}>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
@@ -140,7 +147,7 @@ export const WithSecondaryAction: Story = {
       onLongPress={() => alert('Long press - secondary action triggered!')}
       lx={{ maxWidth: 's176' }}
     >
-      <Spot appearance='icon' icon={Settings} />
+      <Spot icon={Settings} />
       <TileContent>
         <TileTitle>Long Press Me</TileTitle>
         <TileDescription>Try long pressing this tile</TileDescription>
@@ -155,7 +162,7 @@ export const WithSecondaryAction: Story = {
   onLongPress={() => alert('Long press - secondary action triggered!')}
   lx={{ maxWidth: 's160' }}
 >
-  <Spot appearance="icon" icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Long Press Me</TileTitle>
     <TileDescription>Try long pressing this tile</TileDescription>
@@ -183,7 +190,7 @@ export const HorizontalList: Story = {
       >
         {Array.from({ length: 3 }).map((_, i) => (
           <Tile key={`list-1-${i}`}>
-            <Spot appearance='icon' icon={Apps} />
+            <Spot icon={Apps} />
             <TileContent>
               <TileTitle>Item {i + 1}</TileTitle>
               <TileDescription>Description {i + 1}</TileDescription>
@@ -202,7 +209,7 @@ export const HorizontalList: Story = {
       >
         {Array.from({ length: 5 }).map((_, i) => (
           <Tile key={`list-2-${i}`} lx={{ width: 's128', flexShrink: 0 }}>
-            <Spot appearance='icon' icon={Apps} />
+            <Spot icon={Apps} />
             <TileContent>
               <TileTitle>Item {i + 1}</TileTitle>
               <TileDescription>
@@ -224,7 +231,7 @@ export const ResponsiveLayout: Story = {
     <Box lx={{ width: 'full', flexDirection: 'column', gap: 's16' }}>
       <Box>
         <Tile>
-          <Spot appearance='icon' icon={Apps} />
+          <Spot icon={Apps} />
           <TileContent>
             <TileTitle>Item fill width</TileTitle>
             <TileDescription>Description fill width</TileDescription>
@@ -233,7 +240,7 @@ export const ResponsiveLayout: Story = {
       </Box>
       <Box lx={{ alignItems: 'center', justifyContent: 'center' }}>
         <Tile lx={{ width: 's224' }}>
-          <Spot appearance='icon' icon={Plus} />
+          <Spot icon={Plus} />
           <TileContent>
             <TileTitle>Long Item with fixed width</TileTitle>
             <TileDescription>
@@ -259,14 +266,14 @@ export const AppearanceShowcase: Story = {
         </Box>
         <Box lx={{ flexDirection: 'row', gap: 's16' }}>
           <Tile appearance='no-background' lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={Settings} />
+            <Spot icon={Settings} />
             <TileContent>
               <TileTitle>Press me</TileTitle>
               <TileDescription>Press state</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='no-background' disabled lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={Settings} disabled />
+            <Spot icon={Settings} disabled />
             <TileContent>
               <TileTitle>Disabled</TileTitle>
               <TileDescription>Disabled state</TileDescription>
@@ -280,14 +287,14 @@ export const AppearanceShowcase: Story = {
         </Box>
         <Box lx={{ flexDirection: 'row', gap: 's16' }}>
           <Tile appearance='card' lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={User} />
+            <Spot icon={User} />
             <TileContent>
               <TileTitle>Press me</TileTitle>
               <TileDescription>Press state</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='card' disabled lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={User} disabled />
+            <Spot icon={User} disabled />
             <TileContent>
               <TileTitle>Disabled</TileTitle>
               <TileDescription>Disabled state</TileDescription>
@@ -306,7 +313,7 @@ export const CenteredShowcase: Story = {
   render: () => (
     <Box lx={{ flexDirection: 'row', gap: 's8' }}>
       <Tile appearance='card' lx={{ width: 's128' }}>
-        <Spot appearance='icon' icon={Apps} />
+        <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
@@ -316,7 +323,7 @@ export const CenteredShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile appearance='card' lx={{ width: 's128' }}>
-        <Spot appearance='icon' icon={Apps} />
+        <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
@@ -326,7 +333,7 @@ export const CenteredShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile appearance='card' lx={{ width: 's128' }}>
-        <Spot appearance='icon' icon={Apps} />
+        <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
@@ -336,7 +343,7 @@ export const CenteredShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile appearance='card' centered lx={{ width: 's128' }}>
-        <Spot appearance='icon' icon={ChevronRight} />
+        <Spot icon={ChevronRight} />
         <TileContent>
           <TileTitle>Show more</TileTitle>
         </TileContent>
@@ -357,14 +364,14 @@ export const SizeShowcase: Story = {
         </Box>
         <Box lx={{ flexDirection: 'row', gap: 's16' }}>
           <Tile appearance='card' lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={Settings} size={48} />
+            <Spot icon={Settings} size={48} />
             <TileContent>
               <TileTitle>Settings</TileTitle>
               <TileDescription>Size 48</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='card' lx={{ width: 's112' }}>
-            <Spot appearance='check' size={48} />
+            <Spot appearance='success' icon={CheckmarkCircleFill} size={48} />
             <TileContent>
               <TileTitle>Check</TileTitle>
               <TileDescription>Size 48</TileDescription>
@@ -378,14 +385,14 @@ export const SizeShowcase: Story = {
         </Box>
         <Box lx={{ flexDirection: 'row', gap: 's16' }}>
           <Tile appearance='card' lx={{ width: 's112' }}>
-            <Spot appearance='icon' icon={Settings} size={40} />
+            <Spot icon={Settings} size={40} />
             <TileContent>
               <TileTitle>Settings</TileTitle>
               <TileDescription>Size 40</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='card' lx={{ width: 's112' }}>
-            <Spot appearance='check' size={40} />
+            <Spot appearance='success' icon={CheckmarkCircleFill} size={40} />
             <TileContent>
               <TileTitle>Check</TileTitle>
               <TileDescription>Size 40</TileDescription>

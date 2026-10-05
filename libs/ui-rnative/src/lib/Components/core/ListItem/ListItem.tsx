@@ -88,7 +88,7 @@ const useRootStyles = ({
  *
  * <ListItem onPress={() => console.log('Clicked!')}>
  *   <ListItemLeading>
- *     <Spot size={48} appearance="icon" icon={Wallet} />
+ *     <Spot size={48} icon={Wallet} />
  *     <ListItemContent>
  *       <ListItemTitle>Balance</ListItemTitle>
  *       <ListItemDescription>Optional description</ListItemDescription>

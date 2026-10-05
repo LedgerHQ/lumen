@@ -13,14 +13,14 @@ export default function ContentBanners() {
   return (
     <Box lx={{ flexDirection: 'column', gap: 's12', width: 'full' }}>
       <ContentBanner>
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>Title Only</ContentBannerTitle>
         </ContentBannerContent>
       </ContentBanner>
 
       <ContentBanner onClose={() => console.log('close')}>
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>With Close Button</ContentBannerTitle>
           <ContentBannerDescription>
@@ -40,7 +40,7 @@ export default function ContentBanners() {
       </ContentBanner>
 
       <ContentBanner onClose={() => console.log('close')}>
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>
             Very Long Title That Should Be Truncated On A Single Line

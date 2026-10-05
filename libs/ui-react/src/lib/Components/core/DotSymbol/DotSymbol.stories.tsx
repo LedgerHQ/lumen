@@ -63,16 +63,16 @@ export const PinShowcase: Story = {
       </div>
       <div className='flex items-center gap-32'>
         <DotSymbol src={dotSrc} pin='bottom-end'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-end'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='bottom-start'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-start'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
       </div>
     </div>
@@ -145,7 +145,7 @@ export const DisabledShowcase: Story = {
         />
       </DotSymbol>
       <DotSymbol src={dotSrc} pin='bottom-end' disabled>
-        <Spot appearance='icon' icon={CoinAlert} />
+        <Spot icon={CoinAlert} />
       </DotSymbol>
     </div>
   ),

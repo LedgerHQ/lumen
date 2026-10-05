@@ -6,6 +6,7 @@ import {
   Apps,
   MoreVertical,
   ChevronRight,
+  CheckmarkCircleFill,
 } from '../../symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
@@ -75,7 +76,7 @@ export const Base: Story = {
   },
   render: (args) => (
     <Tile {...args} className='w-112' secondaryAction={tileSecondaryAction}>
-      <Spot appearance='icon' icon={Settings} />
+      <Spot icon={Settings} />
       <TileContent>
         <TileTitle>Item with Spot and Description</TileTitle>
         <TileDescription>Additional information</TileDescription>
@@ -96,7 +97,7 @@ export const Base: Story = {
     </Menu>
   }
   >
-  <Spot appearance="icon" icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Item with Spot and Description</TileTitle>
     <TileDescription>Additional information</TileDescription>
@@ -112,27 +113,27 @@ export const VariantsShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
       <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
-        <Spot appearance='icon' icon={User} />
+        <Spot icon={User} />
         <TileContent>
           <TileTitle>User</TileTitle>
           <TileDescription>With description</TileDescription>
         </TileContent>
       </Tile>
       <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
-        <Spot appearance='icon' icon={Plus} />
+        <Spot icon={Plus} />
         <TileContent>
           <TileTitle>Without Description</TileTitle>
         </TileContent>
       </Tile>
       <Tile className='max-w-160'>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <TileContent>
           <TileTitle>Without secondary action</TileTitle>
           <TileDescription>Additional information</TileDescription>
         </TileContent>
       </Tile>
       <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
@@ -142,7 +143,7 @@ export const VariantsShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileDescription>Additional information</TileDescription>
@@ -153,7 +154,7 @@ export const VariantsShowcase: Story = {
       </Tile>
 
       <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
           <TileTrailingContent>
@@ -171,7 +172,7 @@ export const HorizontalList: Story = {
       <div className='flex w-480 bg-base'>
         {Array.from({ length: 3 }).map((_, i) => (
           <Tile key={`list-1-${i}`} secondaryAction={tileSecondaryAction}>
-            <Spot appearance='icon' icon={Apps} />
+            <Spot icon={Apps} />
             <TileContent>
               <TileTitle>Item {i + 1}</TileTitle>
               <TileDescription>Description {i + 1}</TileDescription>
@@ -186,7 +187,7 @@ export const HorizontalList: Story = {
             className='w-128 shrink-0'
             secondaryAction={tileSecondaryAction}
           >
-            <Spot appearance='icon' icon={Apps} />
+            <Spot icon={Apps} />
             <TileContent>
               <TileTitle>{`Item ${i + 1}`}</TileTitle>
               <TileDescription>
@@ -205,7 +206,7 @@ export const ResponsiveLayout: Story = {
     <div className='flex w-full flex-col gap-16'>
       <div>
         <Tile>
-          <Spot appearance='icon' icon={Apps} />
+          <Spot icon={Apps} />
           <TileContent>
             <TileTitle>Item fill width</TileTitle>
             <TileDescription>Description fill width</TileDescription>
@@ -214,7 +215,7 @@ export const ResponsiveLayout: Story = {
       </div>
       <div className='flex'>
         <Tile className='w-224'>
-          <Spot appearance='icon' icon={Plus} />
+          <Spot icon={Plus} />
           <TileContent>
             <TileTitle>Long Item with fixed width</TileTitle>
             <TileDescription>
@@ -235,14 +236,14 @@ export const AppearanceShowcase: Story = {
         <h3 className='mb-8 heading-4'>No Background</h3>
         <div className='flex gap-16'>
           <Tile appearance='no-background' className='w-112'>
-            <Spot appearance='icon' icon={Settings} />
+            <Spot icon={Settings} />
             <TileContent>
               <TileTitle>Hover me</TileTitle>
               <TileDescription>Hover state</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='no-background' disabled className='w-112'>
-            <Spot appearance='icon' icon={Settings} />
+            <Spot icon={Settings} />
             <TileContent>
               <TileTitle>Disabled</TileTitle>
               <TileDescription>Disabled state</TileDescription>
@@ -254,14 +255,14 @@ export const AppearanceShowcase: Story = {
         <h3 className='mb-8 heading-4'>Card</h3>
         <div className='flex gap-16'>
           <Tile appearance='card' className='w-112'>
-            <Spot appearance='icon' icon={User} />
+            <Spot icon={User} />
             <TileContent>
               <TileTitle>Hover me</TileTitle>
               <TileDescription>Hover state</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='card' disabled className='w-112'>
-            <Spot appearance='icon' icon={User} />
+            <Spot icon={User} />
             <TileContent>
               <TileTitle>Disabled</TileTitle>
               <TileDescription>Disabled state</TileDescription>
@@ -277,7 +278,7 @@ export const CenteredShowcase: Story = {
   render: () => (
     <div className='flex gap-8'>
       <Tile appearance='card' className='w-128'>
-        <Spot appearance='icon' icon={Apps} />
+        <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
@@ -287,7 +288,7 @@ export const CenteredShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile appearance='card' className='w-128'>
-        <Spot appearance='icon' icon={Apps} />
+        <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileDescription>Description</TileDescription>
@@ -297,7 +298,7 @@ export const CenteredShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile appearance='card' className='w-128'>
-        <Spot appearance='icon' icon={Apps} />
+        <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Title</TileTitle>
           <TileTrailingContent>
@@ -306,7 +307,7 @@ export const CenteredShowcase: Story = {
         </TileContent>
       </Tile>
       <Tile appearance='card' centered className='w-128'>
-        <Spot appearance='icon' icon={ChevronRight} />
+        <Spot icon={ChevronRight} />
         <TileContent>
           <TileTitle>Show more</TileTitle>
         </TileContent>
@@ -322,14 +323,14 @@ export const SizeShowcase: Story = {
         <h3 className='mb-8 heading-4'>Size 48 (default)</h3>
         <div className='flex gap-16'>
           <Tile appearance='card' className='w-112'>
-            <Spot appearance='icon' icon={Settings} size={48} />
+            <Spot icon={Settings} size={48} />
             <TileContent>
               <TileTitle>Settings</TileTitle>
               <TileDescription>Size 48</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='card' className='w-112'>
-            <Spot appearance='check' size={48} />
+            <Spot appearance='success' icon={CheckmarkCircleFill} size={48} />
             <TileContent>
               <TileTitle>Check</TileTitle>
               <TileDescription>Size 48</TileDescription>
@@ -341,14 +342,14 @@ export const SizeShowcase: Story = {
         <h3 className='mb-8 heading-4'>Size 40</h3>
         <div className='flex gap-16'>
           <Tile appearance='card' className='w-112'>
-            <Spot appearance='icon' icon={Settings} size={40} />
+            <Spot icon={Settings} size={40} />
             <TileContent>
               <TileTitle>Settings</TileTitle>
               <TileDescription>Size 40</TileDescription>
             </TileContent>
           </Tile>
           <Tile appearance='card' className='w-112'>
-            <Spot appearance='check' size={40} />
+            <Spot appearance='success' icon={CheckmarkCircleFill} size={40} />
             <TileContent>
               <TileTitle>Check</TileTitle>
               <TileDescription>Size 40</TileDescription>

@@ -252,7 +252,7 @@ export const ResponsiveLayout: Story = {
               <TableRow key={row.symbol}>
                 <TableCell>
                   <TableCellItem>
-                    <Spot size={40} appearance='icon' icon={Android} />
+                    <Spot size={40} icon={Android} />
                     <TableCellContent>
                       <TableCellContentTitle>{row.name}</TableCellContentTitle>
                       <TableCellContentDescription>
@@ -298,7 +298,7 @@ export const WithClickableRow: Story = {
               >
                 <TableCell>
                   <TableCellItem>
-                    <Spot size={40} appearance='icon' icon={Android} />
+                    <Spot size={40} icon={Android} />
                     <TableCellContent>
                       <TableCellContentTitle>{row.name}</TableCellContentTitle>
                       <TableCellContentDescription>
@@ -360,7 +360,7 @@ export const WithInfiniteLoading: Story = {
                 <TableRow key={row.id}>
                   <TableCell>
                     <TableCellItem>
-                      <Spot size={40} appearance='icon' icon={Android} />
+                      <Spot size={40} icon={Android} />
                       <TableCellContent>
                         <TableCellContentTitle>
                           {row.name}
@@ -406,7 +406,7 @@ export const WithoutStickyHeader: Story = {
               <TableRow key={row.symbol}>
                 <TableCell className='w-224'>
                   <TableCellItem>
-                    <Spot size={40} appearance='icon' icon={Android} />
+                    <Spot size={40} icon={Android} />
                     <TableCellContent>
                       <TableCellContentTitle>{row.name}</TableCellContentTitle>
                       <TableCellContentDescription>
@@ -499,7 +499,7 @@ export const WithCustomHeader: Story = {
                 <TableRow key={row.symbol}>
                   <TableCell>
                     <TableCellItem>
-                      <Spot size={40} appearance='icon' icon={Android} />
+                      <Spot size={40} icon={Android} />
                       <TableCellContent>
                         <TableCellContentTitle>
                           {row.name}
@@ -551,7 +551,7 @@ export const WithGroupHeader: Story = {
               <TableRow key={row.symbol}>
                 <TableCell>
                   <TableCellItem>
-                    <Spot size={40} appearance='icon' icon={Android} />
+                    <Spot size={40} icon={Android} />
                     <TableCellContent>
                       <TableCellContentTitle>{row.name}</TableCellContentTitle>
                       <TableCellContentDescription>
@@ -569,7 +569,7 @@ export const WithGroupHeader: Story = {
               <TableRow clickable key={row.symbol}>
                 <TableCell>
                   <TableCellItem>
-                    <Spot size={40} appearance='icon' icon={Android} />
+                    <Spot size={40} icon={Android} />
                     <TableCellContent>
                       <TableCellContentTitle>{row.name}</TableCellContentTitle>
                       <TableCellContentDescription>
@@ -792,7 +792,7 @@ export const WithPagination: Story = {
                 <TableRow key={row.symbol}>
                   <TableCell>
                     <TableCellItem>
-                      <Spot appearance='icon' icon={Android} />
+                      <Spot icon={Android} />
                       <TableCellContent>
                         <TableCellContentTitle>
                           {row.name}
@@ -838,7 +838,7 @@ export const WithComplexCellContent: Story = {
               <TableRow key={row.symbol}>
                 <TableCell>
                   <TableCellItem>
-                    <Spot size={40} appearance='icon' icon={Android} />
+                    <Spot size={40} icon={Android} />
                     <TableCellContent>
                       <TableCellContentTitle>{row.name}</TableCellContentTitle>
                       <TableCellContentRow>

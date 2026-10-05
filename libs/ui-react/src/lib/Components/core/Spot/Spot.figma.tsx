@@ -1,7 +1,14 @@
 import figma from '@figma/code-connect';
-import { Placeholder } from '../../symbols';
+import {
+  CheckmarkCircleFill,
+  ClockFill,
+  DeleteCircleFill,
+  InformationFill,
+  Placeholder,
+  WarningFill,
+} from '../../symbols';
 import { Spot } from './Spot';
-import type { SpotAppearance } from './types';
+import type { SpotAppearance, SpotFill } from './types';
 
 figma.connect(
   Spot,
@@ -9,39 +16,50 @@ figma.connect(
   {
     imports: [
       "import { Spot } from '@ledgerhq/lumen-ui-react'",
-      "import { Placeholder } from '@ledgerhq/lumen-ui-react/symbols'",
+      "import { CheckmarkCircleFill, ClockFill, DeleteCircleFill, InformationFill, Placeholder, WarningFill } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
       disabled: figma.enum('state', {
         disabled: true,
       }),
-      appearance: figma.enum('appearance', {
-        'interface-icon': 'icon',
-        loader: 'loader',
-        number: 'number',
-        'info-muted': 'info',
-        warning: 'warning',
+      fill: figma.enum('appearance', {
+        transparent: 'transparent',
+        plain: 'plain',
+      }),
+      appearance: figma.enum('color', {
+        base: 'base',
+        success: 'success',
         error: 'error',
-        check: 'check',
-        bluetooth: 'bluetooth',
+        warning: 'warning',
+        muted: 'muted',
+        'decorative-blue': 'decorative-blue',
+        'decorative-pink': 'decorative-pink',
+        'decorative-purple': 'decorative-purple',
+        'decorative-green': 'decorative-green',
+        'decorative-turquoise': 'decorative-turquoise',
+        'decorative-yellow': 'decorative-yellow',
+        'decorative-orange': 'decorative-orange',
+        'decorative-red': 'decorative-red',
       }),
-      icon: figma.enum('appearance', {
-        'interface-icon': Placeholder,
-      }),
-      number: figma.enum('appearance', {
-        number: 1,
+      icon: figma.enum('preset', {
+        none: Placeholder,
+        success: CheckmarkCircleFill,
+        error: DeleteCircleFill,
+        warning: WarningFill,
+        info: InformationFill,
+        pending: ClockFill,
       }),
     },
     example: (props: {
       disabled: boolean;
+      fill: SpotFill;
       appearance: SpotAppearance;
-      icon: any;
-      number: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+      icon: typeof Placeholder;
     }) => (
       <Spot
         appearance={props.appearance}
+        fill={props.fill}
         icon={props.icon}
-        number={props.number}
         disabled={props.disabled}
       />
     ),

@@ -2,58 +2,40 @@ import type { ComponentPropsWithRef, ComponentType } from 'react';
 import type { IconSize } from '../../symbols/Icon';
 
 export type SpotAppearance =
-  | 'icon'
-  | 'bluetooth'
-  | 'check'
+  | 'base'
+  | 'success'
   | 'error'
   | 'warning'
-  | 'info'
-  | 'loader'
-  | 'number';
+  | 'muted'
+  | 'decorative-blue'
+  | 'decorative-pink'
+  | 'decorative-purple'
+  | 'decorative-green'
+  | 'decorative-turquoise'
+  | 'decorative-yellow'
+  | 'decorative-orange'
+  | 'decorative-red';
 
-type SpotIconProps = {
-  /**
-   * Custom icon appearance with neutral base styling.
-   * @example <Spot appearance="icon" icon={SettingsIcon} />
-   */
-  appearance: 'icon';
-  /**
-   * Icon component to render. Required when appearance is 'icon'.
-   */
-  icon: ComponentType<{ size?: IconSize; className?: string }>;
-};
-
-type SpotNumberProps = {
-  /**
-   * Number appearance for displaying a single digit (0-9).
-   * @example <Spot appearance="number" number={5} />
-   */
-  appearance: 'number';
-  /**
-   * Digit (0-9) to display. Required when appearance is 'number'.
-   */
-  number: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
-};
-
-type SpotStatusProps = {
-  /**
-   * Predefined status indicators with semantic styling.
-   * Options: 'bluetooth' | 'check' | 'error' | 'warning' | 'info' | 'loader'
-   * @example <Spot appearance="check" />
-   */
-  appearance: Exclude<SpotAppearance, 'icon' | 'number'>;
-};
-/**
- * A discriminated union that enforces type-safe props based on the `appearance`.
- */
-export type DiscriminatedSpotProps =
-  | SpotIconProps
-  | SpotNumberProps
-  | SpotStatusProps;
+export type SpotFill = 'transparent' | 'plain';
 
 export type SpotSize = 32 | 40 | 48 | 56 | 72;
 
-export type SpotProps = DiscriminatedSpotProps & {
+export type SpotProps = {
+  /**
+   * Color palette for the icon, and for the circle when `fill` is plain.
+   * @default 'base'
+   */
+  appearance?: SpotAppearance;
+  /**
+   * Circle treatment. Transparent keeps a muted transparent fill. Plain uses the palette's solid background and paired text color.
+   * @default 'transparent'
+   */
+  fill?: SpotFill;
+  /**
+   * Icon rendered inside the circle.
+   * @required
+   */
+  icon: ComponentType<{ size?: IconSize; className?: string }>;
   /**
    * Whether the spot is disabled.
    * @default false
