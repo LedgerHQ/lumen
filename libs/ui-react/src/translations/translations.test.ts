@@ -1,3 +1,4 @@
+import { describe, expect, it } from 'vitest';
 import { dictionaries } from './translations';
 
 type Dictionary = { [key: string]: string | Dictionary };

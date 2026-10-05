@@ -1,6 +1,4 @@
 export { createTranslations } from './createTranslations';
-export { interpolate } from './interpolate';
-export { resolveLocale } from './resolveLocale';
 export type {
   PartialTranslationDictionary,
   Translate,

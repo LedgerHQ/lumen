@@ -12,7 +12,7 @@ export const resolveLocale = <Locale extends string>(
     return fallbackLocale;
   }
 
-  const normalized = requestedLocale.toLowerCase().replace('_', '-');
+  const normalized = requestedLocale.toLowerCase().replaceAll('_', '-');
   const findLocale = (candidate: string): Locale | undefined =>
     supportedLocales.find((locale) => locale.toLowerCase() === candidate);
 
