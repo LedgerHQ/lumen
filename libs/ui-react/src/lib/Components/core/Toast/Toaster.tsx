@@ -97,6 +97,7 @@ const ToastQueueItem = ({
 export const Toaster = ({
   maxItems = 3,
   position = 'bottom-right',
+  insets = {},
   durations,
 }: ToasterProps) => {
   const items = useSyncExternalStore(
@@ -115,6 +116,7 @@ export const Toaster = ({
   const visibleSlots = resolveMaxItems(maxItems);
   const visibleItems = items.slice(0, visibleSlots);
   const isQueued = useToastBacklog(items, visibleSlots);
+  const anchoredToTop = position.startsWith('top');
 
   if (!mounted) return null;
 
@@ -122,6 +124,12 @@ export const Toaster = ({
     <div
       data-slot='toast-viewport'
       className={positionVariants({ position })}
+      style={{
+        left: insets.left,
+        right: insets.right,
+        top: anchoredToTop ? insets.top : undefined,
+        bottom: anchoredToTop ? undefined : insets.bottom,
+      }}
       {...viewportProps}
     >
       {visibleItems.map((item) => (

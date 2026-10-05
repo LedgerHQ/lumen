@@ -63,6 +63,19 @@ export type ToastProps = {
 } & Omit<ComponentPropsWithRef<'div'>, 'title'>;
 
 /**
+ * Distance from each viewport edge, in px, replacing the default gap on that
+ * edge — e.g. the height of a sticky composer plus some breathing room.
+ * `top` and `bottom` apply only to the edge matching `position`; the other is
+ * ignored. Unset edges keep the default gap.
+ */
+export type ToastInsets = {
+  top?: number;
+  left?: number;
+  bottom?: number;
+  right?: number;
+};
+
+/**
  * Props for `Toaster`.
  */
 export type ToasterProps = {
@@ -77,6 +90,12 @@ export type ToasterProps = {
    * @default bottom-right
    */
   position?: ToastPosition;
+  /**
+   * Per-edge distance from the viewport edge, overriding the default gap, so
+   * the queue stays clear of fixed UI such as a composer or a bottom bar.
+   * @default {}
+   */
+  insets?: ToastInsets;
   /**
    * Per-appearance duration overrides, layered over the Lumen status defaults.
    */

@@ -40,6 +40,7 @@ const meta = {
     layout: 'centered',
     backgrounds: { default: 'light' },
     docs: {
+      story: { inline: false, height: '448px' },
       source: {
         language: 'tsx',
         format: true,
@@ -181,6 +182,23 @@ export const WithDurations: Story = {
           Show persistent warning
         </Button>
       </div>
+    </>
+  ),
+};
+
+export const WithInsets: Story = {
+  parameters: {
+    docs: { story: { inline: false, height: '448px' } },
+  },
+  render: () => (
+    <>
+      <Toaster insets={{ bottom: 112 }} />
+      <Button
+        appearance='base'
+        onClick={() => toast.success({ title: 'Toast with insets' })}
+      >
+        Show toast
+      </Button>
     </>
   ),
 };

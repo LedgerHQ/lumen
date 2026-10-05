@@ -104,6 +104,15 @@ clears the queue.
 from that same edge: corner stacks from the side, center stacks from the top
 or bottom.
 
+### Insets
+
+`insets` keeps the queue clear of fixed UI such as a composer or a bottom bar.
+Each edge you set is its distance from the screen edge, in px, and replaces the
+default gap; edges you leave out keep it. `top` and `bottom` only apply to the
+edge the queue is anchored to.
+
+<Canvas of={ToastStories.WithInsets} />
+
 ### Queue
 
 Up to `maxItems` toasts are visible at once (default 3). Extra items wait in a
@@ -162,6 +171,10 @@ function App() {
 ### Durations
 
 <Source of={ToastStories.WithDurations} />
+
+### Insets
+
+<Source of={ToastStories.WithInsets} />
 
 ### Programmatic dismissal
 

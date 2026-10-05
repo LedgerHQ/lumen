@@ -523,6 +523,23 @@ describe('Toaster', () => {
     );
   });
 
+  describe('Insets', () => {
+    it('should replace the default gap with the given insets, on the anchored edge only', () => {
+      renderToaster({
+        position: 'bottom-center',
+        insets: { bottom: 80, left: 12, top: 40 },
+      });
+      const viewport = document.querySelector(
+        '[data-slot="toast-viewport"]',
+      ) as HTMLElement;
+
+      expect(viewport.style.bottom).toBe('80px');
+      expect(viewport.style.left).toBe('12px');
+      expect(viewport.style.top).toBe('');
+      expect(viewport.style.right).toBe('');
+    });
+  });
+
   describe('Multiple instances', () => {
     it('warns when a second Toaster mounts while one is already mounted', () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
