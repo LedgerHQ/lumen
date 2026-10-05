@@ -111,6 +111,7 @@ export const Toast = ({
   loading = false,
   title,
   action,
+  style,
   ...props
 }: ToastProps) => {
   const hasLeading = loading || appearance !== 'info';
@@ -119,7 +120,7 @@ export const Toast = ({
 
   return (
     <Box
-      style={styles.root}
+      style={StyleSheet.flatten([styles.root, style])}
       accessibilityLiveRegion={
         appearance === 'warning' || appearance === 'error'
           ? 'assertive'

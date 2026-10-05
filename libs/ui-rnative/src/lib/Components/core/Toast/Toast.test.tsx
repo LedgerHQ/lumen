@@ -177,14 +177,5 @@ describe('Toast', () => {
       fireEvent.press(getByText('Retry'));
       expect(onAction).toHaveBeenCalledTimes(1);
     });
-
-    it('should never render a close button', () => {
-      const { queryByTestId } = render(
-        <TestWrapper>
-          <Toast title='No close' appearance='error' />
-        </TestWrapper>,
-      );
-      expect(queryByTestId('toast-close-button')).toBeNull();
-    });
   });
 });

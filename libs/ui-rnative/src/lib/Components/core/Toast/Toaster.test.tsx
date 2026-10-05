@@ -7,7 +7,11 @@ import {
   jest,
 } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
-import { toast, toastStore } from '@ledgerhq/lumen-utils-shared';
+import {
+  toast,
+  toastStore,
+  EXIT_ANIMATION_MS,
+} from '@ledgerhq/lumen-utils-shared';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import { useLayoutEffect, type ReactNode } from 'react';
 import { AccessibilityInfo, Platform } from 'react-native';
@@ -35,8 +39,6 @@ const renderToaster = (props?: ToasterProps) =>
       <Toaster {...props} />
     </TestProviders>,
   );
-
-const EXIT_ANIMATION_MS = 300;
 
 const clearToastItems = (): void => {
   for (const { id } of toastStore.getSnapshot()) {
@@ -302,6 +304,13 @@ describe('Toaster', () => {
       expect(viewport.props.style.top).toBeUndefined();
     });
 
+    it('should anchor the viewport to the top when position is top', () => {
+      const { getByTestId } = renderToaster({ position: 'top' });
+      const viewport = getByTestId('toast-viewport');
+      expect(viewport.props.style.top).toBeDefined();
+      expect(viewport.props.style.bottom).toBeUndefined();
+    });
+
     it('should default insets to 0 and still apply the breathing-room gap', () => {
       const { getByTestId } = renderToaster();
       expect(getByTestId('toast-viewport').props.style.bottom).toBe(24);
@@ -392,6 +401,21 @@ describe('Toaster', () => {
       });
 
       screen.getByText('Stays put');
+    });
+
+    it('should stay visible when swiped past the threshold if not dismissible', () => {
+      const { getByTestId } = renderToaster();
+      act(() => {
+        toast.warning({ title: 'Locked', dismissible: false });
+      });
+
+      const entry = getByTestId('toast-entry');
+      act(() => {
+        entry.props.onEnd({ translationX: 150 });
+      });
+
+      flushExit();
+      screen.getByText('Locked');
     });
   });
 
