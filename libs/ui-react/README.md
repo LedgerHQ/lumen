@@ -8,16 +8,10 @@
 
 ## 📦 Installation
 
-Install the package and its required peer dependencies:
+Install the package and its peer dependencies:
 
 ```bash
-npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core
-
-# Install peer dependencies
-npm install @radix-ui/react-checkbox @radix-ui/react-dialog @radix-ui/react-slot @radix-ui/react-switch @radix-ui/react-tooltip class-variance-authority clsx tailwind-merge
-
-# React (if not already installed)
-npm install react react-dom
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core tailwindcss@^4.1.17 react react-dom
 ```
 
 → [View @ledgerhq/lumen-design-core on npm](https://www.npmjs.com/package/@ledgerhq/lumen-design-core?activeTab=readme)

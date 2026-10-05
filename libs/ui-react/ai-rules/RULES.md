@@ -35,12 +35,13 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 
 ### Peer Dependencies
 
-- Button requires `@radix-ui/react-slot`
-- Checkbox requires `@radix-ui/react-checkbox`
-- Switch requires `@radix-ui/react-switch`
-- Dialog requires `@radix-ui/react-dialog`
-- Tooltip requires `@radix-ui/react-tooltip`
-- Select requires `@base-ui/react/combobox`
+- `@ledgerhq/lumen-ui-react` declares only `react`, `react-dom` and
+  `@ledgerhq/lumen-design-core` as peer dependencies. The component primitives
+  (Radix UI, Base UI, `class-variance-authority`, `clsx`, `tailwind-merge`,
+  `@tanstack/react-table`) ship as regular dependencies, so consumers do not
+  need to install them separately.
+- The consumer project provides `tailwindcss` (v4): it runs the build that loads
+  the Lumen preset.
 
 ---
 
