@@ -240,7 +240,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='w-3xl text-base'>
+      <div className='w-768 text-base'>
         <Story />
       </div>
     ),

@@ -147,7 +147,7 @@ export const Gallery: StoryObj = {
       <div className='p-8'>
         {/* Search bar */}
         <div className='mb-32'>
-          <div className='mb-8 max-w-md'>
+          <div className='mb-8 max-w-448'>
             <SearchInput
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

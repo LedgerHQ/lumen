@@ -168,7 +168,7 @@ const DialogOverlay = ({ ref, className, ...props }: DialogOverlayProps) => {
  * </DialogContent>
  *
  * // With custom styling for layout
- * <DialogContent className="max-w-md">
+ * <DialogContent className="max-w-448">
  *   <div className="space-y-4">
  *     <h4 className="heading-5-semi-bold">Dialog Title</h4>
  *     <p>Detailed content here.</p>

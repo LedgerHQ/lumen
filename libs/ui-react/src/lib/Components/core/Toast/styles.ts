@@ -30,7 +30,7 @@ export const positionVariants = cva(
 );
 
 export const collapseVariants = cva(
-  'pointer-events-auto flex w-full max-w-400 flex-col transition-[height] duration-300 ease-out',
+  'pointer-events-auto flex w-full max-w-448 flex-col transition-[height] duration-300 ease-out',
   {
     variants: {
       edge: {

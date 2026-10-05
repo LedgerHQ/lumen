@@ -73,8 +73,8 @@ export const Base: Story = {
     secondaryAction: 'None',
   },
   render: (args) => (
-    // max-w-md container for visual presentation - not required for Banner component
-    <div className='max-w-md'>
+    // max-w-448 container for visual presentation - not required for Banner component
+    <div className='max-w-448'>
       <Banner {...args} />
     </div>
   ),
@@ -101,7 +101,7 @@ export const WithDescription: Story = {
     description: 'This is additional information about the banner.',
   },
   render: (args) => (
-    <div className='max-w-md'>
+    <div className='max-w-448'>
       <Banner {...args} />
     </div>
   ),
@@ -130,7 +130,7 @@ export const WithActions: Story = {
     secondaryAction: 'Button',
   },
   render: (args) => (
-    <div className='max-w-md'>
+    <div className='max-w-448'>
       <Banner {...args} />
     </div>
   ),
@@ -196,7 +196,7 @@ export const WithFullFeatures: Story = {
     closeAriaLabel: 'Close banner',
   },
   render: (args) => (
-    <div className='max-w-md'>
+    <div className='max-w-448'>
       <Banner {...args} />
     </div>
   ),
@@ -245,8 +245,8 @@ export const AppearanceShowcase: Story = {
     ] as const;
 
     return (
-      // max-w-md container for visual presentation - not required for Banner component
-      <div className='flex max-w-md flex-col gap-16 p-8'>
+      // max-w-448 container for visual presentation - not required for Banner component
+      <div className='flex max-w-448 flex-col gap-16 p-8'>
         {appearances.map(({ name, appearance }) => (
           <Banner
             key={appearance}
@@ -264,8 +264,8 @@ export const AppearanceShowcase: Story = {
 
 export const ContentVariations: Story = {
   render: () => (
-    // max-w-md container for visual presentation - not required for Banner component
-    <div className='flex max-w-md flex-col gap-16 p-8'>
+    // max-w-448 container for visual presentation - not required for Banner component
+    <div className='flex max-w-448 flex-col gap-16 p-8'>
       <Banner title='Title Only' />
       <Banner description='Description only without title' />
       <Banner title='With Description' description='Additional details here.' />
@@ -398,7 +398,7 @@ export const InteractiveDismiss: Story = {
     if (!visible) return <p>Banner dismissed</p>;
 
     return (
-      <div className='max-w-md'>
+      <div className='max-w-448'>
         <Banner
           {...args}
           title='Click close to dismiss'
@@ -423,7 +423,7 @@ export const InteractiveActions: Story = {
     };
 
     return (
-      <div className='max-w-md'>
+      <div className='max-w-448'>
         <Banner
           {...args}
           appearance={

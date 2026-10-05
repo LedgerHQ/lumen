@@ -219,13 +219,13 @@ The AddressInput component takes the **full width** of its parent container by d
 
 ```tsx
 // ✅ Preferred: Direct width control
-<AddressInput placeholder="Enter address or ENS" className="max-w-md" />
+<AddressInput placeholder="Enter address or ENS" className="max-w-448" />
 
 // ✅ Responsive width control
-<AddressInput placeholder="Enter address or ENS" className="w-full md:max-w-md" />
+<AddressInput placeholder="Enter address or ENS" className="w-full md:max-w-448" />
 
 // Alternative: Container wrapper
-<div className="max-w-md">
+<div className="max-w-448">
   <AddressInput placeholder="Enter address or ENS" />
 </div>
 
@@ -270,7 +270,7 @@ const handleQrScan = () => {
     onChange={(e) => setRecipientAddress(e.target.value)}
     helperText={addressError || undefined}
     status={addressError ? 'error' : undefined}
-    className='max-w-md'
+    className='max-w-448'
   />
   {/* Other transaction fields */}
 </form>

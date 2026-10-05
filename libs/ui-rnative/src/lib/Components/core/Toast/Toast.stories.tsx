@@ -245,7 +245,7 @@ export const WithPromise: Story = {
 
 export const AppearanceShowcase: Story = {
   render: () => (
-    <Box lx={{ flexDirection: 'column', gap: 's8', width: 's400' }}>
+    <Box lx={{ flexDirection: 'column', gap: 's8', width: 's448' }}>
       <Toast appearance='info' title='Your transaction was sent' />
       <Toast appearance='success' title='Payment done' />
       <Toast appearance='warning' title='Low balance' />
