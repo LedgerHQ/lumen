@@ -22,6 +22,11 @@ const UNTRANSLATED_KEYS = [
   'components.trend.positiveAriaLabel',
   'components.trend.negativeAriaLabel',
   'components.trend.neutralAriaLabel',
+  'components.chart.emptyLabel',
+  'components.chart.loadingAriaLabel',
+  'components.chart.defaultAriaLabel',
+  'components.chart.selectedSegmentAriaLabel',
+  'components.subheader.moreInfoAriaLabel',
 ];
 const source = flatten(dictionaries.en);
 const locales = Object.entries(dictionaries)

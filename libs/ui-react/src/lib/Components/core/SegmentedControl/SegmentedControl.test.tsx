@@ -110,10 +110,12 @@ describe('SegmentedControl', () => {
     });
 
     it('renders scroll arrows that stay inert while nothing overflows', () => {
-      renderWithControls();
+      const { container } = renderWithControls();
 
-      expect(screen.getByLabelText('Scroll left')).toBeDisabled();
-      expect(screen.getByLabelText('Scroll right')).toBeDisabled();
+      // The arrows are hidden from assistive tech, so they have no role or name to query.
+      const arrows = container.querySelectorAll('button[aria-hidden="true"]');
+      expect(arrows).toHaveLength(2);
+      arrows.forEach((arrow) => expect(arrow).toBeDisabled());
     });
   });
 

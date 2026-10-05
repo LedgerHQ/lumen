@@ -65,13 +65,15 @@ export const getChartAriaLabel = ({
   loading,
   hasData,
   emptyLabel,
+  loadingLabel,
 }: {
   loading: boolean;
   hasData: boolean;
   emptyLabel: string;
+  loadingLabel: string;
 }): string | undefined => {
   if (loading) {
-    return emptyState.loadingAriaLabel;
+    return loadingLabel;
   }
 
   if (!hasData) {

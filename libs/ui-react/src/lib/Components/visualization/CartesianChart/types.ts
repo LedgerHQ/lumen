@@ -73,7 +73,7 @@ export type CartesianChartProps = ScrubbingOptions & {
   axisPadding?: Partial<ChartInset>;
   /**
    * Accessible label for the chart SVG.
-   * @default 'Chart'
+   * @default 'Chart' (translated)
    */
   ariaLabel?: string;
   /**

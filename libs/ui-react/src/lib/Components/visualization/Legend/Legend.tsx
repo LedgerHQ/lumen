@@ -3,11 +3,7 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';
 
-export function Legend({
-  series,
-  ariaLabel = 'Legend',
-  className,
-}: LegendProps) {
+export function Legend({ series, ariaLabel, className }: LegendProps) {
   if (series.length === 0) {
     return null;
   }

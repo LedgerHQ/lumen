@@ -98,7 +98,7 @@ export type DonutChartProps = {
   size?: DonutSize;
   /**
    * Accessible label describing what the chart represents.
-   * @default 'Donut chart'
+   * @default 'Chart' (translated)
    */
   accessibilityLabel?: string;
   /**

@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Box, Pressable, Text } from '../../primitives';
 import { ChevronRight, Information } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
@@ -130,12 +131,13 @@ export const SubheaderInfo = ({
   style,
   ...props
 }: SubheaderInfoProps) => {
+  const { t } = useCommonTranslation();
   return (
     <InteractiveIcon
       iconType={iconType}
       icon={Information}
       size={16}
-      accessibilityLabel='More information'
+      accessibilityLabel={t('components.subheader.moreInfoAriaLabel')}
       style={style}
       {...props}
     />

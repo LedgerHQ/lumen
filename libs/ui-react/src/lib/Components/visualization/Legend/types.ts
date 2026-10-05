@@ -21,8 +21,8 @@ export type LegendProps = {
    */
   series: LegendItem[];
   /**
-   * Accessible label for the legend group.
-   * @default 'Legend'
+   * Accessible label for the legend list. Optional: each item already carries
+   * its own visible text.
    */
   ariaLabel?: string;
   /**

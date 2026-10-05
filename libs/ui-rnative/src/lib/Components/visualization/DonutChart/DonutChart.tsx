@@ -2,8 +2,9 @@ import { useCallback, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import { scheduleOnRN } from 'react-native-worklets';
+import { useCommonTranslation } from '../../../../translations';
 import { useControllableState } from '../../../utils';
-import { chartConfig, DONUT_GEOMETRY } from '../config';
+import { DONUT_GEOMETRY } from '../config';
 import { toRingLocalPoint } from './constants';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
@@ -21,7 +22,7 @@ import {
 export function DonutChart({
   series: seriesProp,
   size = 'md',
-  accessibilityLabel = 'Donut chart',
+  accessibilityLabel,
   loading = false,
   activeId: activeIdProp,
   defaultActiveId = null,
@@ -30,6 +31,7 @@ export function DonutChart({
   renderCenterActive,
   enableColorContrast = false,
 }: DonutChartProps) {
+  const { t } = useCommonTranslation();
   const geometry = DONUT_GEOMETRY[size];
 
   const [activeId, setActiveId] = useControllableState({
@@ -113,7 +115,9 @@ export function DonutChart({
         segments={segments}
         geometry={geometry}
         accessibilityLabel={
-          loading ? chartConfig.donut.loading.ariaLabel : accessibilityLabel
+          loading
+            ? t('components.chart.loadingAriaLabel')
+            : (accessibilityLabel ?? t('components.chart.defaultAriaLabel'))
         }
         activeId={activeId}
         loading={loading}

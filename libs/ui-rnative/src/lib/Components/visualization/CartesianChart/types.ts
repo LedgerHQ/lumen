@@ -70,7 +70,7 @@ export type CartesianChartProps = ScrubbingOptions & {
   axisPadding?: Partial<ChartInset>;
   /**
    * Accessible label for the chart.
-   * @default 'Chart'
+   * @default 'Chart' (translated)
    */
   ariaLabel?: string;
   /**

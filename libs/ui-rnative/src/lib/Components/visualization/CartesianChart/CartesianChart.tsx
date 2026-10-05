@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { View, type LayoutChangeEvent } from 'react-native';
 import { Svg } from 'react-native-svg';
 
+import { useCommonTranslation } from '../../../../translations';
 import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
 import { CartesianChartProvider, useBuildChartContext } from './context';
@@ -23,7 +24,7 @@ export function CartesianChart({
   height = DEFAULT_HEIGHT,
   inset,
   axisPadding,
-  ariaLabel = 'Chart',
+  ariaLabel,
   ariaBusy = false,
   overlay,
   children,
@@ -32,6 +33,7 @@ export function CartesianChart({
   animate = true,
   magnetRadius,
 }: Readonly<CartesianChartProps>) {
+  const { t } = useCommonTranslation();
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(width);
 
   const needsMeasurement = width === undefined;
@@ -76,7 +78,7 @@ export function CartesianChart({
       testID='chart-container'
       onLayout={needsMeasurement ? handleLayout : undefined}
       accessibilityRole='image'
-      accessibilityLabel={ariaLabel}
+      accessibilityLabel={ariaLabel || t('components.chart.defaultAriaLabel')}
       accessibilityState={{ busy: ariaBusy }}
       style={{
         width: needsMeasurement ? undefined : resolvedWidth,

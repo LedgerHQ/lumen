@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { G, Path, Svg } from 'react-native-svg';
 
+import { useCommonTranslation } from '../../../../translations';
 import {
   DONUT_INTERACTION,
   useChartTokens,
@@ -45,6 +46,7 @@ type RingSegmentProps = {
 };
 
 const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
+  const { t } = useCommonTranslation();
   const isActive = activeId === segment.id;
   const opacity = useSharedValue(1);
   const translateX = useSharedValue(0);
@@ -85,7 +87,15 @@ const RingSegment = ({ segment, defaultColor, activeId }: RingSegmentProps) => {
       d={segment.path}
       fill={segment.color ?? defaultColor}
       accessible
-      accessibilityLabel={isActive ? `${segment.id}, selected` : segment.id}
+      // react-native-svg forwards accessibilityLabel but drops accessibilityState,
+      // so the active state has to be part of the label.
+      accessibilityLabel={
+        isActive
+          ? t('components.chart.selectedSegmentAriaLabel', {
+              label: segment.id,
+            })
+          : segment.id
+      }
       animatedProps={animatedProps}
     />
   );

@@ -123,7 +123,7 @@ export type DonutChartProps = {
   /**
    * Accessible label describing what the chart represents, exposed to
    * assistive tech via the SVG `role="img"`.
-   * @default 'Donut chart'
+   * @default 'Chart' (translated)
    */
   ariaLabel?: string;
   /**

@@ -202,6 +202,7 @@ describe('getChartAriaLabel', () => {
         loading: true,
         hasData: false,
         emptyLabel: 'No data',
+        loadingLabel: 'Loading chart',
       }),
     ).toBe('Loading chart');
     expect(
@@ -209,6 +210,7 @@ describe('getChartAriaLabel', () => {
         loading: true,
         hasData: true,
         emptyLabel: 'No data',
+        loadingLabel: 'Loading chart',
       }),
     ).toBe('Loading chart');
   });
@@ -219,6 +221,7 @@ describe('getChartAriaLabel', () => {
         loading: false,
         hasData: false,
         emptyLabel: 'Nothing here',
+        loadingLabel: 'Loading chart',
       }),
     ).toBe('Nothing here');
   });
@@ -229,6 +232,7 @@ describe('getChartAriaLabel', () => {
         loading: false,
         hasData: true,
         emptyLabel: 'No data',
+        loadingLabel: 'Loading chart',
       }),
     ).toBeUndefined();
   });

@@ -53,6 +53,17 @@
       "positiveAriaLabel": "Trend up {{value}}",
       "negativeAriaLabel": "Trend down {{value}}",
       "neutralAriaLabel": "Neutral trend {{value}}"
+    },
+    "chart": {
+      "emptyLabel": "No data",
+      "loadingAriaLabel": "Loading chart",
+      "defaultAriaLabel": "Chart"
+    },
+    "select": {
+      "searchPlaceholder": "Search"
+    },
+    "subheader": {
+      "moreInfoAriaLabel": "More information"
     }
   }
 }

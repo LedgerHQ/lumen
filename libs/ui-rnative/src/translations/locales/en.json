@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "Close"
     },
-    "link": {
-      "opensInNewTabAriaLabel": "(opens in a new tab)"
-    },
     "stepper": {
       "progressAriaLabel": "Step {{currentStep}} of {{totalSteps}}"
     },
@@ -35,6 +32,15 @@
       "positiveAriaLabel": "Trending up by {{value}}",
       "negativeAriaLabel": "Trending down by {{value}}",
       "neutralAriaLabel": "No change, {{value}}"
+    },
+    "chart": {
+      "emptyLabel": "No data",
+      "loadingAriaLabel": "Loading chart",
+      "defaultAriaLabel": "Chart",
+      "selectedSegmentAriaLabel": "{{label}}, selected"
+    },
+    "subheader": {
+      "moreInfoAriaLabel": "More information"
     }
   }
 }

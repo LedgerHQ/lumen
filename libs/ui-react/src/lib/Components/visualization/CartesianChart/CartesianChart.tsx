@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { useCommonTranslation } from '../../../../translations';
 import { chartConfig } from '../config';
 import { MagneticPointsProvider } from '../Point/pointContext';
 import { ScrubberProvider } from '../Scrubber/ScrubberProvider';
@@ -16,7 +17,7 @@ export function CartesianChart({
   height = chartConfig.root.defaultHeight,
   inset,
   axisPadding,
-  ariaLabel = 'Chart',
+  ariaLabel,
   ariaBusy = false,
   overlay: htmlOverlay,
   enableScrubbing = false,
@@ -25,6 +26,7 @@ export function CartesianChart({
   magnetRadius,
   children,
 }: CartesianChartProps) {
+  const { t } = useCommonTranslation();
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
   const [measuredWidth, setMeasuredWidth] = useState<number | undefined>(
@@ -93,7 +95,7 @@ export function CartesianChart({
             width={svgWidth}
             height={height}
             role='img'
-            aria-label={ariaLabel || 'Chart'}
+            aria-label={ariaLabel || t('components.chart.defaultAriaLabel')}
             aria-busy={ariaBusy || undefined}
             tabIndex={enableScrubbing ? 0 : undefined}
             style={{

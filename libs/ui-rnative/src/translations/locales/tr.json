@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "Kapat"
     },
-    "link": {
-      "opensInNewTabAriaLabel": "(yeni sekmede açılır)"
-    },
     "stepper": {
       "progressAriaLabel": "Adım {{totalSteps}} / {{currentStep}}"
     }

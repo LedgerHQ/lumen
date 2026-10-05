@@ -2,14 +2,29 @@ import { render } from '@testing-library/react';
 import { describe, it, expect } from 'vitest';
 import '@testing-library/jest-dom';
 
+import { ThemeProvider } from '../ThemeProvider';
 import { Stepper } from './Stepper';
 
 describe('Stepper Component', () => {
+  it('announces the default label as a sentence while showing currentStep/totalSteps', () => {
+    const { container } = render(
+      <ThemeProvider>
+        <Stepper currentStep={2} totalSteps={4} />
+      </ThemeProvider>,
+    );
+    const stepper = container.querySelector('[role="progressbar"]');
+    expect(stepper).toHaveAttribute('aria-label', 'Step 2 of 4');
+    expect(container.textContent).toContain('2/4');
+  });
+
   it('should render with default label currentStep/totalSteps', () => {
     const { container } = render(<Stepper currentStep={2} totalSteps={4} />);
     const stepper = container.querySelector('[role="progressbar"]');
     expect(stepper).toBeInTheDocument();
-    expect(stepper).toHaveAttribute('aria-label', '2/4');
+    expect(stepper).toHaveAttribute(
+      'aria-label',
+      'components.stepper.progressAriaLabel',
+    );
     expect(stepper).toHaveAttribute('aria-valuenow', '2');
     expect(stepper).toHaveAttribute('aria-valuemin', '1');
     expect(stepper).toHaveAttribute('aria-valuemax', '4');

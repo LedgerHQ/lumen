@@ -4,6 +4,7 @@ import Animated from 'react-native-reanimated';
 import { G } from 'react-native-svg';
 import { useTheme } from '../../../../styles';
 
+import { useCommonTranslation } from '../../../../translations';
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
 import { YAxis, DEFAULT_AXIS_WIDTH, type YAxisProps } from '../Axis/YAxis';
 import { CartesianChart } from '../CartesianChart';
@@ -146,10 +147,11 @@ export function LineChart({
   animate,
   magnetRadius,
   loading = false,
-  emptyLabel = chartConfig.emptyState.defaultLabel,
+  emptyLabel: emptyLabelProp,
   connectNulls,
   enableColorContrast = false,
 }: LineChartProps) {
+  const { t } = useCommonTranslation();
   const { theme } = useTheme();
   const bgColor = theme.colors.bg.canvas;
   const series = useMemo(
@@ -193,7 +195,13 @@ export function LineChart({
   const hasData = canRenderLine(series, xAxisConfig.data);
 
   const states = getChartDisplayStates({ loading, hasData });
-  const ariaLabel = getChartAriaLabel({ loading, hasData, emptyLabel });
+  const emptyLabel = emptyLabelProp ?? t('components.chart.emptyLabel');
+  const ariaLabel = getChartAriaLabel({
+    loading,
+    hasData,
+    emptyLabel,
+    loadingLabel: t('components.chart.loadingAriaLabel'),
+  });
 
   return (
     <CartesianChart

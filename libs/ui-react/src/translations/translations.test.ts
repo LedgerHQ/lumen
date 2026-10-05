@@ -18,7 +18,13 @@ const placeholdersOf = (value: string): string[] =>
   [...value.matchAll(/\{\{\s*(\w+)\s*\}\}/g)].map(([, name]) => name).sort();
 
 // Keys that are allowed to fall back to en until they are translated.
-const UNTRANSLATED_KEYS: string[] = [];
+const UNTRANSLATED_KEYS = [
+  'components.chart.emptyLabel',
+  'components.chart.loadingAriaLabel',
+  'components.chart.defaultAriaLabel',
+  'components.select.searchPlaceholder',
+  'components.subheader.moreInfoAriaLabel',
+];
 const source = flatten(dictionaries.en);
 const locales = Object.entries(dictionaries)
   .filter(([locale]) => locale !== 'en')

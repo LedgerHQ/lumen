@@ -25,9 +25,6 @@
     "banner": {
       "closeAriaLabel": "Cerrar"
     },
-    "link": {
-      "opensInNewTabAriaLabel": "(se abre en una pestaña nueva)"
-    },
     "stepper": {
       "progressAriaLabel": "Paso {{currentStep}} de {{totalSteps}}"
     }

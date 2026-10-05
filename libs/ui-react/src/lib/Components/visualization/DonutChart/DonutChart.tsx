@@ -1,7 +1,7 @@
 import { useMemo, type FocusEvent } from 'react';
+import { useCommonTranslation } from '../../../../translations';
 import { useControllableState } from '../../../../utils/useControllableState';
 
-import { chartConfig } from '../config';
 import { DonutChartAnimatedCenter } from './DonutChartAnimatedCenter';
 import { DonutRing } from './DonutRing';
 import { DonutSizeProvider } from './donutSizeContext';
@@ -17,7 +17,7 @@ import {
 export function DonutChart({
   series: seriesProp,
   size = 'md',
-  ariaLabel = 'Donut chart',
+  ariaLabel,
   loading = false,
   activeId: activeIdProp,
   defaultActiveId = null,
@@ -26,6 +26,7 @@ export function DonutChart({
   renderCenterActive,
   enableColorContrast = false,
 }: DonutChartProps) {
+  const { t } = useCommonTranslation();
   const geometry = DONUT_GEOMETRY[size];
 
   const series = useContrastSafeSeries(seriesProp, enableColorContrast);
@@ -88,7 +89,11 @@ export function DonutChart({
       <DonutRing
         segments={segments}
         geometry={geometry}
-        ariaLabel={loading ? chartConfig.donut.loading.ariaLabel : ariaLabel}
+        ariaLabel={
+          loading
+            ? t('components.chart.loadingAriaLabel')
+            : (ariaLabel ?? t('components.chart.defaultAriaLabel'))
+        }
         activeId={activeId}
         loading={loading}
         onSegmentEnter={setActiveId}
