@@ -32,7 +32,7 @@ describe('Pagination', () => {
 
     expect(
       screen.getByRole('button', {
-        name: 'components.pagination.previousPageAriaLabel',
+        name: 'Previous page',
       }),
     ).toBeDisabled();
   });
@@ -42,7 +42,7 @@ describe('Pagination', () => {
 
     expect(
       screen.getByRole('button', {
-        name: 'components.pagination.nextPageAriaLabel',
+        name: 'Next page',
       }),
     ).toBeDisabled();
   });
@@ -67,7 +67,7 @@ describe('Pagination', () => {
 
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'components.pagination.nextPageAriaLabel',
+        name: 'Next page',
       }),
     );
 
@@ -82,7 +82,7 @@ describe('Pagination', () => {
     );
     expect(
       screen.getByRole('button', {
-        name: 'components.pagination.nextPageAriaLabel',
+        name: 'Next page',
       }),
     ).toBeDisabled();
   });
@@ -95,7 +95,7 @@ describe('Pagination', () => {
     );
     expect(
       screen.getByRole('button', {
-        name: 'components.pagination.previousPageAriaLabel',
+        name: 'Previous page',
       }),
     ).toBeDisabled();
   });
@@ -107,7 +107,7 @@ describe('Pagination', () => {
 
     fireEvent.click(
       screen.getByRole('button', {
-        name: 'components.pagination.previousPageAriaLabel',
+        name: 'Previous page',
       }),
     );
 

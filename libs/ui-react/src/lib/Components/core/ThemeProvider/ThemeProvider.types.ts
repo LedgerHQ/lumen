@@ -1,5 +1,5 @@
 import type { PropsWithChildren } from 'react';
-import { type SupportedLocale } from '../../../../i18n';
+import { type SupportedLocale } from '../../../../translations';
 
 export const COLOR_SCHEMES = {
   light: 'light',

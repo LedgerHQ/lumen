@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { ReactNode } from 'react';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import {
   CheckmarkCircleFill,
   Close,

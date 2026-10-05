@@ -157,10 +157,7 @@ describe('Avatar Component', () => {
     render(<Avatar src={validSrc} />);
 
     const img = screen.getByRole('img');
-    expect(img).toHaveAttribute(
-      'aria-label',
-      'components.avatar.defaultAriaLabel',
-    );
+    expect(img).toHaveAttribute('aria-label', 'User avatar');
   });
 
   it('should use custom alt text when provided', () => {

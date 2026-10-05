@@ -115,7 +115,7 @@ describe('Toast', () => {
       render(<Toast title='Dismiss me' onClose={onClose} />);
 
       const closeButton = screen.getByRole('button', {
-        name: 'common.closeAriaLabel',
+        name: 'Close',
       });
       fireEvent.click(closeButton);
       expect(onClose).toHaveBeenCalledTimes(1);

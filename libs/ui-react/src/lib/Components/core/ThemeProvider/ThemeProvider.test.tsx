@@ -1,8 +1,9 @@
-import { render, renderHook } from '@testing-library/react';
+import { render, renderHook, screen } from '@testing-library/react';
 import type { ReactNode } from 'react';
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
+import { Spinner } from '../Spinner';
 import { ThemeProvider, useTheme } from './ThemeProvider';
 
 const root = document.documentElement;
@@ -108,5 +109,27 @@ describe('useTheme', () => {
     expect(() => renderHook(() => useTheme())).toThrow(
       'useTheme must be used within ThemeProvider',
     );
+  });
+
+  describe('locale', () => {
+    it('translates Lumen components in the given locale on the first render', () => {
+      render(
+        <ThemeProvider locale='fr'>
+          <Spinner />
+        </ThemeProvider>,
+      );
+
+      expect(screen.getByLabelText('Chargement')).toBeInTheDocument();
+    });
+
+    it('falls back to English without a locale', () => {
+      render(
+        <ThemeProvider>
+          <Spinner />
+        </ThemeProvider>,
+      );
+
+      expect(screen.getByLabelText('Loading')).toBeInTheDocument();
+    });
   });
 });

@@ -1,6 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { TriangleDown, TriangleUp } from '../../symbols';
 import type { TrendProps } from './types';
 

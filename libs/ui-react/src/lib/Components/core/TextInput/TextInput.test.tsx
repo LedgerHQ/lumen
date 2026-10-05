@@ -214,7 +214,7 @@ describe('Input Component', () => {
       />,
     );
     const clearButton = screen.getByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     expect(clearButton).toBeInTheDocument();
   });
@@ -222,7 +222,7 @@ describe('Input Component', () => {
   it('should not show clear button when input is empty', () => {
     render(<TextInput label='Username' {...createControlledProps()} />);
     const clearButton = screen.queryByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     expect(clearButton).not.toBeInTheDocument();
   });
@@ -236,7 +236,7 @@ describe('Input Component', () => {
       />,
     );
     const clearButton = screen.queryByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     expect(clearButton).not.toBeInTheDocument();
   });
@@ -262,7 +262,7 @@ describe('Input Component', () => {
       />,
     );
     const clearButton = screen.queryByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     expect(clearButton).not.toBeInTheDocument();
   });
@@ -282,7 +282,7 @@ describe('Input Component', () => {
     );
 
     const clearButton = screen.getByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     fireEvent.click(clearButton);
 
@@ -312,12 +312,12 @@ describe('Input Component', () => {
       />,
     );
     const clearButton = screen.queryByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     expect(clearButton).not.toBeInTheDocument();
   });
 
-  it('should components.baseInput.clearInputAriaLabel with default behavior when no onClear provided', () => {
+  it('should clear input with default behavior when no onClear provided', () => {
     const handleChange = vi.fn();
     render(
       <TextInput
@@ -330,7 +330,7 @@ describe('Input Component', () => {
     );
 
     const clearButton = screen.getByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     fireEvent.click(clearButton);
 
@@ -366,7 +366,7 @@ describe('Input Component', () => {
 
     // Clear button should be visible
     const clearButton = screen.getByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
     expect(clearButton).toBeInTheDocument();
   });
@@ -385,7 +385,7 @@ describe('Input Component', () => {
 
     const inputElement = screen.getByRole('textbox');
     const clearButton = screen.getByRole('button', {
-      name: /components.baseInput.clearInputAriaLabel/i,
+      name: /Clear input/i,
     });
 
     // Clear the input

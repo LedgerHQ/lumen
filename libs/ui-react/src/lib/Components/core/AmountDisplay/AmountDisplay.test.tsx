@@ -177,10 +177,7 @@ describe('AmountDisplay', () => {
       <AmountDisplay value={1234.56} formatter={formatter} hidden={true} />,
     );
 
-    expect(container.firstChild).toHaveAttribute(
-      'aria-label',
-      'components.amountDisplay.amountHiddenAriaLabel',
-    );
+    expect(container.firstChild).toHaveAttribute('aria-label', 'Amount hidden');
   });
 
   it('hides visual spans from screen readers with aria-hidden', () => {

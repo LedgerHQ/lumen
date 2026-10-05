@@ -2,7 +2,7 @@ import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
 import type { FC } from 'react';
-import { useCommonTranslation } from '../../../../../i18n';
+import { useCommonTranslation } from '../../../../../translations';
 import { ArrowLeft, Close } from '../../../symbols';
 import { IconButton } from '../../IconButton';
 import { DialogClose } from '../DialogClose/DialogClose';

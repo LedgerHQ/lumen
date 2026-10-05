@@ -44,10 +44,7 @@ describe('SideBar Component', () => {
 
       const navElement = screen.getByRole('navigation');
       expect(navElement).toBeInTheDocument();
-      expect(navElement).toHaveAttribute(
-        'aria-label',
-        'components.sideBar.navigationAriaLabel',
-      );
+      expect(navElement).toHaveAttribute('aria-label', 'Sidebar navigation');
     });
 
     it('should render all items', () => {
@@ -458,10 +455,7 @@ describe('SideBar Component', () => {
       );
 
       const navElement = screen.getByRole('navigation');
-      expect(navElement).toHaveAttribute(
-        'aria-label',
-        'components.sideBar.navigationAriaLabel',
-      );
+      expect(navElement).toHaveAttribute('aria-label', 'Sidebar navigation');
     });
 
     it('should have correct aria-label on collapse toggle', () => {
@@ -483,10 +477,7 @@ describe('SideBar Component', () => {
 
       const collapseToggle = screen.getByTestId('sidebar-collapse');
       expect(collapseToggle).toBeInTheDocument();
-      expect(collapseToggle).toHaveAttribute(
-        'aria-label',
-        'components.sideBar.collapseAriaLabel',
-      );
+      expect(collapseToggle).toHaveAttribute('aria-label', 'Collapse sidebar');
     });
 
     it('should update collapse toggle aria-label when collapsed', () => {
@@ -506,9 +497,7 @@ describe('SideBar Component', () => {
         </SideBar>,
       );
 
-      expect(
-        screen.getByLabelText('components.sideBar.expandAriaLabel'),
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText('Expand sidebar')).toBeInTheDocument();
     });
 
     it('should support keyboard navigation on items', () => {

@@ -96,7 +96,7 @@ describe('Trend Component', () => {
     render(<Trend data-testid='trend' value={5.5} />);
     expect(screen.getByTestId('trend')).toHaveAttribute(
       'aria-label',
-      'components.trend.positiveAriaLabel',
+      'Trend up 5.50%',
     );
   });
 
@@ -104,7 +104,7 @@ describe('Trend Component', () => {
     render(<Trend data-testid='trend' value={-3.2} />);
     expect(screen.getByTestId('trend')).toHaveAttribute(
       'aria-label',
-      'components.trend.negativeAriaLabel',
+      'Trend down 3.20%',
     );
   });
 
@@ -112,7 +112,7 @@ describe('Trend Component', () => {
     render(<Trend data-testid='trend' value={0} />);
     expect(screen.getByTestId('trend')).toHaveAttribute(
       'aria-label',
-      'components.trend.neutralAriaLabel',
+      'Neutral trend 0.00%',
     );
   });
 

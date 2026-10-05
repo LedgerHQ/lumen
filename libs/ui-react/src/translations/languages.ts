@@ -46,9 +46,3 @@ export const DEFAULT_LANGUAGE = Languages.en.id;
  * Supported locales type
  */
 export type SupportedLocale = keyof typeof Languages;
-
-/**
- * Default namespace for i18n
- * Currently there is only one namespace
- */
-export const I18N_DEFAULT_NAMESPACE = 'common';

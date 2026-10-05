@@ -6,7 +6,7 @@ import {
 import { cva } from 'class-variance-authority';
 import type { ReactElement } from 'react';
 import { useCallback } from 'react';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { useControllableState } from '../../../../utils/useControllableState';
 import { ExpandRight, ExpandLeft } from '../../symbols';
 import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip/Tooltip';

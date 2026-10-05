@@ -5,7 +5,7 @@ import type {
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import type { FC } from 'react';
 import { useMemo } from 'react';
-import { I18nProvider } from '../../../../i18n';
+import { TranslationsProvider } from '../../../../translations';
 import type { ThemeProviderProps } from './ThemeProvider.types';
 import { COLOR_SCHEMES } from './ThemeProvider.types';
 import {
@@ -38,7 +38,7 @@ export const ThemeProvider: FC<ThemeProviderProps> = ({
 
   return (
     <ThemeProviderContext value={value as ThemeProviderState}>
-      <I18nProvider locale={locale}>{children}</I18nProvider>
+      <TranslationsProvider locale={locale}>{children}</TranslationsProvider>
     </ThemeProviderContext>
   );
 };
