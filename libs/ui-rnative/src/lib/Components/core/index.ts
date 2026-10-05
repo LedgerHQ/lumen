@@ -45,5 +45,6 @@ export * from './ThemeProvider';
 export * from './Tile';
 export * from './TileButton';
 export * from './Timeline';
+export * from './Toast';
 export * from './Tooltip';
 export * from './Trend';
