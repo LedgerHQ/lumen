@@ -8,11 +8,13 @@ React Native only. Same API as `@ledgerhq/lumen-ui-react`.
 
 ## New API
 
-- `icon` is now required.
+- `icon` is optional. `deprecatedNumber` replaces it when set.
 - `appearance` selects the palette: `base`, `success`, `error`, `warning`,
   `muted`, or a `decorative-*` color. It defaults to `base`.
 - `fill` is `transparent` or `plain`. It defaults to `transparent`.
-- `bluetooth`, `number`, and `loader` are no longer built into Spot.
+- `bluetooth` is deprecated.
+- `loader` is no longer built into Spot.
+- `number` becomes the deprecated `deprecatedNumber` prop.
 - `disabled` and `size` are unchanged.
 
 ```tsx
@@ -60,14 +62,14 @@ to the spinner (`32 → 12`, `40 → 16`, `48 → 20`, `56 → 24`, `72 → 40`)
 <Spot icon={Spinner} size={48} />
 ```
 
-`Spinner` resolves its own color, so `appearance` does not recolor it.
+Bluetooth is not used by any team, so it is deprecated with no replacement.
 
-Compose Bluetooth explicitly and confirm the replacement palette with design:
+Numbers move to the deprecated `deprecatedNumber` prop. It replaces `icon`
+when set, and the digit follows `appearance` and `fill`:
 
 ```tsx
-<Spot appearance="bluetooth" />
-<Spot appearance="decorative-blue" icon={BluetoothCircleFill} />
+<Spot appearance="number" number={5} />
+<Spot deprecatedNumber={5} />
 ```
 
-Spot no longer renders numbers. Use a suitable badge/count component or custom
-markup. `lx` stays limited to layout adjustments.
+`lx` stays limited to layout adjustments.

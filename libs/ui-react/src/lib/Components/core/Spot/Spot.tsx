@@ -11,6 +11,14 @@ const iconSizeMap: Record<SpotSize, IconSize> = {
   72: 40,
 };
 
+const numberTypographyMap: Record<SpotSize, string> = {
+  32: 'body-2-semi-bold',
+  40: 'body-1-semi-bold',
+  48: 'heading-5',
+  56: 'heading-4',
+  72: 'heading-2',
+};
+
 const spotVariants = cva(
   'flex shrink-0 items-center justify-center rounded-full',
   {
@@ -293,6 +301,7 @@ export const Spot = ({
   appearance = 'base',
   fill = 'transparent',
   icon: Icon,
+  deprecatedNumber,
   disabled: disabledProp = false,
   size = 48,
   className,
@@ -303,6 +312,7 @@ export const Spot = ({
     consumerName: 'Spot',
     mergeWith: { disabled: disabledProp },
   });
+  const contentClassName = iconVariants({ appearance, fill, disabled });
 
   return (
     <div
@@ -317,10 +327,19 @@ export const Spot = ({
       )}
       {...rest}
     >
-      <Icon
-        size={iconSizeMap[size]}
-        className={iconVariants({ appearance, fill, disabled })}
-      />
+      {deprecatedNumber === undefined ? (
+        Icon && <Icon size={iconSizeMap[size]} className={contentClassName} />
+      ) : (
+        <span
+          className={cn(
+            numberTypographyMap[size],
+            contentClassName,
+            'truncate',
+          )}
+        >
+          {deprecatedNumber}
+        </span>
+      )}
     </div>
   );
 };

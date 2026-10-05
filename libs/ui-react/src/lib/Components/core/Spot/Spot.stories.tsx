@@ -152,9 +152,15 @@ export const WithSpinner: Story = {
     const sizes = [32, 40, 48, 56, 72] as const;
 
     return (
-      <div className='flex items-end gap-16 p-16' >
+      <div className='flex items-end gap-16 p-16'>
         {sizes.map((size) => (
-          <Spot key={size} icon={Spinner} size={size} appearance='base' fill='plain'/>
+          <Spot
+            key={size}
+            icon={Spinner}
+            size={size}
+            appearance='base'
+            fill='plain'
+          />
         ))}
       </div>
     );
@@ -172,6 +178,16 @@ export const WithDotSymbol: Story = {
         >
           <Spot icon={Settings} />
         </DotSymbol>
+      </div>
+    );
+  },
+};
+
+export const WithNumber: Story = {
+  render: () => {
+    return (
+      <div className='flex flex-col gap-32 p-16'>
+        <Spot icon={Settings} deprecatedNumber={9} />
       </div>
     );
   },

@@ -24,7 +24,9 @@ Spots are circular icon containers. `appearance` selects a color palette. `fill`
 <Canvas of={SpotStories.Base} />
 
 - **Circular container**: Transparent muted fill, or a solid fill from the palette
-- **Icon**: Required. Status spots pass a filled symbol such as `CheckmarkCircleFill`
+- **Icon**: Optional. Status spots pass a filled symbol such as `CheckmarkCircleFill`
+
+**Note**: Icon is optional because we expose `deprecatedNumber`. It will be required once `deprecatedNumber` is removed.
 
 ## Properties
 
@@ -47,17 +49,24 @@ Spots are circular icon containers. `appearance` selects a color palette. `fill`
 
 <Canvas of={SpotStories.SizeShowcase} />
 
-### With DotSymbol
-
-A coin badge stays a `DotSymbol` wrapped around the spot.
-
-<Canvas of={SpotStories.WithDotSymbol} />
 
 ### Loading
 
 Pass `Spinner` as the icon to keep the circle around a loading indicator. Spot sizes the spinner from its own size.
 
 <Canvas of={SpotStories.WithSpinner} />
+
+### Deprecated number
+
+`deprecatedNumber` replaces the icon when set. It is kept so existing usages keep working, and should be removed once those designs change.
+
+<Canvas of={SpotStories.WithNumber} />
+
+### With DotSymbol
+
+A coin badge stays a `DotSymbol` wrapped around the spot.
+
+<Canvas of={SpotStories.WithDotSymbol} />
 
 ## Accessibility
 
@@ -88,13 +97,17 @@ npm install @ledgerhq/lumen-ui-react
 
 <Source of={SpotStories.SizeShowcase} />
 
-## With DotSymbol
-
-<Source of={SpotStories.WithDotSymbol} />
-
 ## Loading
 
 <Source of={SpotStories.WithSpinner} />
+
+## Deprecated number
+
+<Source of={SpotStories.WithNumber} />
+
+## With DotSymbol
+
+<Source of={SpotStories.WithDotSymbol} />
 
 </Tab>
 </CustomTabs>

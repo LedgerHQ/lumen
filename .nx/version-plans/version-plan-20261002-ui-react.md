@@ -6,11 +6,13 @@ feat(Spot)!: replace content-based appearances with palette and fill props
 
 ## New API
 
-- `icon` is now required.
+- `icon` is optional. `deprecatedNumber` replaces it when set.
 - `appearance` selects the palette: `base`, `success`, `error`, `warning`,
   `muted`, or a `decorative-*` color. It defaults to `base`.
 - `fill` is `transparent` or `plain`. It defaults to `transparent`.
-- `bluetooth`, `number`, and `loader` are no longer built into Spot.
+- `bluetooth` is deprecated.
+- `loader` is no longer built into Spot.
+- `number` becomes the deprecated `deprecatedNumber` prop.
 - `disabled` and `size` are unchanged.
 
 ```tsx
@@ -64,22 +66,15 @@ to the spinner (`32 → 12`, `40 → 16`, `48 → 20`, `56 → 24`, `72 → 40`)
 
 Spot passes the palette text color to the icon, so a `Spinner` icon follows `appearance`.
 
-Compose Bluetooth explicitly and confirm the replacement palette with design:
+Bluetooth is not used by any team, so it is deprecated with no replacement.
 
-```tsx
-<Spot appearance="bluetooth" />
-<Spot appearance="decorative-blue" icon={BluetoothCircleFill} />
-```
-
-Spot no longer renders numbers. Use a suitable badge/count component or custom
-markup:
+Numbers move to the deprecated `deprecatedNumber` prop. It replaces `icon`
+when set, and the digit follows `appearance` and `fill`:
 
 ```tsx
 <Spot appearance="number" number={5} />
-<div className="heading-5 flex size-48 shrink-0 items-center justify-center rounded-full bg-muted-transparent text-base">
-  5
-</div>
+<Spot deprecatedNumber={5} />
 ```
 
-Update dynamic appearance maps and wrappers as well as literal JSX. Every Spot
-must receive `icon`, and `className` should remain limited to layout adjustments.
+Update dynamic appearance maps and wrappers as well as literal JSX. `className`
+should remain limited to layout adjustments.

@@ -22,10 +22,7 @@ export type SpotFill = 'transparent' | 'plain';
 
 export type SpotSize = 32 | 40 | 48 | 56 | 72;
 
-export type SpotIcon = ComponentType<{
-  size?: IconSize;
-  style?: StyleProp<TextStyle>;
-}>;
+export type SpotDigit = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 
 export type SpotProps = {
   /**
@@ -39,11 +36,6 @@ export type SpotProps = {
    */
   fill?: SpotFill;
   /**
-   * Icon rendered inside the circle.
-   * @required
-   */
-  icon: SpotIcon;
-  /**
    * Whether the spot is disabled.
    * @default false
    */
@@ -53,4 +45,13 @@ export type SpotProps = {
    * @default 48
    */
   size?: SpotSize;
+  /**
+   * Icon rendered inside the circle.
+   */
+  icon?: ComponentType<{ size?: IconSize; style?: StyleProp<TextStyle> }>;
+  /**
+   * Digit rendered instead of `icon` when set.
+   * @deprecated Kept for existing consumers. Remove once those designs change.
+   */
+  deprecatedNumber?: SpotDigit;
 } & StyledViewProps;

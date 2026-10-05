@@ -203,3 +203,13 @@ export const WithDotSymbol: Story = {
     );
   },
 };
+
+export const WithNumber: Story = {
+  render: () => {
+    return (
+      <Box lx={{ padding: 's16' }}>
+        <Spot deprecatedNumber={9} />
+      </Box>
+    );
+  },
+};

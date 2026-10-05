@@ -1,5 +1,6 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import type { LumenTypographyTokens } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
 import { Box } from '../../primitives';
 import type { IconSize } from '../../symbols/Icon';
@@ -11,6 +12,14 @@ const iconSizeMap: Record<SpotSize, IconSize> = {
   48: 20,
   56: 24,
   72: 40,
+};
+
+const numberTypographyMap: Record<SpotSize, keyof LumenTypographyTokens> = {
+  32: 'body2SemiBold',
+  40: 'body1SemiBold',
+  48: 'heading5',
+  56: 'heading4',
+  72: 'heading2',
 };
 
 const useSpotStyles = ({
@@ -82,6 +91,12 @@ const useSpotStyles = ({
         72: t.sizes.s72,
       };
 
+      const contentColor = disabled
+        ? t.colors.text.disabled
+        : fill === 'plain'
+          ? plainTextColor[appearance]
+          : transparentTextColor[appearance];
+
       return {
         root: {
           alignItems: 'center',
@@ -96,12 +111,12 @@ const useSpotStyles = ({
           flexShrink: 0,
         },
         icon: {
-          color: disabled
-            ? t.colors.text.disabled
-            : fill === 'plain'
-              ? plainTextColor[appearance]
-              : transparentTextColor[appearance],
+          color: contentColor,
         },
+        numberText: StyleSheet.flatten([
+          t.typographies[numberTypographyMap[size]],
+          { color: contentColor },
+        ]),
       };
     },
     [size, appearance, fill, disabled],
@@ -128,6 +143,7 @@ export const Spot = ({
   appearance = 'base',
   fill = 'transparent',
   icon: Icon,
+  deprecatedNumber,
   disabled: disabledProp = false,
   size = 48,
   lx = {},
@@ -147,7 +163,13 @@ export const Spot = ({
       style={StyleSheet.flatten([styles.root, style])}
       {...rest}
     >
-      <Icon size={iconSizeMap[size]} style={styles.icon} />
+      {deprecatedNumber === undefined ? (
+        Icon && <Icon size={iconSizeMap[size]} style={styles.icon} />
+      ) : (
+        <Text style={styles.numberText} allowFontScaling={false}>
+          {deprecatedNumber}
+        </Text>
+      )}
     </Box>
   );
 };
