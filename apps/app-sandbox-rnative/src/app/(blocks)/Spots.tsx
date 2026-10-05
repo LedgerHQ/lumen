@@ -24,7 +24,7 @@ export default function Spots() {
         <Spot appearance='error' icon={DeleteCircleFill} />
         <Spot appearance='warning' icon={WarningFill} />
         <Spot appearance='muted' icon={InformationFill} />
-        <Spot icon={Spinner} />
+        <Spot icon={Spinner} appearance='success' fill='plain' />
         <Spot appearance='success' fill='plain' icon={ExternalLink} />
         <DotSymbol
           src='https://crypto-icons.ledger.com/BTC.png'

@@ -62,7 +62,7 @@ to the spinner (`32 → 12`, `40 → 16`, `48 → 20`, `56 → 24`, `72 → 40`)
 <Spot icon={Spinner} size={48} />
 ```
 
-`Spinner` paints itself with `text-base`, so `appearance` does not recolor it.
+Spot passes the palette text color to the icon, so a `Spinner` icon follows `appearance`.
 
 Compose Bluetooth explicitly and confirm the replacement palette with design:
 

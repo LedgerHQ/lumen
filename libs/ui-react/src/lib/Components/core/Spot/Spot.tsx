@@ -34,10 +34,6 @@ const spotVariants = cva(
         'decorative-orange': '',
         'decorative-red': '',
       },
-      disabled: {
-        true: '',
-        false: '',
-      },
       size: {
         32: 'spot-h-32 spot-w-32',
         40: 'spot-h-40 spot-w-40',
@@ -47,116 +43,235 @@ const spotVariants = cva(
       },
     },
     compoundVariants: [
-      { fill: 'transparent', appearance: 'base', class: 'text-base' },
-      { fill: 'transparent', appearance: 'success', class: 'text-success' },
-      { fill: 'transparent', appearance: 'error', class: 'text-error' },
-      { fill: 'transparent', appearance: 'warning', class: 'text-warning' },
-      { fill: 'transparent', appearance: 'muted', class: 'text-muted' },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-blue',
-        class: 'text-decorative-blue',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-pink',
-        class: 'text-decorative-pink',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-purple',
-        class: 'text-decorative-purple',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-green',
-        class: 'text-decorative-green',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-turquoise',
-        class: 'text-decorative-turquoise',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-yellow',
-        class: 'text-decorative-yellow',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-orange',
-        class: 'text-decorative-orange',
-      },
-      {
-        fill: 'transparent',
-        appearance: 'decorative-red',
-        class: 'text-decorative-red',
-      },
-      { fill: 'plain', appearance: 'base', class: 'bg-muted text-base' },
-      {
-        fill: 'plain',
-        appearance: 'success',
-        class: 'bg-success text-success-strong',
-      },
-      {
-        fill: 'plain',
-        appearance: 'error',
-        class: 'bg-error text-error-strong',
-      },
-      {
-        fill: 'plain',
-        appearance: 'warning',
-        class: 'bg-warning text-warning-strong',
-      },
-      {
-        fill: 'plain',
-        appearance: 'muted',
-        class: 'bg-muted-pressed text-muted',
-      },
+      { fill: 'plain', appearance: 'base', class: 'bg-muted' },
+      { fill: 'plain', appearance: 'success', class: 'bg-success' },
+      { fill: 'plain', appearance: 'error', class: 'bg-error' },
+      { fill: 'plain', appearance: 'warning', class: 'bg-warning' },
+      { fill: 'plain', appearance: 'muted', class: 'bg-muted-pressed' },
       {
         fill: 'plain',
         appearance: 'decorative-blue',
-        class: 'bg-decorative-blue text-decorative-strong-blue',
+        class: 'bg-decorative-blue',
       },
       {
         fill: 'plain',
         appearance: 'decorative-pink',
-        class: 'bg-decorative-pink text-decorative-strong-pink',
+        class: 'bg-decorative-pink',
       },
       {
         fill: 'plain',
         appearance: 'decorative-purple',
-        class: 'bg-decorative-purple text-decorative-strong-purple',
+        class: 'bg-decorative-purple',
       },
       {
         fill: 'plain',
         appearance: 'decorative-green',
-        class: 'bg-decorative-green text-decorative-strong-green',
+        class: 'bg-decorative-green',
       },
       {
         fill: 'plain',
         appearance: 'decorative-turquoise',
-        class: 'bg-decorative-turquoise text-decorative-strong-turquoise',
+        class: 'bg-decorative-turquoise',
       },
       {
         fill: 'plain',
         appearance: 'decorative-yellow',
-        class: 'bg-decorative-yellow text-decorative-strong-yellow',
+        class: 'bg-decorative-yellow',
       },
       {
         fill: 'plain',
         appearance: 'decorative-orange',
-        class: 'bg-decorative-orange text-decorative-strong-orange',
+        class: 'bg-decorative-orange',
       },
       {
         fill: 'plain',
         appearance: 'decorative-red',
-        class: 'bg-decorative-red text-decorative-strong-red',
+        class: 'bg-decorative-red',
       },
-      { disabled: true, class: 'text-disabled' },
     ],
   },
 );
+
+const iconVariants = cva('', {
+  variants: {
+    fill: {
+      transparent: '',
+      plain: '',
+    },
+    appearance: {
+      base: '',
+      success: '',
+      error: '',
+      warning: '',
+      muted: '',
+      'decorative-blue': '',
+      'decorative-pink': '',
+      'decorative-purple': '',
+      'decorative-green': '',
+      'decorative-turquoise': '',
+      'decorative-yellow': '',
+      'decorative-orange': '',
+      'decorative-red': '',
+    },
+    disabled: {
+      true: 'text-disabled',
+      false: '',
+    },
+  },
+  compoundVariants: [
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'base',
+      class: 'text-base',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'success',
+      class: 'text-success',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'error',
+      class: 'text-error',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'warning',
+      class: 'text-warning',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'muted',
+      class: 'text-muted',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-blue',
+      class: 'text-decorative-blue',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-pink',
+      class: 'text-decorative-pink',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-purple',
+      class: 'text-decorative-purple',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-green',
+      class: 'text-decorative-green',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-turquoise',
+      class: 'text-decorative-turquoise',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-yellow',
+      class: 'text-decorative-yellow',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-orange',
+      class: 'text-decorative-orange',
+    },
+    {
+      disabled: false,
+      fill: 'transparent',
+      appearance: 'decorative-red',
+      class: 'text-decorative-red',
+    },
+    { disabled: false, fill: 'plain', appearance: 'base', class: 'text-base' },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'success',
+      class: 'text-success-strong',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'error',
+      class: 'text-error-strong',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'warning',
+      class: 'text-warning-strong',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'muted',
+      class: 'text-muted',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-blue',
+      class: 'text-decorative-strong-blue',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-pink',
+      class: 'text-decorative-strong-pink',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-purple',
+      class: 'text-decorative-strong-purple',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-green',
+      class: 'text-decorative-strong-green',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-turquoise',
+      class: 'text-decorative-strong-turquoise',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-yellow',
+      class: 'text-decorative-strong-yellow',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-orange',
+      class: 'text-decorative-strong-orange',
+    },
+    {
+      disabled: false,
+      fill: 'plain',
+      appearance: 'decorative-red',
+      class: 'text-decorative-strong-red',
+    },
+  ],
+});
 
 /**
  * A circular icon container. `appearance` selects the color palette and `fill` selects whether that palette paints only the icon or the circle as well.
@@ -196,14 +311,16 @@ export const Spot = ({
         spotVariants({
           appearance,
           fill,
-          disabled,
           size,
         }),
         className,
       )}
       {...rest}
     >
-      <Icon size={iconSizeMap[size]} />
+      <Icon
+        size={iconSizeMap[size]}
+        className={iconVariants({ appearance, fill, disabled })}
+      />
     </div>
   );
 };

@@ -4,9 +4,13 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import type { IconSize } from '../../symbols/Icon/types';
 import { Spot } from './Spot';
 
-const TestIcon = ({ size }: { size?: IconSize; className?: string }) => (
-  <svg aria-label='Test icon' width={size} />
-);
+const TestIcon = ({
+  size,
+  className,
+}: {
+  size?: IconSize;
+  className?: string;
+}) => <svg aria-label='Test icon' className={className} width={size} />;
 
 describe('Spot', () => {
   afterEach(() => {
@@ -35,11 +39,12 @@ describe('Spot', () => {
   it('should paint only the icon when fill is transparent', () => {
     const { container } = render(<Spot appearance='success' icon={TestIcon} />);
 
-    expect(container.firstElementChild).toHaveClass(
-      'bg-muted-transparent',
+    expect(container.firstElementChild).toHaveClass('bg-muted-transparent');
+    expect(container.firstElementChild).not.toHaveClass(
+      'bg-success',
       'text-success',
     );
-    expect(container.firstElementChild).not.toHaveClass('bg-success');
+    expect(screen.getByLabelText('Test icon')).toHaveClass('text-success');
   });
 
   it('should paint the circle and a paired text color when fill is plain', () => {
@@ -47,8 +52,9 @@ describe('Spot', () => {
       <Spot appearance='success' fill='plain' icon={TestIcon} />,
     );
 
-    expect(container.firstElementChild).toHaveClass(
-      'bg-success',
+    expect(container.firstElementChild).toHaveClass('bg-success');
+    expect(container.firstElementChild).not.toHaveClass('text-success-strong');
+    expect(screen.getByLabelText('Test icon')).toHaveClass(
       'text-success-strong',
     );
   });

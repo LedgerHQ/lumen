@@ -9,6 +9,7 @@ import {
 } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import { Spinner } from '../Spinner';
+import { Spot } from '../Spot';
 import type {
   TableBodyProps,
   TableCellProps,
@@ -655,7 +656,7 @@ export const TableLoadingRow = ({
         className,
       )}
     >
-      <Spinner size={20} />
+      <Spot icon={Spinner} size={48} />
     </div>
   );
 };

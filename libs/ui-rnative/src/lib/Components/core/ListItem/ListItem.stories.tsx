@@ -64,10 +64,7 @@ export const Base: Story = {
   render: (args) => (
     <ListItem {...args}>
       <ListItemLeading>
-        <Spot
-          icon={Settings}
-          size={args.density === 'compact' ? 32 : 48}
-        />
+        <Spot icon={Settings} size={args.density === 'compact' ? 32 : 48} />
         <ListItemContent>
           <ListItemTitle>Item with Icon and Description</ListItemTitle>
           {args.density === 'expanded' && (
