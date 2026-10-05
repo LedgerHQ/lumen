@@ -48,6 +48,7 @@ export * from './TextInput';
 export * from './Tile';
 export * from './TileButton';
 export * from './Timeline';
+export * from './Toast';
 export * from './Tooltip';
 export * from './Trend';
 export * from './ThemeProvider';
