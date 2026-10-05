@@ -299,7 +299,7 @@ export const WithCustomElement: Story = {
   render: () => {
     const [value, setValue] = useState('');
     return (
-      <div className='max-w-4xl'>
+      <div className='max-w-896'>
         <div className='grid grid-cols-1 gap-16 md:grid-cols-2'>
           {/* Example with tooltip and clear button */}
           <div>

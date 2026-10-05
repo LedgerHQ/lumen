@@ -238,7 +238,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='mx-auto w-3xl max-w-full text-base'>
+      <div className='mx-auto w-768 max-w-full text-base'>
         <Story />
       </div>
     ),

@@ -131,7 +131,7 @@ export const Base: Story = {
     loading: false,
   },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='w-768 text-base'>
       <TableRoot appearance={args.appearance} loading={args.loading}>
         <Table>
           <TableHeader>
@@ -198,7 +198,7 @@ export const AppearanceShowcase: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
-      <div className='w-3xl'>
+      <div className='w-768'>
         <TableRoot {...args} appearance={appearance}>
           <Table>
             <TableHeader>
@@ -235,7 +235,7 @@ export const ResponsiveLayout: Story = {
     chromatic: { viewports: [800, 1280] },
   },
   render: (args) => (
-    <div className='mx-auto w-3xl max-w-full text-base'>
+    <div className='mx-auto w-768 max-w-full text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -293,7 +293,7 @@ const horizontalScrollColumns = [
 export const WithHorizontalScroll: Story = {
   parameters: { layout: 'padded' },
   render: () => (
-    <div className='mx-auto w-3xl max-w-full text-base'>
+    <div className='mx-auto w-768 max-w-full text-base'>
       <TableRoot
         horizontalLayout={{ type: 'scroll', minWidth: 960 }}
         aria-label='Assets'
@@ -339,7 +339,7 @@ export const WithHorizontalScroll: Story = {
 export const WithHorizontalScrollFromColumnWidths: Story = {
   parameters: { layout: 'padded' },
   render: () => (
-    <div className='mx-auto w-3xl max-w-full text-base'>
+    <div className='mx-auto w-768 max-w-full text-base'>
       <TableRoot
         horizontalLayout={{ type: 'scroll' }}
         aria-label='Assets'
@@ -390,7 +390,7 @@ export const WithHorizontalScrollFromColumnWidths: Story = {
 export const WithResponsiveHorizontalScroll: Story = {
   parameters: { layout: 'padded', chromatic: { viewports: [800, 1280] } },
   render: () => (
-    <div className='mx-auto w-3xl max-w-full text-base'>
+    <div className='mx-auto w-768 max-w-full text-base'>
       <TableRoot
         horizontalLayout={{
           base: { type: 'scroll', minWidth: 960 },
@@ -547,7 +547,7 @@ export const WithInfiniteLoading: Story = {
     }, []);
 
     return (
-      <div className='w-3xl text-base'>
+      <div className='w-768 text-base'>
         <TableRoot
           {...args}
           className='h-512'
@@ -603,7 +603,7 @@ export const WithPagination: Story = {
     );
 
     return (
-      <div className='flex w-3xl flex-col gap-16 text-base'>
+      <div className='flex w-768 flex-col gap-16 text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -654,7 +654,7 @@ export const WithShowMorePagination: Story = {
     const visibleData = largeData.slice(0, visibleCount);
 
     return (
-      <div className='w-3xl text-base'>
+      <div className='w-768 text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -710,7 +710,7 @@ export const WithoutStickyHeader: Story = {
     appearance: 'no-background',
   },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='w-768 text-base'>
       <TableRoot {...args} className='h-320'>
         <Table tabIndex={0}>
           <TableHeader>
@@ -766,7 +766,7 @@ export const WithCustomHeader: Story = {
       useState<TableSortValue>(undefined);
 
     return (
-      <div className='w-3xl text-base'>
+      <div className='w-768 text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -846,7 +846,7 @@ export const WithCustomHeader: Story = {
 
 export const WithGroupHeader: Story = {
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='w-768 text-base'>
       <TableActionBar>
         <TableActionBarLeading>
           <SearchInput className='w-320' placeholder='Search assets...' />
@@ -1007,7 +1007,7 @@ export const WithNetworkIconsAndActionBar: Story = {
     );
 
     return (
-      <div className='w-3xl text-base'>
+      <div className='w-768 text-base'>
         <TableActionBar>
           <TableActionBarLeading>
             <SearchInput className='w-320' placeholder='Search assets...' />
@@ -1089,7 +1089,7 @@ export const WithNetworkIconsAndActionBar: Story = {
 
 export const WithComplexCellContent: Story = {
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='w-768 text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
