@@ -17,17 +17,11 @@ To migrate:
 1. Replace removed utilities in your own code with one of their two neighbours on the new scale. Pick whichever fits your layout: the smaller one if the element must not grow, the larger one if its content must not be squeezed. Lumen components use the larger value.
 
    | Removed | Smaller | Larger (used by Lumen) |
-   | --- | --- | --- |
-   | `*-400` | `*-384` | `*-448` |
-   | `*-480` | `*-448` | `*-512` |
-   | `*-560` | `*-512` | `*-576` |
-   | `*-160` | `*-144` | `*-176` |
-
-   For example, `w-400` becomes `w-384` or `w-448`, and `min-w-160` becomes `min-w-144` or `min-w-176`. Find them with:
-
-   ```bash
-   grep -rnE "\b[a-z:-]*-(160|400|480|560)\b|--(size|spacing)-(160|400|480|560)\b" src
-   ```
+   | ------- | ------- | ---------------------- |
+   | `*-400` | `*-384` | `*-448`                |
+   | `*-480` | `*-448` | `*-512`                |
+   | `*-560` | `*-512` | `*-576`                |
+   | `*-160` | `*-144` | `*-176`                |
 
 2. Check layouts that host a `Dialog`, `Popover` (`width='fixed'`) or `Menu`, because they are now 16–48px larger.
 
