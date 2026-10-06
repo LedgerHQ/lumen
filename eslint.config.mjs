@@ -166,18 +166,6 @@ export const sharedConfig = defineConfig(
               message:
                 'Use path import "@base-ui/react/<component-name>" instead.',
             },
-            // Sharing i18next with the consumer app lets Lumen's provider take
-            // over the app's own translations.
-            {
-              name: 'i18next',
-              message:
-                'Use useCommonTranslation (createTranslations from @ledgerhq/lumen-utils-shared).',
-            },
-            {
-              name: 'react-i18next',
-              message:
-                'Use useCommonTranslation (createTranslations from @ledgerhq/lumen-utils-shared).',
-            },
           ],
         },
       ],
