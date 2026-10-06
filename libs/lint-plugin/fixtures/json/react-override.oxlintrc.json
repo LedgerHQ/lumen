@@ -1,0 +1,8 @@
+{
+  "extends": ["../../oxlint/react.json"],
+  "settings": { "better-tailwindcss": { "entryPoint": "fixtures/global.css" } },
+  "rules": {
+    "lumen/no-hardcoded-colors": "off",
+    "shadcn/no-inline-styles": "warn"
+  }
+}

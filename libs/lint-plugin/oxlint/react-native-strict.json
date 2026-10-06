@@ -1,0 +1,7 @@
+{
+  "jsPlugins": [{ "name": "lumen", "specifier": "../src/plugin.js" }],
+  "rules": {
+    "lumen/no-hardcoded-colors": "error",
+    "lumen/no-hardcoded-style-literals": "warn"
+  }
+}

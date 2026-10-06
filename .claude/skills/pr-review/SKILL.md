@@ -96,11 +96,15 @@ spend findings on things a linter can't catch. Do **not** raise:
   `default-param-last`, `no-console`, and all formatting (prettier).
 - Accessibility lint (`jsx-a11y` strict) and module boundaries
   (`@nx/enforce-module-boundaries` scope tags).
-- Unknown/invalid Tailwind classnames (`eslint-plugin-better-tailwindcss`).
+- Unknown/invalid Tailwind classnames (`eslint-plugin-better-tailwindcss`). This
+  includes raw palette and typography classes (`text-gray-500`, `font-bold`):
+  Lumen's preset removes them, so they are unknown classes.
+- Hardcoded colors and arbitrary values (`lumen/no-hardcoded-colors`,
+  `shadcn/no-arbitrary-values` from `@ledgerhq/lumen-lint-plugin`). They are
+  warnings in this repo, so a new one in a diff is already visible.
 
-Caveat: a **valid** Tailwind class that should be a design token
-(`text-gray-500`, `font-bold`, `w-[108px]`) lints clean — that stays a **manual**
-check, see `component-styling`'s Review checks.
+Caveat: a **valid** token class that is the wrong one for the design lints
+clean — that stays a **manual** check, see `component-styling`'s Review checks.
 
 ## Findings vs severity — independent
 

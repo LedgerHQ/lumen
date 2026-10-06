@@ -1,5 +1,5 @@
 /** @import { Linter } from 'eslint' */
-import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
+import { react, reactNative } from '@ledgerhq/lumen-lint-plugin/eslint';
 import storybook from 'eslint-plugin-storybook';
 import { globalIgnores } from 'eslint/config';
 
@@ -98,41 +98,53 @@ export const defineStorybookAddons = ({ packageJsonLocation }) => ({
   },
 });
 
+/** Token rules that stories, docs and icon artwork break on purpose. */
+const TOKEN_RULES_OFF = {
+  'lumen/no-hardcoded-colors': 'off',
+  'lumen/no-hardcoded-style-literals': 'off',
+  'shadcn/no-arbitrary-values': 'off',
+  'shadcn/no-inline-styles': 'off',
+  'shadcn/no-restyle': 'off',
+};
+
+/** Where those rules do not apply: dev files, Storybook docs, icon artwork. */
+const defineTokenRulesExemptions = () =>
+  defineDevRules({
+    name: 'lumen-token-rules-exemptions',
+    files: ['**/.storybook/**', '**/Components/symbols/**'],
+    rules: TOKEN_RULES_OFF,
+  });
+
 /**
- * Better Tailwind CSS rules and settings for a project's class utilities.
+ * Lumen's own React web rules: the `strict` preset that consumers can pick,
+ * with the `rules` option for what only the design system itself needs.
  * @param {{ entryPoint: string, tailwindConfig: string }} options
- * @returns {Linter.Config}
+ * @returns {Linter.Config[]}
  */
-export const defineTailwindRules = ({ entryPoint, tailwindConfig }) => ({
-  name: 'better-tailwindcss-rules',
-  files: tsJsFilePatterns,
-  plugins: { 'better-tailwindcss': betterTailwindcss },
-  rules: {
-    ...betterTailwindcss.configs['recommended-warn'].rules,
-    ...betterTailwindcss.configs['recommended-error'].rules,
-    'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-  },
-  settings: {
-    'better-tailwindcss': {
-      callees: [
-        ['cn', [{ match: 'strings' }]],
-        [
-          'cva',
-          [
-            { match: 'strings' },
-            {
-              match: 'objectValues',
-              pathPattern: '^variants.*$',
-            },
-            {
-              match: 'objectValues',
-              pathPattern: '^compoundVariants\\[\\d+\\]\\.(?:className|class)$',
-            },
-          ],
-        ],
-      ],
-      entryPoint,
-      tailwindConfig,
+export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
+  ...react({
+    entryPoint,
+    tailwindConfig,
+    preset: 'strict',
+    rules: {
+      // A component library sets dynamic styles by design; the rule targets apps.
+      'shadcn/no-inline-styles': 'off',
+      // Token debt that already exists inside Lumen: visible, not blocking.
+      'lumen/no-hardcoded-colors': 'warn',
     },
-  },
-});
+  }),
+  defineTokenRulesExemptions(),
+];
+
+/**
+ * Lumen's own React Native rules: the `strict` preset.
+ * @returns {Linter.Config[]}
+ */
+export const defineLumenNativeRules = () => [
+  ...reactNative({
+    preset: 'strict',
+    // Token debt that already exists inside Lumen: visible, not blocking.
+    rules: { 'lumen/no-hardcoded-colors': 'warn' },
+  }),
+  defineTokenRulesExemptions(),
+];

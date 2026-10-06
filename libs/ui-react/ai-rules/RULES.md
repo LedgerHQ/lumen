@@ -33,6 +33,10 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 - Always use a preset from `@ledgerhq/lumen-design-core`: ledgerLivePreset, enterprisePreset or websitesPreset
 - Import presets: `import { ledgerLivePreset } from '@ledgerhq/lumen-design-core'`
 
+### Linting
+
+This project can lint these rules with `@ledgerhq/lumen-lint-plugin` (ESLint or oxlint). When it reports a `lumen/*`, `shadcn/*` or `better-tailwindcss/*` violation, fix it with a design token instead of disabling the rule.
+
 ### Peer Dependencies
 
 - Button requires `@radix-ui/react-slot`

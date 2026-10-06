@@ -16,6 +16,7 @@
     "./libs/ui-rnative",
     "./libs/utils-shared",
     "./libs/design-core",
+    "./libs/lint-plugin",
     "./apps/app-sandbox-react",
     "./apps/app-sandbox-rnative"
   ],

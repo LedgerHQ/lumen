@@ -23,6 +23,10 @@ Lumen typography tokens set `fontFamily: 'Inter'`. The consumer project must loa
 
 ---
 
+### Linting
+
+This project can lint these rules with `@ledgerhq/lumen-lint-plugin` (`reactNative()` preset for ESLint or oxlint). When it reports a `lumen/*` violation, use a theme token instead of disabling the rule.
+
 ## Available React Native Components
 
 Below is a complete list of all available Lumen React Native components. Click any component name to view its documentation and interactive examples in Storybook.

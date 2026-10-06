@@ -17,6 +17,7 @@ body:
         - label: "@ledgerhq/lumen-ui-react (React UI kit, incl. charts)"
         - label: "@ledgerhq/lumen-ui-rnative (React Native UI kit, incl. charts)"
         - label: "@ledgerhq/lumen-utils-shared (shared utilities)"
+        - label: "@ledgerhq/lumen-lint-plugin (ESLint and oxlint rules)"
     validations:
       required: true
 

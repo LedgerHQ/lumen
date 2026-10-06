@@ -1,0 +1,780 @@
+{
+  "jsPlugins": [
+    { "name": "lumen", "specifier": "../src/plugin.js" },
+    {
+      "name": "better-tailwindcss",
+      "specifier": "../src/plugins/better-tailwindcss.js"
+    },
+    { "name": "shadcn", "specifier": "../src/plugins/shadcn.js" }
+  ],
+  "rules": {
+    "lumen/no-hardcoded-colors": "error",
+    "better-tailwindcss/no-unknown-classes": [
+      "error",
+      {
+        "selectors": [
+          { "kind": "attribute", "name": "^class(?:Name)?$" },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "^class(?:Name)?$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "^class:.*$"
+          },
+          {
+            "kind": "attribute",
+            "name": "(?:^\\[class\\]$)|(?:^\\[ngClass\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "(?:^\\[class\\..*\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "(?:^\\[class\\]$)|(?:^\\[ngClass\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "^v-bind:class$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "^class:list$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^classList$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cc$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cc$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^base$", "type": "objectValues" }],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.classes$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^clsx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^clsx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cn$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cn$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^ctl$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.(?:className|class)$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^dcnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^dcnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^objstr$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.(?:className|class).*$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^base$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^slots.*$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundSlots\\[\\d+\\]\\.(?:className|class).*$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^twJoin$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^twMerge$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^classNames?$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^classes$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^styles?$"
+          },
+          { "kind": "tag", "path": "twc(\\.\\w+)?" },
+          {
+            "kind": "callee",
+            "match": [
+              { "type": "strings" },
+              {
+                "match": [{ "type": "strings" }],
+                "type": "anonymousFunctionReturn"
+              }
+            ],
+            "path": "^twc\\.\\w+"
+          },
+          { "kind": "tag", "path": "twx(\\.\\w+)?" },
+          {
+            "kind": "callee",
+            "match": [
+              { "type": "strings" },
+              {
+                "match": [{ "type": "strings" }],
+                "type": "anonymousFunctionReturn"
+              }
+            ],
+            "path": "^twx\\.\\w+"
+          },
+          {
+            "kind": "attribute",
+            "name": "^[a-z]\\w*ClassName$",
+            "match": [{ "type": "strings" }]
+          }
+        ]
+      }
+    ],
+    "better-tailwindcss/no-conflicting-classes": [
+      "error",
+      {
+        "selectors": [
+          { "kind": "attribute", "name": "^class(?:Name)?$" },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "^class(?:Name)?$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "^class:.*$"
+          },
+          {
+            "kind": "attribute",
+            "name": "(?:^\\[class\\]$)|(?:^\\[ngClass\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "(?:^\\[class\\..*\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "(?:^\\[class\\]$)|(?:^\\[ngClass\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "^v-bind:class$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "^class:list$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^classList$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cc$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cc$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^base$", "type": "objectValues" }],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.classes$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^clsx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^clsx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cn$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cn$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^ctl$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.(?:className|class)$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^dcnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^dcnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^objstr$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.(?:className|class).*$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^base$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^slots.*$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundSlots\\[\\d+\\]\\.(?:className|class).*$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^twJoin$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^twMerge$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^classNames?$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^classes$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^styles?$"
+          },
+          { "kind": "tag", "path": "twc(\\.\\w+)?" },
+          {
+            "kind": "callee",
+            "match": [
+              { "type": "strings" },
+              {
+                "match": [{ "type": "strings" }],
+                "type": "anonymousFunctionReturn"
+              }
+            ],
+            "path": "^twc\\.\\w+"
+          },
+          { "kind": "tag", "path": "twx(\\.\\w+)?" },
+          {
+            "kind": "callee",
+            "match": [
+              { "type": "strings" },
+              {
+                "match": [{ "type": "strings" }],
+                "type": "anonymousFunctionReturn"
+              }
+            ],
+            "path": "^twx\\.\\w+"
+          },
+          {
+            "kind": "attribute",
+            "name": "^[a-z]\\w*ClassName$",
+            "match": [{ "type": "strings" }]
+          }
+        ]
+      }
+    ],
+    "better-tailwindcss/no-concatenated-classes": [
+      "error",
+      {
+        "selectors": [
+          { "kind": "attribute", "name": "^class(?:Name)?$" },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "^class(?:Name)?$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "^class:.*$"
+          },
+          {
+            "kind": "attribute",
+            "name": "(?:^\\[class\\]$)|(?:^\\[ngClass\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }],
+            "name": "(?:^\\[class\\..*\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "(?:^\\[class\\]$)|(?:^\\[ngClass\\]$)"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "^v-bind:class$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "strings" }, { "type": "objectKeys" }],
+            "name": "^class:list$"
+          },
+          {
+            "kind": "attribute",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^classList$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cc$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cc$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^base$", "type": "objectValues" }],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.classes$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^clb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^clsx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^clsx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cn$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cn$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^ctl$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.(?:className|class)$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^cva$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^cx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^cx$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^dcnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^dcnb$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "objectKeys" }],
+            "name": "^objstr$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^variants.*$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundVariants\\[\\d+\\]\\.(?:className|class).*$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^base$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "path": "^slots.*$", "type": "objectValues" }],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [
+              {
+                "path": "^compoundSlots\\[\\d+\\]\\.(?:className|class).*$",
+                "type": "objectValues"
+              }
+            ],
+            "name": "^tv$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^twJoin$"
+          },
+          {
+            "kind": "callee",
+            "match": [{ "type": "strings" }],
+            "name": "^twMerge$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^classNames?$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^classes$"
+          },
+          {
+            "kind": "variable",
+            "match": [{ "type": "strings" }],
+            "name": "^styles?$"
+          },
+          { "kind": "tag", "path": "twc(\\.\\w+)?" },
+          {
+            "kind": "callee",
+            "match": [
+              { "type": "strings" },
+              {
+                "match": [{ "type": "strings" }],
+                "type": "anonymousFunctionReturn"
+              }
+            ],
+            "path": "^twc\\.\\w+"
+          },
+          { "kind": "tag", "path": "twx(\\.\\w+)?" },
+          {
+            "kind": "callee",
+            "match": [
+              { "type": "strings" },
+              {
+                "match": [{ "type": "strings" }],
+                "type": "anonymousFunctionReturn"
+              }
+            ],
+            "path": "^twx\\.\\w+"
+          },
+          {
+            "kind": "attribute",
+            "name": "^[a-z]\\w*ClassName$",
+            "match": [{ "type": "strings" }]
+          }
+        ]
+      }
+    ],
+    "shadcn/no-restyle": [
+      "warn",
+      {
+        "allow": ["layout"],
+        "message": {
+          "color": "{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant.",
+          "typography": "{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant.",
+          "shape": "{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant.",
+          "effects": "{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant.",
+          "motion": "{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant."
+        },
+        "componentImports": ["^@ledgerhq/lumen-ui-react(/|$)"]
+      }
+    ]
+  }
+}

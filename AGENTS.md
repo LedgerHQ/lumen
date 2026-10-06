@@ -7,7 +7,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 ## Stack
 
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
-Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`. Tailwind (design-core preset),
+Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`, `lint-plugin`. Tailwind (design-core preset),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
 Dev-only tooling lives outside `libs/` in `internals/` — see `## Internals`.
 
@@ -24,6 +24,7 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 | `libs/ui-rnative`               | `@ledgerhq/lumen-ui-rnative`               | React Native            | `useStyleSheet` + themeJS + `lx`                         | Jest + RNTL, `ThemeProvider` wrapper | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
 | `libs/design-core`              | `@ledgerhq/lumen-design-core`              | Cross-platform tokens   | CSS/Tailwind tokens + JS theme objects (source of truth) | —                                    | —                                                 |
 | `libs/utils-shared`             | `@ledgerhq/lumen-utils-shared`             | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
+| `libs/lint-plugin`              | `@ledgerhq/lumen-lint-plugin`              | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
 
 
 

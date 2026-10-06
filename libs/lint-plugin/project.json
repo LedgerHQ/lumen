@@ -1,0 +1,44 @@
+{
+  "name": "@ledgerhq/lumen-lint-plugin",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/lint-plugin/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:tooling"],
+  "implicitDependencies": [
+    "!@ledgerhq/lumen-ui-react",
+    "!@ledgerhq/lumen-ui-rnative",
+    "!@ledgerhq/lumen-utils-shared"
+  ],
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/types"],
+      "options": {
+        "command": "tsc -p tsconfig.build.json",
+        "cwd": "libs/lint-plugin"
+      }
+    },
+    "generate": {
+      "executor": "nx:run-commands",
+      "outputs": ["{projectRoot}/oxlint"],
+      "options": {
+        "command": "node scripts/generate-oxlint-json.js",
+        "cwd": "libs/lint-plugin"
+      }
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "libs/lint-plugin"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p tsconfig.json",
+        "cwd": "libs/lint-plugin"
+      }
+    }
+  }
+}
