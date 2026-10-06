@@ -1,3 +1,4 @@
+import type { TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import type { LumenTypographyTokens } from '../../../../styles';
 import { useStyleSheet } from '../../../../styles';
@@ -11,6 +12,12 @@ const numberTypographyMap: Record<SpotSize, keyof LumenTypographyTokens> = {
   72: 'heading2',
 };
 
+export type SpotStyles = {
+  root: ViewStyle;
+  icon: TextStyle;
+  numberText: TextStyle;
+};
+
 export const useSpotStyles = ({
   size,
   appearance,
@@ -21,7 +28,7 @@ export const useSpotStyles = ({
   appearance: SpotAppearance;
   fill: SpotFill;
   disabled?: boolean;
-}) => {
+}): SpotStyles => {
   return useStyleSheet(
     (t) => {
       const transparentTextColor: Record<SpotAppearance, string> = {

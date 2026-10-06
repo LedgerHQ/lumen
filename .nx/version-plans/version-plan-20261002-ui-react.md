@@ -2,7 +2,7 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-feat(Spot)!: replace content-based appearances with palette and fill props
+feat(Spot): replace content-based appearances with palette and fill props
 
 ## New API
 
@@ -10,10 +10,13 @@ feat(Spot)!: replace content-based appearances with palette and fill props
 - `appearance` selects the palette: `base`, `success`, `error`, `warning`,
   `muted`, or a `decorative-*` color. It defaults to `base`.
 - `fill` is `transparent` or `plain`. It defaults to `transparent`.
-- `bluetooth` is deprecated.
-- `loader` is no longer built into Spot.
-- The `number` prop is dropped. Digits are now a `SpotNumber` component.
 - `disabled` and `size` are unchanged.
+
+Removed appearances:
+
+- `appearance="bluetooth"`: removed, no replacement.
+- `appearance="loader"`: pass `Spinner` as `icon`.
+- `appearance="number"` and `number`: use `SpotNumber`.
 
 ```tsx
 <Spot icon={Settings} />
