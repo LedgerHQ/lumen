@@ -117,7 +117,7 @@ export const AmountInput = ({
         <Pressable
           onPress={handlePress}
           style={styles.pressable}
-          accessibilityLabel={props.accessibilityLabel || 'Amount input'}
+          accessibilityLabel={props.accessibilityLabel}
         >
           {currencyText && currencyPosition === 'left' && (
             <Currency style={[styles.currency, animatedCurrencyStyle]}>

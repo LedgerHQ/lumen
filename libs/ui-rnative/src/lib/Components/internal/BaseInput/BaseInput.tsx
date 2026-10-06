@@ -5,8 +5,8 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet, useTheme } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { RuntimeConstants } from '../../../utils';
 import { InteractiveIcon } from '../../core/InteractiveIcon';
 import { Box, Pressable } from '../../primitives';

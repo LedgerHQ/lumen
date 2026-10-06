@@ -1,8 +1,8 @@
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentType } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Box } from '../../primitives';
 import {
   InformationFill,

@@ -193,9 +193,7 @@ describe('DonutChart', () => {
 
       const ring = getByTestId('donut-ring');
       expect(ring.props.accessibilityState).toEqual({ busy: true });
-      expect(ring.props.accessibilityLabel).toBe(
-        chartConfig.donut.loading.ariaLabel,
-      );
+      expect(ring.props.accessibilityLabel).toBe('Loading chart');
     });
 
     it('ignores taps while loading', () => {

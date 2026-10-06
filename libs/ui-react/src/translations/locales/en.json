@@ -1,0 +1,69 @@
+{
+  "common": {
+    "closeAriaLabel": "Close"
+  },
+  "components": {
+    "addressInput": {
+      "qrCodeAriaLabel": "Scan QR code"
+    },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Amount hidden"
+    },
+    "avatar": {
+      "defaultAriaLabel": "User avatar"
+    },
+    "baseInput": {
+      "clearInputAriaLabel": "Clear input"
+    },
+    "spinner": {
+      "loadingAriaLabel": "Loading"
+    },
+    "dialogHeader": {
+      "goBackAriaLabel": "Go back",
+      "closeAriaLabel": "Close"
+    },
+    "banner": {
+      "closeAriaLabel": "Close"
+    },
+    "link": {
+      "opensInNewTabAriaLabel": "(opens in a new tab)"
+    },
+    "navBar": {
+      "goBackAriaLabel": "Go back"
+    },
+    "sideBar": {
+      "navigationAriaLabel": "Sidebar navigation",
+      "collapseAriaLabel": "Collapse sidebar",
+      "expandAriaLabel": "Expand sidebar"
+    },
+    "stepper": {
+      "progressAriaLabel": "Step {{currentStep}} of {{totalSteps}}"
+    },
+    "table": {
+      "ascAriaLabel": "Sort ascending",
+      "descAriaLabel": "Sort descending"
+    },
+    "pagination": {
+      "navigationAriaLabel": "Pagination",
+      "previousPageAriaLabel": "Previous page",
+      "nextPageAriaLabel": "Next page",
+      "pageAriaLabel": "Page {{page}}"
+    },
+    "trend": {
+      "positiveAriaLabel": "Trend up {{value}}",
+      "negativeAriaLabel": "Trend down {{value}}",
+      "neutralAriaLabel": "Neutral trend {{value}}"
+    },
+    "chart": {
+      "emptyLabel": "No data",
+      "loadingAriaLabel": "Loading chart",
+      "defaultAriaLabel": "Chart"
+    },
+    "select": {
+      "searchPlaceholder": "Search"
+    },
+    "subheader": {
+      "moreInfoAriaLabel": "More information"
+    }
+  }
+}

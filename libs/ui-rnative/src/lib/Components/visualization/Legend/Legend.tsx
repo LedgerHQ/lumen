@@ -19,7 +19,7 @@ const useLegendStyles = () =>
 
 export function Legend({
   series,
-  accessibilityLabel = 'Legend',
+  accessibilityLabel,
   style,
   ...props
 }: LegendProps) {

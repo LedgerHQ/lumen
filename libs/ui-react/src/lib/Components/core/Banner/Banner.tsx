@@ -1,6 +1,6 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import {
   InformationFill,
   CheckmarkCircleFill,

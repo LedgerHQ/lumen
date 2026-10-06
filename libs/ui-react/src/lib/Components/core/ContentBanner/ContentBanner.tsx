@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { Close } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type {

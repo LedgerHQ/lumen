@@ -415,7 +415,9 @@ describe('SelectSearch', () => {
     );
 
     fireEvent.click(screen.getByRole('combobox'));
-    expect(screen.getByPlaceholderText('Search')).toBeInTheDocument();
+    expect(
+      screen.getByPlaceholderText('components.select.searchPlaceholder'),
+    ).toBeInTheDocument();
   });
 
   it('filters items when typing in search', () => {

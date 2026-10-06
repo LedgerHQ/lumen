@@ -70,7 +70,9 @@ describe('Subheader', () => {
       </Subheader>,
     );
     expect(
-      container.querySelector('[aria-label="More information"]'),
+      container.querySelector(
+        '[aria-label="components.subheader.moreInfoAriaLabel"]',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -89,7 +91,9 @@ describe('Subheader', () => {
       </Subheader>,
     );
     expect(
-      container.querySelector('[aria-label="More information"]'),
+      container.querySelector(
+        '[aria-label="components.subheader.moreInfoAriaLabel"]',
+      ),
     ).toBeInTheDocument();
   });
 
@@ -155,7 +159,9 @@ describe('Subheader', () => {
     expect(screen.getByText('Title')).toBeInTheDocument();
     expect(screen.getByText('(42)')).toBeInTheDocument();
     expect(
-      container.querySelector('[aria-label="More information"]'),
+      container.querySelector(
+        '[aria-label="components.subheader.moreInfoAriaLabel"]',
+      ),
     ).toBeInTheDocument();
     expect(screen.getByText('Description text')).toBeInTheDocument();
   });

@@ -74,9 +74,13 @@ export const getChartAriaLabel = ({
   loading,
   hasData,
   emptyLabel,
-}: ChartDisplayStateParams & { emptyLabel: string }): string | undefined => {
+  loadingLabel,
+}: ChartDisplayStateParams & {
+  emptyLabel: string;
+  loadingLabel: string;
+}): string | undefined => {
   if (loading) {
-    return chartConfig.emptyState.loadingAriaLabel;
+    return loadingLabel;
   }
 
   if (!hasData) {

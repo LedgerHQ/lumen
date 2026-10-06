@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
-import { useCommonTranslation } from '../../../../i18n';
 import type { LumenTextStyle } from '../../../../styles';
 import { useResolveTextStyle, useTheme } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Spin } from '../../animations/Spin';
 import { Box } from '../../primitives';
 import type { SpinnerProps } from './types';

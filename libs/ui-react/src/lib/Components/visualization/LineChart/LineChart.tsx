@@ -3,6 +3,7 @@ import {
   primitiveColorTokens,
 } from '@ledgerhq/lumen-design-core';
 import { useMemo } from 'react';
+import { useCommonTranslation } from '../../../../translations';
 import { useTheme } from '../../core/ThemeProvider';
 
 import { XAxis, type XAxisProps } from '../Axis/XAxis';
@@ -147,10 +148,11 @@ export function LineChart({
   animate,
   magnetRadius,
   loading = false,
-  emptyLabel = chartConfig.emptyState.defaultLabel,
+  emptyLabel: emptyLabelProp,
   enableColorContrast = false,
   children,
 }: LineChartProps) {
+  const { t } = useCommonTranslation();
   const { colorScheme } = useTheme();
   const bgColor =
     colorScheme === 'dark'
@@ -195,7 +197,13 @@ export function LineChart({
 
   const hasData = canRenderLine(series, xAxisConfig.data);
   const states = getChartDisplayStates({ loading, hasData });
-  const ariaLabel = getChartAriaLabel({ loading, hasData, emptyLabel });
+  const emptyLabel = emptyLabelProp ?? t('components.chart.emptyLabel');
+  const ariaLabel = getChartAriaLabel({
+    loading,
+    hasData,
+    emptyLabel,
+    loadingLabel: t('components.chart.loadingAriaLabel'),
+  });
 
   return (
     <CartesianChart

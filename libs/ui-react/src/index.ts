@@ -1,3 +1,3 @@
 export * from './lib/Components';
-export { type SupportedLocale, Languages } from './i18n';
+export { type SupportedLocale, Languages } from './translations';
 export { useControllableState } from './utils/useControllableState';

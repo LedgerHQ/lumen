@@ -5,6 +5,7 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useId } from 'react';
+import { useCommonTranslation } from '../../../../translations';
 import type { StepperProps } from './types';
 
 const SIZES = {
@@ -59,6 +60,7 @@ export const Stepper = ({
     mergeWith: { disabled: disabledProp },
   });
 
+  const { t } = useCommonTranslation();
   const maskId = useId();
   const {
     px: diameter,
@@ -68,7 +70,6 @@ export const Stepper = ({
   } = SIZES[size];
 
   const {
-    displayLabel,
     r,
     cx,
     cy,
@@ -91,7 +92,13 @@ export const Stepper = ({
       aria-valuenow={currentStep}
       aria-valuemin={1}
       aria-valuemax={totalSteps}
-      aria-label={displayLabel}
+      aria-label={
+        label ??
+        t('components.stepper.progressAriaLabel', {
+          currentStep: Math.min(Math.max(currentStep, 0), totalSteps),
+          totalSteps,
+        })
+      }
       className={cn(
         'relative flex shrink-0 items-center justify-center rounded-full',
         rootSizeClass,

@@ -1,7 +1,7 @@
 import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, View } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { Box, Text } from '../../primitives';
 import { Close } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';

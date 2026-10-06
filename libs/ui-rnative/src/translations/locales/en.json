@@ -1,0 +1,46 @@
+{
+  "common": {
+    "closeAriaLabel": "Close"
+  },
+  "components": {
+    "addressInput": {
+      "qrCodeAriaLabel": "Scan QR code"
+    },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Amount hidden"
+    },
+    "avatar": {
+      "defaultAriaLabel": "User avatar"
+    },
+    "baseInput": {
+      "clearInputAriaLabel": "Clear input"
+    },
+    "spinner": {
+      "loadingAriaLabel": "Loading"
+    },
+    "bottomSheetHeader": {
+      "goBackAriaLabel": "Go back",
+      "closeAriaLabel": "Close"
+    },
+    "banner": {
+      "closeAriaLabel": "Close"
+    },
+    "stepper": {
+      "progressAriaLabel": "Step {{currentStep}} of {{totalSteps}}"
+    },
+    "trend": {
+      "positiveAriaLabel": "Trending up by {{value}}",
+      "negativeAriaLabel": "Trending down by {{value}}",
+      "neutralAriaLabel": "No change, {{value}}"
+    },
+    "chart": {
+      "emptyLabel": "No data",
+      "loadingAriaLabel": "Loading chart",
+      "defaultAriaLabel": "Chart",
+      "selectedSegmentAriaLabel": "{{label}}, selected"
+    },
+    "subheader": {
+      "moreInfoAriaLabel": "More information"
+    }
+  }
+}

@@ -1,6 +1,7 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
+import { useCommonTranslation } from '../../../../translations';
 import { ExternalLink } from '../../symbols';
 import type { IconSize } from '../../symbols/Icon';
 import type { LinkProps } from './types';
@@ -90,6 +91,7 @@ export const Link = ({
   disabled: disabledProp,
   ...props
 }: LinkProps) => {
+  const { t } = useCommonTranslation();
   const disabled = useDisabledContext({
     consumerName: 'Link',
     mergeWith: { disabled: disabledProp },
@@ -130,7 +132,9 @@ export const Link = ({
           {isExternal && (
             <>
               <ExternalLink size={calculatedIconSize} aria-hidden='true' />
-              <span className='sr-only'>(opens in a new tab)</span>
+              <span className='sr-only'>
+                {t('components.link.opensInNewTabAriaLabel')}
+              </span>
             </>
           )}
         </>

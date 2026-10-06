@@ -1,7 +1,7 @@
 import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 
-import { I18nProvider } from '../../../../i18n';
 import { LumenStyleSheetProvider } from '../../../../styles';
+import { TranslationsProvider } from '../../../../translations';
 
 import { GlobalTooltipProvider } from '../Tooltip/GlobalTooltipContext';
 import type { ThemeProviderProps } from './types';
@@ -17,9 +17,9 @@ const ThemeProvider = ({
   return (
     <ThemeContextProvider value={{}}>
       <LumenStyleSheetProvider colorScheme={colorScheme} themes={themes}>
-        <I18nProvider locale={locale}>
+        <TranslationsProvider locale={locale}>
           <GlobalTooltipProvider>{children}</GlobalTooltipProvider>
-        </I18nProvider>
+        </TranslationsProvider>
       </LumenStyleSheetProvider>
     </ThemeContextProvider>
   );

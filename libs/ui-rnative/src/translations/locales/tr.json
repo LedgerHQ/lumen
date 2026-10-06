@@ -1,0 +1,32 @@
+{
+  "common": {
+    "closeAriaLabel": "Kapat"
+  },
+  "components": {
+    "addressInput": {
+      "qrCodeAriaLabel": "Karekodu okut"
+    },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Tutar gizlendi"
+    },
+    "avatar": {
+      "defaultAriaLabel": "Kullanıcı avatarı"
+    },
+    "baseInput": {
+      "clearInputAriaLabel": "Girdiyi temizle"
+    },
+    "spinner": {
+      "loadingAriaLabel": "Yükleniyor"
+    },
+    "bottomSheetHeader": {
+      "goBackAriaLabel": "Geri dön",
+      "closeAriaLabel": "Kapat"
+    },
+    "banner": {
+      "closeAriaLabel": "Kapat"
+    },
+    "stepper": {
+      "progressAriaLabel": "Adım {{totalSteps}} / {{currentStep}}"
+    }
+  }
+}

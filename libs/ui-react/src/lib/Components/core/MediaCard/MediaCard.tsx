@@ -1,7 +1,7 @@
 import { cn, getButtonA11yProps } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { Close } from '../../symbols/icons/Close';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type { MediaCardProps, MediaCardTitleProps } from './types';

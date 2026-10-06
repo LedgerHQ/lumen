@@ -1,4 +1,4 @@
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { BaseInput } from '../../internal/BaseInput';
 import { QrCode as QrCodeIcon } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';

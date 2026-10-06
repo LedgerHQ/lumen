@@ -30,10 +30,7 @@ describe('Legend', () => {
   });
 
   it('renders nothing when series is empty', () => {
-    const { toJSON, queryByLabelText } = renderWithTheme(
-      <Legend series={[]} />,
-    );
-    expect(queryByLabelText('Legend')).toBeNull();
+    const { toJSON } = renderWithTheme(<Legend series={[]} />);
     expect(toJSON()).toBeNull();
   });
 
@@ -86,11 +83,15 @@ describe('Legend', () => {
   });
 
   it('merges consumer styles into the root', () => {
-    const { getByLabelText } = renderWithTheme(
+    const { toJSON } = renderWithTheme(
       <Legend series={sampleItems} style={{ maxWidth: 176 }} />,
     );
-    expect(getByLabelText('Legend').props.style).toEqual(
-      expect.objectContaining({ maxWidth: 176, flexWrap: 'wrap' }),
-    );
+    // The list root is not an accessibility element, so role queries skip it.
+    expect(toJSON()).toMatchObject({
+      props: {
+        role: 'list',
+        style: expect.objectContaining({ maxWidth: 176, flexWrap: 'wrap' }),
+      },
+    });
   });
 });

@@ -1,0 +1,32 @@
+{
+  "common": {
+    "closeAriaLabel": "Fechar"
+  },
+  "components": {
+    "addressInput": {
+      "qrCodeAriaLabel": "Escanear QR Code"
+    },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Valor oculto"
+    },
+    "avatar": {
+      "defaultAriaLabel": "Avatar do usuário"
+    },
+    "baseInput": {
+      "clearInputAriaLabel": "Limpar input"
+    },
+    "spinner": {
+      "loadingAriaLabel": "Carregando"
+    },
+    "bottomSheetHeader": {
+      "goBackAriaLabel": "Voltar",
+      "closeAriaLabel": "Fechar"
+    },
+    "banner": {
+      "closeAriaLabel": "Fechar"
+    },
+    "stepper": {
+      "progressAriaLabel": "Passo {{currentStep}} de {{totalSteps}}"
+    }
+  }
+}

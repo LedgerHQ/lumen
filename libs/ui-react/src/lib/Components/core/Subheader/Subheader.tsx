@@ -1,4 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
+import { useCommonTranslation } from '../../../../translations';
 import { ChevronRight, Information } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type {
@@ -97,6 +98,7 @@ export const SubheaderInfo = ({
   className,
   ...props
 }: SubheaderInfoProps) => {
+  const { t } = useCommonTranslation();
   return (
     <span className='flex shrink-0 items-center'>
       <InteractiveIcon
@@ -105,7 +107,7 @@ export const SubheaderInfo = ({
         icon={Information}
         size={16}
         className={className}
-        aria-label='More information'
+        aria-label={t('components.subheader.moreInfoAriaLabel')}
         {...props}
       />
     </span>

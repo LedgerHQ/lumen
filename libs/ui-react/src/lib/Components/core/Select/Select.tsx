@@ -3,6 +3,7 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { ReactElement } from 'react';
 import { useLayoutEffect } from 'react';
+import { useCommonTranslation } from '../../../../translations';
 import { useControllableState } from '../../../../utils/useControllableState';
 import { ChevronDown, Check } from '../../symbols';
 import { Divider } from '../Divider';
@@ -390,7 +391,7 @@ const SelectItemDescription = ({
 
 const SelectSearch = ({
   className,
-  placeholder = 'Search',
+  placeholder,
   helperText,
   status,
   'aria-invalid': ariaInvalid,
@@ -402,6 +403,8 @@ const SelectSearch = ({
     consumerName: 'SelectSearch',
     contextRequired: true,
   });
+
+  const { t } = useCommonTranslation();
 
   useLayoutEffect(() => registerSearch(), [registerSearch]);
 
@@ -416,7 +419,7 @@ const SelectSearch = ({
           suffix={suffix}
           onClear={onClear}
           hideClearButton={hideClearButton}
-          placeholder={placeholder}
+          placeholder={placeholder ?? t('components.select.searchPlaceholder')}
           containerClassName='rounded-b-none ring-inset'
           className={cn(className, 'rounded-b-none ring-inset')}
         />

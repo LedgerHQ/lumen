@@ -6,7 +6,7 @@ import {
   type AccessibilityActionInfo,
   type ViewProps,
 } from 'react-native';
-import { useCommonTranslation } from '../../../../../i18n';
+import { useCommonTranslation } from '../../../../../translations';
 import type { ToastItem } from '../types';
 
 type UseToastAccessibilityArgs = {

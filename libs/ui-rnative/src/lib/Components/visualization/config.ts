@@ -65,8 +65,6 @@ export const chartConfig = {
 
   emptyState: {
     minDrawablePoints: 2,
-    loadingAriaLabel: 'Loading chart',
-    defaultLabel: 'No data',
     gridLineRatios: [0.3, 0.5, 0.7],
     placeholderViewWidth: 728,
     placeholderViewHeight: 208,
@@ -136,7 +134,6 @@ export const chartConfig = {
     loading: {
       duration: 2000,
       minOpacity: 0.5,
-      ariaLabel: 'Loading donut chart',
     },
   },
 } as const;

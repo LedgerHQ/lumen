@@ -1,7 +1,7 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useState, useEffect } from 'react';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { User } from '../../symbols';
 import { getAvatarFallbackTextColor } from './resolveAvatarColor';
 import type { AvatarProps } from './types';

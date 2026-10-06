@@ -120,7 +120,6 @@ function getScrollMaskImage(
 type SegmentedControlArrowProps = {
   side: 'left' | 'right';
   icon: ComponentType<{ size?: IconSize }>;
-  label: string;
   visible: boolean;
   onClick: () => void;
 };
@@ -128,16 +127,15 @@ type SegmentedControlArrowProps = {
 function SegmentedControlArrow({
   side,
   icon: Icon,
-  label,
   visible,
   onClick,
 }: SegmentedControlArrowProps) {
   return (
     <button
       type='button'
-      aria-label={label}
-      aria-hidden={!visible}
-      // The segments themselves are the tab stops: arrows are a pointer-only affordance.
+      // Pointer-only affordance: the segments are the tab stops and focusing
+      // one scrolls it into view, so assistive tech never needs the arrows.
+      aria-hidden
       tabIndex={-1}
       disabled={!visible}
       onClick={onClick}
@@ -194,14 +192,12 @@ function SegmentedControlScrollArea({
       <SegmentedControlArrow
         side='left'
         icon={ChevronLeft}
-        label='Scroll left'
         visible={canScrollLeft}
         onClick={() => scrollBy('left')}
       />
       <SegmentedControlArrow
         side='right'
         icon={ChevronRight}
-        label='Scroll right'
         visible={canScrollRight}
         onClick={() => scrollBy('right')}
       />

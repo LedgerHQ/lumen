@@ -1,7 +1,7 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, Text } from 'react-native';
-import { useCommonTranslation } from '../../../../i18n';
 import { useStyleSheet } from '../../../../styles';
+import { useCommonTranslation } from '../../../../translations';
 import { RuntimeConstants } from '../../../utils';
 import { BaseInput } from '../../internal/BaseInput';
 import { QrCode } from '../../symbols';

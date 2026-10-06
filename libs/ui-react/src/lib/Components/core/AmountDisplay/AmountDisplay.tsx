@@ -1,6 +1,6 @@
 import { cn, useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo } from 'react';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import type {
   AmountDisplayProps,
   AmountDisplaySize,

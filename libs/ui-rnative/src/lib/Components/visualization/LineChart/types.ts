@@ -62,7 +62,7 @@ export type LineChartProps = LineRenderOptions &
     /**
      * Text shown in the centre of the chart when there is no data and the chart
      * is not loading.
-     * @default 'No data'
+     * @default 'No data' (translated)
      */
     emptyLabel?: string;
     /**

@@ -184,9 +184,7 @@ describe('DonutChart', () => {
 
       const ring = getByTestId('donut-ring');
       expect(ring.getAttribute('aria-busy')).toBe('true');
-      expect(ring.getAttribute('aria-label')).toBe(
-        chartConfig.donut.loading.ariaLabel,
-      );
+      expect(ring.getAttribute('aria-label')).toBe('Loading chart');
     });
 
     it('keeps rendering the center content, left to the consumer', () => {
@@ -231,10 +229,13 @@ describe('DonutChart', () => {
         if (id === 'ethereum') {
           expect(opacity).toBe(1);
           expect(segment.style.transform).not.toBe('translate(0px, 0px)');
+          expect(segment).toHaveAttribute('aria-pressed', 'true');
         } else {
           expect(opacity).toBe(chartConfig.donut.hover.dimOpacity);
           expect(segment.style.transform).toBe('translate(0px, 0px)');
+          expect(segment).toHaveAttribute('aria-pressed', 'false');
         }
+        expect(segment).toHaveAttribute('aria-label', id);
       });
     });
 

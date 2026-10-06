@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';

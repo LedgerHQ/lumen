@@ -1,0 +1,32 @@
+{
+  "common": {
+    "closeAriaLabel": "Cerrar"
+  },
+  "components": {
+    "addressInput": {
+      "qrCodeAriaLabel": "Escanear código QR"
+    },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "Importe oculto"
+    },
+    "avatar": {
+      "defaultAriaLabel": "Avatar de usuario"
+    },
+    "baseInput": {
+      "clearInputAriaLabel": "Borrar entrada"
+    },
+    "spinner": {
+      "loadingAriaLabel": "Cargando"
+    },
+    "bottomSheetHeader": {
+      "goBackAriaLabel": "Volver",
+      "closeAriaLabel": "Cerrar"
+    },
+    "banner": {
+      "closeAriaLabel": "Cerrar"
+    },
+    "stepper": {
+      "progressAriaLabel": "Paso {{currentStep}} de {{totalSteps}}"
+    }
+  }
+}

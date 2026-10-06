@@ -6,7 +6,7 @@ import {
 import { cva } from 'class-variance-authority';
 import type { PointerEvent } from 'react';
 import { useId } from 'react';
-import { useCommonTranslation } from '../../../../i18n';
+import { useCommonTranslation } from '../../../../translations';
 import { InteractiveIcon } from '../../core/InteractiveIcon';
 import { DeleteCircleFill } from '../../symbols';
 import { BaseInputCounter } from './BaseInputCounter';

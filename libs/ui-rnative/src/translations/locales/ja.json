@@ -1,0 +1,32 @@
+{
+  "common": {
+    "closeAriaLabel": "閉じる"
+  },
+  "components": {
+    "addressInput": {
+      "qrCodeAriaLabel": "QRコードをスキャン"
+    },
+    "amountDisplay": {
+      "amountHiddenAriaLabel": "金額非表示"
+    },
+    "avatar": {
+      "defaultAriaLabel": "ユーザーアバター"
+    },
+    "baseInput": {
+      "clearInputAriaLabel": "インプットを削除"
+    },
+    "spinner": {
+      "loadingAriaLabel": "読み込み中"
+    },
+    "bottomSheetHeader": {
+      "goBackAriaLabel": "戻る",
+      "closeAriaLabel": "閉じる"
+    },
+    "banner": {
+      "closeAriaLabel": "閉じる"
+    },
+    "stepper": {
+      "progressAriaLabel": "ステップ{{currentStep}}/{{totalSteps}}"
+    }
+  }
+}
