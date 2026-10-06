@@ -8,7 +8,7 @@ inputs:
   node-version:
     description: Node.js version to install. Defaults to the version pinned in `.mise.toml`.
     required: false
-    default: '22.13.1'
+    default: '22.18.0'
   install:
     description: Whether to run `npm ci --legacy-peer-deps`.
     required: false
