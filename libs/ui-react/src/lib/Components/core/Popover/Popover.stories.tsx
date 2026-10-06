@@ -110,7 +110,7 @@ export const WidthShowcase: Story = {
 
       <Popover>
         <PopoverTrigger
-          render={<Button appearance='gray'>Fixed (max-w 448px)</Button>}
+          render={<Button appearance='gray'>Fixed (w-448)</Button>}
         />
 
         <PopoverContent width='fixed'>
