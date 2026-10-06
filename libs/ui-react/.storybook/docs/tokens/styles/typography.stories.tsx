@@ -21,6 +21,8 @@ type TypographyDefinition = {
   letterSpacing: number;
 };
 
+// The theme object is a single breakpoint, so applying it inline loses the
+// media queries. These utilities carry the responsive sizes themselves.
 const responsiveUtilities = [
   'responsive-display-1',
   'responsive-display-2',
