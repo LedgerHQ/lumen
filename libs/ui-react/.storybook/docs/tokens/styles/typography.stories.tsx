@@ -11,7 +11,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-type TypographyCategory = 'responsive' | 'heading' | 'body';
+type TypographyCategory = 'heading' | 'body';
 
 type TypographyDefinition = {
   fontFamily: string;
@@ -19,6 +19,27 @@ type TypographyDefinition = {
   fontSize: number;
   lineHeight: number;
   letterSpacing: number;
+};
+
+const responsiveUtilities = [
+  'responsive-display-1',
+  'responsive-display-2',
+  'responsive-display-3',
+  'responsive-display-4',
+] as const;
+
+const ResponsiveTypographyTable = () => {
+  const rows = responsiveUtilities.map((utility) => ({
+    key: utility,
+    cells: [
+      <code>{utility}</code>,
+      <span className={utility}>
+        The quick brown fox jumps over the lazy dog
+      </span>,
+    ],
+  }));
+
+  return <TokenTable headers={['Tailwind utility', 'Sample']} rows={rows} />;
 };
 
 const TypographyTable = ({ category }: { category: TypographyCategory }) => {
@@ -50,6 +71,9 @@ const TypographyTable = ({ category }: { category: TypographyCategory }) => {
 };
 
 export const Typography: Story = {
+  parameters: {
+    chromatic: { viewports: [360, 640, 768] },
+  },
   render: () => (
     <div className='p-24'>
       <SectionHeader
@@ -57,7 +81,7 @@ export const Typography: Story = {
         description='Tailwind classes for controlling the typography of an element. Use `body-1`, `body-2`, `responsive-display-1`, `heading-2`... for the display text.'
       />
       <h3 className='mt-24 mb-8 heading-4 text-base'>Responsive</h3>
-      <TypographyTable category='responsive' />
+      <ResponsiveTypographyTable />
       <h3 className='mt-24 mb-8 heading-4 text-base'>Heading</h3>
       <TypographyTable category='heading' />
       <h3 className='mt-24 mb-8 heading-4 text-base'>Body</h3>
