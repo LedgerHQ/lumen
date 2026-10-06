@@ -121,7 +121,7 @@ For the best development experience, we recommend the following setup:
      });
      ```
    - The plugin bundles `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers Tailwind v3 and React Native.
-   - Presets: `recommended` (default) is the core: unknown or conflicting classes, hardcoded colors, and restyling a Lumen component through `className` (a warning). `preset: 'strict'` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling to an error. Layout classes stay allowed on Lumen components in both, and any rule can be tuned with the `rules` option.
+   - Presets: `recommended` (default) is the core: unknown or conflicting classes, and restyling a Lumen component through `className` (a warning). `preset: 'strict'` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling to an error. Layout classes stay allowed on Lumen components in both, and any rule can be tuned with the `rules` option.
    - `entryPoint` is required: without it Tailwind falls back to its default theme and every Lumen class looks unknown, so the preset throws a clear error.
 
 3. **AI Assistant Rules** (Optional)

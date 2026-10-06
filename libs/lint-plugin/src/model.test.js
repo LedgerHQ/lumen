@@ -30,7 +30,6 @@ const withoutLineWrapping = (rules) =>
   );
 
 const CORE = {
-  'lumen/no-hardcoded-colors': 'error',
   'better-tailwindcss/no-unknown-classes': 'error',
   'better-tailwindcss/no-conflicting-classes': 'error',
   'better-tailwindcss/no-concatenated-classes': 'error',
@@ -159,12 +158,9 @@ describe('recommended vs strict', () => {
     ).toEqual(expect.arrayContaining(['transition-*', 'grid-rows-*']));
   });
 
-  it('keeps React Native core to the colors rule, strict adds style literals', () => {
-    expect(levels(presets['react-native recommended'])).toEqual({
-      'lumen/no-hardcoded-colors': 'error',
-    });
+  it('enables no React Native rule in recommended, and style literals in strict', () => {
+    expect(levels(presets['react-native recommended'])).toEqual({});
     expect(levels(presets['react-native strict'])).toEqual({
-      'lumen/no-hardcoded-colors': 'error',
       'lumen/no-hardcoded-style-literals': 'warn',
     });
   });
@@ -281,16 +277,21 @@ describe('the `rules` option', () => {
   });
 
   it('accepts numeric levels', () => {
-    const preset = buildPreset('react-native', {
-      rules: {
-        'lumen/no-hardcoded-colors': 1,
-        'lumen/no-hardcoded-style-literals': 0,
-      },
-    });
-    expect(levels(preset)).toEqual({
-      'lumen/no-hardcoded-colors': 'warn',
-      'lumen/no-hardcoded-style-literals': 'off',
-    });
+    expect(
+      levels(
+        buildPreset('react-native', {
+          rules: { 'lumen/no-hardcoded-style-literals': 1 },
+        }),
+      ),
+    ).toEqual({ 'lumen/no-hardcoded-style-literals': 'warn' });
+    expect(
+      levels(
+        buildPreset('react-native', {
+          preset: 'strict',
+          rules: { 'lumen/no-hardcoded-style-literals': 0 },
+        }),
+      ),
+    ).toEqual({ 'lumen/no-hardcoded-style-literals': 'off' });
   });
 
   it('emits an explicit `off`, so it also wins over earlier configs', () => {
@@ -339,14 +340,14 @@ describe('the `rules` option', () => {
       buildPreset('react', {
         ...ENTRY,
         // @ts-expect-error: a JavaScript consumer can pass anything
-        rules: { 'lumen/no-hardcoded-colors': 'loud' },
+        rules: { 'shadcn/no-restyle': 'loud' },
       }),
     ).toThrow(/invalid level "loud"/);
     expect(() =>
       buildPreset('react', {
         ...ENTRY,
         // @ts-expect-error: a JavaScript consumer can pass anything
-        rules: { 'lumen/no-hardcoded-colors': ['warn', 'x'] },
+        rules: { 'shadcn/no-restyle': ['warn', 'x'] },
       }),
     ).toThrow(/must be an object/);
   });
@@ -392,7 +393,9 @@ describe('ESLint entry', () => {
   });
 
   it('translates levels and options, and strict raises them', () => {
-    expect(config.rules?.['lumen/no-hardcoded-colors']).toBe('error');
+    expect(config.rules?.['better-tailwindcss/no-unknown-classes']).toBe(
+      'error',
+    );
     expect(config.rules?.['shadcn/no-restyle']).toEqual([
       'warn',
       expect.objectContaining({ allow: ['layout'] }),
@@ -407,10 +410,14 @@ describe('ESLint entry', () => {
     const [custom] = eslintEntry.react({
       ...ENTRY,
       files: ['**/*.web.tsx'],
-      rules: { 'lumen/no-hardcoded-colors': 'off' },
+      rules: { 'shadcn/no-restyle': 'off' },
     });
     expect(custom.files).toEqual(['**/*.web.tsx']);
-    expect(custom.rules?.['lumen/no-hardcoded-colors']).toBe('off');
+    // Switched off, but the preset's options are kept, so `[level, options]`.
+    expect(custom.rules?.['shadcn/no-restyle']).toEqual([
+      'off',
+      expect.objectContaining({ allow: ['layout'] }),
+    ]);
   });
 
   it('has no static presets: the React preset needs an entry point', () => {

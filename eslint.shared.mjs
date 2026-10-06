@@ -100,7 +100,6 @@ export const defineStorybookAddons = ({ packageJsonLocation }) => ({
 
 /** Token rules that stories, docs and icon artwork break on purpose. */
 const TOKEN_RULES_OFF = {
-  'lumen/no-hardcoded-colors': 'off',
   'lumen/no-hardcoded-style-literals': 'off',
   'shadcn/no-arbitrary-values': 'off',
   'shadcn/no-inline-styles': 'off',
@@ -129,8 +128,6 @@ export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
     rules: {
       // A component library sets dynamic styles by design; the rule targets apps.
       'shadcn/no-inline-styles': 'off',
-      // Token debt that already exists inside Lumen: visible, not blocking.
-      'lumen/no-hardcoded-colors': 'warn',
     },
   }),
   defineTokenRulesExemptions(),
@@ -141,10 +138,6 @@ export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
  * @returns {Linter.Config[]}
  */
 export const defineLumenNativeRules = () => [
-  ...reactNative({
-    preset: 'strict',
-    // Token debt that already exists inside Lumen: visible, not blocking.
-    rules: { 'lumen/no-hardcoded-colors': 'warn' },
-  }),
+  ...reactNative({ preset: 'strict' }),
   defineTokenRulesExemptions(),
 ];

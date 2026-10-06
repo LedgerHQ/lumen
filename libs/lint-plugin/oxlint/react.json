@@ -8,7 +8,6 @@
     { "name": "shadcn", "specifier": "../src/plugins/shadcn.js" }
   ],
   "rules": {
-    "lumen/no-hardcoded-colors": "error",
     "better-tailwindcss/no-unknown-classes": [
       "error",
       {

@@ -1,4 +1,3 @@
-import { noHardcodedColors } from './rules/no-hardcoded-colors.js';
 import { noHardcodedStyleLiterals } from './rules/no-hardcoded-style-literals.js';
 
 /**
@@ -9,7 +8,6 @@ import { noHardcodedStyleLiterals } from './rules/no-hardcoded-style-literals.js
 export const plugin = {
   meta: { name: 'lumen' },
   rules: {
-    'no-hardcoded-colors': noHardcodedColors,
     'no-hardcoded-style-literals': noHardcodedStyleLiterals,
   },
 };

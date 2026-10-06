@@ -10,7 +10,7 @@ export default defineConfig({
     react({
       entryPoint: fileURLToPath(new URL('../global.css', import.meta.url)),
       rules: {
-        'lumen/no-hardcoded-colors': 'off',
+        'shadcn/no-restyle': 'off',
         'shadcn/no-inline-styles': 'warn',
       },
     }),

@@ -1,7 +1,8 @@
 # @ledgerhq/lumen-lint-plugin
 
 ESLint and oxlint rules for apps built with the Lumen design system, behind one setup:
-better-tailwindcss and `@shadcn/lint` preconfigured for Lumen, plus design-token rules.
+better-tailwindcss and `@shadcn/lint` preconfigured for Lumen, plus a rule for React Native
+styles.
 Same rule ids on both engines.
 
 > **The oxlint side is experimental.** It builds on oxlint's JS plugin API, which oxlint
@@ -65,10 +66,12 @@ Tailwind entry.
 contract, and nothing here is a matter of taste. It is safe to turn on in an existing
 codebase. `strict` adds a few more rules and raises the contract rule.
 
+On React Native, `recommended` enables no rule yet: `strict` adds
+`lumen/no-hardcoded-style-literals`.
+
 | Rule                                                                                         | recommended | strict    | Flags                                                                                                        |
 | -------------------------------------------------------------------------------------------- | ----------- | --------- | ------------------------------------------------------------------------------------------------------------ |
 | `better-tailwindcss/no-unknown-classes`, `no-conflicting-classes`, `no-concatenated-classes` | error       | error     | Classes Tailwind cannot generate, that cancel each other, or that are built at runtime                       |
-| `lumen/no-hardcoded-colors` (React, React Native)                                            | error       | error     | Hex, `rgb()`, `hsl()` and named colors in style objects and color props                                      |
 | `shadcn/no-restyle`                                                                          | warn        | **error** | Anything but layout classes on a Lumen component                                                             |
 | `better-tailwindcss`: class order, canonical, deprecated, duplicate, whitespace              | off         | **error** | Style findings, all fixed by `--fix`                                                                         |
 | `shadcn/no-arbitrary-values`                                                                 | off         | **warn**  | `w-[13px]`-style classes (transitions, grid tracks and `calc()` are allowed)                                 |
@@ -100,7 +103,6 @@ react({
     // An options object is merged over the preset's, so `message` and
     // `componentImports` are kept.
     'shadcn/no-restyle': ['warn', { allow: ['layout', 'spacing'] }],
-    'lumen/no-hardcoded-colors': ['error', { allow: ['#0082FC'] }],
     // Any rule of the three plugins can be enabled, not only the preset's.
     'better-tailwindcss/enforce-logical-properties': 'warn',
   },

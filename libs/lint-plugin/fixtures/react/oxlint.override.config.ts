@@ -12,7 +12,7 @@ export default defineConfig({
     }),
   ],
   rules: {
-    'lumen/no-hardcoded-colors': 'off',
+    'shadcn/no-restyle': 'off',
     'shadcn/no-inline-styles': 'warn',
   },
 });

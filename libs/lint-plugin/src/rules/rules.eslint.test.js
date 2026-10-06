@@ -2,8 +2,6 @@ import { RuleTester } from 'eslint';
 import tseslint from 'typescript-eslint';
 import { afterAll, describe, it } from 'vitest';
 
-import { noHardcodedColorsCases } from './no-hardcoded-colors.cases.js';
-import { noHardcodedColors } from './no-hardcoded-colors.js';
 import { noHardcodedStyleLiteralsCases } from './no-hardcoded-style-literals.cases.js';
 import { noHardcodedStyleLiterals } from './no-hardcoded-style-literals.js';
 
@@ -20,7 +18,6 @@ const tester = new RuleTester({
   },
 });
 
-tester.run('no-hardcoded-colors', noHardcodedColors, noHardcodedColorsCases);
 tester.run(
   'no-hardcoded-style-literals',
   noHardcodedStyleLiterals,

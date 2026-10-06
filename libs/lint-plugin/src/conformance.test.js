@@ -135,7 +135,6 @@ describe('every way of setting the plugin up reports the same diagnostics', () =
         'better-tailwindcss/no-unknown-classes:6:error',
         'better-tailwindcss/no-conflicting-classes:8:error',
         'better-tailwindcss/no-concatenated-classes:12:error',
-        'lumen/no-hardcoded-colors:9:error',
         'shadcn/no-restyle:16:warn',
       ]),
     );
@@ -144,7 +143,6 @@ describe('every way of setting the plugin up reports the same diagnostics', () =
       'better-tailwindcss/no-concatenated-classes',
       'better-tailwindcss/no-conflicting-classes',
       'better-tailwindcss/no-unknown-classes',
-      'lumen/no-hardcoded-colors',
       'shadcn/no-restyle',
     ]);
     // Line 7 uses a class defined only in the fixture's CSS entry point.
@@ -196,13 +194,9 @@ describe('every way of setting the plugin up reports the same diagnostics', () =
     expect(others[1]).toEqual(recommended);
     expect(others[2]).toEqual(strict);
     expect(others[3]).toEqual(strict);
-    expect(recommended).toEqual([
-      'lumen/no-hardcoded-colors:5:error',
-      'lumen/no-hardcoded-colors:8:error',
-    ]);
+    // Nothing is enabled in the React Native core yet.
+    expect(recommended).toEqual([]);
     expect(strict).toEqual([
-      'lumen/no-hardcoded-colors:5:error',
-      'lumen/no-hardcoded-colors:8:error',
       'lumen/no-hardcoded-style-literals:5:warn',
       'lumen/no-hardcoded-style-literals:8:warn',
     ]);
@@ -210,7 +204,7 @@ describe('every way of setting the plugin up reports the same diagnostics', () =
 
   it('a consumer can override rules four ways, all with the same result', async () => {
     const rules = /** @type {const} */ ({
-      'lumen/no-hardcoded-colors': 'off',
+      'shadcn/no-restyle': 'off',
       'shadcn/no-inline-styles': 'warn',
     });
     const [eslint, factoryOption, topLevel, json] = await Promise.all([
@@ -224,7 +218,7 @@ describe('every way of setting the plugin up reports the same diagnostics', () =
     expect(topLevel).toEqual(eslint);
     expect(json).toEqual(eslint);
     // Turned off, and a rule outside the preset turned on.
-    expect(ruleIds(eslint)).not.toContain('lumen/no-hardcoded-colors');
+    expect(ruleIds(eslint)).not.toContain('shadcn/no-restyle');
     expect(eslint).toContain('shadcn/no-inline-styles:15:warn');
     expect(ruleIds(eslint)).toContain('better-tailwindcss/no-unknown-classes');
   });
@@ -264,10 +258,9 @@ describe('every way of setting the plugin up reports the same diagnostics', () =
       ),
     ).toEqual([]);
     expect(ruleIds(onFile('screen.native.tsx'))).toEqual([
-      'lumen/no-hardcoded-colors',
       'lumen/no-hardcoded-style-literals',
     ]);
-    // The unsuffixed file holds a hex color and is left alone.
+    // The unsuffixed file holds a literal style value and is left alone.
     expect(onFile('helpers.ts')).toEqual([]);
   });
 });

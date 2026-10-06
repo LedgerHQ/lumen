@@ -99,12 +99,13 @@ spend findings on things a linter can't catch. Do **not** raise:
 - Unknown/invalid Tailwind classnames (`eslint-plugin-better-tailwindcss`). This
   includes raw palette and typography classes (`text-gray-500`, `font-bold`):
   Lumen's preset removes them, so they are unknown classes.
-- Hardcoded colors and arbitrary values (`lumen/no-hardcoded-colors`,
-  `shadcn/no-arbitrary-values` from `@ledgerhq/lumen-lint-plugin`). They are
-  warnings in this repo, so a new one in a diff is already visible.
+- Arbitrary Tailwind values (`shadcn/no-arbitrary-values` from
+  `@ledgerhq/lumen-lint-plugin`). They are warnings in this repo, so a new one in
+  a diff is already visible.
 
 Caveat: a **valid** token class that is the wrong one for the design lints
-clean — that stays a **manual** check, see `component-styling`'s Review checks.
+clean, and hardcoded colors in style objects or SVG props are not linted at all —
+both stay **manual** checks, see `component-styling`'s Review checks.
 
 ## Findings vs severity — independent
 

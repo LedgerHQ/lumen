@@ -61,7 +61,7 @@ const LUMEN_COMPONENTS = ['^@ledgerhq/lumen-ui-react(/|$)'];
  * @type {Record<PluginName, string[]>}
  */
 export const KNOWN_RULES = {
-  lumen: ['no-hardcoded-colors', 'no-hardcoded-style-literals'],
+  lumen: ['no-hardcoded-style-literals'],
   'better-tailwindcss': [
     'enforce-canonical-classes',
     'enforce-consistent-class-order',
@@ -123,7 +123,6 @@ const LUMEN_RECOGNITION = { componentImports: LUMEN_COMPONENTS };
 
 /** @type {RuleDefinition[]} */
 const REACT_RULES = [
-  { id: 'lumen/no-hardcoded-colors', recommended: 'error', strict: 'error' },
   // Classes Tailwind cannot generate, or that cancel each other: always bugs.
   {
     id: 'better-tailwindcss/no-unknown-classes',
@@ -192,7 +191,6 @@ const REACT_RULES = [
 
 /** @type {RuleDefinition[]} */
 const NATIVE_RULES = [
-  { id: 'lumen/no-hardcoded-colors', recommended: 'error', strict: 'error' },
   {
     id: 'lumen/no-hardcoded-style-literals',
     recommended: 'off',

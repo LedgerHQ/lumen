@@ -11,7 +11,6 @@
     {
       "files": ["**/*.web.{ts,tsx}"],
       "rules": {
-        "lumen/no-hardcoded-colors": "error",
         "better-tailwindcss/no-unknown-classes": [
           "error",
           {
