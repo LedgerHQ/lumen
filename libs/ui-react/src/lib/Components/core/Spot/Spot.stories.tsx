@@ -13,6 +13,7 @@ import type { IconSize } from '../../symbols/Icon';
 import { DotSymbol, getDotSymbolProps } from '../DotSymbol';
 import { Spinner } from '../Spinner';
 import { Spot } from './Spot';
+import { SpotNumber } from './SpotNumber';
 import type { SpotAppearance } from './types';
 
 const meta = {
@@ -187,7 +188,7 @@ export const WithNumber: Story = {
   render: () => {
     return (
       <div className='flex flex-col gap-32 p-16'>
-        <Spot icon={Settings} deprecatedNumber={9} />
+        <SpotNumber value={9} />
       </div>
     );
   },

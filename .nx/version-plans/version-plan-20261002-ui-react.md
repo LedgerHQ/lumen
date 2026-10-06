@@ -6,13 +6,13 @@ feat(Spot)!: replace content-based appearances with palette and fill props
 
 ## New API
 
-- `icon` is optional. `deprecatedNumber` replaces it when set.
+- `icon` is required.
 - `appearance` selects the palette: `base`, `success`, `error`, `warning`,
   `muted`, or a `decorative-*` color. It defaults to `base`.
 - `fill` is `transparent` or `plain`. It defaults to `transparent`.
 - `bluetooth` is deprecated.
 - `loader` is no longer built into Spot.
-- `number` becomes the deprecated `deprecatedNumber` prop.
+- The `number` prop is dropped. Digits are now a `SpotNumber` component.
 - `disabled` and `size` are unchanged.
 
 ```tsx
@@ -68,12 +68,11 @@ Spot passes the palette text color to the icon, so a `Spinner` icon follows `app
 
 Bluetooth is not used by any team, so it is deprecated with no replacement.
 
-Numbers move to the deprecated `deprecatedNumber` prop. It replaces `icon`
-when set, and the digit follows `appearance` and `fill`:
+The `number` prop is dropped. Digits are now a `SpotNumber` component, and the digit follows `appearance` and `fill`:
 
 ```tsx
 <Spot appearance="number" number={5} />
-<Spot deprecatedNumber={5} />
+<SpotNumber value={5} />
 ```
 
 Update dynamic appearance maps and wrappers as well as literal JSX. `className`

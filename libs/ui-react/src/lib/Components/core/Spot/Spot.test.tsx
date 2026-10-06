@@ -58,11 +58,4 @@ describe('Spot', () => {
       'text-success-strong',
     );
   });
-
-  it('should render deprecatedNumber instead of the icon', () => {
-    render(<Spot appearance='success' icon={TestIcon} deprecatedNumber={5} />);
-
-    expect(screen.queryByLabelText('Test icon')).not.toBeInTheDocument();
-    expect(screen.getByText('5')).toHaveClass('heading-5', 'text-success');
-  });
 });

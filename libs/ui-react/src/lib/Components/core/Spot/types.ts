@@ -45,11 +45,15 @@ export type SpotProps = {
   size?: SpotSize;
   /**
    * Icon rendered inside the circle.
+   * @required
    */
-  icon?: ComponentType<{ size?: IconSize; className?: string }>;
-  /**
-   * Digit rendered instead of `icon` when set.
-   * @deprecated Kept for existing consumers. Remove once those designs change.
-   */
-  deprecatedNumber?: SpotDigit;
+  icon: ComponentType<{ size?: IconSize; className?: string }>;
 } & ComponentPropsWithRef<'div'>;
+
+export type SpotNumberProps = {
+  /**
+   * Digit rendered inside the circle.
+   * @required
+   */
+  value: SpotDigit;
+} & Omit<SpotProps, 'icon'>;

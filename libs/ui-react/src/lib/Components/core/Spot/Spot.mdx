@@ -24,9 +24,7 @@ Spots are circular icon containers. `appearance` selects a color palette. `fill`
 <Canvas of={SpotStories.Base} />
 
 - **Circular container**: Transparent muted fill, or a solid fill from the palette
-- **Icon**: Optional. Status spots pass a filled symbol such as `CheckmarkCircleFill`
-
-**Note**: Icon is optional because we expose `deprecatedNumber`. It will be required once `deprecatedNumber` is removed.
+- **Icon**: Status spots pass a filled symbol such as `CheckmarkCircleFill`
 
 ## Properties
 
@@ -56,9 +54,9 @@ Pass `Spinner` as the icon to keep the circle around a loading indicator. Spot s
 
 <Canvas of={SpotStories.WithSpinner} />
 
-### Deprecated number
+### Number
 
-`deprecatedNumber` replaces the icon when set. It is kept so existing usages keep working, and should be removed once those designs change.
+A single digit uses `SpotNumber`. It follows the same `appearance`, `fill`, and `size`.
 
 <Canvas of={SpotStories.WithNumber} />
 
@@ -101,7 +99,7 @@ npm install @ledgerhq/lumen-ui-react
 
 <Source of={SpotStories.WithSpinner} />
 
-## Deprecated number
+## Number
 
 <Source of={SpotStories.WithNumber} />
 

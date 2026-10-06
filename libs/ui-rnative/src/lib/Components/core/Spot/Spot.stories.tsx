@@ -14,6 +14,7 @@ import type { IconSize } from '../../symbols/Icon';
 import { DotSymbol, getDotSymbolProps } from '../DotSymbol';
 import { Spinner } from '../Spinner';
 import { Spot } from './Spot';
+import { SpotNumber } from './SpotNumber';
 import type { SpotAppearance } from './types';
 
 const meta = {
@@ -208,7 +209,7 @@ export const WithNumber: Story = {
   render: () => {
     return (
       <Box lx={{ padding: 's16' }}>
-        <Spot deprecatedNumber={9} />
+        <SpotNumber value={9} />
       </Box>
     );
   },
