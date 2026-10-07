@@ -1,5 +1,6 @@
 /** @import { Linter } from 'eslint' */
 import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
+import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults';
 import storybook from 'eslint-plugin-storybook';
 import { globalIgnores } from 'eslint/config';
 
@@ -121,7 +122,22 @@ export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
   {
     name: 'lumen-react-rules',
     files: tsJsFilePatterns,
-    settings: { 'better-tailwindcss': { entryPoint, tailwindConfig } },
+    settings: {
+      'better-tailwindcss': {
+        entryPoint,
+        tailwindConfig,
+        // Lumen components take `containerClassName`-style props. Setting
+        // selectors replaces the defaults, so they are spread first.
+        selectors: [
+          ...getDefaultSelectors(),
+          {
+            kind: 'attribute',
+            name: '^[a-z]\\w*ClassName$',
+            match: [{ type: 'strings' }],
+          },
+        ],
+      },
+    },
     rules: {
       // A component library sets dynamic styles by design; the rule targets apps.
       'shadcn/no-inline-styles': 'off',
