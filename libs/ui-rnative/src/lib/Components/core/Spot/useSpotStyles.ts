@@ -31,36 +31,37 @@ export const useSpotStyles = ({
 }): SpotStyles => {
   return useStyleSheet(
     (t) => {
-      const transparentTextColor: Record<SpotAppearance, string> = {
-        base: t.colors.text.base,
-        success: t.colors.text.success,
-        error: t.colors.text.error,
-        warning: t.colors.text.warning,
-        muted: t.colors.text.muted,
-        'decorative-blue': t.colors.text.decorativeBlue,
-        'decorative-pink': t.colors.text.decorativePink,
-        'decorative-purple': t.colors.text.decorativePurple,
-        'decorative-green': t.colors.text.decorativeGreen,
-        'decorative-turquoise': t.colors.text.decorativeTurquoise,
-        'decorative-yellow': t.colors.text.decorativeYellow,
-        'decorative-orange': t.colors.text.decorativeOrange,
-        'decorative-red': t.colors.text.decorativeRed,
-      };
-
-      const plainTextColor: Record<SpotAppearance, string> = {
-        base: t.colors.text.base,
-        success: t.colors.text.successStrong,
-        error: t.colors.text.errorStrong,
-        warning: t.colors.text.warningStrong,
-        muted: t.colors.text.muted,
-        'decorative-blue': t.colors.text.decorativeStrongBlue,
-        'decorative-pink': t.colors.text.decorativeStrongPink,
-        'decorative-purple': t.colors.text.decorativeStrongPurple,
-        'decorative-green': t.colors.text.decorativeStrongGreen,
-        'decorative-turquoise': t.colors.text.decorativeStrongTurquoise,
-        'decorative-yellow': t.colors.text.decorativeStrongYellow,
-        'decorative-orange': t.colors.text.decorativeStrongOrange,
-        'decorative-red': t.colors.text.decorativeStrongRed,
+      const textColors: Record<SpotFill, Record<SpotAppearance, string>> = {
+        transparent: {
+          base: t.colors.text.base,
+          success: t.colors.text.success,
+          error: t.colors.text.error,
+          warning: t.colors.text.warning,
+          muted: t.colors.text.muted,
+          'decorative-blue': t.colors.text.decorativeBlue,
+          'decorative-pink': t.colors.text.decorativePink,
+          'decorative-purple': t.colors.text.decorativePurple,
+          'decorative-green': t.colors.text.decorativeGreen,
+          'decorative-turquoise': t.colors.text.decorativeTurquoise,
+          'decorative-yellow': t.colors.text.decorativeYellow,
+          'decorative-orange': t.colors.text.decorativeOrange,
+          'decorative-red': t.colors.text.decorativeRed,
+        },
+        plain: {
+          base: t.colors.text.base,
+          success: t.colors.text.successStrong,
+          error: t.colors.text.errorStrong,
+          warning: t.colors.text.warningStrong,
+          muted: t.colors.text.muted,
+          'decorative-blue': t.colors.text.decorativeStrongBlue,
+          'decorative-pink': t.colors.text.decorativeStrongPink,
+          'decorative-purple': t.colors.text.decorativeStrongPurple,
+          'decorative-green': t.colors.text.decorativeStrongGreen,
+          'decorative-turquoise': t.colors.text.decorativeStrongTurquoise,
+          'decorative-yellow': t.colors.text.decorativeStrongYellow,
+          'decorative-orange': t.colors.text.decorativeStrongOrange,
+          'decorative-red': t.colors.text.decorativeStrongRed,
+        },
       };
 
       const plainBackgroundColor: Record<SpotAppearance, string> = {
@@ -89,9 +90,7 @@ export const useSpotStyles = ({
 
       const contentColor = disabled
         ? t.colors.text.disabled
-        : fill === 'plain'
-          ? plainTextColor[appearance]
-          : transparentTextColor[appearance];
+        : textColors[fill][appearance];
 
       return {
         root: {
