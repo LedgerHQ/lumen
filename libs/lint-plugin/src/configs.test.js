@@ -9,7 +9,11 @@ import { buildOxlintPresets } from '../scripts/generate-oxlint-json.js';
 
 import eslint from './eslint.js';
 import oxlint from './oxlint.js';
-import { NO_RESTYLE_OPTIONS, RULES } from './rules.js';
+import {
+  NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTYLE_OPTIONS,
+  RULES,
+} from './rules.js';
 
 /** @param {Record<string, unknown>} rules */
 const levels = (rules) =>
@@ -74,6 +78,15 @@ describe('presets', () => {
     expect(NO_RESTYLE_OPTIONS.allow).toEqual(['layout']);
   });
 
+  it('exports Lumen’s options frozen, so no consumer changes them for everyone', () => {
+    for (const options of [NO_RESTYLE_OPTIONS, NO_ARBITRARY_VALUES_OPTIONS]) {
+      expect(Object.isFrozen(options)).toBe(true);
+      expect(Object.isFrozen(options.allow)).toBe(true);
+      expect(Object.isFrozen(options.componentImports)).toBe(true);
+    }
+    expect(Object.isFrozen(NO_RESTYLE_OPTIONS.message)).toBe(true);
+  });
+
   it('leave the selectors to better-tailwindcss’ defaults', () => {
     expect(JSON.stringify(RULES)).not.toContain('selectors');
   });
@@ -90,7 +103,7 @@ describe('ESLint entry', () => {
         'shadcn',
       ]);
       expect(config.rules).toEqual(RULES[name]);
-      expect(config.files).toEqual(['**/*.{ts,tsx,js,jsx}']);
+      expect(config.files).toEqual(['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}']);
       expect(config).not.toHaveProperty('settings');
     },
   );

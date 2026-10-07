@@ -6,6 +6,21 @@ import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 
 const LUMEN_COMPONENTS = ['^@ledgerhq/lumen-ui-react(/|$)'];
 
+/**
+ * The exported options are shared by both presets and by every consumer that
+ * spreads them, so a mutation anywhere would change them for everyone.
+ * @template T
+ * @param {T} value
+ * @returns {T}
+ */
+function deepFreeze(value) {
+  if (value !== null && typeof value === 'object') {
+    for (const child of Object.values(value)) deepFreeze(child);
+    Object.freeze(value);
+  }
+  return value;
+}
+
 // shadcn's default text for these categories points at the component's source
 // file, which means nothing to a consumer. Spacing keeps its built-in hint
 // ("use margin here or gap on the parent").
@@ -13,7 +28,7 @@ const APPEARANCE_OWNED_MESSAGE =
   '{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant.';
 
 /** className on a Lumen component is for layout; everything else is its job. */
-export const NO_RESTYLE_OPTIONS = {
+export const NO_RESTYLE_OPTIONS = deepFreeze({
   allow: ['layout'],
   message: {
     color: APPEARANCE_OWNED_MESSAGE,
@@ -23,13 +38,13 @@ export const NO_RESTYLE_OPTIONS = {
     motion: APPEARANCE_OWNED_MESSAGE,
   },
   componentImports: LUMEN_COMPONENTS,
-};
+});
 
 /**
  * Arbitrary utilities that describe mechanics, not values that belong on the
  * design scale. Everything else in brackets (`w-[13px]`) is reported.
  */
-export const NO_ARBITRARY_VALUES_OPTIONS = {
+export const NO_ARBITRARY_VALUES_OPTIONS = deepFreeze({
   allow: [
     'transition-*',
     'grid-rows-*',
@@ -44,7 +59,7 @@ export const NO_ARBITRARY_VALUES_OPTIONS = {
     '[-webkit-mask-clip:no-clip]',
   ],
   componentImports: LUMEN_COMPONENTS,
-};
+});
 
 /** @typedef {'recommended' | 'strict'} PresetName */
 

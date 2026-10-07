@@ -18,7 +18,7 @@ const plugins = /** @type {Record<string, ESLint.Plugin>} */ ({
  */
 const toConfig = (preset) => ({
   name: `lumen/${preset}`,
-  files: ['**/*.{ts,tsx,js,jsx}'],
+  files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
   plugins,
   rules: /** @type {Linter.RulesRecord} */ (RULES[preset]),
 });
