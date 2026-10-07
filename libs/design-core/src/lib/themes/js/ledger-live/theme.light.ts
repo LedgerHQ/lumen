@@ -1,6 +1,6 @@
-import { primitiveColorTokens } from '../primitives/primitive.colors';
-import { primitiveGradientTokens } from '../primitives/primitive.gradients';
-import type { ThemeColorTokens } from '../types';
+import { primitiveColorTokens } from '../primitives/primitive.colors.js';
+import { primitiveGradientTokens } from '../primitives/primitive.gradients.js';
+import type { ThemeColorTokens } from '../types.js';
 
 export const ledgerLiveLightColorTokens = {
   crypto: {

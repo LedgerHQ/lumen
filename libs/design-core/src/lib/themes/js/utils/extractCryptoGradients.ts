@@ -1,4 +1,4 @@
-import { primitiveColorTokens } from '../primitives/primitive.colors';
+import { primitiveColorTokens } from '../primitives/primitive.colors.js';
 
 function typedKeys<T extends object>(obj: T): (keyof T)[] {
   return Object.keys(obj) as (keyof T)[];

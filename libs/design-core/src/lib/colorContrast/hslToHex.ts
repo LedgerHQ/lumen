@@ -1,4 +1,4 @@
-import { type HslValue } from './hexToHsl';
+import { type HslValue } from './hexToHsl.js';
 
 export function hslToHex(hsl: HslValue): string {
   const { h, s, l } = hsl;

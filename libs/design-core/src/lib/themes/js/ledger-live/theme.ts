@@ -1,11 +1,11 @@
-import { primitiveTypographyTokens } from '../primitives/primitive.typographies';
-import { primitiveMotionTokens } from '../primitives/primitives.motion';
-import { primitiveLayoutTokens } from '../primitives/primitives.others';
-import { primitiveShadowTokens } from '../primitives/primitives.shadows';
-import type { ThemeCoreTokens } from '../types';
-import { typographyTokens } from '../typographies';
-import { ledgerLiveDarkColorTokens } from './theme.dark';
-import { ledgerLiveLightColorTokens } from './theme.light';
+import { primitiveTypographyTokens } from '../primitives/primitive.typographies.js';
+import { primitiveMotionTokens } from '../primitives/primitives.motion.js';
+import { primitiveLayoutTokens } from '../primitives/primitives.others.js';
+import { primitiveShadowTokens } from '../primitives/primitives.shadows.js';
+import type { ThemeCoreTokens } from '../types.js';
+import { typographyTokens } from '../typographies/index.js';
+import { ledgerLiveDarkColorTokens } from './theme.dark.js';
+import { ledgerLiveLightColorTokens } from './theme.light.js';
 
 export const ledgerLiveCoreTokens = {
   ...primitiveLayoutTokens,

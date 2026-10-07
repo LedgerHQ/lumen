@@ -1,4 +1,4 @@
-import type { PrimitiveMotionTokens } from '../types';
+import type { PrimitiveMotionTokens } from '../types.js';
 
 export const primitiveMotionTokens = {
   durations: {

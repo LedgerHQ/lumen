@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import { allBrandsCSSTheme } from '../themes/css';
+import { allBrandsCSSTheme } from '../themes/css/index.js';
 import {
   createGradientPlugin,
   createScreensPlugin,
@@ -10,7 +10,7 @@ import {
   createMaskPlugin,
   createAnimationsPlugin,
   createPrimitivesPlugin,
-} from '../utils';
+} from '../utils/index.js';
 
 export const allBrandsPreset: Config = {
   content: [],

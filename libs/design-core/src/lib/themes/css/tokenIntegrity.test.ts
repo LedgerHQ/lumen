@@ -3,18 +3,18 @@ import path from 'path';
 import postcss from 'postcss';
 import { describe, it, expect } from 'vitest';
 
-import { tokens as enterpriseDarkTokens } from './enterprise/theme.dark-css';
-import { tokens as enterpriseLightTokens } from './enterprise/theme.light-css';
-import { tokens as llDarkTokens } from './ledger-live/theme.dark-css';
-import { tokens as llLightTokens } from './ledger-live/theme.light-css';
-import { tokens as primitivesTokens } from './primitives-css';
-import { tokens as typographyLgTokens } from './typographies/typography.lg-css';
-import { tokens as typographyMdTokens } from './typographies/typography.md-css';
-import { tokens as typographySmTokens } from './typographies/typography.sm-css';
-import { tokens as typographyXlTokens } from './typographies/typography.xl-css';
-import { tokens as typographyXsTokens } from './typographies/typography.xs-css';
-import { tokens as websitesDarkTokens } from './websites/theme.dark-css';
-import { tokens as websitesLightTokens } from './websites/theme.light-css';
+import { tokens as enterpriseDarkTokens } from './enterprise/theme.dark-css.js';
+import { tokens as enterpriseLightTokens } from './enterprise/theme.light-css.js';
+import { tokens as llDarkTokens } from './ledger-live/theme.dark-css.js';
+import { tokens as llLightTokens } from './ledger-live/theme.light-css.js';
+import { tokens as primitivesTokens } from './primitives-css.js';
+import { tokens as typographyLgTokens } from './typographies/typography.lg-css.js';
+import { tokens as typographyMdTokens } from './typographies/typography.md-css.js';
+import { tokens as typographySmTokens } from './typographies/typography.sm-css.js';
+import { tokens as typographyXlTokens } from './typographies/typography.xl-css.js';
+import { tokens as typographyXsTokens } from './typographies/typography.xs-css.js';
+import { tokens as websitesDarkTokens } from './websites/theme.dark-css.js';
+import { tokens as websitesLightTokens } from './websites/theme.light-css.js';
 
 // -- Helpers ------------------------------------------------------------------
 

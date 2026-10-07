@@ -1,7 +1,7 @@
 import { describe, it, expect, expectTypeOf } from 'vitest';
 
-import { cssVar } from './cssVar';
-import type { CSSVarName, CSSVarRef } from './cssVar';
+import { cssVar } from './cssVar.js';
+import type { CSSVarName, CSSVarRef } from './cssVar.js';
 
 describe('cssVar', () => {
   it('returns the input string unchanged', () => {
