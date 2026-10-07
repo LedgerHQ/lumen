@@ -208,7 +208,7 @@ export const Gallery: StoryObj = {
       >
         {/* Search bar */}
         <Box lx={{ marginBottom: 's32' }}>
-          <Box lx={{ marginBottom: 's8', maxWidth: 's320' }}>
+          <Box lx={{ marginBottom: 's8', maxWidth: 'sXs' }}>
             <SearchInput
               placeholder='Search icons...'
               value={searchTerm}

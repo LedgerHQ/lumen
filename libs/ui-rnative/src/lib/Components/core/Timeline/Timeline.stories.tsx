@@ -57,7 +57,7 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   render: (args) => (
-    <Timeline lx={{ width: 's320' }}>
+    <Timeline lx={{ width: 'sXs' }}>
       <TimelineItem status={args.status}>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -97,7 +97,7 @@ export const WithInformative: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Timeline lx={{ width: 's320' }}>
+    <Timeline lx={{ width: 'sXs' }}>
       <TimelineItem>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -124,7 +124,7 @@ export const StatusShowcase: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Timeline lx={{ width: 's320' }}>
+    <Timeline lx={{ width: 'sXs' }}>
       <TimelineItem status='success'>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -176,7 +176,7 @@ export const WithCollapse: Story = {
     const [open, setOpen] = useState(true);
 
     return (
-      <Timeline lx={{ width: 's320' }}>
+      <Timeline lx={{ width: 'sXs' }}>
         <TimelineItem status='success'>
           <TimelineItemHeader>
             <TimelineItemLeading>
@@ -221,7 +221,7 @@ export const ResponsivenessShowcase: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Timeline lx={{ width: 's256' }}>
+    <Timeline lx={{ width: 's3Xs' }}>
       <TimelineItem status='success'>
         <TimelineItemHeader>
           <TimelineItemLeading>

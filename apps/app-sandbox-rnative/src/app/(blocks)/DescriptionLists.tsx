@@ -28,7 +28,7 @@ const TransactionSummary = ({
 }: {
   size?: 'md' | 'sm';
 }) => (
-  <Box lx={{ width: 's320', gap: size === 'md' ? 's16' : 's12' }}>
+  <Box lx={{ width: 'sXs', gap: size === 'md' ? 's16' : 's12' }}>
     <DescriptionItem size={size}>
       <DescriptionItemLeading>
         <DescriptionItemLabel>Network</DescriptionItemLabel>
@@ -90,7 +90,7 @@ export default function DescriptionLists() {
       <TransactionSummary size='sm' />
 
       <SectionLabel>Truncation</SectionLabel>
-      <Box lx={{ width: 's320', gap: 's16' }}>
+      <Box lx={{ width: 'sXs', gap: 's16' }}>
         <DescriptionItem>
           <DescriptionItemLeading>
             <DescriptionItemLabel>
@@ -106,7 +106,7 @@ export default function DescriptionLists() {
       </Box>
 
       <SectionLabel>Priority</SectionLabel>
-      <Box lx={{ width: 's320', gap: 's16' }}>
+      <Box lx={{ width: 'sXs', gap: 's16' }}>
         <DescriptionItem priority='start'>
           <DescriptionItemLeading>
             <DescriptionItemLabel>

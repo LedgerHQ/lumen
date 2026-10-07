@@ -185,7 +185,7 @@ export const LabelTruncate: Story = {
       <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
         This container has a fixed width.
       </Text>
-      <Box lx={{ width: 's448', padding: 's16' }}>
+      <Box lx={{ width: 'sMd', padding: 's16' }}>
         <Button icon={Plus}>
           This Base button has a fixed width container that should fit the
           content width.

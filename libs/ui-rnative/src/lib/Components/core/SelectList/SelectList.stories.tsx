@@ -52,8 +52,8 @@ const meta = {
             flex: 1,
             padding: 's24',
             alignItems: 'flex-start',
-            width: 's320',
-            height: 's512',
+            width: 'sXs',
+            height: 'sLg',
           }}
         >
           <Story />
@@ -1029,7 +1029,7 @@ export const WithDefaultValue: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <SelectList items={CURRENCIES} defaultValue='eth'>
         <SelectListContent
           renderItem={(item) => {
@@ -1089,7 +1089,7 @@ export const TypesafeFactory: Story = {
     const [value, setValue] = useState<TypedNetwork | null>('eth');
 
     return (
-      <Box lx={{ width: 's320' }}>
+      <Box lx={{ width: 'sXs' }}>
         <NetworkList.SelectList
           items={TYPED_NETWORKS}
           value={value}

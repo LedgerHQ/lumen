@@ -47,7 +47,7 @@ type Story = StoryObj<typeof Card>;
 
 export const Base: Story = {
   args: {
-    className: 'w-320',
+    className: 'w-xs',
     onClick: () => {
       return;
     },
@@ -78,14 +78,14 @@ export const Base: Story = {
 
 export const StatesShowcase: Story = {
   args: {
-    className: 'w-320',
+    className: 'w-xs',
     onClick: () => {
       return;
     },
   },
   render: (args) => (
     <div className='flex flex-col gap-16'>
-      <Card {...args} className='w-320'>
+      <Card {...args} className='w-xs'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -115,7 +115,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} className='w-320' outlined>
+      <Card {...args} className='w-xs' outlined>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -143,7 +143,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} className='w-320' type='info'>
+      <Card {...args} className='w-xs' type='info'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -171,7 +171,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} className='w-320' disabled>
+      <Card {...args} className='w-xs' disabled>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -200,7 +200,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} className='w-320' disabled>
+      <Card {...args} className='w-xs' disabled>
         <CardHeader>
           <CardLeading>
             <Wallet size={20} />
@@ -229,7 +229,7 @@ export const StatesShowcase: Story = {
 export const FooterAppearance: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
-      <Card type='info' className='w-320'>
+      <Card type='info' className='w-xs'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -253,7 +253,7 @@ export const FooterAppearance: Story = {
         </CardFooter>
       </Card>
 
-      <Card type='info' className='w-320'>
+      <Card type='info' className='w-xs'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -282,7 +282,7 @@ export const FooterAppearance: Story = {
 
 export const DisabledWithIcon: Story = {
   args: {
-    className: 'w-320',
+    className: 'w-xs',
     disabled: true,
   },
   render: (args) => (
@@ -311,7 +311,7 @@ export const DisabledWithIcon: Story = {
 
 export const DisabledWithSpot: Story = {
   args: {
-    className: 'w-320',
+    className: 'w-xs',
     disabled: true,
   },
   render: (args) => (
@@ -345,7 +345,7 @@ export const ExpandableShowcase: Story = {
     return (
       <div className='flex flex-col gap-16'>
         <Card
-          className='w-320'
+          className='w-xs'
           type='expandable'
           expanded={expanded}
           onClick={() => setExpanded(!expanded)}
@@ -390,13 +390,13 @@ export const ExpandableShowcase: Story = {
 
 export const LayoutShowcase: Story = {
   args: {
-    className: 'w-320',
+    className: 'w-xs',
     onClick: () => {
       return;
     },
   },
   render: (args) => (
-    <div className='flex w-512 flex-col gap-32'>
+    <div className='flex w-lg flex-col gap-32'>
       <Card {...args} className='w-fit'>
         <CardHeader>
           <CardLeading>
@@ -417,7 +417,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} className='w-320'>
+      <Card {...args} className='w-xs'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -446,7 +446,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} className='w-320'>
+      <Card {...args} className='w-xs'>
         <CardHeader>
           <CardLeading>
             <div className='shrink-0'>
@@ -519,7 +519,7 @@ export const LayoutShowcase: Story = {
 
 export const CompositionsShowcase: Story = {
   args: {
-    className: 'w-320',
+    className: 'w-xs',
     onClick: () => {
       return;
     },
@@ -529,7 +529,7 @@ export const CompositionsShowcase: Story = {
 
     return (
       <div className='flex flex-col gap-16'>
-        <Card {...args} className='w-320' type='info'>
+        <Card {...args} className='w-xs' type='info'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon
@@ -558,7 +558,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320'>
+        <Card {...args} className='w-xs'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon
@@ -586,7 +586,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320'>
+        <Card {...args} className='w-xs'>
           <CardHeader>
             <CardLeading>
               <Spot icon={Wallet} />
@@ -609,7 +609,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320'>
+        <Card {...args} className='w-xs'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon
@@ -634,7 +634,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320'>
+        <Card {...args} className='w-xs'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon
@@ -670,7 +670,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320'>
+        <Card {...args} className='w-xs'>
           <CardHeader>
             <CardLeading>
               <CardContent>
@@ -692,7 +692,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320' type='info'>
+        <Card {...args} className='w-xs' type='info'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon
@@ -725,7 +725,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320' type='info'>
+        <Card {...args} className='w-xs' type='info'>
           <CardHeader>
             <CardLeading>
               <CryptoIcon
@@ -754,7 +754,7 @@ export const CompositionsShowcase: Story = {
 
         <Card
           {...args}
-          className='w-320'
+          className='w-xs'
           type='expandable'
           expanded={expanded}
           onClick={() => setExpanded(!expanded)}
@@ -792,7 +792,7 @@ export const CompositionsShowcase: Story = {
           </CardFooter>
         </Card>
 
-        <Card {...args} className='w-320'>
+        <Card {...args} className='w-xs'>
           <CardHeader>
             <CardLeading>
               <CardContent>

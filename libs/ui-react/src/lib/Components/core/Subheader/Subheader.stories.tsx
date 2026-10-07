@@ -14,7 +14,7 @@ import {
 } from './Subheader';
 
 const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('w-448 bg-canvas p-8 text-base', className)} {...props} />
+  <div className={cn('w-md bg-canvas p-8 text-base', className)} {...props} />
 );
 
 const meta = {

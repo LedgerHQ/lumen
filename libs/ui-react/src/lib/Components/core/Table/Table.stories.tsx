@@ -193,7 +193,7 @@ export const Base: Story = {
 export const AppearanceShowcase: Story = {
   render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
-      <div className='w-448'>
+      <div className='w-md'>
         <TableRoot {...args} appearance={appearance}>
           <Table>
             <TableHeader>
@@ -279,7 +279,7 @@ export const ResponsiveLayout: Story = {
 
 export const WithClickableRow: Story = {
   render: (args) => (
-    <div className='w-512 text-base'>
+    <div className='w-lg text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -343,7 +343,7 @@ export const WithInfiniteLoading: Story = {
       <div className='w-3xl text-base'>
         <TableRoot
           {...args}
-          className='h-512'
+          className='h-lg'
           loading={loading}
           onScrollBottom={loadMore}
         >
@@ -389,7 +389,7 @@ export const WithoutStickyHeader: Story = {
   },
   render: (args) => (
     <div className='w-3xl text-base'>
-      <TableRoot {...args} className='h-320'>
+      <TableRoot {...args} className='h-xs'>
         <Table tabIndex={0}>
           <TableHeader>
             <TableHeaderRow stickyHeader={false}>
@@ -527,7 +527,7 @@ export const WithGroupHeader: Story = {
     <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
-          <SearchInput className='w-320' placeholder='Search assets...' />
+          <SearchInput className='w-xs' placeholder='Search assets...' />
         </TableActionBarLeading>
         <TableActionBarTrailing>
           <Button appearance='base' size='md'>
@@ -688,7 +688,7 @@ export const WithNetworkIconsAndActionBar: Story = {
       <div className='w-3xl text-base'>
         <TableActionBar>
           <TableActionBarLeading>
-            <SearchInput className='w-320' placeholder='Search assets...' />
+            <SearchInput className='w-xs' placeholder='Search assets...' />
           </TableActionBarLeading>
           <TableActionBarTrailing>
             <Select

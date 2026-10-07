@@ -43,7 +43,7 @@ export default function ListItems() {
   const [selected, setSelected] = useState(false);
   const [checked, setChecked] = useState(false);
   return (
-    <Box lx={{ width: 's320', gap: 's8' }}>
+    <Box lx={{ width: 'sXs', gap: 's8' }}>
       <SectionLabel>Title only</SectionLabel>
 
       <ListItem>

@@ -27,7 +27,7 @@ const SectionLabel = ({ children }: { children: string }) => (
 );
 
 const BaseExample = () => (
-  <Timeline lx={{ width: 's320' }}>
+  <Timeline lx={{ width: 'sXs' }}>
     <TimelineItem status='idle'>
       <TimelineItemHeader>
         <TimelineItemLeading>
@@ -61,7 +61,7 @@ const BaseExample = () => (
 );
 
 const StatusExample = () => (
-  <Timeline lx={{ width: 's320' }}>
+  <Timeline lx={{ width: 'sXs' }}>
     <TimelineItem status='success'>
       <TimelineItemHeader>
         <TimelineItemLeading>
@@ -107,7 +107,7 @@ const CollapseExample = () => {
   const [open, setOpen] = useState(true);
 
   return (
-    <Timeline lx={{ width: 's320' }}>
+    <Timeline lx={{ width: 'sXs' }}>
       <TimelineItem status='success'>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -160,7 +160,7 @@ const TitleOnlyItem = ({
 );
 
 const InfoExample = () => (
-  <Timeline lx={{ width: 's320' }}>
+  <Timeline lx={{ width: 'sXs' }}>
     <TitleOnlyItem />
     <TitleOnlyItem />
     <TitleOnlyItem />

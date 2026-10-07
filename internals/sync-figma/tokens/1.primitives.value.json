@@ -10876,7 +10876,7 @@
         }
       }
     },
-    "256": {
+    "3xs": {
       "$type": "number",
       "$value": 256,
       "$description": "",
@@ -10890,7 +10890,7 @@
         }
       }
     },
-    "288": {
+    "2xs": {
       "$type": "number",
       "$value": 288,
       "$description": "",
@@ -10904,7 +10904,7 @@
         }
       }
     },
-    "320": {
+    "xs": {
       "$type": "number",
       "$value": 320,
       "$description": "",
@@ -10918,7 +10918,7 @@
         }
       }
     },
-    "384": {
+    "sm": {
       "$type": "number",
       "$value": 384,
       "$description": "",
@@ -10932,7 +10932,7 @@
         }
       }
     },
-    "448": {
+    "md": {
       "$type": "number",
       "$value": 448,
       "$description": "",
@@ -10946,7 +10946,7 @@
         }
       }
     },
-    "512": {
+    "lg": {
       "$type": "number",
       "$value": 512,
       "$description": "",
@@ -10960,7 +10960,7 @@
         }
       }
     },
-    "576": {
+    "xl": {
       "$type": "number",
       "$value": 576,
       "$description": "",
@@ -10974,7 +10974,7 @@
         }
       }
     },
-    "672": {
+    "2xl": {
       "$type": "number",
       "$value": 672,
       "$description": "",
@@ -10988,7 +10988,7 @@
         }
       }
     },
-    "768": {
+    "3xl": {
       "$type": "number",
       "$value": 768,
       "$description": "",
@@ -10998,11 +10998,13 @@
           "scopes": [
             "WIDTH_HEIGHT"
           ],
-          "codeSyntax": {}
+          "codeSyntax": {
+            "WEB": "size/2XL"
+          }
         }
       }
     },
-    "896": {
+    "4xl": {
       "$type": "number",
       "$value": 896,
       "$description": "",
@@ -11016,7 +11018,7 @@
         }
       }
     },
-    "1024": {
+    "5xl": {
       "$type": "number",
       "$value": 1024,
       "$description": "",
@@ -11030,7 +11032,7 @@
         }
       }
     },
-    "1152": {
+    "6xl": {
       "$type": "number",
       "$value": 1152,
       "$description": "",
@@ -11044,7 +11046,7 @@
         }
       }
     },
-    "1280": {
+    "7xl": {
       "$type": "number",
       "$value": 1280,
       "$description": "",
