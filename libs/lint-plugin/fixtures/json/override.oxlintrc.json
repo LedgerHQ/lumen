@@ -1,5 +1,5 @@
 {
-  "extends": ["../../oxlint/react.json"],
+  "extends": ["../../oxlint/recommended.json"],
   "settings": { "better-tailwindcss": { "entryPoint": "fixtures/global.css" } },
   "rules": {
     "shadcn/no-restyle": "off",

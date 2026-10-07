@@ -1,1 +1,1 @@
-export const accent = { color: '#ff0000' };
+export const classes = 'flex foo-bar-baz';

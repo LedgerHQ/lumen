@@ -1,7 +1,7 @@
 {
   "name": "@ledgerhq/lumen-lint-plugin",
   "version": "0.0.0",
-  "description": "ESLint and oxlint rules and presets for apps built with the Ledger Lumen design system.",
+  "description": "ESLint and oxlint presets (better-tailwindcss and @shadcn/lint) for apps built with the Ledger Lumen design system.",
   "license": "Apache-2.0",
   "type": "module",
   "files": [
@@ -9,14 +9,9 @@
     "oxlint",
     "types",
     "!**/*.test.js",
-    "!**/*.cases.js",
     "!**/*.tsbuildinfo"
   ],
   "exports": {
-    ".": {
-      "types": "./types/plugin.d.ts",
-      "default": "./src/plugin.js"
-    },
     "./eslint": {
       "types": "./types/eslint.d.ts",
       "default": "./src/eslint.js"

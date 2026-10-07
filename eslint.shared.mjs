@@ -1,5 +1,5 @@
 /** @import { Linter } from 'eslint' */
-import { react, reactNative } from '@ledgerhq/lumen-lint-plugin/eslint';
+import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
 import storybook from 'eslint-plugin-storybook';
 import { globalIgnores } from 'eslint/config';
 
@@ -76,10 +76,7 @@ export const defineDevRules = (config) => ({
   name: 'development-files-only-rules',
   ...config,
   files: [...devFilePatterns, ...(config.files ?? [])],
-  ignores: [
-    ...globalIgnorePatterns,
-    ...(config.ignores ?? []),
-  ],
+  ignores: [...globalIgnorePatterns, ...(config.ignores ?? [])],
 });
 
 /**
@@ -100,7 +97,6 @@ export const defineStorybookAddons = ({ packageJsonLocation }) => ({
 
 /** Token rules that stories, docs and icon artwork break on purpose. */
 const TOKEN_RULES_OFF = {
-  'lumen/no-hardcoded-style-literals': 'off',
   'shadcn/no-arbitrary-values': 'off',
   'shadcn/no-inline-styles': 'off',
   'shadcn/no-restyle': 'off',
@@ -116,28 +112,20 @@ const defineTokenRulesExemptions = () =>
 
 /**
  * Lumen's own React web rules: the `strict` preset that consumers can pick,
- * with the `rules` option for what only the design system itself needs.
+ * plus what only the design system itself needs.
  * @param {{ entryPoint: string, tailwindConfig: string }} options
  * @returns {Linter.Config[]}
  */
 export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
-  ...react({
-    entryPoint,
-    tailwindConfig,
-    preset: 'strict',
+  lumen.configs.strict,
+  {
+    name: 'lumen-react-rules',
+    files: tsJsFilePatterns,
+    settings: { 'better-tailwindcss': { entryPoint, tailwindConfig } },
     rules: {
       // A component library sets dynamic styles by design; the rule targets apps.
       'shadcn/no-inline-styles': 'off',
     },
-  }),
-  defineTokenRulesExemptions(),
-];
-
-/**
- * Lumen's own React Native rules: the `strict` preset.
- * @returns {Linter.Config[]}
- */
-export const defineLumenNativeRules = () => [
-  ...reactNative({ preset: 'strict' }),
+  },
   defineTokenRulesExemptions(),
 ];

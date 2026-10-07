@@ -100,29 +100,30 @@ For the best development experience, we recommend the following setup:
 
 2. **Lint plugin** ([@ledgerhq/lumen-lint-plugin](https://www.npmjs.com/package/@ledgerhq/lumen-lint-plugin))
    - Lints Tailwind classes (v4), including inside `cn` and `cva`, and keeps Lumen components within their design rules
-   - Runs on ESLint and oxlint; set `entryPoint` to your main Tailwind stylesheet (e.g., `./src/styles.css`)
+   - Runs on ESLint and oxlint; point better-tailwindcss at your main Tailwind stylesheet (e.g., `./src/styles.css`)
    - Install with:
      ```bash
      npm install -D @ledgerhq/lumen-lint-plugin
      ```
    - ESLint (`eslint.config.mjs`):
      ```javascript
-     import { react } from '@ledgerhq/lumen-lint-plugin/eslint';
+     import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
 
-     export default [...react({ entryPoint: './src/styles.css' })];
+     export default [
+       lumen.configs.recommended,
+       { settings: { 'better-tailwindcss': { entryPoint: './src/styles.css' } } },
+     ];
      ```
-   - oxlint (`oxlint.config.ts`, needs Node 20.19+ or 22.18+; this entry point is experimental):
-     ```typescript
-     import { defineConfig } from 'oxlint';
-     import { react } from '@ledgerhq/lumen-lint-plugin/oxlint';
-
-     export default defineConfig({
-       extends: [react({ entryPoint: './src/styles.css' })],
-     });
+   - oxlint (`.oxlintrc.json`; the oxlint side is experimental):
+     ```json
+     {
+       "extends": ["./node_modules/@ledgerhq/lumen-lint-plugin/oxlint/recommended.json"],
+       "settings": { "better-tailwindcss": { "entryPoint": "./src/styles.css" } }
+     }
      ```
-   - The plugin bundles `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers Tailwind v3 and React Native.
-   - Presets: `recommended` (default) is the core: unknown or conflicting classes, and restyling a Lumen component through `className` (a warning). `preset: 'strict'` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling to an error. Layout classes stay allowed on Lumen components in both, and any rule can be tuned with the `rules` option.
-   - `entryPoint` is required: without it Tailwind falls back to its default theme and every Lumen class looks unknown, so the preset throws a clear error.
+   - The presets register `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers `oxlint.config.ts` and Tailwind v3.
+   - Presets: `recommended` is the core: unknown or conflicting classes, and restyling a Lumen component through `className` (a warning). `strict` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling to an error. Layout classes stay allowed on Lumen components in both, and any rule can be overridden like any other config.
+   - Without `entryPoint`, Tailwind's default theme is used and every Lumen class looks unknown.
 
 3. **AI Assistant Rules** (Optional)
    - Lumen includes AI rules for better code suggestions across multiple AI tools

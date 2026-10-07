@@ -119,7 +119,7 @@ lumen/
 │   ├── ui-rnative/    # React Native components
 │   ├── design-core/   # Design tokens and themes
 │   ├── utils-shared/  # Shared utilities
-│   └── lint-plugin/   # ESLint and oxlint rules and presets
+│   └── lint-plugin/   # ESLint and oxlint presets
 ├── internals/         # Dev-only Nx projects, never published
 │   └── sync-figma/    # Figma sync: tokens, symbols, code-syntax
 └── apps/

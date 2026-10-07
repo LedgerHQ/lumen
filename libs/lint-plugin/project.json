@@ -6,7 +6,6 @@
   "tags": ["scope:shared", "type:tooling"],
   "implicitDependencies": [
     "!@ledgerhq/lumen-ui-react",
-    "!@ledgerhq/lumen-ui-rnative",
     "!@ledgerhq/lumen-utils-shared"
   ],
   "targets": {

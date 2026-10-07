@@ -1,4 +1,4 @@
 {
-  "extends": ["../../oxlint/react-strict.json"],
+  "extends": ["../../oxlint/strict.json"],
   "settings": { "better-tailwindcss": { "entryPoint": "fixtures/global.css" } }
 }

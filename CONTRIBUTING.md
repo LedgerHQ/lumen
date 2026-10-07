@@ -30,7 +30,7 @@ lumen
   │    ├── utils-shared/              # Shared utilities
   │    │                              # name: @ledgerhq/lumen-utils-shared
   │    │
-  │    └── lint-plugin/               # ESLint and oxlint rules and presets
+  │    └── lint-plugin/               # ESLint and oxlint presets
   │                                   # name: @ledgerhq/lumen-lint-plugin
   │
   ├──internals/                       # Dev-only projects — never published

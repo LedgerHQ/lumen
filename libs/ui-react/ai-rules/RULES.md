@@ -35,7 +35,7 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 
 ### Linting
 
-This project can lint these rules with `@ledgerhq/lumen-lint-plugin` (ESLint or oxlint). When it reports a `lumen/*`, `shadcn/*` or `better-tailwindcss/*` violation, fix it with a design token instead of disabling the rule.
+This project can lint these rules with `@ledgerhq/lumen-lint-plugin` (ESLint or oxlint). When it reports a `shadcn/*` or `better-tailwindcss/*` violation, fix it with a design token instead of disabling the rule.
 
 ### Peer Dependencies
 

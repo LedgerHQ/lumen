@@ -1,9 +1,0 @@
-{
-  "jsPlugins": [{ "name": "lumen", "specifier": "../src/plugin.js" }],
-  "overrides": [
-    {
-      "files": ["**/*.native.{ts,tsx}"],
-      "rules": { "lumen/no-hardcoded-style-literals": "warn" }
-    }
-  ]
-}

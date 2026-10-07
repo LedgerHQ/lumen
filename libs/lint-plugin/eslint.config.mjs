@@ -14,7 +14,6 @@ export default [
             '{projectRoot}/eslint.config.{js,cjs,mjs}',
             '{projectRoot}/vitest.config.{js,ts,mjs,mts}',
             '{projectRoot}/src/**/*.test.js',
-            '{projectRoot}/src/**/*.cases.js',
             '{projectRoot}/scripts/**/*.js',
             // Lint fixtures import Lumen packages as plain text samples.
             '{projectRoot}/fixtures/**/*',

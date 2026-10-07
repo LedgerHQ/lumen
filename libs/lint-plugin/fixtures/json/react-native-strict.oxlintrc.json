@@ -1,3 +1,0 @@
-{
-  "extends": ["../../oxlint/react-native-strict.json"]
-}
