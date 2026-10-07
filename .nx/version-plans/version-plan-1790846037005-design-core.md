@@ -41,5 +41,3 @@ The preset also clears Tailwind's `--container-*` scale, so the pixel-named `siz
 | `*-7xl` | `*-1280`     |
 
 For container queries, use arbitrary values such as `@min-[448px]:`.
-
-Also syncs new symbols from Figma: `ArrowBottomLeft`, `Hourglass`, `Repeat` and `Wifi`, plus an updated `Switch`.
