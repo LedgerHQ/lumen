@@ -10,23 +10,19 @@ const PLUGIN_NAMES = ['better-tailwindcss', 'shadcn'];
 
 /**
  * Shared by the `/oxlint` entry (absolute plugin paths) and the generated JSON
- * presets (paths relative to the preset file).
+ * presets (paths relative to the preset file). Rules stay top-level, never in
+ * `overrides`, so a consumer's own top-level `rules` always win and scoping
+ * stays in the consumer's config.
  * @param {PresetName} preset
- * @param {{ resolvePlugin: (name: PluginName) => string, files?: string[] }} options
- *   `files` scopes the preset through `overrides`.
+ * @param {{ resolvePlugin: (name: PluginName) => string }} options
  * @returns {OxlintConfig}
  */
-export function toOxlintConfig(preset, { resolvePlugin, files }) {
-  const rules = /** @type {NonNullable<OxlintConfig['rules']>} */ (
-    RULES[preset]
-  );
+export function toOxlintConfig(preset, { resolvePlugin }) {
   return {
     jsPlugins: PLUGIN_NAMES.map((name) => ({
       name,
       specifier: resolvePlugin(name),
     })),
-    // Top-level unless scoped, so a consumer's own top-level `rules` win: oxlint
-    // applies a config's `overrides` on top of its base `rules`.
-    ...(files ? { overrides: [{ files, rules }] } : { rules }),
+    rules: /** @type {NonNullable<OxlintConfig['rules']>} */ (RULES[preset]),
   };
 }

@@ -54,6 +54,8 @@ export const RULES = {
   // restyling a Lumen component.
   recommended: {
     ...betterTailwindcss.configs.correctness.rules,
+    // Explicit: stays even if better-tailwindcss moves it out of `correctness`.
+    'better-tailwindcss/no-concatenated-classes': 'error',
     'shadcn/no-restyle': ['warn', NO_RESTYLE_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs

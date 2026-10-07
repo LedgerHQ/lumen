@@ -213,10 +213,10 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     expect(eslint).toContain('shadcn/no-inline-styles:12:warn');
   });
 
-  it('the `.web` presets only lint suffixed files', async () => {
+  it('a consumer scopes a preset to some files with its own glob', async () => {
     const dir = fixture('src');
     const options = { withFile: true };
-    const [eslint, json] = await Promise.all([
+    const [eslint, oxlint] = await Promise.all([
       lintWithEslint(
         dir,
         [
@@ -225,10 +225,10 @@ describe('every way of setting the presets up reports the same diagnostics', () 
         ],
         options,
       ),
-      lintWithOxlint(oxlintrc('strict.web.json'), dir, options),
+      lintWithOxlint(fixture('oxlint.scoped.config.ts'), dir, options),
     ]);
 
-    expect(json).toEqual(eslint);
+    expect(oxlint).toEqual(eslint);
     expect(eslint).toContain('page.web.tsx|shadcn/no-restyle:13:error');
     // The unsuffixed file holds an unknown class and is left alone.
     expect(eslint.filter((line) => line.startsWith('helpers.ts|'))).toEqual([]);

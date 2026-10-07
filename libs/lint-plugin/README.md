@@ -19,13 +19,19 @@ You also need `eslint` or `oxlint`, and `tailwindcss` v4.
 Pick a preset, then set your Tailwind CSS entry (the file with `@import 'tailwindcss'`).
 Without it, every Lumen class is reported as unknown.
 
-**ESLint**
+**Don't register better-tailwindcss or `@shadcn/lint` yourself** (`plugins`, `extends` or
+oxlint `jsPlugins`): the presets do, and a second registration fails with "Cannot redefine
+plugin". To use more of their rules, add them to `rules`.
+
+**ESLint** (the presets set no parser, so keep your TypeScript setup)
 
 ```js
 // eslint.config.mjs
 import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
+import tseslint from 'typescript-eslint';
 
 export default [
+  ...tseslint.configs.recommended, // any TypeScript parser setup works
   lumen.configs.recommended, // or lumen.configs.strict
   { settings: { 'better-tailwindcss': { entryPoint: 'src/global.css' } } },
 ];
@@ -93,9 +99,24 @@ The presets are plain config objects.
 
 - **Override a rule:** add your own `rules` after the preset (ESLint) or at the top level
   (oxlint).
-- **Scope to some files:** `{ ...lumen.configs.strict, files: ['src/**/*.web.tsx'] }`
-  (ESLint). For oxlint, extend `oxlint/recommended.web.json` or `strict.web.json`, scoped to
-  `*.web.{ts,tsx}`.
+- **Scope to some files:** the presets set no project-specific glob; you choose it.
+
+  ```js
+  // ESLint
+  { ...lumen.configs.strict, files: ['src/**/*.web.tsx'] }
+  ```
+
+  ```ts
+  // oxlint.config.ts (`.oxlintrc.json` cannot scope an extended preset)
+  const { jsPlugins, rules } = lumen.configs.strict;
+
+  export default defineConfig({
+    jsPlugins,
+    settings: { 'better-tailwindcss': { entryPoint: 'src/global.css' } },
+    overrides: [{ files: ['src/**/*.web.tsx'], rules }],
+  });
+  ```
+
 - **Keep Lumen's options when changing one:**
 
   ```js
@@ -108,9 +129,8 @@ The presets are plain config objects.
 
 ## Notes
 
-- Don't register better-tailwindcss or `@shadcn/lint` yourself: the presets do.
-- Tailwind v3: set `tailwindConfig` instead of `entryPoint`, and turn off the `shadcn/*`
-  rules and `no-conflicting-classes`, `enforce-canonical-classes`, `no-deprecated-classes`.
+- `@shadcn/lint` reads component files with `oxc-parser` or `@typescript-eslint/parser`.
+  If neither is installed, it warns once and `no-restyle` gives less precise hints.
 
 ## Contributing
 

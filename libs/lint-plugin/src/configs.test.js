@@ -150,13 +150,12 @@ describe('generated JSON presets', () => {
     }
   });
 
-  it('scopes the `.web` presets and leaves the others global', () => {
-    expect(readPreset('strict.web.json').overrides[0].files).toEqual([
-      '**/*.web.{ts,tsx}',
-    ]);
-    expect(readPreset('recommended.json')).toHaveProperty('rules');
-    expect(readPreset('recommended.json')).not.toHaveProperty('overrides');
-  });
+  it.each(names)(
+    '%s sets no file globs, so the consumer scopes it and its own rules win',
+    (name) => {
+      expect(readPreset(name)).not.toHaveProperty('overrides');
+    },
+  );
 });
 
 describe('README rules table', () => {

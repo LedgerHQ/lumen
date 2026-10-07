@@ -20,8 +20,6 @@ import { toOxlintConfig } from '../src/oxlint-config.js';
 /** @param {PluginName} name */
 const resolvePlugin = (name) => `../src/plugins/${name}.js`;
 
-const WEB_FILES = ['**/*.web.{ts,tsx}'];
-
 /**
  * @returns {Record<string, OxlintConfig>} file name to config, in `oxlint/`
  */
@@ -33,11 +31,6 @@ export function buildOxlintPresets() {
     'strict',
   ])) {
     presets[`${preset}.json`] = toOxlintConfig(preset, { resolvePlugin });
-    // For monorepos that keep web and native code side by side by suffix.
-    presets[`${preset}.web.json`] = toOxlintConfig(preset, {
-      resolvePlugin,
-      files: WEB_FILES,
-    });
   }
   return presets;
 }

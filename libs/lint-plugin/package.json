@@ -35,7 +35,7 @@
   },
   "peerDependencies": {
     "eslint": "^9.30.0 || ^10.0.0",
-    "oxlint": ">=1.82.0",
+    "oxlint": "^1.82.0",
     "tailwindcss": "^4.1.17"
   },
   "peerDependenciesMeta": {
@@ -48,5 +48,8 @@
     "tailwindcss": {
       "optional": true
     }
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
   }
 }

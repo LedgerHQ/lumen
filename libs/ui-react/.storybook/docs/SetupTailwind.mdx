@@ -108,8 +108,10 @@ For the best development experience, we recommend the following setup:
    - ESLint (`eslint.config.mjs`):
      ```javascript
      import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
+     import tseslint from 'typescript-eslint';
 
      export default [
+       ...tseslint.configs.recommended, // the presets set no parser
        lumen.configs.recommended,
        { settings: { 'better-tailwindcss': { entryPoint: './src/styles.css' } } },
      ];
@@ -121,7 +123,7 @@ For the best development experience, we recommend the following setup:
        "settings": { "better-tailwindcss": { "entryPoint": "./src/styles.css" } }
      }
      ```
-   - The presets register `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers `oxlint.config.ts` and Tailwind v3.
+   - The presets register `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers `oxlint.config.ts`.
    - Presets: `recommended` is the core: unknown or conflicting classes, and restyling a Lumen component through `className` (a warning). `strict` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling to an error. Layout classes stay allowed on Lumen components in both, and any rule can be overridden like any other config.
    - Without `entryPoint`, Tailwind's default theme is used and every Lumen class looks unknown.
 
