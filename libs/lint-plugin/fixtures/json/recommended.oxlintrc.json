@@ -1,4 +1,0 @@
-{
-  "extends": ["../../oxlint/recommended.json"],
-  "settings": { "better-tailwindcss": { "entryPoint": "fixtures/global.css" } }
-}

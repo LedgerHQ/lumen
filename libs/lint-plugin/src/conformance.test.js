@@ -1,12 +1,14 @@
 import { execFile } from 'node:child_process';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
+import { tmpdir } from 'node:os';
 import { basename, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { promisify } from 'node:util';
 
 import { ESLint } from 'eslint';
 import tseslint from 'typescript-eslint';
-import { describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it } from 'vitest';
 
 import lumen from './eslint.js';
 
@@ -42,6 +44,30 @@ const tsxParser = {
 const tailwindSettings = {
   settings: { 'better-tailwindcss': { entryPoint: fixture('global.css') } },
 };
+
+const configDir = mkdtempSync(join(tmpdir(), 'lumen-lint-plugin-'));
+afterAll(() => rmSync(configDir, { recursive: true, force: true }));
+let configCount = 0;
+
+/**
+ * Writes the `.oxlintrc.json` a consumer would have, extending one of the
+ * generated presets, and returns its path.
+ * @param {string} preset file name in `oxlint/`
+ * @param {Linter.RulesRecord} [rules] the consumer's own rules
+ * @returns {string}
+ */
+function oxlintrc(preset, rules) {
+  const file = join(configDir, `${++configCount}.oxlintrc.json`);
+  writeFileSync(
+    file,
+    JSON.stringify({
+      extends: [fileURLToPath(new URL(`../oxlint/${preset}`, import.meta.url))],
+      ...tailwindSettings,
+      ...(rules && { rules }),
+    }),
+  );
+  return file;
+}
 
 /**
  * @param {string} file
@@ -124,16 +150,14 @@ const ruleIds = (entries) =>
   [...new Set(entries.map((e) => e.replace(/^.*\|/, '').split(':')[0]))].sort();
 
 describe('every way of setting the presets up reports the same diagnostics', () => {
-  const web = fixture('react/web.tsx');
+  const page = fixture('src/page.web.tsx');
 
   it('recommended: the core only', async () => {
-    const [eslint, oxlint, json] = await Promise.all([
-      lintWithEslint(web, [lumen.configs.recommended, tailwindSettings]),
-      lintWithOxlint(fixture('react/oxlint.recommended.config.ts'), web),
-      lintWithOxlint(fixture('json/recommended.oxlintrc.json'), web),
+    const [eslint, json] = await Promise.all([
+      lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
+      lintWithOxlint(oxlintrc('recommended.json'), page),
     ]);
 
-    expect(oxlint).toEqual(eslint);
     expect(json).toEqual(eslint);
     expect(eslint).toEqual([
       'better-tailwindcss/no-concatenated-classes:10:error',
@@ -147,10 +171,10 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
   it('strict: a few more rules, and restyling raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
-      lintWithEslint(web, [lumen.configs.recommended, tailwindSettings]),
-      lintWithEslint(web, [lumen.configs.strict, tailwindSettings]),
-      lintWithOxlint(fixture('react/oxlint.strict.config.ts'), web),
-      lintWithOxlint(fixture('json/strict.oxlintrc.json'), web),
+      lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
+      lintWithOxlint(fixture('oxlint.config.ts'), page),
+      lintWithOxlint(oxlintrc('strict.json'), page),
     ]);
 
     expect(oxlint).toEqual(strict);
@@ -176,12 +200,12 @@ describe('every way of setting the presets up reports the same diagnostics', () 
       'shadcn/no-inline-styles': 'warn',
     };
     const [eslint, json] = await Promise.all([
-      lintWithEslint(web, [
+      lintWithEslint(page, [
         lumen.configs.recommended,
         tailwindSettings,
         { rules },
       ]),
-      lintWithOxlint(fixture('json/override.oxlintrc.json'), web),
+      lintWithOxlint(oxlintrc('recommended.json', rules), page),
     ]);
 
     expect(json).toEqual(eslint);
@@ -189,8 +213,8 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     expect(eslint).toContain('shadcn/no-inline-styles:12:warn');
   });
 
-  it('a monorepo with suffixed web files is scoped by file name', async () => {
-    const dir = fixture('monorepo/src');
+  it('the `.web` presets only lint suffixed files', async () => {
+    const dir = fixture('src');
     const options = { withFile: true };
     const [eslint, json] = await Promise.all([
       lintWithEslint(
@@ -201,7 +225,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
         ],
         options,
       ),
-      lintWithOxlint(fixture('monorepo/scoped.oxlintrc.json'), dir, options),
+      lintWithOxlint(oxlintrc('strict.web.json'), dir, options),
     ]);
 
     expect(json).toEqual(eslint);
