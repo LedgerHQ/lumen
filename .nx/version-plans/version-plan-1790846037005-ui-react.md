@@ -24,5 +24,3 @@ To migrate:
    | `*-160` | `*-144` | `*-176`                |
 
 2. Check layouts that host a `Dialog`, `Popover` (`width='fixed'`) or `Menu`, because they are now 16–48px larger.
-
-Also adds the new `ArrowBottomLeft`, `Hourglass`, `Repeat` and `Wifi` icons, and updates `Switch`.

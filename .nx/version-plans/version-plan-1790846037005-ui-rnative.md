@@ -16,5 +16,3 @@ To migrate, replace each removed token with one of its two neighbours on the new
 | `'s160'` / `'-s160'`, `t.spacings.s160` | `'s144'` / `'-s144'`, `t.spacings.s144` | `'s176'` / `'-s176'`, `t.spacings.s176` |
 
 Removed tokens are type errors in `lx`, so `tsc` lists every usage to update.
-
-Also adds the new `ArrowBottomLeft`, `Hourglass`, `Repeat` and `Wifi` icons, and updates `Switch`.
