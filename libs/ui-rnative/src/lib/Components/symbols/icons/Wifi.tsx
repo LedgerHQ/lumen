@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Switch icon component for React Native.
+ * Wifi icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,37 +15,34 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Switch } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Wifi } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Switch />
+ * <Wifi />
  *
  * @example
  * // With custom size and style
- * <Switch size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Wifi size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Switch} size="md">
+ * <Button icon={Wifi} size="md">
  *   Click me
  * </Button>
  */
-export const Switch = createIcon(
-  'Switch',
+export const Wifi = createIcon(
+  'Wifi',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
+    <Path
+      fill='currentColor'
+      d='M7.999 12.333a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5'
+    />
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      d='M4.6 4.8h6.8a3.2 3.2 0 0 1 0 6.4H4.6a3.2 3.2 0 0 1 0-6.4'
-      clipRule='evenodd'
-    />
-    <Path
-      fill='currentColor'
-      fillRule='evenodd'
-      d='M4.495 6.667c-.736 0-1.334.597-1.328 1.333a1.334 1.334 0 1 0 1.328-1.333'
-      clipRule='evenodd'
+      d='M3.06 8c2.729-2.502 7.15-2.502 9.879 0M1.063 5.203c3.831-3.382 10.043-3.382 13.874 0m-9.884 5.344a4.184 4.184 0 0 1 5.894 0'
     />
   </Svg>,
 );

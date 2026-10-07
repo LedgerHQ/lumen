@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Switch icon component for React Native.
+ * Repeat icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,37 +15,30 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Switch } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Repeat } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Switch />
+ * <Repeat />
  *
  * @example
  * // With custom size and style
- * <Switch size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Repeat size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Switch} size="md">
+ * <Button icon={Repeat} size="md">
  *   Click me
  * </Button>
  */
-export const Switch = createIcon(
-  'Switch',
+export const Repeat = createIcon(
+  'Repeat',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      d='M4.6 4.8h6.8a3.2 3.2 0 0 1 0 6.4H4.6a3.2 3.2 0 0 1 0-6.4'
-      clipRule='evenodd'
-    />
-    <Path
-      fill='currentColor'
-      fillRule='evenodd'
-      d='M4.495 6.667c-.736 0-1.334.597-1.328 1.333a1.334 1.334 0 1 0 1.328-1.333'
-      clipRule='evenodd'
+      d='M4.313 5.13H2.384V3.203M2 8a6 6 0 1 0 .73-2.87m4.564.909 2.588 1.53a.5.5 0 0 1 0 .861L7.294 9.96a.5.5 0 0 1-.755-.43V6.47a.5.5 0 0 1 .755-.431'
     />
   </Svg>,
 );
