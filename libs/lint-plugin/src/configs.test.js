@@ -158,3 +158,62 @@ describe('generated JSON presets', () => {
     expect(readPreset('recommended.json')).not.toHaveProperty('overrides');
   });
 });
+
+describe('README rules table', () => {
+  const ICONS = new Map([
+    ['✅', 'error'],
+    ['⚠️', 'warn'],
+    ['', 'off'],
+  ]);
+  const PLUGINS = /** @type {const} */ ([
+    ['better-tailwindcss', betterTailwindcss],
+    ['shadcn', shadcn],
+  ]);
+  const rows = new Map(
+    [
+      ...readFileSync(
+        new URL('../README.md', import.meta.url),
+        'utf8',
+      ).matchAll(
+        /^\| \[`([^`]+)`\]\((\S+)\)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|/gm,
+      ),
+    ].map(([, rule, url, recommended, strict, fix]) => {
+      const plugin = url.includes('shadcn') ? 'shadcn' : 'better-tailwindcss';
+      return [
+        `${plugin}/${rule}`,
+        {
+          url,
+          recommended: ICONS.get(recommended.trim()),
+          strict: ICONS.get(strict.trim()),
+          fixable: fix.trim() === '🔧',
+        },
+      ];
+    }),
+  );
+  const allRules = PLUGINS.flatMap(([plugin, { rules = {} }]) =>
+    Object.entries(rules).map(([rule, { meta }]) => ({
+      id: `${plugin}/${rule}`,
+      meta,
+    })),
+  );
+
+  it('lists every rule of both plugins, and nothing else', () => {
+    expect([...rows.keys()].sort()).toEqual(
+      allRules.map(({ id }) => id).sort(),
+    );
+  });
+
+  it.each(allRules)(
+    '$id: docs link, levels and fixable match',
+    ({ id, meta }) => {
+      /** @param {Record<string, unknown>} rules */
+      const levelOf = (rules) => levels(rules)[id] ?? 'off';
+      expect(rows.get(id)).toEqual({
+        url: meta?.docs?.url,
+        recommended: levelOf(RULES.recommended),
+        strict: levelOf(RULES.strict),
+        fixable: Boolean(meta?.fixable),
+      });
+    },
+  );
+});
