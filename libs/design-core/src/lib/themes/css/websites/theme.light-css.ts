@@ -256,6 +256,19 @@ export const tokens = {
     '--color-border-success': 'var(--color-light-green-700)',
     '--color-border-success-transparent': 'var(--color-light-green-600-50)',
     '--color-border-icon': 'var(--color-light-grey-950-5)',
+    '--color-border-decorative-orange':
+      'var(--color-light-decorative-orange-500)',
+    '--color-border-decorative-green':
+      'var(--color-light-decorative-green-500)',
+    '--color-border-decorative-blue': 'var(--color-light-decorative-blue-500)',
+    '--color-border-decorative-purple':
+      'var(--color-light-decorative-purple-500)',
+    '--color-border-decorative-red': 'var(--color-light-decorative-red-500)',
+    '--color-border-decorative-yellow':
+      'var(--color-light-decorative-yellow-600)',
+    '--color-border-decorative-turquoise':
+      'var(--color-light-decorative-turquoise-500)',
+    '--color-border-decorative-pink': 'var(--color-light-decorative-pink-500)',
     '--color-crypto-aion': 'var(--color-light-crypto-aion)',
     '--color-crypto-aion-0': 'var(--color-light-crypto-aion-0)',
     '--color-crypto-algorand': 'var(--color-light-crypto-algorand)',
@@ -628,6 +641,14 @@ export const tokens = {
     '--border-active-pressed': 'var(--color-border-active-websites-pressed)',
     '--border-focus': 'var(--color-border-focus-websites)',
     '--border-icon': 'var(--color-border-icon)',
+    '--border-decorative-orange': 'var(--color-border-decorative-orange)',
+    '--border-decorative-green': 'var(--color-border-decorative-green)',
+    '--border-decorative-blue': 'var(--color-border-decorative-blue)',
+    '--border-decorative-purple': 'var(--color-border-decorative-purple)',
+    '--border-decorative-red': 'var(--color-border-decorative-red)',
+    '--border-decorative-yellow': 'var(--color-border-decorative-yellow)',
+    '--border-decorative-turquoise': 'var(--color-border-decorative-turquoise)',
+    '--border-decorative-pink': 'var(--color-border-decorative-pink)',
     '--border-width': 'var(--stroke-1)',
     '--border-width-active': 'var(--stroke-2)',
     '--border-width-focus': 'var(--stroke-2)',

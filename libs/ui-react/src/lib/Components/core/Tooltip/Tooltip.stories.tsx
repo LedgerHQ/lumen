@@ -46,7 +46,7 @@ type Story = StoryObj<typeof TooltipContent>;
 
 export const Basic: Story = {
   render: () => (
-    <div className='flex h-256 items-center justify-center'>
+    <div className='flex h-3xs items-center justify-center'>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button>Hover me</Button>
@@ -106,7 +106,7 @@ export const AnimatedPlacements: Story = {
 
 export const WithIconTrigger: Story = {
   render: () => (
-    <div className='flex h-256 items-center justify-center'>
+    <div className='flex h-3xs items-center justify-center'>
       <Tooltip>
         <TooltipTrigger asChild>
           <Information size={20} />
@@ -119,7 +119,7 @@ export const WithIconTrigger: Story = {
 
 export const LongContent: Story = {
   render: () => (
-    <div className='flex h-256 items-center justify-center'>
+    <div className='flex h-3xs items-center justify-center'>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button>Hover for details</Button>
@@ -136,7 +136,7 @@ export const LongContent: Story = {
 
 export const CustomDelay: Story = {
   render: () => (
-    <div className='flex h-256 flex-col items-center justify-center gap-8'>
+    <div className='flex h-3xs flex-col items-center justify-center gap-8'>
       <p className='body-2 text-muted'>Compare different delay durations</p>
       <Tooltip>
         <TooltipTrigger asChild>

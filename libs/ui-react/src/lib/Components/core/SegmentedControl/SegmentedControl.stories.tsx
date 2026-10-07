@@ -21,7 +21,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='flex w-320 justify-center'>
+      <div className='flex w-xs justify-center'>
         <Story />
       </div>
     ),
@@ -103,7 +103,7 @@ export const TabLayoutShowcase: Story = {
             <SegmentedControlButton value='buy'>Buy</SegmentedControlButton>
           </SegmentedControl>
         </div>
-        <div className='w-320'>
+        <div className='w-xs'>
           <p className='mb-8 body-2 text-muted'>Fit (container too narrow)</p>
           <SegmentedControl
             {...args}

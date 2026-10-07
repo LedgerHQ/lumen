@@ -48,7 +48,7 @@ type Story = StoryObj<typeof DescriptionItem>;
 export const Base: Story = {
   args: {
     size: 'md',
-    className: 'w-320',
+    className: 'w-xs',
   },
   render: (args) => (
     <DescriptionItem {...args}>
@@ -64,7 +64,7 @@ export const Base: Story = {
 
 export const SizeShowcase: Story = {
   render: () => (
-    <div className='flex w-320 flex-col gap-16'>
+    <div className='flex w-xs flex-col gap-16'>
       <DescriptionItem size='md'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
@@ -106,7 +106,7 @@ export const SizeShowcase: Story = {
 
 export const TrailingVariants: Story = {
   render: () => (
-    <div className='flex w-320 flex-col gap-16'>
+    <div className='flex w-xs flex-col gap-16'>
       <DescriptionItem>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Plain value</DescriptionItemLabel>
@@ -140,7 +140,7 @@ export const TrailingVariants: Story = {
 
 export const WithInfoIcon: Story = {
   render: () => (
-    <div className='flex w-320 flex-col gap-16'>
+    <div className='flex w-xs flex-col gap-16'>
       <DescriptionItem>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Fees</DescriptionItemLabel>
@@ -178,7 +178,7 @@ export const WithInfoIcon: Story = {
 
 export const PriorityShowcase: Story = {
   render: () => (
-    <div className='flex w-320 flex-col gap-16'>
+    <div className='flex w-xs flex-col gap-16'>
       <DescriptionItem priority='end'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>priority="end" (default)</DescriptionItemLabel>
@@ -213,7 +213,7 @@ export const WithSelect: Story = {
     const [network, setNetwork] = useState<string | null>('ethereum');
 
     return (
-      <DescriptionItem className='w-320'>
+      <DescriptionItem className='w-xs'>
         <DescriptionItemLeading>
           <DescriptionItemLabel>Network</DescriptionItemLabel>
         </DescriptionItemLeading>

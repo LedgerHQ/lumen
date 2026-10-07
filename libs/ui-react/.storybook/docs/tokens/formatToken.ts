@@ -19,5 +19,6 @@ export const humanize = (key: string): string =>
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 
-/** Strips the `s` prefix from spacing/size keys (e.g. `s16` -> `16`). */
-export const stripSizePrefix = (key: string): string => key.replace(/^s/, '');
+/** Strips the `s` prefix from spacing/size keys (`s16` -> `16`, `s3Xs` -> `3xs`). */
+export const stripSizePrefix = (key: string): string =>
+  key.replace(/^s(?=[\dA-Z])/, '').toLowerCase();

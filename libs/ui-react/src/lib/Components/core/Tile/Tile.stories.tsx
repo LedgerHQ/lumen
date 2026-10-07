@@ -169,7 +169,7 @@ export const VariantsShowcase: Story = {
 export const HorizontalList: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
-      <div className='flex w-512 bg-base'>
+      <div className='flex w-lg bg-base'>
         {Array.from({ length: 3 }).map((_, i) => (
           <Tile key={`list-1-${i}`} secondaryAction={tileSecondaryAction}>
             <Spot icon={Apps} />
@@ -180,7 +180,7 @@ export const HorizontalList: Story = {
           </Tile>
         ))}
       </div>
-      <div className='flex w-512 overflow-x-auto bg-base'>
+      <div className='flex w-lg overflow-x-auto bg-base'>
         {Array.from({ length: 5 }).map((_, i) => (
           <Tile
             key={`list-2-${i}`}

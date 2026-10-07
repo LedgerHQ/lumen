@@ -136,7 +136,7 @@ export const Inset: Story = {
   render: () => (
     <div className='flex flex-wrap gap-24'>
       {insetExamples.map(({ label, inset }) => (
-        <div key={label} className='flex w-256 flex-col gap-8'>
+        <div key={label} className='flex w-3xs flex-col gap-8'>
           <div className='border border-muted'>
             <LineChart
               series={sampleSeries}
