@@ -1,5 +1,5 @@
-import type { TypographyTokens } from '../types';
-import { typographyMdTokens } from './typography.md';
+import type { TypographyTokens } from '../types.js';
+import { typographyMdTokens } from './typography.md.js';
 
 export const typographyLgTokens = {
   ...typographyMdTokens,

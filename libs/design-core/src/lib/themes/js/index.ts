@@ -1,11 +1,11 @@
-export * from './enterprise/theme';
-export * from './ledger-live/theme';
-export * from './websites/theme';
-export * from './primitives/primitive.colors';
+export * from './enterprise/theme.js';
+export * from './ledger-live/theme.js';
+export * from './websites/theme.js';
+export * from './primitives/primitive.colors.js';
 export type {
   ThemeCoreTokens,
   ThemeColorTokens,
   TypographyTokens,
   TypographyDefinition,
   ShadowTokenDefinition,
-} from './types';
+} from './types.js';
