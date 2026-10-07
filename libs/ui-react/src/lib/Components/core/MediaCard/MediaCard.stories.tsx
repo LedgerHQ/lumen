@@ -45,7 +45,7 @@ export const Base: Story = {
     onClose: () => ({}),
   },
   render: (args) => (
-    <div className='w-full xs:w-320'>
+    <div className='w-full xs:w-xs'>
       <MediaCard {...args}>
         <Tag label='Label' size='md' />
         <MediaCardTitle>
@@ -67,7 +67,7 @@ export const LayoutShowcase: Story = {
         <MediaCardTitle>Fit displayed content</MediaCardTitle>
       </MediaCard>
 
-      <MediaCard {...baseArgs} className='w-320'>
+      <MediaCard {...baseArgs} className='w-xs'>
         <Tag label='Label' size='md' />
         <MediaCardTitle>Defined width (320px)</MediaCardTitle>
       </MediaCard>
@@ -83,7 +83,7 @@ export const LayoutShowcase: Story = {
 export const CompositionShowcase: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
-    <div className='flex w-448 flex-col gap-16'>
+    <div className='flex w-md flex-col gap-16'>
       <MediaCard {...baseArgs}>
         <MediaCardTitle>Title only</MediaCardTitle>
       </MediaCard>
@@ -125,7 +125,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <div className='w-320'>
+      <div className='w-xs'>
         <MediaCard
           imageUrl={EXAMPLE_SRC}
           onClick={() => ({})}

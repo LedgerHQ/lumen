@@ -51,7 +51,7 @@ export const Base: Story = {
   args: {
     density: 'compact',
     lx: {
-      width: 's512',
+      width: 'sLg',
     },
   },
   render: (args) => (
@@ -77,7 +77,7 @@ export const Expanded: Story = {
   args: {
     density: 'expanded',
     lx: {
-      width: 's512',
+      width: 'sLg',
     },
   },
   render: (args) => (
@@ -103,7 +103,7 @@ export const WithCoinCapsule: Story = {
   args: {
     density: 'compact',
     lx: {
-      width: 's512',
+      width: 'sLg',
     },
   },
   render: (args) => (
@@ -133,7 +133,7 @@ export const WithMultipleTrailingActions: Story = {
   args: {
     density: 'compact',
     lx: {
-      width: 's512',
+      width: 'sLg',
     },
   },
   render: (args) => (

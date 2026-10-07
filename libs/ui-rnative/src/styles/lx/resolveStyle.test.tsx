@@ -127,7 +127,7 @@ describe('resolve-style', () => {
               height: 's96',
               minWidth: 's48',
               minHeight: 's24',
-              maxWidth: 's448',
+              maxWidth: 'sMd',
               maxHeight: 's192',
             }),
           { wrapper },

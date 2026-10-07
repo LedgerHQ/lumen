@@ -312,7 +312,7 @@ export const Base: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -348,14 +348,14 @@ export const AppearanceShowcase: Story = {
 
     return (
       <div className='flex gap-24 text-base'>
-        <div className='w-448'>
+        <div className='w-md'>
           <DataTableRoot table={noBackgroundTable} appearance='no-background'>
-            <DataTable className='max-h-448' />
+            <DataTable className='max-h-md' />
           </DataTableRoot>
         </div>
-        <div className='w-448'>
+        <div className='w-md'>
           <DataTableRoot table={plainTable} appearance='plain'>
-            <DataTable className='max-h-448' />
+            <DataTable className='max-h-md' />
           </DataTableRoot>
         </div>
       </div>
@@ -425,7 +425,7 @@ export const WithClickableRow: Story = {
         table={table}
         onRowClick={(row) => console.log(row)}
       >
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -464,7 +464,7 @@ export const WithRowProps: Story = {
           'aria-label': `${row.original.name} asset`,
         })}
       >
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -504,7 +504,7 @@ export const WithActiveRow: Story = {
           active: row.original.symbol === activeSymbol,
         })}
       >
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -521,7 +521,7 @@ export const ColumnsLayout: Story = {
       columns: [
         {
           accessorKey: 'name',
-          header: 'w-256 column',
+          header: 'w-3xs column',
           enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
@@ -537,7 +537,7 @@ export const ColumnsLayout: Story = {
               </TableCellContent>
             </TableCellItem>
           ),
-          meta: { className: 'w-256' },
+          meta: { className: 'w-3xs' },
         },
         {
           accessorKey: 'price',
@@ -567,7 +567,7 @@ export const ColumnsLayout: Story = {
         table={table}
         appearance={args.appearance ?? 'plain'}
       >
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -636,7 +636,7 @@ export const WithGroupHeader: Story = {
           </>
         )}
       >
-        <DataTable className='max-h-512' tabIndex={0} />
+        <DataTable className='max-h-lg' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -690,7 +690,7 @@ export const WithHorizontalScroll: Story = {
         horizontalLayout={{ type: 'scroll', minWidth: 1024 }}
         groupBy={(row) => row.original.category}
       >
-        <DataTable className='max-h-320' aria-label='Assets' />
+        <DataTable className='max-h-xs' aria-label='Assets' />
       </DataTableRoot>
     );
   },
@@ -718,7 +718,7 @@ export const WithHorizontalScrollFromColumnWidths: Story = {
               </TableCellContent>
             </TableCellItem>
           ),
-          meta: { className: 'w-288' },
+          meta: { className: 'w-2xs' },
         },
         {
           accessorKey: 'category',
@@ -744,7 +744,7 @@ export const WithHorizontalScrollFromColumnWidths: Story = {
         horizontalLayout={{ type: 'scroll' }}
         groupBy={(row) => row.original.category}
       >
-        <DataTable className='max-h-320' aria-label='Assets' />
+        <DataTable className='max-h-xs' aria-label='Assets' />
       </DataTableRoot>
     );
   },
@@ -801,7 +801,7 @@ export const WithResponsiveHorizontalScroll: Story = {
         }}
         groupBy={(row) => row.original.category}
       >
-        <DataTable className='max-h-320' aria-label='Assets' />
+        <DataTable className='max-h-xs' aria-label='Assets' />
       </DataTableRoot>
     );
   },
@@ -870,7 +870,7 @@ export const WithCustomHeader: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -938,7 +938,7 @@ export const WithoutStickyHeader: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-448' tabIndex={0} />
+        <DataTable className='max-h-md' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -1008,7 +1008,7 @@ export const WithSorting: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },
@@ -1086,7 +1086,7 @@ export const WithGlobalFilter: Story = {
             </Button>
           </TableActionBarTrailing>
         </TableActionBar>
-        <DataTable className='max-h-448' tabIndex={0} />
+        <DataTable className='max-h-md' tabIndex={0} />
       </DataTableRoot>
     );
   },
@@ -1213,7 +1213,7 @@ export const WithInfiniteScrollPagination: Story = {
           }
         }}
       >
-        <DataTable className='max-h-320' />
+        <DataTable className='max-h-xs' />
       </DataTableRoot>
     );
   },
@@ -1601,7 +1601,7 @@ export const WithServerSideState: Story = {
 
     return (
       <DataTableRoot {...args} table={table}>
-        <DataTable className='max-h-448' />
+        <DataTable className='max-h-md' />
       </DataTableRoot>
     );
   },

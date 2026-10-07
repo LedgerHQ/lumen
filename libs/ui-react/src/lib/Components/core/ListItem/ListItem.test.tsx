@@ -58,8 +58,8 @@ describe('ListItem', () => {
   });
 
   it('applies custom className', () => {
-    renderListItem({ className: 'w-320' });
-    expect(screen.getByTestId('list-item')).toHaveClass('w-320');
+    renderListItem({ className: 'w-xs' });
+    expect(screen.getByTestId('list-item')).toHaveClass('w-xs');
   });
 
   describe('density', () => {

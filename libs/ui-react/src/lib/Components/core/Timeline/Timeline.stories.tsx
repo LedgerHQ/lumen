@@ -57,7 +57,7 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   render: (args) => (
-    <Timeline className='w-320'>
+    <Timeline className='w-xs'>
       <TimelineItem status={args.status}>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -94,7 +94,7 @@ export const WithInformative: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Timeline className='w-320'>
+    <Timeline className='w-xs'>
       <TimelineItem>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -122,7 +122,7 @@ export const StatusShowcase: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Timeline className='w-320'>
+    <Timeline className='w-xs'>
       <TimelineItem status='success'>
         <TimelineItemHeader>
           <TimelineItemLeading>
@@ -186,7 +186,7 @@ export const WithCollapse: Story = {
     const [open, setOpen] = useState(true);
 
     return (
-      <Timeline className='w-320'>
+      <Timeline className='w-xs'>
         <TimelineItem status='success'>
           <TimelineItemHeader>
             <TimelineItemLeading>

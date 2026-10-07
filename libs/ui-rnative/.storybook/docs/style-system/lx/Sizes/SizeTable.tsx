@@ -8,7 +8,7 @@ export const SizeTable = () => {
   const accentColor = useSampleAccentColor();
 
   const formatCSSToken = (key: string): string => {
-    return `--size-${key.replace('s', '')}`;
+    return `--size-${key.replace(/^s(?=[\dA-Z])/, '').toLowerCase()}`;
   };
 
   const renderSample = (value: number | string) => {

@@ -86,7 +86,7 @@ export const AppearanceShowcase: Story = {
   render: () => (
     <>
       <Toaster />
-      <div className='flex w-256 flex-col items-center gap-8'>
+      <div className='flex w-3xs flex-col items-center gap-8'>
         <Button
           appearance='base'
           size='sm'

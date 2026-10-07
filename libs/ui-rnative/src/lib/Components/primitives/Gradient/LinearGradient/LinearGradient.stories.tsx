@@ -93,7 +93,7 @@ export const WithChildren: Story = {
     lx: {
       padding: 's24',
       borderRadius: 'lg',
-      width: 's288',
+      width: 's2Xs',
     },
   },
   render: (args) => (
@@ -126,7 +126,7 @@ export const WithMultipleStops: Story = {
     lx: {
       borderRadius: 'md',
       height: 's56',
-      width: 's288',
+      width: 's2Xs',
     },
   },
   render: (args) => {
@@ -150,7 +150,7 @@ export const CryptoGradients: Story = {
     lx: {
       borderRadius: 'md',
       height: 's56',
-      width: 's288',
+      width: 's2Xs',
     },
   },
   render: (args) => {

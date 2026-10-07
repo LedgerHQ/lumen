@@ -25,7 +25,7 @@ const meta = {
     (Story) => (
       <Box
         lx={{
-          width: 's320',
+          width: 'sXs',
           flexDirection: 'row',
           justifyContent: 'center',
         }}

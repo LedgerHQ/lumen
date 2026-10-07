@@ -67,7 +67,7 @@ type Story = StoryObj<typeof Card>;
 export const Base: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
-    lx: { width: 's320' },
+    lx: { width: 'sXs' },
     children: null,
   },
   render: (args) => (
@@ -129,7 +129,7 @@ export const StatesShowcase: Story = {
   },
   render: (args) => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
-      <Card {...args} lx={{ width: 's320' }}>
+      <Card {...args} lx={{ width: 'sXs' }}>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -154,7 +154,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} lx={{ width: 's320' }} outlined>
+      <Card {...args} lx={{ width: 'sXs' }} outlined>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -177,7 +177,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} lx={{ width: 's320' }} type='info'>
+      <Card {...args} lx={{ width: 'sXs' }} type='info'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -200,7 +200,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} lx={{ width: 's320' }} disabled>
+      <Card {...args} lx={{ width: 'sXs' }} disabled>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -223,7 +223,7 @@ export const StatesShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} lx={{ width: 's320' }} disabled>
+      <Card {...args} lx={{ width: 'sXs' }} disabled>
         <CardHeader>
           <CardLeading>
             <Wallet size={20} />
@@ -256,7 +256,7 @@ export const FooterAppearance: Story = {
   },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
-      <Card type='info' lx={{ width: 's320' }}>
+      <Card type='info' lx={{ width: 'sXs' }}>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -275,7 +275,7 @@ export const FooterAppearance: Story = {
         </CardFooter>
       </Card>
 
-      <Card type='info' lx={{ width: 's320' }}>
+      <Card type='info' lx={{ width: 'sXs' }}>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -299,7 +299,7 @@ export const FooterAppearance: Story = {
 
 export const DisabledWithSpot: Story = {
   args: {
-    lx: { width: 's320' },
+    lx: { width: 'sXs' },
     disabled: true,
     children: null,
   },
@@ -335,7 +335,7 @@ export const ExpandableShowcase: Story = {
     const [expanded, setExpanded] = useState(false);
 
     return (
-      <Box lx={{ flexDirection: 'column', gap: 's16', width: 's320' }}>
+      <Box lx={{ flexDirection: 'column', gap: 's16', width: 'sXs' }}>
         <Card
           type='expandable'
           expanded={expanded}
@@ -405,7 +405,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} lx={{ width: 's320' }}>
+      <Card {...args} lx={{ width: 'sXs' }}>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -428,7 +428,7 @@ export const LayoutShowcase: Story = {
         </CardFooter>
       </Card>
 
-      <Card {...args} lx={{ width: 's320' }}>
+      <Card {...args} lx={{ width: 'sXs' }}>
         <CardHeader>
           <CardLeading>
             <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
@@ -493,7 +493,7 @@ export const CompositionsShowcase: Story = {
     const [expanded, setExpanded] = useState(false);
 
     return (
-      <Box lx={{ flexDirection: 'column', gap: 's16', width: 's320' }}>
+      <Box lx={{ flexDirection: 'column', gap: 's16', width: 'sXs' }}>
         <Card type='info'>
           <CardHeader>
             <CardLeading>

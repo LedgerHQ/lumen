@@ -4,9 +4,9 @@ export default function Skeletons() {
   return (
     <Box lx={{ flexDirection: 'column', gap: 's16', width: 'full' }}>
       <Box lx={{ flexDirection: 'column', gap: 's8' }}>
-        <Skeleton lx={{ height: 's16', width: 's256' }} />
+        <Skeleton lx={{ height: 's16', width: 's3Xs' }} />
         <Skeleton lx={{ height: 's40', width: 's192' }} />
-        <Skeleton lx={{ height: 's12', width: 's320' }} />
+        <Skeleton lx={{ height: 's12', width: 'sXs' }} />
       </Box>
 
       <Box lx={{ flexDirection: 'row', gap: 's12' }}>
@@ -15,8 +15,8 @@ export default function Skeletons() {
       </Box>
 
       <Box lx={{ flexDirection: 'column', gap: 's12' }}>
-        <Skeleton component='list-item' lx={{ width: 's320' }} />
-        <Skeleton component='list-item' lx={{ width: 's320' }} />
+        <Skeleton component='list-item' lx={{ width: 'sXs' }} />
+        <Skeleton component='list-item' lx={{ width: 'sXs' }} />
       </Box>
 
       <Box lx={{ flexDirection: 'row', gap: 's12' }}>

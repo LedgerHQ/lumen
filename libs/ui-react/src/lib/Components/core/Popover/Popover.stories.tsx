@@ -42,7 +42,7 @@ export const Base: Story = {
         render={<Button appearance='gray'>Open Popover</Button>}
       />
 
-      <PopoverContent className='w-448'>
+      <PopoverContent className='w-md'>
         <div className='flex flex-col gap-24'>
           <div className='flex items-center gap-12'>
             <Avatar
@@ -97,11 +97,11 @@ export const WidthShowcase: Story = {
       <Popover>
         <PopoverTrigger
           render={
-            <Button appearance='gray'>Fit (with custom width w-256)</Button>
+            <Button appearance='gray'>Fit (with custom width w-3xs)</Button>
           }
         />
 
-        <PopoverContent width='fit' className='w-256'>
+        <PopoverContent width='fit' className='w-3xs'>
           <p className='body-2 text-base'>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
             quos.
@@ -111,7 +111,7 @@ export const WidthShowcase: Story = {
 
       <Popover>
         <PopoverTrigger
-          render={<Button appearance='gray'>Fixed (w-448)</Button>}
+          render={<Button appearance='gray'>Fixed (w-md)</Button>}
         />
 
         <PopoverContent width='fixed'>
@@ -143,7 +143,7 @@ export const PositionShowcase: Story = {
                   }
                 />
 
-                <PopoverContent side={side} align={align} className='w-256'>
+                <PopoverContent side={side} align={align} className='w-3xs'>
                   <div>
                     Lorem ipsum dolor sit amet consectetur adipisicing elit.
                     Quisquam, quos.
@@ -260,7 +260,7 @@ export const WithControlledState: Story = {
           />
 
           <PopoverContent>
-            <div className='flex w-448 flex-col gap-16'>
+            <div className='flex w-md flex-col gap-16'>
               <div className='flex flex-col gap-24'>
                 <div className='flex items-center gap-12'>
                   <Avatar

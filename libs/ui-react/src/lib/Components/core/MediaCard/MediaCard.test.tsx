@@ -89,12 +89,12 @@ describe('MediaCard', () => {
 
   it('should apply custom className', () => {
     const { container } = render(
-      <MediaCard {...makeProps()} className='w-320'>
+      <MediaCard {...makeProps()} className='w-xs'>
         <MediaCardTitle>Title</MediaCardTitle>
       </MediaCard>,
     );
 
-    expect(container.firstChild).toHaveClass('w-320');
+    expect(container.firstChild).toHaveClass('w-xs');
   });
 
   it('should forward ref', () => {

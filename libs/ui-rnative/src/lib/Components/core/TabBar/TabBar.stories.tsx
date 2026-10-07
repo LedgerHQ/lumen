@@ -70,7 +70,7 @@ export const Base: Story = {
           setActive(value);
           args.onTabPress?.(value);
         }}
-        lx={{ width: 's320' }}
+        lx={{ width: 'sXs' }}
       >
         <TabBarItem
           value='home'
@@ -100,7 +100,7 @@ export const Complex: Story = {
   render: () => {
     const [active, setActive] = useState('portfolio');
     return (
-      <TabBar active={active} onTabPress={setActive} lx={{ width: 's320' }}>
+      <TabBar active={active} onTabPress={setActive} lx={{ width: 'sXs' }}>
         <TabBarItem value='market' label='Market' icon={Chart1} />
         <TabBarItem
           value='portfolio'
@@ -121,7 +121,7 @@ export const MissingLabel: Story = {
   render: () => {
     const [active, setActive] = useState('tab1');
     return (
-      <TabBar active={active} onTabPress={setActive} lx={{ width: 's320' }}>
+      <TabBar active={active} onTabPress={setActive} lx={{ width: 'sXs' }}>
         <TabBarItem value='tab1' />
         <TabBarItem value='tab2' label='Tab' icon={Placeholder} />
         <TabBarItem value='tab3' icon={Cart} />
@@ -138,7 +138,7 @@ export const TypesafeFactory: Story = {
   render: () => {
     const [active, setActive] = useState<Route>('home');
     return (
-      <Nav.TabBar active={active} onTabPress={setActive} lx={{ width: 's320' }}>
+      <Nav.TabBar active={active} onTabPress={setActive} lx={{ width: 'sXs' }}>
         <Nav.TabBarItem
           value='home'
           label='Home'

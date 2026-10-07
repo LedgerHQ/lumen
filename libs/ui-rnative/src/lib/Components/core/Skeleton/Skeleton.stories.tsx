@@ -26,7 +26,7 @@ export const Base: Story = {
   args: {
     lx: {
       height: 's16',
-      width: 's256',
+      width: 's3Xs',
     },
   },
   render: (args) => (
@@ -67,7 +67,7 @@ export const SizeShowcase: Story = {
     >
       <Skeleton lx={{ height: 's40', width: 's56' }} />
       <Skeleton lx={{ height: 's12', width: 's112' }} />
-      <Skeleton lx={{ height: 's128', width: 's256' }} />
+      <Skeleton lx={{ height: 's128', width: 's3Xs' }} />
     </Box>
   ),
 };
@@ -82,8 +82,8 @@ export const ShapeShowcase: Story = {
         gap: 's4',
       }}
     >
-      <Skeleton lx={{ height: 's40', width: 's256', borderRadius: 'none' }} />
-      <Skeleton lx={{ height: 's40', width: 's256', borderRadius: 'lg' }} />
+      <Skeleton lx={{ height: 's40', width: 's3Xs', borderRadius: 'none' }} />
+      <Skeleton lx={{ height: 's40', width: 's3Xs', borderRadius: 'lg' }} />
       <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
       <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'md' }} />
     </Box>
