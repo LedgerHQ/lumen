@@ -127,7 +127,7 @@ export const Base: Story = {
     loading: false,
   },
   render: (args) => (
-    <div className='w-768 text-base'>
+    <div className='w-3xl text-base'>
       <TableRoot appearance={args.appearance} loading={args.loading}>
         <Table>
           <TableHeader>
@@ -230,7 +230,7 @@ export const ResponsiveLayout: Story = {
     viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => (
-    <div className='w-768 text-base'>
+    <div className='w-3xl text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -340,7 +340,7 @@ export const WithInfiniteLoading: Story = {
     }, []);
 
     return (
-      <div className='w-768 text-base'>
+      <div className='w-3xl text-base'>
         <TableRoot
           {...args}
           className='h-512'
@@ -388,7 +388,7 @@ export const WithoutStickyHeader: Story = {
     appearance: 'no-background',
   },
   render: (args) => (
-    <div className='w-768 text-base'>
+    <div className='w-3xl text-base'>
       <TableRoot {...args} className='h-320'>
         <Table tabIndex={0}>
           <TableHeader>
@@ -444,7 +444,7 @@ export const WithCustomHeader: Story = {
       useState<TableSortValue>(undefined);
 
     return (
-      <div className='w-768 text-base'>
+      <div className='w-3xl text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -524,7 +524,7 @@ export const WithCustomHeader: Story = {
 
 export const WithGroupHeader: Story = {
   render: (args) => (
-    <div className='w-768 text-base'>
+    <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
           <SearchInput className='w-320' placeholder='Search assets...' />
@@ -685,7 +685,7 @@ export const WithNetworkIconsAndActionBar: Story = {
     );
 
     return (
-      <div className='w-768 text-base'>
+      <div className='w-3xl text-base'>
         <TableActionBar>
           <TableActionBarLeading>
             <SearchInput className='w-320' placeholder='Search assets...' />
@@ -777,7 +777,7 @@ export const WithPagination: Story = {
     );
 
     return (
-      <div className='flex w-768 flex-col gap-16 text-base'>
+      <div className='flex w-3xl flex-col gap-16 text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -824,7 +824,7 @@ export const WithPagination: Story = {
 
 export const WithComplexCellContent: Story = {
   render: (args) => (
-    <div className='w-768 text-base'>
+    <div className='w-3xl text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>

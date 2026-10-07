@@ -2,7 +2,7 @@
 '@ledgerhq/lumen-design-core': patch
 ---
 
-BREAKING_CHANGE(tokens): align the size scale with Tailwind up to 1280px, align the spacing scale with size from 144 to 256, and remove t-shirt container sizes
+BREAKING_CHANGE(tokens): align the size scale with Tailwind up to 1280px and the spacing scale with size from 144 to 256
 
 The `size` scale now matches Tailwind's container widths from 320px upwards, and the `spacing` scale matches `size` between 144 and 256. Both stay pixel-named (`size-448` is 448px).
 
@@ -21,23 +21,3 @@ To migrate, replace each removed value with one of its two neighbours on the new
 | `*-160`, `--spacing-160`, `spacings.s160` | `*-144`, `--spacing-144`, `spacings.s144` | `*-176`, `--spacing-176`, `spacings.s176` |
 
 `w-160`, `h-160`, `size-160` and `min-*`/`max-*-160` used to resolve through `--spacing-160` and are removed as well. Use `*-144` or `*-176`.
-
-The preset also clears Tailwind's `--container-*` scale, so the pixel-named `size` scale is the only way to size elements. Every utility built on that scale no longer generates CSS: `w-*`, `min-w-*`, `max-w-*`, `basis-*` and `columns-*` with `3xs` … `7xl` (for example `max-w-md` or `w-3xl`), and the `@3xs:` … `@7xl:` container-query variants. Replace each t-shirt size with its pixel equivalent. The values are identical, so nothing changes visually:
-
-| Removed | Replace with |
-| ------- | ------------ |
-| `*-3xs` | `*-256`      |
-| `*-2xs` | `*-288`      |
-| `*-xs`  | `*-320`      |
-| `*-sm`  | `*-384`      |
-| `*-md`  | `*-448`      |
-| `*-lg`  | `*-512`      |
-| `*-xl`  | `*-576`      |
-| `*-2xl` | `*-672`      |
-| `*-3xl` | `*-768`      |
-| `*-4xl` | `*-896`      |
-| `*-5xl` | `*-1024`     |
-| `*-6xl` | `*-1152`     |
-| `*-7xl` | `*-1280`     |
-
-For container queries, use arbitrary values such as `@min-[448px]:`.

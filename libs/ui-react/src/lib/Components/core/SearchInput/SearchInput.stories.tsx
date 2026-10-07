@@ -52,12 +52,12 @@ export const Default: Story = {
 export const Empty: Story = {
   args: {
     placeholder: 'Search text',
-    className: 'max-w-448',
+    className: 'max-w-md',
   },
   parameters: {
     docs: {
       source: {
-        code: '<SearchInput placeholder="Search text" className="max-w-448" />',
+        code: '<SearchInput placeholder="Search text" className="max-w-md" />',
       },
     },
   },
@@ -70,12 +70,12 @@ export const WithContent: Story = {
   args: {
     placeholder: 'Search text',
     defaultValue: 'Search text',
-    className: 'max-w-448',
+    className: 'max-w-md',
   },
   parameters: {
     docs: {
       source: {
-        code: '<SearchInput placeholder="Search text" defaultValue="Search text" className="max-w-448" />',
+        code: '<SearchInput placeholder="Search text" defaultValue="Search text" className="max-w-md" />',
       },
     },
   },
@@ -89,12 +89,12 @@ export const Disabled: Story = {
     placeholder: 'Search text',
     disabled: true,
     defaultValue: 'Disabled input',
-    className: 'max-w-448',
+    className: 'max-w-md',
   },
   parameters: {
     docs: {
       source: {
-        code: '<SearchInput placeholder="Search text" disabled defaultValue="Disabled input" className="max-w-448" />',
+        code: '<SearchInput placeholder="Search text" disabled defaultValue="Disabled input" className="max-w-md" />',
       },
     },
   },
@@ -109,7 +109,7 @@ export const Error: Story = {
     defaultValue: 'Invalid search',
     helperText: 'Search term is invalid',
     status: 'error',
-    className: 'max-w-448',
+    className: 'max-w-md',
     'aria-label': 'Search',
   },
   parameters: {
@@ -120,7 +120,7 @@ export const Error: Story = {
   defaultValue="Invalid search"
   helperText="Search term is invalid"
   status="error"
-  className="max-w-448"
+  className="max-w-md"
 />`,
       },
     },
@@ -204,7 +204,7 @@ export const DebouncedSearchInput: Story = {
     };
 
     return (
-      <div className='max-w-448 space-y-16'>
+      <div className='max-w-md space-y-16'>
         <SearchInput
           placeholder='Search fruits (properly debounced)'
           value={inputValue}
