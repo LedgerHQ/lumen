@@ -147,7 +147,19 @@
         "{projectRoot}/eslint.config.mjs",
         {
           "externalDependencies": [
-            "eslint"
+            "eslint",
+            "typescript-eslint",
+            "@nx/eslint-plugin",
+            "eslint-plugin-import",
+            "eslint-plugin-jsx-a11y",
+            "eslint-plugin-prettier",
+            "eslint-config-prettier",
+            "prettier",
+            "eslint-plugin-storybook",
+            "jsonc-eslint-parser",
+            "eslint-plugin-better-tailwindcss",
+            "@shadcn/lint",
+            "tailwindcss"
           ]
         }
       ]
