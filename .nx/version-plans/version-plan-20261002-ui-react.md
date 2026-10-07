@@ -14,7 +14,7 @@ feat(Spot): replace content-based appearances with palette and fill props
 
 Removed appearances:
 
-- `appearance="bluetooth"`: removed, no replacement.
+- `appearance="bluetooth"`: pass `BluetoothCircleFill` as `icon`.
 - `appearance="loader"`: pass `Spinner` as `icon`.
 - `appearance="number"` and `number`: use `SpotNumber`.
 
@@ -69,7 +69,12 @@ to the spinner (`32 → 12`, `40 → 16`, `48 → 20`, `56 → 24`, `72 → 40`)
 
 Spot passes the palette text color to the icon, so a `Spinner` icon follows `appearance`.
 
-Bluetooth is not used by any team, so it is deprecated with no replacement.
+Pass the Bluetooth icon:
+
+```tsx
+<Spot appearance="bluetooth" />
+<Spot icon={BluetoothCircleFill} />
+```
 
 The `number` prop is dropped. Digits are now a `SpotNumber` component, and the digit follows `appearance` and `fill`:
 
