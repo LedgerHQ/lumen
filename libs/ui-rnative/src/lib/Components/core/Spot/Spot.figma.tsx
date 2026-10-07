@@ -7,15 +7,16 @@ import {
   Placeholder,
   WarningFill,
 } from '../../symbols';
+import { Spinner } from '../Spinner';
 import { Spot } from './Spot';
-import type { SpotAppearance, SpotFill } from './types';
+import type { SpotAppearance, SpotFill, SpotProps } from './types';
 
 figma.connect(
   Spot,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6786%3A4738',
   {
     imports: [
-      "import { Spot } from '@ledgerhq/lumen-ui-rnative'",
+      "import { Spot, Spinner } from '@ledgerhq/lumen-ui-rnative'",
       "import { CheckmarkCircleFill, ClockFill, DeleteCircleFill, InformationFill, Placeholder, WarningFill } from '@ledgerhq/lumen-ui-rnative/symbols'",
     ],
     props: {
@@ -41,20 +42,23 @@ figma.connect(
         'decorative-orange': 'decorative-orange',
         'decorative-red': 'decorative-red',
       }),
-      icon: figma.enum('preset', {
-        none: Placeholder,
-        success: CheckmarkCircleFill,
-        error: DeleteCircleFill,
-        warning: WarningFill,
-        info: InformationFill,
-        pending: ClockFill,
+      icon: figma.enum('content', {
+        'interface-icon': figma.enum('preset', {
+          none: Placeholder,
+          success: CheckmarkCircleFill,
+          error: DeleteCircleFill,
+          warning: WarningFill,
+          info: InformationFill,
+          pending: ClockFill,
+        }),
+        loader: Spinner,
       }),
     },
     example: (props: {
       disabled: boolean;
       fill: SpotFill;
       appearance: SpotAppearance;
-      icon: typeof Placeholder;
+      icon: SpotProps['icon'];
     }) => (
       <Spot
         appearance={props.appearance}

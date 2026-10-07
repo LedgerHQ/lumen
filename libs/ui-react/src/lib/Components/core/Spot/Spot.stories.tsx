@@ -155,13 +155,7 @@ export const WithSpinner: Story = {
     return (
       <div className='flex items-end gap-16 p-16'>
         {sizes.map((size) => (
-          <Spot
-            key={size}
-            icon={Spinner}
-            size={size}
-            appearance='base'
-            fill='plain'
-          />
+          <Spot key={size} icon={Spinner} size={size} />
         ))}
       </div>
     );

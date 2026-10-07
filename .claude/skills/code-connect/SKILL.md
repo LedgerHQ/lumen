@@ -99,8 +99,8 @@ instead of branching in `example`.
 leadingContent: figma.enum('leading-content', {
   'no-icon': undefined,
   spot: figma.enum('size', {
-    md: <Spot size={48} appearance='icon' icon={Settings} />,
-    sm: <Spot size={24} appearance='icon' icon={Settings} />,
+    md: <Spot size={48} icon={Settings} />,
+    sm: <Spot size={32} icon={Settings} />,
   }),
   'interface-icon': <Placeholder size={24} />,
 }),
