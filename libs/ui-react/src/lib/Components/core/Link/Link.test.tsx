@@ -135,7 +135,7 @@ describe('Link Component', () => {
     const linkElement = screen.getByRole('link');
     expect(linkElement).not.toHaveClass('body-1-semi-bold');
     expect(linkElement).not.toHaveClass('body-2-semi-bold');
-    expect(linkElement).not.toHaveClass('gap-4');
+    expect(linkElement).toHaveClass('gap-4'); // default
     expect(linkElement).not.toHaveClass('gap-8');
   });
 

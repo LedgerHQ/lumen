@@ -20,7 +20,7 @@ const linkVariants = cva(
       size: {
         sm: 'gap-4 body-2-semi-bold',
         md: 'gap-8 body-1-semi-bold',
-        inherit: '',
+        inherit: 'gap-4',
       },
       underline: {
         true: 'underline underline-offset-2',
