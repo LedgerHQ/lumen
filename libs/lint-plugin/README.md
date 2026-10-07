@@ -77,7 +77,7 @@ export default defineConfig({
 | [`no-concatenated-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-concatenated-classes.md)                             |     ✅      |   ✅   |     | Classes built at runtime, like `` `text-${size}` `` |
 | [`no-conflicting-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-conflicting-classes.md)                               |     ✅      |   ✅   | 🔧  | Classes that cancel each other                      |
 | [`no-deprecated-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-deprecated-classes.md)                                 |             |   ✅   | 🔧  | Deprecated Tailwind classes                         |
-| [`no-duplicate-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-duplicate-classes.md)                                   |             |   ✅   | 🔧  | The same class twice                                |
+| [`no-duplicate-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-duplicate-classes.md)                                   |     ✅      |   ✅   | 🔧  | The same class twice                                |
 | [`no-restricted-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md)                                 |             |        | 🔧  | Classes you ban yourself                            |
 | [`no-unknown-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-unknown-classes.md)                                       |     ✅      |   ✅   | 🔧  | Classes your Tailwind setup cannot generate         |
 | [`no-unnecessary-whitespace`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-unnecessary-whitespace.md)                         |             |   ✅   | 🔧  | Extra spaces between classes                        |
@@ -131,6 +131,8 @@ The presets are plain config objects.
 
 - `@shadcn/lint` reads component files with `oxc-parser` or `@typescript-eslint/parser`.
   If neither is installed, it warns once and `no-restyle` gives less precise hints.
+- Using `prettier-plugin-tailwindcss`? Set its `tailwindStylesheet` to your `entryPoint`
+  file, or Prettier and `strict`'s class order will disagree.
 
 ## Contributing
 

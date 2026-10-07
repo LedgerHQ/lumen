@@ -25,11 +25,12 @@ const levels = (rules) =>
   );
 
 describe('presets', () => {
-  it('recommended is better-tailwindcss’ correctness config plus restyling as a warning', () => {
+  it('recommended is better-tailwindcss’ correctness config plus duplicates, and restyling as a warning', () => {
     expect(levels(RULES.recommended)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
+      'better-tailwindcss/no-duplicate-classes': 'error',
       'shadcn/no-restyle': 'warn',
     });
   });

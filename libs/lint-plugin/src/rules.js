@@ -65,12 +65,14 @@ export const NO_ARBITRARY_VALUES_OPTIONS = deepFreeze({
 
 /** @type {Record<PresetName, Record<string, unknown>>} */
 export const RULES = {
-  // The core: classes Tailwind cannot generate or that cancel each other, and
-  // restyling a Lumen component.
+  // The core: classes Tailwind cannot generate or that cancel each other,
+  // duplicates, and restyling a Lumen component.
   recommended: {
     ...betterTailwindcss.configs.correctness.rules,
     // Explicit: stays even if better-tailwindcss moves it out of `correctness`.
     'better-tailwindcss/no-concatenated-classes': 'error',
+    // Never a valid choice, and `--fix` removes it.
+    'better-tailwindcss/no-duplicate-classes': 'error',
     'shadcn/no-restyle': ['warn', NO_RESTYLE_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs
