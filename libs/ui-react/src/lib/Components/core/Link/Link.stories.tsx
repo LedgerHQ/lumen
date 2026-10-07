@@ -60,6 +60,7 @@ export const Base: Story = {
 export const WithIcon: Story = {
   args: {
     appearance: 'base',
+    size: 'md',
     children: 'Link with Icon',
     icon: Information,
     href: '#',
@@ -71,6 +72,7 @@ export const WithIcon: Story = {
         code: `
 <Link
   appearance="base"
+  size="md"
   icon={Information}
   href="#"
 >
@@ -85,6 +87,7 @@ export const WithIcon: Story = {
 export const External: Story = {
   args: {
     appearance: 'base',
+    size: 'md',
     children: 'External Link',
     isExternal: true,
     href: 'https://ledger.com',
@@ -95,6 +98,7 @@ export const External: Story = {
         code: `
 <Link
   appearance="base"
+  size: 'md'
   isExternal
   href="https://ledger.com"
 >
