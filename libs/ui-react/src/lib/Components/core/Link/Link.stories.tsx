@@ -98,7 +98,7 @@ export const External: Story = {
         code: `
 <Link
   appearance="base"
-  size: 'md'
+  size="md"
   isExternal
   href="https://ledger.com"
 >
