@@ -1,6 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cva } from 'class-variance-authority';
+import { useControllableState } from '../../../../utils/useControllableState';
 import type { SwitchProps } from './types';
 
 const switchVariants = cva(
@@ -61,28 +61,70 @@ export const Switch = ({
   ref,
   className,
   selected,
-  defaultSelected,
+  defaultSelected = false,
   onChange,
   size = 'md',
   disabled: disabledProp,
+  name,
+  value = 'on',
+  required,
+  form,
+  onClick,
   ...props
 }: SwitchProps) => {
   const disabled = useDisabledContext({
     consumerName: 'Switch',
     mergeWith: { disabled: disabledProp },
   });
+  const [checked, setChecked] = useControllableState({
+    prop: selected,
+    defaultProp: defaultSelected,
+    onChange,
+  });
 
   return (
-    <SwitchPrimitive.Root
-      ref={ref}
-      className={cn(switchVariants({ size }), className)}
-      checked={selected}
-      defaultChecked={defaultSelected}
-      onCheckedChange={onChange}
-      disabled={disabled}
-      {...props}
-    >
-      <SwitchPrimitive.Thumb className={thumbVariants({ size })} />
-    </SwitchPrimitive.Root>
+    <>
+      <button
+        ref={ref}
+        type='button'
+        role='switch'
+        aria-checked={checked}
+        aria-required={required}
+        data-state={checked ? 'checked' : 'unchecked'}
+        data-disabled={disabled ? '' : undefined}
+        disabled={disabled}
+        value={value}
+        form={form}
+        className={cn(switchVariants({ size }), className)}
+        onClick={(event) => {
+          onClick?.(event);
+          if (!event.defaultPrevented) {
+            setChecked(!checked);
+          }
+        }}
+        {...props}
+      >
+        <span
+          data-state={checked ? 'checked' : 'unchecked'}
+          data-disabled={disabled ? '' : undefined}
+          className={thumbVariants({ size })}
+        />
+      </button>
+      {name !== undefined && (
+        <input
+          type='checkbox'
+          aria-hidden
+          tabIndex={-1}
+          name={name}
+          form={form}
+          value={value}
+          checked={checked}
+          required={required}
+          disabled={disabled}
+          readOnly
+          className='sr-only'
+        />
+      )}
+    </>
   );
 };

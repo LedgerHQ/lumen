@@ -1,4 +1,3 @@
-import type * as SwitchPrimitive from '@radix-ui/react-switch';
 import type { ComponentPropsWithRef } from 'react';
 
 export type SwitchProps = {
@@ -19,7 +18,15 @@ export type SwitchProps = {
    * @default 'md'
    */
   size?: 'sm' | 'md';
+  /**
+   * The name submitted with the enclosing form.
+   */
+  name?: string;
+  /**
+   * Whether the switch must be on before the enclosing form can be submitted.
+   */
+  required?: boolean;
 } & Omit<
-  ComponentPropsWithRef<typeof SwitchPrimitive.Root>,
-  'onChange' | 'checked' | 'defaultChecked' | 'onCheckedChange'
+  ComponentPropsWithRef<'button'>,
+  'onChange' | 'children' | 'role' | 'type' | 'name'
 >;
