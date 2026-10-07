@@ -50,7 +50,7 @@ export type SpotProps = {
    * @required
    */
   icon: ComponentType<{ size?: IconSize; style?: StyleProp<TextStyle> }>;
-} & StyledViewProps;
+} & Omit<StyledViewProps, 'children'>;
 
 export type SpotNumberProps = {
   /**

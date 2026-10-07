@@ -48,7 +48,7 @@ export type SpotProps = {
    * @required
    */
   icon: ComponentType<{ size?: IconSize; className?: string }>;
-} & ComponentPropsWithRef<'div'>;
+} & Omit<ComponentPropsWithRef<'div'>, 'children'>;
 
 export type SpotNumberProps = {
   /**
