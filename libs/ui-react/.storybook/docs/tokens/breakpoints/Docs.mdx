@@ -1,0 +1,55 @@
+import { Canvas, Markdown, Meta } from '@storybook/addon-docs/blocks';
+import * as Breakpoints from './breakpoints.stories';
+
+<Meta title='Foundations/Breakpoints' of={Breakpoints} />
+
+# Breakpoints
+
+Breakpoints are the viewport widths at which a layout adapts. Lumen defines them once in `@ledgerhq/lumen-design-core`, and both the Tailwind preset and the React Native theme read the same values, so web and mobile always agree.
+
+## 📏 Breakpoint Scale
+
+<Canvas of={Breakpoints.Default} />
+
+## Usage
+
+Breakpoints are mobile-first: a prefixed utility applies from that width upwards, and the unprefixed utility applies below it.
+
+<Markdown>
+{`
+| Pattern | Applies when | Example |
+| ------- | ------------ | ------- |
+| \`{breakpoint}:\` | width ≥ breakpoint | \`md:flex\` from 768px |
+| \`max-{breakpoint}:\` | width < breakpoint | \`max-md:hidden\` below 768px |
+| \`{breakpoint}:max-{breakpoint}:\` | between two breakpoints | \`md:max-lg:grid\` from 768px to 1023px |
+`}
+</Markdown>
+
+```jsx
+// Stacked on mobile, side by side from md (768px)
+<div className='flex flex-col gap-16 md:flex-row'>
+  <aside className='max-md:hidden'>Only visible from md</aside>
+  <main className='md:max-lg:p-16 lg:p-24'>Content</main>
+</div>
+```
+
+Values are in `px`, like every other Lumen dimension, so a layout and its responsive typography always switch at the same widths.
+
+## Responsive typography
+
+The `responsive-display-*` text styles and `heading-3` change size at the `sm`, `md`, `lg`, `xl` and `2xl` breakpoints on their own. Use them like any other typography utility; no breakpoint prefix is needed.
+
+## Customizing breakpoints in an app
+
+Add or adjust breakpoints with `theme.extend.screens` in your Tailwind config. Lumen's breakpoints stay available, and a key you redefine (for example `md`) takes your value.
+
+```ts
+export default {
+  presets: [allBrandsPreset],
+  theme: {
+    extend: {
+      screens: { tablet: '900px' },
+    },
+  },
+};
+```
