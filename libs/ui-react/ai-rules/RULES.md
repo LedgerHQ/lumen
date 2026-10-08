@@ -119,7 +119,7 @@ To verify or discover additional color tokens, explore:
   - Width: `w-{size}`, `min-w-{size}`, `max-w-{size}`
   - Height: `h-{size}`, `min-h-{size}`, `max-h-{size}`
   - Both: `size-{size}` (sets both width and height)
-- Available size scale: `1, 2, 4, 6, 8, 10, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 112, 128, 144, 160, 176, 208, 224, 256, 320, 400, 480, 560`
+- Available size scale: `0, 1, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 56, 64, 72, 80, 96, 112, 128, 144, 176, 192, 208, 224`, then t-shirt names from 256px: `3xs` (256), `2xs` (288), `xs` (320), `sm` (384), `md` (448), `lg` (512), `xl` (576), `2xl` (672), `3xl` (768), `4xl` (896), `5xl` (1024), `6xl` (1152), `7xl` (1280)
 
 ### Spacing (Padding, Margin, Gap)
 
