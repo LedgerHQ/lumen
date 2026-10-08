@@ -7,13 +7,15 @@ import { Close } from '../../symbols';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type { MediaCardProps, MediaCardTitleProps } from './types';
 
+const CARD_HEIGHT = 164;
+
 const useStyles = () =>
   useStyleSheet(
     (t) => ({
       root: {
         position: 'relative',
         width: t.sizes.full,
-        minHeight: t.sizes.s176,
+        minHeight: CARD_HEIGHT,
         borderRadius: t.borderRadius.md,
         overflow: 'hidden',
         flexDirection: 'column',
