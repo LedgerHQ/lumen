@@ -28,6 +28,4 @@ To migrate:
 
    For example, `w-400` becomes `w-md` and `max-h-560` becomes `max-h-xl`.
 
-2. Replace `@md:`-style container-query variants with arbitrary values such as `@min-[448px]:`, since `@3xs:` … `@7xl:` no longer generate CSS.
-
-3. Check layouts that host a `Dialog`, `Popover` (`width='fixed'`) or `Menu`, because they are now 16–48px larger.
+2. Check layouts that host a `Dialog`, `Popover` (`width='fixed'`) or `Menu`, because they are now 16–48px larger.

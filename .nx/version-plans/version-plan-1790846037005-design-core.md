@@ -29,6 +29,6 @@ To migrate, rename the moved sizes and replace each removed value with one of it
 
 `w-160`, `h-160`, `size-160` and `min-*`/`max-*-160` used to resolve through `--spacing-160` and are removed as well. Use `*-144` or `*-176`.
 
-Tailwind's own t-shirt utilities (`w-md`, `max-w-3xl`, …) keep their pixel values but no longer scale with the root font size, since they now come from Lumen's pixel tokens. The `@3xs:` … `@7xl:` container-query variants no longer generate CSS; use arbitrary values such as `@min-[448px]:` instead.
+Tailwind's own t-shirt utilities (`w-md`, `max-w-3xl`, `@md:` container queries, …) keep their pixel values but now come from Lumen's pixel tokens, so they no longer scale with the root font size.
 
 Also adds the `border-decorative-*` colors (orange, green, blue, purple, red, yellow, turquoise, pink) from Figma, as Tailwind utilities and as `border.decorative*` in the JS theme.
