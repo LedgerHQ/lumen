@@ -20,6 +20,7 @@ import {
   TableActionBarLeading,
   TableActionBarTrailing,
   TableLoadingRow,
+  TableGroupHeaderRow,
   TableInfoIcon,
   TableSortButton,
 } from './Table';
@@ -74,6 +75,18 @@ describe('Table', () => {
       expect(screen.getByRole('table')).toHaveClass('max-w-full');
     });
 
+    it('should let the consumer className override the layout classes', () => {
+      render(
+        <Table className='max-w-md table-auto'>
+          <tbody />
+        </Table>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-auto', 'max-w-md');
+      expect(table).not.toHaveClass('table-fixed', 'max-w-full');
+    });
+
     it('should keep at least minWidth in scroll layout', () => {
       render(
         <TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }}>
@@ -104,6 +117,20 @@ describe('Table', () => {
       const table = screen.getByRole('table');
       expect(table).toHaveClass('table-fixed', 'max-w-none');
       expect(table.style.getPropertyValue('--table-min-width-base')).toBe('');
+    });
+
+    it('should let className override the internal layout classes', () => {
+      render(
+        <TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }}>
+          <Table className='max-w-full table-auto'>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-auto', 'max-w-full');
+      expect(table).not.toHaveClass('table-fixed', 'max-w-none');
     });
 
     it('should resolve a layout per breakpoint', () => {
@@ -513,5 +540,43 @@ describe('TableSortButton', () => {
     render(<TableSortButton sortDirection='asc'>Name</TableSortButton>);
     const sortButton = screen.getAllByRole('button')[0];
     expect(sortButton).toHaveAttribute('aria-label');
+  });
+});
+
+describe('TableGroupHeaderRow', () => {
+  const renderGroupHeader = (
+    horizontalLayout?: React.ComponentProps<
+      typeof TableRoot
+    >['horizontalLayout'],
+  ) =>
+    render(
+      <TableRoot horizontalLayout={horizontalLayout}>
+        <Table>
+          <tbody>
+            <TableGroupHeaderRow colSpan={2}>
+              <span>February</span>
+              <span>3 assets</span>
+            </TableGroupHeaderRow>
+          </tbody>
+        </Table>
+      </TableRoot>,
+    );
+
+  it('should render children as direct items of the bar when the table shrinks', () => {
+    renderGroupHeader();
+
+    expect(screen.getByText('February').parentElement).toHaveClass('bg-muted');
+  });
+
+  it('should keep the label sticky when the table can scroll', () => {
+    renderGroupHeader({
+      base: { type: 'scroll', minWidth: 960 },
+      lg: { type: 'shrink' },
+    });
+
+    const wrapper = screen.getByText('February').parentElement;
+    expect(wrapper).toHaveClass('sticky', 'start-12', 'flex');
+    expect(wrapper).toContainElement(screen.getByText('3 assets'));
+    expect(wrapper?.parentElement).toHaveClass('bg-muted');
   });
 });

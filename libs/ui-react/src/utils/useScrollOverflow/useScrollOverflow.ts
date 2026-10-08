@@ -45,19 +45,41 @@ export function useScrollOverflow(
     update();
     el.addEventListener('scroll', update, { passive: true });
 
-    let ro: ResizeObserver | undefined;
-    if (typeof ResizeObserver !== 'undefined') {
-      ro = new ResizeObserver(update);
-      ro.observe(el);
-      // The content width drives overflow just as much as the container width.
-      if (el.firstElementChild instanceof HTMLElement) {
-        ro.observe(el.firstElementChild);
+    const ro =
+      typeof ResizeObserver === 'undefined'
+        ? undefined
+        : new ResizeObserver(update);
+    ro?.observe(el);
+
+    // The content width drives overflow just as much as the container width,
+    // and the content can be swapped after mount (e.g. a skeleton replaced by
+    // the table), so follow the first child as it changes.
+    let observedContent: Element | null = null;
+    const observeContent = (): void => {
+      const content = el.firstElementChild;
+      if (content === observedContent) {
+        return;
       }
-    }
+      if (observedContent) {
+        ro?.unobserve(observedContent);
+      }
+      if (content) {
+        ro?.observe(content);
+      }
+      observedContent = content;
+    };
+    observeContent();
+
+    const mo = new MutationObserver(() => {
+      observeContent();
+      update();
+    });
+    mo.observe(el, { childList: true });
 
     return () => {
       el.removeEventListener('scroll', update);
       ro?.disconnect();
+      mo.disconnect();
     };
   }, [scrollRef]);
 

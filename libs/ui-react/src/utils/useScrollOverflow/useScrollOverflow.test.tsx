@@ -21,7 +21,9 @@ class MockResizeObserver {
     this.observed.push(target);
   }
 
-  unobserve(): void {}
+  unobserve(target: Element): void {
+    this.observed = this.observed.filter((element) => element !== target);
+  }
 
   disconnect(): void {
     this.disconnected = true;
@@ -32,7 +34,13 @@ class MockResizeObserver {
   }
 }
 
-const Harness = ({ direction }: { direction?: 'ltr' | 'rtl' }) => {
+const Harness = ({
+  direction,
+  loading = false,
+}: {
+  direction?: 'ltr' | 'rtl';
+  loading?: boolean;
+}) => {
   const ref = useRef<HTMLDivElement>(null);
   const { canScrollLeft, canScrollRight } = useScrollOverflow(ref);
 
@@ -44,7 +52,7 @@ const Harness = ({ direction }: { direction?: 'ltr' | 'rtl' }) => {
       data-right={String(canScrollRight)}
       style={direction ? { direction } : undefined}
     >
-      <table />
+      {loading ? <div data-testid='skeleton' /> : <table />}
     </div>
   );
 };
@@ -139,6 +147,28 @@ describe('useScrollOverflow', () => {
       MockResizeObserver.instances[0]?.emit();
     });
 
+    expectOverflow(false, true);
+  });
+
+  it('should follow content swapped after mount', async () => {
+    global.ResizeObserver =
+      MockResizeObserver as unknown as typeof ResizeObserver;
+    const { rerender } = render(<Harness loading />);
+    const scroller = screen.getByTestId('scroller');
+    const skeleton = screen.getByTestId('skeleton');
+
+    setScrollMetrics(scroller, {
+      scrollWidth: 500,
+      clientWidth: 300,
+      scrollLeft: 0,
+    });
+    rerender(<Harness />);
+    // MutationObserver callbacks run as a microtask.
+    await act(async () => {});
+
+    const observer = MockResizeObserver.instances[0];
+    expect(observer?.observed).toContain(scroller.firstElementChild);
+    expect(observer?.observed).not.toContain(skeleton);
     expectOverflow(false, true);
   });
 

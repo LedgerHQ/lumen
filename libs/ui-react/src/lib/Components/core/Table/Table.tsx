@@ -180,6 +180,18 @@ const tableLayoutVariants = cva('w-full table-fixed', {
 
 const DEFAULT_HORIZONTAL_LAYOUT: TableHorizontalLayout = { type: 'shrink' };
 
+const canScrollHorizontally = (
+  value: ResponsiveValue<TableHorizontalLayout> | undefined,
+): boolean => {
+  if (!value) {
+    return false;
+  }
+  if ('type' in value) {
+    return value.type === 'scroll';
+  }
+  return Object.values(value).some((layout) => layout?.type === 'scroll');
+};
+
 const resolveHorizontalLayout = (
   value: ResponsiveValue<TableHorizontalLayout>,
 ): {
@@ -223,7 +235,7 @@ export const Table = ({
   return (
     <table
       {...props}
-      className={tableLayoutVariants({ ...layout.variants, className })}
+      className={cn(tableLayoutVariants(layout.variants), className)}
       style={{ ...layout.style, ...style }}
       ref={ref}
     >
@@ -395,7 +407,7 @@ export const TableGroupHeaderRow = ({
   ref,
   ...props
 }: TableGroupHeaderRowProps) => {
-  const { appearance } = useTableContext({
+  const { appearance, horizontalLayout } = useTableContext({
     consumerName: 'TableGroupHeaderRow',
     contextRequired: true,
   });
@@ -408,8 +420,16 @@ export const TableGroupHeaderRow = ({
             appearance === 'no-background' && 'rounded-sm',
           )}
         >
-          {/* Keeps the label in view when the table scrolls horizontally. */}
-          <span className='sticky start-12'>{children}</span>
+          {canScrollHorizontally(horizontalLayout) ? (
+            // Keeps the label in view when the table scrolls horizontally. Only
+            // rendered for scrollable tables so shrink tables keep their children
+            // as direct flex items of the bar.
+            <div className='sticky start-12 flex min-w-0 items-center'>
+              {children}
+            </div>
+          ) : (
+            children
+          )}
         </div>
       </td>
     </tr>
