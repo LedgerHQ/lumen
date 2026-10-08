@@ -1,166 +1,62 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { cva } from 'class-variance-authority';
-import { useMemo } from 'react';
-import {
-  BluetoothCircleFill,
-  CheckmarkCircleFill,
-  DeleteCircleFill,
-  InformationFill,
-  WarningFill,
-} from '../../symbols';
 import type { IconSize } from '../../symbols/Icon';
-import { Spinner } from '../Spinner';
+import { contentVariants, spotVariants } from './styles';
 import type { SpotProps, SpotSize } from './types';
 
-const spotVariants = cva(
-  'flex shrink-0 items-center justify-center rounded-full bg-muted-transparent',
-  {
-    variants: {
-      appearance: {
-        icon: 'text-base',
-        bluetooth: 'text-[#0082FC]',
-        check: 'text-success',
-        error: 'text-error',
-        warning: 'text-warning',
-        info: 'text-muted',
-        loader: '',
-        number: 'heading-5 text-base',
-      },
-      disabled: {
-        true: 'text-disabled',
-      },
-      size: {
-        32: 'spot-h-32 spot-w-32',
-        40: 'spot-h-40 spot-w-40',
-        48: 'spot-h-48 spot-w-48',
-        56: 'spot-h-56 spot-w-56',
-        72: 'spot-h-72 spot-w-72',
-      },
-    },
-  },
-);
+const iconSizeMap: Record<SpotSize, IconSize> = {
+  32: 12,
+  40: 16,
+  48: 20,
+  56: 24,
+  72: 40,
+};
 
 /**
- * A circular status indicator component that displays different types of content based on appearance.
- *
- * Uses a discriminated union type system where the required props depend on the `appearance` value:
- * - `'icon'` appearance requires an `icon` prop
- * - `'number'` appearance requires a `number` prop
- * - All other appearances are self-contained
+ * A circular icon container. `appearance` selects the color palette and `fill` selects whether that palette paints only the icon or the circle as well.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-spot--docs Storybook}
  *
  * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
- * Do not use it to modify the spot's core appearance (colors, size, etc). Use the `appearance` prop instead.
+ * Do not use it to modify the spot's core appearance (colors, size, etc). Use the `appearance` and `fill` props instead.
  *
  * @example
  * import { Spot } from '@ledgerhq/lumen-ui-react';
+ * import { Settings, CheckmarkCircleFill } from '@ledgerhq/lumen-ui-react/symbols';
  *
- * // Custom icon spot
- * import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
- *
- * <Spot appearance="icon" icon={Settings} />
- *
- * // Number spot
- * <Spot appearance="number" number={5} />
- *
- * // Status indicators (no additional props needed)
- * <Spot appearance="check" />
- * <Spot appearance="error" />
- * <Spot appearance="warning" />
- * <Spot appearance="loader" />
- *
- * // Bluetooth states
- * <Spot appearance="bluetooth" />
- * <Spot appearance="bluetooth" disabled />
+ * <Spot icon={Settings} />
+ * <Spot appearance="success" icon={CheckmarkCircleFill} />
+ * <Spot appearance="success" fill="plain" icon={Settings} />
  */
-export const Spot = (props: SpotProps) => {
-  const requestedSize = props.size ?? 48;
-
-  const sizeMap: Record<SpotSize, IconSize> = {
-    32: 12,
-    40: 16,
-    48: 20,
-    56: 24,
-    72: 40,
-  };
-
-  const numberTypographyMap: Record<SpotSize, string> = {
-    32: 'body-2-semi-bold',
-    40: 'body-1-semi-bold',
-    48: 'heading-5',
-    56: 'heading-4',
-    72: 'heading-2',
-  };
-
-  const calculatedIconSize = sizeMap[requestedSize] ?? 20;
-  const calculatedNumberTypography =
-    numberTypographyMap[requestedSize] ?? 'heading-5';
-
-  const { componentProps, content } = useMemo(() => {
-    if (props.appearance === 'icon') {
-      const { icon: Icon, ...componentProps } = props;
-      return {
-        componentProps,
-        content: <Icon size={calculatedIconSize} />,
-      };
-    }
-
-    if (props.appearance === 'number') {
-      const { number, ...componentProps } = props;
-      return {
-        componentProps,
-        content: <span className={calculatedNumberTypography}>{number}</span>,
-      };
-    }
-
-    const content = (() => {
-      switch (props.appearance) {
-        case 'bluetooth':
-          return <BluetoothCircleFill size={calculatedIconSize} />;
-        case 'check':
-          return <CheckmarkCircleFill size={calculatedIconSize} />;
-        case 'error':
-          return <DeleteCircleFill size={calculatedIconSize} />;
-        case 'warning':
-          return <WarningFill size={calculatedIconSize} />;
-        case 'info':
-          return <InformationFill size={calculatedIconSize} />;
-        case 'loader':
-          return <Spinner size={calculatedIconSize} />;
-      }
-    })();
-
-    return { componentProps: props, content };
-  }, [props, calculatedIconSize, calculatedNumberTypography]);
-
-  const {
-    appearance,
-    className,
-    disabled: disabledProp = false,
-    size = 48,
-    ref,
-    ...rest
-  } = componentProps;
+export const Spot = ({
+  appearance = 'base',
+  fill = 'transparent',
+  icon: Icon,
+  disabled: disabledProp = false,
+  size = 48,
+  className,
+  ref,
+  ...rest
+}: SpotProps) => {
   const disabled = useDisabledContext({
     consumerName: 'Spot',
     mergeWith: { disabled: disabledProp },
   });
+  const contentClassName = contentVariants({ appearance, fill, disabled });
 
   return (
     <div
       ref={ref}
       className={cn(
         spotVariants({
-          disabled,
           appearance,
+          fill,
           size,
         }),
         className,
       )}
       {...rest}
     >
-      {content}
+      <Icon size={iconSizeMap[size]} className={contentClassName} />
     </div>
   );
 };

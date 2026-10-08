@@ -1,8 +1,10 @@
-import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as SpotStories from './Spot.stories';
-import { Spot } from './Spot';
-import { Box } from '../../primitives';
-import { CustomTabs, Tab } from '../../../../../.storybook/components';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
 
 <Meta title='Core/Spot' of={SpotStories} />
 
@@ -13,7 +15,7 @@ import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
 ## Introduction
 
-Spots are circular status indicators that provide visual feedback about different states, actions, or information. They come in various predefined appearances and can display custom icons or numbers to convey specific meanings in the interface.
+Spots are circular icon containers. `appearance` selects a color palette. `fill` chooses whether that palette paints only the icon, or the circle as well.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=6786-4738).
 
@@ -21,154 +23,91 @@ Spots are circular status indicators that provide visual feedback about differen
 
 <Canvas of={SpotStories.Base} />
 
-- **Circular Container**: Circular background implemented with React Native View
-- **Content**: Icon, number, or loading indicator based on appearance type
+- **Circular container**: Transparent muted fill, or a solid fill from the palette
+- **Icon**: Status spots pass a filled symbol such as `CheckmarkCircleFill`
+
 
 ## Properties
-
-### Overview
 
 <Canvas of={SpotStories.Base} />
 <Controls of={SpotStories.Base} />
 
-### Appearance Types
+### Appearance
 
-There are 8 predefined spot appearances, each serving different purposes:
-
-- **icon**: Custom icon display
-- **bluetooth**: Bluetooth connectivity indicator
-- **check**: Success/completion state
-- **error**: Error or failure state
-- **warning**: Warning or caution state
-- **info**: Information state
-- **loader**: Loading or processing state
-- **number**: Numeric display (0-9)
+`appearance` is the color palette. On a transparent fill it colors the icon. On a plain fill it also paints the circle, using the palette's paired text color.
 
 <Canvas of={SpotStories.AppearanceShowcase} />
 
-### Sizes
+### Fill
 
-There are 3 predefined spot sizes:
+`transparent` keeps the muted transparent circle. `plain` uses the palette's solid background.
 
-<Canvas of={SpotStories.SizesShowcase} />
+<Canvas of={SpotStories.FillShowcase} />
 
-### States
+### Size
 
-The Spot component has an optional disabled state.
+<Canvas of={SpotStories.SizeShowcase} />
 
-<Canvas of={SpotStories.StatesShowcase} />
 
-### Discriminated Union Types
+### Loading
 
-The Spot component uses TypeScript's discriminated union pattern to ensure type safety:
+Pass `Spinner` as the icon to keep the circle around a loading indicator. Spot sizes the spinner from its own size.
 
-- `appearance: 'icon'` requires an `icon` prop
-- `appearance: 'number'` requires a `number` prop (0-9)
-- All other appearances are self-contained
+<Canvas of={SpotStories.WithSpinner} />
+
+### Number
+
+A single digit uses `SpotNumber`. It follows the same `appearance`, `fill`, and `size`.
+
+<Canvas of={SpotStories.WithNumber} />
+
+### With DotSymbol
+
+A coin badge stays a `DotSymbol` wrapped around the spot.
+
+<Canvas of={SpotStories.WithDotSymbol} />
 
 ## Accessibility
 
-To be implemented:
-
-- Color contrast verification
-- Screen reader support for status descriptions
-- Keyboard navigation considerations
-- Semantic labeling for different states
+When a spot conveys status, label the Spot container (for example, `<Spot accessible accessibilityLabel='Success' ... />`). Color alone does not communicate the state.
 
 </Tab>
 <Tab label="Implementation">
 
-## Setup
-
-Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
-
-### Basic Usage
-
-```tsx
-import { Spot } from '@ledgerhq/lumen-ui-rnative';
-
-function MyComponent() {
-  return <Spot appearance='check' />;
-}
+```bash
+npm install @ledgerhq/lumen-ui-rnative
 ```
 
-### Layout Adjustments with lx
+<SetupNote />
 
-Use the `lx` prop for layout adjustments like margins or positioning:
+## Basic usage
 
-```tsx
-<Spot appearance='icon' icon={Settings} lx={{ marginTop: 's16', marginLeft: 's8' }} />
-```
+<Source of={SpotStories.Base} />
 
-### With Icons
+## Appearance
 
-The Spot component supports custom icons through the discriminated union type system:
+<Source of={SpotStories.AppearanceShowcase} />
 
-```tsx
-import { Spot, Box } from '@ledgerhq/lumen-ui-rnative';
-import { Settings, Heart, Star } from '@ledgerhq/lumen-ui-rnative/symbols';
+## Fill
 
-function MyComponent() {
-  return (
-    <Box lx={{ flexDirection: 'row', gap: 's16' }}>
-      <Spot appearance='icon' icon={Settings} />
-      <Spot appearance='icon' icon={Heart} />
-      <Spot appearance='icon' icon={Star} />
-    </Box>
-  );
-}
-```
+<Source of={SpotStories.FillShowcase} />
 
-### With Numbers
+## Size
 
-The Spot component can display numeric values from 0-9:
+<Source of={SpotStories.SizeShowcase} />
 
-```tsx
-import { Spot, Box } from '@ledgerhq/lumen-ui-rnative';
 
-function MyComponent() {
-  return (
-    <Box lx={{ flexDirection: 'row', gap: 's16' }}>
-      <Spot appearance='number' number={1} />
-      <Spot appearance='number' number={2} />
-      <Spot appearance='number' number={3} />
-    </Box>
-  );
-}
-```
+## Loading
 
-### Status Indicators
+<Source of={SpotStories.WithSpinner} />
 
-Spot is designed for status indication with predefined appearances:
+## Number
 
-```tsx
-import { Spot, Box } from '@ledgerhq/lumen-ui-rnative';
+<Source of={SpotStories.WithNumber} />
 
-function StatusIndicators() {
-  return (
-    <Box lx={{ flexDirection: 'row', gap: 's16' }}>
-      {/* Success state */}
-      <Spot appearance='check' />
+## With DotSymbol
 
-      {/* Error state */}
-      <Spot appearance='error' />
-
-      {/* Warning state */}
-      <Spot appearance='warning' />
-
-      {/* Info state */}
-      <Spot appearance='info' />
-
-      {/* Loading state */}
-      <Spot appearance='loader' />
-
-      {/* Connectivity */}
-      <Spot appearance='bluetooth' />
-    </Box>
-  );
-}
-```
-
+<Source of={SpotStories.WithDotSymbol} />
 
 </Tab>
 </CustomTabs>

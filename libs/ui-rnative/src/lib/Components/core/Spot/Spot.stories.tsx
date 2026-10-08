@@ -1,63 +1,47 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import type { ComponentType } from 'react';
 import { Box, Text } from '../../primitives';
-import { Settings, Plus, Heart, Star } from '../../symbols';
-import type { IconProps } from '../../symbols/Icon';
+import {
+  CheckmarkCircleFill,
+  DeleteCircleFill,
+  Heart,
+  InformationFill,
+  Settings,
+  Star,
+  WarningFill,
+} from '../../symbols';
+import type { IconSize } from '../../symbols/Icon';
+import { DotSymbol, getDotSymbolProps } from '../DotSymbol';
+import { Spinner } from '../Spinner';
 import { Spot } from './Spot';
-import type { SpotProps } from './types';
+import { SpotNumber } from './SpotNumber';
+import type { SpotAppearance } from './types';
 
 const meta = {
   component: Spot,
   id: 'rnative-spot',
   title: 'Core/Spot',
   parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
     docs: {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
   argTypes: {
-    appearance: {
-      control: 'select',
-      options: [
-        'icon',
-        'bluetooth',
-        'check',
-        'error',
-        'warning',
-        'info',
-        'loader',
-        'number',
-      ],
-      description: 'The visual appearance and behavior of the spot',
-    },
-    size: {
-      control: 'select',
-      options: [32, 40, 48, 56, 72],
-      description: 'The size of the spot',
-    },
-    disabled: {
-      control: 'boolean',
-      description: 'Whether the spot looks disabled',
-    },
     icon: {
       control: 'select',
-      description: 'Icon component to display (required for icon appearance)',
-      options: ['None', 'Settings', 'Plus', 'Heart', 'Star'],
+      options: ['Settings', 'Heart', 'Star', 'CheckmarkCircleFill'],
       mapping: {
-        None: undefined,
         Settings: Settings,
-        Plus: Plus,
         Heart: Heart,
         Star: Star,
+        CheckmarkCircleFill: CheckmarkCircleFill,
       },
-    },
-    number: {
-      control: 'select',
-      options: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-      description: 'Number to display (required for number appearance)',
     },
   },
 } satisfies Meta<typeof Spot>;
@@ -67,43 +51,23 @@ type Story = StoryObj<typeof Spot>;
 
 export const Base: Story = {
   args: {
-    appearance: 'icon',
     icon: Settings,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Spot
-  appearance="icon"
-  icon={Settings}
-/>
-`,
-      },
-    },
-  },
+  render: (args) => <Spot {...args} />,
 };
 
 export const AppearanceShowcase: Story = {
-  args: {
-    appearance: 'icon',
-    icon: Settings,
-  },
   render: () => {
     const appearances: {
       name: string;
-      appearance: SpotProps['appearance'];
-      icon?: React.ComponentType<IconProps>;
-      number?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+      appearance: SpotAppearance;
+      icon: ComponentType<{ size?: IconSize }>;
     }[] = [
-      { name: 'Icon', appearance: 'icon', icon: Settings },
-      { name: 'Bluetooth', appearance: 'bluetooth' },
-      { name: 'Check', appearance: 'check' },
-      { name: 'Error', appearance: 'error' },
-      { name: 'Warning', appearance: 'warning' },
-      { name: 'Info', appearance: 'info' },
-      { name: 'Loader', appearance: 'loader' },
-      { name: 'Number', appearance: 'number', number: 3 },
+      { name: 'Base', appearance: 'base', icon: Settings },
+      { name: 'Success', appearance: 'success', icon: CheckmarkCircleFill },
+      { name: 'Error', appearance: 'error', icon: DeleteCircleFill },
+      { name: 'Warning', appearance: 'warning', icon: WarningFill },
+      { name: 'Muted', appearance: 'muted', icon: InformationFill },
     ];
 
     return (
@@ -115,22 +79,16 @@ export const AppearanceShowcase: Story = {
           padding: 's8',
         }}
       >
-        {appearances.map(({ name, appearance, icon, number }) => (
+        {appearances.map(({ name, appearance, icon }) => (
           <Box
-            key={appearance}
-            lx={{
-              width: 's64',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 's4',
-            }}
+            key={name}
+            lx={{ alignItems: 'center', gap: 's4', width: 's64' }}
           >
-            <Spot
-              appearance={appearance as any}
-              icon={icon}
-              number={number as any}
-            />
-            <Text typography='body3' lx={{ color: 'muted' }}>
+            <Spot appearance={appearance} icon={icon} />
+            <Text
+              typography='body3'
+              lx={{ color: 'muted', textAlign: 'center' }}
+            >
               {name}
             </Text>
           </Box>
@@ -140,137 +98,118 @@ export const AppearanceShowcase: Story = {
   },
 };
 
-export const IconVariants: Story = {
-  args: {
-    appearance: 'icon',
-    icon: Settings,
-  },
+export const FillShowcase: Story = {
   render: () => {
-    const icons = [
-      { name: 'Settings', component: Settings },
-      { name: 'Plus', component: Plus },
-      { name: 'Heart', component: Heart },
-      { name: 'Star', component: Star },
+    const appearances: SpotAppearance[] = [
+      'base',
+      'success',
+      'error',
+      'warning',
+      'muted',
+      'decorative-blue',
+      'decorative-pink',
+      'decorative-purple',
+      'decorative-green',
+      'decorative-turquoise',
+      'decorative-yellow',
+      'decorative-orange',
+      'decorative-red',
     ];
 
     return (
-      <Box lx={{ flexDirection: 'row', gap: 's8', padding: 's8' }}>
-        {icons.map(({ name, component: Icon }) => (
-          <Spot key={name} appearance='icon' icon={Icon} />
+      <Box lx={{ gap: 's16', padding: 's8' }}>
+        {(['transparent', 'plain'] as const).map((fill) => (
+          <Box key={fill} lx={{ gap: 's8' }}>
+            <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+              {fill}
+            </Text>
+            <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's12' }}>
+              {appearances.map((appearance) => (
+                <Spot
+                  key={appearance}
+                  appearance={appearance}
+                  fill={fill}
+                  icon={Settings}
+                />
+              ))}
+            </Box>
+          </Box>
         ))}
       </Box>
     );
   },
 };
 
-export const NumberVariants: Story = {
-  args: {
-    appearance: 'icon',
-    icon: Settings,
-  },
+export const SizeShowcase: Story = {
   render: () => {
-    const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] as const;
+    const sizes = [32, 40, 48, 56, 72] as const;
+
+    return (
+      <Box lx={{ gap: 's32', padding: 's16' }}>
+        {sizes.map((size) => (
+          <Box key={size} lx={{ gap: 's16' }}>
+            <Text typography='body2SemiBold'>{size}px</Text>
+            <Box
+              lx={{ flexDirection: 'row', gap: 's12', alignItems: 'center' }}
+            >
+              <Spot icon={Settings} size={size} />
+              <Spot appearance='muted' icon={InformationFill} size={size} />
+              <Spot
+                appearance='success'
+                fill='plain'
+                icon={Settings}
+                size={size}
+              />
+            </Box>
+          </Box>
+        ))}
+      </Box>
+    );
+  },
+};
+
+export const WithSpinner: Story = {
+  render: () => {
+    const sizes = [32, 40, 48, 56, 72] as const;
 
     return (
       <Box
         lx={{
           flexDirection: 'row',
-          flexWrap: 'wrap',
-          gap: 's8',
-          padding: 's8',
+          alignItems: 'flex-end',
+          gap: 's16',
+          padding: 's16',
         }}
       >
-        {numbers.map((num) => (
-          <Spot key={num} appearance='number' number={num} />
-        ))}
-      </Box>
-    );
-  },
-};
-
-export const SizesShowcase: Story = {
-  args: {
-    appearance: 'icon',
-    icon: Settings,
-  },
-  render: () => {
-    const sizes = [32, 40, 48, 56, 72] as const;
-
-    return (
-      <Box lx={{ flexDirection: 'column', gap: 's32', padding: 's16' }}>
         {sizes.map((size) => (
-          <Box key={size} lx={{ flexDirection: 'column', gap: 's16' }}>
-            <Text typography='heading5SemiBold'>{size}px</Text>
-            <Box lx={{ flexDirection: 'row', gap: 's12' }}>
-              <Spot appearance='icon' icon={Settings} size={size} />
-              <Spot appearance='info' size={size} />
-              <Spot appearance='number' number={5} size={size} />
-            </Box>
-          </Box>
+          <Spot key={size} icon={Spinner} size={size} />
         ))}
       </Box>
     );
   },
 };
 
-export const StatesShowcase: Story = {
-  args: {
-    appearance: 'icon',
-    icon: Settings,
-  },
+export const WithDotSymbol: Story = {
   render: () => {
     return (
-      <Box lx={{ flexDirection: 'column', gap: 's16' }}>
-        <Box lx={{ flexDirection: 'column', gap: 's8' }}>
-          <Text typography='body2'>Default</Text>
-          <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
-            <Box
-              lx={{
-                width: 's64',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 's4',
-              }}
-            >
-              <Spot appearance='icon' icon={Settings} />
-            </Box>
-            <Box
-              lx={{
-                width: 's64',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 's4',
-              }}
-            >
-              <Spot appearance='bluetooth' />
-            </Box>
-          </Box>
-        </Box>
-        <Box lx={{ flexDirection: 'column', gap: 's8' }}>
-          <Text typography='body2'>Disabled</Text>
-          <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
-            <Box
-              lx={{
-                width: 's64',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 's4',
-              }}
-            >
-              <Spot appearance='icon' icon={Settings} disabled />
-            </Box>
-            <Box
-              lx={{
-                width: 's64',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 's4',
-              }}
-            >
-              <Spot appearance='bluetooth' disabled />
-            </Box>
-          </Box>
-        </Box>
+      <Box lx={{ padding: 's16' }}>
+        <DotSymbol
+          src='https://crypto-icons.ledger.com/BTC.png'
+          pin='bottom-end'
+          {...getDotSymbolProps('spot', 48)}
+        >
+          <Spot icon={Settings} />
+        </DotSymbol>
+      </Box>
+    );
+  },
+};
+
+export const WithNumber: Story = {
+  render: () => {
+    return (
+      <Box lx={{ padding: 's16' }}>
+        <SpotNumber value={9} />
       </Box>
     );
   },

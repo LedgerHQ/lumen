@@ -93,7 +93,7 @@ import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
 function MyComponent() {
   return (
     <Tile appearance='no-background' onClick={() => console.log('Clicked!')}>
-      <Spot appearance='icon' icon={Settings} />
+      <Spot icon={Settings} />
       <TileContent>
         <TileTitle>Settings</TileTitle>
         <TileDescription>Manage preferences</TileDescription>
@@ -122,7 +122,7 @@ import { Settings, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
     icon={MoreVertical}
     onClick={(e) => console.log('More actions')}
   />
-  <Spot appearance='icon' icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Settings</TileTitle>
   </TileContent>
@@ -146,7 +146,7 @@ import {
 import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 
 <Tile appearance='card'>
-  <Spot appearance='icon' icon={Bitcoin} />
+  <Spot icon={Bitcoin} />
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
@@ -161,7 +161,7 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 
 ```tsx
 <Tile disabled>
-  <Spot appearance='icon' icon={Settings} />
+  <Spot icon={Settings} />
   <TileContent>
     <TileTitle>Settings</TileTitle>
     <TileDescription>Unavailable</TileDescription>
@@ -179,7 +179,7 @@ import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 // In a grid where other tiles have more content
 <div className='grid grid-cols-4 gap-8'>
   <Tile appearance='card'>
-    <Spot appearance='icon' icon={Bitcoin} />
+    <Spot icon={Bitcoin} />
     <TileContent>
       <TileTitle>Title</TileTitle>
       <TileDescription>Description</TileDescription>
@@ -191,7 +191,7 @@ import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 
   {/* Show more tile with centered content */}
   <Tile appearance='card' centered>
-    <Spot appearance='icon' icon={ChevronRight} />
+    <Spot icon={ChevronRight} />
     <TileContent>
       <TileTitle>Show more</TileTitle>
     </TileContent>
@@ -206,7 +206,7 @@ import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/l
 import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 
 <Tile onClick={() => console.log('Clicked!')}>
-  <Spot appearance='icon' icon={Bitcoin} />
+  <Spot icon={Bitcoin} />
   <TileContent>
     <TileTitle>Bitcoin</TileTitle>
     <TileDescription>BTC</TileDescription>
@@ -220,7 +220,7 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 <div className='flex overflow-x-auto'>
   {items.map((item) => (
     <Tile key={item.id} className='w-128 shrink-0'>
-      <Spot appearance='icon' icon={item.icon} />
+      <Spot icon={item.icon} />
       <TileContent>
         <TileTitle>{item.title}</TileTitle>
         <TileDescription>{item.description}</TileDescription>
@@ -267,7 +267,7 @@ function VirtualTileList({ items }) {
             style={{ transform: `translateY(${virtualItem.start}px)` }}
           >
             <Tile>
-              <Spot appearance='icon' icon={Settings} />
+              <Spot icon={Settings} />
               <TileContent>
                 <TileTitle>{items[virtualItem.index].title}</TileTitle>
                 <TileDescription>

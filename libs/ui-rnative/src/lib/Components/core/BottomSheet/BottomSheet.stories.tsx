@@ -2,7 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { Box, RadialGradient, Text } from '../../primitives';
-import { Bell, Settings, Trash, Unlink } from '../../symbols';
+import {
+  Bell,
+  CheckmarkCircleFill,
+  DeleteCircleFill,
+  InformationFill,
+  Settings,
+  Trash,
+  Unlink,
+} from '../../symbols';
 import { Button } from '../Button';
 import { MenuList, MenuListItem, MenuListSwitchItem } from '../MenuList';
 import { SearchInput } from '../SearchInput';
@@ -796,7 +804,7 @@ export const InfoStateVariants: Story = {
           <BottomSheetView>
             <BottomSheetHeader density='compact' />
             <Box lx={{ alignItems: 'center', gap: 's24' }}>
-              <Spot appearance='error' size={72} />
+              <Spot appearance='error' icon={DeleteCircleFill} size={72} />
               <Box lx={{ alignItems: 'center', gap: 's12' }}>
                 <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
                   Title
@@ -825,7 +833,7 @@ export const InfoStateVariants: Story = {
           <BottomSheetView>
             <BottomSheetHeader density='compact' />
             <Box lx={{ alignItems: 'center', gap: 's24' }}>
-              <Spot appearance='check' size={72} />
+              <Spot appearance='success' icon={CheckmarkCircleFill} size={72} />
               <Box lx={{ alignItems: 'center', gap: 's12' }}>
                 <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
                   Title
@@ -854,7 +862,7 @@ export const InfoStateVariants: Story = {
           <BottomSheetView>
             <BottomSheetHeader density='compact' />
             <Box lx={{ alignItems: 'center', gap: 's24' }}>
-              <Spot appearance='info' size={72} />
+              <Spot appearance='muted' icon={InformationFill} size={72} />
               <Box lx={{ alignItems: 'center', gap: 's12' }}>
                 <Text typography='heading4SemiBold' lx={{ color: 'base' }}>
                   Title

@@ -146,7 +146,7 @@ export const ContentBannerDescription = ({
  * import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <ContentBanner onClose={() => {}}>
- *   <Spot appearance="icon" icon={Wallet} size={48} />
+ *   <Spot icon={Wallet} size={48} />
  *   <ContentBannerContent>
  *     <ContentBannerTitle>Title</ContentBannerTitle>
  *     <ContentBannerDescription>Description text</ContentBannerDescription>

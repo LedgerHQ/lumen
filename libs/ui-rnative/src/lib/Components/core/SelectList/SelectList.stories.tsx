@@ -376,7 +376,7 @@ export const WithDisabledItems: Story = {
                 renderItem={(item) => (
                   <SelectListItem value={item.value} disabled={item.disabled}>
                     <SelectListItemLeading>
-                      <Spot appearance='icon' icon={Settings} />
+                      <Spot icon={Settings} />
                     </SelectListItemLeading>
                     <SelectListItemContent>
                       <SelectListItemText>{item.label}</SelectListItemText>

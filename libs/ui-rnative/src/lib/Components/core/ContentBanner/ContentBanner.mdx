@@ -101,7 +101,7 @@ import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 function MyComponent() {
   return (
     <ContentBanner>
-      <Spot appearance='icon' icon={Settings} size={48} />
+      <Spot icon={Settings} size={48} />
       <ContentBannerContent>
         <ContentBannerTitle>Title</ContentBannerTitle>
         <ContentBannerDescription>
@@ -133,7 +133,7 @@ function MyComponent() {
       onClose={() => console.log('Closed')}
       closeAccessibilityLabel='Close banner'
     >
-      <Spot appearance='icon' icon={Wallet} size={48} />
+      <Spot icon={Wallet} size={48} />
       <ContentBannerContent>
         <ContentBannerTitle>Dismissible Banner</ContentBannerTitle>
         <ContentBannerDescription>
@@ -215,7 +215,7 @@ import { Settings } from '@ledgerhq/lumen-ui-rnative/symbols';
 function MyComponent() {
   return (
     <ContentBanner>
-      <Spot appearance='icon' icon={Settings} size={48} />
+      <Spot icon={Settings} size={48} />
       <ContentBannerContent>
         <ContentBannerTitle>Title Only</ContentBannerTitle>
       </ContentBannerContent>
@@ -230,7 +230,7 @@ Use the `lx` prop for layout adjustments like margins or positioning:
 
 ```tsx
 <ContentBanner lx={{ marginTop: 's16', marginBottom: 's8' }}>
-  <Spot appearance='icon' icon={Settings} size={48} />
+  <Spot icon={Settings} size={48} />
   <ContentBannerContent>
     <ContentBannerTitle>With Margin</ContentBannerTitle>
     <ContentBannerDescription>

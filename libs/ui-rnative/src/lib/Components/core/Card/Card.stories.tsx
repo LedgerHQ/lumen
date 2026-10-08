@@ -304,7 +304,7 @@ export const DisabledWithSpot: Story = {
     <Card {...args}>
       <CardHeader>
         <CardLeading>
-          <Spot appearance='icon' icon={Wallet} disabled />
+          <Spot icon={Wallet} disabled />
           <CardContent>
             <CardContentTitle>My Wallet</CardContentTitle>
             <CardContentDescription>Ethereum</CardContentDescription>
@@ -540,7 +540,7 @@ export const CompositionsShowcase: Story = {
         <Card>
           <CardHeader>
             <CardLeading>
-              <Spot appearance='icon' icon={Wallet} />
+              <Spot icon={Wallet} />
               <CardContent>
                 <CardContentTitle>Bitcoin</CardContentTitle>
                 <CardContentDescription>BTC</CardContentDescription>

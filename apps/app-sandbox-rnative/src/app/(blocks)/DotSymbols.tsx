@@ -80,7 +80,7 @@ export default function DotSymbols() {
           pin='top-end'
           {...getDotSymbolProps('spot', 48)}
         >
-          <Spot appearance='icon' icon={ExternalLink} size={48} />
+          <Spot icon={ExternalLink} size={48} />
         </DotSymbol>
 
         <DotSymbol

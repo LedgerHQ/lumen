@@ -77,7 +77,7 @@ export const ContentBannerDescription = ({
  * import { ContentBanner, ContentBannerContent, ContentBannerTitle, ContentBannerDescription } from '@ledgerhq/lumen-ui-react';
  *
  * <ContentBanner onClose={() => {}}>
- *   <Spot appearance="icon" icon={Wallet} size={48} />
+ *   <Spot icon={Wallet} size={48} />
  *   <ContentBannerContent>
  *     <ContentBannerTitle>Title</ContentBannerTitle>
  *     <ContentBannerDescription>Description text</ContentBannerDescription>

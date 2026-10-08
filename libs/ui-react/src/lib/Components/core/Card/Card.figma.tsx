@@ -57,7 +57,7 @@ figma.connect(
       title: figma.string('title'),
       description: figma.string('description'),
       leading: figma.enum('leading', {
-        spot: <Spot appearance='icon' icon={Wallet} />,
+        spot: <Spot icon={Wallet} />,
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         provider: (
           <CryptoIcon

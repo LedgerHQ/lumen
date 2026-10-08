@@ -68,7 +68,7 @@ const tileVariants = {
  *
  * <Tile appearance="card">
  *   <TileSecondaryAction icon={MoreVertical} onClick={() => console.log('More')} />
- *   <Spot appearance="icon" icon={Bitcoin} />
+ *   <Spot icon={Bitcoin} />
  *   <TileContent>
  *     <TileTitle>Bitcoin</TileTitle>
  *   </TileContent>
@@ -199,7 +199,7 @@ export const TileDescription = ({
  *
  * @example
  * <Tile>
- *   <Spot appearance="icon" icon={Settings} />
+ *   <Spot icon={Settings} />
  *   <TileContent>
  *     <TileTitle>My Title</TileTitle>
  *     <TileDescription>Description</TileDescription>

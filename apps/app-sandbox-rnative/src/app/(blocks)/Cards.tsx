@@ -30,7 +30,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>Bitcoin</CardContentTitle>
               <CardContentDescription>BTC</CardContentDescription>
@@ -57,7 +57,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>Bitcoin</CardContentTitle>
               <CardContentDescription>BTC</CardContentDescription>
@@ -83,7 +83,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>Bitcoin</CardContentTitle>
               <CardContentDescription>BTC</CardContentDescription>
@@ -109,7 +109,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>My Wallet</CardContentTitle>
               <CardContentDescription>Ethereum</CardContentDescription>
@@ -132,7 +132,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentRow>
                 <CardContentTitle>Bitcoin</CardContentTitle>
@@ -188,7 +188,7 @@ export default function Cards() {
       <Card lx={{ maxWidth: 'full' }} type='info'>
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>Staking</CardContentTitle>
               <CardContentDescription>Earn rewards</CardContentDescription>
@@ -222,7 +222,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>My Wallet</CardContentTitle>
               <CardContentDescription>Ethereum</CardContentDescription>
@@ -247,7 +247,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>Bitcoin</CardContentTitle>
               <CardContentDescription>BTC</CardContentDescription>
@@ -296,7 +296,7 @@ export default function Cards() {
       >
         <CardHeader>
           <CardLeading>
-            <Spot appearance='icon' icon={Wallet} />
+            <Spot icon={Wallet} />
             <CardContent>
               <CardContentTitle>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit.

@@ -89,7 +89,7 @@ const commonProps = {
       compact: <CryptoIcon ledgerId='united-states' ticker='USD' size={24} />,
       expanded: <CryptoIcon ledgerId='united-states' ticker='USD' size={48} />,
     }),
-    spot: <Spot size={48} appearance='icon' icon={Settings} />,
+    spot: <Spot size={48} icon={Settings} />,
     'interface-icon': <Placeholder size={24} />,
   }),
   checkbox: figma.boolean('show-checkbox', {

@@ -30,7 +30,7 @@ figma.connect(
         onClose={props.onClose}
         closeAccessibilityLabel='Close content banner'
       >
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>{props.title}</ContentBannerTitle>
           <ContentBannerDescription>

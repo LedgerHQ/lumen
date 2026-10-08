@@ -193,7 +193,7 @@ function MyComponent() {
   return (
     <ListItem>
       <ListItemLeading>
-        <Spot appearance='icon' icon={Settings} />
+        <Spot icon={Settings} />
         <ListItemContent>
           <ListItemTitle>Settings</ListItemTitle>
           <ListItemDescription>
@@ -236,7 +236,7 @@ function ListVariants() {
       {/* Chevron - For navigation items */}
       <ListItem>
         <ListItemLeading>
-          <Spot appearance='icon' icon={User} />
+          <Spot icon={User} />
           <ListItemContent>
             <ListItemTitle>Chevron Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -250,7 +250,7 @@ function ListVariants() {
       {/* Switch - For switchable options */}
       <ListItem onClick={() => setSelected(!selected)}>
         <ListItemLeading>
-          <Spot appearance='icon' icon={User} />
+          <Spot icon={User} />
           <ListItemContent>
             <ListItemTitle>Enable Feature</ListItemTitle>
             <ListItemDescription>Toggle this setting on/off</ListItemDescription>
@@ -264,7 +264,7 @@ function ListVariants() {
       {/* Value - For displaying values */}
       <ListItem>
         <ListItemLeading>
-          <Spot appearance='icon' icon={User} />
+          <Spot icon={User} />
           <ListItemContent>
             <ListItemTitle>Account Balance</ListItemTitle>
             <ListItemDescription>Current available funds</ListItemDescription>
@@ -286,7 +286,7 @@ function ListVariants() {
       {/* Tag - For status indicators */}
       <ListItem>
         <ListItemLeading>
-          <Spot appearance='icon' icon={User} />
+          <Spot icon={User} />
           <ListItemContent>
             <ListItemTitle>New Feature</ListItemTitle>
             <ListItemDescription>Recently added functionality</ListItemDescription>
@@ -300,7 +300,7 @@ function ListVariants() {
       {/* Icon - For trailing icons */}
       <ListItem>
         <ListItemLeading>
-          <Spot appearance='icon' icon={User} />
+          <Spot icon={User} />
           <ListItemContent>
             <ListItemTitle>Edit Profile</ListItemTitle>
             <ListItemDescription>Modify your information</ListItemDescription>
@@ -314,7 +314,7 @@ function ListVariants() {
       {/* None - No trailing content */}
       <ListItem>
         <ListItemLeading>
-          <Spot appearance='icon' icon={User} />
+          <Spot icon={User} />
           <ListItemContent>
             <ListItemTitle>Simple Item</ListItemTitle>
             <ListItemDescription>No trailing elements</ListItemDescription>
@@ -348,7 +348,7 @@ function MyComponent() {
   return (
     <ListItem>
       <ListItemLeading>
-        <Spot appearance='icon' icon={Wallet} />
+        <Spot icon={Wallet} />
         <ListItemContent>
           <ListItemContentRow>
             <ListItemTitle>New Item</ListItemTitle>
@@ -387,7 +387,7 @@ import { Settings } from '@ledgerhq/lumen-ui-react/symbols';
 
 <ListItem disabled>
   <ListItemLeading>
-    <Spot appearance='icon' icon={Settings} />
+    <Spot icon={Settings} />
     <ListItemContent>
       <ListItemTitle>Disabled Option</ListItemTitle>
       <ListItemDescription>Cannot be changed</ListItemDescription>
@@ -417,7 +417,7 @@ import { Settings, ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 
 <ListItem active onClick={() => {}}>
   <ListItemLeading>
-    <Spot appearance='icon' icon={Settings} />
+    <Spot icon={Settings} />
     <ListItemContent>
       <ListItemTitle>Selected Account</ListItemTitle>
       <ListItemDescription>Currently active</ListItemDescription>
@@ -448,7 +448,7 @@ import { User, ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 <div className='w-240 bg-base p-4'>
   <ListItem>
     <ListItemLeading>
-      <Spot appearance='icon' icon={User} />
+      <Spot icon={User} />
       <ListItemContent>
         <ListItemTitle>Very Long Title That Will Truncate</ListItemTitle>
         <ListItemDescription>
@@ -533,7 +533,7 @@ function VirtualListItemList({ items }) {
           >
             <ListItem>
               <ListItemLeading>
-                <Spot appearance='icon' icon={User} />
+                <Spot icon={User} />
                 <ListItemContent>
                   <ListItemTitle>{items[virtualItem.index].title}</ListItemTitle>
                   <ListItemDescription>

@@ -51,7 +51,7 @@ export const Base: Story = {
   render: (args) => (
     <div className='w-320'>
       <ContentBanner {...args}>
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>Content Banner</ContentBannerTitle>
           <ContentBannerDescription>
@@ -85,7 +85,7 @@ export const WithClose: Story = {
           onClose={() => setVisible(false)}
           closeAriaLabel='Close content banner'
         >
-          <Spot appearance='icon' icon={Settings} size={48} />
+          <Spot icon={Settings} size={48} />
           <ContentBannerContent>
             <ContentBannerTitle>Dismissible Banner</ContentBannerTitle>
             <ContentBannerDescription>
@@ -118,14 +118,14 @@ export const ContentVariationsShowcase: Story = {
   render: () => (
     <div className='flex w-320 flex-col gap-16'>
       <ContentBanner>
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>Title Only</ContentBannerTitle>
         </ContentBannerContent>
       </ContentBanner>
 
       <ContentBanner>
-        <Spot appearance='icon' icon={Wallet} size={48} />
+        <Spot icon={Wallet} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>Title with Description</ContentBannerTitle>
           <ContentBannerDescription>
@@ -135,7 +135,7 @@ export const ContentVariationsShowcase: Story = {
       </ContentBanner>
 
       <ContentBanner onClose={() => console.log('close')}>
-        <Spot appearance='icon' icon={Wallet} size={48} />
+        <Spot icon={Wallet} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>With Close Button</ContentBannerTitle>
           <ContentBannerDescription>
@@ -145,7 +145,7 @@ export const ContentVariationsShowcase: Story = {
       </ContentBanner>
 
       <ContentBanner onClose={() => console.log('close')}>
-        <Spot appearance='icon' icon={Settings} size={48} />
+        <Spot icon={Settings} size={48} />
         <ContentBannerContent>
           <ContentBannerTitle>
             Longer Title That Demonstrates Clamping Behavior With a Long

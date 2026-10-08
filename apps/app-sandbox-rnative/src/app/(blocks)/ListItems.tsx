@@ -16,10 +16,12 @@ import {
   Spinner,
 } from '@ledgerhq/lumen-ui-rnative';
 import {
+  CheckmarkCircleFill,
   ChevronRight,
   Lock,
   Settings,
   Wallet,
+  WarningFill,
 } from '@ledgerhq/lumen-ui-rnative/symbols';
 import { useState } from 'react';
 import { Alert } from 'react-native';
@@ -46,7 +48,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Simple composition</ListItemTitle>
           </ListItemContent>
@@ -55,7 +57,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Title only + chevron</ListItemTitle>
           </ListItemContent>
@@ -67,7 +69,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Title only + trailing value</ListItemTitle>
           </ListItemContent>
@@ -83,7 +85,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Very long title that should truncate properly at the end
@@ -94,7 +96,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Long title competing with trailing value content
@@ -112,7 +114,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Long title with long description underneath it
@@ -159,7 +161,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Short title</ListItemTitle>
             <ListItemDescription>Short desc</ListItemDescription>
@@ -179,7 +181,7 @@ export default function ListItems() {
 
       <ListItem priority='start'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Long title which is too long and overflows
@@ -197,7 +199,7 @@ export default function ListItems() {
 
       <ListItem priority='start'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Long title truncates value</ListItemTitle>
             <ListItemDescription>priority="start"</ListItemDescription>
@@ -213,7 +215,7 @@ export default function ListItems() {
 
       <ListItem priority='end'>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>
               Long title competing with trailing value content
@@ -233,7 +235,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemContentRow>
               <ListItemTitle>
@@ -247,7 +249,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemContentRow>
               <ListItemTitle>Row title + tag + trailing</ListItemTitle>
@@ -267,7 +269,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemDescription>
               Expanded with description only, no title
@@ -331,7 +333,7 @@ export default function ListItems() {
 
       <ListItem disabled>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Disabled title only</ListItemTitle>
           </ListItemContent>
@@ -340,7 +342,7 @@ export default function ListItems() {
 
       <ListItem disabled onPress={() => Alert.alert('Should not fire')}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Lock} />
+          <Spot size={48} icon={Lock} />
           <ListItemContent>
             <ListItemTitle>Disabled + interactive</ListItemTitle>
             <ListItemDescription>Press should not fire</ListItemDescription>
@@ -355,7 +357,7 @@ export default function ListItems() {
 
       <ListItem onPress={() => setSelected(!selected)}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Switch Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -368,7 +370,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -384,7 +386,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>Custom style</ListItemDescription>
@@ -402,7 +404,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Content Variant</ListItemTitle>
             <ListItemDescription>Custom style</ListItemDescription>
@@ -420,7 +422,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Tag Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -433,7 +435,7 @@ export default function ListItems() {
 
       <ListItem onPress={() => Alert.alert('Pressed')}>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Settings} />
+          <Spot size={48} icon={Settings} />
           <ListItemContent>
             <ListItemTitle>Icon Variant</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -461,7 +463,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Checkbox trailing</ListItemTitle>
             <ListItemDescription>Select this item</ListItemDescription>
@@ -474,7 +476,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Spinner trailing</ListItemTitle>
             <ListItemDescription>Loading state</ListItemDescription>
@@ -511,7 +513,7 @@ export default function ListItems() {
 
       <ListItem>
         <ListItemLeading>
-          <Spot size={48} appearance='icon' icon={Wallet} />
+          <Spot size={48} icon={Wallet} />
           <ListItemContent>
             <ListItemTitle>Complex 2</ListItemTitle>
             <ListItemDescription>With description</ListItemDescription>
@@ -532,7 +534,7 @@ export default function ListItems() {
 
       <ListItem onPress={() => Alert.alert('Pressed')}>
         <ListItemLeading>
-          <Spot size={48} appearance='check' />
+          <Spot size={48} appearance='success' icon={CheckmarkCircleFill} />
           <ListItemContent>
             <ListItemContentRow>
               <ListItemTitle>Success state</ListItemTitle>
@@ -555,7 +557,7 @@ export default function ListItems() {
 
       <ListItem onPress={() => Alert.alert('Pressed')}>
         <ListItemLeading>
-          <Spot size={48} appearance='warning' />
+          <Spot size={48} appearance='warning' icon={WarningFill} />
           <ListItemContent>
             <ListItemContentRow>
               <ListItemTitle>Pending operation</ListItemTitle>

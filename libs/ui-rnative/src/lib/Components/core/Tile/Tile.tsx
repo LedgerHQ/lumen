@@ -85,7 +85,7 @@ const useRootStyles = ({
  * import { Wallet } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onPress={() => console.log('Pressed!')}>
- *   <Spot appearance="icon" icon={Wallet} />
+ *   <Spot icon={Wallet} />
  *   <TileContent>
  *     <TileTitle>My Wallet</TileTitle>
  *     <TileDescription>Description</TileDescription>
@@ -98,7 +98,7 @@ const useRootStyles = ({
  * import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
  * <Tile appearance="card" onLongPress={() => console.log('Long pressed')}>
- *   <Spot appearance="icon" icon={Bitcoin} />
+ *   <Spot icon={Bitcoin} />
  *   <TileContent>
  *     <TileTitle>Bitcoin</TileTitle>
  *     <TileTrailingContent>
@@ -354,7 +354,7 @@ const useTrailingContentStyles = () => {
  *
  * @example
  * <Tile>
- *   <TileSpot appearance="icon" icon={Settings} />
+ *   <TileSpot icon={Settings} />
  *   <TileContent>
  *     <TileTitle>My Title</TileTitle>
  *     <TileDescription>Description</TileDescription>

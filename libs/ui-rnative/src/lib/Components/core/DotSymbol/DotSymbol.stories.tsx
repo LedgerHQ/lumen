@@ -62,16 +62,16 @@ export const PinShowcase: Story = {
       </Box>
       <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's32' }}>
         <DotSymbol src={dotSrc} pin='bottom-end'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-end'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='bottom-start'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
         <DotSymbol src={dotSrc} pin='top-start'>
-          <Spot appearance='icon' icon={CoinAlert} />
+          <Spot icon={CoinAlert} />
         </DotSymbol>
       </Box>
     </Box>
@@ -105,7 +105,7 @@ export const DisabledShowcase: Story = {
         <MediaImage src={parentSrc} size={48} shape='square' />
       </DotSymbol>
       <DotSymbol src={dotSrc} pin='bottom-end' disabled>
-        <Spot appearance='icon' icon={CoinAlert} />
+        <Spot icon={CoinAlert} />
       </DotSymbol>
     </Box>
   ),

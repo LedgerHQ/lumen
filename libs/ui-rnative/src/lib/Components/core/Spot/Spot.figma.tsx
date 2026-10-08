@@ -1,48 +1,69 @@
 import figma from '@figma/code-connect';
-import { Placeholder } from '../../symbols';
+import {
+  CheckmarkCircleFill,
+  ClockFill,
+  DeleteCircleFill,
+  InformationFill,
+  Placeholder,
+  WarningFill,
+} from '../../symbols';
+import { Spinner } from '../Spinner';
 import { Spot } from './Spot';
-import type { SpotAppearance } from './types';
+import type { SpotAppearance, SpotFill, SpotProps } from './types';
 
 figma.connect(
   Spot,
   'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7?node-id=6786%3A4738',
   {
     imports: [
-      "import { Spot } from '@ledgerhq/lumen-ui-rnative'",
-      "import { Placeholder } from '@ledgerhq/lumen-ui-rnative/symbols'",
+      "import { Spot, Spinner } from '@ledgerhq/lumen-ui-rnative'",
+      "import { CheckmarkCircleFill, ClockFill, DeleteCircleFill, InformationFill, Placeholder, WarningFill } from '@ledgerhq/lumen-ui-rnative/symbols'",
     ],
     props: {
       disabled: figma.enum('state', {
         disabled: true,
       }),
-      appearance: figma.enum('appearance', {
-        'interface-icon': 'icon',
-        loader: 'loader',
-        number: 'number',
-        'info-muted': 'info',
-        warning: 'warning',
+      fill: figma.enum('appearance', {
+        transparent: 'transparent',
+        plain: 'plain',
+      }),
+      appearance: figma.enum('color', {
+        base: 'base',
+        success: 'success',
         error: 'error',
-        check: 'check',
-        bluetooth: 'bluetooth',
+        warning: 'warning',
+        muted: 'muted',
+        'decorative-blue': 'decorative-blue',
+        'decorative-pink': 'decorative-pink',
+        'decorative-purple': 'decorative-purple',
+        'decorative-green': 'decorative-green',
+        'decorative-turquoise': 'decorative-turquoise',
+        'decorative-yellow': 'decorative-yellow',
+        'decorative-orange': 'decorative-orange',
+        'decorative-red': 'decorative-red',
       }),
-      icon: figma.enum('appearance', {
-        'interface-icon': Placeholder,
-      }),
-      number: figma.enum('appearance', {
-        number: 1,
+      icon: figma.enum('content', {
+        'interface-icon': figma.enum('preset', {
+          none: Placeholder,
+          success: CheckmarkCircleFill,
+          error: DeleteCircleFill,
+          warning: WarningFill,
+          info: InformationFill,
+          pending: ClockFill,
+        }),
+        loader: Spinner,
       }),
     },
     example: (props: {
       disabled: boolean;
+      fill: SpotFill;
       appearance: SpotAppearance;
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      icon: any;
-      number: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+      icon: SpotProps['icon'];
     }) => (
       <Spot
         appearance={props.appearance}
+        fill={props.fill}
         icon={props.icon}
-        number={props.number}
         disabled={props.disabled}
       />
     ),
