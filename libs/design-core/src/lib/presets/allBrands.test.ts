@@ -2,9 +2,11 @@ import { mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { __unstable__loadDesignSystem } from '@tailwindcss/node';
 import tailwindcss from '@tailwindcss/postcss';
 import postcss from 'postcss';
 import { beforeAll, describe, expect, it } from 'vitest';
+import { primitiveLayoutTokens } from '../themes/js/primitives/primitives.others';
 
 const presetDir = dirname(fileURLToPath(import.meta.url));
 
@@ -31,7 +33,9 @@ export default { content: [], presets: [allBrandsPreset], theme: ${JSON.stringif
 };
 
 const escapeClassName = (className: string): string =>
-  className.replace(/[@:/[\]()%.]/g, (char) => `\\${char}`);
+  className
+    .replace(/[@:/[\]()%.]/g, (char) => `\\${char}`)
+    .replace(/^(\d)/, '\\3$1 ');
 
 const getRule = (css: string, className: string): string | undefined => {
   const selector = `.${escapeClassName(className)} {`;
@@ -41,7 +45,9 @@ const getRule = (css: string, className: string): string | undefined => {
 };
 
 describe('allBrandsPreset', () => {
+  const breakpoints = Object.entries(primitiveLayoutTokens.breakpoints);
   const classes = [
+    ...breakpoints.flatMap(([name]) => [`${name}:flex`, `max-${name}:flex`]),
     'w-md',
     'min-w-md',
     'max-w-md',
@@ -101,6 +107,18 @@ describe('allBrandsPreset', () => {
     },
   );
 
+  it.each(breakpoints)(
+    'should generate the %s breakpoint from the JS theme value (%ipx)',
+    (name, px) => {
+      expect(getRule(css, `${name}:flex`)).toContain(
+        `@media (width >= ${px}px)`,
+      );
+      expect(getRule(css, `max-${name}:flex`)).toContain(
+        `@media (width < ${px}px)`,
+      );
+    },
+  );
+
   it('should emit min-width container queries in ascending order', () => {
     const order = ['@3xs:flex', '@md:flex', '@7xl:flex'].map((className) =>
       css.indexOf(`.${escapeClassName(className)} {`),
@@ -127,5 +145,58 @@ describe('allBrandsPreset', () => {
     expect(getRule(consumerCss, 'z-modal')).toContain('z-index: 500');
     expect(getRule(consumerCss, 'h-md')).toContain('height: var(--size-md)');
     expect(getRule(consumerCss, 'w-md')).toContain('width: var(--size-md)');
+  });
+
+  it.each(['sm', 'md', 'lg', 'xl', '2xl'] as const)(
+    'should switch responsive typography at the Lumen %s breakpoint',
+    (name) => {
+      expect(css).toContain(
+        `@media (min-width: ${primitiveLayoutTokens.breakpoints[name]}px)`,
+      );
+      expect(css).not.toMatch(/@media \(min-width: [\d.]+rem\)/);
+    },
+  );
+
+  it('should emit responsive typography from the smallest to the largest breakpoint', () => {
+    const widths = [...css.matchAll(/@media \(min-width: (\d+)px\)/g)].map(
+      ([, px]) => Number(px),
+    );
+
+    expect(widths).toEqual([...widths].sort((a, b) => a - b));
+  });
+
+  it('should keep Lumen breakpoints when a consumer replaces screens', async () => {
+    const consumerCss = await compile(
+      breakpoints.map(([name]) => `${name}:flex`),
+      { screens: { md: '900px' } },
+    );
+
+    for (const [name, px] of breakpoints) {
+      expect(getRule(consumerCss, `${name}:flex`)).toContain(
+        `@media (width >= ${px}px)`,
+      );
+    }
+  });
+
+  it('should only define Lumen breakpoints, with no Tailwind default left', async () => {
+    const configPath = join(
+      mkdtempSync(join(tmpdir(), 'lumen-preset-')),
+      'tailwind.config.ts',
+    );
+    writeFileSync(
+      configPath,
+      `import { allBrandsPreset } from '${join(presetDir, 'allBrands.ts')}';
+export default { content: [], presets: [allBrandsPreset] };`,
+    );
+    const designSystem = await __unstable__loadDesignSystem(
+      `@import 'tailwindcss';\n@config '${configPath}';`,
+      { base: presetDir },
+    );
+
+    expect(
+      Object.fromEntries(designSystem.theme.namespace('--breakpoint')),
+    ).toEqual(
+      Object.fromEntries(breakpoints.map(([name, px]) => [name, `${px}px`])),
+    );
   });
 });
