@@ -195,7 +195,9 @@ const resolveHorizontalLayout = (
       continue;
     }
     variants[breakpoint as BreakpointKey] = layout.type;
-    if (layout.type === 'scroll') {
+    // Without minWidth, the variable stays unset so min-width falls back to auto
+    // and the fixed layout sizes the table from its column widths.
+    if (layout.type === 'scroll' && layout.minWidth !== undefined) {
       style[`--table-min-width-${breakpoint}`] = `${layout.minWidth}px`;
     }
   }

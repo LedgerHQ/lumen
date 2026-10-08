@@ -9,9 +9,11 @@ export type TableHorizontalLayout =
       type: 'scroll';
       /**
        * Minimum width of the table in pixels. Below this width, the container
-       * scrolls horizontally.
+       * scrolls horizontally. When omitted, the table is as wide as the sum of
+       * its column widths: every column then needs an explicit width, otherwise
+       * columns without one collapse when the table overflows.
        */
-      minWidth: number;
+      minWidth?: number;
     };
 
 export type TableRootProps = {
@@ -40,8 +42,9 @@ export type TableRootProps = {
   loading?: boolean;
   /**
    * How the table handles columns that don't fit the container width: kept within
-   * the container with truncated cells, or kept at `minWidth` with a horizontal
-   * scroll. Pass an object keyed by breakpoint (mobile-first) to switch behaviour
+   * the container with truncated cells, or wider than the container (at least
+   * `minWidth`, or the sum of the column widths) with a horizontal scroll.
+   * Pass an object keyed by breakpoint (mobile-first) to switch behaviour
    * responsively, e.g. `{ base: { type: 'scroll', minWidth: 960 }, lg: { type: 'shrink' } }`.
    * @default { type: 'shrink' }
    */

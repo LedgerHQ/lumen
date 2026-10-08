@@ -6,8 +6,9 @@ feat(Table): add horizontalLayout to support horizontal scroll on Table and Data
 
 `horizontalLayout` (on `TableRoot` / `DataTableRoot`) defaults to `{ type: 'shrink' }`, which
 keeps the current behaviour. With `{ type: 'scroll', minWidth }` the table keeps at least
-`minWidth` pixels and the container scrolls horizontally. It also accepts a mobile-first
-object keyed by breakpoint.
+`minWidth` pixels and the container scrolls horizontally. Without `minWidth`, the table is as
+wide as the sum of its column widths (every column then needs a width). It also accepts a
+mobile-first object keyed by breakpoint.
 
 ```tsx
 <TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }} aria-label='Assets'>

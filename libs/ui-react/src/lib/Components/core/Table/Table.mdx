@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as TableStories from './Table.stories';
 import {
   CustomTabs,
@@ -42,30 +42,43 @@ The `TableRoot` component supports two appearance modes:
 
 ### Responsive Layout
 
-Two strategies help a table fit narrow containers, and they can be combined.
-
-**Hide columns**: use the `hideBelow` prop on both `TableHeaderCell` and `TableCell` to hide columns below a breakpoint.  
+Columns can be hidden below specific breakpoints using the `hideBelow` prop on both `TableHeaderCell` and `TableCell`.  
 Make sure to apply `hideBelow` to matching header and body cells so they stay in sync.  
 Long header text should be wrapped into a non-flex element with `truncate` classname.
 
-**Scroll horizontally**: by default the table shrinks to fit its container and cells are truncated.  
-Set `horizontalLayout={{ type: 'scroll', minWidth: 960 }}` on `TableRoot` to keep columns readable:
-the table fills its container when there is room, and scrolls horizontally once the container is narrower than `minWidth`.
-
 <Canvas of={TableStories.ResponsiveLayout} />
 
-`horizontalLayout` also accepts an object keyed by breakpoint, mobile-first like Tailwind: each breakpoint applies
-from its min-width upward, and `base` applies below the first breakpoint. Hidden columns stay hidden in scroll layout.
+### Horizontal Scroll
 
-```tsx
-<TableRoot
-  horizontalLayout={{
-    base: { type: 'scroll', minWidth: 640 },
-    md: { type: 'scroll', minWidth: 960 },
-    lg: { type: 'shrink' },
-  }}
->
-```
+By default (`{ type: 'shrink' }`), the table fits its container and cells are truncated.
+Set `horizontalLayout` on `TableRoot` to let the table become wider than its container and scroll horizontally instead.
+`horizontalLayout` and `hideBelow` can be combined: hidden columns stay hidden in scroll layout.
+
+#### With a minimum width
+
+`{ type: 'scroll', minWidth: 960 }`: the table fills its container when there is room, and scrolls once the container
+is narrower than `minWidth`. Columns without an explicit width share the available space.
+Use it when you know the width below which the columns stop being readable.
+
+<Canvas of={TableStories.WithHorizontalScroll} />
+
+#### From column widths
+
+`{ type: 'scroll' }` without `minWidth`: the table is as wide as the sum of its column widths, defined with `TableCol`.
+When the columns are narrower than the container, they stretch to fill it.
+Every column needs a width: a column without one collapses to nothing once the table overflows.
+Use it when each column has a natural width, e.g. an amount or an address column.
+
+<Canvas of={TableStories.WithHorizontalScrollFromColumnWidths} />
+
+#### Per breakpoint
+
+Pass an object keyed by breakpoint to switch layout per screen size. It is mobile-first, like Tailwind:
+each breakpoint applies from its min-width upward, and `base` applies below the first breakpoint.
+Each breakpoint can use its own layout and `minWidth`.
+The example below scrolls below `lg` (1024px) and shrinks from `lg` upward: resize the window to see it switch.
+
+<Canvas of={TableStories.WithResponsiveHorizontalScroll} />
 
 ### Clickable Rows
 
@@ -298,14 +311,43 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
 
 ### Horizontal Scroll
 
-Use `horizontalLayout` on `TableRoot`:
+Set `horizontalLayout` on `TableRoot` (or `DataTableRoot`). Pass an `aria-label` so the scrollable region is announced.
 
-<Source of={TableStories.ResponsiveLayout} />
+```tsx
+// Scrolls below 960px
+<TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }} aria-label='Assets'>
+  <Table>{/* ... */}</Table>
+</TableRoot>
+
+// As wide as its columns: every column needs a width
+<TableRoot horizontalLayout={{ type: 'scroll' }} aria-label='Assets'>
+  <Table>
+    <TableColGroup>
+      <TableCol className='w-256' />
+      <TableCol className='w-176' />
+      <TableCol className='w-176' />
+    </TableColGroup>
+    {/* ... */}
+  </Table>
+</TableRoot>
+
+// Per breakpoint, mobile-first
+<TableRoot
+  horizontalLayout={{
+    base: { type: 'scroll', minWidth: 640 },
+    md: { type: 'scroll', minWidth: 960 },
+    lg: { type: 'shrink' },
+  }}
+  aria-label='Assets'
+>
+  <Table>{/* ... */}</Table>
+</TableRoot>
+```
 
 #### Interaction with `table-layout`
 
 `Table` always uses `table-layout: fixed`, in both layouts. Scroll does not switch to `table-layout: auto`:
-it lets the table grow past its container and keeps it at least `minWidth` wide instead.
+it lets the table grow past its container, up to the larger of `minWidth` and the sum of the column widths.
 
 <div className='my-24 overflow-hidden rounded-lg'>
   <table className='w-full'>
@@ -320,7 +362,7 @@ it lets the table grow past its container and keeps it at least `minWidth` wide 
       <tr className='border-b border-muted'>
         <td className='text-accent p-12'>fixed (Lumen)</td>
         <td className='p-12 text-muted'>Columns take their `TableCol` widths, the remaining space is split equally and cells truncate.</td>
-        <td className='p-12 text-muted'>The table is at least `minWidth` wide and columns are resolved within it. Widths stay stable while rows load or get sorted.</td>
+        <td className='p-12 text-muted'>The table is as wide as the larger of its container, `minWidth` and the sum of the column widths. Widths stay stable while rows load or get sorted.</td>
       </tr>
       <tr>
         <td className='text-accent p-12'>auto</td>

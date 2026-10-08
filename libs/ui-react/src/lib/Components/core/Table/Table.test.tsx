@@ -92,6 +92,20 @@ describe('Table', () => {
       expect(table.style.color).toBe('red');
     });
 
+    it('should size the table from its columns in scroll layout without minWidth', () => {
+      render(
+        <TableRoot horizontalLayout={{ type: 'scroll' }}>
+          <Table>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-fixed', 'max-w-none');
+      expect(table.style.getPropertyValue('--table-min-width-base')).toBe('');
+    });
+
     it('should resolve a layout per breakpoint', () => {
       render(
         <TableRoot
