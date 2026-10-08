@@ -1,8 +1,8 @@
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Circle } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Bug icon component for React Native.
+ * Robot icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,30 +15,30 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Bug } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Robot } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Bug />
+ * <Robot />
  *
  * @example
  * // With custom size and style
- * <Bug size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Robot size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Bug} size="md">
+ * <Button icon={Robot} size="md">
  *   Click me
  * </Button>
  */
-export const Bug = createIcon(
-  'Bug',
+export const Robot = createIcon(
+  'Robot',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
     <Path
       stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      d='m14 3-1 2-1.333.917M1 8h3.11m7.78 0H15M2 3l1 2 1.333.917M2 13l1-2 1.333-.917M14 13l-1-2-1.333-.917M8.444 13h-.89a3 3 0 0 1-3-3V7a2 2 0 0 1 2-2h2.89a2 2 0 0 1 2 2v3a3 3 0 0 1-3 3M10 5H6V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1z'
+      d='M8 .789v3.208M.667 6.667v4m14.666-4v4M4 3.997h8c.736 0 1.333.597 1.333 1.333v6.667c0 .736-.597 1.333-1.333 1.333H4a1.333 1.333 0 0 1-1.333-1.333V5.33c0-.736.597-1.333 1.333-1.333ZM8.333 1.32a.333.333 0 1 1-.666 0 .333.333 0 0 1 .666 0Z'
     />
+    <Circle cx={6} cy={8.667} r={0.983} fill='currentColor' />
+    <Circle cx={10} cy={8.667} r={0.983} fill='currentColor' />
   </Svg>,
 );

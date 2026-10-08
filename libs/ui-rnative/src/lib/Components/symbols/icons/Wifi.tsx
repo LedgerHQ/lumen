@@ -2,7 +2,7 @@ import Svg, { Path } from 'react-native-svg';
 import createIcon from '../Icon/createIcon';
 
 /**
- * Bug icon component for React Native.
+ * Wifi icon component for React Native.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props (from react-native-svg)
@@ -15,30 +15,34 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Bug } from '@ledgerhq/lumen-ui-rnative/symbols';
+ * import { Wifi } from '@ledgerhq/lumen-ui-rnative/symbols';
  *
- * <Bug />
+ * <Wifi />
  *
  * @example
  * // With custom size and style
- * <Bug size={40} color="warning" lx={{ marginTop: 's4' }} />
+ * <Wifi size={40} color="warning" lx={{ marginTop: 's4' }} />
  *
  * @example
  * // Used within a Button component
  * import { Button } from '@ledgerhq/lumen-ui-rnative';
  *
- * <Button icon={Bug} size="md">
+ * <Button icon={Wifi} size="md">
  *   Click me
  * </Button>
  */
-export const Bug = createIcon(
-  'Bug',
+export const Wifi = createIcon(
+  'Wifi',
   <Svg width={24} height={24} fill='currentColor' viewBox='0 0 16 16'>
+    <Path
+      fill='currentColor'
+      d='M7.999 12.333a.75.75 0 1 1 0 1.5.75.75 0 0 1 0-1.5'
+    />
     <Path
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      d='m14 3-1 2-1.333.917M1 8h3.11m7.78 0H15M2 3l1 2 1.333.917M2 13l1-2 1.333-.917M14 13l-1-2-1.333-.917M8.444 13h-.89a3 3 0 0 1-3-3V7a2 2 0 0 1 2-2h2.89a2 2 0 0 1 2 2v3a3 3 0 0 1-3 3M10 5H6V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1z'
+      d='M3.06 8c2.729-2.502 7.15-2.502 9.879 0M1.063 5.203c3.831-3.382 10.043-3.382 13.874 0m-9.884 5.344a4.184 4.184 0 0 1 5.894 0'
     />
   </Svg>,
 );

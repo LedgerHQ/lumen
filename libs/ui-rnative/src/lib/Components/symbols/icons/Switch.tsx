@@ -38,7 +38,14 @@ export const Switch = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      d='M11 11a3 3 0 0 1 0-6m0 6a3 3 0 0 0 0-6m0 6H5a3 3 0 0 1 0-6h6'
+      d='M4.6 4.8h6.8a3.2 3.2 0 0 1 0 6.4H4.6a3.2 3.2 0 0 1 0-6.4'
+      clipRule='evenodd'
+    />
+    <Path
+      fill='currentColor'
+      fillRule='evenodd'
+      d='M4.495 6.667c-.736 0-1.334.597-1.328 1.333a1.334 1.334 0 1 0 1.328-1.333'
+      clipRule='evenodd'
     />
   </Svg>,
 );

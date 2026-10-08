@@ -1,13 +1,13 @@
 import createIcon from '../Icon/createIcon';
 
 /**
- * Switch icon component.
+ * Repeat icon component.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props and additional
  * size variants defined in the Icon component.
  *
- * @see {@link https://ldls.vercel.app/?path=/story/react-icon--base&args=name:Switch Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/story/react-icon--base&args=name:Repeat Storybook}
  *
  * @component
  * @param {16 | 20 | 24 | 40 | 48 | 56} [size=24] - The size of the icon in pixels.
@@ -16,16 +16,16 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Switch } from '@ledgerhq/lumen-ui-react/symbols';
+ * import { Repeat } from '@ledgerhq/lumen-ui-react/symbols';
  *
- * <Switch />
+ * <Repeat />
  *
  * @example
  * // With custom size and className
- * <Switch size={40} className="text-warning" />
+ * <Repeat size={40} className="text-warning" />
  */
-export const Switch = createIcon(
-  'Switch',
+export const Repeat = createIcon(
+  'Repeat',
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='1em'
@@ -37,14 +37,7 @@ export const Switch = createIcon(
       stroke='currentColor'
       strokeLinecap='round'
       strokeLinejoin='round'
-      d='M4.6 4.8h6.8a3.2 3.2 0 0 1 0 6.4H4.6a3.2 3.2 0 0 1 0-6.4'
-      clipRule='evenodd'
-    />
-    <path
-      fill='currentColor'
-      fillRule='evenodd'
-      d='M4.495 6.667c-.736 0-1.334.597-1.328 1.333a1.334 1.334 0 1 0 1.328-1.333'
-      clipRule='evenodd'
+      d='M4.313 5.13H2.384V3.203M2 8a6 6 0 1 0 .73-2.87m4.564.909 2.588 1.53a.5.5 0 0 1 0 .861L7.294 9.96a.5.5 0 0 1-.755-.43V6.47a.5.5 0 0 1 .755-.431'
     />
   </svg>,
 );
