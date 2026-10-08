@@ -1,3 +1,4 @@
+export { AiBubble } from './icons/AiBubble';
 export { Airplane } from './icons/Airplane';
 export { AlarmClock } from './icons/AlarmClock';
 export { Android } from './icons/Android';
@@ -228,6 +229,7 @@ export { RefreshBack } from './icons/RefreshBack';
 export { Repair } from './icons/Repair';
 export { Repeat } from './icons/Repeat';
 export { Retry } from './icons/Retry';
+export { Robot } from './icons/Robot';
 export { Screens } from './icons/Screens';
 export { Search } from './icons/Search';
 export { Send } from './icons/Send';

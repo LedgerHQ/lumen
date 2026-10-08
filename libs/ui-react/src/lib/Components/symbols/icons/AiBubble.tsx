@@ -1,13 +1,13 @@
 import createIcon from '../Icon/createIcon';
 
 /**
- * Bug icon component.
+ * AiBubble icon component.
  *
  * This icon component is automatically generated from SVG files and uses the createIcon utility
  * to create a consistent icon interface. It supports all standard SVG props and additional
  * size variants defined in the Icon component.
  *
- * @see {@link https://ldls.vercel.app/?path=/story/react-icon--base&args=name:Bug Storybook}
+ * @see {@link https://ldls.vercel.app/?path=/story/react-icon--base&args=name:AiBubble Storybook}
  *
  * @component
  * @param {16 | 20 | 24 | 40 | 48 | 56} [size=24] - The size of the icon in pixels.
@@ -16,16 +16,16 @@ import createIcon from '../Icon/createIcon';
  *
  * @example
  * // Basic usage with default size (24px)
- * import { Bug } from '@ledgerhq/lumen-ui-react/symbols';
+ * import { AiBubble } from '@ledgerhq/lumen-ui-react/symbols';
  *
- * <Bug />
+ * <AiBubble />
  *
  * @example
  * // With custom size and className
- * <Bug size={40} className="text-warning" />
+ * <AiBubble size={40} className="text-warning" />
  */
-export const Bug = createIcon(
-  'Bug',
+export const AiBubble = createIcon(
+  'AiBubble',
   <svg
     xmlns='http://www.w3.org/2000/svg'
     width='1em'
@@ -33,11 +33,18 @@ export const Bug = createIcon(
     fill='currentColor'
     viewBox='0 0 16 16'
   >
-    <path
-      stroke='currentColor'
-      strokeLinecap='round'
-      strokeLinejoin='round'
-      d='m14 3-1 2-1.333.917M1 8h3.11m7.78 0H15M2 3l1 2 1.333.917M2 13l1-2 1.333-.917M14 13l-1-2-1.333-.917M8.444 13h-.89a3 3 0 0 1-3-3V7a2 2 0 0 1 2-2h2.89a2 2 0 0 1 2 2v3a3 3 0 0 1-3 3M10 5H6V3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1z'
-    />
+    <g clipPath='url(#clip0_10870_31)'>
+      <path
+        stroke='currentColor'
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M5.328 9.168h3m.256.779-1.26-3.893h-.982l-1.26 3.893m5.643 0V6.054M.995 8.001a6.97 6.97 0 0 0 1.269 4.014l-.492 2.214 2.214-.492A7.003 7.003 0 1 0 .995 8'
+      />
+    </g>
+    <defs>
+      <clipPath id='clip0_10870_31'>
+        <path fill='#fff' d='M0 0h16v16H0z' />
+      </clipPath>
+    </defs>
   </svg>,
 );

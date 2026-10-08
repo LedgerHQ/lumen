@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-design-core': patch
 ---
 
-feat(icons): add ArrowBottomLeft, Hourglass, Repeat and Wifi symbols, and update Switch
+feat(icons): add AiBubble, ArrowBottomLeft, Hourglass, Repeat, Robot and Wifi symbols, and update Bug and Switch
