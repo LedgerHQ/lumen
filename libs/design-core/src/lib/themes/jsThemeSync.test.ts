@@ -11,6 +11,7 @@ import { enterpriseDarkColorTokens } from './js/enterprise/theme.dark';
 import { enterpriseLightColorTokens } from './js/enterprise/theme.light';
 import { ledgerLiveDarkColorTokens } from './js/ledger-live/theme.dark';
 import { ledgerLiveLightColorTokens } from './js/ledger-live/theme.light';
+import { primitiveLayoutTokens } from './js/primitives/primitives.others';
 import type { ThemeColorTokens } from './js/types';
 import { websitesDarkColorTokens } from './js/websites/theme.dark';
 import { websitesLightColorTokens } from './js/websites/theme.light';
@@ -355,6 +356,64 @@ const compareThemeSync = (fixture: ThemeFixture): string[] => {
 
   return issues;
 };
+
+// `sizes.full` is a JS-only alias for `100%`, with no `--size-*` counterpart.
+const JS_ONLY_LAYOUT_KEYS = new Set(['full']);
+
+const toJsLayoutKey = (cssKey: string): string =>
+  `s${cssKey.replace(/^(\d*)([a-z])/, (_, digits: string, letter: string) => digits + letter.toUpperCase())}`;
+
+const compareLayoutSync = (
+  prefix: string,
+  jsTokens: Record<string, number | string>,
+): string[] => {
+  const issues: string[] = [];
+  const cssTokens = Object.entries(primitivesCssTokens[':root']).filter(
+    ([name]) => name.startsWith(prefix),
+  );
+  const expectedJsKeys = new Set<string>();
+
+  for (const [name, value] of cssTokens) {
+    const jsKey = toJsLayoutKey(name.slice(prefix.length));
+    expectedJsKeys.add(jsKey);
+    const cssValue = parseFloat(String(value));
+    if (!(jsKey in jsTokens)) {
+      issues.push(`${jsKey}: missing in JS (CSS ${name} = ${value})`);
+    } else if (jsTokens[jsKey] !== cssValue) {
+      issues.push(
+        `${jsKey}: JS ${jsTokens[jsKey]} differs from CSS ${name} = ${value}`,
+      );
+    }
+  }
+
+  for (const jsKey of Object.keys(jsTokens)) {
+    if (!expectedJsKeys.has(jsKey) && !JS_ONLY_LAYOUT_KEYS.has(jsKey)) {
+      issues.push(`${jsKey}: in JS but not in CSS (${prefix}*)`);
+    }
+  }
+
+  return issues;
+};
+
+describe('jsThemeSync — CSS layout primitives vs JS layout tokens', () => {
+  it.each([
+    { group: 'sizes', prefix: '--size-', tokens: primitiveLayoutTokens.sizes },
+    {
+      group: 'spacings',
+      prefix: '--spacing-',
+      tokens: primitiveLayoutTokens.spacings,
+    },
+  ])('$group are in sync with CSS', ({ prefix, tokens }) => {
+    const issues = compareLayoutSync(prefix, tokens);
+
+    expect(
+      issues,
+      issues.length > 0
+        ? `JS layout drift detected — sync libs/design-core/src/lib/themes/js/primitives/primitives.others.ts:\n${issues.join('\n')}`
+        : undefined,
+    ).toEqual([]);
+  });
+});
 
 describe('jsThemeSync — CSS consumable tokens vs JS theme objects', () => {
   it.each(themeFixtures)(
