@@ -1,7 +1,7 @@
+import type { Breakpoint } from '@ledgerhq/lumen-design-core';
 import type { Row, RowData, Table } from '@tanstack/react-table';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
-import type { Breakpoints } from '../../../../types';
-import type { TableProps, TableRootProps, TableRowProps } from '../Table/types';
+import type { TableRootProps, TableRowProps } from '../Table/types';
 
 /**
  * Lumen-specific column metadata that extends TanStack's ColumnMeta.
@@ -16,7 +16,7 @@ export type LumenColumnMeta = {
   /**
    * Hides the column when the screen width is below the specified breakpoint.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * Custom className applied to the `<col>` element (for width tokens such as `w-144`)
    * and to each cell in this column including the header cell.
@@ -93,14 +93,9 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   /**
    * How the table handles columns that don't fit the container width.
    * See `TableRoot` `horizontalLayout`.
-   * @default 'shrink'
+   * @default { type: 'shrink' }
    */
   horizontalLayout?: TableRootProps['horizontalLayout'];
-  /**
-   * Minimum width of the table in pixels, applied wherever `horizontalLayout`
-   * resolves to scroll. See `Table` `minWidth`.
-   */
-  minWidth?: TableProps['minWidth'];
   /**
    * Callback fired when a row is clicked.
    * Return the data of the given row from the callback function.

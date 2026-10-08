@@ -42,29 +42,30 @@ The `TableRoot` component supports two appearance modes:
 
 ### Responsive Layout
 
-Columns can be hidden below specific breakpoints using the `hideBelow` prop on both `TableHeaderCell` and `TableCell`.  
+Two strategies help a table fit narrow containers, and they can be combined.
+
+**Hide columns**: use the `hideBelow` prop on both `TableHeaderCell` and `TableCell` to hide columns below a breakpoint.  
 Make sure to apply `hideBelow` to matching header and body cells so they stay in sync.  
 Long header text should be wrapped into a non-flex element with `truncate` classname.
 
+**Scroll horizontally**: by default the table shrinks to fit its container and cells are truncated.  
+Set `horizontalLayout={{ type: 'scroll', minWidth: 960 }}` on `TableRoot` to keep columns readable:
+the table fills its container when there is room, and scrolls horizontally once the container is narrower than `minWidth`.
+
 <Canvas of={TableStories.ResponsiveLayout} />
 
-### Horizontal Layout
+`horizontalLayout` also accepts an object keyed by breakpoint, mobile-first like Tailwind: each breakpoint applies
+from its min-width upward, and `base` applies below the first breakpoint. Hidden columns stay hidden in scroll layout.
 
-By default, the table shrinks to fit its container and cells are truncated (`horizontalLayout='shrink'`).
-
-Set `horizontalLayout='scroll'` on `TableRoot` and a `minWidth` on `Table` to keep columns readable on narrow containers:
-the table fills its container when there is room, and scrolls horizontally once the container is narrower than `minWidth`.
-A fade appears on each edge that still hides content.
-
-<Canvas of={TableStories.WithHorizontalScroll} />
-
-Pass an object keyed by breakpoint to switch behaviour per screen size. It is mobile-first, like Tailwind:
-each breakpoint applies from its min-width upward, and `base` applies below `xs`.
-The example below scrolls on mobile and shrinks from `md` upward.
-
-<Canvas of={TableStories.WithResponsiveHorizontalLayout} />
-
-`horizontalLayout` and `hideBelow` are independent: hidden columns stay hidden in scroll layout.
+```tsx
+<TableRoot
+  horizontalLayout={{
+    base: { type: 'scroll', minWidth: 640 },
+    md: { type: 'scroll', minWidth: 960 },
+    lg: { type: 'shrink' },
+  }}
+>
+```
 
 ### Clickable Rows
 
@@ -297,14 +298,14 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
 
 ### Horizontal Scroll
 
-Use `horizontalLayout` on `TableRoot` and `minWidth` on `Table`:
+Use `horizontalLayout` on `TableRoot`:
 
-<Source of={TableStories.WithHorizontalScroll} />
+<Source of={TableStories.ResponsiveLayout} />
 
 #### Interaction with `table-layout`
 
 `Table` always uses `table-layout: fixed`, in both layouts. Scroll does not switch to `table-layout: auto`:
-it lets the table grow past its container and applies `minWidth` instead.
+it lets the table grow past its container and keeps it at least `minWidth` wide instead.
 
 <div className='my-24 overflow-hidden rounded-lg'>
   <table className='w-full'>
@@ -329,8 +330,6 @@ it lets the table grow past its container and applies `minWidth` instead.
     </tbody>
   </table>
 </div>
-
-Without `minWidth`, a scroll layout behaves like shrink: nothing makes the table wider than its container.
 
 #### Things to know
 

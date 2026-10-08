@@ -55,9 +55,9 @@ Note that cells text is automatically truncated when the column is too narrow.
 
 ## Horizontal Scroll
 
-By default, columns shrink to fit the container. Set `horizontalLayout='scroll'` and a `minWidth` on `DataTableRoot`
+By default, columns shrink to fit the container. Set `horizontalLayout={{ type: 'scroll', minWidth: 1024 }}` on `DataTableRoot`
 to scroll horizontally once the container is narrower than `minWidth`.
-`horizontalLayout` also accepts an object keyed by breakpoint, e.g. `{ base: 'scroll', md: 'shrink' }`.
+`horizontalLayout` also accepts an object keyed by breakpoint, e.g. `{ base: { type: 'scroll', minWidth: 960 }, lg: { type: 'shrink' } }`.
 Pass an `aria-label` to `DataTable` so the scrollable region is announced.
 See [Table horizontal layout](?path=/docs/react-table--docs) for how it interacts with `table-layout`.
 

@@ -270,14 +270,16 @@ describe('DataTable horizontal layout', () => {
     expect(screen.getByRole('table')).toHaveClass('max-w-full');
   });
 
-  it('should forward horizontalLayout and minWidth to the table', () => {
+  it('should forward horizontalLayout to the table', () => {
     const TestComponent = () => {
       const table = useLumenDataTable({ data: testData, columns: testColumns });
       return (
         <DataTableRoot
           table={table}
-          horizontalLayout={{ base: 'scroll', lg: 'shrink' }}
-          minWidth={960}
+          horizontalLayout={{
+            base: { type: 'scroll', minWidth: 960 },
+            lg: { type: 'shrink' },
+          }}
         >
           <DataTable />
         </DataTableRoot>
@@ -288,6 +290,8 @@ describe('DataTable horizontal layout', () => {
 
     const table = screen.getByRole('table');
     expect(table).toHaveClass('max-w-none', 'lg:max-w-full');
-    expect(table.style.getPropertyValue('--table-min-width')).toBe('960px');
+    expect(table.style.getPropertyValue('--table-min-width-base')).toBe(
+      '960px',
+    );
   });
 });

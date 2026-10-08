@@ -615,8 +615,7 @@ export const WithGroupHeader: Story = {
 
 export const WithHorizontalScroll: Story = {
   args: {
-    horizontalLayout: 'scroll',
-    minWidth: 1024,
+    horizontalLayout: { type: 'scroll', minWidth: 1024 },
   },
   render: (args) => {
     const table = useLumenDataTable({

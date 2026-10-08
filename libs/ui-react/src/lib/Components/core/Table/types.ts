@@ -1,7 +1,18 @@
+import type { Breakpoint, ResponsiveValue } from '@ledgerhq/lumen-design-core';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
-import type { Breakpoints, ResponsiveValue } from '../../../../types';
 
-export type TableHorizontalLayout = 'shrink' | 'scroll';
+export type TableHorizontalLayout =
+  | {
+      type: 'shrink';
+    }
+  | {
+      type: 'scroll';
+      /**
+       * Minimum width of the table in pixels. Below this width, the container
+       * scrolls horizontally.
+       */
+      minWidth: number;
+    };
 
 export type TableRootProps = {
   /**
@@ -29,10 +40,10 @@ export type TableRootProps = {
   loading?: boolean;
   /**
    * How the table handles columns that don't fit the container width: kept within
-   * the container with truncated cells, or kept at the `Table` `minWidth` with a
-   * horizontal scroll. Pass an object keyed by breakpoint (mobile-first) to switch
-   * behaviour responsively, e.g. `{ base: 'scroll', lg: 'shrink' }`.
-   * @default 'shrink'
+   * the container with truncated cells, or kept at `minWidth` with a horizontal
+   * scroll. Pass an object keyed by breakpoint (mobile-first) to switch behaviour
+   * responsively, e.g. `{ base: { type: 'scroll', minWidth: 960 }, lg: { type: 'shrink' } }`.
+   * @default { type: 'shrink' }
    */
   horizontalLayout?: ResponsiveValue<TableHorizontalLayout>;
 } & ComponentPropsWithRef<'div'>;
@@ -42,12 +53,6 @@ export type TableProps = {
    * The table content (TableHeader, TableBody)
    */
   children: ReactNode;
-  /**
-   * Minimum width of the table in pixels, applied wherever the `TableRoot`
-   * `horizontalLayout` resolves to scroll. Below this width, the container scrolls
-   * horizontally. Ignored in shrink layout.
-   */
-  minWidth?: number;
   /**
    * @optional
    */
@@ -101,7 +106,7 @@ export type TableCellProps = {
    * Hides this table header cell when the screen width is below the specified breakpoint.
    * Use this to responsively show or hide columns at certain viewport sizes.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * The cell content
    */
@@ -225,7 +230,7 @@ export type TableHeaderCellProps = {
    * Hides this table header cell when the screen width is below the specified breakpoint.
    * Use this to responsively show or hide columns at certain viewport sizes.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * The header cell content. Use TableSortButton for sortable columns; other children are trailing content.
    */
@@ -316,7 +321,7 @@ export type TableColProps = {
    * column is fully removed responsively while keeping its fixed width above
    * the breakpoint.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * @optional
    */

@@ -74,9 +74,33 @@ describe('Table', () => {
       expect(screen.getByRole('table')).toHaveClass('max-w-full');
     });
 
-    it('should allow the table to exceed the container in scroll layout', () => {
+    it('should keep at least minWidth in scroll layout', () => {
       render(
-        <TableRoot horizontalLayout='scroll'>
+        <TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }}>
+          <Table style={{ color: 'red' }}>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('max-w-none', 'min-w-(--table-min-width-base)');
+      expect(table).not.toHaveClass('max-w-full');
+      expect(table.style.getPropertyValue('--table-min-width-base')).toBe(
+        '960px',
+      );
+      expect(table.style.color).toBe('red');
+    });
+
+    it('should resolve a layout per breakpoint', () => {
+      render(
+        <TableRoot
+          horizontalLayout={{
+            base: { type: 'scroll', minWidth: 640 },
+            md: { type: 'scroll', minWidth: 960 },
+            lg: { type: 'shrink' },
+          }}
+        >
           <Table>
             <tbody />
           </Table>
@@ -84,46 +108,33 @@ describe('Table', () => {
       );
 
       const table = screen.getByRole('table');
-      expect(table).toHaveClass('max-w-none', 'min-w-(--table-min-width)');
-      expect(table).not.toHaveClass('max-w-full');
+      expect(table).toHaveClass(
+        'max-w-none',
+        'md:min-w-(--table-min-width-md)',
+        'lg:max-w-full',
+      );
+      expect(table.style.getPropertyValue('--table-min-width-base')).toBe(
+        '640px',
+      );
+      expect(table.style.getPropertyValue('--table-min-width-md')).toBe(
+        '960px',
+      );
+      expect(table.style.getPropertyValue('--table-min-width-lg')).toBe('');
     });
 
-    it.each([
-      {
-        horizontalLayout: { base: 'scroll', lg: 'shrink' } as const,
-        expected: ['max-w-none', 'lg:max-w-full'],
-      },
-      {
-        horizontalLayout: { md: 'scroll' } as const,
-        expected: ['max-w-full', 'md:max-w-none'],
-      },
-    ])(
-      'should resolve responsive layout $horizontalLayout',
-      ({ horizontalLayout, expected }) => {
-        render(
-          <TableRoot horizontalLayout={horizontalLayout}>
-            <Table>
-              <tbody />
-            </Table>
-          </TableRoot>,
-        );
-
-        expect(screen.getByRole('table')).toHaveClass(...expected);
-      },
-    );
-
-    it('should expose minWidth as a CSS variable', () => {
+    it('should shrink below the first breakpoint when base is omitted', () => {
       render(
-        <TableRoot horizontalLayout='scroll'>
-          <Table minWidth={960} style={{ color: 'red' }}>
+        <TableRoot horizontalLayout={{ md: { type: 'scroll', minWidth: 960 } }}>
+          <Table>
             <tbody />
           </Table>
         </TableRoot>,
       );
 
-      const table = screen.getByRole('table');
-      expect(table.style.getPropertyValue('--table-min-width')).toBe('960px');
-      expect(table.style.color).toBe('red');
+      expect(screen.getByRole('table')).toHaveClass(
+        'max-w-full',
+        'md:max-w-none',
+      );
     });
   });
 });

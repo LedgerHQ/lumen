@@ -219,7 +219,7 @@ export const AppearanceShowcase: Story = {
     );
 
     return (
-      <div className='flex gap-24 text-base'>
+      <div className='flex flex-col gap-24 text-base'>
         {table('no-background')}
         {table('plain')}
       </div>
@@ -227,14 +227,49 @@ export const AppearanceShowcase: Story = {
   },
 };
 
+const HorizontalScrollTable = () => (
+  <Table>
+    <TableHeader>
+      <TableHeaderRow>
+        <TableHeaderCell>Asset</TableHeaderCell>
+        <TableHeaderCell align='end'>Price</TableHeaderCell>
+        <TableHeaderCell align='end'>24h change</TableHeaderCell>
+        <TableHeaderCell align='end'>Market cap</TableHeaderCell>
+        <TableHeaderCell align='end'>Volume</TableHeaderCell>
+      </TableHeaderRow>
+    </TableHeader>
+    <TableBody>
+      {largeData.map((row) => (
+        <TableRow key={row.symbol}>
+          <TableCell>
+            <TableCellItem>
+              <Spot size={40} icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          </TableCell>
+          <TableCell align='end'>{row.price}</TableCell>
+          <TableCell align='end'>{row.change}</TableCell>
+          <TableCell align='end'>$1.2B</TableCell>
+          <TableCell align='end'>$320M</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
+
 export const ResponsiveLayout: Story = {
   parameters: {
     chromatic: { viewports: [800, 1280] },
     viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => (
-    <div className='w-3xl text-base'>
-      <TableRoot {...args}>
+    <div className='flex w-3xl flex-col gap-24 text-base'>
+      <TableRoot {...args} aria-label='Assets with hidden columns'>
         <Table>
           <TableHeader>
             <TableHeaderRow>
@@ -276,70 +311,13 @@ export const ResponsiveLayout: Story = {
           </TableBody>
         </Table>
       </TableRoot>
-    </div>
-  ),
-};
-
-const HorizontalScrollTable = ({ minWidth }: { minWidth: number }) => (
-  <Table minWidth={minWidth}>
-    <TableHeader>
-      <TableHeaderRow>
-        <TableHeaderCell>Asset</TableHeaderCell>
-        <TableHeaderCell align='end'>Price</TableHeaderCell>
-        <TableHeaderCell align='end'>24h change</TableHeaderCell>
-        <TableHeaderCell align='end'>Market cap</TableHeaderCell>
-        <TableHeaderCell align='end'>Volume</TableHeaderCell>
-      </TableHeaderRow>
-    </TableHeader>
-    <TableBody>
-      {largeData.map((row) => (
-        <TableRow key={row.symbol}>
-          <TableCell>
-            <TableCellItem>
-              <Spot size={40} icon={Android} />
-              <TableCellContent>
-                <TableCellContentTitle>{row.name}</TableCellContentTitle>
-                <TableCellContentDescription>
-                  {row.symbol}
-                </TableCellContentDescription>
-              </TableCellContent>
-            </TableCellItem>
-          </TableCell>
-          <TableCell align='end'>{row.price}</TableCell>
-          <TableCell align='end'>{row.change}</TableCell>
-          <TableCell align='end'>$1.2B</TableCell>
-          <TableCell align='end'>$320M</TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-);
-
-export const WithHorizontalScroll: Story = {
-  args: {
-    horizontalLayout: 'scroll',
-  },
-  render: (args) => (
-    <div className='w-480 text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-400'>
-        <HorizontalScrollTable minWidth={800} />
-      </TableRoot>
-    </div>
-  ),
-};
-
-export const WithResponsiveHorizontalLayout: Story = {
-  args: {
-    horizontalLayout: { base: 'scroll', md: 'shrink' },
-  },
-  parameters: {
-    chromatic: { viewports: [375, 1280] },
-    viewport: { defaultViewport: 'mobile1' },
-  },
-  render: (args) => (
-    <div className='w-screen max-w-560 px-16 text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-400'>
-        <HorizontalScrollTable minWidth={640} />
+      <TableRoot
+        {...args}
+        horizontalLayout={{ type: 'scroll', minWidth: 960 }}
+        aria-label='Assets with horizontal scroll'
+        className='max-h-208'
+      >
+        <HorizontalScrollTable />
       </TableRoot>
     </div>
   ),

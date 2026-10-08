@@ -1,3 +1,4 @@
+import type { Breakpoint, ResponsiveValue } from '@ledgerhq/lumen-design-core';
 import {
   cn,
   createSafeContext,
@@ -7,8 +8,6 @@ import { cva } from 'class-variance-authority';
 import type { CSSProperties, UIEvent } from 'react';
 import { useRef } from 'react';
 import { useCommonTranslation } from '../../../../translations';
-import type { Breakpoints, ResponsiveValue } from '../../../../types';
-import { getScrollMaskImage } from '../../../../utils/getScrollMaskImage/getScrollMaskImage';
 import { useScrollOverflow } from '../../../../utils/useScrollOverflow/useScrollOverflow';
 import {
   ChevronAscending,
@@ -93,9 +92,8 @@ const tableVariants = cva(
 export const TableRoot = ({
   children,
   appearance = 'no-background',
-  horizontalLayout = 'shrink',
+  horizontalLayout,
   className,
-  style,
   tabIndex,
   role,
   onScroll,
@@ -116,7 +114,6 @@ export const TableRoot = ({
   const hasAccessibleName = Boolean(
     props['aria-label'] || props['aria-labelledby'],
   );
-  const maskImage = getScrollMaskImage({ canScrollLeft, canScrollRight });
 
   const handleScroll = (event: UIEvent<HTMLDivElement>): void => {
     onScroll?.(event);
@@ -132,11 +129,6 @@ export const TableRoot = ({
         tabIndex={tabIndex ?? (overflowing ? 0 : undefined)}
         role={role ?? (overflowing && hasAccessibleName ? 'region' : undefined)}
         className={tableVariants({ appearance, overflowing, className })}
-        style={
-          maskImage
-            ? { maskImage, WebkitMaskImage: maskImage, ...style }
-            : style
-        }
         onScroll={handleScroll}
       >
         {children}
@@ -145,31 +137,38 @@ export const TableRoot = ({
   );
 };
 
+type BreakpointKey = 'base' | Breakpoint;
+
+// Each breakpoint reads its own variable, so `minWidth` can differ per breakpoint.
 const tableLayoutVariants = cva('w-full table-fixed', {
   variants: {
     base: {
       shrink: 'max-w-full min-w-0',
-      scroll: 'max-w-none min-w-(--table-min-width)',
+      scroll: 'max-w-none min-w-(--table-min-width-base)',
     },
     xs: {
       shrink: 'xs:max-w-full xs:min-w-0',
-      scroll: 'xs:max-w-none xs:min-w-(--table-min-width)',
+      scroll: 'xs:max-w-none xs:min-w-(--table-min-width-xs)',
     },
     sm: {
       shrink: 'sm:max-w-full sm:min-w-0',
-      scroll: 'sm:max-w-none sm:min-w-(--table-min-width)',
+      scroll: 'sm:max-w-none sm:min-w-(--table-min-width-sm)',
     },
     md: {
       shrink: 'md:max-w-full md:min-w-0',
-      scroll: 'md:max-w-none md:min-w-(--table-min-width)',
+      scroll: 'md:max-w-none md:min-w-(--table-min-width-md)',
     },
     lg: {
       shrink: 'lg:max-w-full lg:min-w-0',
-      scroll: 'lg:max-w-none lg:min-w-(--table-min-width)',
+      scroll: 'lg:max-w-none lg:min-w-(--table-min-width-lg)',
     },
     xl: {
       shrink: 'xl:max-w-full xl:min-w-0',
-      scroll: 'xl:max-w-none xl:min-w-(--table-min-width)',
+      scroll: 'xl:max-w-none xl:min-w-(--table-min-width-xl)',
+    },
+    '2xl': {
+      shrink: '2xl:max-w-full 2xl:min-w-0',
+      scroll: '2xl:max-w-none 2xl:min-w-(--table-min-width-2xl)',
     },
   },
   defaultVariants: {
@@ -177,39 +176,51 @@ const tableLayoutVariants = cva('w-full table-fixed', {
   },
 });
 
-const toBreakpointMap = (
+const DEFAULT_HORIZONTAL_LAYOUT: TableHorizontalLayout = { type: 'shrink' };
+
+const resolveHorizontalLayout = (
   value: ResponsiveValue<TableHorizontalLayout>,
-): Partial<Record<'base' | Breakpoints, TableHorizontalLayout>> =>
-  typeof value === 'string' ? { base: value } : value;
+): {
+  variants: Partial<Record<BreakpointKey, TableHorizontalLayout['type']>>;
+  style: CSSProperties;
+} => {
+  const byBreakpoint = 'type' in value ? { base: value } : value;
+  const variants: Partial<
+    Record<BreakpointKey, TableHorizontalLayout['type']>
+  > = {};
+  const style: Record<string, string> = {};
+
+  for (const [breakpoint, layout] of Object.entries(byBreakpoint)) {
+    if (!layout) {
+      continue;
+    }
+    variants[breakpoint as BreakpointKey] = layout.type;
+    if (layout.type === 'scroll') {
+      style[`--table-min-width-${breakpoint}`] = `${layout.minWidth}px`;
+    }
+  }
+
+  return { variants, style: style as CSSProperties };
+};
 
 export const Table = ({
   children,
   className,
-  minWidth,
   style,
   ref,
   ...props
 }: TableProps) => {
-  const { horizontalLayout = 'shrink' } = useTableContext({
+  const { horizontalLayout = DEFAULT_HORIZONTAL_LAYOUT } = useTableContext({
     consumerName: 'Table',
     contextRequired: false,
   });
+  const layout = resolveHorizontalLayout(horizontalLayout);
 
   return (
     <table
       {...props}
-      className={tableLayoutVariants({
-        ...toBreakpointMap(horizontalLayout),
-        className,
-      })}
-      style={
-        minWidth === undefined
-          ? style
-          : ({
-              '--table-min-width': `${minWidth}px`,
-              ...style,
-            } as CSSProperties)
-      }
+      className={tableLayoutVariants({ ...layout.variants, className })}
+      style={{ ...layout.style, ...style }}
       ref={ref}
     >
       {children}
@@ -248,6 +259,7 @@ const colVariants = cva('', {
       md: 'hidden md:table-column',
       lg: 'hidden lg:table-column',
       xl: 'hidden xl:table-column',
+      '2xl': 'hidden 2xl:table-column',
     },
   },
 });
@@ -411,6 +423,7 @@ const cellVariants = {
           md: 'hidden md:table-cell',
           lg: 'hidden lg:table-cell',
           xl: 'hidden xl:table-cell',
+          '2xl': 'hidden 2xl:table-cell',
         },
       },
     },
@@ -613,6 +626,7 @@ const headerCellVariants = {
         md: 'hidden md:table-cell',
         lg: 'hidden lg:table-cell',
         xl: 'hidden xl:table-cell',
+        '2xl': 'hidden 2xl:table-cell',
       },
     },
   }),
