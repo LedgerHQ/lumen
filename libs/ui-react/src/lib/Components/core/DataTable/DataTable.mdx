@@ -53,6 +53,16 @@ Note that cells text is automatically truncated when the column is too narrow.
 
 <Canvas of={DataTableStories.ColumnsLayout} />
 
+## Horizontal Scroll
+
+By default, columns shrink to fit the container. Set `horizontalLayout='scroll'` and a `minWidth` on `DataTableRoot`
+to scroll horizontally once the container is narrower than `minWidth`.
+`horizontalLayout` also accepts an object keyed by breakpoint, e.g. `{ base: 'scroll', md: 'shrink' }`.
+Pass an `aria-label` to `DataTable` so the scrollable region is announced.
+See [Table horizontal layout](?path=/docs/react-table--docs) for how it interacts with `table-layout`.
+
+<Canvas of={DataTableStories.WithHorizontalScroll} />
+
 ## Group Headers
 
 In order to display group headers, you must pre-sort the data by the grouping field.  

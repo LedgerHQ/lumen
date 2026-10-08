@@ -613,6 +613,59 @@ export const WithGroupHeader: Story = {
   },
 };
 
+export const WithHorizontalScroll: Story = {
+  args: {
+    horizontalLayout: 'scroll',
+    minWidth: 1024,
+  },
+  render: (args) => {
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          cell: ({ row }) => (
+            <TableCellItem>
+              <Spot icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { className: 'w-224' },
+        },
+        { accessorKey: 'category', header: 'Category' },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: '24h change',
+          meta: { align: 'end' },
+        },
+      ],
+    });
+
+    return (
+      <DataTableRoot
+        {...args}
+        table={table}
+        groupBy={(row) => row.original.category}
+      >
+        <DataTable className='max-h-480' aria-label='Assets' />
+      </DataTableRoot>
+    );
+  },
+};
+
 export const WithCustomHeader: Story = {
   render: (args) => {
     const table = useLumenDataTable({

@@ -1,0 +1,154 @@
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useRef } from 'react';
+import { afterEach, describe, expect, it } from 'vitest';
+import '@testing-library/jest-dom';
+
+import { useScrollOverflow } from './useScrollOverflow';
+
+class MockResizeObserver {
+  static instances: MockResizeObserver[] = [];
+
+  callback: ResizeObserverCallback;
+  disconnected = false;
+  observed: Element[] = [];
+
+  constructor(callback: ResizeObserverCallback) {
+    this.callback = callback;
+    MockResizeObserver.instances.push(this);
+  }
+
+  observe(target: Element): void {
+    this.observed.push(target);
+  }
+
+  unobserve(): void {}
+
+  disconnect(): void {
+    this.disconnected = true;
+  }
+
+  emit(): void {
+    this.callback([], this as unknown as ResizeObserver);
+  }
+}
+
+const Harness = ({ direction }: { direction?: 'ltr' | 'rtl' }) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const { canScrollLeft, canScrollRight } = useScrollOverflow(ref);
+
+  return (
+    <div
+      ref={ref}
+      data-testid='scroller'
+      data-left={String(canScrollLeft)}
+      data-right={String(canScrollRight)}
+      style={direction ? { direction } : undefined}
+    >
+      <table />
+    </div>
+  );
+};
+
+const setScrollMetrics = (
+  el: HTMLElement,
+  metrics: { scrollWidth: number; clientWidth: number; scrollLeft: number },
+): void => {
+  Object.entries(metrics).forEach(([key, value]) => {
+    Object.defineProperty(el, key, { configurable: true, value });
+  });
+};
+
+const expectOverflow = (left: boolean, right: boolean): void => {
+  const scroller = screen.getByTestId('scroller');
+  expect(scroller).toHaveAttribute('data-left', String(left));
+  expect(scroller).toHaveAttribute('data-right', String(right));
+};
+
+describe('useScrollOverflow', () => {
+  const originalResizeObserver = global.ResizeObserver;
+
+  afterEach(() => {
+    global.ResizeObserver = originalResizeObserver;
+    MockResizeObserver.instances = [];
+  });
+
+  it('should report no overflow when content fits', () => {
+    render(<Harness />);
+    expectOverflow(false, false);
+  });
+
+  it.each([
+    { scrollLeft: 0, left: false, right: true },
+    { scrollLeft: 100, left: true, right: true },
+    { scrollLeft: 200, left: true, right: false },
+  ])(
+    'should track LTR overflow at scrollLeft $scrollLeft',
+    ({ scrollLeft, left, right }) => {
+      render(<Harness />);
+      const scroller = screen.getByTestId('scroller');
+
+      setScrollMetrics(scroller, {
+        scrollWidth: 500,
+        clientWidth: 300,
+        scrollLeft,
+      });
+      fireEvent.scroll(scroller);
+
+      expectOverflow(left, right);
+    },
+  );
+
+  it.each([
+    { scrollLeft: 0, left: true, right: false },
+    { scrollLeft: -100, left: true, right: true },
+    { scrollLeft: -200, left: false, right: true },
+  ])(
+    'should map RTL overflow to physical sides at scrollLeft $scrollLeft',
+    ({ scrollLeft, left, right }) => {
+      render(<Harness direction='rtl' />);
+      const scroller = screen.getByTestId('scroller');
+
+      setScrollMetrics(scroller, {
+        scrollWidth: 500,
+        clientWidth: 300,
+        scrollLeft,
+      });
+      fireEvent.scroll(scroller);
+
+      expectOverflow(left, right);
+    },
+  );
+
+  it('should update when the container or its content resizes', () => {
+    global.ResizeObserver =
+      MockResizeObserver as unknown as typeof ResizeObserver;
+    render(<Harness />);
+    const scroller = screen.getByTestId('scroller');
+
+    expect(MockResizeObserver.instances[0]?.observed).toEqual([
+      scroller,
+      scroller.firstElementChild,
+    ]);
+
+    setScrollMetrics(scroller, {
+      scrollWidth: 500,
+      clientWidth: 300,
+      scrollLeft: 0,
+    });
+    act(() => {
+      MockResizeObserver.instances[0]?.emit();
+    });
+
+    expectOverflow(false, true);
+  });
+
+  it('should disconnect the observer on unmount', () => {
+    global.ResizeObserver =
+      MockResizeObserver as unknown as typeof ResizeObserver;
+    const { unmount } = render(<Harness />);
+
+    unmount();
+
+    expect(MockResizeObserver.instances[0]?.disconnected).toBe(true);
+  });
+});

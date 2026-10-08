@@ -7,6 +7,7 @@ import type {
   ReactNode,
 } from 'react';
 import { useMemo, useRef } from 'react';
+import { getScrollMaskImage } from '../../../../utils/getScrollMaskImage/getScrollMaskImage';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import type { IconSize } from '../../symbols/Icon';
 import {
@@ -100,23 +101,6 @@ const segmentedControlStyles = {
   ),
 };
 
-/**
- * Fades the segments out under the arrow buttons, on the sides that can scroll.
- */
-function getScrollMaskImage(
-  canScrollLeft: boolean,
-  canScrollRight: boolean,
-): string {
-  const left = canScrollLeft
-    ? 'transparent 0px, transparent 40px, black 72px'
-    : 'black 0px';
-  const right = canScrollRight
-    ? 'black calc(100% - 72px), transparent calc(100% - 40px), transparent 100%'
-    : 'black 100%';
-
-  return `linear-gradient(to right, ${left}, ${right})`;
-}
-
 type SegmentedControlArrowProps = {
   side: 'left' | 'right';
   icon: ComponentType<{ size?: IconSize }>;
@@ -167,10 +151,12 @@ function SegmentedControlScrollArea({
 
   useScrollSelectedIntoView(scrollRef, selectedIndex);
 
-  const maskImage =
-    canScrollLeft || canScrollRight
-      ? getScrollMaskImage(canScrollLeft, canScrollRight)
-      : undefined;
+  // The transparent inset fades the segments out under the arrow buttons.
+  const maskImage = getScrollMaskImage({
+    canScrollLeft,
+    canScrollRight,
+    inset: 40,
+  });
 
   return (
     <div

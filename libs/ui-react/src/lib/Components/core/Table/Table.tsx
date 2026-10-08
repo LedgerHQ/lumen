@@ -1,6 +1,15 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import {
+  cn,
+  createSafeContext,
+  useMergedRef,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { CSSProperties, UIEvent } from 'react';
+import { useRef } from 'react';
 import { useCommonTranslation } from '../../../../translations';
+import type { Breakpoints, ResponsiveValue } from '../../../../types';
+import { getScrollMaskImage } from '../../../../utils/getScrollMaskImage/getScrollMaskImage';
+import { useScrollOverflow } from '../../../../utils/useScrollOverflow/useScrollOverflow';
 import {
   ChevronAscending,
   ChevronDescending,
@@ -18,6 +27,7 @@ import type {
   TableHeaderCellProps,
   TableHeaderRowProps,
   TableHeaderProps,
+  TableHorizontalLayout,
   TableProps,
   TableRowProps,
   TableActionBarLeadingProps,
@@ -39,6 +49,7 @@ import { useThrottledScrollBottom } from './utils/useThrottledScrollBottom';
 const [TableProvider, useTableContext] = createSafeContext<{
   appearance: TableRootProps['appearance'];
   loading: TableRootProps['loading'];
+  horizontalLayout: TableRootProps['horizontalLayout'];
 }>('Table');
 
 const tableVariants = cva(
@@ -48,6 +59,11 @@ const tableVariants = cva(
       appearance: {
         'no-background': 'bg-canvas',
         plain: 'bg-surface',
+      },
+      overflowing: {
+        // Keeps trackpad swipes from triggering the browser back navigation.
+        true: 'overscroll-x-contain',
+        false: '',
       },
     },
   },
@@ -77,23 +93,50 @@ const tableVariants = cva(
 export const TableRoot = ({
   children,
   appearance = 'no-background',
+  horizontalLayout = 'shrink',
   className,
+  style,
+  tabIndex,
+  role,
+  onScroll,
   onScrollBottom,
   loading,
   ref,
   ...props
 }: TableRootProps) => {
-  const handleScroll = useThrottledScrollBottom({
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const mergedRef = useMergedRef(scrollRef, ref);
+  const { canScrollLeft, canScrollRight } = useScrollOverflow(scrollRef);
+  const handleScrollBottom = useThrottledScrollBottom({
     onScrollBottom,
     loading,
   });
 
+  const overflowing = canScrollLeft || canScrollRight;
+  const hasAccessibleName = Boolean(
+    props['aria-label'] || props['aria-labelledby'],
+  );
+  const maskImage = getScrollMaskImage({ canScrollLeft, canScrollRight });
+
+  const handleScroll = (event: UIEvent<HTMLDivElement>): void => {
+    onScroll?.(event);
+    handleScrollBottom?.(event);
+  };
+
   return (
-    <TableProvider value={{ appearance, loading }}>
+    <TableProvider value={{ appearance, loading, horizontalLayout }}>
       <div
         {...props}
-        ref={ref}
-        className={tableVariants({ appearance, className })}
+        ref={mergedRef}
+        // Keyboard users can only scroll a region they can focus.
+        tabIndex={tabIndex ?? (overflowing ? 0 : undefined)}
+        role={role ?? (overflowing && hasAccessibleName ? 'region' : undefined)}
+        className={tableVariants({ appearance, overflowing, className })}
+        style={
+          maskImage
+            ? { maskImage, WebkitMaskImage: maskImage, ...style }
+            : style
+        }
         onScroll={handleScroll}
       >
         {children}
@@ -102,11 +145,71 @@ export const TableRoot = ({
   );
 };
 
-export const Table = ({ children, className, ref, ...props }: TableProps) => {
+const tableLayoutVariants = cva('w-full table-fixed', {
+  variants: {
+    base: {
+      shrink: 'max-w-full min-w-0',
+      scroll: 'max-w-none min-w-(--table-min-width)',
+    },
+    xs: {
+      shrink: 'xs:max-w-full xs:min-w-0',
+      scroll: 'xs:max-w-none xs:min-w-(--table-min-width)',
+    },
+    sm: {
+      shrink: 'sm:max-w-full sm:min-w-0',
+      scroll: 'sm:max-w-none sm:min-w-(--table-min-width)',
+    },
+    md: {
+      shrink: 'md:max-w-full md:min-w-0',
+      scroll: 'md:max-w-none md:min-w-(--table-min-width)',
+    },
+    lg: {
+      shrink: 'lg:max-w-full lg:min-w-0',
+      scroll: 'lg:max-w-none lg:min-w-(--table-min-width)',
+    },
+    xl: {
+      shrink: 'xl:max-w-full xl:min-w-0',
+      scroll: 'xl:max-w-none xl:min-w-(--table-min-width)',
+    },
+  },
+  defaultVariants: {
+    base: 'shrink',
+  },
+});
+
+const toBreakpointMap = (
+  value: ResponsiveValue<TableHorizontalLayout>,
+): Partial<Record<'base' | Breakpoints, TableHorizontalLayout>> =>
+  typeof value === 'string' ? { base: value } : value;
+
+export const Table = ({
+  children,
+  className,
+  minWidth,
+  style,
+  ref,
+  ...props
+}: TableProps) => {
+  const { horizontalLayout = 'shrink' } = useTableContext({
+    consumerName: 'Table',
+    contextRequired: false,
+  });
+
   return (
     <table
       {...props}
-      className={cn('w-full max-w-full table-fixed', className)}
+      className={tableLayoutVariants({
+        ...toBreakpointMap(horizontalLayout),
+        className,
+      })}
+      style={
+        minWidth === undefined
+          ? style
+          : ({
+              '--table-min-width': `${minWidth}px`,
+              ...style,
+            } as CSSProperties)
+      }
       ref={ref}
     >
       {children}
@@ -289,7 +392,8 @@ export const TableGroupHeaderRow = ({
             appearance === 'no-background' && 'rounded-sm',
           )}
         >
-          {children}
+          {/* Keeps the label in view when the table scrolls horizontally. */}
+          <span className='sticky start-12'>{children}</span>
         </div>
       </td>
     </tr>
@@ -652,7 +756,8 @@ export const TableLoadingRow = ({
       {...props}
       ref={ref}
       className={cn(
-        'flex h-80 w-full items-center justify-center p-12',
+        // Sticky so the loader stays centered in view when the table scrolls horizontally.
+        'sticky start-0 flex h-80 w-full items-center justify-center p-12',
         className,
       )}
     >

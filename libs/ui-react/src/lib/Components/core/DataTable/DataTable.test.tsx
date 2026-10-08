@@ -262,3 +262,32 @@ describe('DataTableRoot', () => {
     expect(container.firstChild).toHaveClass('mt-8');
   });
 });
+
+describe('DataTable horizontal layout', () => {
+  it('should shrink to the container by default', () => {
+    render(<TestDataTable />);
+
+    expect(screen.getByRole('table')).toHaveClass('max-w-full');
+  });
+
+  it('should forward horizontalLayout and minWidth to the table', () => {
+    const TestComponent = () => {
+      const table = useLumenDataTable({ data: testData, columns: testColumns });
+      return (
+        <DataTableRoot
+          table={table}
+          horizontalLayout={{ base: 'scroll', lg: 'shrink' }}
+          minWidth={960}
+        >
+          <DataTable />
+        </DataTableRoot>
+      );
+    };
+
+    render(<TestComponent />);
+
+    const table = screen.getByRole('table');
+    expect(table).toHaveClass('max-w-none', 'lg:max-w-full');
+    expect(table.style.getPropertyValue('--table-min-width')).toBe('960px');
+  });
+});

@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as TableStories from './Table.stories';
 import {
   CustomTabs,
@@ -47,6 +47,24 @@ Make sure to apply `hideBelow` to matching header and body cells so they stay in
 Long header text should be wrapped into a non-flex element with `truncate` classname.
 
 <Canvas of={TableStories.ResponsiveLayout} />
+
+### Horizontal Layout
+
+By default, the table shrinks to fit its container and cells are truncated (`horizontalLayout='shrink'`).
+
+Set `horizontalLayout='scroll'` on `TableRoot` and a `minWidth` on `Table` to keep columns readable on narrow containers:
+the table fills its container when there is room, and scrolls horizontally once the container is narrower than `minWidth`.
+A fade appears on each edge that still hides content.
+
+<Canvas of={TableStories.WithHorizontalScroll} />
+
+Pass an object keyed by breakpoint to switch behaviour per screen size. It is mobile-first, like Tailwind:
+each breakpoint applies from its min-width upward, and `base` applies below `xs`.
+The example below scrolls on mobile and shrinks from `md` upward.
+
+<Canvas of={TableStories.WithResponsiveHorizontalLayout} />
+
+`horizontalLayout` and `hideBelow` are independent: hidden columns stay hidden in scroll layout.
 
 ### Clickable Rows
 
@@ -104,6 +122,9 @@ description alongside custom trailing content (e.g. a `Tag`).
 
 
 ## Accessibility
+
+When the table overflows horizontally, `TableRoot` becomes focusable so keyboard users can scroll it with the arrow keys.
+Pass an `aria-label` or `aria-labelledby` to `TableRoot` so it is announced as a named region.
 
 To be implemented:
 
@@ -273,6 +294,49 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
   <TableLoadingRow />
 </TableRoot>
 ```
+
+### Horizontal Scroll
+
+Use `horizontalLayout` on `TableRoot` and `minWidth` on `Table`:
+
+<Source of={TableStories.WithHorizontalScroll} />
+
+#### Interaction with `table-layout`
+
+`Table` always uses `table-layout: fixed`, in both layouts. Scroll does not switch to `table-layout: auto`:
+it lets the table grow past its container and applies `minWidth` instead.
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>table-layout</th>
+        <th className='p-12 text-left text-on-accent body-2'>shrink</th>
+        <th className='p-12 text-left text-on-accent body-2'>scroll</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>fixed (Lumen)</td>
+        <td className='p-12 text-muted'>Columns take their `TableCol` widths, the remaining space is split equally and cells truncate.</td>
+        <td className='p-12 text-muted'>The table is at least `minWidth` wide and columns are resolved within it. Widths stay stable while rows load or get sorted.</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>auto</td>
+        <td className='p-12 text-muted'>Truncated cells never wrap, so each column needs its full content width: the table overflows instead of shrinking.</td>
+        <td className='p-12 text-muted'>Columns grow to their content: no truncation, very wide columns for long values (addresses, hashes), and widths that change as rows load.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+Without `minWidth`, a scroll layout behaves like shrink: nothing makes the table wider than its container.
+
+#### Things to know
+
+- **Flex and grid parents**: the container must be allowed to shrink. Add `min-w-0` to the flex item wrapping the table (or use `minmax(0, 1fr)` in a grid), otherwise the page scrolls instead of the table.
+- **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-480`) to scroll both ways with a sticky header.
+- **Overlays in cells**: `TableRoot` clips its content, so menus, tooltips or popovers opened from a cell must be rendered in a portal.
 
 ### Action Bar
 

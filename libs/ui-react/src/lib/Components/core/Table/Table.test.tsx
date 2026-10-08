@@ -54,6 +54,78 @@ describe('Table', () => {
     expect(screen.getByText('Name')).toBeInTheDocument();
     expect(screen.getByText('John')).toBeInTheDocument();
   });
+
+  describe('Horizontal layout', () => {
+    it('should shrink to the container by default', () => {
+      renderTable(<tbody />);
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-fixed', 'max-w-full');
+      expect(table).not.toHaveClass('max-w-none');
+    });
+
+    it('should shrink when rendered without TableRoot', () => {
+      render(
+        <Table>
+          <tbody />
+        </Table>,
+      );
+
+      expect(screen.getByRole('table')).toHaveClass('max-w-full');
+    });
+
+    it('should allow the table to exceed the container in scroll layout', () => {
+      render(
+        <TableRoot horizontalLayout='scroll'>
+          <Table>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('max-w-none', 'min-w-(--table-min-width)');
+      expect(table).not.toHaveClass('max-w-full');
+    });
+
+    it.each([
+      {
+        horizontalLayout: { base: 'scroll', lg: 'shrink' } as const,
+        expected: ['max-w-none', 'lg:max-w-full'],
+      },
+      {
+        horizontalLayout: { md: 'scroll' } as const,
+        expected: ['max-w-full', 'md:max-w-none'],
+      },
+    ])(
+      'should resolve responsive layout $horizontalLayout',
+      ({ horizontalLayout, expected }) => {
+        render(
+          <TableRoot horizontalLayout={horizontalLayout}>
+            <Table>
+              <tbody />
+            </Table>
+          </TableRoot>,
+        );
+
+        expect(screen.getByRole('table')).toHaveClass(...expected);
+      },
+    );
+
+    it('should expose minWidth as a CSS variable', () => {
+      render(
+        <TableRoot horizontalLayout='scroll'>
+          <Table minWidth={960} style={{ color: 'red' }}>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table.style.getPropertyValue('--table-min-width')).toBe('960px');
+      expect(table.style.color).toBe('red');
+    });
+  });
 });
 
 describe('TableRoot', () => {
@@ -84,6 +156,92 @@ describe('TableRoot', () => {
       </TableRoot>,
     );
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it('should call the consumer onScroll', () => {
+    const onScroll = vi.fn();
+    render(
+      <TableRoot
+        data-testid='root'
+        onScroll={onScroll}
+        onScrollBottom={vi.fn()}
+      >
+        <span />
+      </TableRoot>,
+    );
+
+    fireEvent.scroll(screen.getByTestId('root'));
+
+    expect(onScroll).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Horizontal overflow', () => {
+    const overflowHorizontally = (root: HTMLElement): void => {
+      Object.defineProperty(root, 'scrollWidth', {
+        configurable: true,
+        value: 960,
+      });
+      Object.defineProperty(root, 'clientWidth', {
+        configurable: true,
+        value: 400,
+      });
+      fireEvent.scroll(root);
+    };
+
+    it('should not be focusable when content fits', () => {
+      render(
+        <TableRoot data-testid='root' aria-label='Assets'>
+          <span />
+        </TableRoot>,
+      );
+
+      const root = screen.getByTestId('root');
+      expect(root).not.toHaveAttribute('tabindex');
+      expect(root).not.toHaveAttribute('role');
+      expect(root).not.toHaveClass('overscroll-x-contain');
+    });
+
+    it('should become a focusable named region when content overflows', () => {
+      render(
+        <TableRoot data-testid='root' aria-label='Assets'>
+          <span />
+        </TableRoot>,
+      );
+      const root = screen.getByTestId('root');
+
+      overflowHorizontally(root);
+
+      expect(root).toHaveAttribute('tabindex', '0');
+      expect(screen.getByRole('region', { name: 'Assets' })).toBe(root);
+      expect(root).toHaveClass('overscroll-x-contain');
+    });
+
+    it('should not add a region role without an accessible name', () => {
+      render(
+        <TableRoot data-testid='root'>
+          <span />
+        </TableRoot>,
+      );
+      const root = screen.getByTestId('root');
+
+      overflowHorizontally(root);
+
+      expect(root).toHaveAttribute('tabindex', '0');
+      expect(root).not.toHaveAttribute('role');
+    });
+
+    it('should keep the consumer tabIndex', () => {
+      render(
+        <TableRoot data-testid='root' tabIndex={-1}>
+          <span />
+        </TableRoot>,
+      );
+      const root = screen.getByTestId('root');
+
+      overflowHorizontally(root);
+
+      expect(root).toHaveAttribute('tabindex', '-1');
+    });
   });
 });
 

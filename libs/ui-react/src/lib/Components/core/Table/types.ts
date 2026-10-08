@@ -1,5 +1,7 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
-import type { Breakpoints } from '../../../../types';
+import type { Breakpoints, ResponsiveValue } from '../../../../types';
+
+export type TableHorizontalLayout = 'shrink' | 'scroll';
 
 export type TableRootProps = {
   /**
@@ -25,6 +27,14 @@ export type TableRootProps = {
    * Use this while data is being loaded.
    */
   loading?: boolean;
+  /**
+   * How the table handles columns that don't fit the container width: kept within
+   * the container with truncated cells, or kept at the `Table` `minWidth` with a
+   * horizontal scroll. Pass an object keyed by breakpoint (mobile-first) to switch
+   * behaviour responsively, e.g. `{ base: 'scroll', lg: 'shrink' }`.
+   * @default 'shrink'
+   */
+  horizontalLayout?: ResponsiveValue<TableHorizontalLayout>;
 } & ComponentPropsWithRef<'div'>;
 
 export type TableProps = {
@@ -32,6 +42,12 @@ export type TableProps = {
    * The table content (TableHeader, TableBody)
    */
   children: ReactNode;
+  /**
+   * Minimum width of the table in pixels, applied wherever the `TableRoot`
+   * `horizontalLayout` resolves to scroll. Below this width, the container scrolls
+   * horizontally. Ignored in shrink layout.
+   */
+  minWidth?: number;
   /**
    * @optional
    */
@@ -180,8 +196,9 @@ export type TableHeaderRowProps = {
   className?: string;
   /**
    * When true, applies sticky positioning to the header row so it stays
-   * visible while scrolling. Sticks to the nearest scrolling ancestor
-   * (the table container or the page when used inside a scrollable page).
+   * visible while scrolling. Sticks to the `TableRoot` scroll container, not
+   * the page: constrain the `TableRoot` height (e.g. `max-h-480`) for the
+   * header to stick while scrolling vertically.
    * @default true
    */
   stickyHeader?: boolean;

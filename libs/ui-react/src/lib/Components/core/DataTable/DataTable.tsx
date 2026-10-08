@@ -40,6 +40,8 @@ type DataTableContextValue<TData extends RowData = RowData> = {
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
+  horizontalLayout: DataTableRootProps['horizontalLayout'];
+  minWidth: DataTableRootProps['minWidth'];
   onRowClick?: (row: Row<TData>) => void;
   getRowProps: DataTableRootProps<TData>['getRowProps'];
   groupBy?: (row: Row<TData>) => string;
@@ -71,6 +73,8 @@ export const DataTableRoot = <TData extends RowData = RowData>({
   renderGroupHeader,
   hideHeader = false,
   stickyHeader = true,
+  horizontalLayout = 'shrink',
+  minWidth,
   children,
   className,
   ref,
@@ -82,6 +86,8 @@ export const DataTableRoot = <TData extends RowData = RowData>({
         {
           hideHeader,
           stickyHeader,
+          horizontalLayout,
+          minWidth,
           paginationMode,
           table,
           appearance,
@@ -201,6 +207,8 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
     loading,
     onScrollBottom,
     groupBy,
+    horizontalLayout,
+    minWidth,
   } = useDataTableContext({
     consumerName: 'DataTable',
     contextRequired: true,
@@ -212,10 +220,11 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
       appearance={appearance}
       loading={loading}
       onScrollBottom={onScrollBottom}
+      horizontalLayout={horizontalLayout}
       className={className}
       {...props}
     >
-      <Table>
+      <Table minWidth={minWidth}>
         <DataTableColGroup />
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
