@@ -131,8 +131,9 @@ The presets are plain config objects.
 
 - `@shadcn/lint` reads component files with `oxc-parser` or `@typescript-eslint/parser`.
   If neither is installed, it warns once and `no-restyle` gives less precise hints.
-- Using `prettier-plugin-tailwindcss`? Set its `tailwindStylesheet` to your `entryPoint`
-  file, or Prettier and `strict`'s class order will disagree.
+- Sort classes with `strict`'s class-order rule (`--fix`) rather than
+  `prettier-plugin-tailwindcss`. If you keep the Prettier plugin, set its
+  `tailwindStylesheet` to your `entryPoint` file, or the two orders will disagree.
 
 ## Contributing
 
