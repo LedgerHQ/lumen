@@ -29,7 +29,7 @@ mobile-first object keyed by breakpoint.
 Also:
 
 - `hideBelow` uses the `Breakpoint` type from `@ledgerhq/lumen-design-core` and now accepts `2xl`.
-- When it overflows horizontally, `TableRoot` becomes focusable, and becomes a named region when given an `aria-label`.
+- When it overflows horizontally, `TableRoot` shows a thin scrollbar, becomes focusable, and becomes a named region when given an `aria-label`.
 - A consumer `onScroll` on `TableRoot` is now called (it was previously dropped).
 - `onScrollBottom` no longer fires on horizontal-only scrolls.
 - `TableLoadingRow` and the `TableGroupHeaderRow` label stay in view when scrolled horizontally.

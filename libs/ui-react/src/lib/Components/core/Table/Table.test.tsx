@@ -213,7 +213,7 @@ describe('TableRoot', () => {
       fireEvent.scroll(root);
     };
 
-    it('should not be focusable when content fits', () => {
+    it('should hide the scrollbar and not be focusable when content fits', () => {
       render(
         <TableRoot data-testid='root' aria-label='Assets'>
           <span />
@@ -223,10 +223,11 @@ describe('TableRoot', () => {
       const root = screen.getByTestId('root');
       expect(root).not.toHaveAttribute('tabindex');
       expect(root).not.toHaveAttribute('role');
+      expect(root).toHaveClass('scrollbar-none');
       expect(root).not.toHaveClass('overscroll-x-contain');
     });
 
-    it('should become a focusable named region when content overflows', () => {
+    it('should show the scrollbar and become a focusable named region when content overflows', () => {
       render(
         <TableRoot data-testid='root' aria-label='Assets'>
           <span />
@@ -238,7 +239,8 @@ describe('TableRoot', () => {
 
       expect(root).toHaveAttribute('tabindex', '0');
       expect(screen.getByRole('region', { name: 'Assets' })).toBe(root);
-      expect(root).toHaveClass('overscroll-x-contain');
+      expect(root).toHaveClass('scrollbar-custom', 'overscroll-x-contain');
+      expect(root).not.toHaveClass('scrollbar-none');
     });
 
     it('should not add a region role without an accessible name', () => {

@@ -52,6 +52,7 @@ Long header text should be wrapped into a non-flex element with `truncate` class
 
 By default (`{ type: 'shrink' }`), the table fits its container and cells are truncated.
 Set `horizontalLayout` on `TableRoot` to let the table become wider than its container and scroll horizontally instead.
+When it overflows, a thin scrollbar is shown so mouse users without horizontal scrolling can reach the hidden columns.
 `horizontalLayout` and `hideBelow` can be combined: hidden columns stay hidden in scroll layout.
 
 #### With a minimum width
@@ -137,7 +138,7 @@ description alongside custom trailing content (e.g. a `Tag`).
 
 ## Accessibility
 
-When the table overflows horizontally, `TableRoot` becomes focusable so keyboard users can scroll it with the arrow keys.
+When the table overflows horizontally, `TableRoot` shows a scrollbar and becomes focusable, so it can be scrolled with a mouse or with the arrow keys.
 Pass an `aria-label` or `aria-labelledby` to `TableRoot` so it is announced as a named region.
 
 To be implemented:
@@ -377,6 +378,7 @@ it lets the table grow past its container, up to the larger of `minWidth` and th
 
 - **Flex and grid parents**: the container must be allowed to shrink. Add `min-w-0` to the flex item wrapping the table (or use `minmax(0, 1fr)` in a grid), otherwise the page scrolls instead of the table.
 - **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-480`) to scroll both ways with a sticky header.
+- **Scrollbar position**: the horizontal scrollbar sits at the bottom of `TableRoot`. For long tables, constrain the `TableRoot` height so it stays in view.
 - **Overlays in cells**: `TableRoot` clips its content, so menus, tooltips or popovers opened from a cell must be rendered in a portal.
 
 ### Action Bar

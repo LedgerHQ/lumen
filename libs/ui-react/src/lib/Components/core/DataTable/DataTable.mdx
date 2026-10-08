@@ -58,6 +58,7 @@ Note that cells text is automatically truncated when the column is too narrow.
 By default (`{ type: 'shrink' }`), columns fit the container and cells are truncated.
 Set `horizontalLayout` on `DataTableRoot` to let the table become wider than its container and scroll horizontally instead,
 and pass an `aria-label` to `DataTable` so the scrollable region is announced.
+When it overflows, a thin scrollbar is shown so mouse users without horizontal scrolling can reach the hidden columns.
 `horizontalLayout` and `meta.hideBelow` can be combined: hidden columns stay hidden in scroll layout.
 See [Table](?path=/docs/react-table--docs) for how it interacts with `table-layout`.
 

@@ -52,7 +52,7 @@ const [TableProvider, useTableContext] = createSafeContext<{
 }>('Table');
 
 const tableVariants = cva(
-  'relative scrollbar-none w-full max-w-full border-collapse overflow-x-auto rounded-lg',
+  'relative w-full max-w-full border-collapse overflow-x-auto rounded-lg',
   {
     variants: {
       appearance: {
@@ -60,9 +60,11 @@ const tableVariants = cva(
         plain: 'bg-surface',
       },
       overflowing: {
-        // Keeps trackpad swipes from triggering the browser back navigation.
-        true: 'overscroll-x-contain',
-        false: '',
+        // A visible scrollbar lets mouse users without horizontal wheel or
+        // trackpad scrolling reach hidden columns. overscroll-x-contain keeps
+        // trackpad swipes from triggering the browser back navigation.
+        true: 'scrollbar-custom overscroll-x-contain',
+        false: 'scrollbar-none',
       },
     },
   },
