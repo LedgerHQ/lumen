@@ -619,7 +619,7 @@ export const WithStickyBodyContent: Story = {
         />
         <DialogBody>
           <div className='-mx-8 flex flex-col gap-4'>
-            <DialogBodyStickyContent className='bg-canvas'>
+            <DialogBodyStickyContent>
               <SearchInput className='mx-8' placeholder='Search item...' />
             </DialogBodyStickyContent>
             {Array.from({ length: 12 }).map((_, i) => (
