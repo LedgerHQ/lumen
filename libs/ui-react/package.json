@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-ui-react",
-  "version": "0.1.62",
+  "version": "0.1.63",
   "license": "Apache-2.0",
   "sideEffects": false,
   "keywords": [
@@ -47,7 +47,7 @@
     ]
   },
   "dependencies": {
-    "@ledgerhq/lumen-utils-shared": "0.1.15",
+    "@ledgerhq/lumen-utils-shared": "0.1.16",
     "@types/d3-scale": "^4.0.9",
     "@types/d3-shape": "^3.1.8",
     "d3-scale": "^4.0.2",
