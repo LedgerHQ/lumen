@@ -23,10 +23,18 @@ export type SwitchProps = {
    */
   name?: string;
   /**
-   * Whether the switch must be on before the enclosing form can be submitted.
+   * The disabled state of the switch.
+   * @default false
    */
-  required?: boolean;
-} & Omit<
+  disabled?: boolean;
+} & Pick<
   ComponentPropsWithRef<'button'>,
-  'onChange' | 'children' | 'role' | 'type' | 'name'
+  | 'ref'
+  | 'id'
+  | 'className'
+  | 'tabIndex'
+  | 'aria-label'
+  | 'aria-labelledby'
+  | 'aria-describedby'
+  | 'aria-hidden'
 >;

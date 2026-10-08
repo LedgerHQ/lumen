@@ -66,10 +66,6 @@ export const Switch = ({
   size = 'md',
   disabled: disabledProp,
   name,
-  value = 'on',
-  required,
-  form,
-  onClick,
   ...props
 }: SwitchProps) => {
   const disabled = useDisabledContext({
@@ -89,19 +85,11 @@ export const Switch = ({
         type='button'
         role='switch'
         aria-checked={checked}
-        aria-required={required}
         data-state={checked ? 'checked' : 'unchecked'}
         data-disabled={disabled ? '' : undefined}
         disabled={disabled}
-        value={value}
-        form={form}
         className={cn(switchVariants({ size }), className)}
-        onClick={(event) => {
-          onClick?.(event);
-          if (!event.defaultPrevented) {
-            setChecked(!checked);
-          }
-        }}
+        onClick={() => setChecked(!checked)}
         {...props}
       >
         <span
@@ -116,10 +104,8 @@ export const Switch = ({
           aria-hidden
           tabIndex={-1}
           name={name}
-          form={form}
-          value={value}
+          value='on'
           checked={checked}
-          required={required}
           disabled={disabled}
           readOnly
           className='sr-only'
