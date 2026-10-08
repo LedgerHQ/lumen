@@ -241,7 +241,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='w-3xl text-base'>
+      <div className='mx-auto w-3xl max-w-full text-base'>
         <Story />
       </div>
     ),
@@ -680,12 +680,18 @@ export const WithHorizontalScroll: Story = {
   args: {
     horizontalLayout: { type: 'scroll', minWidth: 1024 },
   },
+  parameters: {
+    layout: 'padded',
+  },
   render: (args) => <HorizontalScrollDataTable {...args} />,
 };
 
 export const WithHorizontalScrollFromColumnWidths: Story = {
   args: {
     horizontalLayout: { type: 'scroll' },
+  },
+  parameters: {
+    layout: 'padded',
   },
   render: (args) => <HorizontalScrollDataTable {...args} withColumnWidths />,
 };
@@ -698,6 +704,7 @@ export const WithResponsiveHorizontalScroll: Story = {
     },
   },
   parameters: {
+    layout: 'padded',
     chromatic: { viewports: [800, 1280] },
     viewport: { defaultViewport: 'tablet' },
   },

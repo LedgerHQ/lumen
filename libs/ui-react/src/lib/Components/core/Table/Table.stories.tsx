@@ -340,8 +340,11 @@ export const WithHorizontalScroll: Story = {
   args: {
     horizontalLayout: { type: 'scroll', minWidth: 960 },
   },
+  parameters: {
+    layout: 'padded',
+  },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='mx-auto w-3xl max-w-full text-base'>
       <TableRoot {...args} aria-label='Assets' className='max-h-208'>
         <HorizontalScrollTable />
       </TableRoot>
@@ -353,8 +356,11 @@ export const WithHorizontalScrollFromColumnWidths: Story = {
   args: {
     horizontalLayout: { type: 'scroll' },
   },
+  parameters: {
+    layout: 'padded',
+  },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='mx-auto w-3xl max-w-full text-base'>
       <TableRoot {...args} aria-label='Assets' className='max-h-208'>
         <HorizontalScrollTable withColumnWidths />
       </TableRoot>
@@ -370,11 +376,12 @@ export const WithResponsiveHorizontalScroll: Story = {
     },
   },
   parameters: {
+    layout: 'padded',
     chromatic: { viewports: [800, 1280] },
     viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='mx-auto w-3xl max-w-full text-base'>
       <TableRoot {...args} aria-label='Assets' className='max-h-208'>
         <HorizontalScrollTable />
       </TableRoot>
