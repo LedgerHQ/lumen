@@ -48,7 +48,7 @@ Includes small and large sizes.
 
 ## Accessibility
 
-- Switches automatically include proper ARIA attributes via Radix UI
+- Switches automatically include proper ARIA attributes on the underlying `button`
 - Provide descriptive labels for screen readers
 - Ensure sufficient color contrast in all states
 - Support keyboard navigation (Space or Enter to toggle)
@@ -57,12 +57,10 @@ Includes small and large sizes.
 <Tab label="Implementation">
 
 ```bash
-npm install @ledgerhq/lumen-ui-react @radix-ui/react-switch
+npm install @ledgerhq/lumen-ui-react
 ```
 
 <SetupNote />
-
-The `@radix-ui/react-switch` dependency provides accessible switch functionality with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
 
@@ -137,7 +135,6 @@ The Switch component automatically supports:
 
 - **Tab**: Navigate to the Switch
 - **Space** or **Enter**: Switch selected/unselected state
-
 
 </Tab>
 </CustomTabs>

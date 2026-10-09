@@ -1,4 +1,3 @@
-import type * as SwitchPrimitive from '@radix-ui/react-switch';
 import type { ComponentPropsWithRef } from 'react';
 
 export type SwitchProps = {
@@ -19,7 +18,19 @@ export type SwitchProps = {
    * @default 'md'
    */
   size?: 'sm' | 'md';
-} & Omit<
-  ComponentPropsWithRef<typeof SwitchPrimitive.Root>,
-  'onChange' | 'checked' | 'defaultChecked' | 'onCheckedChange'
+  /**
+   * The disabled state of the switch.
+   * @default false
+   */
+  disabled?: boolean;
+} & Pick<
+  ComponentPropsWithRef<'button'>,
+  | 'ref'
+  | 'id'
+  | 'className'
+  | 'tabIndex'
+  | 'aria-label'
+  | 'aria-labelledby'
+  | 'aria-describedby'
+  | 'aria-hidden'
 >;

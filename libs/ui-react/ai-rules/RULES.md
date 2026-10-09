@@ -41,7 +41,6 @@ This project can lint these rules with `@ledgerhq/lumen-lint-plugin` (ESLint or 
 
 - Button requires `@radix-ui/react-slot`
 - Checkbox requires `@radix-ui/react-checkbox`
-- Switch requires `@radix-ui/react-switch`
 - Dialog requires `@radix-ui/react-dialog`
 - Tooltip requires `@radix-ui/react-tooltip`
 - Select requires `@base-ui/react/combobox`
