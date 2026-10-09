@@ -231,11 +231,11 @@ export const AppearanceShowcase: Story = {
 
 export const ResponsiveLayout: Story = {
   parameters: {
+    layout: 'padded',
     chromatic: { viewports: [800, 1280] },
-    viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='mx-auto w-3xl max-w-full text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -378,7 +378,6 @@ export const WithResponsiveHorizontalScroll: Story = {
   parameters: {
     layout: 'padded',
     chromatic: { viewports: [800, 1280] },
-    viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => (
     <div className='mx-auto w-3xl max-w-full text-base'>

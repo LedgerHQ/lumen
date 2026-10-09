@@ -706,7 +706,6 @@ export const WithResponsiveHorizontalScroll: Story = {
   parameters: {
     layout: 'padded',
     chromatic: { viewports: [800, 1280] },
-    viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => <HorizontalScrollDataTable {...args} />,
 };
