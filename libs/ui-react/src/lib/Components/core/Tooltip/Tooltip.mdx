@@ -120,18 +120,18 @@ function MyComponent() {
 ### Placement with Directional Animations
 
 ```tsx
-// Each placement has its own directional animation
+// Content slides out of the trigger, following the rendered side
 <Tooltip>
   <TooltipTrigger>Hover</TooltipTrigger>
   <TooltipContent side="right">
-    Slides in from the right
+    Slides right from the trigger
   </TooltipContent>
 </Tooltip>
 
 <Tooltip>
   <TooltipTrigger>Hover</TooltipTrigger>
   <TooltipContent side="top">
-    Slides in from the top
+    Slides up from the trigger
   </TooltipContent>
 </Tooltip>
 ```
