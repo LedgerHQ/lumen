@@ -198,7 +198,7 @@ export const Base: Story = {
 export const AppearanceShowcase: Story = {
   render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
-      <div className='w-400'>
+      <div className='w-3xl'>
         <TableRoot {...args} appearance={appearance}>
           <Table>
             <TableHeader>
