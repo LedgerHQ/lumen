@@ -4,6 +4,7 @@ import { tokens as ledgerLiveDarkThemeTokens } from './ledger-live/theme.dark-cs
 import { tokens as ledgerLiveLightThemeTokens } from './ledger-live/theme.light-css';
 
 import { tokens as primitivesTokens } from './primitives-css';
+import { tokens as typography2xlTokens } from './typographies/typography.2xl-css';
 import { tokens as typographyLgTokens } from './typographies/typography.lg-css';
 import { tokens as typographyMdTokens } from './typographies/typography.md-css';
 import { tokens as typographySmTokens } from './typographies/typography.sm-css';
@@ -16,10 +17,13 @@ export const primitivesTheme = {
   ':root': {
     ...primitivesTokens[':root'],
     ...typographyXsTokens[':root'],
+    // Ascending order: the media queries all match on wide screens, so the
+    // largest breakpoint must come last to win the cascade.
     ...typographySmTokens,
-    ...typographyLgTokens,
     ...typographyMdTokens,
+    ...typographyLgTokens,
     ...typographyXlTokens,
+    ...typography2xlTokens,
   },
 };
 

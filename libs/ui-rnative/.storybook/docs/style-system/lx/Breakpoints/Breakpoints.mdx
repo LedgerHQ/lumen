@@ -1,0 +1,39 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import * as breakpoints from './Breakpoints.stories';
+import { BreakpointTable } from './BreakpointTable';
+
+<Meta title='Style System/Theme/Breakpoints' of={breakpoints} />
+
+# Breakpoints
+
+Breakpoints are the screen widths at which a layout adapts. They are defined once in `@ledgerhq/lumen-design-core` and shared with the web Tailwind preset, so a breakpoint means the same width on both platforms.
+
+## Breakpoint Values
+
+Breakpoints are accessed through `theme.breakpoints.*`. Values are numbers in density-independent pixels, the same unit as `width` and `height` in React Native.
+
+<BreakpointTable />
+
+## Usage
+
+`lx` doesn't accept per-breakpoint values, so compare the window width with a breakpoint yourself:
+
+```tsx
+import { useWindowDimensions } from 'react-native';
+import { Box } from '@ledgerhq/lumen-ui-rnative';
+import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
+
+const Layout = ({ children }) => {
+  const { width } = useWindowDimensions();
+  const { theme } = useTheme();
+  const isWide = width >= theme.breakpoints.md;
+
+  return (
+    <Box lx={{ flexDirection: isWide ? 'row' : 'column', gap: 's16' }}>
+      {children}
+    </Box>
+  );
+};
+```
+
+Use `useWindowDimensions` rather than `Dimensions.get` so the layout updates when the window is resized or the device rotates.
