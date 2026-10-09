@@ -1,5 +1,21 @@
+import type { Breakpoint, ResponsiveValue } from '@ledgerhq/lumen-design-core';
 import type { ComponentPropsWithRef, ReactNode } from 'react';
-import type { Breakpoints } from '../../../../types';
+
+export type TableHorizontalLayout =
+  | {
+      type: 'shrink';
+    }
+  | {
+      type: 'scroll';
+      /**
+       * Minimum width of the table in pixels. Below this width, the container
+       * scrolls horizontally. When omitted, the table is as wide as the sum of
+       * its column widths: every column then needs an explicit width, otherwise
+       * columns without one collapse when the table overflows.
+       * @default undefined
+       */
+      minWidth?: number;
+    };
 
 export type TableRootProps = {
   /**
@@ -25,6 +41,15 @@ export type TableRootProps = {
    * Use this while data is being loaded.
    */
   loading?: boolean;
+  /**
+   * How the table handles columns that don't fit the container width: kept within
+   * the container with truncated cells, or wider than the container (at least
+   * `minWidth`, or the sum of the column widths) with a horizontal scroll.
+   * Pass an object keyed by breakpoint (mobile-first) to switch behaviour
+   * responsively, e.g. `{ base: { type: 'scroll', minWidth: 960 }, lg: { type: 'shrink' } }`.
+   * @default { type: 'shrink' }
+   */
+  horizontalLayout?: ResponsiveValue<TableHorizontalLayout>;
 } & ComponentPropsWithRef<'div'>;
 
 export type TableProps = {
@@ -85,7 +110,7 @@ export type TableCellProps = {
    * Hides this table header cell when the screen width is below the specified breakpoint.
    * Use this to responsively show or hide columns at certain viewport sizes.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * The cell content
    */
@@ -180,8 +205,9 @@ export type TableHeaderRowProps = {
   className?: string;
   /**
    * When true, applies sticky positioning to the header row so it stays
-   * visible while scrolling. Sticks to the nearest scrolling ancestor
-   * (the table container or the page when used inside a scrollable page).
+   * visible while scrolling. Sticks to the `TableRoot` scroll container, not
+   * the page: constrain the `TableRoot` height (e.g. `max-h-480`) for the
+   * header to stick while scrolling vertically.
    * @default true
    */
   stickyHeader?: boolean;
@@ -208,7 +234,7 @@ export type TableHeaderCellProps = {
    * Hides this table header cell when the screen width is below the specified breakpoint.
    * Use this to responsively show or hide columns at certain viewport sizes.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * The header cell content. Use TableSortButton for sortable columns; other children are trailing content.
    */
@@ -299,7 +325,7 @@ export type TableColProps = {
    * column is fully removed responsively while keeping its fixed width above
    * the breakpoint.
    */
-  hideBelow?: Breakpoints;
+  hideBelow?: Breakpoint;
   /**
    * @optional
    */

@@ -28,6 +28,7 @@ import {
   DataTable,
   DataTableGlobalSearchInput,
 } from './DataTable';
+import type { DataTableRootProps } from './types';
 import { useLumenDataTable } from './useLumenDataTable/useLumenDataTable';
 
 type CryptoAsset = {
@@ -240,7 +241,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='w-3xl text-base'>
+      <div className='mx-auto w-3xl max-w-full text-base'>
         <Story />
       </div>
     ),
@@ -611,6 +612,102 @@ export const WithGroupHeader: Story = {
       </DataTableRoot>
     );
   },
+};
+
+const HorizontalScrollDataTable = ({
+  appearance,
+  horizontalLayout,
+  withColumnWidths = false,
+}: Pick<DataTableRootProps, 'appearance' | 'horizontalLayout'> & {
+  withColumnWidths?: boolean;
+}) => {
+  const table = useLumenDataTable({
+    data: largeData,
+    columns: [
+      {
+        accessorKey: 'name',
+        header: 'Asset',
+        cell: ({ row }) => (
+          <TableCellItem>
+            <Spot icon={Android} />
+            <TableCellContent>
+              <TableCellContentTitle>{row.original.name}</TableCellContentTitle>
+              <TableCellContentDescription>
+                {row.original.symbol}
+              </TableCellContentDescription>
+            </TableCellContent>
+          </TableCellItem>
+        ),
+        meta: { className: withColumnWidths ? 'w-288' : 'w-224' },
+      },
+      {
+        accessorKey: 'category',
+        header: 'Category',
+        meta: { className: withColumnWidths ? 'w-224' : undefined },
+      },
+      {
+        accessorKey: 'price',
+        header: 'Price',
+        meta: {
+          align: 'end',
+          className: withColumnWidths ? 'w-192' : undefined,
+        },
+      },
+      {
+        accessorKey: 'change',
+        header: '24h change',
+        meta: {
+          align: 'end',
+          className: withColumnWidths ? 'w-192' : undefined,
+        },
+      },
+    ],
+  });
+
+  return (
+    <DataTableRoot
+      table={table}
+      appearance={appearance}
+      horizontalLayout={horizontalLayout}
+      groupBy={(row) => row.original.category}
+    >
+      <DataTable className='max-h-320' aria-label='Assets' />
+    </DataTableRoot>
+  );
+};
+
+export const WithHorizontalScroll: Story = {
+  args: {
+    horizontalLayout: { type: 'scroll', minWidth: 1024 },
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: (args) => <HorizontalScrollDataTable {...args} />,
+};
+
+export const WithHorizontalScrollFromColumnWidths: Story = {
+  args: {
+    horizontalLayout: { type: 'scroll' },
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: (args) => <HorizontalScrollDataTable {...args} withColumnWidths />,
+};
+
+export const WithResponsiveHorizontalScroll: Story = {
+  args: {
+    horizontalLayout: {
+      base: { type: 'scroll', minWidth: 1024 },
+      lg: { type: 'shrink' },
+    },
+  },
+  parameters: {
+    layout: 'padded',
+    chromatic: { viewports: [800, 1280] },
+  },
+  render: (args) => <HorizontalScrollDataTable {...args} />,
 };
 
 export const WithCustomHeader: Story = {

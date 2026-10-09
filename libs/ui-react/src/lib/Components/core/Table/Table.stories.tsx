@@ -22,6 +22,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '../Tooltip';
 import {
   TableRoot,
   Table,
+  TableColGroup,
+  TableCol,
   TableBody,
   TableRow,
   TableCell,
@@ -103,6 +105,9 @@ const meta = {
       table: {
         defaultValue: { summary: 'false' },
       },
+    },
+    horizontalLayout: {
+      control: 'object',
     },
   },
   parameters: {
@@ -193,7 +198,7 @@ export const Base: Story = {
 export const AppearanceShowcase: Story = {
   render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
-      <div className='w-400'>
+      <div className='w-3xl'>
         <TableRoot {...args} appearance={appearance}>
           <Table>
             <TableHeader>
@@ -216,7 +221,7 @@ export const AppearanceShowcase: Story = {
     );
 
     return (
-      <div className='flex gap-24 text-base'>
+      <div className='flex flex-col gap-24 text-base'>
         {table('no-background')}
         {table('plain')}
       </div>
@@ -226,11 +231,11 @@ export const AppearanceShowcase: Story = {
 
 export const ResponsiveLayout: Story = {
   parameters: {
+    layout: 'padded',
     chromatic: { viewports: [800, 1280] },
-    viewport: { defaultViewport: 'tablet' },
   },
   render: (args) => (
-    <div className='w-3xl text-base'>
+    <div className='mx-auto w-3xl max-w-full text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -272,6 +277,112 @@ export const ResponsiveLayout: Story = {
             ))}
           </TableBody>
         </Table>
+      </TableRoot>
+    </div>
+  ),
+};
+
+const horizontalScrollColumns = [
+  { header: 'Asset', align: 'start', width: 'w-256' },
+  { header: 'Price', align: 'end', width: 'w-176' },
+  { header: '24h change', align: 'end', width: 'w-176' },
+  { header: 'Market cap', align: 'end', width: 'w-176' },
+  { header: 'Volume', align: 'end', width: 'w-176' },
+] as const;
+
+const HorizontalScrollTable = ({
+  withColumnWidths = false,
+}: {
+  withColumnWidths?: boolean;
+}) => (
+  <Table>
+    {withColumnWidths && (
+      <TableColGroup>
+        {horizontalScrollColumns.map((column) => (
+          <TableCol key={column.header} className={column.width} />
+        ))}
+      </TableColGroup>
+    )}
+    <TableHeader>
+      <TableHeaderRow>
+        {horizontalScrollColumns.map((column) => (
+          <TableHeaderCell key={column.header} align={column.align}>
+            {column.header}
+          </TableHeaderCell>
+        ))}
+      </TableHeaderRow>
+    </TableHeader>
+    <TableBody>
+      {largeData.map((row) => (
+        <TableRow key={row.symbol}>
+          <TableCell>
+            <TableCellItem>
+              <Spot size={40} icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          </TableCell>
+          <TableCell align='end'>{row.price}</TableCell>
+          <TableCell align='end'>{row.change}</TableCell>
+          <TableCell align='end'>$1.2B</TableCell>
+          <TableCell align='end'>$320M</TableCell>
+        </TableRow>
+      ))}
+    </TableBody>
+  </Table>
+);
+
+export const WithHorizontalScroll: Story = {
+  args: {
+    horizontalLayout: { type: 'scroll', minWidth: 960 },
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: (args) => (
+    <div className='mx-auto w-3xl max-w-full text-base'>
+      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
+        <HorizontalScrollTable />
+      </TableRoot>
+    </div>
+  ),
+};
+
+export const WithHorizontalScrollFromColumnWidths: Story = {
+  args: {
+    horizontalLayout: { type: 'scroll' },
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: (args) => (
+    <div className='mx-auto w-3xl max-w-full text-base'>
+      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
+        <HorizontalScrollTable withColumnWidths />
+      </TableRoot>
+    </div>
+  ),
+};
+
+export const WithResponsiveHorizontalScroll: Story = {
+  args: {
+    horizontalLayout: {
+      base: { type: 'scroll', minWidth: 960 },
+      lg: { type: 'shrink' },
+    },
+  },
+  parameters: {
+    layout: 'padded',
+    chromatic: { viewports: [800, 1280] },
+  },
+  render: (args) => (
+    <div className='mx-auto w-3xl max-w-full text-base'>
+      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
+        <HorizontalScrollTable />
       </TableRoot>
     </div>
   ),
