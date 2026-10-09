@@ -16,7 +16,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -55,22 +55,6 @@ export const Basic: Story = {
       </Tooltip>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Tooltip>
-  <TooltipTrigger asChild>
-    <Button>Hover me</Button>
-  </TooltipTrigger>
-  <TooltipContent>
-    This is a basic tooltip
-  </TooltipContent>
-</Tooltip>
-        `,
-      },
-    },
-  },
 };
 
 export const AnimatedPlacements: Story = {
@@ -86,7 +70,7 @@ export const AnimatedPlacements: Story = {
                 <Button>Hover</Button>
               </TooltipTrigger>
               <TooltipContent side={placement}>
-                Slides in from {placement}
+                Slides out of the trigger
               </TooltipContent>
             </Tooltip>
           </div>
@@ -98,7 +82,7 @@ export const AnimatedPlacements: Story = {
     docs: {
       description: {
         story:
-          'Each placement has its own directional slide animation that matches the tooltip position.',
+          'The tooltip slides out of its trigger, following the side it is rendered on.',
       },
     },
   },
@@ -125,9 +109,8 @@ export const LongContent: Story = {
           <Button>Hover for details</Button>
         </TooltipTrigger>
         <TooltipContent>
-          This is a longer tooltip content that demonstrates smooth animations
-          even with multi-line content. The tooltip slides in and out based on
-          its placement.
+          This is a longer tooltip content that wraps onto multiple lines once
+          it reaches the maximum width. It still slides out of its trigger.
         </TooltipContent>
       </Tooltip>
     </div>
