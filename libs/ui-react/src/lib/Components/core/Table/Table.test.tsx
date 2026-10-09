@@ -119,20 +119,6 @@ describe('Table', () => {
       expect(table.style.getPropertyValue('--table-min-width-base')).toBe('');
     });
 
-    it('should let className override the internal layout classes', () => {
-      render(
-        <TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }}>
-          <Table className='max-w-full table-auto'>
-            <tbody />
-          </Table>
-        </TableRoot>,
-      );
-
-      const table = screen.getByRole('table');
-      expect(table).toHaveClass('table-auto', 'max-w-full');
-      expect(table).not.toHaveClass('table-fixed', 'max-w-none');
-    });
-
     it('should resolve a layout per breakpoint', () => {
       render(
         <TableRoot

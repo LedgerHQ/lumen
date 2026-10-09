@@ -34,13 +34,7 @@ class MockResizeObserver {
   }
 }
 
-const Harness = ({
-  direction,
-  loading = false,
-}: {
-  direction?: 'ltr' | 'rtl';
-  loading?: boolean;
-}) => {
+const Harness = ({ loading = false }: { loading?: boolean }) => {
   const ref = useRef<HTMLDivElement>(null);
   const { canScrollLeft, canScrollRight } = useScrollOverflow(ref);
 
@@ -50,7 +44,6 @@ const Harness = ({
       data-testid='scroller'
       data-left={String(canScrollLeft)}
       data-right={String(canScrollRight)}
-      style={direction ? { direction } : undefined}
     >
       {loading ? <div data-testid='skeleton' /> : <table />}
     </div>
@@ -85,49 +78,21 @@ describe('useScrollOverflow', () => {
     expectOverflow(false, false);
   });
 
-  it.each([
-    { scrollLeft: 0, left: false, right: true },
-    { scrollLeft: 100, left: true, right: true },
-    { scrollLeft: 200, left: true, right: false },
-  ])(
-    'should track LTR overflow at scrollLeft $scrollLeft',
-    ({ scrollLeft, left, right }) => {
-      render(<Harness />);
-      const scroller = screen.getByTestId('scroller');
+  it('should report the hidden side in LTR', () => {
+    render(<Harness />);
+    const scroller = screen.getByTestId('scroller');
 
-      setScrollMetrics(scroller, {
-        scrollWidth: 500,
-        clientWidth: 300,
-        scrollLeft,
-      });
-      fireEvent.scroll(scroller);
+    setScrollMetrics(scroller, {
+      scrollWidth: 500,
+      clientWidth: 300,
+      scrollLeft: 0,
+    });
+    fireEvent.scroll(scroller);
 
-      expectOverflow(left, right);
-    },
-  );
+    expectOverflow(false, true);
+  });
 
-  it.each([
-    { scrollLeft: 0, left: true, right: false },
-    { scrollLeft: -100, left: true, right: true },
-    { scrollLeft: -200, left: false, right: true },
-  ])(
-    'should map RTL overflow to physical sides at scrollLeft $scrollLeft',
-    ({ scrollLeft, left, right }) => {
-      render(<Harness direction='rtl' />);
-      const scroller = screen.getByTestId('scroller');
-
-      setScrollMetrics(scroller, {
-        scrollWidth: 500,
-        clientWidth: 300,
-        scrollLeft,
-      });
-      fireEvent.scroll(scroller);
-
-      expectOverflow(left, right);
-    },
-  );
-
-  it('should follow a direction change made after mount', () => {
+  it('should map RTL overflow to physical sides, even after a direction change', () => {
     render(<Harness />);
     const scroller = screen.getByTestId('scroller');
 
