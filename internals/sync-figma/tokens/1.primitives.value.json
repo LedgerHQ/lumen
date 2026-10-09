@@ -10998,9 +10998,7 @@
           "scopes": [
             "WIDTH_HEIGHT"
           ],
-          "codeSyntax": {
-            "WEB": "size/2XL"
-          }
+          "codeSyntax": {}
         }
       }
     },
