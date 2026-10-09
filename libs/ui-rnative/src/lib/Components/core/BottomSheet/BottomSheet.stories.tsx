@@ -132,7 +132,7 @@ export const Base: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -180,7 +180,7 @@ export const BaseOpen: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -227,7 +227,7 @@ export const TitleExpanded: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -273,7 +273,7 @@ export const DynamicSizingWithoutSnapPoints: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -315,7 +315,7 @@ export const DynamicSizingWithSnapPoints: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -359,7 +359,7 @@ export const PreventClose: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -402,7 +402,7 @@ export const ScrollView: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -459,7 +459,7 @@ export const VirtualList: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -535,7 +535,7 @@ export const StickyHeaderContent: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -661,7 +661,7 @@ export const VirtualizedList: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -737,7 +737,7 @@ const createGradientBackground =
           top: 's0',
           left: 's0',
           right: 's0',
-          height: 's320',
+          height: 'sXs',
         }}
       />
     </Box>
@@ -769,7 +769,7 @@ export const InfoStateVariants: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -903,7 +903,7 @@ export const WithFooter: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',
@@ -957,7 +957,7 @@ export const WithMenuList: Story = {
     return (
       <Box
         lx={{
-          height: 's320',
+          height: 'sXs',
           width: 'full',
           alignItems: 'center',
           justifyContent: 'center',

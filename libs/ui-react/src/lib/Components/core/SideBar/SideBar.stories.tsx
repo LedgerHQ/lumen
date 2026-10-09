@@ -86,7 +86,7 @@ export const Base: Story = {
     return (
       <div>
         <SideBar
-          className='h-560'
+          className='h-xl'
           {...args}
           active={active}
           onActiveChange={setActive}
@@ -137,7 +137,7 @@ export const CollapsedShowcase: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <div className='flex h-480 gap-32'>
+    <div className='flex h-lg gap-32'>
       <div>
         <div className='mb-8 body-3 text-muted'>Expanded</div>
         <SideBar
@@ -220,7 +220,7 @@ export const WithCustomLabel: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <div className='h-480'>
+    <div className='h-lg'>
       <SideBar defaultActive='home'>
         <SideBarLeading>
           <SideBarItem
@@ -273,7 +273,7 @@ export const WithDisabledItem: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <div className='h-480'>
+    <div className='h-lg'>
       <SideBar defaultActive='home'>
         <SideBarLeading>
           <SideBarItem
@@ -330,7 +330,7 @@ export const ControlledState: Story = {
             {collapsed ? 'Expand' : 'Collapse'}
           </Button>
         </div>
-        <div className='h-400'>
+        <div className='h-md'>
           <SideBar
             collapsed={collapsed}
             onCollapsedChange={setCollapsed}
@@ -378,7 +378,7 @@ export const ManyItems: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <div className='h-320'>
+    <div className='h-xs'>
       <SideBar defaultActive='home'>
         <SideBarLeading>
           <SideBarItem

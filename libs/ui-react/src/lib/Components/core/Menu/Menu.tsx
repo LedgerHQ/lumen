@@ -30,7 +30,7 @@ import type {
 
 const contentStyles = cva(
   [
-    'min-w-160 overflow-hidden rounded-sm bg-muted p-8',
+    'min-w-176 overflow-hidden rounded-sm bg-muted p-8',
     'shadow-sm outline-none',
   ],
   {

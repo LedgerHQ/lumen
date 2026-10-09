@@ -93,7 +93,7 @@ export const OrientationShowcase: Story = {
 
 export const InList: Story = {
   render: () => (
-    <div className='flex w-full max-w-400 flex-col rounded-lg border border-muted bg-canvas'>
+    <div className='flex w-full max-w-md flex-col rounded-lg border border-muted bg-canvas'>
       <div className='flex items-center justify-between p-16'>
         <span className='body-2 text-base'>Item 1</span>
         <span className='body-3 text-muted'>$100</span>

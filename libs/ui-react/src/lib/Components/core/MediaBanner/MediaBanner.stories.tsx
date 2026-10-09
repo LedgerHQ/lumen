@@ -51,7 +51,7 @@ export const Base: Story = {
     imageUrl: IMAGE_URL,
   },
   render: (args) => (
-    <div className='w-400'>
+    <div className='w-md'>
       <MediaBanner {...args}>
         <MediaBannerTitle>Firmware Update</MediaBannerTitle>
         <MediaBannerDescription>Keep your Nano updated!</MediaBannerDescription>
@@ -62,7 +62,7 @@ export const Base: Story = {
 
 export const Truncation: Story = {
   render: () => (
-    <div className='w-400'>
+    <div className='w-md'>
       <MediaBanner imageUrl={IMAGE_URL} onClose={() => console.log('close')}>
         <MediaBannerTitle>
           Earn Up to 12% APY With Staking Now And Much More Rewards Awaiting You
@@ -79,7 +79,7 @@ export const Truncation: Story = {
 
 export const WithBrokenImage: Story = {
   render: () => (
-    <div className='w-400'>
+    <div className='w-md'>
       <MediaBanner
         imageUrl='https://broken-url.invalid/image.jpg'
         onClose={() => console.log('close')}
@@ -98,7 +98,7 @@ export const Clickable: Story = {
     const [count, setCount] = useState(0);
 
     return (
-      <div className='flex w-400 flex-col gap-8'>
+      <div className='flex w-md flex-col gap-8'>
         <MediaBanner
           imageUrl={IMAGE_URL}
           onClick={() => setCount((c) => c + 1)}
@@ -132,7 +132,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <div className='w-400'>
+      <div className='w-md'>
         <MediaBanner imageUrl={IMAGE_URL} onClose={() => setVisible(false)}>
           <MediaBannerTitle>
             Earn Up to 12% APY With Staking Now!

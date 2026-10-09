@@ -127,7 +127,7 @@ export type PopoverContentProps = {
   /**
    * The width behavior of the popover content panel.
    * - `'fit'`: Content-fit width (default), define custom width with the `className` prop
-   * - `'fixed'`: Always exactly 400px width
+   * - `'fixed'`: Always exactly 448px width
    *
    * @default 'fit'
    */

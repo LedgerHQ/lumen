@@ -116,7 +116,7 @@ export const WithChildren: Story = {
     lx: {
       padding: 's24',
       borderRadius: 'lg',
-      width: 's288',
+      width: 's2Xs',
       borderColor: 'active',
       borderWidth: 's1',
     },

@@ -69,7 +69,7 @@ Pass `onScrollBottom` to `TableRoot` to fire a callback when the user scrolls ne
 Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicate calls.  
 
 Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
-A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
+A fixed height on `TableRoot` (e.g. `className="h-lg"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />
 
@@ -263,7 +263,7 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
 
 ```tsx
 <TableRoot
-  className='h-480'
+  className='h-lg'
   loading={loading}
   onScrollBottom={loadMore}
 >

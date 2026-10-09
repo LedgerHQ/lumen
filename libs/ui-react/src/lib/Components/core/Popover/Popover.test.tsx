@@ -158,7 +158,7 @@ describe('Popover', () => {
     await waitFor(() => {
       const popup = document.querySelector('[data-slot="popover-content"]');
       expect(popup).toBeInTheDocument();
-      expect(popup).toHaveClass('w-400');
+      expect(popup).toHaveClass('w-md');
     });
   });
 
@@ -169,7 +169,7 @@ describe('Popover', () => {
         <PopoverTrigger
           render={<Button appearance='gray'>Open Popover</Button>}
         />
-        <PopoverContent className='w-256'>
+        <PopoverContent className='w-3xs'>
           <p>Fit Width Content</p>
         </PopoverContent>
       </Popover>,
@@ -180,7 +180,7 @@ describe('Popover', () => {
     await waitFor(() => {
       const popup = document.querySelector('[data-slot="popover-content"]');
       expect(popup).toBeInTheDocument();
-      expect(popup).toHaveClass('w-256');
+      expect(popup).toHaveClass('w-3xs');
     });
   });
 
@@ -191,7 +191,7 @@ describe('Popover', () => {
         <PopoverTrigger
           render={<Button appearance='gray'>Open Popover</Button>}
         />
-        <PopoverContent className='min-w-320'>
+        <PopoverContent className='min-w-xs'>
           <p>Custom Class</p>
         </PopoverContent>
       </Popover>,
@@ -201,7 +201,7 @@ describe('Popover', () => {
 
     await waitFor(() => {
       const popup = document.querySelector('[data-slot="popover-content"]');
-      expect(popup).toHaveClass('min-w-320');
+      expect(popup).toHaveClass('min-w-xs');
     });
   });
 

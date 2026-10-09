@@ -75,8 +75,8 @@ describe('Card', () => {
   });
 
   it('applies custom className', () => {
-    renderCard({ className: 'w-320' });
-    expect(screen.getByTestId('card')).toHaveClass('w-320');
+    renderCard({ className: 'w-xs' });
+    expect(screen.getByTestId('card')).toHaveClass('w-xs');
   });
 
   describe('interactive (default)', () => {

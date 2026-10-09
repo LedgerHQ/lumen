@@ -31,7 +31,7 @@ export const Base: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <MenuList>
         <MenuListItem label='Unlink device' appearance='base' icon={Unlink} />
       </MenuList>
@@ -59,7 +59,7 @@ export const ItemShowcase: StoryObj<typeof MenuListItem> = {
     icon: Unlink,
   },
   render: (args) => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <MenuList>
         <MenuListItem {...args} />
       </MenuList>
@@ -73,7 +73,7 @@ export const AppearanceShowcase: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <MenuList>
         <MenuListItem label='Unlink device' icon={Unlink} onPress={() => {}} />
         <MenuListItem
@@ -107,7 +107,7 @@ export const SwitchItemShowcase: StoryObj<typeof MenuListSwitchItem> = {
     icon: Settings,
   },
   render: (args) => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <MenuList>
         <MenuListSwitchItem {...args} />
       </MenuList>
@@ -121,7 +121,7 @@ export const DisabledShowcase: Story = {
     backgrounds: { default: 'light' },
   },
   render: () => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <MenuList>
         <MenuListItem
           label='Unlink device'

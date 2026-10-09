@@ -17,7 +17,7 @@ const popoverContentStyles = cva(
     variants: {
       width: {
         fit: '',
-        fixed: 'w-400',
+        fixed: 'w-md',
       },
       side: {
         top: [

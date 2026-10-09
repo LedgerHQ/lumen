@@ -245,6 +245,18 @@ export const tokens = {
     '--color-border-success': 'var(--color-dark-green-600)',
     '--color-border-success-transparent': 'var(--color-dark-green-600-50)',
     '--color-border-icon': 'var(--color-dark-grey-950-10)',
+    '--color-border-decorative-orange':
+      'var(--color-dark-decorative-orange-500)',
+    '--color-border-decorative-green': 'var(--color-dark-decorative-green-500)',
+    '--color-border-decorative-blue': 'var(--color-dark-decorative-blue-500)',
+    '--color-border-decorative-purple':
+      'var(--color-dark-decorative-purple-500)',
+    '--color-border-decorative-red': 'var(--color-dark-decorative-red-400)',
+    '--color-border-decorative-yellow':
+      'var(--color-dark-decorative-yellow-500)',
+    '--color-border-decorative-turquoise':
+      'var(--color-dark-decorative-turquoise-500)',
+    '--color-border-decorative-pink': 'var(--color-dark-decorative-pink-500)',
     '--color-crypto-aion': 'var(--color-dark-crypto-aion)',
     '--color-crypto-aion-0': 'var(--color-dark-crypto-aion-0)',
     '--color-crypto-algorand': 'var(--color-dark-crypto-algorand)',
@@ -618,6 +630,14 @@ export const tokens = {
     '--border-active-pressed': 'var(--color-border-active-enterprise-pressed)',
     '--border-focus': 'var(--color-border-focus-enterprise)',
     '--border-icon': 'var(--color-border-icon)',
+    '--border-decorative-orange': 'var(--color-border-decorative-orange)',
+    '--border-decorative-green': 'var(--color-border-decorative-green)',
+    '--border-decorative-blue': 'var(--color-border-decorative-blue)',
+    '--border-decorative-purple': 'var(--color-border-decorative-purple)',
+    '--border-decorative-red': 'var(--color-border-decorative-red)',
+    '--border-decorative-yellow': 'var(--color-border-decorative-yellow)',
+    '--border-decorative-turquoise': 'var(--color-border-decorative-turquoise)',
+    '--border-decorative-pink': 'var(--color-border-decorative-pink)',
     '--border-width': 'var(--stroke-1)',
     '--border-width-active': 'var(--stroke-2)',
     '--border-width-focus': 'var(--stroke-2)',

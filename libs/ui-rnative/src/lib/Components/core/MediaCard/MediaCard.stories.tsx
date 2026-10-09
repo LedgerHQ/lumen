@@ -40,7 +40,7 @@ const baseArgs = {
 export const Base: Story = {
   args: baseArgs,
   render: (args) => (
-    <Box lx={{ width: 's320' }}>
+    <Box lx={{ width: 'sXs' }}>
       <MediaCard {...args}>
         <Tag label='Label' size='md' />
         <MediaCardTitle>
@@ -83,7 +83,7 @@ export const LayoutShowcase: Story = {
     <Box
       lx={{
         flexDirection: 'column',
-        width: 's320',
+        width: 'sXs',
         gap: 's16',
         padding: 's8',
       }}
@@ -116,7 +116,7 @@ export const CompositionShowcase: Story = {
     <Box
       lx={{
         flexDirection: 'column',
-        width: 's320',
+        width: 'sXs',
         gap: 's16',
         padding: 's8',
       }}
@@ -182,7 +182,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <Box lx={{ width: 's320' }}>
+      <Box lx={{ width: 'sXs' }}>
         <MediaCard
           imageUrl={EXAMPLE_SRC}
           onPress={() => ({})}

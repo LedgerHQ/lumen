@@ -58,7 +58,7 @@ type Story = StoryObj<typeof ListItem>;
 export const Base: Story = {
   args: {
     density: 'expanded',
-    lx: { maxWidth: 's320' },
+    lx: { maxWidth: 'sXs' },
     children: null,
   },
   render: (args) => (
@@ -100,7 +100,7 @@ export const DensityShowcase: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
+    <Box lx={{ flexDirection: 'column', maxWidth: 'sXs', gap: 's8' }}>
       <ListItem density='compact' onPress={() => {}}>
         <ListItemLeading>
           <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} />
@@ -162,7 +162,7 @@ export const InteractiveShowcase: Story = {
     const [selected, setSelected] = useState(false);
 
     return (
-      <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's16' }}>
+      <Box lx={{ flexDirection: 'column', maxWidth: 'sXs', gap: 's16' }}>
         <Box lx={{ flexDirection: 'column', gap: 's8' }}>
           <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
             Info
@@ -251,7 +251,7 @@ export const DisabledState: Story = {
     children: null,
   },
   render: (args) => (
-    <Box lx={{ flexDirection: 'column', width: 's320' }}>
+    <Box lx={{ flexDirection: 'column', width: 'sXs' }}>
       <ListItem {...args}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
@@ -333,7 +333,7 @@ export const ActiveState: Story = {
     children: null,
   },
   render: (args) => (
-    <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
+    <Box lx={{ flexDirection: 'column', width: 'sXs', gap: 's8' }}>
       <ListItem {...args}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
@@ -377,7 +377,7 @@ export const ResponsiveLayout: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
+    <Box lx={{ flexDirection: 'column', width: 'sLg', gap: 's32' }}>
       <ListItem lx={{ alignSelf: 'flex-start' }} onPress={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
@@ -391,7 +391,7 @@ export const ResponsiveLayout: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem lx={{ width: 's320' }} onPress={() => {}}>
+      <ListItem lx={{ width: 'sXs' }} onPress={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
           <ListItemContent>
@@ -409,7 +409,7 @@ export const ResponsiveLayout: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem lx={{ width: 's320' }}>
+      <ListItem lx={{ width: 'sXs' }}>
         <ListItemLeading>
           <Spot size={48} icon={Wallet} />
           <ListItemContent>
@@ -459,7 +459,7 @@ export const PriorityShowcase: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ flexDirection: 'column', width: 's320', gap: 's8' }}>
+    <Box lx={{ flexDirection: 'column', width: 'sXs', gap: 's8' }}>
       <Text typography='body4SemiBold' lx={{ color: 'muted' }}>
         priority="end" (default)
       </Text>
@@ -510,7 +510,7 @@ export const CompositionShowcase: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ flexDirection: 'column', maxWidth: 's320', gap: 's8' }}>
+    <Box lx={{ flexDirection: 'column', maxWidth: 'sXs', gap: 's8' }}>
       <ListItem>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />

@@ -2,13 +2,24 @@ import plugin from 'tailwindcss/plugin.js';
 import { primitivesTheme } from '../themes/css/index';
 import { createIconUtilities } from './createIconUtilities.js';
 import { createSpotUtilities } from './createSpotUtilities.js';
-import { getThemeUtilsByPrefix } from './getThemeUtilsByPrefix.js';
+import {
+  getThemeUtilsByPrefix,
+  getThemeValuesByPrefix,
+} from './getThemeUtilsByPrefix.js';
 
 type TailwindPlugin = ReturnType<typeof plugin>;
 
 export function createPrimitivesPlugin(): TailwindPlugin {
   const spacing = getThemeUtilsByPrefix(primitivesTheme, '--spacing-');
   const size = getThemeUtilsByPrefix(primitivesTheme, '--size-');
+  // Only the t-shirt sizes (`md`, `3xl`…) feed `@md:` container queries, which
+  // can't read `var()` and so need the literal pixels. Numeric keys would also
+  // turn `columns-2` into a 2px width.
+  const containerSizes = Object.fromEntries(
+    Object.entries(getThemeValuesByPrefix(primitivesTheme, '--size-')).filter(
+      ([key]) => !/^\d+$/.test(key),
+    ),
+  );
   const borderRadius = getThemeUtilsByPrefix(
     primitivesTheme,
     '--border-radius-',
@@ -54,15 +65,17 @@ export function createPrimitivesPlugin(): TailwindPlugin {
         spotWidth,
         spotHeight,
         iconStrokeWidth,
+        containers: containerSizes,
         extend: {
           zIndex,
           height: size,
           width: size,
           size,
           maxHeight: size,
-          maxWidth: size,
+          'max-width': size,
           minHeight: size,
           minWidth: size,
+          flexBasis: size,
         },
       },
     },

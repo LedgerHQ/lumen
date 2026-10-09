@@ -87,7 +87,7 @@ npm install @ledgerhq/lumen-ui-react
 import { Skeleton } from '@ledgerhq/lumen-ui-react';
 
 function MyComponent() {
-  return <Skeleton className='h-16 w-256' />;
+  return <Skeleton className='h-16 w-3xs' />;
 }
 ```
 
@@ -110,7 +110,7 @@ import { Skeleton } from '@ledgerhq/lumen-ui-react';
 While the component comes with predefined styles, you can extend them using Tailwind classes:
 
 ```tsx
-<Skeleton className='h-40 w-256 rounded-lg' />
+<Skeleton className='h-40 w-3xs rounded-lg' />
 ```
 
 ### Manual Composition
@@ -121,7 +121,7 @@ For custom layouts, compose multiple skeleton elements:
 <div className='flex items-center gap-16'>
   <Skeleton className='size-48 rounded-full' />
   <div className='flex flex-col gap-8'>
-    <Skeleton className='h-16 w-160' />
+    <Skeleton className='h-16 w-176' />
     <Skeleton className='h-16 w-128' />
   </div>
 </div>
