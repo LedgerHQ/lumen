@@ -127,6 +127,21 @@ describe('useScrollOverflow', () => {
     },
   );
 
+  it('should follow a direction change made after mount', () => {
+    render(<Harness />);
+    const scroller = screen.getByTestId('scroller');
+
+    setScrollMetrics(scroller, {
+      scrollWidth: 500,
+      clientWidth: 300,
+      scrollLeft: 0,
+    });
+    scroller.style.direction = 'rtl';
+    fireEvent.scroll(scroller);
+
+    expectOverflow(true, false);
+  });
+
   it('should update when the container or its content resizes', () => {
     global.ResizeObserver =
       MockResizeObserver as unknown as typeof ResizeObserver;

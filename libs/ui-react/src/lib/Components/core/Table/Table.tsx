@@ -421,9 +421,6 @@ export const TableGroupHeaderRow = ({
           )}
         >
           {canScrollHorizontally(horizontalLayout) ? (
-            // Keeps the label in view when the table scrolls horizontally. Only
-            // rendered for scrollable tables so shrink tables keep their children
-            // as direct flex items of the bar.
             <div className='sticky start-12 flex min-w-0 items-center'>
               {children}
             </div>
@@ -794,7 +791,6 @@ export const TableLoadingRow = ({
       {...props}
       ref={ref}
       className={cn(
-        // Sticky so the loader stays centered in view when the table scrolls horizontally.
         'sticky start-0 flex h-80 w-full items-center justify-center p-12',
         className,
       )}

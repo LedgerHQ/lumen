@@ -6,7 +6,8 @@ type ScrollOverflow = {
   canScrollRight: boolean;
 };
 
-const getScrollOverflow = (el: HTMLElement, isRtl: boolean): ScrollOverflow => {
+const getScrollOverflow = (el: HTMLElement): ScrollOverflow => {
+  const isRtl = getComputedStyle(el).direction === 'rtl';
   const maxScroll = el.scrollWidth - el.clientWidth;
   // RTL containers start at scrollLeft 0 on the right edge and go negative.
   const offset = Math.abs(el.scrollLeft);
@@ -34,10 +35,8 @@ export function useScrollOverflow(
     if (!el) {
       return;
     }
-    const isRtl = getComputedStyle(el).direction === 'rtl';
-
     const update = (): void => {
-      const overflow = getScrollOverflow(el, isRtl);
+      const overflow = getScrollOverflow(el);
       setCanScrollLeft(overflow.canScrollLeft);
       setCanScrollRight(overflow.canScrollRight);
     };

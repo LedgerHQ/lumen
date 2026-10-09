@@ -12,6 +12,7 @@ export type TableHorizontalLayout =
        * scrolls horizontally. When omitted, the table is as wide as the sum of
        * its column widths: every column then needs an explicit width, otherwise
        * columns without one collapse when the table overflows.
+       * @default undefined
        */
       minWidth?: number;
     };
