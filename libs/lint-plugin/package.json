@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-lint-plugin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "ESLint and oxlint presets (better-tailwindcss and @shadcn/lint) for apps built with the Ledger Lumen design system.",
   "license": "Apache-2.0",
   "type": "module",
