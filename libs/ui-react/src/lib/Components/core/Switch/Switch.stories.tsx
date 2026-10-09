@@ -2,9 +2,15 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Switch } from './Switch';
 
 const meta = {
-  component: Switch,
   id: 'react-switch',
   title: 'Core/Switch',
+  component: Switch,
+  argTypes: {
+    size: { control: 'inline-radio', options: ['sm', 'md'] },
+    selected: { control: 'boolean' },
+    defaultSelected: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+  },
   parameters: {
     docs: {
       source: {
@@ -20,15 +26,11 @@ export default meta;
 type Story = StoryObj<typeof Switch>;
 
 export const Base: Story = {
-  args: {},
-  parameters: {
-    docs: {
-      source: {
-        code: `<Switch />`,
-      },
-    },
+  args: {
+    size: 'md',
+    disabled: false,
   },
-  render: () => <Switch aria-label='Toggle example' />,
+  render: (args) => <Switch aria-label='Toggle example' {...args} />,
 };
 
 export const StatesShowcase: Story = {

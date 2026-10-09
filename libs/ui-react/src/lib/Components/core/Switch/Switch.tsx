@@ -8,7 +8,7 @@ const switchVariants = cva(
     'group flex cursor-pointer items-center rounded-full p-2 transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
     '[&[data-state=unchecked]:not([data-disabled])]:bg-muted-strong [&[data-state=unchecked]:not([data-disabled])]:hover:bg-muted-strong-hover [&[data-state=unchecked]:not([data-disabled])]:active:bg-muted-strong-pressed',
     '[&[data-state=checked]:not([data-disabled])]:bg-active [&[data-state=checked]:not([data-disabled])]:hover:bg-active-hover [&[data-state=checked]:not([data-disabled])]:active:bg-active-pressed',
-    'data-disabled:bg-disabled-strong',
+    'data-disabled:cursor-not-allowed data-disabled:bg-disabled-strong',
   ),
   {
     variants: {
@@ -45,7 +45,7 @@ const thumbVariants = cva(
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-switch--docs Guidelines}
  *
- * @warning The `className` prop is applied to the label element. Use it for layout adjustments only.
+ * @warning The `className` prop is applied to the button element. Use it for layout adjustments only.
  *
  * @example
  * // Basic switch
