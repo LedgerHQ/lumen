@@ -12,30 +12,23 @@ const [PopoverContextProvider, usePopoverContext] =
   createSafeContext<PopoverContextValue>('Popover');
 
 const popoverContentStyles = cva(
-  ['overflow-hidden rounded-md bg-canvas-sheet p-16 outline-none', 'shadow-xl'],
+  [
+    'overflow-hidden rounded-md bg-canvas-sheet p-16 outline-none',
+    'shadow-xl',
+    'data-open:data-[side=top]:animate-slide-in-from-bottom',
+    'data-closed:data-[side=top]:animate-slide-out-to-bottom',
+    'data-open:data-[side=bottom]:animate-slide-in-from-top',
+    'data-closed:data-[side=bottom]:animate-slide-out-to-top',
+    'data-open:data-[side=left]:animate-slide-in-from-right',
+    'data-closed:data-[side=left]:animate-slide-out-to-right',
+    'data-open:data-[side=right]:animate-slide-in-from-left',
+    'data-closed:data-[side=right]:animate-slide-out-to-left',
+  ],
   {
     variants: {
       width: {
         fit: '',
         fixed: 'w-400',
-      },
-      side: {
-        top: [
-          'data-open:animate-slide-in-from-top',
-          'data-closed:animate-slide-out-to-top',
-        ],
-        bottom: [
-          'data-open:animate-slide-in-from-bottom',
-          'data-closed:animate-slide-out-to-bottom',
-        ],
-        left: [
-          'data-open:animate-slide-in-from-left',
-          'data-closed:animate-slide-out-to-left',
-        ],
-        right: [
-          'data-open:animate-slide-in-from-right',
-          'data-closed:animate-slide-out-to-right',
-        ],
       },
     },
     defaultVariants: {
@@ -154,7 +147,7 @@ const PopoverContent = ({
         <PopoverPrimitive.Popup
           data-slot='popover-content'
           initialFocus={initialFocus}
-          className={cn(popoverContentStyles({ width, side }), className)}
+          className={cn(popoverContentStyles({ width }), className)}
         >
           {children}
         </PopoverPrimitive.Popup>

@@ -1,6 +1,5 @@
 import { Combobox } from '@base-ui/react/combobox';
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { cva } from 'class-variance-authority';
 import type { ReactElement } from 'react';
 import { useLayoutEffect } from 'react';
 import { useCommonTranslation } from '../../../../translations';
@@ -196,34 +195,18 @@ const SelectTrigger = <T extends SelectValue = SelectValue>({
   return <SelectInputTrigger {...props} disabled={disabled} />;
 };
 
-const contentStyles = cva(
-  [
-    'group/select-content relative flex max-h-(--available-height) w-(--anchor-width) flex-col overflow-hidden',
-    'rounded-sm bg-surface',
-    'shadow-md',
-  ],
-  {
-    variants: {
-      side: {
-        top: [
-          'data-open:animate-slide-in-from-top',
-          'data-closed:animate-slide-out-to-top',
-        ],
-        bottom: [
-          'data-open:animate-slide-in-from-bottom',
-          'data-closed:animate-slide-out-to-bottom',
-        ],
-        left: [
-          'data-open:animate-slide-in-from-left',
-          'data-closed:animate-slide-out-to-left',
-        ],
-        right: [
-          'data-open:animate-slide-in-from-right',
-          'data-closed:animate-slide-out-to-right',
-        ],
-      },
-    },
-  },
+const contentStyles = cn(
+  'group/select-content relative flex max-h-(--available-height) w-(--anchor-width) flex-col overflow-hidden',
+  'rounded-sm bg-surface',
+  'shadow-md',
+  'data-open:data-[side=top]:animate-slide-in-from-bottom',
+  'data-closed:data-[side=top]:animate-slide-out-to-bottom',
+  'data-open:data-[side=bottom]:animate-slide-in-from-top',
+  'data-closed:data-[side=bottom]:animate-slide-out-to-top',
+  'data-open:data-[side=left]:animate-slide-in-from-right',
+  'data-closed:data-[side=left]:animate-slide-out-to-right',
+  'data-open:data-[side=right]:animate-slide-in-from-left',
+  'data-closed:data-[side=right]:animate-slide-out-to-left',
 );
 
 const SelectContent = ({
@@ -248,7 +231,7 @@ const SelectContent = ({
         ref={ref}
         data-slot='select-content'
         initialFocus={initialFocus}
-        className={cn(contentStyles({ side }), className)}
+        className={cn(contentStyles, className)}
         {...props}
       >
         {children}
