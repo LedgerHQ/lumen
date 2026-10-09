@@ -65,7 +65,6 @@ export const Switch = ({
   onChange,
   size = 'md',
   disabled: disabledProp,
-  name,
   ...props
 }: SwitchProps) => {
   const disabled = useDisabledContext({
@@ -79,38 +78,23 @@ export const Switch = ({
   });
 
   return (
-    <>
-      <button
-        ref={ref}
-        type='button'
-        role='switch'
-        aria-checked={checked}
+    <button
+      {...props}
+      ref={ref}
+      type='button'
+      role='switch'
+      aria-checked={checked}
+      data-state={checked ? 'checked' : 'unchecked'}
+      data-disabled={disabled ? '' : undefined}
+      disabled={disabled}
+      className={cn(switchVariants({ size }), className)}
+      onClick={() => setChecked(!checked)}
+    >
+      <span
         data-state={checked ? 'checked' : 'unchecked'}
         data-disabled={disabled ? '' : undefined}
-        disabled={disabled}
-        className={cn(switchVariants({ size }), className)}
-        onClick={() => setChecked(!checked)}
-        {...props}
-      >
-        <span
-          data-state={checked ? 'checked' : 'unchecked'}
-          data-disabled={disabled ? '' : undefined}
-          className={thumbVariants({ size })}
-        />
-      </button>
-      {name !== undefined && (
-        <input
-          type='checkbox'
-          aria-hidden
-          tabIndex={-1}
-          name={name}
-          value='on'
-          checked={checked}
-          disabled={disabled}
-          readOnly
-          className='sr-only'
-        />
-      )}
-    </>
+        className={thumbVariants({ size })}
+      />
+    </button>
   );
 };

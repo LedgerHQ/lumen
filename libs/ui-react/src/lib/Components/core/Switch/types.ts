@@ -19,10 +19,6 @@ export type SwitchProps = {
    */
   size?: 'sm' | 'md';
   /**
-   * The name submitted with the enclosing form.
-   */
-  name?: string;
-  /**
    * The disabled state of the switch.
    * @default false
    */
