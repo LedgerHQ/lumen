@@ -28,36 +28,17 @@ import type {
   MenuSubProps,
 } from './types';
 
-const contentStyles = cva(
-  [
-    'min-w-160 overflow-hidden rounded-sm bg-muted p-8',
-    'shadow-sm outline-none',
-  ],
-  {
-    variants: {
-      side: {
-        top: [
-          'data-open:animate-slide-in-from-top',
-          'data-closed:animate-slide-out-to-top',
-        ],
-        bottom: [
-          'data-open:animate-slide-in-from-bottom',
-          'data-closed:animate-slide-out-to-bottom',
-        ],
-        left: [
-          'data-open:animate-slide-in-from-left',
-          'data-closed:animate-slide-out-to-left',
-        ],
-        right: [
-          'data-open:animate-slide-in-from-right',
-          'data-closed:animate-slide-out-to-right',
-        ],
-      },
-    },
-    defaultVariants: {
-      side: 'bottom',
-    },
-  },
+const contentStyles = cn(
+  'min-w-160 overflow-hidden rounded-sm bg-muted p-8',
+  'shadow-sm outline-none',
+  'data-open:data-[side=top]:animate-slide-in-from-bottom',
+  'data-closed:data-[side=top]:animate-slide-out-to-bottom',
+  'data-open:data-[side=bottom]:animate-slide-in-from-top',
+  'data-closed:data-[side=bottom]:animate-slide-out-to-top',
+  'data-open:data-[side=left]:animate-slide-in-from-right',
+  'data-closed:data-[side=left]:animate-slide-out-to-right',
+  'data-open:data-[side=right]:animate-slide-in-from-left',
+  'data-closed:data-[side=right]:animate-slide-out-to-left',
 );
 
 const itemStyles = cva(
@@ -152,7 +133,7 @@ const MenuSubContent = ({ className, children }: MenuSubContentProps) => (
     <MenuPrimitive.Positioner className='z-menu' side='right' sideOffset={4}>
       <MenuPrimitive.Popup
         data-slot='menu-sub-content'
-        className={cn(contentStyles({ side: 'right' }), className)}
+        className={cn(contentStyles, className)}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
@@ -181,7 +162,7 @@ const MenuContent = ({
     >
       <MenuPrimitive.Popup
         data-slot='menu-content'
-        className={cn(contentStyles({ side }), className)}
+        className={cn(contentStyles, className)}
         onClick={(e) => e.stopPropagation()}
       >
         {children}

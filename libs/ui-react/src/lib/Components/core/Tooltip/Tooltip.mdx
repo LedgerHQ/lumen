@@ -40,12 +40,12 @@ Tooltips provide contextual information on hover or focus, helping users underst
 
 ### Placement & Animations
 
-Each placement comes with its own directional slide animation:
+The tooltip always slides out of its trigger, following the side it is actually rendered on (including after collision flipping):
 
-- top (default): Slides in from top
-- bottom: Slides in from bottom
-- left: Slides in from left
-- right: Slides in from right
+- top (default): Slides up from the trigger
+- bottom: Slides down from the trigger
+- left: Slides left from the trigger
+- right: Slides right from the trigger
 
 <Canvas of={TooltipStories.AnimatedPlacements} />
 
@@ -173,18 +173,13 @@ function App() {
 
 ## Animation Details
 
-The tooltip uses smooth slide animations that match its placement:
+The tooltip slides out of its trigger on enter and back into it on exit. The direction follows the rendered `data-side`, so it stays correct when the tooltip flips to avoid a collision:
 
 ```tsx
-// Animation classes are automatically applied based on side prop
-<TooltipContent side="top">    // Slides from top
-<TooltipContent side="bottom"> // Slides from bottom
-<TooltipContent side="left">   // Slides from left
-<TooltipContent side="right">  // Slides from right
-
-// Animations are handled automatically on both enter and exit
-// Entry: animate-slide-in-from-{direction}
-// Exit: data-[state=closed]:animate-slide-out-to-{direction}
+<TooltipContent side="top">    // Slides up from the trigger
+<TooltipContent side="bottom"> // Slides down from the trigger
+<TooltipContent side="left">   // Slides left from the trigger
+<TooltipContent side="right">  // Slides right from the trigger
 ```
 
   </Tab>

@@ -1,6 +1,5 @@
 import { cn } from '@ledgerhq/lumen-utils-shared';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
-import { cva } from 'class-variance-authority';
 import type { ComponentProps } from 'react';
 import type {
   TooltipContentProps,
@@ -8,23 +7,16 @@ import type {
   TooltipTriggerProps,
 } from './types';
 
-const tooltipContentVariants = cva(
+const tooltipContentStyles = cn(
   'z-tooltip w-fit max-w-224 rounded-xs bg-interactive px-8 py-4 body-3 text-on-interactive select-none',
-  {
-    variants: {
-      side: {
-        top: 'animate-slide-in-from-top data-[state=closed]:animate-slide-out-to-top',
-        bottom:
-          'animate-slide-in-from-bottom data-[state=closed]:animate-slide-out-to-bottom',
-        left: 'animate-slide-in-from-left data-[state=closed]:animate-slide-out-to-left',
-        right:
-          'animate-slide-in-from-right data-[state=closed]:animate-slide-out-to-right',
-      },
-    },
-    defaultVariants: {
-      side: 'top',
-    },
-  },
+  'data-[side=top]:animate-slide-in-from-bottom',
+  'data-[state=closed]:data-[side=top]:animate-slide-out-to-bottom',
+  'data-[side=bottom]:animate-slide-in-from-top',
+  'data-[state=closed]:data-[side=bottom]:animate-slide-out-to-top',
+  'data-[side=left]:animate-slide-in-from-right',
+  'data-[state=closed]:data-[side=left]:animate-slide-out-to-right',
+  'data-[side=right]:animate-slide-in-from-left',
+  'data-[state=closed]:data-[side=right]:animate-slide-out-to-left',
 );
 
 /**
@@ -155,7 +147,7 @@ export const TooltipContent = ({
         data-slot='tooltip-content'
         side={side}
         sideOffset={sideOffset}
-        className={cn(tooltipContentVariants({ side }), className)}
+        className={cn(tooltipContentStyles, className)}
         {...props}
       >
         <TooltipPrimitive.Arrow className='size-10 translate-y-[calc(-50%-1px)] rotate-45 rounded-[1px] bg-interactive fill-interactive' />
