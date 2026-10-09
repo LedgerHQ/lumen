@@ -1,5 +1,7 @@
 import type { Config } from 'tailwindcss';
-import { ledgerLiveCSSTheme } from '../themes/css';
+import { ledgerLiveCSSTheme } from '../themes/css/index.js';
+import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
+import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
 import {
   createGradientPlugin,
   createScreensPlugin,
@@ -8,9 +10,7 @@ import {
   createShadowPlugin,
   createScrollbarPlugin,
   createMaskPlugin,
-} from '../utils';
-import { createAnimationsPlugin } from '../utils/createAnimationsPlugin.js';
-import { createPrimitivesPlugin } from '../utils/createPrimitivesPlugin.js';
+} from '../utils/index.js';
 
 export const ledgerLivePreset: Config = {
   content: [],

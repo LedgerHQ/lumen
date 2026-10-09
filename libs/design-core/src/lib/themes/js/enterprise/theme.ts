@@ -1,11 +1,11 @@
-import { primitiveTypographyTokens } from '../primitives/primitive.typographies';
-import { primitiveMotionTokens } from '../primitives/primitives.motion';
-import { primitiveLayoutTokens } from '../primitives/primitives.others';
-import { primitiveShadowTokens } from '../primitives/primitives.shadows';
-import type { ThemeCoreTokens } from '../types';
-import { typographyTokens } from '../typographies';
-import { enterpriseDarkColorTokens } from './theme.dark';
-import { enterpriseLightColorTokens } from './theme.light';
+import { primitiveTypographyTokens } from '../primitives/primitive.typographies.js';
+import { primitiveMotionTokens } from '../primitives/primitives.motion.js';
+import { primitiveLayoutTokens } from '../primitives/primitives.others.js';
+import { primitiveShadowTokens } from '../primitives/primitives.shadows.js';
+import type { ThemeCoreTokens } from '../types.js';
+import { typographyTokens } from '../typographies/index.js';
+import { enterpriseDarkColorTokens } from './theme.dark.js';
+import { enterpriseLightColorTokens } from './theme.light.js';
 
 export const enterpriseCoreTokens = {
   ...primitiveLayoutTokens,
