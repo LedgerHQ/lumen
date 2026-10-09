@@ -345,7 +345,7 @@ export const WithHorizontalScroll: Story = {
   },
   render: (args) => (
     <div className='mx-auto w-3xl max-w-full text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-208'>
+      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
         <HorizontalScrollTable />
       </TableRoot>
     </div>
@@ -361,7 +361,7 @@ export const WithHorizontalScrollFromColumnWidths: Story = {
   },
   render: (args) => (
     <div className='mx-auto w-3xl max-w-full text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-208'>
+      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
         <HorizontalScrollTable withColumnWidths />
       </TableRoot>
     </div>
@@ -382,7 +382,7 @@ export const WithResponsiveHorizontalScroll: Story = {
   },
   render: (args) => (
     <div className='mx-auto w-3xl max-w-full text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-208'>
+      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
         <HorizontalScrollTable />
       </TableRoot>
     </div>
