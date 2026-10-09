@@ -1,5 +1,6 @@
 /** @import { Linter } from 'eslint' */
-import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
+import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
+import { getDefaultSelectors } from 'eslint-plugin-better-tailwindcss/defaults';
 import storybook from 'eslint-plugin-storybook';
 import { globalIgnores } from 'eslint/config';
 
@@ -76,10 +77,7 @@ export const defineDevRules = (config) => ({
   name: 'development-files-only-rules',
   ...config,
   files: [...devFilePatterns, ...(config.files ?? [])],
-  ignores: [
-    ...globalIgnorePatterns,
-    ...(config.ignores ?? []),
-  ],
+  ignores: [...globalIgnorePatterns, ...(config.ignores ?? [])],
 });
 
 /**
@@ -98,41 +96,52 @@ export const defineStorybookAddons = ({ packageJsonLocation }) => ({
   },
 });
 
+/** Token rules that stories, docs and icon artwork break on purpose. */
+const TOKEN_RULES_OFF = {
+  'shadcn/no-arbitrary-values': 'off',
+  'shadcn/no-inline-styles': 'off',
+  'shadcn/no-restyle': 'off',
+};
+
+/** Where those rules do not apply: dev files, Storybook docs, icon artwork. */
+const defineTokenRulesExemptions = () =>
+  defineDevRules({
+    name: 'lumen-token-rules-exemptions',
+    files: ['**/.storybook/**', '**/Components/symbols/**'],
+    rules: TOKEN_RULES_OFF,
+  });
+
 /**
- * Better Tailwind CSS rules and settings for a project's class utilities.
+ * Lumen's own React web rules: the `strict` preset that consumers can pick,
+ * plus what only the design system itself needs.
  * @param {{ entryPoint: string, tailwindConfig: string }} options
- * @returns {Linter.Config}
+ * @returns {Linter.Config[]}
  */
-export const defineTailwindRules = ({ entryPoint, tailwindConfig }) => ({
-  name: 'better-tailwindcss-rules',
-  files: tsJsFilePatterns,
-  plugins: { 'better-tailwindcss': betterTailwindcss },
-  rules: {
-    ...betterTailwindcss.configs['recommended-warn'].rules,
-    ...betterTailwindcss.configs['recommended-error'].rules,
-    'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-  },
-  settings: {
-    'better-tailwindcss': {
-      callees: [
-        ['cn', [{ match: 'strings' }]],
-        [
-          'cva',
-          [
-            { match: 'strings' },
-            {
-              match: 'objectValues',
-              pathPattern: '^variants.*$',
-            },
-            {
-              match: 'objectValues',
-              pathPattern: '^compoundVariants\\[\\d+\\]\\.(?:className|class)$',
-            },
-          ],
+export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
+  lumen.configs.strict,
+  {
+    name: 'lumen-react-rules',
+    files: tsJsFilePatterns,
+    settings: {
+      'better-tailwindcss': {
+        entryPoint,
+        tailwindConfig,
+        // Lumen components take `containerClassName`-style props. Setting
+        // selectors replaces the defaults, so they are spread first.
+        selectors: [
+          ...getDefaultSelectors(),
+          {
+            kind: 'attribute',
+            name: '^[a-z]\\w*ClassName$',
+            match: [{ type: 'strings' }],
+          },
         ],
-      ],
-      entryPoint,
-      tailwindConfig,
+      },
+    },
+    rules: {
+      // A component library sets dynamic styles by design; the rule targets apps.
+      'shadcn/no-inline-styles': 'off',
     },
   },
-});
+  defineTokenRulesExemptions(),
+];

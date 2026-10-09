@@ -27,8 +27,11 @@ lumen
   │    ├── design-core/               # Design tokens and themes
   │    │                              # name: @ledgerhq/lumen-design-core
   │    │
-  │    └── utils-shared/              # Shared utilities
-  │                                   # name: @ledgerhq/lumen-utils-shared
+  │    ├── utils-shared/              # Shared utilities
+  │    │                              # name: @ledgerhq/lumen-utils-shared
+  │    │
+  │    └── lint-plugin/               # ESLint and oxlint presets
+  │                                   # name: @ledgerhq/lumen-lint-plugin
   │
   ├──internals/                       # Dev-only projects — never published
   │    └── sync-figma/                # Figma sync: design tokens, SVG symbols,

@@ -1,13 +1,13 @@
 import { prodConfig } from '../../eslint.config.mjs';
 import {
   defineStorybookAddons,
-  defineTailwindRules,
+  defineLumenReactRules,
 } from '../../eslint.shared.mjs';
 
 export default [
   ...prodConfig,
   defineStorybookAddons({ packageJsonLocation: '../../package.json' }),
-  defineTailwindRules({
+  ...defineLumenReactRules({
     entryPoint: './src/styles.css',
     tailwindConfig: './tailwind.config.ts',
   }),

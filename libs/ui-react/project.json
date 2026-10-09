@@ -7,6 +7,9 @@
     "scope:react",
     "type:ui"
   ],
+  "implicitDependencies": [
+    "@ledgerhq/lumen-lint-plugin"
+  ],
   "targets": {
     "build": {
       "executor": "@nx/vite:build",

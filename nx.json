@@ -137,6 +137,32 @@
       "dependsOn": [
         "^build"
       ]
+    },
+    "lint": {
+      "inputs": [
+        "default",
+        "^default",
+        "{workspaceRoot}/eslint.config.mjs",
+        "{workspaceRoot}/eslint.shared.mjs",
+        "{projectRoot}/eslint.config.mjs",
+        {
+          "externalDependencies": [
+            "eslint",
+            "typescript-eslint",
+            "@nx/eslint-plugin",
+            "eslint-plugin-import",
+            "eslint-plugin-jsx-a11y",
+            "eslint-plugin-prettier",
+            "eslint-config-prettier",
+            "prettier",
+            "eslint-plugin-storybook",
+            "jsonc-eslint-parser",
+            "eslint-plugin-better-tailwindcss",
+            "@shadcn/lint",
+            "tailwindcss"
+          ]
+        }
+      ]
     }
   },
   "generators": {

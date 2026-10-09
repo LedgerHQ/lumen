@@ -1,0 +1,55 @@
+{
+  "name": "@ledgerhq/lumen-lint-plugin",
+  "version": "0.0.0",
+  "description": "ESLint and oxlint presets (better-tailwindcss and @shadcn/lint) for apps built with the Ledger Lumen design system.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "files": [
+    "src",
+    "oxlint",
+    "types",
+    "!**/*.test.js",
+    "!**/*.tsbuildinfo"
+  ],
+  "exports": {
+    "./eslint": {
+      "types": "./types/eslint.d.ts",
+      "default": "./src/eslint.js"
+    },
+    "./oxlint": {
+      "types": "./types/oxlint.d.ts",
+      "default": "./src/oxlint.js"
+    },
+    "./oxlint/*.json": "./oxlint/*.json",
+    "./package.json": "./package.json"
+  },
+  "nx": {
+    "tags": [
+      "scope:shared",
+      "type:tooling"
+    ]
+  },
+  "dependencies": {
+    "@shadcn/lint": "^0.2.0",
+    "eslint-plugin-better-tailwindcss": "^4.7.0"
+  },
+  "peerDependencies": {
+    "eslint": "^9.30.0 || ^10.0.0",
+    "oxlint": "^1.82.0",
+    "tailwindcss": "^4.1.17"
+  },
+  "peerDependenciesMeta": {
+    "eslint": {
+      "optional": true
+    },
+    "oxlint": {
+      "optional": true
+    },
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": "^20.19.0 || ^22.13.0 || >=24"
+  }
+}

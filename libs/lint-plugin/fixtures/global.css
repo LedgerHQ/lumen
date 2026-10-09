@@ -1,0 +1,6 @@
+@import 'tailwindcss';
+
+/* A class that only exists in this entry point: it proves the preset reads it. */
+@utility lumen-fixture-known {
+  color: currentColor;
+}
