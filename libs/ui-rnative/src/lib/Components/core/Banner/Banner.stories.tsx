@@ -95,7 +95,7 @@ export const Base: Story = {
   },
   render: (args) => (
     // maxWidth container for visual presentation - not required for Banner component
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ maxWidth: 'sMd' }}>
       <Banner
         {...args}
         description={'This is additional information about the banner.'}
@@ -125,7 +125,7 @@ export const WithDescription: Story = {
     description: 'This is additional information about the banner.',
   },
   render: (args) => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ maxWidth: 'sMd' }}>
       <Banner {...args} />
     </Box>
   ),
@@ -154,7 +154,7 @@ export const WithActions: Story = {
     secondaryAction: 'Button',
   },
   render: (args) => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ maxWidth: 'sMd' }}>
       <Banner {...args} />
     </Box>
   ),
@@ -220,7 +220,7 @@ export const WithFullFeatures: Story = {
     closeAriaLabel: 'Close banner',
   },
   render: (args) => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ maxWidth: 'sMd' }}>
       <Banner {...args} />
     </Box>
   ),
@@ -273,7 +273,7 @@ export const AppearanceShowcase: Story = {
       <Box
         lx={{
           flexDirection: 'column',
-          maxWidth: 's400',
+          maxWidth: 'sMd',
           gap: 's16',
           padding: 's8',
         }}
@@ -298,7 +298,7 @@ export const ContentVariations: Story = {
     <Box
       lx={{
         flexDirection: 'column',
-        maxWidth: 's400',
+        maxWidth: 'sMd',
         gap: 's16',
         padding: 's8',
       }}
@@ -404,7 +404,7 @@ export const ResponsiveLayout: Story = {
   render: () => (
     <Box
       lx={{
-        width: 's400',
+        width: 'sMd',
         flexDirection: 'column',
         gap: 's16',
         backgroundColor: 'mutedPressed',
@@ -443,7 +443,7 @@ export const InteractiveDismiss: Story = {
     if (!visible) return <Text typography='body2'>Banner dismissed</Text>;
 
     return (
-      <Box lx={{ maxWidth: 's400' }}>
+      <Box lx={{ maxWidth: 'sMd' }}>
         <Banner
           {...args}
           title='Click close to dismiss'
@@ -468,7 +468,7 @@ export const InteractiveActions: Story = {
     };
 
     return (
-      <Box lx={{ maxWidth: 's400' }}>
+      <Box lx={{ maxWidth: 'sMd' }}>
         <Banner
           {...args}
           appearance={

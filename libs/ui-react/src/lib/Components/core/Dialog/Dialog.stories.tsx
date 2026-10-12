@@ -39,7 +39,7 @@ const DialogContentTemplate = () => {
       <div className='rounded-sm bg-muted p-12'>
         <p className='body-3 text-muted'>
           <strong className='body-3-semi-bold text-base'>Note:</strong> The
-          dialog content defaults to a width of 400px and height auto-adjusts to
+          dialog content defaults to a width of 448px and height auto-adjusts to
           content. Use the className prop on DialogContent to customize
           dimensions if needed.
         </p>
@@ -222,7 +222,7 @@ export const HeightLayouts: Story = {
             <DialogBody>
               <p className='body-2 text-muted'>
                 The dialog height adjusts to fit the content, up to a maximum of
-                560px.
+                576px.
               </p>
             </DialogBody>
           </DialogContent>
@@ -236,11 +236,11 @@ export const HeightLayouts: Story = {
             <DialogHeader
               density='compact'
               title='Fixed Height'
-              description='Always 560px'
+              description='Always 576px'
             />
             <DialogBody>
               <p className='body-2 text-muted'>
-                The dialog always has a fixed height of 560px, regardless of
+                The dialog always has a fixed height of 576px, regardless of
                 content.
               </p>
             </DialogBody>
@@ -619,7 +619,7 @@ export const WithStickyBodyContent: Story = {
         />
         <DialogBody>
           <div className='-mx-8 flex flex-col gap-4'>
-            <DialogBodyStickyContent className='bg-canvas'>
+            <DialogBodyStickyContent>
               <SearchInput className='mx-8' placeholder='Search item...' />
             </DialogBodyStickyContent>
             {Array.from({ length: 12 }).map((_, i) => (

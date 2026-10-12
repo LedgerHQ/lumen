@@ -100,7 +100,7 @@ export const SizeShowcase: Story = {
 
 export const TruncateShowcase: Story = {
   render: () => (
-    <div className='flex max-w-160 items-center gap-4'>
+    <div className='flex max-w-176 items-center gap-4'>
       <MediaTag
         label='Very long text that truncates'
         leadingContent={ETH_ICON}

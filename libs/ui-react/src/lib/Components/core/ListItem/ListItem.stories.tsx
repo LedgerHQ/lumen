@@ -51,7 +51,7 @@ type Story = StoryObj<typeof ListItem>;
 export const Base: Story = {
   args: {
     density: 'expanded',
-    className: 'max-w-320 gap-4',
+    className: 'max-w-xs gap-4',
   },
   render: (args) => (
     <ListItem {...args}>
@@ -89,7 +89,7 @@ export const Base: Story = {
 
 export const DensityShowcase: Story = {
   render: () => (
-    <div className='flex max-w-320 flex-col gap-16'>
+    <div className='flex max-w-xs flex-col gap-16'>
       <ListItem density='compact' onClick={() => {}}>
         <ListItemLeading>
           <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={24} alt='Bitcoin' />
@@ -148,7 +148,7 @@ export const InteractiveShowcase: Story = {
     const [selected, setSelected] = useState(false);
 
     return (
-      <div className='flex max-w-320 flex-col gap-16'>
+      <div className='flex max-w-xs flex-col gap-16'>
         <div className='flex flex-col gap-4'>
           <div className='body-4-semi-bold text-muted'>Info</div>
           <ListItem>
@@ -234,7 +234,7 @@ export const DisabledState: Story = {
     disabled: true,
   },
   render: (args) => (
-    <div className='flex w-320 flex-col gap-4'>
+    <div className='flex w-xs flex-col gap-4'>
       <ListItem {...args}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
@@ -299,7 +299,7 @@ export const ActiveState: Story = {
     active: true,
   },
   render: (args) => (
-    <div className='flex w-320 flex-col gap-4'>
+    <div className='flex w-xs flex-col gap-4'>
       <ListItem {...args}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
@@ -340,7 +340,7 @@ export const ActiveState: Story = {
 
 export const ResponsiveLayout: Story = {
   render: () => (
-    <div className='flex w-480 flex-col gap-32'>
+    <div className='flex w-lg flex-col gap-32'>
       <ListItem className='w-fit' onClick={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
@@ -354,7 +354,7 @@ export const ResponsiveLayout: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem className='w-320' onClick={() => {}}>
+      <ListItem className='w-xs' onClick={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
           <ListItemContent>
@@ -372,7 +372,7 @@ export const ResponsiveLayout: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem className='w-320'>
+      <ListItem className='w-xs'>
         <ListItemLeading>
           <Spot size={48} icon={Wallet} />
           <ListItemContent>
@@ -429,7 +429,7 @@ export const ResponsiveLayout: Story = {
 
 export const PriorityShowcase: Story = {
   render: () => (
-    <div className='flex w-320 flex-col gap-8'>
+    <div className='flex w-xs flex-col gap-8'>
       <div className='body-4-semi-bold text-muted'>
         priority="end" (default)
       </div>
@@ -475,7 +475,7 @@ export const PriorityShowcase: Story = {
 
 export const CompositionShowcase: Story = {
   render: () => (
-    <div className='flex max-w-320 flex-col gap-4'>
+    <div className='flex max-w-xs flex-col gap-4'>
       <ListItem>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />

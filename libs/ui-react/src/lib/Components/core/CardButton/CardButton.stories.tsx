@@ -271,7 +271,7 @@ export const StatesShowcase: Story = {
 
 export const ResponsiveLayout: Story = {
   render: () => (
-    <div className='grid w-320 grid-cols-1 gap-16 bg-muted-pressed p-16'>
+    <div className='grid w-xs grid-cols-1 gap-16 bg-muted-pressed p-16'>
       <div className='body-4-semi-bold text-muted'>Container: 320px wide</div>
       <CardButton
         appearance='base'

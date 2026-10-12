@@ -82,7 +82,7 @@ npm install @ledgerhq/lumen-ui-rnative
 import { Skeleton } from '@ledgerhq/lumen-ui-rnative';
 
 function MyComponent() {
-  return <Skeleton lx={{ height: 's16', width: 's256' }} />;
+  return <Skeleton lx={{ height: 's16', width: 's3Xs' }} />;
 }
 ```
 
@@ -105,7 +105,7 @@ import { Skeleton } from '@ledgerhq/lumen-ui-rnative';
 While the component comes with predefined styles, you can extend them using the `lx` prop:
 
 ```tsx
-<Skeleton lx={{ height: 's40', width: 's256', borderRadius: 'lg' }} />
+<Skeleton lx={{ height: 's40', width: 's3Xs', borderRadius: 'lg' }} />
 ```
 
 ### Manual Composition
@@ -118,7 +118,7 @@ import { Box, Skeleton } from '@ledgerhq/lumen-ui-rnative';
 <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
   <Skeleton lx={{ width: 's48', height: 's48', borderRadius: 'full' }} />
   <Box lx={{ flex: 1, flexDirection: 'column', gap: 's8' }}>
-    <Skeleton lx={{ height: 's16', width: 's160' }} />
+    <Skeleton lx={{ height: 's16', width: 's176' }} />
     <Skeleton lx={{ height: 's16', width: 's128' }} />
   </Box>
 </Box>

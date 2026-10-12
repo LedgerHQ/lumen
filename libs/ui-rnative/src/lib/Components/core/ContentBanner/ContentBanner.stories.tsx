@@ -53,7 +53,7 @@ export const Base: Story = {
     closeAccessibilityLabel: 'Close content banner',
   },
   render: (args) => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ maxWidth: 'sMd' }}>
       <ContentBanner {...args}>
         <Spot icon={Settings} size={48} />
         <ContentBannerContent>
@@ -104,7 +104,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <Box lx={{ maxWidth: 's400' }}>
+      <Box lx={{ maxWidth: 'sMd' }}>
         <ContentBanner
           onClose={() => setVisible(false)}
           closeAccessibilityLabel='Close content banner'
@@ -130,7 +130,7 @@ export const ContentVariationsShowcase: Story = {
     <Box
       lx={{
         flexDirection: 'column',
-        maxWidth: 's400',
+        maxWidth: 'sMd',
         gap: 's16',
         padding: 's8',
       }}
@@ -184,7 +184,7 @@ export const WithStepper: Story = {
     children: null,
   },
   render: () => (
-    <Box lx={{ maxWidth: 's400' }}>
+    <Box lx={{ maxWidth: 'sMd' }}>
       <ContentBanner onClose={() => console.log('close')}>
         <Stepper currentStep={2} totalSteps={4} />
         <ContentBannerContent>
@@ -205,7 +205,7 @@ export const ResponsiveLayout: Story = {
   render: () => (
     <Box
       lx={{
-        width: 's400',
+        width: 'sMd',
         flexDirection: 'column',
         gap: 's16',
         backgroundColor: 'mutedPressed',

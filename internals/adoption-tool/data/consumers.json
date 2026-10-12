@@ -84,5 +84,9 @@
   {
     "repo": "LedgerHQ/les-multisig",
     "packageJsonPath": "packages/web/package.json"
+  },
+  {
+    "repo": "LedgerHQ/predictions-live-app",
+    "packageJsonPath": "package.json"
   }
 ]

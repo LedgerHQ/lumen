@@ -30,7 +30,7 @@ type Story = StoryObj<typeof Skeleton>;
 
 export const Base: Story = {
   args: {
-    className: 'h-16 w-256',
+    className: 'h-16 w-3xs',
   },
   render: (args) => (
     <Skeleton
@@ -48,7 +48,7 @@ export const WithTile: Story = {
 };
 
 export const WithTable: Story = {
-  render: () => <Skeleton component='table' className='w-560' />,
+  render: () => <Skeleton component='table' className='w-xl' />,
 };
 
 export const SizeShowcase: Story = {
@@ -56,7 +56,7 @@ export const SizeShowcase: Story = {
     <div className='space-y-4'>
       <Skeleton className='h-40 w-56' />
       <Skeleton className='h-12 w-112' />
-      <Skeleton className='h-128 w-256' />
+      <Skeleton className='h-128 w-3xs' />
     </div>
   ),
 };
@@ -64,8 +64,8 @@ export const SizeShowcase: Story = {
 export const ShapeShowcase: Story = {
   render: () => (
     <div className='space-y-4'>
-      <Skeleton className='h-40 w-256 rounded-none' />
-      <Skeleton className='h-40 w-256 rounded-lg' />
+      <Skeleton className='h-40 w-3xs rounded-none' />
+      <Skeleton className='h-40 w-3xs rounded-lg' />
       <Skeleton className='size-48 rounded-full' />
       <Skeleton className='size-48 rounded-md' />
     </div>

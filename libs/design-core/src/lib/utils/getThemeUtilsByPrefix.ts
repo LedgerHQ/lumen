@@ -37,3 +37,23 @@ export const getThemeUtilsByPrefix = (
   }
   return themeUtils;
 };
+
+/**
+ * Same lookup as `getThemeUtilsByPrefix`, but returns the literal token values
+ * instead of `var(--…)` references. Needed where CSS forbids custom properties,
+ * such as `@container` conditions.
+ */
+export const getThemeValuesByPrefix = (
+  themeObject: Record<string, Record<string, unknown>>,
+  prefix: string,
+): Record<string, string> => {
+  const values: Record<string, string> = {};
+  for (const tokens of Object.values(themeObject)) {
+    for (const [key, value] of Object.entries(tokens)) {
+      if (key.startsWith(prefix) && typeof value === 'string') {
+        values[key.substring(prefix.length).toLowerCase()] = value;
+      }
+    }
+  }
+  return values;
+};

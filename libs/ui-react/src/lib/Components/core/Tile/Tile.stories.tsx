@@ -112,27 +112,27 @@ export const Base: Story = {
 export const VariantsShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
-      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
+      <Tile className='max-w-176' secondaryAction={tileSecondaryAction}>
         <Spot icon={User} />
         <TileContent>
           <TileTitle>User</TileTitle>
           <TileDescription>With description</TileDescription>
         </TileContent>
       </Tile>
-      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
+      <Tile className='max-w-176' secondaryAction={tileSecondaryAction}>
         <Spot icon={Plus} />
         <TileContent>
           <TileTitle>Without Description</TileTitle>
         </TileContent>
       </Tile>
-      <Tile className='max-w-160'>
+      <Tile className='max-w-176'>
         <Spot icon={Settings} />
         <TileContent>
           <TileTitle>Without secondary action</TileTitle>
           <TileDescription>Additional information</TileDescription>
         </TileContent>
       </Tile>
-      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
+      <Tile className='max-w-176' secondaryAction={tileSecondaryAction}>
         <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
@@ -142,7 +142,7 @@ export const VariantsShowcase: Story = {
           </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
+      <Tile className='max-w-176' secondaryAction={tileSecondaryAction}>
         <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
@@ -153,7 +153,7 @@ export const VariantsShowcase: Story = {
         </TileContent>
       </Tile>
 
-      <Tile className='max-w-160' secondaryAction={tileSecondaryAction}>
+      <Tile className='max-w-176' secondaryAction={tileSecondaryAction}>
         <Spot icon={Settings} />
         <TileContent>
           <TileTitle>With Trailing Content</TileTitle>
@@ -169,7 +169,7 @@ export const VariantsShowcase: Story = {
 export const HorizontalList: Story = {
   render: () => (
     <div className='flex flex-col gap-16'>
-      <div className='flex w-480 bg-base'>
+      <div className='flex w-lg bg-base'>
         {Array.from({ length: 3 }).map((_, i) => (
           <Tile key={`list-1-${i}`} secondaryAction={tileSecondaryAction}>
             <Spot icon={Apps} />
@@ -180,7 +180,7 @@ export const HorizontalList: Story = {
           </Tile>
         ))}
       </div>
-      <div className='flex w-480 overflow-x-auto bg-base'>
+      <div className='flex w-lg overflow-x-auto bg-base'>
         {Array.from({ length: 5 }).map((_, i) => (
           <Tile
             key={`list-2-${i}`}
