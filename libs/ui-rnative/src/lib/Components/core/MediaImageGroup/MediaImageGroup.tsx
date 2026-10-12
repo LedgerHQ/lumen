@@ -1,0 +1,219 @@
+import {
+  DEFAULT_GROUP_MAX_VISIBLE,
+  sliceGroupItems,
+} from '@ledgerhq/lumen-utils-shared';
+import { StyleSheet } from 'react-native';
+import { useStyleSheet } from '../../../../styles';
+import type { LumenStyleSheetTheme } from '../../../../styles';
+import { Box, Text } from '../../primitives';
+import { MediaImage } from '../MediaImage';
+import type { MediaImageSize, MediaImageShape } from '../MediaImage';
+import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
+
+type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
+type SpacingKey = keyof LumenStyleSheetTheme['spacings'];
+type TypographyKey =
+  | 'body4SemiBold'
+  | 'body3SemiBold'
+  | 'body2SemiBold'
+  | 'heading4SemiBold'
+  | 'heading3SemiBold';
+
+// Mirrors the MediaImage radius so the ring wraps the item without a gap.
+const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
+  12: 'xs',
+  16: 'xs',
+  20: 'xs',
+  24: 'sm',
+  32: 'sm',
+  40: 'md',
+  48: 'md',
+  56: 'lg',
+  64: 'lg',
+  72: 'lg',
+};
+
+// About 25% of the size, snapped to the spacing scale.
+const overlapMap: Record<MediaImageSize, SpacingKey> = {
+  12: 's4',
+  16: 's4',
+  20: 's6',
+  24: 's6',
+  32: 's8',
+  40: 's10',
+  48: 's12',
+  56: 's14',
+  64: 's16',
+  72: 's16',
+};
+
+// The ring grows with the size, up to 2px.
+const ringMap: Record<MediaImageSize, SpacingKey> = {
+  12: 's1',
+  16: 's1',
+  20: 's1',
+  24: 's1',
+  32: 's1',
+  40: 's2',
+  48: 's2',
+  56: 's2',
+  64: 's2',
+  72: 's2',
+};
+
+const overflowTypographyMap: Record<MediaImageSize, TypographyKey> = {
+  12: 'body4SemiBold',
+  16: 'body4SemiBold',
+  20: 'body4SemiBold',
+  24: 'body4SemiBold',
+  32: 'body3SemiBold',
+  40: 'body3SemiBold',
+  48: 'body2SemiBold',
+  56: 'heading4SemiBold',
+  64: 'heading3SemiBold',
+  72: 'heading3SemiBold',
+};
+
+const useStyles = ({
+  size,
+  shape,
+}: {
+  size: MediaImageSize;
+  shape: MediaImageShape;
+}) => {
+  return useStyleSheet(
+    (t) => {
+      const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
+      const radius =
+        shape === 'circle'
+          ? t.borderRadius.full
+          : t.borderRadius[borderRadiusMap[size]];
+
+      return {
+        root: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          alignSelf: 'flex-start',
+        },
+        slot: {
+          padding: t.spacings[ringMap[size]],
+          borderRadius: radius,
+          overflow: 'hidden',
+          backgroundColor: t.colors.bg.base,
+        },
+        slotOverlap: {
+          marginLeft: -t.spacings[overlapMap[size]],
+        },
+        overflow: {
+          width: sizeValue,
+          height: sizeValue,
+          borderRadius: radius,
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: t.colors.bg.interactive,
+        },
+        overflowText: {
+          ...t.typographies[overflowTypographyMap[size]],
+          color: t.colors.text.onInteractive,
+        },
+      };
+    },
+    [size, shape],
+  );
+};
+
+/**
+ * Displays a stack of overlapping media images, with a `+N` badge when the
+ * data exceeds `maxVisible`.
+ *
+ * The group owns `size` and `shape`. A custom `renderItem` receives them and
+ * must forward them to the rendered element (e.g. a crypto icon). Items are
+ * clipped to the group's ring, so decorations overhanging an item, such as a
+ * network badge, are not supported.
+ *
+ * Without `renderItem`, `data` must be `MediaImage` props: this is not enforced
+ * by the types, and any other shape renders empty placeholders.
+ *
+ * @example
+ * import { MediaImageGroup } from '@ledgerhq/lumen-ui-rnative';
+ *
+ * <MediaImageGroup
+ *   size={32}
+ *   data={[
+ *     { id: 'btc', src: btcUrl, alt: 'Bitcoin' },
+ *     { id: 'eth', src: ethUrl, alt: 'Ethereum' },
+ *   ]}
+ * />
+ *
+ * <MediaImageGroup
+ *   data={assets} // [{ id: 'bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' }, ...]
+ *   renderItem={(asset, { size, shape }) => (
+ *     <CryptoIcon ledgerId={asset.ledgerId} ticker={asset.ticker} size={size} shape={shape} />
+ *   )}
+ * />
+ */
+export function MediaImageGroup<
+  T extends { id: string } = MediaImageGroupItem,
+>({
+  data,
+  renderItem,
+  size = 32,
+  shape = 'circle',
+  maxVisible = DEFAULT_GROUP_MAX_VISIBLE,
+  overflowTestID,
+  lx = {},
+  style,
+  ref,
+  ...props
+}: MediaImageGroupProps<T>) {
+  const styles = useStyles({ size, shape });
+
+  if (data.length === 0) {
+    return null;
+  }
+
+  const { visibleItems, overflowCount } = sliceGroupItems(data, maxVisible);
+
+  return (
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.root, style])}
+      {...props}
+    >
+      {visibleItems.map((item, index) => {
+        const { id: _id, ...imageProps } = item as MediaImageGroupItem;
+
+        return (
+          <Box
+            key={item.id}
+            style={StyleSheet.flatten([
+              styles.slot,
+              index > 0 && styles.slotOverlap,
+            ])}
+          >
+            {renderItem ? (
+              renderItem(item, { size, shape })
+            ) : (
+              <MediaImage {...imageProps} size={size} shape={shape} />
+            )}
+          </Box>
+        );
+      })}
+      {overflowCount > 0 && (
+        <Box
+          style={StyleSheet.flatten([
+            styles.slot,
+            visibleItems.length > 0 && styles.slotOverlap,
+          ])}
+        >
+          <Box style={styles.overflow} testID={overflowTestID}>
+            <Text style={styles.overflowText} allowFontScaling={false}>
+              +{overflowCount}
+            </Text>
+          </Box>
+        </Box>
+      )}
+    </Box>
+  );
+}
