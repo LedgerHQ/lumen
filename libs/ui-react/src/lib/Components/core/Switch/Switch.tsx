@@ -2,6 +2,7 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useControllableState } from '../../../../utils/useControllableState';
 import type { SwitchProps } from './types';
+import { VisuallyHiddenInput } from './VisuallyHiddenInput';
 
 const switchVariants = cva(
   cn(
@@ -65,6 +66,11 @@ export const Switch = ({
   onChange,
   size = 'md',
   disabled: disabledProp,
+  name,
+  value,
+  required,
+  form,
+  inputRef,
   ...props
 }: SwitchProps) => {
   const disabled = useDisabledContext({
@@ -78,23 +84,36 @@ export const Switch = ({
   });
 
   return (
-    <button
-      {...props}
-      ref={ref}
-      type='button'
-      role='switch'
-      aria-checked={checked}
-      data-state={checked ? 'checked' : 'unchecked'}
-      data-disabled={disabled ? '' : undefined}
-      disabled={disabled}
-      className={cn(switchVariants({ size }), className)}
-      onClick={() => setChecked(!checked)}
-    >
-      <span
+    <>
+      <button
+        {...props}
+        ref={ref}
+        type='button'
+        role='switch'
+        aria-checked={checked}
         data-state={checked ? 'checked' : 'unchecked'}
         data-disabled={disabled ? '' : undefined}
-        className={thumbVariants({ size })}
-      />
-    </button>
+        disabled={disabled}
+        className={cn(switchVariants({ size }), className)}
+        onClick={() => setChecked(!checked)}
+      >
+        <span
+          data-state={checked ? 'checked' : 'unchecked'}
+          data-disabled={disabled ? '' : undefined}
+          className={thumbVariants({ size })}
+        />
+      </button>
+      {name !== undefined && (
+        <VisuallyHiddenInput
+          checked={checked}
+          name={name}
+          value={value}
+          required={required}
+          form={form}
+          disabled={disabled}
+          inputRef={inputRef}
+        />
+      )}
+    </>
   );
 };

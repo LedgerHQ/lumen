@@ -23,6 +23,27 @@ export type SwitchProps = {
    * @default false
    */
   disabled?: boolean;
+  /**
+   * The name submitted with the form. A hidden input is only rendered when set.
+   */
+  name?: string;
+  /**
+   * The value submitted with the form when the switch is selected.
+   * @default 'on'
+   */
+  value?: string;
+  /**
+   * Whether the switch must be selected for the form to be submitted.
+   */
+  required?: boolean;
+  /**
+   * The id of the form the switch belongs to, when not nested in it.
+   */
+  form?: string;
+  /**
+   * Ref to the hidden form input, for form libraries that register inputs directly.
+   */
+  inputRef?: ComponentPropsWithRef<'input'>['ref'];
 } & Pick<
   ComponentPropsWithRef<'button'>,
   | 'ref'
