@@ -1,10 +1,11 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { useControllableState } from '../../../../utils/useControllableState';
 import { Check } from '../../symbols/icons/Check';
 import type { CheckboxProps } from './types';
+import { VisuallyHiddenInput } from './VisuallyHiddenInput';
 
 const checkboxStyles = cn(
-  'size-20 shrink-0 cursor-pointer rounded-xs transition-colors',
+  'flex size-20 shrink-0 cursor-pointer items-center justify-center rounded-xs transition-colors',
   'focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:outline-hidden',
 
   'data-[state=unchecked]:border data-[state=unchecked]:border-muted data-[state=unchecked]:bg-base',
@@ -16,10 +17,11 @@ const checkboxStyles = cn(
   'data-[state=checked]:hover:bg-active-hover',
   'data-[state=checked]:active:bg-active-pressed',
   'data-[state=checked]:disabled:bg-disabled data-[state=checked]:disabled:text-disabled',
+  'disabled:cursor-not-allowed',
 );
 
 /**
- * A customizable checkbox component built on top of Radix UI Checkbox primitive.
+ * A customizable checkbox component.
  *
  * The checkbox follows the design system tokens and supports checked, unchecked,
  * disabled, and focus states with proper hover and active interactions.
@@ -59,24 +61,60 @@ const checkboxStyles = cn(
 export const Checkbox = ({
   ref,
   className,
+  checked: checkedProp,
+  defaultChecked = false,
+  onCheckedChange,
   disabled: disabledProp,
+  name,
+  value,
+  required,
+  form,
+  inputRef,
   ...props
 }: CheckboxProps) => {
   const disabled = useDisabledContext({
     consumerName: 'Checkbox',
     mergeWith: { disabled: disabledProp },
   });
+  const [checked, setChecked] = useControllableState({
+    prop: checkedProp,
+    defaultProp: defaultChecked,
+    onChange: onCheckedChange,
+  });
 
   return (
-    <CheckboxPrimitive.Root
-      ref={ref}
-      className={cn(checkboxStyles, className)}
-      disabled={disabled}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator className='flex items-center justify-center'>
-        <Check size={16} />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
+    <>
+      <button
+        {...props}
+        ref={ref}
+        type='button'
+        role='checkbox'
+        aria-checked={checked}
+        aria-required={required}
+        data-state={checked ? 'checked' : 'unchecked'}
+        data-disabled={disabled ? '' : undefined}
+        disabled={disabled}
+        className={cn(checkboxStyles, className)}
+        onClick={() => setChecked(!checked)}
+        onKeyDown={(event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+          }
+        }}
+      >
+        {checked && <Check size={16} />}
+      </button>
+      {name !== undefined && (
+        <VisuallyHiddenInput
+          checked={checked}
+          name={name}
+          value={value}
+          required={required}
+          form={form}
+          disabled={disabled}
+          inputRef={inputRef}
+        />
+      )}
+    </>
   );
 };
