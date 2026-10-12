@@ -1,4 +1,5 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { DotIndicatorProps } from './types';
 

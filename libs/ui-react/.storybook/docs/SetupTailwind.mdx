@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-
 <Meta title='Getting Started/Setup Tailwind' />
 
 # Setup Tailwind CSS
@@ -35,7 +34,7 @@ npm install @ledgerhq/lumen-design-core
 npm install @ledgerhq/lumen-ui-react
 
 # Install peer dependencies
-npm install tailwindcss@^4.1.17 @tailwindcss/postcss @tailwindcss/vite react@^18.3.1 clsx tailwind-merge class-variance-authority
+npm install tailwindcss@^4.1.17 @tailwindcss/postcss @tailwindcss/vite react@^18.3.1 class-variance-authority
 ```
 
 ---
@@ -106,6 +105,7 @@ For the best development experience, we recommend the following setup:
      npm install -D @ledgerhq/lumen-lint-plugin
      ```
    - ESLint (`eslint.config.mjs`):
+
      ```javascript
      import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
      import tseslint from 'typescript-eslint';
@@ -113,14 +113,21 @@ For the best development experience, we recommend the following setup:
      export default [
        ...tseslint.configs.recommended, // the presets set no parser
        lumen.configs.recommended,
-       { settings: { 'better-tailwindcss': { entryPoint: './src/styles.css' } } },
+       {
+         settings: { 'better-tailwindcss': { entryPoint: './src/styles.css' } },
+       },
      ];
      ```
+
    - oxlint (`.oxlintrc.json`; the oxlint side is experimental):
      ```json
      {
-       "extends": ["./node_modules/@ledgerhq/lumen-lint-plugin/oxlint/recommended.json"],
-       "settings": { "better-tailwindcss": { "entryPoint": "./src/styles.css" } }
+       "extends": [
+         "./node_modules/@ledgerhq/lumen-lint-plugin/oxlint/recommended.json"
+       ],
+       "settings": {
+         "better-tailwindcss": { "entryPoint": "./src/styles.css" }
+       }
      }
      ```
    - The presets register `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers `oxlint.config.ts`.
@@ -137,22 +144,17 @@ For the best development experience, we recommend the following setup:
 
 ### 4. Utility Functions
 
-We recommend creating utility functions to help you work with Tailwind classes. Here's how to create powerful utilities that handle conditional classes, Tailwind class conflicts, and type-safe variants:
+We recommend using these utilities to work with Tailwind classes: they handle conditional classes, Tailwind class conflicts, and type-safe variants.
 
-**Creating Class Names Utility**
+**Class Names Utility**
 
-Create your class names utility file (e.g., `utils/cn.ts`):
+`@ledgerhq/lumen-design-core` ships a `cn` utility on its own entry point:
 
 ```typescript
-import { ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 ```
 
-This utility combines the power of two popular libraries:
+It combines two popular libraries, installed with `@ledgerhq/lumen-design-core`:
 
 - [clsx](https://www.npmjs.com/package/clsx): Handles conditional class names
 - [tailwind-merge](https://www.npmjs.com/package/tailwind-merge): Intelligently handles Tailwind CSS class conflicts
@@ -160,8 +162,6 @@ This utility combines the power of two popular libraries:
 Example usage of cn utility:
 
 ```typescript
-import { cn } from '../utils/cn';
-
 // Basic usage
 <div className={cn(
   "base-class",
@@ -349,7 +349,7 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 <line
   style={{ stroke: cssVar('var(--border-muted)') }}
   strokeWidth={cssVar('var(--stroke-1)')}
-/>
+/>;
 ```
 
 Typos and invalid tokens are caught at compile time. Web-only — React Native should use `useTheme()` instead.

@@ -19,7 +19,7 @@ Lumen is a comprehensive design system that provides consistent UI components fo
 
 ```bash
 # Install the UI Kit and required peer dependencies
-npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core clsx tailwind-merge class-variance-authority
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core class-variance-authority
 ```
 
 2. Configure Tailwind:

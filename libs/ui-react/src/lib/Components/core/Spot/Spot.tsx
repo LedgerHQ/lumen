@@ -1,4 +1,5 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import type { IconSize } from '../../symbols/Icon';
 import { contentVariants, spotVariants } from './styles';
 import type { SpotProps, SpotSize } from './types';

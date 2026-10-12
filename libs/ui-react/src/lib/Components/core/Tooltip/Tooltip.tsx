@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import * as TooltipPrimitive from '@radix-ui/react-tooltip';
 import type { ComponentProps } from 'react';
 import type {

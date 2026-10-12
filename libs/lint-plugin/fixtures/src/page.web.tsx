@@ -1,5 +1,5 @@
 import { Button } from '@ledgerhq/lumen-ui-react';
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 
 export const Fixture = ({ size }: { size: string }) => (
   <div>

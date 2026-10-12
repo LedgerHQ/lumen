@@ -1,4 +1,5 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Avatar } from '../Avatar/Avatar';
 import type { AvatarButtonProps } from './types';
 

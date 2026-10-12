@@ -1,4 +1,5 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { ReactElement } from 'react';
 import {

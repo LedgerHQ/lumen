@@ -1,4 +1,5 @@
-import { cn, getButtonA11yProps } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { getButtonA11yProps } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useEffect, useState } from 'react';
 import { useCommonTranslation } from '../../../../translations';

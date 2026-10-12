@@ -6,7 +6,7 @@
   "tags": ["scope:shared", "type:tooling"],
   "implicitDependencies": [
     "!@ledgerhq/lumen-ui-react",
-    "!@ledgerhq/lumen-utils-shared"
+    "!@ledgerhq/lumen-design-core"
   ],
   "targets": {
     "build": {

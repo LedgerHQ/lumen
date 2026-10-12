@@ -4,7 +4,6 @@ export * from './lib/string/string';
 export * from './lib/inputFormatter';
 export * from './lib/colors';
 export * from './lib/context';
-export * from './lib/cn';
 export * from './lib/isTextChildren';
 export * from './lib/useMergeRef';
 export * from './lib/getObjectPath';

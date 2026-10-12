@@ -1,8 +1,5 @@
-import {
-  cn,
-  createSafeContext,
-  type Priority,
-} from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { createSafeContext, type Priority } from '@ledgerhq/lumen-utils-shared';
 
 import type {
   DescriptionItemLabelProps,
