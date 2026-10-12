@@ -148,7 +148,7 @@ export const FormExample: Story = {
               className='underline'
             >
               terms and conditions
-            </a>{' '}
+            </a>
             *
           </label>
         </div>
