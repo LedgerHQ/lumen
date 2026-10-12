@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 
@@ -46,12 +47,12 @@ describe('Checkbox Component', () => {
     expect(handleChange).toHaveBeenCalledWith(false);
   });
 
-  it('should not toggle or call onCheckedChange when disabled', () => {
+  it('should not toggle or call onCheckedChange when disabled', async () => {
     const handleChange = vi.fn();
     render(<Checkbox disabled onCheckedChange={handleChange} />);
     const checkbox = screen.getByRole('checkbox');
 
-    fireEvent.click(checkbox);
+    await userEvent.click(checkbox);
     expect(checkbox).not.toBeChecked();
     expect(handleChange).not.toHaveBeenCalled();
   });
@@ -59,6 +60,6 @@ describe('Checkbox Component', () => {
   it('should apply custom className', () => {
     render(<Checkbox className='my-12' />);
     const checkbox = screen.getByRole('checkbox');
-    expect(checkbox).toHaveClass('my-12');
+    expect(checkbox.parentElement).toHaveClass('my-12');
   });
 });

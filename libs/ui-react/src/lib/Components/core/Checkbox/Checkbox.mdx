@@ -56,7 +56,7 @@ Checkboxes support multiple states to provide clear feedback to users:
 
 ### Accessibility
 
-- Checkboxes automatically include proper ARIA attributes on the underlying `button`
+- Checkboxes automatically include proper ARIA attributes through a native `input type="checkbox"`
 - Use `required` prop for mandatory form fields
 - Provide descriptive labels for screen readers
 - Ensure sufficient color contrast in all states
@@ -116,7 +116,7 @@ Use `defaultChecked` for simple cases:
 
 ## Usage in Forms
 
-Set `name` to render a visually hidden checkbox that mirrors the checked state, so it is submitted and validated with the surrounding `form`. `value`, `required`, `form` and `inputRef` are forwarded to that input.
+The checkbox is a native `input type="checkbox"`, so it is submitted and validated with the surrounding `form` when `name` is set. `value`, `required` and `form` are forwarded to it, and `ref` points to the input.
 
 <Source of={CheckboxStories.FormExample} />
 

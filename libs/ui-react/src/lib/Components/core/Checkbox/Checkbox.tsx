@@ -2,22 +2,20 @@ import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useControllableState } from '../../../../utils/useControllableState';
 import { Check } from '../../symbols/icons/Check';
 import type { CheckboxProps } from './types';
-import { VisuallyHiddenInput } from './VisuallyHiddenInput';
 
 const checkboxStyles = cn(
-  'flex size-20 shrink-0 cursor-pointer items-center justify-center rounded-xs transition-colors',
-  'focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:outline-hidden',
+  'flex size-full items-center justify-center rounded-xs transition-colors',
+  'peer-focus-visible:ring-2 peer-focus-visible:ring-focus peer-focus-visible:ring-offset-2',
 
   'data-[state=unchecked]:border data-[state=unchecked]:border-muted data-[state=unchecked]:bg-base',
-  'data-[state=unchecked]:hover:bg-base-hover',
-  'data-[state=unchecked]:active:bg-base-pressed',
-  'data-[state=unchecked]:disabled:border-disabled data-[state=unchecked]:disabled:bg-base',
+  'data-[state=unchecked]:peer-hover:bg-base-hover',
+  'data-[state=unchecked]:peer-active:bg-base-pressed',
+  'data-[state=unchecked]:peer-disabled:border-disabled data-[state=unchecked]:peer-disabled:bg-base',
 
   'data-[state=checked]:bg-active data-[state=checked]:text-on-accent',
-  'data-[state=checked]:hover:bg-active-hover',
-  'data-[state=checked]:active:bg-active-pressed',
-  'data-[state=checked]:disabled:bg-disabled data-[state=checked]:disabled:text-disabled',
-  'disabled:cursor-not-allowed',
+  'data-[state=checked]:peer-hover:bg-active-hover',
+  'data-[state=checked]:peer-active:bg-active-pressed',
+  'data-[state=checked]:peer-disabled:bg-disabled data-[state=checked]:peer-disabled:text-disabled',
 );
 
 /**
@@ -65,11 +63,6 @@ export const Checkbox = ({
   defaultChecked = false,
   onCheckedChange,
   disabled: disabledProp,
-  name,
-  value,
-  required,
-  form,
-  inputRef,
   ...props
 }: CheckboxProps) => {
   const disabled = useDisabledContext({
@@ -81,40 +74,24 @@ export const Checkbox = ({
     defaultProp: defaultChecked,
     onChange: onCheckedChange,
   });
+  const state = checked ? 'checked' : 'unchecked';
 
   return (
-    <>
-      <button
+    <span className={cn('relative inline-flex size-20 shrink-0', className)}>
+      <input
         {...props}
         ref={ref}
-        type='button'
-        role='checkbox'
-        aria-checked={checked}
-        aria-required={required}
-        data-state={checked ? 'checked' : 'unchecked'}
-        data-disabled={disabled ? '' : undefined}
+        type='checkbox'
+        checked={checked}
         disabled={disabled}
-        className={cn(checkboxStyles, className)}
-        onClick={() => setChecked(!checked)}
-        onKeyDown={(event) => {
-          if (event.key === 'Enter') {
-            event.preventDefault();
-          }
-        }}
-      >
+        data-state={state}
+        data-disabled={disabled ? '' : undefined}
+        className='peer absolute inset-0 m-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed'
+        onChange={(event) => setChecked(event.target.checked)}
+      />
+      <span aria-hidden data-state={state} className={checkboxStyles}>
         {checked && <Check size={16} />}
-      </button>
-      {name !== undefined && (
-        <VisuallyHiddenInput
-          checked={checked}
-          name={name}
-          value={value}
-          required={required}
-          form={form}
-          disabled={disabled}
-          inputRef={inputRef}
-        />
-      )}
-    </>
+      </span>
+    </span>
   );
 };

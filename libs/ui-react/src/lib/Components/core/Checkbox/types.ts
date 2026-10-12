@@ -24,7 +24,7 @@ export type CheckboxProps = {
    */
   disabled?: boolean;
   /**
-   * The name submitted with the form. A hidden input is only rendered when set.
+   * The name submitted with the form.
    */
   name?: string;
   /**
@@ -40,12 +40,8 @@ export type CheckboxProps = {
    * The id of the form the checkbox belongs to, when not nested in it.
    */
   form?: string;
-  /**
-   * Ref to the hidden form input, for form libraries that register inputs directly.
-   */
-  inputRef?: ComponentPropsWithRef<'input'>['ref'];
 } & Pick<
-  ComponentPropsWithRef<'button'>,
+  ComponentPropsWithRef<'input'>,
   | 'ref'
   | 'id'
   | 'className'

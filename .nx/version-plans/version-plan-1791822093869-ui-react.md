@@ -2,6 +2,6 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-refactor(Checkbox): replace @radix-ui/react-checkbox with an inline implementation
+refactor(Checkbox): replace @radix-ui/react-checkbox with a native input
 
-`Checkbox` is now a plain `button` with `role="checkbox"`. Its styles and behavior are unchanged, including the form props (`name`, `value`, `required`, `form`): when `name` is set, a visually hidden input mirrors the state for native form submission. A new `inputRef` prop exposes that input to form libraries. `CheckboxProps` no longer extends the Radix root props and now accepts only `ref`, `id`, `tabIndex` and the `aria-label`, `aria-labelledby`, `aria-describedby` and `aria-hidden` attributes. `@radix-ui/react-checkbox` is no longer a peer dependency of `@ledgerhq/lumen-ui-react`.
+`Checkbox` now renders a native `input type="checkbox"` as the accessible control, laid invisibly over the styled box, so semantics, keyboard and form participation come from the browser. Its styles and behavior are unchanged. `ref`, `id`, `name`, `value`, `required`, `form` and the `aria-*` attributes are forwarded to the input, while `className` is applied to the wrapper. `CheckboxProps` no longer extends the Radix root props. `@radix-ui/react-checkbox` is no longer a peer dependency of `@ledgerhq/lumen-ui-react`.
