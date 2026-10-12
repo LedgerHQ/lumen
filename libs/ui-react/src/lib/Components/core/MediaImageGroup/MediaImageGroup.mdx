@@ -44,7 +44,7 @@ The group owns the size of every item. Overlap scales with it.
 
 ### Overflow
 
-`maxVisible` counts the overflow badge. With `maxVisible={4}` and 6 items, 3 items and a `+3` badge are displayed. The displayed count is capped at 99.
+`maxVisible` counts the overflow badge. With `maxVisible={4}` and 6 items, 3 items and a `+3` badge are displayed. The badge reads `99+` beyond 99 hidden items.
 
 <Canvas of={MediaImageGroupStories.WithOverflow} />
 
@@ -56,7 +56,7 @@ Each item accepts the `MediaImage` fallback and loading props.
 
 ## Accessibility
 
-- The root uses `role="group"`. Provide an `aria-label` describing the group.
+- The root uses `role="group"`. Provide an `aria-label` describing the group, and `overflowLabel` to name the `+N` badge.
 - Each item keeps the accessibility of the element it renders, so give every item a meaningful `alt`.
 
 </Tab>

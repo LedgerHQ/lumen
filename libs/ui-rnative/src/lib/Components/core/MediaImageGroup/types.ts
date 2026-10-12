@@ -48,4 +48,9 @@ export type MediaImageGroupProps<
    * @optional
    */
   overflowTestID?: string;
+  /**
+   * Accessible label of the `+N` overflow badge, e.g. "7 more assets".
+   * @optional
+   */
+  overflowLabel?: string;
 } & Omit<StyledViewProps, 'children'>;

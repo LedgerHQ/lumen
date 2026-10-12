@@ -22,9 +22,11 @@ export const sliceGroupItems = <T>(
 
   return {
     visibleItems,
-    overflowCount: Math.min(
-      items.length - visibleItems.length,
-      GROUP_MAX_OVERFLOW_DISPLAY,
-    ),
+    overflowCount: items.length - visibleItems.length,
   };
 };
+
+export const formatGroupOverflowCount = (count: number): string =>
+  count > GROUP_MAX_OVERFLOW_DISPLAY
+    ? `${GROUP_MAX_OVERFLOW_DISPLAY}+`
+    : `+${count}`;

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { sliceGroupItems } from './sliceGroupItems';
+import { formatGroupOverflowCount, sliceGroupItems } from './sliceGroupItems';
 
 describe('sliceGroupItems', () => {
   it('should keep every item when within maxVisible', () => {
@@ -26,10 +26,10 @@ describe('sliceGroupItems', () => {
     expect(overflowCount).toBe(2);
   });
 
-  it('should cap the displayed overflow count at 99', () => {
+  it('should report the real overflow count', () => {
     const { overflowCount } = sliceGroupItems(new Array(500).fill(0), 4);
 
-    expect(overflowCount).toBe(99);
+    expect(overflowCount).toBe(497);
   });
 
   it('should keep only the overflow slot for a maxVisible below 1', () => {
@@ -37,5 +37,16 @@ describe('sliceGroupItems', () => {
 
     expect(visibleItems).toHaveLength(0);
     expect(overflowCount).toBe(3);
+  });
+});
+
+describe('formatGroupOverflowCount', () => {
+  it('should prefix the count with a plus', () => {
+    expect(formatGroupOverflowCount(7)).toBe('+7');
+    expect(formatGroupOverflowCount(99)).toBe('+99');
+  });
+
+  it('should display 99+ beyond 99', () => {
+    expect(formatGroupOverflowCount(100)).toBe('99+');
   });
 });

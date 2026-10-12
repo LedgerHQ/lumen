@@ -1,6 +1,7 @@
 import {
   DEFAULT_GROUP_MAX_VISIBLE,
   sliceGroupItems,
+  formatGroupOverflowCount,
 } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
@@ -161,6 +162,7 @@ export function MediaImageGroup<
   shape = 'circle',
   maxVisible = DEFAULT_GROUP_MAX_VISIBLE,
   overflowTestID,
+  overflowLabel,
   lx = {},
   style,
   ref,
@@ -207,9 +209,14 @@ export function MediaImageGroup<
             visibleItems.length > 0 && styles.slotOverlap,
           ])}
         >
-          <Box style={styles.overflow} testID={overflowTestID}>
+          <Box
+            style={styles.overflow}
+            testID={overflowTestID}
+            accessible={!!overflowLabel}
+            accessibilityLabel={overflowLabel}
+          >
             <Text style={styles.overflowText} allowFontScaling={false}>
-              +{overflowCount}
+              {formatGroupOverflowCount(overflowCount)}
             </Text>
           </Box>
         </Box>

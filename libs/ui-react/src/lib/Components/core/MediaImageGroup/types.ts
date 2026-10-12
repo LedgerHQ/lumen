@@ -48,6 +48,11 @@ export type MediaImageGroupProps<
    */
   overflowTestID?: string;
   /**
+   * Accessible label of the `+N` overflow badge, e.g. "7 more assets".
+   * @optional
+   */
+  overflowLabel?: string;
+  /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    * @optional
    */

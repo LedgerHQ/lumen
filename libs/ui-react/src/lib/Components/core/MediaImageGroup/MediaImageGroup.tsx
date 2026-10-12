@@ -2,6 +2,7 @@ import {
   cn,
   DEFAULT_GROUP_MAX_VISIBLE,
   sliceGroupItems,
+  formatGroupOverflowCount,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { MediaImage } from '../MediaImage';
@@ -96,6 +97,7 @@ export function MediaImageGroup<
   shape = 'circle',
   maxVisible = DEFAULT_GROUP_MAX_VISIBLE,
   overflowTestID,
+  overflowLabel,
   className,
   ...props
 }: MediaImageGroupProps<T>) {
@@ -133,8 +135,10 @@ export function MediaImageGroup<
           <span
             className={cn(mediaImageGroupVariants.overflow({ size, shape }))}
             data-testid={overflowTestID}
+            role={overflowLabel ? 'img' : undefined}
+            aria-label={overflowLabel}
           >
-            +{overflowCount}
+            {formatGroupOverflowCount(overflowCount)}
           </span>
         </div>
       )}
