@@ -1,4 +1,4 @@
-import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as SwitchStories from './Switch.stories';
 import { Switch } from './Switch';
 import {
@@ -45,6 +45,12 @@ Includes selected, unselected and disabled states.
 Includes small and large sizes.
 
 <Canvas of={SwitchStories.SizesShowcase} />
+
+### Forms
+
+Supports form props for native form submission.
+
+<Canvas of={SwitchStories.WithForm} />
 
 ## Accessibility
 
@@ -106,13 +112,7 @@ Use `defaultSelected` for simple cases:
 
 Set `name` to render a visually hidden checkbox that mirrors the switch state, so it is submitted and validated with the surrounding `form`. `value`, `required`, `form` and `inputRef` are forwarded to that input.
 
-```tsx
-<form>
-  <Switch name='notifications' value='yes' aria-label='Notifications' />
-</form>
-```
-
-<Canvas of={SwitchStories.WithForm} />
+<Source of={SwitchStories.WithForm} />
 
 ## Accessibility Best Practices
 
