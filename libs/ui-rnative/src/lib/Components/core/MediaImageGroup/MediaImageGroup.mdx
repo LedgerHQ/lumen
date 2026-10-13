@@ -1,4 +1,4 @@
-import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as MediaImageGroupStories from './MediaImageGroup.stories';
 import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
@@ -64,21 +64,7 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 ### Basic Usage
 
-```tsx
-import { MediaImageGroup } from '@ledgerhq/lumen-ui-rnative';
-
-function MyComponent() {
-  return (
-    <MediaImageGroup
-      size={32}
-      data={[
-        { id: 'btc', src: 'https://example.com/btc.png', alt: 'Bitcoin' },
-        { id: 'eth', src: 'https://example.com/eth.png', alt: 'Ethereum' },
-      ]}
-    />
-  );
-}
-```
+<Source of={MediaImageGroupStories.Base} />
 
 ### Custom items
 
@@ -86,19 +72,7 @@ Every item needs a unique `id`, used as its React key. Pass `renderItem` to rend
 
 Without `renderItem`, `data` must be `MediaImage` props. This is not enforced by the types: any other shape renders empty placeholders.
 
-```tsx
-<MediaImageGroup
-  data={assets}
-  renderItem={(asset, { size, shape }) => (
-    <CryptoIcon
-      ledgerId={asset.ledgerId}
-      ticker={asset.ticker}
-      size={size}
-      shape={shape}
-    />
-  )}
-/>
-```
+<Source of={MediaImageGroupStories.WithRenderItem} />
 
 </Tab>
 </CustomTabs>

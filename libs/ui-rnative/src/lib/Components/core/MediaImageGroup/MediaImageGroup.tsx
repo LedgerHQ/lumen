@@ -9,9 +9,9 @@ import type { LumenStyleSheetTheme } from '../../../../styles';
 import { Box, Text } from '../../primitives';
 import { MediaImage } from '../MediaImage';
 import type { MediaImageSize, MediaImageShape } from '../MediaImage';
+import { borderRadiusMap } from '../MediaImage/MediaImage';
 import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
 
-type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
 type SpacingKey = keyof LumenStyleSheetTheme['spacings'];
 type TypographyKey =
   | 'body4SemiBold'
@@ -19,20 +19,6 @@ type TypographyKey =
   | 'body2SemiBold'
   | 'heading4SemiBold'
   | 'heading3SemiBold';
-
-// Mirrors the MediaImage radius so the ring wraps the item without a gap.
-const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
-  12: 'xs',
-  16: 'xs',
-  20: 'xs',
-  24: 'sm',
-  32: 'sm',
-  40: 'md',
-  48: 'md',
-  56: 'lg',
-  64: 'lg',
-  72: 'lg',
-};
 
 // About 25% of the size, snapped to the spacing scale.
 const overlapMap: Record<MediaImageSize, SpacingKey> = {

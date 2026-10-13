@@ -9,29 +9,26 @@ import { MediaImage } from '../MediaImage';
 import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
 
 const mediaImageGroupVariants = {
-  slot: cva(
-    'relative box-border flex shrink-0 overflow-hidden bg-base first:ml-0',
-    {
-      variants: {
-        size: {
-          12: '-ml-4 rounded-xs p-1',
-          16: '-ml-4 rounded-xs p-1',
-          20: '-ml-6 rounded-xs p-1',
-          24: '-ml-6 rounded-sm p-1',
-          32: '-ml-8 rounded-sm p-1',
-          40: '-ml-10 rounded-md p-2',
-          48: '-ml-12 rounded-md p-2',
-          56: '-ml-14 rounded-lg p-2',
-          64: '-ml-16 rounded-lg p-2',
-          72: '-ml-16 rounded-lg p-2',
-        },
-        shape: {
-          square: '',
-          circle: 'rounded-full',
-        },
+  slot: cva('relative flex shrink-0 overflow-hidden bg-base first:ml-0', {
+    variants: {
+      size: {
+        12: '-ml-4 rounded-xs p-1',
+        16: '-ml-4 rounded-xs p-1',
+        20: '-ml-6 rounded-xs p-1',
+        24: '-ml-6 rounded-sm p-1',
+        32: '-ml-8 rounded-sm p-1',
+        40: '-ml-10 rounded-md p-2',
+        48: '-ml-12 rounded-md p-2',
+        56: '-ml-14 rounded-lg p-2',
+        64: '-ml-16 rounded-lg p-2',
+        72: '-ml-16 rounded-lg p-2',
+      },
+      shape: {
+        square: '',
+        circle: 'rounded-full',
       },
     },
-  ),
+  }),
   overflow: cva(
     'flex items-center justify-center bg-interactive text-on-interactive',
     {

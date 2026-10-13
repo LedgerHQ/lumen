@@ -6,7 +6,10 @@ export type MediaImageGroupItem = {
    * Stable identifier of the item, used as its React key.
    */
   id: string;
-} & Omit<MediaImageProps, 'id' | 'size' | 'shape' | 'ref' | 'className'>;
+} & Omit<
+  MediaImageProps,
+  'id' | 'size' | 'shape' | 'ref' | 'className' | 'style'
+>;
 
 export type MediaImageGroupItemContext = Required<
   Pick<MediaImageProps, 'size' | 'shape'>
