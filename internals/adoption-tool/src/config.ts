@@ -1,7 +1,11 @@
+/** One report column each, in this order. Add a new published lib by hand.
+ * `lumen-utils-shared` is left out on purpose: consumers never declare it,
+ * they get it through ui-react / ui-rnative. */
 export const LUMEN_PACKAGES = [
   '@ledgerhq/lumen-ui-react',
   '@ledgerhq/lumen-ui-rnative',
   '@ledgerhq/lumen-design-core',
+  '@ledgerhq/lumen-lint-plugin',
 ] as const;
 
 export type LumenPackage = (typeof LUMEN_PACKAGES)[number];

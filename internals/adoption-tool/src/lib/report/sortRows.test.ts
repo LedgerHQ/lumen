@@ -10,6 +10,7 @@ function row(repo: string, cells: Partial<ReportRow['cells']>): ReportRow {
       '@ledgerhq/lumen-ui-react': { status: 'not-used' },
       '@ledgerhq/lumen-ui-rnative': { status: 'not-used' },
       '@ledgerhq/lumen-design-core': { status: 'not-used' },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
       ...cells,
     },
   };

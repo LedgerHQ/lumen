@@ -14,6 +14,7 @@ const latestVersions: Record<LumenPackage, string> = {
   '@ledgerhq/lumen-ui-react': '0.1.59',
   '@ledgerhq/lumen-ui-rnative': '0.1.62',
   '@ledgerhq/lumen-design-core': '0.1.29',
+  '@ledgerhq/lumen-lint-plugin': '0.1.0',
 };
 
 const rows: ReportRow[] = [
@@ -36,6 +37,7 @@ const rows: ReportRow[] = [
         version: '0.1.29',
         patchesBehind: 0,
       },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
     },
   },
   {
@@ -53,6 +55,7 @@ const rows: ReportRow[] = [
         version: '0.1.17',
         patchesBehind: 12,
       },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
     },
   },
   {
@@ -70,6 +73,7 @@ const rows: ReportRow[] = [
         version: '0.1.28',
         patchesBehind: 1,
       },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
     },
   },
 ];
@@ -168,6 +172,7 @@ const unresolvedRow: ReportRow = {
       reason: 'spec "^1.0.0 || ^2.0.0"',
     },
     '@ledgerhq/lumen-design-core': { status: 'not-used' },
+    '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
   },
 };
 
@@ -188,6 +193,7 @@ describe('unresolved cells', () => {
           status: 'unresolved',
           reason: 'spec "a\\|b"',
         },
+        '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
       },
     };
     expect(renderMarkdownTable([row])).toContain('spec "a\\\\\\|b"');

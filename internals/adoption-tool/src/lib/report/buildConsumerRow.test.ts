@@ -12,6 +12,7 @@ const latest: Record<LumenPackage, string> = {
   [UI_REACT]: '0.1.60',
   [UI_RNATIVE]: '0.1.62',
   [DESIGN_CORE]: '0.1.29',
+  '@ledgerhq/lumen-lint-plugin': '0.1.0',
 };
 
 const consumer: ConsumerEntry = {

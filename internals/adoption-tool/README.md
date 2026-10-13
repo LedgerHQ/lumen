@@ -1,8 +1,8 @@
 # adoption-tool
 
-Shows which version of `@ledgerhq/lumen-ui-react`, `-ui-rnative` and
-`-design-core` each consumer repo uses, compared with the latest on npm.
-Dev-only and never published.
+Shows which version of each Lumen package (`ui-react`, `ui-rnative`,
+`design-core`, `lint-plugin`) each consumer repo uses, compared with the latest
+on npm. Dev-only and never published.
 
 ## Usage
 
@@ -61,6 +61,9 @@ Both files are validated on load, so a typo fails the run instead of showing
 up as wrong data.
 
 To add a repo: run `discover`, then add each new repo to one of the two files.
+
+The tracked packages are listed by hand in `src/config.ts`. Add new published
+libs there.
 
 ## Architecture
 
