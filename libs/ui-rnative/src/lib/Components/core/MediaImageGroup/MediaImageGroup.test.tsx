@@ -1,5 +1,6 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { render } from '@testing-library/react-native';
 import { Text } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
@@ -10,6 +11,11 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
     {children}
   </ThemeProvider>
 );
+
+const DisabledProbe = () => {
+  const disabled = useDisabledContext({ consumerName: 'DisabledProbe' });
+  return <Text>{disabled ? 'disabled' : 'enabled'}</Text>;
+};
 
 const items = (count: number) =>
   Array.from({ length: count }, (_, i) => ({
@@ -162,6 +168,20 @@ describe('MediaImageGroup', () => {
       );
 
       expect(getByTestId('overflow')).not.toHaveStyle({ opacity: 0.3 });
+    });
+
+    it('should provide the disabled state to custom items', () => {
+      const { getByText } = render(
+        <TestWrapper>
+          <MediaImageGroup
+            data={[{ id: 'btc' }]}
+            disabled
+            renderItem={() => <DisabledProbe />}
+          />
+        </TestWrapper>,
+      );
+
+      expect(getByText('disabled')).toBeTruthy();
     });
   });
 });
