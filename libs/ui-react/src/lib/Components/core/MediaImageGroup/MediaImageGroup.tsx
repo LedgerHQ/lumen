@@ -5,6 +5,7 @@ import {
   formatGroupOverflowCount,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import { useMemo } from 'react';
 import { MediaImage } from '../MediaImage';
 import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
 
@@ -96,11 +97,14 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
   className,
   ...props
 }: MediaImageGroupProps<T>) {
+  const { visibleItems, overflowCount } = useMemo(
+    () => sliceGroupItems(data, maxVisible),
+    [data, maxVisible],
+  );
+
   if (data.length === 0) {
     return null;
   }
-
-  const { visibleItems, overflowCount } = sliceGroupItems(data, maxVisible);
 
   return (
     <div

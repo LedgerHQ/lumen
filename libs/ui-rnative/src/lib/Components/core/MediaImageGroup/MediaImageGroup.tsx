@@ -3,6 +3,7 @@ import {
   sliceGroupItems,
   formatGroupOverflowCount,
 } from '@ledgerhq/lumen-utils-shared';
+import { useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import type { LumenStyleSheetTheme } from '../../../../styles';
@@ -154,11 +155,14 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
 }: MediaImageGroupProps<T>) {
   const styles = useStyles({ size, shape });
 
+  const { visibleItems, overflowCount } = useMemo(
+    () => sliceGroupItems(data, maxVisible),
+    [data, maxVisible],
+  );
+
   if (data.length === 0) {
     return null;
   }
-
-  const { visibleItems, overflowCount } = sliceGroupItems(data, maxVisible);
 
   return (
     <Box
