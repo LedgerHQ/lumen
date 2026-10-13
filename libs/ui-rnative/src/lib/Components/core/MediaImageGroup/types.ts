@@ -39,6 +39,11 @@ export type MediaImageGroupProps<T = MediaImageGroupItem> = {
    */
   shape?: MediaImageProps['shape'];
   /**
+   * Dims the items and the `+N` badge.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
    * Maximum number of slots displayed, the `+N` overflow badge included.
    * @default 4
    */

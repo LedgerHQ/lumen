@@ -95,6 +95,10 @@ export const WithOverflow: Story = {
   ),
 };
 
+export const Disabled: Story = {
+  args: { data: assets, maxVisible: 4, disabled: true },
+};
+
 export const WithFallback: Story = {
   args: { data: fallbackItems },
 };
@@ -106,13 +110,7 @@ export const WithRenderItem: Story = {
       data={assets}
       size={40}
       renderItem={(asset, { size, shape }) => (
-        <MediaImage
-          src={asset.src}
-          alt={asset.alt}
-          size={size}
-          shape={shape}
-          disabled={asset.alt === 'Cardano'}
-        />
+        <MediaImage src={asset.src} alt={asset.alt} size={size} shape={shape} />
       )}
     />
   ),

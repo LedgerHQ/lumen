@@ -133,4 +133,35 @@ describe('MediaImageGroup', () => {
       expect(getByTestId('overflow')).toBeTruthy();
     });
   });
+
+  describe('Disabled', () => {
+    it('should dim the overflow badge when disabled', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <MediaImageGroup
+            data={items(10)}
+            maxVisible={4}
+            disabled
+            overflowTestID='overflow'
+          />
+        </TestWrapper>,
+      );
+
+      expect(getByTestId('overflow')).toHaveStyle({ opacity: 0.3 });
+    });
+
+    it('should not dim the overflow badge by default', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <MediaImageGroup
+            data={items(10)}
+            maxVisible={4}
+            overflowTestID='overflow'
+          />
+        </TestWrapper>,
+      );
+
+      expect(getByTestId('overflow')).not.toHaveStyle({ opacity: 0.3 });
+    });
+  });
 });

@@ -1,5 +1,7 @@
 import {
   DEFAULT_GROUP_MAX_VISIBLE,
+  DisabledProvider,
+  useDisabledContext,
   sliceGroupItems,
   formatGroupOverflowCount,
 } from '@ledgerhq/lumen-utils-shared';
@@ -65,9 +67,11 @@ const overflowTypographyMap: Record<MediaImageSize, TypographyKey> = {
 const useStyles = ({
   size,
   shape,
+  disabled = false,
 }: {
   size: MediaImageSize;
   shape: MediaImageShape;
+  disabled?: boolean;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -81,7 +85,6 @@ const useStyles = ({
         root: {
           flexDirection: 'row',
           alignItems: 'center',
-          alignSelf: 'flex-start',
         },
         slot: {
           padding: t.spacings[ringMap[size]],
@@ -99,6 +102,7 @@ const useStyles = ({
           alignItems: 'center',
           justifyContent: 'center',
           backgroundColor: t.colors.bg.interactive,
+          ...(disabled && { opacity: 0.3 }),
         },
         overflowText: {
           ...t.typographies[overflowTypographyMap[size]],
@@ -106,7 +110,45 @@ const useStyles = ({
         },
       };
     },
-    [size, shape],
+    [size, shape, disabled],
+  );
+};
+
+type OverflowBadgeProps = {
+  count: number;
+  size: MediaImageSize;
+  shape: MediaImageShape;
+  overlap: boolean;
+  testID?: string;
+  label?: string;
+};
+
+const OverflowBadge = ({
+  count,
+  size,
+  shape,
+  overlap,
+  testID,
+  label,
+}: OverflowBadgeProps) => {
+  const disabled = useDisabledContext({ consumerName: 'MediaImageGroup' });
+  const styles = useStyles({ size, shape, disabled });
+
+  return (
+    <Box
+      style={StyleSheet.flatten([styles.slot, overlap && styles.slotOverlap])}
+    >
+      <Box
+        style={styles.overflow}
+        testID={testID}
+        accessible={!!label}
+        accessibilityLabel={label}
+      >
+        <Text style={styles.overflowText} allowFontScaling={false}>
+          {formatGroupOverflowCount(count)}
+        </Text>
+      </Box>
+    </Box>
   );
 };
 
@@ -146,6 +188,7 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
   size = 32,
   shape = 'circle',
   maxVisible = DEFAULT_GROUP_MAX_VISIBLE,
+  disabled: disabledProp = false,
   overflowTestID,
   overflowLabel,
   lx = {},
@@ -153,6 +196,10 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
   ref,
   ...props
 }: MediaImageGroupProps<T>) {
+  const disabled = useDisabledContext({
+    consumerName: 'MediaImageGroup',
+    mergeWith: { disabled: disabledProp },
+  });
   const styles = useStyles({ size, shape });
 
   const { visibleItems, overflowCount } = useMemo(
@@ -171,44 +218,37 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
       style={StyleSheet.flatten([styles.root, style])}
       {...props}
     >
-      {visibleItems.map((item, index) => {
-        const { id, ...imageProps } = item as MediaImageGroupItem;
+      <DisabledProvider value={{ disabled }}>
+        {visibleItems.map((item, index) => {
+          const { id, ...imageProps } = item as MediaImageGroupItem;
 
-        return (
-          <Box
-            key={id ?? index}
-            style={StyleSheet.flatten([
-              styles.slot,
-              index > 0 && styles.slotOverlap,
-            ])}
-          >
-            {renderItem ? (
-              renderItem(item, { size, shape })
-            ) : (
-              <MediaImage {...imageProps} size={size} shape={shape} />
-            )}
-          </Box>
-        );
-      })}
-      {overflowCount > 0 && (
-        <Box
-          style={StyleSheet.flatten([
-            styles.slot,
-            visibleItems.length > 0 && styles.slotOverlap,
-          ])}
-        >
-          <Box
-            style={styles.overflow}
+          return (
+            <Box
+              key={id ?? index}
+              style={StyleSheet.flatten([
+                styles.slot,
+                index > 0 && styles.slotOverlap,
+              ])}
+            >
+              {renderItem ? (
+                renderItem(item, { size, shape })
+              ) : (
+                <MediaImage {...imageProps} size={size} shape={shape} />
+              )}
+            </Box>
+          );
+        })}
+        {overflowCount > 0 && (
+          <OverflowBadge
+            count={overflowCount}
+            size={size}
+            shape={shape}
+            overlap={visibleItems.length > 0}
             testID={overflowTestID}
-            accessible={!!overflowLabel}
-            accessibilityLabel={overflowLabel}
-          >
-            <Text style={styles.overflowText} allowFontScaling={false}>
-              {formatGroupOverflowCount(overflowCount)}
-            </Text>
-          </Box>
-        </Box>
-      )}
+            label={overflowLabel}
+          />
+        )}
+      </DisabledProvider>
     </Box>
   );
 }

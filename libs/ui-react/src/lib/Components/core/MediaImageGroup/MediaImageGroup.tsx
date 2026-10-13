@@ -1,5 +1,7 @@
 import {
   cn,
+  DisabledProvider,
+  useDisabledContext,
   DEFAULT_GROUP_MAX_VISIBLE,
   sliceGroupItems,
   formatGroupOverflowCount,
@@ -31,7 +33,7 @@ const mediaImageGroupVariants = {
     },
   }),
   overflow: cva(
-    'flex items-center justify-center bg-interactive text-on-interactive',
+    'flex items-center justify-center bg-interactive text-on-interactive select-none',
     {
       variants: {
         size: {
@@ -50,9 +52,44 @@ const mediaImageGroupVariants = {
           square: '',
           circle: 'rounded-full',
         },
+        disabled: {
+          true: 'opacity-30',
+          false: '',
+        },
       },
     },
   ),
+};
+
+type OverflowBadgeProps = Pick<
+  MediaImageGroupProps,
+  'size' | 'shape' | 'overflowTestID' | 'overflowLabel'
+> &
+  Required<Pick<MediaImageGroupProps, 'size' | 'shape'>> & { count: number };
+
+const OverflowBadge = ({
+  count,
+  size,
+  shape,
+  overflowTestID,
+  overflowLabel,
+}: OverflowBadgeProps) => {
+  const disabled = useDisabledContext({ consumerName: 'MediaImageGroup' });
+
+  return (
+    <div className={cn(mediaImageGroupVariants.slot({ size, shape }))}>
+      <span
+        className={cn(
+          mediaImageGroupVariants.overflow({ size, shape, disabled }),
+        )}
+        data-testid={overflowTestID}
+        role={overflowLabel ? 'img' : undefined}
+        aria-label={overflowLabel}
+      >
+        {formatGroupOverflowCount(count)}
+      </span>
+    </div>
+  );
 };
 
 /**
@@ -92,11 +129,16 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
   size = 32,
   shape = 'circle',
   maxVisible = DEFAULT_GROUP_MAX_VISIBLE,
+  disabled: disabledProp = false,
   overflowTestID,
   overflowLabel,
   className,
   ...props
 }: MediaImageGroupProps<T>) {
+  const disabled = useDisabledContext({
+    consumerName: 'MediaImageGroup',
+    mergeWith: { disabled: disabledProp },
+  });
   const { visibleItems, overflowCount } = useMemo(
     () => sliceGroupItems(data, maxVisible),
     [data, maxVisible],
@@ -113,34 +155,33 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
       className={cn('inline-flex items-center', className)}
       {...props}
     >
-      {visibleItems.map((item, index) => {
-        const { id, ...imageProps } = item as MediaImageGroupItem;
+      <DisabledProvider value={{ disabled }}>
+        {visibleItems.map((item, index) => {
+          const { id, ...imageProps } = item as MediaImageGroupItem;
 
-        return (
-          <div
-            key={id ?? index}
-            className={cn(mediaImageGroupVariants.slot({ size, shape }))}
-          >
-            {renderItem ? (
-              renderItem(item, { size, shape })
-            ) : (
-              <MediaImage {...imageProps} size={size} shape={shape} />
-            )}
-          </div>
-        );
-      })}
-      {overflowCount > 0 && (
-        <div className={cn(mediaImageGroupVariants.slot({ size, shape }))}>
-          <span
-            className={cn(mediaImageGroupVariants.overflow({ size, shape }))}
-            data-testid={overflowTestID}
-            role={overflowLabel ? 'img' : undefined}
-            aria-label={overflowLabel}
-          >
-            {formatGroupOverflowCount(overflowCount)}
-          </span>
-        </div>
-      )}
+          return (
+            <div
+              key={id ?? index}
+              className={cn(mediaImageGroupVariants.slot({ size, shape }))}
+            >
+              {renderItem ? (
+                renderItem(item, { size, shape })
+              ) : (
+                <MediaImage {...imageProps} size={size} shape={shape} />
+              )}
+            </div>
+          );
+        })}
+        {overflowCount > 0 && (
+          <OverflowBadge
+            count={overflowCount}
+            size={size}
+            shape={shape}
+            overflowTestID={overflowTestID}
+            overflowLabel={overflowLabel}
+          />
+        )}
+      </DisabledProvider>
     </div>
   );
 }

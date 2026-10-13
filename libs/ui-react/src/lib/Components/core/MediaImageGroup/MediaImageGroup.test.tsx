@@ -1,7 +1,13 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
 import '@testing-library/jest-dom';
 import { MediaImageGroup } from './MediaImageGroup';
+
+const DisabledProbe = () => {
+  const disabled = useDisabledContext({ consumerName: 'DisabledProbe' });
+  return <span>{disabled ? 'disabled' : 'enabled'}</span>;
+};
 
 const items = (count: number) =>
   Array.from({ length: count }, (_, i) => ({
@@ -109,6 +115,45 @@ describe('MediaImageGroup', () => {
       );
 
       expect(screen.getByTestId('overflow')).toHaveTextContent('+7');
+    });
+  });
+
+  describe('Disabled', () => {
+    it('should dim the overflow badge when disabled', () => {
+      render(
+        <MediaImageGroup
+          data={items(10)}
+          maxVisible={4}
+          disabled
+          overflowTestID='overflow'
+        />,
+      );
+
+      expect(screen.getByTestId('overflow')).toHaveClass('opacity-30');
+    });
+
+    it('should not dim the overflow badge by default', () => {
+      render(
+        <MediaImageGroup
+          data={items(10)}
+          maxVisible={4}
+          overflowTestID='overflow'
+        />,
+      );
+
+      expect(screen.getByTestId('overflow')).not.toHaveClass('opacity-30');
+    });
+
+    it('should provide the disabled state to custom items', () => {
+      render(
+        <MediaImageGroup
+          data={[{ id: 'btc' }]}
+          disabled
+          renderItem={() => <DisabledProbe />}
+        />,
+      );
+
+      expect(screen.getByText('disabled')).toBeInTheDocument();
     });
   });
 });
