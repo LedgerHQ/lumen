@@ -1,8 +1,8 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import { useControllableState } from '../../../../utils/useControllableState';
+import { VisuallyHiddenInput } from '../../internal/VisuallyHiddenInput';
 import type { SwitchProps } from './types';
-import { VisuallyHiddenInput } from './VisuallyHiddenInput';
 
 const switchVariants = cva(
   cn(
@@ -105,13 +105,14 @@ export const Switch = ({
       </button>
       {name !== undefined && (
         <VisuallyHiddenInput
+          ref={inputRef}
+          type='checkbox'
           checked={checked}
           name={name}
           value={value}
           required={required}
           form={form}
           disabled={disabled}
-          inputRef={inputRef}
         />
       )}
     </>
