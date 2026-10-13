@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { parseCliArgs, parseReportFormat } from './cliArgs.js';
+import {
+  parseCliArgs,
+  parseReportFormat,
+  parseStatusFilter,
+} from './cliArgs.js';
 
 describe('parseCliArgs', () => {
   it('reads space-separated --key value pairs', () => {
@@ -22,6 +26,13 @@ describe('parseCliArgs', () => {
   it('ignores a flag immediately followed by another flag', () => {
     expect(parseCliArgs(['--format', '--verbose', 'true'])).toEqual({
       verbose: 'true',
+    });
+  });
+
+  it('reads --key=value pairs', () => {
+    expect(parseCliArgs(['--status=all', '--format', 'json'])).toEqual({
+      status: 'all',
+      format: 'json',
     });
   });
 
@@ -50,6 +61,25 @@ describe('parseReportFormat', () => {
   it('rejects an unknown format', () => {
     expect(() => parseReportFormat(['--format', 'html'])).toThrow(
       /Invalid --format "html"/,
+    );
+  });
+});
+
+describe('parseStatusFilter', () => {
+  it('defaults to production when --status is omitted', () => {
+    expect(parseStatusFilter([])).toBe('production');
+  });
+
+  it('accepts every registry status and all', () => {
+    expect(parseStatusFilter(['--status', 'internal-tool'])).toBe(
+      'internal-tool',
+    );
+    expect(parseStatusFilter(['--status', 'all'])).toBe('all');
+  });
+
+  it('rejects an unknown status', () => {
+    expect(() => parseStatusFilter(['--status', 'prototype'])).toThrow(
+      /Invalid --status "prototype"/,
     );
   });
 });

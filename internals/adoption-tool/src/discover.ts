@@ -1,5 +1,11 @@
-import { LUMEN_PACKAGES, GITHUB_ORG, SOURCE_REPO } from './config.js';
+import {
+  LUMEN_PACKAGES,
+  GITHUB_ORG,
+  IGNORED_REPOS_DATA_PATH,
+  SOURCE_REPO,
+} from './config.js';
 import { diffRegistry } from './lib/discover/discoverDiff.js';
+import { loadIgnoredRepos } from './lib/discover/ignoredRepos.js';
 import { loadConsumers } from './lib/shared/consumers.js';
 import { searchPackageJsonUsage } from './lib/shared/github.js';
 import * as log from './lib/shared/logging.js';
@@ -17,6 +23,9 @@ const MAX_UNTRACKED_LISTED = 8;
  */
 async function main(): Promise<void> {
   const consumers = loadConsumers();
+  const ignoredRepos = new Set(
+    loadIgnoredRepos(consumers).map((entry) => entry.repo),
+  );
 
   log.step(`Searching GitHub code search across org:${GITHUB_ORG}...`);
   const foundPathsByRepo = new Map<string, Set<string>>();
@@ -31,17 +40,18 @@ async function main(): Promise<void> {
     log.ok(`${pkg}: ${hits.length} package.json hits`);
   }
 
-  const { newRepos, missingRepos, stalePaths, untrackedPaths } = diffRegistry(
-    consumers,
-    foundPathsByRepo,
-  );
+  const { newRepos, skippedRepos, missingRepos, stalePaths, untrackedPaths } =
+    diffRegistry(consumers, foundPathsByRepo, ignoredRepos);
   const untrackedCount = untrackedPaths.reduce(
     (total, { paths }) => total + paths.length,
     0,
   );
 
   console.log(
-    `\n${newRepos.length} new repo(s), ${missingRepos.length} registry repo(s) not re-found, ${stalePaths.length} registry path(s) no longer found, ${untrackedCount} untracked path(s) in known repos.\n`,
+    `\n${newRepos.length} new repo(s), ${missingRepos.length} registry repo(s) not re-found, ${stalePaths.length} registry path(s) no longer found, ${untrackedCount} untracked path(s) in known repos.`,
+  );
+  console.log(
+    `${skippedRepos.length} known non-consumer(s) skipped (see ${IGNORED_REPOS_DATA_PATH}).\n`,
   );
 
   if (newRepos.length > 0) {

@@ -1,7 +1,8 @@
 import { LUMEN_PACKAGES, type LumenPackage } from '../../config.js';
+import type { ConsumerStatus } from '../shared/consumers.js';
 import type { AdoptionStatus } from './classify.js';
 import { rowSeverityTier } from './sortRows.js';
-import type { Cell, LatestVersions, ReportRow } from './types.js';
+import type { Cell, LatestVersions, ReportRow, StatusFilter } from './types.js';
 
 const STATUS_EMOJI: Record<AdoptionStatus, string> = {
   current: '🟢',
@@ -22,6 +23,11 @@ function cellText(cell: Cell): string {
   if (cell.status === 'current') return `${emoji} ${cell.version}`;
   return `${emoji} ${cell.version} (${cell.patchesBehind} behind)`;
 }
+
+const CONSUMER_STATUS_LABEL: Record<ConsumerStatus, string> = {
+  production: 'production',
+  'internal-tool': 'internal tool',
+};
 
 function shortPackageName(packageName: LumenPackage): string {
   return packageName.replace('@ledgerhq/lumen-', '');
@@ -79,9 +85,14 @@ function escapeMarkdownTableCell(text: string): string {
 }
 
 export function renderMarkdownTable(rows: ReportRow[]): string {
-  const headerCells = ['Repo', ...LUMEN_PACKAGES.map(shortPackageName)];
+  const headerCells = [
+    'Repo',
+    'Status',
+    ...LUMEN_PACKAGES.map(shortPackageName),
+  ];
   const bodyCells = rows.map((row) => [
     row.repo,
+    CONSUMER_STATUS_LABEL[row.consumerStatus],
     ...LUMEN_PACKAGES.map((pkg) =>
       escapeMarkdownTableCell(cellText(row.cells[pkg])),
     ),
@@ -134,18 +145,26 @@ function cellFragment(
   return `${short} ${cell.patchesBehind} behind`;
 }
 
+// Production is the default, so only internal tools are called out, which
+// keeps the Slack lines as short as before for most repos.
+function repoLabel(row: ReportRow): string {
+  return row.consumerStatus === 'internal-tool'
+    ? `${row.repo} (${CONSUMER_STATUS_LABEL[row.consumerStatus]})`
+    : row.repo;
+}
+
 function currentBullet(row: ReportRow): string {
   const used = LUMEN_PACKAGES.filter(
     (pkg) => row.cells[pkg].status !== 'not-used',
   ).map(shortPackageName);
-  return `• ${row.repo} — ${used.join(', ')}`;
+  return `• ${repoLabel(row)} — ${used.join(', ')}`;
 }
 
 function rowBullet(row: ReportRow): string {
   const fragments = LUMEN_PACKAGES.map((pkg) =>
     cellFragment(pkg, row.cells[pkg]),
   ).filter((fragment): fragment is string => fragment !== undefined);
-  return `• ${row.repo} — ${fragments.join(', ')}`;
+  return `• ${repoLabel(row)} — ${fragments.join(', ')}`;
 }
 
 const TIER_HEADING: Record<'red' | 'behind' | 'current', string> = {
@@ -236,7 +255,7 @@ export function renderHtmlReport(
       const cells = LUMEN_PACKAGES.map((pkg) => htmlCell(row.cells[pkg])).join(
         '',
       );
-      return `<tr><td>${htmlEscape(row.repo)}</td>${cells}</tr>`;
+      return `<tr><td>${htmlEscape(row.repo)}</td><td>${CONSUMER_STATUS_LABEL[row.consumerStatus]}</td>${cells}</tr>`;
     })
     .join('\n');
 
@@ -256,7 +275,7 @@ export function renderHtmlReport(
 <body>
 <pre>${htmlEscape(renderSummaryLine(rows, latestVersions))}</pre>
 <table>
-<thead><tr><th>Repo</th>${header}</tr></thead>
+<thead><tr><th>Repo</th><th>Status</th>${header}</tr></thead>
 <tbody>
 ${body}
 </tbody>
@@ -268,15 +287,19 @@ ${body}
 }
 
 /** Machine-readable snapshot for diffing runs over time — the markdown table
- * is for people, this is what a dashboard or trend script should read. */
+ * is for people, this is what a dashboard or trend script should read.
+ * `consumerStatusFilter` is recorded so a trend never silently mixes
+ * snapshots taken over different sets of repos. */
 export function renderJsonReport(
   rows: ReportRow[],
   latestVersions: LatestVersions,
   generatedAt: Date,
+  statusFilter: StatusFilter,
 ): string {
   return JSON.stringify(
     {
       generatedAt: generatedAt.toISOString(),
+      consumerStatusFilter: statusFilter,
       latest: latestVersions,
       summary: countStatuses(rows),
       rows,

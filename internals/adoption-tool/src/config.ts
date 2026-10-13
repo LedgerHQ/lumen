@@ -1,7 +1,11 @@
+/** One report column each, in this order. Add a new published lib by hand.
+ * `lumen-utils-shared` is left out on purpose: consumers never declare it,
+ * they get it through ui-react / ui-rnative. */
 export const LUMEN_PACKAGES = [
   '@ledgerhq/lumen-ui-react',
   '@ledgerhq/lumen-ui-rnative',
   '@ledgerhq/lumen-design-core',
+  '@ledgerhq/lumen-lint-plugin',
 ] as const;
 
 export type LumenPackage = (typeof LUMEN_PACKAGES)[number];
@@ -20,6 +24,8 @@ export const GITHUB_CONCURRENCY = 6;
 /** Targets run without a `cwd`, so these are workspace-root-relative. */
 export const CONSUMERS_DATA_PATH =
   'internals/adoption-tool/data/consumers.json';
+export const IGNORED_REPOS_DATA_PATH =
+  'internals/adoption-tool/data/ignored-repos.json';
 export const REPORT_MARKDOWN_PATH = 'internals/adoption-tool/report.md';
 export const REPORT_HTML_PATH = 'internals/adoption-tool/report.html';
 export const REPORT_SLACK_PATH = 'internals/adoption-tool/report.slack.txt';

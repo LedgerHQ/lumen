@@ -80,9 +80,9 @@ export function worstCell(cells: Cell[]): Cell {
 /**
  * Orders rows green → yellow → red (worst status among a row's used
  * packages), then — within the same tier — by patches behind, checked
- * column-by-column in `LUMEN_PACKAGES` order (ui-react, then ui-rnative,
- * then design-core), so a row 4 patches behind on ui-react sorts before one
- * 32 patches behind, before either compares on rnative/design-core.
+ * column-by-column in `LUMEN_PACKAGES` order (ui-react first), so a row 4
+ * patches behind on ui-react sorts before one 32 patches behind, before
+ * either compares on the other packages.
  */
 export function sortRowsByAdoption(rows: ReportRow[]): ReportRow[] {
   return [...rows].sort((a, b) => {

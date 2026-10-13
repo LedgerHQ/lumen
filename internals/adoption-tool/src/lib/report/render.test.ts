@@ -14,11 +14,13 @@ const latestVersions: Record<LumenPackage, string> = {
   '@ledgerhq/lumen-ui-react': '0.1.59',
   '@ledgerhq/lumen-ui-rnative': '0.1.62',
   '@ledgerhq/lumen-design-core': '0.1.29',
+  '@ledgerhq/lumen-lint-plugin': '0.1.0',
 };
 
 const rows: ReportRow[] = [
   {
     repo: 'LedgerHQ/ledger-live',
+    consumerStatus: 'production',
     cells: {
       '@ledgerhq/lumen-ui-react': {
         status: 'current',
@@ -35,10 +37,12 @@ const rows: ReportRow[] = [
         version: '0.1.29',
         patchesBehind: 0,
       },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
     },
   },
   {
     repo: 'LedgerHQ/app-openpgp',
+    consumerStatus: 'internal-tool',
     cells: {
       '@ledgerhq/lumen-ui-react': {
         status: 'far-behind',
@@ -51,10 +55,12 @@ const rows: ReportRow[] = [
         version: '0.1.17',
         patchesBehind: 12,
       },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
     },
   },
   {
     repo: 'LedgerHQ/borrow-live-app',
+    consumerStatus: 'production',
     cells: {
       '@ledgerhq/lumen-ui-react': {
         status: 'behind',
@@ -67,6 +73,7 @@ const rows: ReportRow[] = [
         version: '0.1.28',
         patchesBehind: 1,
       },
+      '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
     },
   },
 ];
@@ -75,10 +82,10 @@ describe('renderMarkdownTable', () => {
   it('renders one row per repo with a status emoji per package', () => {
     const table = renderMarkdownTable(rows);
     expect(table).toMatch(
-      /\| LedgerHQ\/ledger-live\s+\| 🟢 0\.1\.59\s+\| 🟢 0\.1\.62\s+\| 🟢 0\.1\.29\s+\|/,
+      /\| LedgerHQ\/ledger-live\s+\| production\s+\| 🟢 0\.1\.59\s+\| 🟢 0\.1\.62\s+\| 🟢 0\.1\.29\s+\|/,
     );
     expect(table).toMatch(
-      /\| LedgerHQ\/app-openpgp\s+\| 🔴 0\.1\.40 \(19 behind\)\s+\| —\s+\| 🔴 0\.1\.17 \(12 behind\)\s+\|/,
+      /\| LedgerHQ\/app-openpgp\s+\| internal tool\s+\| 🔴 0\.1\.40 \(19 behind\)\s+\| —\s+\| 🔴 0\.1\.17 \(12 behind\)\s+\|/,
     );
   });
 
@@ -99,13 +106,32 @@ describe('renderSummaryLine', () => {
   });
 });
 
+describe('consumer status in the outputs', () => {
+  it('adds a Status column to the HTML table', () => {
+    const html = renderHtmlReport(rows, latestVersions);
+    expect(html).toContain('<th>Repo</th><th>Status</th>');
+    expect(html).toContain(
+      '<td>LedgerHQ/app-openpgp</td><td>internal tool</td>',
+    );
+  });
+
+  it('keeps the consumer status of each row in the JSON snapshot', () => {
+    const json = JSON.parse(
+      renderJsonReport(rows, latestVersions, new Date('2026-01-01'), 'all'),
+    );
+    expect(
+      json.rows.map((row: ReportRow) => [row.repo, row.consumerStatus]),
+    ).toContainEqual(['LedgerHQ/app-openpgp', 'internal-tool']);
+  });
+});
+
 describe('renderSlackReport', () => {
   it('groups rows into red, yellow and green bulleted sections', () => {
     const slack = renderSlackReport(rows, latestVersions);
     expect(slack).not.toContain('|'); // no table — bullets only
     expect(slack).toContain('🔴 Far behind / diverged');
     expect(slack).toContain(
-      '• LedgerHQ/app-openpgp — ui-react 19 behind, design-core 12 behind',
+      '• LedgerHQ/app-openpgp (internal tool) — ui-react 19 behind, design-core 12 behind',
     );
     expect(slack).toContain('🟡 Behind');
     expect(slack).toContain(
@@ -135,6 +161,7 @@ describe('renderSlackReport', () => {
 
 const unresolvedRow: ReportRow = {
   repo: 'LedgerHQ/moved-repo',
+  consumerStatus: 'production',
   cells: {
     '@ledgerhq/lumen-ui-react': {
       status: 'unresolved',
@@ -145,6 +172,7 @@ const unresolvedRow: ReportRow = {
       reason: 'spec "^1.0.0 || ^2.0.0"',
     },
     '@ledgerhq/lumen-design-core': { status: 'not-used' },
+    '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
   },
 };
 
@@ -158,12 +186,14 @@ describe('unresolved cells', () => {
   it('escapes a backslash so it cannot cancel the pipe escape after it', () => {
     const row: ReportRow = {
       repo: 'LedgerHQ/odd-spec',
+      consumerStatus: 'production',
       cells: {
         ...unresolvedRow.cells,
         '@ledgerhq/lumen-ui-react': {
           status: 'unresolved',
           reason: 'spec "a\\|b"',
         },
+        '@ledgerhq/lumen-lint-plugin': { status: 'not-used' },
       },
     };
     expect(renderMarkdownTable([row])).toContain('spec "a\\\\\\|b"');
@@ -202,13 +232,19 @@ describe('version source note', () => {
 });
 
 describe('renderJsonReport', () => {
-  it('emits a parseable snapshot with a timestamp, latest versions, summary and rows', () => {
+  it('emits a parseable snapshot with a timestamp, status filter, latest versions, summary and rows', () => {
     const generatedAt = new Date('2026-01-02T03:04:05.000Z');
     const parsed = JSON.parse(
-      renderJsonReport([...rows, unresolvedRow], latestVersions, generatedAt),
+      renderJsonReport(
+        [...rows, unresolvedRow],
+        latestVersions,
+        generatedAt,
+        'production',
+      ),
     );
 
     expect(parsed.generatedAt).toBe('2026-01-02T03:04:05.000Z');
+    expect(parsed.consumerStatusFilter).toBe('production');
     expect(parsed.latest).toEqual(latestVersions);
     expect(parsed.summary).toEqual({
       current: 3,

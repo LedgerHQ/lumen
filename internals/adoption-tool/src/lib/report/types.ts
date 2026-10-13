@@ -1,4 +1,5 @@
 import type { LumenPackage } from '../../config.js';
+import type { ConsumerStatus } from '../shared/consumers.js';
 import type { AdoptionStatus } from './classify.js';
 
 export type Cell =
@@ -14,7 +15,13 @@ export type Cell =
 
 export type ReportRow = {
   repo: string;
+  /** The registry `status`, renamed so it isn't confused with each cell's
+   * adoption `status`. */
+  consumerStatus: ConsumerStatus;
   cells: Record<LumenPackage, Cell>;
 };
 
 export type LatestVersions = Record<LumenPackage, string>;
+
+/** A registry `status` to keep, or every consumer. */
+export type StatusFilter = ConsumerStatus | 'all';

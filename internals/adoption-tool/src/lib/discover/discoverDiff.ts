@@ -2,6 +2,8 @@ import { registryPaths, type ConsumerEntry } from '../shared/consumers.js';
 
 export type RegistryDiff = {
   newRepos: { repo: string; paths: string[] }[];
+  /** Repos search found that are deliberately not tracked (ignored-repos.json). */
+  skippedRepos: string[];
   missingRepos: string[];
   /** Registry paths that search no longer finds although the repo still
    * matches — the dependency likely moved to another package.json. */
@@ -14,12 +16,22 @@ export type RegistryDiff = {
 export function diffRegistry(
   consumers: ConsumerEntry[],
   foundPathsByRepo: Map<string, Set<string>>,
+  ignoredRepos: ReadonlySet<string> = new Set(),
 ): RegistryDiff {
   const knownRepos = new Set(consumers.map((entry) => entry.repo));
+  const untrackedRepos = [...foundPathsByRepo.keys()].filter(
+    (repo) => !knownRepos.has(repo),
+  );
 
-  const newRepos = [...foundPathsByRepo.entries()]
-    .filter(([repo]) => !knownRepos.has(repo))
-    .map(([repo, paths]) => ({ repo, paths: [...paths].sort() }));
+  const newRepos = untrackedRepos
+    .filter((repo) => !ignoredRepos.has(repo))
+    .map((repo) => ({
+      repo,
+      paths: [...(foundPathsByRepo.get(repo) ?? [])].sort(),
+    }));
+  const skippedRepos = untrackedRepos
+    .filter((repo) => ignoredRepos.has(repo))
+    .sort();
 
   const missingRepos = consumers
     .map((entry) => entry.repo)
@@ -45,5 +57,5 @@ export function diffRegistry(
     return paths.length > 0 ? [{ repo: entry.repo, paths }] : [];
   });
 
-  return { newRepos, missingRepos, stalePaths, untrackedPaths };
+  return { newRepos, skippedRepos, missingRepos, stalePaths, untrackedPaths };
 }

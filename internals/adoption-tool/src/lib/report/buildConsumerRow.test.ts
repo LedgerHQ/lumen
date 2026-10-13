@@ -12,10 +12,12 @@ const latest: Record<LumenPackage, string> = {
   [UI_REACT]: '0.1.60',
   [UI_RNATIVE]: '0.1.62',
   [DESIGN_CORE]: '0.1.29',
+  '@ledgerhq/lumen-lint-plugin': '0.1.0',
 };
 
 const consumer: ConsumerEntry = {
   repo: 'LedgerHQ/app',
+  status: 'production',
   packageJsonPath: 'package.json',
 };
 
@@ -38,6 +40,7 @@ describe('buildConsumerRow', () => {
     const row = await buildConsumerRow(consumer, latest, fetchFile);
 
     expect(row.repo).toBe('LedgerHQ/app');
+    expect(row.consumerStatus).toBe(consumer.status);
     expect(row.cells[UI_REACT]).toEqual({
       status: 'behind',
       version: '0.1.58',
@@ -132,6 +135,7 @@ describe('buildConsumerRow', () => {
   it('takes the worst status across every package.json listed for a package', async () => {
     const monorepo: ConsumerEntry = {
       repo: 'LedgerHQ/mono',
+      status: 'production',
       packageJsonPath: 'package.json',
       packageJsonPaths: {
         [UI_REACT]: [
@@ -159,6 +163,7 @@ describe('buildConsumerRow', () => {
   it('surfaces a moved workspace package.json instead of hiding it behind a healthy one', async () => {
     const monorepo: ConsumerEntry = {
       repo: 'LedgerHQ/mono',
+      status: 'production',
       packageJsonPath: 'package.json',
       packageJsonPaths: {
         [UI_REACT]: ['apps/a/package.json', 'apps/moved/package.json'],
@@ -186,8 +191,9 @@ describe('buildConsumerRow', () => {
 
 describe('failedConsumerRow', () => {
   it('marks every package unresolved so the repo still shows up in the worst tier', () => {
-    const row = failedConsumerRow('LedgerHQ/app');
+    const row = failedConsumerRow('LedgerHQ/app', 'internal-tool');
     expect(row.repo).toBe('LedgerHQ/app');
+    expect(row.consumerStatus).toBe('internal-tool');
     for (const name of [UI_REACT, UI_RNATIVE, DESIGN_CORE]) {
       expect(row.cells[name]).toEqual({
         status: 'unresolved',
