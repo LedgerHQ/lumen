@@ -4,20 +4,20 @@ import type { MediaImageProps } from '../MediaImage';
 
 export type MediaImageGroupItem = {
   /**
-   * Stable identifier of the item, used as its React key.
+   * Stable identifier of the item, used as its React key. Falls back to the
+   * item's index.
+   * @optional
    */
-  id: string;
+  id?: string;
 } & Omit<MediaImageProps, 'id' | 'size' | 'shape' | 'ref' | 'style' | 'lx'>;
 
 export type MediaImageGroupItemContext = Required<
   Pick<MediaImageProps, 'size' | 'shape'>
 >;
 
-export type MediaImageGroupProps<
-  T extends { id: string } = MediaImageGroupItem,
-> = {
+export type MediaImageGroupProps<T = MediaImageGroupItem> = {
   /**
-   * Items to display, each with a unique `id`. They are rendered as
+   * Items to display. They are rendered as
    * `MediaImage` unless `renderItem` is provided.
    */
   data: readonly T[];

@@ -72,21 +72,19 @@ const mediaImageGroupVariants = {
  * <MediaImageGroup
  *   size={32}
  *   data={[
- *     { id: 'btc', src: btcUrl, alt: 'Bitcoin' },
- *     { id: 'eth', src: ethUrl, alt: 'Ethereum' },
+ *     { src: btcUrl, alt: 'Bitcoin' },
+ *     { src: ethUrl, alt: 'Ethereum' },
  *   ]}
  * />
  *
  * <MediaImageGroup
- *   data={assets} // [{ id: 'bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' }, ...]
+ *   data={assets} // [{ ledgerId: 'bitcoin', ticker: 'BTC' }, ...]
  *   renderItem={(asset, { size, shape }) => (
  *     <CryptoIcon ledgerId={asset.ledgerId} ticker={asset.ticker} size={size} shape={shape} />
  *   )}
  * />
  */
-export function MediaImageGroup<
-  T extends { id: string } = MediaImageGroupItem,
->({
+export function MediaImageGroup<T = MediaImageGroupItem>({
   ref,
   data,
   renderItem,
@@ -111,12 +109,12 @@ export function MediaImageGroup<
       className={cn('inline-flex items-center', className)}
       {...props}
     >
-      {visibleItems.map((item) => {
-        const { id: _id, ...imageProps } = item as MediaImageGroupItem;
+      {visibleItems.map((item, index) => {
+        const { id, ...imageProps } = item as MediaImageGroupItem;
 
         return (
           <div
-            key={item.id}
+            key={id ?? index}
             className={cn(mediaImageGroupVariants.slot({ size, shape }))}
           >
             {renderItem ? (

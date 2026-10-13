@@ -127,21 +127,19 @@ const useStyles = ({
  * <MediaImageGroup
  *   size={32}
  *   data={[
- *     { id: 'btc', src: btcUrl, alt: 'Bitcoin' },
- *     { id: 'eth', src: ethUrl, alt: 'Ethereum' },
+ *     { src: btcUrl, alt: 'Bitcoin' },
+ *     { src: ethUrl, alt: 'Ethereum' },
  *   ]}
  * />
  *
  * <MediaImageGroup
- *   data={assets} // [{ id: 'bitcoin', ledgerId: 'bitcoin', ticker: 'BTC' }, ...]
+ *   data={assets} // [{ ledgerId: 'bitcoin', ticker: 'BTC' }, ...]
  *   renderItem={(asset, { size, shape }) => (
  *     <CryptoIcon ledgerId={asset.ledgerId} ticker={asset.ticker} size={size} shape={shape} />
  *   )}
  * />
  */
-export function MediaImageGroup<
-  T extends { id: string } = MediaImageGroupItem,
->({
+export function MediaImageGroup<T = MediaImageGroupItem>({
   data,
   renderItem,
   size = 32,
@@ -170,11 +168,11 @@ export function MediaImageGroup<
       {...props}
     >
       {visibleItems.map((item, index) => {
-        const { id: _id, ...imageProps } = item as MediaImageGroupItem;
+        const { id, ...imageProps } = item as MediaImageGroupItem;
 
         return (
           <Box
-            key={item.id}
+            key={id ?? index}
             style={StyleSheet.flatten([
               styles.slot,
               index > 0 && styles.slotOverlap,
