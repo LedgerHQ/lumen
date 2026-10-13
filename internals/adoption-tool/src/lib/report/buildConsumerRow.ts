@@ -6,6 +6,7 @@ import {
 import {
   packageJsonPathsFor,
   type ConsumerEntry,
+  type ConsumerStatus,
 } from '../shared/consumers.js';
 import { classifyVersion } from './classify.js';
 import { resolveDependency } from './resolveDependency.js';
@@ -111,16 +112,21 @@ export async function buildConsumerRow(
 
   return {
     repo: consumer.repo,
+    consumerStatus: consumer.status,
     cells: Object.fromEntries(entries) as Record<LumenPackage, Cell>,
   };
 }
 
 /** A row for a repo we couldn't read at all, so the report still lists it
  * (as the worst tier) instead of silently dropping it. */
-export function failedConsumerRow(repo: string): ReportRow {
+export function failedConsumerRow(
+  repo: string,
+  consumerStatus: ConsumerStatus,
+): ReportRow {
   const cell: Cell = { status: 'unresolved', reason: 'fetch failed' };
   return {
     repo,
+    consumerStatus,
     cells: Object.fromEntries(
       LUMEN_PACKAGES.map((packageName) => [packageName, cell]),
     ) as Record<LumenPackage, Cell>,

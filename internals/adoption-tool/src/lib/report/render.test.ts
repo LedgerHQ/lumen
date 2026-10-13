@@ -19,6 +19,7 @@ const latestVersions: Record<LumenPackage, string> = {
 const rows: ReportRow[] = [
   {
     repo: 'LedgerHQ/ledger-live',
+    consumerStatus: 'production',
     cells: {
       '@ledgerhq/lumen-ui-react': {
         status: 'current',
@@ -39,6 +40,7 @@ const rows: ReportRow[] = [
   },
   {
     repo: 'LedgerHQ/app-openpgp',
+    consumerStatus: 'internal-tool',
     cells: {
       '@ledgerhq/lumen-ui-react': {
         status: 'far-behind',
@@ -55,6 +57,7 @@ const rows: ReportRow[] = [
   },
   {
     repo: 'LedgerHQ/borrow-live-app',
+    consumerStatus: 'production',
     cells: {
       '@ledgerhq/lumen-ui-react': {
         status: 'behind',
@@ -75,10 +78,10 @@ describe('renderMarkdownTable', () => {
   it('renders one row per repo with a status emoji per package', () => {
     const table = renderMarkdownTable(rows);
     expect(table).toMatch(
-      /\| LedgerHQ\/ledger-live\s+\| 🟢 0\.1\.59\s+\| 🟢 0\.1\.62\s+\| 🟢 0\.1\.29\s+\|/,
+      /\| LedgerHQ\/ledger-live\s+\| production\s+\| 🟢 0\.1\.59\s+\| 🟢 0\.1\.62\s+\| 🟢 0\.1\.29\s+\|/,
     );
     expect(table).toMatch(
-      /\| LedgerHQ\/app-openpgp\s+\| 🔴 0\.1\.40 \(19 behind\)\s+\| —\s+\| 🔴 0\.1\.17 \(12 behind\)\s+\|/,
+      /\| LedgerHQ\/app-openpgp\s+\| internal tool\s+\| 🔴 0\.1\.40 \(19 behind\)\s+\| —\s+\| 🔴 0\.1\.17 \(12 behind\)\s+\|/,
     );
   });
 
@@ -99,13 +102,32 @@ describe('renderSummaryLine', () => {
   });
 });
 
+describe('consumer status in the outputs', () => {
+  it('adds a Status column to the HTML table', () => {
+    const html = renderHtmlReport(rows, latestVersions);
+    expect(html).toContain('<th>Repo</th><th>Status</th>');
+    expect(html).toContain(
+      '<td>LedgerHQ/app-openpgp</td><td>internal tool</td>',
+    );
+  });
+
+  it('keeps the consumer status of each row in the JSON snapshot', () => {
+    const json = JSON.parse(
+      renderJsonReport(rows, latestVersions, new Date('2026-01-01')),
+    );
+    expect(
+      json.rows.map((row: ReportRow) => [row.repo, row.consumerStatus]),
+    ).toContainEqual(['LedgerHQ/app-openpgp', 'internal-tool']);
+  });
+});
+
 describe('renderSlackReport', () => {
   it('groups rows into red, yellow and green bulleted sections', () => {
     const slack = renderSlackReport(rows, latestVersions);
     expect(slack).not.toContain('|'); // no table — bullets only
     expect(slack).toContain('🔴 Far behind / diverged');
     expect(slack).toContain(
-      '• LedgerHQ/app-openpgp — ui-react 19 behind, design-core 12 behind',
+      '• LedgerHQ/app-openpgp (internal tool) — ui-react 19 behind, design-core 12 behind',
     );
     expect(slack).toContain('🟡 Behind');
     expect(slack).toContain(
@@ -135,6 +157,7 @@ describe('renderSlackReport', () => {
 
 const unresolvedRow: ReportRow = {
   repo: 'LedgerHQ/moved-repo',
+  consumerStatus: 'production',
   cells: {
     '@ledgerhq/lumen-ui-react': {
       status: 'unresolved',
@@ -158,6 +181,7 @@ describe('unresolved cells', () => {
   it('escapes a backslash so it cannot cancel the pipe escape after it', () => {
     const row: ReportRow = {
       repo: 'LedgerHQ/odd-spec',
+      consumerStatus: 'production',
       cells: {
         ...unresolvedRow.cells,
         '@ledgerhq/lumen-ui-react': {

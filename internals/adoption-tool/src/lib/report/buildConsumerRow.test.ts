@@ -39,6 +39,7 @@ describe('buildConsumerRow', () => {
     const row = await buildConsumerRow(consumer, latest, fetchFile);
 
     expect(row.repo).toBe('LedgerHQ/app');
+    expect(row.consumerStatus).toBe(consumer.status);
     expect(row.cells[UI_REACT]).toEqual({
       status: 'behind',
       version: '0.1.58',
@@ -189,8 +190,9 @@ describe('buildConsumerRow', () => {
 
 describe('failedConsumerRow', () => {
   it('marks every package unresolved so the repo still shows up in the worst tier', () => {
-    const row = failedConsumerRow('LedgerHQ/app');
+    const row = failedConsumerRow('LedgerHQ/app', 'internal-tool');
     expect(row.repo).toBe('LedgerHQ/app');
+    expect(row.consumerStatus).toBe('internal-tool');
     for (const name of [UI_REACT, UI_RNATIVE, DESIGN_CORE]) {
       expect(row.cells[name]).toEqual({
         status: 'unresolved',

@@ -65,7 +65,10 @@ because a typo would otherwise silently read as `—` (not used).
 
 Every entry has a required `status`: `production` for anything shipped to users
 or partners, `internal-tool` for tools used inside Ledger (dashboards, dev and
-support tools). Prototypes, hackathon projects and experiments are not
+support tools). Every report shows it: a `Status` column in the markdown and
+HTML tables, an `(internal tool)` marker in the Slack summary, and
+`consumerStatus` on each row of `report.json`. Prototypes, hackathon projects
+and experiments are not
 consumers: they go in `data/ignored-repos.json` instead, each with a `reason`.
 
 A package.json that is missing or unparseable shows as `unresolved` with the

@@ -72,7 +72,7 @@ async function buildReport(): Promise<{
         const message = error instanceof Error ? error.message : String(error);
         failures.push({ repo: consumer.repo, message });
         log.warn(`${consumer.repo}: ${message}`);
-        return failedConsumerRow(consumer.repo);
+        return failedConsumerRow(consumer.repo, consumer.status);
       }
     },
   );
