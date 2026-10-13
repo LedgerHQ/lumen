@@ -2,7 +2,7 @@ import { LUMEN_PACKAGES, type LumenPackage } from '../../config.js';
 import type { ConsumerStatus } from '../shared/consumers.js';
 import type { AdoptionStatus } from './classify.js';
 import { rowSeverityTier } from './sortRows.js';
-import type { Cell, LatestVersions, ReportRow } from './types.js';
+import type { Cell, LatestVersions, ReportRow, StatusFilter } from './types.js';
 
 const STATUS_EMOJI: Record<AdoptionStatus, string> = {
   current: '🟢',
@@ -287,15 +287,19 @@ ${body}
 }
 
 /** Machine-readable snapshot for diffing runs over time — the markdown table
- * is for people, this is what a dashboard or trend script should read. */
+ * is for people, this is what a dashboard or trend script should read.
+ * `consumerStatusFilter` is recorded so a trend never silently mixes
+ * snapshots taken over different sets of repos. */
 export function renderJsonReport(
   rows: ReportRow[],
   latestVersions: LatestVersions,
   generatedAt: Date,
+  statusFilter: StatusFilter,
 ): string {
   return JSON.stringify(
     {
       generatedAt: generatedAt.toISOString(),
+      consumerStatusFilter: statusFilter,
       latest: latestVersions,
       summary: countStatuses(rows),
       rows,

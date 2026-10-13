@@ -16,6 +16,9 @@ npx nx run adoption-tool:owners            # maps each consumer repo to its cata
 npx nx run adoption-tool:discover          # diffs data/consumers.json against a fresh code search, never writes it
 ```
 
+Reports cover `production` consumers only. Append `--status internal-tool`
+or `--status all` when the user asks about internal tools or every consumer.
+
 Logic and details live in
 [internals/adoption-tool](../../../internals/adoption-tool) — read its
 README and source rather than duplicating them here. Use `report` for a full

@@ -22,3 +22,6 @@ export type ReportRow = {
 };
 
 export type LatestVersions = Record<LumenPackage, string>;
+
+/** A registry `status` to keep, or every consumer. */
+export type StatusFilter = ConsumerStatus | 'all';

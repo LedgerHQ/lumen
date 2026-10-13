@@ -113,7 +113,7 @@ describe('consumer status in the outputs', () => {
 
   it('keeps the consumer status of each row in the JSON snapshot', () => {
     const json = JSON.parse(
-      renderJsonReport(rows, latestVersions, new Date('2026-01-01')),
+      renderJsonReport(rows, latestVersions, new Date('2026-01-01'), 'all'),
     );
     expect(
       json.rows.map((row: ReportRow) => [row.repo, row.consumerStatus]),
@@ -226,13 +226,19 @@ describe('version source note', () => {
 });
 
 describe('renderJsonReport', () => {
-  it('emits a parseable snapshot with a timestamp, latest versions, summary and rows', () => {
+  it('emits a parseable snapshot with a timestamp, status filter, latest versions, summary and rows', () => {
     const generatedAt = new Date('2026-01-02T03:04:05.000Z');
     const parsed = JSON.parse(
-      renderJsonReport([...rows, unresolvedRow], latestVersions, generatedAt),
+      renderJsonReport(
+        [...rows, unresolvedRow],
+        latestVersions,
+        generatedAt,
+        'production',
+      ),
     );
 
     expect(parsed.generatedAt).toBe('2026-01-02T03:04:05.000Z');
+    expect(parsed.consumerStatusFilter).toBe('production');
     expect(parsed.latest).toEqual(latestVersions);
     expect(parsed.summary).toEqual({
       current: 3,

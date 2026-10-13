@@ -12,7 +12,11 @@ import {
   buildConsumerRow,
   failedConsumerRow,
 } from './lib/report/buildConsumerRow.js';
-import { parseReportFormat, type ReportFormat } from './lib/report/cliArgs.js';
+import {
+  parseReportFormat,
+  parseStatusFilter,
+  type ReportFormat,
+} from './lib/report/cliArgs.js';
 import { getLatestVersion } from './lib/report/npmRegistry.js';
 import {
   renderMarkdownReport,
@@ -21,7 +25,11 @@ import {
   renderSlackReport,
 } from './lib/report/render.js';
 import { sortRowsByAdoption } from './lib/report/sortRows.js';
-import type { LatestVersions, ReportRow } from './lib/report/types.js';
+import type {
+  LatestVersions,
+  ReportRow,
+  StatusFilter,
+} from './lib/report/types.js';
 import { mapWithConcurrency } from './lib/shared/concurrency.js';
 import { loadConsumers } from './lib/shared/consumers.js';
 import { getRepoFileContent } from './lib/shared/github.js';
@@ -44,17 +52,23 @@ async function fetchLatestVersions(): Promise<LatestVersions> {
  * throw away the other rows: it becomes an `unresolved` row and is reported
  * in `failures`, so the caller can still publish the rest and exit non-zero.
  */
-async function buildReport(): Promise<{
+async function buildReport(statusFilter: StatusFilter): Promise<{
   rows: ReportRow[];
   latestVersions: LatestVersions;
   failures: RepoFailure[];
 }> {
-  const consumers = loadConsumers();
+  const registry = loadConsumers();
+  const consumers =
+    statusFilter === 'all'
+      ? registry
+      : registry.filter((consumer) => consumer.status === statusFilter);
 
   log.step('Fetching latest published versions from npm...');
   const latestVersions = await fetchLatestVersions();
 
-  log.step(`Resolving versions for ${consumers.length} consumer repos...`);
+  log.step(
+    `Resolving versions for ${consumers.length} consumer repos (--status ${statusFilter}, ${registry.length - consumers.length} skipped)...`,
+  );
   const failures: RepoFailure[] = [];
   const rows = await mapWithConcurrency(
     consumers,
@@ -83,15 +97,18 @@ async function buildReport(): Promise<{
 async function main(): Promise<void> {
   // --format only picks what is printed to stdout (markdown table by default,
   // the Slack bullet list for `summary`, the machine-readable snapshot for
-  // `json`); every report file is always written.
-  const format = parseReportFormat(process.argv.slice(2));
+  // `json`); every report file is always written. --status picks which
+  // registry entries are reported (production only by default).
+  const args = process.argv.slice(2);
+  const format = parseReportFormat(args);
+  const statusFilter = parseStatusFilter(args);
 
-  const { rows, latestVersions, failures } = await buildReport();
+  const { rows, latestVersions, failures } = await buildReport(statusFilter);
 
   const outputs: Record<ReportFormat, string> = {
     markdown: renderMarkdownReport(rows, latestVersions),
     summary: renderSlackReport(rows, latestVersions),
-    json: renderJsonReport(rows, latestVersions, new Date()),
+    json: renderJsonReport(rows, latestVersions, new Date(), statusFilter),
   };
   const html = renderHtmlReport(rows, latestVersions);
 
