@@ -105,6 +105,13 @@ export const WithFallback: Story = {
 
 export const WithRenderItem: Story = {
   args: { data: assets },
+  parameters: {
+    docs: {
+      source: {
+        type: 'code',
+      },
+    },
+  },
   render: () => (
     <MediaImageGroup
       data={assets}
