@@ -28,6 +28,12 @@ MediaImageGroup displays a stack of overlapping media images. When there are mor
 <Canvas of={MediaImageGroupStories.Base} />
 <Controls of={MediaImageGroupStories.Base} />
 
+### Custom items
+
+Pass `renderItem` to render something other than a `MediaImage`, such as a **crypto icon**, and forward the `size` and `shape` it receives.
+
+<Canvas of={MediaImageGroupStories.WithRenderItem} />
+
 ### Sizes
 
 The group owns the size of every item. Overlap scales with it.
@@ -66,13 +72,13 @@ Install and set up the library with our [Setup Guide →](?path=/docs/getting-st
 
 <Source of={MediaImageGroupStories.Base} />
 
-### Custom items
+### Item keys
 
-Items are keyed by their optional `id`, or by their index when it is omitted. Pass `renderItem` to render something other than a `MediaImage`, for example a crypto icon. The group passes its `size` and `shape`; forward both to the element you render. Items are clipped to the group's ring, so decorations overhanging an item (such as a network badge) are not supported.
+To set a stable React key, pass an `id` in each `data` item. When omitted, the index is used.
 
-Without `renderItem`, `data` must be `MediaImage` props. This is not enforced by the types: any other shape renders empty placeholders.
+### Type safety
 
-<Source of={MediaImageGroupStories.WithRenderItem} />
+Without `renderItem`, `data` must be `MediaImage` props. The types don't enforce this: any other shape renders empty placeholders.
 
 </Tab>
 </CustomTabs>
