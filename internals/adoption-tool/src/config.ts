@@ -20,6 +20,8 @@ export const GITHUB_CONCURRENCY = 6;
 /** Targets run without a `cwd`, so these are workspace-root-relative. */
 export const CONSUMERS_DATA_PATH =
   'internals/adoption-tool/data/consumers.json';
+export const IGNORED_REPOS_DATA_PATH =
+  'internals/adoption-tool/data/ignored-repos.json';
 export const REPORT_MARKDOWN_PATH = 'internals/adoption-tool/report.md';
 export const REPORT_HTML_PATH = 'internals/adoption-tool/report.html';
 export const REPORT_SLACK_PATH = 'internals/adoption-tool/report.slack.txt';

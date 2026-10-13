@@ -1,0 +1,22 @@
+[
+  {
+    "repo": "LedgerHQ/culturalpowerhouse",
+    "reason": "Hackathon project (repo description: \"Hackathon project 2026\")"
+  },
+  {
+    "repo": "LedgerHQ/hack-ledgerlens",
+    "reason": "Hackathon project (README: \"LedgerLens Hack\")"
+  },
+  {
+    "repo": "LedgerHQ/proof-of-human",
+    "reason": "Proof of concept (README: \"POC monorepo\")"
+  },
+  {
+    "repo": "LedgerHQ/tiger-draft-perps",
+    "reason": "Experiment (repo description: \"testing cairn for perps\")"
+  },
+  {
+    "repo": "LedgerHQ/secforge.ledger.ai",
+    "reason": "Sandbox platform; Lumen is only used by a sandbox template"
+  }
+]

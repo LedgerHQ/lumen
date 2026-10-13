@@ -16,6 +16,7 @@ const latest: Record<LumenPackage, string> = {
 
 const consumer: ConsumerEntry = {
   repo: 'LedgerHQ/app',
+  status: 'production',
   packageJsonPath: 'package.json',
 };
 
@@ -132,6 +133,7 @@ describe('buildConsumerRow', () => {
   it('takes the worst status across every package.json listed for a package', async () => {
     const monorepo: ConsumerEntry = {
       repo: 'LedgerHQ/mono',
+      status: 'production',
       packageJsonPath: 'package.json',
       packageJsonPaths: {
         [UI_REACT]: [
@@ -159,6 +161,7 @@ describe('buildConsumerRow', () => {
   it('surfaces a moved workspace package.json instead of hiding it behind a healthy one', async () => {
     const monorepo: ConsumerEntry = {
       repo: 'LedgerHQ/mono',
+      status: 'production',
       packageJsonPath: 'package.json',
       packageJsonPaths: {
         [UI_REACT]: ['apps/a/package.json', 'apps/moved/package.json'],

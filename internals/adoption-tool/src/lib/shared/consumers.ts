@@ -5,8 +5,12 @@ import {
   type LumenPackage,
 } from '../../config.js';
 
+export const CONSUMER_STATUSES = ['production', 'internal-tool'] as const;
+export type ConsumerStatus = (typeof CONSUMER_STATUSES)[number];
+
 export type ConsumerEntry = {
   repo: string;
+  status: ConsumerStatus;
   /** Default package.json to read a dependency from. */
   packageJsonPath: string;
   /** Per-package override, for monorepos where a Lumen package is declared by
@@ -15,10 +19,16 @@ export type ConsumerEntry = {
   notes?: string;
 };
 
-const ENTRY_KEYS = ['repo', 'packageJsonPath', 'packageJsonPaths', 'notes'];
-const REPO_PATTERN = /^[\w.-]+\/[\w.-]+$/;
+const ENTRY_KEYS = [
+  'repo',
+  'status',
+  'packageJsonPath',
+  'packageJsonPaths',
+  'notes',
+];
+export const REPO_PATTERN = /^[\w.-]+\/[\w.-]+$/;
 
-function isRecord(value: unknown): value is Record<string, unknown> {
+export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
@@ -57,6 +67,9 @@ function validateEntry(entry: unknown): string[] {
 
   if (typeof entry.repo !== 'string' || !REPO_PATTERN.test(entry.repo)) {
     errors.push('"repo" must look like "Org/name"');
+  }
+  if (!(CONSUMER_STATUSES as readonly unknown[]).includes(entry.status)) {
+    errors.push(`"status" must be one of: ${CONSUMER_STATUSES.join(', ')}`);
   }
   if (!isFilePath(entry.packageJsonPath)) {
     errors.push('"packageJsonPath" must be a non-empty relative file path');

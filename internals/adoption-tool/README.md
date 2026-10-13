@@ -63,6 +63,11 @@ status across those files is shown. The registry is validated on load (unknown
 keys, misspelled package names, bad paths, duplicate repos all fail loudly),
 because a typo would otherwise silently read as `—` (not used).
 
+Every entry has a required `status`: `production` for anything shipped to users
+or partners, `internal-tool` for tools used inside Ledger (dashboards, dev and
+support tools). Prototypes, hackathon projects and experiments are not
+consumers: they go in `data/ignored-repos.json` instead, each with a `reason`.
+
 A package.json that is missing or unparseable shows as `unresolved` with the
 path, never `—`, and so does a declared version we can't resolve (the raw spec
 is kept in the cell: `unresolved (spec "latest")`). A `catalog:` version is only
@@ -77,7 +82,10 @@ would be per-package-manager and much heavier for a coarse signal.
 registry paths it no longer finds (the dependency likely moved), and paths it
 finds in a tracked repo that the registry doesn't read (another workspace
 started depending on Lumen). Some monorepos have many hits; treat the last
-section as a review list, not a to-do list.
+section as a review list, not a to-do list. Repos in `data/ignored-repos.json`
+are left out of the new repos and only counted, so a decision to skip a repo
+isn't revisited on every run. A repo can't be both tracked and ignored:
+validation fails until it is removed from one of the two lists.
 
 All network calls go through `fetchWithRetry` (`lib/shared/http.ts`): a 30s
 timeout per attempt and up to 4 attempts with backoff for network errors, 5xx

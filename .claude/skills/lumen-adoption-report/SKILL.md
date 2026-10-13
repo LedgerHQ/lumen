@@ -22,5 +22,7 @@ README and source rather than duplicating them here. Use `report` for a full
 table, `report-summary` for Slack — present whichever one printed as-is,
 don't reformat it yourself. A non-zero exit means some repos couldn't be
 read (shown as `unresolved`) — say so rather than presenting the table as
-complete. To add a repo `discover` finds, hand-edit
-`internals/adoption-tool/data/consumers.json`.
+complete. For a repo `discover` finds, hand-edit
+`internals/adoption-tool/data/consumers.json` (with its `status`) if it is a
+real consumer, or `internals/adoption-tool/data/ignored-repos.json` (with a
+`reason`) if it is a prototype or experiment.

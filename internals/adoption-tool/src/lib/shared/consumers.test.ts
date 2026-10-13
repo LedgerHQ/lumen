@@ -9,6 +9,7 @@ import {
 
 const valid: ConsumerEntry = {
   repo: 'LedgerHQ/app',
+  status: 'production',
   packageJsonPath: 'package.json',
 };
 
@@ -18,6 +19,7 @@ describe('parseConsumers', () => {
       valid,
       {
         repo: 'LedgerHQ/mono',
+        status: 'production',
         packageJsonPath: 'package.json',
         packageJsonPaths: {
           '@ledgerhq/lumen-ui-react': [
@@ -29,6 +31,19 @@ describe('parseConsumers', () => {
       },
     ]);
     expect(entries).toHaveLength(2);
+  });
+
+  it('requires a known status', () => {
+    const { status: _status, ...withoutStatus } = valid;
+    expect(() => parseConsumers([withoutStatus])).toThrow(
+      '"status" must be one of: production, internal-tool',
+    );
+    expect(() => parseConsumers([{ ...valid, status: 'prototype' }])).toThrow(
+      '"status" must be one of',
+    );
+    expect(
+      parseConsumers([{ ...valid, status: 'internal-tool' }]),
+    ).toHaveLength(1);
   });
 
   it('rejects a registry that is not an array', () => {
@@ -89,7 +104,7 @@ describe('parseConsumers', () => {
     try {
       parseConsumers([
         { ...valid, notes: 5 },
-        { repo: 'LedgerHQ/other', packageJsonPath: '' },
+        { repo: 'LedgerHQ/other', status: 'production', packageJsonPath: '' },
       ]);
     } catch (error) {
       message = (error as Error).message;
@@ -108,6 +123,7 @@ describe('parseConsumers', () => {
 describe('packageJsonPathsFor / registryPaths', () => {
   const entry: ConsumerEntry = {
     repo: 'LedgerHQ/mono',
+    status: 'production',
     packageJsonPath: 'package.json',
     packageJsonPaths: {
       '@ledgerhq/lumen-ui-react': [
