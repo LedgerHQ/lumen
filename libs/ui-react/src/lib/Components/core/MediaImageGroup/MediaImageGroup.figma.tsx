@@ -45,6 +45,7 @@ figma.connect(
     },
     example: (props) => (
       <MediaImageGroup
+        disabled={props.disabled}
         size={16} // replace with the correct size 16, 24, 32, 40, 56
         shape='circle' // square, circle
         data={props.data}
