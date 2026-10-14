@@ -177,6 +177,21 @@ describe('Switch Component', () => {
       expect(handleSubmit).toHaveBeenCalledTimes(1);
     });
 
+    it('should call onChange with the restored value on form reset', async () => {
+      const handleChange = vi.fn();
+      render(
+        <form data-testid='form'>
+          <Switch onChange={handleChange} />
+        </form>,
+      );
+      await userEvent.click(screen.getByRole('switch'));
+      handleChange.mockClear();
+
+      (screen.getByTestId('form') as HTMLFormElement).reset();
+
+      await waitFor(() => expect(handleChange).toHaveBeenCalledWith(false));
+    });
+
     it('should restore the default state on form reset', async () => {
       render(
         <form data-testid='form'>
@@ -195,6 +210,8 @@ describe('Switch Component', () => {
       await waitFor(() => {
         expect(off).not.toBeChecked();
         expect(on).toBeChecked();
+        expect(off).toHaveAttribute('data-state', 'unchecked');
+        expect(on).toHaveAttribute('data-state', 'checked');
       });
     });
   });

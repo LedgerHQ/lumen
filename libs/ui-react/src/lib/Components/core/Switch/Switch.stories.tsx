@@ -86,12 +86,19 @@ export const WithForm: Story = {
             I agree to the terms and conditions*
           </label>
         </div>
-        <Button type='submit' size='sm' className='self-start'>
-          Submit
-        </Button>
-        <output className='body-3 text-muted'>
-          {submitted ?? 'Unselected switches are not submitted.'}
-        </output>
+        <div className='flex gap-8'>
+          <Button type='submit' size='sm'>
+            Submit
+          </Button>
+          <Button
+            type='reset'
+            size='sm'
+            onClick={() => setSubmitted(undefined)}
+          >
+            Reset
+          </Button>
+        </div>
+        <output className='body-3 text-muted'>{submitted}</output>
       </form>
     );
   },

@@ -1,5 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import { useEffect, useRef } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
 import type { SwitchProps } from './types';
 
@@ -76,9 +77,32 @@ export const Switch = ({
     onChange,
   });
   const state = checked ? 'checked' : 'unchecked';
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const input = wrapperRef.current?.querySelector('input');
+    const form = input?.form;
+    if (!input || !form) {
+      return;
+    }
+
+    let timeout: ReturnType<typeof setTimeout>;
+    const syncAfterReset = (): void => {
+      timeout = setTimeout(() => {
+        if (input.checked !== checked) {
+          setChecked(input.checked);
+        }
+      });
+    };
+    form.addEventListener('reset', syncAfterReset);
+    return () => {
+      form.removeEventListener('reset', syncAfterReset);
+      clearTimeout(timeout);
+    };
+  }, [checked, setChecked, props.form]);
 
   return (
-    <span className={cn(wrapperVariants({ size }), className)}>
+    <span ref={wrapperRef} className={cn(wrapperVariants({ size }), className)}>
       <input
         {...props}
         ref={ref}
