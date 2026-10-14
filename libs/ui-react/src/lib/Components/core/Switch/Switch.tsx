@@ -79,6 +79,8 @@ export const Switch = ({
   const state = checked ? 'checked' : 'unchecked';
   const wrapperRef = useRef<HTMLSpanElement>(null);
 
+  // a native form reset restores the input without a change event, so
+  // defer (setTimeout) because reset fires before controls are restored.
   useEffect(() => {
     const input = wrapperRef.current?.querySelector('input');
     const form = input?.form;
