@@ -1,7 +1,11 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { useRef } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
+import { useSyncOnFormReset } from '../../../../utils/useSyncOnFormReset';
 import { Check } from '../../symbols/icons/Check';
 import type { CheckboxProps } from './types';
+
+const wrapperStyles = 'relative inline-flex size-20 shrink-0';
 
 const checkboxStyles = cn(
   'flex size-full items-center justify-center rounded-xs transition-colors',
@@ -26,8 +30,7 @@ const checkboxStyles = cn(
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-checkbox--docs Guidelines}
  *
- * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
- * Do not use it to modify the checkbox's core appearance.
+ * @warning The `className` prop is applied to the wrapper element. Use it for layout adjustments only.
  *
  * @example
  * import { Checkbox } from '@ledgerhq/lumen-ui-react';
@@ -75,9 +78,17 @@ export const Checkbox = ({
     onChange: onCheckedChange,
   });
   const state = checked ? 'checked' : 'unchecked';
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+
+  useSyncOnFormReset({
+    inputRef: wrapperRef,
+    checked,
+    setChecked,
+    form: props.form,
+  });
 
   return (
-    <span className={cn('relative inline-flex size-20 shrink-0', className)}>
+    <span ref={wrapperRef} className={cn(wrapperStyles, className)}>
       <input
         {...props}
         ref={ref}

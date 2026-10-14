@@ -18,6 +18,9 @@ const meta = {
     },
   },
   argTypes: {
+    checked: { control: 'boolean' },
+    defaultChecked: { control: 'boolean' },
+    disabled: { control: 'boolean' },
     onCheckedChange: {
       action: 'checked changed',
     },
@@ -31,6 +34,9 @@ type Story = StoryObj<typeof Checkbox>;
  * The base checkbox in its normal state.
  */
 export const Base: Story = {
+  args: {
+    disabled: false,
+  },
   render: (args) => (
     <div className='flex size-80 items-center justify-center'>
       <Checkbox aria-label='Toggle' {...args} />
@@ -77,7 +83,7 @@ export const AllStates: Story = {
 /**
  * Example of checkbox usage in a form context.
  */
-export const FormExample: Story = {
+export const WithForm: Story = {
   render: () => {
     const [submitted, setSubmitted] = useState<string>();
 
@@ -152,9 +158,18 @@ export const FormExample: Story = {
             *
           </label>
         </div>
-        <Button type='submit' size='sm'>
-          Submit
-        </Button>
+        <div className='flex gap-8'>
+          <Button type='submit' size='sm'>
+            Submit
+          </Button>
+          <Button
+            type='reset'
+            size='sm'
+            onClick={() => setSubmitted(undefined)}
+          >
+            Reset
+          </Button>
+        </div>
         <output className='block body-3 text-muted'>
           {submitted ?? 'Unchecked checkboxes are not submitted.'}
         </output>

@@ -62,11 +62,11 @@ Checkboxes support multiple states to provide clear feedback to users:
 - Ensure sufficient color contrast in all states
 - Support keyboard navigation (Space to toggle, Tab to navigate)
 
-### Form Integration
+### Forms
 
-<Canvas of={CheckboxStories.FormExample} />
+Supports form props for native form submission. Provide the `name` and `value` attributes, and use the `required` prop to indicate mandatory selections.
 
-When using checkboxes in forms, provide the `name` and `value` attributes for proper form submission. Use the `required` prop to indicate mandatory selections.
+<Canvas of={CheckboxStories.WithForm} />
 
 </Tab>
 <Tab label="Implementation">
@@ -118,7 +118,7 @@ Use `defaultChecked` for simple cases:
 
 The checkbox is a native `input type="checkbox"`, so it is submitted and validated with the surrounding `form` when `name` is set. `value`, `required` and `form` are forwarded to it, and `ref` points to the input.
 
-<Source of={CheckboxStories.FormExample} />
+<Source of={CheckboxStories.WithForm} />
 
 ## Accessibility Best Practices
 

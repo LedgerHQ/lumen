@@ -15,7 +15,7 @@ export type CheckboxProps = {
    */
   onCheckedChange?: (checked: boolean) => void;
   /**
-   * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
+   * Additional custom CSS classes to apply to the wrapper.
    */
   className?: string;
   /**
@@ -40,14 +40,17 @@ export type CheckboxProps = {
    * The id of the form the checkbox belongs to, when not nested in it.
    */
   form?: string;
-} & Pick<
+} & Omit<
   ComponentPropsWithRef<'input'>,
-  | 'ref'
-  | 'id'
+  | 'onChange'
+  | 'checked'
+  | 'defaultChecked'
+  | 'value'
+  | 'defaultValue'
+  | 'size'
+  | 'type'
+  | 'role'
+  | 'children'
+  | 'aria-checked'
   | 'className'
-  | 'tabIndex'
-  | 'aria-label'
-  | 'aria-labelledby'
-  | 'aria-describedby'
-  | 'aria-hidden'
 >;
