@@ -4,5 +4,7 @@
 
 Sync interface icons from Figma
 
+**BREAKING CHANGE:** `apex.svg` has been removed. Replace it with `nano-gen5.svg`.
+
 - Added: `shopping-invoice-list.svg`
-- Removed: `apex.svg` (use `nano-gen5.svg`), `charon.svg` (use `recovery-key.svg`), `bell-notification.svg`, `shield-check-notification.svg`
+- Removed: `charon.svg` (use `recovery-key.svg`), `bell-notification.svg`, `shield-check-notification.svg`

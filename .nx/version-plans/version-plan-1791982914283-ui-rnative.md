@@ -4,5 +4,7 @@
 
 Sync interface icons from Figma
 
+**BREAKING CHANGE:** `Apex` has been removed. Replace it with `NanoGen5`.
+
 - Added: `ShoppingInvoiceList`
-- Removed: `Apex` (use `NanoGen5`), `Charon` (use `RecoveryKey`), `BellNotification`, `ShieldCheckNotification`
+- Removed: `Charon` (use `RecoveryKey`), `BellNotification`, `ShieldCheckNotification`
