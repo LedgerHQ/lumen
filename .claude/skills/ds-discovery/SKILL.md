@@ -79,13 +79,12 @@ Notable: up to 2 things Lumen should copy or avoid, with why
 Copy `assets/report-template.html` whole (title, styles and all) and replace
 only what sits between the `REPORT CONTENT` markers; then delete the example
 rows and the `<!-- -->` guidance. The `<title>` is the subject in 2–4 words
-(e.g. "Tabs discovery").
+(e.g. "Tabs discovery"). Write it to `tmp/ds-discovery/<YYYY-MM-DD>-<slug>.html`
+(gitignored), never elsewhere in the repo tree.
 
-- **With the Artifact tool (Claude Code)**: publish the file. It stays private
+- **With the Artifact tool (Claude Code)**: publish that file. It stays private
   until the user shares it. Reply with the link and the TL;DR.
 - **Otherwise (Cursor and others)**: wrap the page in a full HTML document (the
-  template's header comment shows how), write it to
-  `tmp/ds-discovery/<YYYY-MM-DD>-<slug>.html` (gitignored), and reply with its
-  path and the TL;DR.
+  template's header comment shows how), and reply with its path and the TL;DR.
 
 Never commit a report: the repo is public.

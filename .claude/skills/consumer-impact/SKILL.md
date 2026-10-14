@@ -61,21 +61,26 @@ Pick one:
   `npx nx run-many -t build --projects=<packages>`, then `npm pack` in each
   `libs/<lib>/`, and use the `.tgz` paths.
 
+Lumen packages pin each other exactly (e.g. `ui-react` → `design-core`), so
+when a change touches several packages, install **all** their tarballs and
+force them with the consumer's override mechanism (npm `overrides`, pnpm
+`pnpm.overrides`, yarn `resolutions`). Otherwise the consumer pulls the
+published sibling and silently tests the old code.
+
 ## 4. Run
 
-Work in `tmp/consumer-impact/<repo>/` (gitignored), one shallow clone per
-repo: `gh repo clone <repo> tmp/consumer-impact/<name> -- --depth 1`. Use
-parallel subagents, one per repo, when available.
+Use parallel subagents, one per repo, when available.
 
-- **Usage scan**: needs no clone. Start from the manifest scan, then
+- **Usage scan** (no clone): start from the manifest scan, then
   `gh search code "<import or symbol>" --repo <repo>` and read the hits with
-  `gh api repos/<repo>/contents/<path>`. Only clone when the search is too
+  `gh api repos/<repo>/contents/<path>`. Clone only when the search is too
   fuzzy. Code search covers default branches only: report counts as a floor.
-- **Install & check**:
+- **Install & check**: one shallow clone per repo in `tmp/consumer-impact/`
+  (gitignored): `gh repo clone <repo> tmp/consumer-impact/<name> -- --depth 1`.
   1. Detect the package manager from the lockfile and install as-is first, to
      get a **baseline** (a check that already fails on `main` is not ours).
   2. Point the Lumen packages at the tarballs (catalog repos: edit the entry in
-     `pnpm-workspace.yaml`), reinstall.
+     `pnpm-workspace.yaml`) with the overrides above, and reinstall.
   3. Run the scripts the consumer actually has in that workspace (typecheck,
      lint, build, test), and record pass/fail plus the first relevant errors.
 - Skip a repo that is too heavy or fails at baseline, and say so. Never commit,
@@ -88,13 +93,13 @@ only what sits between the `REPORT CONTENT` markers: the change, the matrix
 (repo × check, baseline vs change), the breakages with error excerpts and
 owners, and the suggested fix or migration note per breakage. Delete the
 template's example rows and comments. The `<title>` names the change in 2–4
-words.
+words. Write it to `tmp/consumer-impact/report-<YYYY-MM-DD>-<slug>.html`
+(gitignored), never elsewhere in the repo tree.
 
-- **With the Artifact tool (Claude Code)**: publish it (private until shared),
-  reply with the link and a one-paragraph summary.
+- **With the Artifact tool (Claude Code)**: publish that file (private until
+  shared), reply with the link and a one-paragraph summary.
 - **Otherwise**: wrap it in a full HTML document (see the template's header
-  comment), write `tmp/consumer-impact/report-<YYYY-MM-DD>-<slug>.html`, and
-  reply with its path and the summary.
+  comment), and reply with its path and the summary.
 
 Never commit a report or consumer code excerpts: this repo is public and most
 consumers are private.

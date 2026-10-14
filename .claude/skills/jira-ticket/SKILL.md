@@ -33,12 +33,17 @@ The prefix order is always `[M][D]`, with no colon. Epics use `[LUMEN] <name>`.
   for a project scope.
 - **Epic** (parent): the project epic if there is one. Otherwise the current
   PI bucket: Bug → `[LUMEN] Run <PI>`, no prefix → `[LUMEN] Tech tasks <PI>`,
-  `[D]`/`[M]` → `[LUMEN] functional tasks <PI>`. Find them with
-  `project = DLS AND issuetype = Epic AND summary ~ "<PI>"`.
+  `[D]`/`[M]` → `[LUMEN] functional tasks <PI>`. Bucket epics for
+  several PIs stay open at once, so status doesn't tell the current one: take
+  the PI of the bucket epics that the last two weeks' tickets were filed under
+  (`project = DLS AND created >= -14d`, read their parent), and show it in the
+  draft so the user confirms it.
 - **Labels**: `tech_DLS`, plus `LUMEN_TO_REFINE` unless the ticket is ready
   to be picked up.
-- **Epics** also set Dream Team = Lumen Team.
-- Leave sprint, assignee and priority empty unless the user gives them.
+- **Epics** also set Dream Team (`customfield_10332`) = Lumen Team.
+- Leave sprint and priority empty unless the user gives them. Assign the
+  ticket to the user when they'll work on it: the `open-pr` lookup below only
+  finds tickets assigned to them.
 
 ## Body
 

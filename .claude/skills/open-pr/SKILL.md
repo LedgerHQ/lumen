@@ -29,14 +29,22 @@ On `main`, create the branch once the key is known:
 
 ## 2. Version plan
 
-If `libs/*/src/` changed and `git diff main...HEAD --name-only -- .nx/version-plans/`
-is empty, add one following the `release-plan` skill.
+Run `git fetch origin main` first; every diff below compares against `origin/main`.
+If `libs/*/src/` changed and
+`git diff origin/main...HEAD --name-only -- .nx/version-plans/` is empty, add
+one following the `release-plan` skill.
 
 ## 3. Commit and push
 
-Commit any uncommitted changes with a conventional message, then
-`git push -u origin HEAD`. If `gh pr view --json url` finds a PR, print its URL
-and stop.
+Commit any uncommitted changes with a conventional message, then push to the
+branch's own name, never to its upstream (a branch created from `origin/main`
+tracks `main`, and a bare push would target it):
+
+```bash
+git push -u origin "HEAD:refs/heads/$(git branch --show-current)"
+```
+
+If `gh pr view --json url` finds a PR, print its URL and stop.
 
 ## 4. Title
 
@@ -51,7 +59,7 @@ and stop.
 
 ## 5. Body
 
-Fill `.github/pull_request_template.md` from `git diff main...HEAD`, then strip
+Fill `.github/pull_request_template.md` from `git diff origin/main...HEAD`, then strip
 every HTML comment:
 
 - **Context**: the why, readable by someone who won't open the code. Set the
@@ -68,7 +76,7 @@ every HTML comment:
 ## 6. Create
 
 ```bash
-gh pr create --base main --title "<title>" --body-file - <<'EOF'
+gh pr create --base main --head "$(git branch --show-current)" --title "<title>" --body-file - <<'EOF'
 <body>
 EOF
 ```
