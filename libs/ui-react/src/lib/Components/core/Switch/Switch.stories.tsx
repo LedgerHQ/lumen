@@ -83,7 +83,7 @@ export const WithForm: Story = {
         <div className='flex items-center gap-8'>
           <Switch id='terms' name='terms' required />
           <label htmlFor='terms' className='body-3'>
-            I agree to the terms and conditions *
+            I agree to the terms and conditions*
           </label>
         </div>
         <Button type='submit' size='sm' className='self-start'>

@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
@@ -133,5 +133,69 @@ describe('Switch Component', () => {
     expect(data.get('on')).toBe('on');
     expect(data.has('off')).toBe(false);
     expect(data.has('disabled')).toBe(false);
+  });
+
+  describe('Form integration', () => {
+    it('should call onBlur when focus leaves the switch', async () => {
+      const handleBlur = vi.fn();
+      render(<Switch onBlur={handleBlur} />);
+
+      await userEvent.tab();
+      expect(screen.getByRole('switch')).toHaveFocus();
+      await userEvent.tab();
+
+      expect(handleBlur).toHaveBeenCalledTimes(1);
+    });
+
+    it('should fail form validation when required and not selected', async () => {
+      render(
+        <form data-testid='form'>
+          <Switch name='terms' required />
+        </form>,
+      );
+      const form = screen.getByTestId('form') as HTMLFormElement;
+      expect(form.checkValidity()).toBe(false);
+
+      await userEvent.click(screen.getByRole('switch'));
+      expect(form.checkValidity()).toBe(true);
+    });
+
+    it('should not submit a required form until selected', async () => {
+      const handleSubmit = vi.fn((e: React.FormEvent) => e.preventDefault());
+      render(
+        <form onSubmit={handleSubmit}>
+          <Switch name='terms' required />
+          <button type='submit'>Submit</button>
+        </form>,
+      );
+
+      await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      expect(handleSubmit).not.toHaveBeenCalled();
+
+      await userEvent.click(screen.getByRole('switch'));
+      await userEvent.click(screen.getByRole('button', { name: 'Submit' }));
+      expect(handleSubmit).toHaveBeenCalledTimes(1);
+    });
+
+    it('should restore the default state on form reset', async () => {
+      render(
+        <form data-testid='form'>
+          <Switch name='off' />
+          <Switch name='on' defaultSelected />
+        </form>,
+      );
+      const [off, on] = screen.getAllByRole('switch');
+      await userEvent.click(off);
+      await userEvent.click(on);
+      expect(off).toBeChecked();
+      expect(on).not.toBeChecked();
+
+      (screen.getByTestId('form') as HTMLFormElement).reset();
+
+      await waitFor(() => {
+        expect(off).not.toBeChecked();
+        expect(on).toBeChecked();
+      });
+    });
   });
 });
