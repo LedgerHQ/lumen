@@ -170,9 +170,7 @@ export const WithForm: Story = {
             Reset
           </Button>
         </div>
-        <output className='block body-3 text-muted'>
-          {submitted ?? ''}
-        </output>
+        <output className='block body-3 text-muted'>{submitted ?? ''}</output>
       </form>
     );
   },
