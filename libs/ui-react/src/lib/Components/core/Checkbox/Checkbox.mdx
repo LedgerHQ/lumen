@@ -45,6 +45,12 @@ Checkboxes support multiple states to provide clear feedback to users:
 
 <Canvas of={CheckboxStories.AllStates} />
 
+### Forms
+
+Supports form props for native form submission. Provide the `name` and `value` attributes, and use the `required` prop to indicate mandatory selections.
+
+<Canvas of={CheckboxStories.WithForm} />
+
 ## Usage Guidelines
 
 ### Best Practices
@@ -61,12 +67,6 @@ Checkboxes support multiple states to provide clear feedback to users:
 - Provide descriptive labels for screen readers
 - Ensure sufficient color contrast in all states
 - Support keyboard navigation (Space to toggle, Tab to navigate)
-
-### Forms
-
-Supports form props for native form submission. Provide the `name` and `value` attributes, and use the `required` prop to indicate mandatory selections.
-
-<Canvas of={CheckboxStories.WithForm} />
 
 </Tab>
 <Tab label="Implementation">

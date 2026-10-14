@@ -171,7 +171,7 @@ export const WithForm: Story = {
           </Button>
         </div>
         <output className='block body-3 text-muted'>
-          {submitted ?? '{}'}
+          {submitted ?? ''}
         </output>
       </form>
     );
