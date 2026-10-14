@@ -1,7 +1,8 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
+import { useSyncOnFormReset } from '../../../../utils/useSyncOnFormReset';
 import type { SwitchProps } from './types';
 
 const wrapperVariants = cva('relative inline-flex shrink-0', {
@@ -79,29 +80,12 @@ export const Switch = ({
   const state = checked ? 'checked' : 'unchecked';
   const wrapperRef = useRef<HTMLSpanElement>(null);
 
-  // a native form reset restores the input without a change event, so
-  // defer (setTimeout) because reset fires before controls are restored.
-  useEffect(() => {
-    const input = wrapperRef.current?.querySelector('input');
-    const form = input?.form;
-    if (!input || !form) {
-      return;
-    }
-
-    let timeout: ReturnType<typeof setTimeout>;
-    const syncAfterReset = (): void => {
-      timeout = setTimeout(() => {
-        if (input.checked !== checked) {
-          setChecked(input.checked);
-        }
-      });
-    };
-    form.addEventListener('reset', syncAfterReset);
-    return () => {
-      form.removeEventListener('reset', syncAfterReset);
-      clearTimeout(timeout);
-    };
-  }, [checked, setChecked, props.form]);
+  useSyncOnFormReset({
+    inputRef: wrapperRef,
+    checked,
+    setChecked,
+    form: props.form,
+  });
 
   return (
     <span ref={wrapperRef} className={cn(wrapperVariants({ size }), className)}>
