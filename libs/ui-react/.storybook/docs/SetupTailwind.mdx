@@ -144,49 +144,23 @@ For the best development experience, we recommend the following setup:
 
 ### 4. Utility Functions
 
-We recommend using these utilities to work with Tailwind classes: they handle conditional classes, Tailwind class conflicts, and type-safe variants.
+**Merging class names with `cn`**
 
-**Class Names Utility**
-
-`@ledgerhq/lumen-design-core` ships a `cn` utility on its own entry point:
+`cn` ships with `@ledgerhq/lumen-design-core`, no extra install needed:
 
 ```typescript
 import { cn } from '@ledgerhq/lumen-design-core/cn';
 ```
 
-It combines two popular libraries, installed with `@ledgerhq/lumen-design-core`:
+It joins conditional classes ([clsx](https://www.npmjs.com/package/clsx)) and resolves conflicts ([tailwind-merge](https://www.npmjs.com/package/tailwind-merge)): the last class wins, including Lumen tokens like text colors and typography.
 
-- [clsx](https://www.npmjs.com/package/clsx): Handles conditional class names
-- [tailwind-merge](https://www.npmjs.com/package/tailwind-merge): Intelligently handles Tailwind CSS class conflicts
+```tsx
+<div className={cn('flex p-16', isActive && 'bg-active', className)} />;
 
-Example usage of cn utility:
-
-```typescript
-// Basic usage
-<div className={cn(
-  "base-class",
-  isActive && "active-class",
-  variant === "large" && "large-class"
-)}>
-
-// With conditional objects
-<div className={cn(
-  "px-4 py-2 rounded",
-  {
-    "bg-accent": isAccent,
-    "bg-base": !isAccent,
-    "bg-disabled": isDisabled
-  }
-)}>
-
-// Merging with component classes - handles Tailwind conflicts!
-<Component
-  className={cn(
-    "body-1 md:body-2", // Base styles
-    "body-2 md:body-3"  // Override - properly merges breakpoints
-  )}
-/>
+cn('text-base body-2', 'text-muted body-1'); // → 'text-muted body-1'
 ```
+
+Pass `className` last so it overrides the defaults.
 
 **Creating Component Variants Utility**
 
