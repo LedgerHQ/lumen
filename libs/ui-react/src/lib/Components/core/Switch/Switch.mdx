@@ -54,10 +54,10 @@ Supports form props for native form submission.
 
 ## Accessibility
 
-- Switches automatically include proper ARIA attributes on the underlying `button`
+- Switches automatically include proper ARIA attributes through a native `input type="checkbox"` with `role="switch"`
 - Provide descriptive labels for screen readers
 - Ensure sufficient color contrast in all states
-- Support keyboard navigation (Space or Enter to toggle)
+- Support keyboard navigation (Space to toggle)
 
 </Tab>
 <Tab label="Implementation">
@@ -110,7 +110,7 @@ Use `defaultSelected` for simple cases:
 
 ## Usage in Forms
 
-Set `name` to render a visually hidden checkbox that mirrors the switch state, so it is submitted and validated with the surrounding `form`. `value`, `required`, `form` and `inputRef` are forwarded to that input.
+The switch is a native `input type="checkbox"`, so it is submitted and validated with the surrounding `form` when `name` is set. `value`, `required` and `form` are forwarded to it, and `ref` points to the input.
 
 <Source of={SwitchStories.WithForm} />
 
@@ -146,7 +146,7 @@ Set `name` to render a visually hidden checkbox that mirrors the switch state, s
 The Switch component automatically supports:
 
 - **Tab**: Navigate to the Switch
-- **Space** or **Enter**: Switch selected/unselected state
+- **Space**: Switch selected/unselected state
 
 </Tab>
 </CustomTabs>

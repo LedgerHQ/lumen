@@ -1,28 +1,25 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useCallback, useEffect, useRef } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
-import { VisuallyHiddenInput } from '../../internal/VisuallyHiddenInput';
 import type { SwitchProps } from './types';
 
-const switchVariants = cva(
-  cn(
-    'group flex cursor-pointer items-center rounded-full p-2 transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-    '[&[data-state=unchecked]:not([data-disabled])]:bg-muted-strong [&[data-state=unchecked]:not([data-disabled])]:hover:bg-muted-strong-hover [&[data-state=unchecked]:not([data-disabled])]:active:bg-muted-strong-pressed',
-    '[&[data-state=checked]:not([data-disabled])]:bg-active [&[data-state=checked]:not([data-disabled])]:hover:bg-active-hover [&[data-state=checked]:not([data-disabled])]:active:bg-active-pressed',
-    'data-disabled:cursor-not-allowed data-disabled:bg-disabled-strong',
-  ),
-  {
-    variants: {
-      size: {
-        sm: 'h-16 max-h-16 w-24 max-w-24',
-        md: 'h-24 max-h-24 w-40 max-w-40',
-      },
-    },
-    defaultVariants: {
-      size: 'md',
+const wrapperVariants = cva('relative inline-flex shrink-0', {
+  variants: {
+    size: {
+      sm: 'h-16 max-h-16 w-24 max-w-24',
+      md: 'h-24 max-h-24 w-40 max-w-40',
     },
   },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+const trackStyles = cn(
+  'group pointer-events-none flex size-full items-center rounded-full p-2 transition-colors duration-200 ease-in-out peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus',
+  '[&[data-state=unchecked]:not([data-disabled])]:bg-muted-strong [&[data-state=unchecked]:not([data-disabled])]:peer-hover:bg-muted-strong-hover [&[data-state=unchecked]:not([data-disabled])]:peer-active:bg-muted-strong-pressed',
+  '[&[data-state=checked]:not([data-disabled])]:bg-active [&[data-state=checked]:not([data-disabled])]:peer-hover:bg-active-hover [&[data-state=checked]:not([data-disabled])]:peer-active:bg-active-pressed',
+  'data-disabled:bg-disabled-strong',
 );
 
 const thumbVariants = cva(
@@ -47,7 +44,7 @@ const thumbVariants = cva(
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-switch--docs Guidelines}
  *
- * @warning The `className` prop is applied to the button element. Use it for layout adjustments only.
+ * @warning The `className` prop is applied to the wrapper element. Use it for layout adjustments only.
  *
  * @example
  * // Basic switch
@@ -67,12 +64,6 @@ export const Switch = ({
   onChange,
   size = 'md',
   disabled: disabledProp,
-  name,
-  value,
-  required,
-  form,
-  inputRef,
-  onClick,
   ...props
 }: SwitchProps) => {
   const disabled = useDisabledContext({
@@ -84,62 +75,34 @@ export const Switch = ({
     defaultProp: defaultSelected,
     onChange,
   });
-  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
-
-  const setHiddenInputRef = useCallback(
-    (node: HTMLInputElement | null) => {
-      hiddenInputRef.current = node;
-      if (typeof inputRef === 'function') {
-        inputRef(node);
-      } else if (inputRef) {
-        inputRef.current = node;
-      }
-    },
-    [inputRef],
-  );
-
-  useEffect(() => {
-    const input = hiddenInputRef.current;
-    if (input && input.checked !== checked) {
-      input.checked = checked;
-    }
-  }, [checked]);
+  const state = checked ? 'checked' : 'unchecked';
 
   return (
-    <>
-      <button
+    <span className={cn(wrapperVariants({ size }), className)}>
+      <input
         {...props}
         ref={ref}
-        type='button'
+        type='checkbox'
         role='switch'
-        aria-checked={checked}
-        data-state={checked ? 'checked' : 'unchecked'}
-        data-disabled={disabled ? '' : undefined}
+        checked={checked}
         disabled={disabled}
-        className={cn(switchVariants({ size }), className)}
-        onClick={(event) => {
-          onClick?.(event);
-          setChecked(!checked);
-        }}
+        data-state={state}
+        data-disabled={disabled ? '' : undefined}
+        className='peer absolute inset-0 m-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed'
+        onChange={(event) => setChecked(event.target.checked)}
+      />
+      <span
+        aria-hidden
+        data-state={state}
+        data-disabled={disabled ? '' : undefined}
+        className={trackStyles}
       >
         <span
-          data-state={checked ? 'checked' : 'unchecked'}
+          data-state={state}
           data-disabled={disabled ? '' : undefined}
           className={thumbVariants({ size })}
         />
-      </button>
-      {name !== undefined && (
-        <VisuallyHiddenInput
-          ref={setHiddenInputRef}
-          type='checkbox'
-          defaultChecked={checked}
-          name={name}
-          value={value ?? 'on'}
-          required={required}
-          form={form}
-          disabled={disabled}
-        />
-      )}
-    </>
+      </span>
+    </span>
   );
 };

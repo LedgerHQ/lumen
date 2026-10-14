@@ -24,7 +24,7 @@ export type SwitchProps = {
    */
   disabled?: boolean;
   /**
-   * The name submitted with the form. A hidden input is only rendered when set.
+   * The name submitted with the form.
    */
   name?: string;
   /**
@@ -41,19 +41,20 @@ export type SwitchProps = {
    */
   form?: string;
   /**
-   * Ref to the hidden form input, for form libraries that register inputs directly.
+   * Additional custom CSS classes to apply to the wrapper.
    */
-  inputRef?: ComponentPropsWithRef<'input'>['ref'];
+  className?: string;
 } & Omit<
-  ComponentPropsWithRef<'button'>,
+  ComponentPropsWithRef<'input'>,
   | 'onChange'
+  | 'checked'
+  | 'defaultChecked'
   | 'value'
   | 'defaultValue'
-  | 'defaultChecked'
-  | 'name'
-  | 'form'
+  | 'size'
   | 'type'
   | 'role'
   | 'children'
   | 'aria-checked'
+  | 'className'
 >;
