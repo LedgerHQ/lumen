@@ -161,8 +161,8 @@ const OverflowBadge = ({
  * clipped to the group's ring, so decorations overhanging an item, such as a
  * network badge, are not supported.
  *
- * Without `renderItem`, `data` must be `MediaImage` props: this is not enforced
- * by the types, and any other shape renders empty placeholders.
+ * Without `renderItem`, `data` must be `MediaImage` props; any other item type
+ * requires `renderItem`.
  *
  * @example
  * import { MediaImageGroup } from '@ledgerhq/lumen-ui-rnative';
@@ -203,7 +203,7 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
   const styles = useStyles({ size, shape });
 
   const { visibleItems, overflowCount } = useMemo(
-    () => sliceGroupItems(data, maxVisible),
+    () => sliceGroupItems<unknown>(data, maxVisible),
     [data, maxVisible],
   );
 
@@ -219,25 +219,31 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
       {...props}
     >
       <DisabledProvider value={{ disabled }}>
-        {visibleItems.map((item, index) => {
-          const { id, ...imageProps } = item as MediaImageGroupItem;
-
-          return (
-            <Box
-              key={id ?? index}
-              style={StyleSheet.flatten([
-                styles.slot,
-                index > 0 && styles.slotOverlap,
-              ])}
-            >
-              {renderItem ? (
-                renderItem(item, { size, shape })
-              ) : (
-                <MediaImage {...imageProps} size={size} shape={shape} />
-              )}
-            </Box>
-          );
-        })}
+        {renderItem
+          ? data.slice(0, visibleItems.length).map((item, index) => (
+              <Box
+                key={index}
+                style={StyleSheet.flatten([
+                  styles.slot,
+                  index > 0 && styles.slotOverlap,
+                ])}
+              >
+                {renderItem(item, { size, shape })}
+              </Box>
+            ))
+          : data
+              .slice(0, visibleItems.length)
+              .map(({ id, ...imageProps }, index) => (
+                <Box
+                  key={id ?? index}
+                  style={StyleSheet.flatten([
+                    styles.slot,
+                    index > 0 && styles.slotOverlap,
+                  ])}
+                >
+                  <MediaImage {...imageProps} size={size} shape={shape} />
+                </Box>
+              ))}
         {overflowCount > 0 && (
           <OverflowBadge
             count={overflowCount}

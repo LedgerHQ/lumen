@@ -88,11 +88,7 @@ The root forwards its ref and props, so the group can be wrapped as a tooltip tr
 
 ### Item keys
 
-To set a stable React key, pass an `id` in each `data` item. When omitted, the index is used.
-
-### Type safety
-
-Without `renderItem`, `data` must be `MediaImage` props. The types don't enforce this: any other shape renders empty placeholders.
+To set a stable React key, pass an `id` in each `data` item. When omitted, the index is used. Items rendered with `renderItem` are keyed by index.
 
 </Tab>
 </CustomTabs>

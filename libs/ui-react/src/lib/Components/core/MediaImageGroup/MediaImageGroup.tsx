@@ -101,8 +101,8 @@ const OverflowBadge = ({
  * clipped to the group's ring, so decorations overhanging an item, such as a
  * network badge, are not supported.
  *
- * Without `renderItem`, `data` must be `MediaImage` props: this is not enforced
- * by the types, and any other shape renders empty placeholders.
+ * Without `renderItem`, `data` must be `MediaImage` props; any other item type
+ * requires `renderItem`.
  *
  * @example
  * import { MediaImageGroup } from '@ledgerhq/lumen-ui-react';
@@ -140,7 +140,7 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
     mergeWith: { disabled: disabledProp },
   });
   const { visibleItems, overflowCount } = useMemo(
-    () => sliceGroupItems(data, maxVisible),
+    () => sliceGroupItems<unknown>(data, maxVisible),
     [data, maxVisible],
   );
 
@@ -156,22 +156,25 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
       {...props}
     >
       <DisabledProvider value={{ disabled }}>
-        {visibleItems.map((item, index) => {
-          const { id, ...imageProps } = item as MediaImageGroupItem;
-
-          return (
-            <div
-              key={id ?? index}
-              className={cn(mediaImageGroupVariants.slot({ size, shape }))}
-            >
-              {renderItem ? (
-                renderItem(item, { size, shape })
-              ) : (
-                <MediaImage {...imageProps} size={size} shape={shape} />
-              )}
-            </div>
-          );
-        })}
+        {renderItem
+          ? data.slice(0, visibleItems.length).map((item, index) => (
+              <div
+                key={index}
+                className={cn(mediaImageGroupVariants.slot({ size, shape }))}
+              >
+                {renderItem(item, { size, shape })}
+              </div>
+            ))
+          : data
+              .slice(0, visibleItems.length)
+              .map(({ id, ...imageProps }, index) => (
+                <div
+                  key={id ?? index}
+                  className={cn(mediaImageGroupVariants.slot({ size, shape }))}
+                >
+                  <MediaImage {...imageProps} size={size} shape={shape} />
+                </div>
+              ))}
         {overflowCount > 0 && (
           <OverflowBadge
             count={overflowCount}
