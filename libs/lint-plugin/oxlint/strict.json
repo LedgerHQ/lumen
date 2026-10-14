@@ -49,6 +49,25 @@
         "componentImports": ["^@ledgerhq/lumen-ui-react(/|$)"]
       }
     ],
-    "shadcn/no-inline-styles": "warn"
+    "shadcn/no-inline-styles": "warn",
+    "no-restricted-imports": [
+      "warn",
+      {
+        "paths": [
+          {
+            "name": "tailwind-merge",
+            "message": "Use cn from '@ledgerhq/lumen-design-core/cn': it joins classes like clsx and resolves conflicts between Lumen classes, which plain tailwind-merge misreads."
+          },
+          {
+            "name": "clsx",
+            "message": "Use cn from '@ledgerhq/lumen-design-core/cn': it joins classes like clsx and resolves conflicts between Lumen classes, which plain tailwind-merge misreads."
+          },
+          {
+            "name": "classnames",
+            "message": "Use cn from '@ledgerhq/lumen-design-core/cn': it joins classes like clsx and resolves conflicts between Lumen classes, which plain tailwind-merge misreads."
+          }
+        ]
+      }
+    ]
   }
 }

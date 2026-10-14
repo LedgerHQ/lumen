@@ -1,5 +1,6 @@
 import { Button } from '@ledgerhq/lumen-ui-react';
 import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { twMerge } from 'tailwind-merge';
 
 export const Fixture = ({ size }: { size: string }) => (
   <div>
