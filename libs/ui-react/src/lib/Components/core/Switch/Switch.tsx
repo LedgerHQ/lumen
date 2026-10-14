@@ -1,5 +1,6 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import { useCallback, useEffect, useRef } from 'react';
 import { useControllableState } from '../../../../utils/useControllableState';
 import { VisuallyHiddenInput } from '../../internal/VisuallyHiddenInput';
 import type { SwitchProps } from './types';
@@ -71,6 +72,7 @@ export const Switch = ({
   required,
   form,
   inputRef,
+  onClick,
   ...props
 }: SwitchProps) => {
   const disabled = useDisabledContext({
@@ -82,6 +84,26 @@ export const Switch = ({
     defaultProp: defaultSelected,
     onChange,
   });
+  const hiddenInputRef = useRef<HTMLInputElement | null>(null);
+
+  const setHiddenInputRef = useCallback(
+    (node: HTMLInputElement | null) => {
+      hiddenInputRef.current = node;
+      if (typeof inputRef === 'function') {
+        inputRef(node);
+      } else if (inputRef) {
+        inputRef.current = node;
+      }
+    },
+    [inputRef],
+  );
+
+  useEffect(() => {
+    const input = hiddenInputRef.current;
+    if (input && input.checked !== checked) {
+      input.checked = checked;
+    }
+  }, [checked]);
 
   return (
     <>
@@ -95,7 +117,10 @@ export const Switch = ({
         data-disabled={disabled ? '' : undefined}
         disabled={disabled}
         className={cn(switchVariants({ size }), className)}
-        onClick={() => setChecked(!checked)}
+        onClick={(event) => {
+          onClick?.(event);
+          setChecked(!checked);
+        }}
       >
         <span
           data-state={checked ? 'checked' : 'unchecked'}
@@ -105,11 +130,11 @@ export const Switch = ({
       </button>
       {name !== undefined && (
         <VisuallyHiddenInput
-          ref={inputRef}
+          ref={setHiddenInputRef}
           type='checkbox'
-          checked={checked}
+          defaultChecked={checked}
           name={name}
-          value={value}
+          value={value ?? 'on'}
           required={required}
           form={form}
           disabled={disabled}

@@ -44,14 +44,16 @@ export type SwitchProps = {
    * Ref to the hidden form input, for form libraries that register inputs directly.
    */
   inputRef?: ComponentPropsWithRef<'input'>['ref'];
-} & Pick<
+} & Omit<
   ComponentPropsWithRef<'button'>,
-  | 'ref'
-  | 'id'
-  | 'className'
-  | 'tabIndex'
-  | 'aria-label'
-  | 'aria-labelledby'
-  | 'aria-describedby'
-  | 'aria-hidden'
+  | 'onChange'
+  | 'value'
+  | 'defaultValue'
+  | 'defaultChecked'
+  | 'name'
+  | 'form'
+  | 'type'
+  | 'role'
+  | 'children'
+  | 'aria-checked'
 >;
