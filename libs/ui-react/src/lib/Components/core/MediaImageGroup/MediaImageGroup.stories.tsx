@@ -25,7 +25,11 @@ export default meta;
 type Story = StoryObj<typeof MediaImageGroup>;
 
 const assets = [
-  { src: 'https://crypto-icons.ledger.com/BTC.png', id: 'btc', alt: 'Bitcoin' },
+  {
+    src: 'https://crypto-icons.ledger.com/BTC.png',
+    id: 'btc',
+    alt: 'Bitcoin',
+  },
   {
     src: 'https://crypto-icons.ledger.com/ETH.png',
     id: 'eth',
@@ -97,6 +101,13 @@ export const WithOverflow: Story = {
 
 export const Disabled: Story = {
   args: { data: assets, maxVisible: 4, disabled: true },
+};
+
+export const DisabledItem: Story = {
+  args: {
+    data: assets.map((asset) => ({ ...asset, disabled: asset.id === 'eth' })),
+    maxVisible: 4,
+  },
 };
 
 export const WithFallback: Story = {

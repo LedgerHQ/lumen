@@ -97,6 +97,13 @@ export const Disabled: Story = {
   args: { data: assets, maxVisible: 4, disabled: true },
 };
 
+export const DisabledItem: Story = {
+  args: {
+    data: assets.map((asset) => ({ ...asset, disabled: asset.id === 'eth' })),
+    maxVisible: 4,
+  },
+};
+
 export const WithFallback: Story = {
   args: { data: fallbackItems },
 };

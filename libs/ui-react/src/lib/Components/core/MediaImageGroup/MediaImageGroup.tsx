@@ -12,41 +12,44 @@ import { MediaImage } from '../MediaImage';
 import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
 
 const mediaImageGroupVariants = {
-  slot: cva('relative flex shrink-0 overflow-hidden bg-base first:ml-0', {
-    variants: {
-      size: {
-        12: '-ml-4 rounded-xs p-1',
-        16: '-ml-4 rounded-xs p-1',
-        20: '-ml-6 rounded-xs p-1',
-        24: '-ml-6 rounded-sm p-1',
-        32: '-ml-8 rounded-sm p-1',
-        40: '-ml-10 rounded-md p-2',
-        48: '-ml-12 rounded-md p-2',
-        56: '-ml-14 rounded-lg p-2',
-        64: '-ml-16 rounded-lg p-2',
-        72: '-ml-16 rounded-lg p-2',
-      },
-      shape: {
-        square: '',
-        circle: 'rounded-full',
+  slot: cva(
+    'relative flex shrink-0 overflow-hidden bg-base ring-base-inverted first:ml-0',
+    {
+      variants: {
+        size: {
+          12: '-ml-2 rounded-xs ring',
+          16: '-ml-2 rounded-xs ring',
+          20: '-ml-4 rounded-xs ring',
+          24: '-ml-4 rounded-sm ring',
+          32: '-ml-6 rounded-sm ring',
+          40: '-ml-6 rounded-md ring-2',
+          48: '-ml-8 rounded-md ring-2',
+          56: '-ml-10 rounded-lg ring-2',
+          64: '-ml-12 rounded-lg ring-2',
+          72: '-ml-12 rounded-lg ring-2',
+        },
+        shape: {
+          square: '',
+          circle: 'rounded-full',
+        },
       },
     },
-  }),
+  ),
   overflow: cva(
     'flex items-center justify-center bg-interactive text-on-interactive select-none',
     {
       variants: {
         size: {
-          12: 'size-12 rounded-xs body-4-semi-bold',
-          16: 'size-16 rounded-xs body-4-semi-bold',
-          20: 'size-20 rounded-xs body-4-semi-bold',
-          24: 'size-24 rounded-sm body-4-semi-bold',
-          32: 'size-32 rounded-sm body-3-semi-bold',
-          40: 'size-40 rounded-md body-3-semi-bold',
-          48: 'size-48 rounded-md body-2-semi-bold',
-          56: 'size-56 rounded-lg heading-4-semi-bold',
-          64: 'size-64 rounded-lg heading-3-semi-bold',
-          72: 'size-72 rounded-lg heading-3-semi-bold',
+          12: 'h-12 w-auto min-w-12 rounded-xs px-2 body-4-semi-bold',
+          16: 'h-16 w-auto min-w-16 rounded-xs px-2 body-4-semi-bold',
+          20: 'h-20 w-auto min-w-20 rounded-xs px-2 body-4-semi-bold',
+          24: 'h-24 w-auto min-w-24 rounded-sm px-2 body-4-semi-bold',
+          32: 'h-32 w-auto min-w-32 rounded-sm px-2 body-3-semi-bold',
+          40: 'h-40 w-auto min-w-40 rounded-md px-2 body-2-semi-bold',
+          48: 'h-48 w-auto min-w-48 rounded-md px-2 body-1-semi-bold',
+          56: 'h-56 w-auto min-w-56 rounded-lg px-2 heading-4-semi-bold',
+          64: 'h-64 w-auto min-w-64 rounded-lg px-2 heading-3-semi-bold',
+          72: 'h-72 w-auto min-w-72 rounded-lg px-2 heading-2-semi-bold',
         },
         shape: {
           square: '',

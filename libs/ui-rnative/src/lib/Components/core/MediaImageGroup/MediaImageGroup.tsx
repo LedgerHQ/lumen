@@ -20,8 +20,10 @@ type TypographyKey =
   | 'body4SemiBold'
   | 'body3SemiBold'
   | 'body2SemiBold'
+  | 'body1SemiBold'
   | 'heading4SemiBold'
-  | 'heading3SemiBold';
+  | 'heading3SemiBold'
+  | 'heading2SemiBold';
 
 // About 25% of the size, snapped to the spacing scale.
 const overlapMap: Record<MediaImageSize, SpacingKey> = {
@@ -57,11 +59,11 @@ const overflowTypographyMap: Record<MediaImageSize, TypographyKey> = {
   20: 'body4SemiBold',
   24: 'body4SemiBold',
   32: 'body3SemiBold',
-  40: 'body3SemiBold',
-  48: 'body2SemiBold',
+  40: 'body2SemiBold',
+  48: 'body1SemiBold',
   56: 'heading4SemiBold',
   64: 'heading3SemiBold',
-  72: 'heading3SemiBold',
+  72: 'heading2SemiBold',
 };
 
 const useStyles = ({
@@ -76,6 +78,7 @@ const useStyles = ({
   return useStyleSheet(
     (t) => {
       const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
+      const ring = t.spacings[ringMap[size]];
       const radius =
         shape === 'circle'
           ? t.borderRadius.full
@@ -87,8 +90,9 @@ const useStyles = ({
           alignItems: 'center',
         },
         slot: {
-          padding: t.spacings[ringMap[size]],
-          borderRadius: radius,
+          borderWidth: ring,
+          borderColor: t.colors.border.baseInverted,
+          borderRadius: shape === 'circle' ? radius : radius + ring,
           overflow: 'hidden',
           backgroundColor: t.colors.bg.base,
         },
@@ -96,8 +100,9 @@ const useStyles = ({
           marginLeft: -t.spacings[overlapMap[size]],
         },
         overflow: {
-          width: sizeValue,
+          minWidth: sizeValue,
           height: sizeValue,
+          paddingHorizontal: t.spacings.s2,
           borderRadius: radius,
           alignItems: 'center',
           justifyContent: 'center',

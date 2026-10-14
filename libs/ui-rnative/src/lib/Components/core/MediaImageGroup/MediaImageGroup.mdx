@@ -56,6 +56,10 @@ Set `disabled` to dim the items and the `+N` badge. Custom items rendered with `
 
 <Canvas of={MediaImageGroupStories.Disabled} />
 
+To dim a single item, set `disabled` on that item in `data`. The `+N` badge and the other items stay enabled.
+
+<Canvas of={MediaImageGroupStories.DisabledItem} />
+
 ### Fallback and loading
 
 Each item accepts the `MediaImage` fallback and loading props.
