@@ -20,6 +20,7 @@ import {
   TableActionBarLeading,
   TableActionBarTrailing,
   TableLoadingRow,
+  TableGroupHeaderRow,
   TableInfoIcon,
   TableSortButton,
 } from './Table';
@@ -54,6 +55,115 @@ describe('Table', () => {
     expect(screen.getByText('Name')).toBeInTheDocument();
     expect(screen.getByText('John')).toBeInTheDocument();
   });
+
+  describe('Horizontal layout', () => {
+    it('should shrink to the container by default', () => {
+      renderTable(<tbody />);
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-fixed', 'max-w-full');
+      expect(table).not.toHaveClass('max-w-none');
+    });
+
+    it('should shrink when rendered without TableRoot', () => {
+      render(
+        <Table>
+          <tbody />
+        </Table>,
+      );
+
+      expect(screen.getByRole('table')).toHaveClass('max-w-full');
+    });
+
+    it('should let the consumer className override the layout classes', () => {
+      render(
+        <Table className='max-w-md table-auto'>
+          <tbody />
+        </Table>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-auto', 'max-w-md');
+      expect(table).not.toHaveClass('table-fixed', 'max-w-full');
+    });
+
+    it('should keep at least minWidth in scroll layout', () => {
+      render(
+        <TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }}>
+          <Table style={{ color: 'red' }}>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('max-w-none', 'min-w-(--table-min-width-base)');
+      expect(table).not.toHaveClass('max-w-full');
+      expect(table.style.getPropertyValue('--table-min-width-base')).toBe(
+        '960px',
+      );
+      expect(table.style.color).toBe('red');
+    });
+
+    it('should size the table from its columns in scroll layout without minWidth', () => {
+      render(
+        <TableRoot horizontalLayout={{ type: 'scroll' }}>
+          <Table>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass('table-fixed', 'max-w-none');
+      expect(table.style.getPropertyValue('--table-min-width-base')).toBe('');
+    });
+
+    it('should resolve a layout per breakpoint', () => {
+      render(
+        <TableRoot
+          horizontalLayout={{
+            base: { type: 'scroll', minWidth: 640 },
+            md: { type: 'scroll', minWidth: 960 },
+            lg: { type: 'shrink' },
+          }}
+        >
+          <Table>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      const table = screen.getByRole('table');
+      expect(table).toHaveClass(
+        'max-w-none',
+        'md:min-w-(--table-min-width-md)',
+        'lg:max-w-full',
+      );
+      expect(table.style.getPropertyValue('--table-min-width-base')).toBe(
+        '640px',
+      );
+      expect(table.style.getPropertyValue('--table-min-width-md')).toBe(
+        '960px',
+      );
+      expect(table.style.getPropertyValue('--table-min-width-lg')).toBe('');
+    });
+
+    it('should shrink below the first breakpoint when base is omitted', () => {
+      render(
+        <TableRoot horizontalLayout={{ md: { type: 'scroll', minWidth: 960 } }}>
+          <Table>
+            <tbody />
+          </Table>
+        </TableRoot>,
+      );
+
+      expect(screen.getByRole('table')).toHaveClass(
+        'max-w-full',
+        'md:max-w-none',
+      );
+    });
+  });
 });
 
 describe('TableRoot', () => {
@@ -84,6 +194,94 @@ describe('TableRoot', () => {
       </TableRoot>,
     );
     expect(ref.current).toBeInstanceOf(HTMLDivElement);
+  });
+
+  it('should call the consumer onScroll', () => {
+    const onScroll = vi.fn();
+    render(
+      <TableRoot
+        data-testid='root'
+        onScroll={onScroll}
+        onScrollBottom={vi.fn()}
+      >
+        <span />
+      </TableRoot>,
+    );
+
+    fireEvent.scroll(screen.getByTestId('root'));
+
+    expect(onScroll).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Horizontal overflow', () => {
+    const overflowHorizontally = (root: HTMLElement): void => {
+      Object.defineProperty(root, 'scrollWidth', {
+        configurable: true,
+        value: 960,
+      });
+      Object.defineProperty(root, 'clientWidth', {
+        configurable: true,
+        value: 400,
+      });
+      fireEvent.scroll(root);
+    };
+
+    it('should hide the scrollbar and not be focusable when content fits', () => {
+      render(
+        <TableRoot data-testid='root' aria-label='Assets'>
+          <span />
+        </TableRoot>,
+      );
+
+      const root = screen.getByTestId('root');
+      expect(root).not.toHaveAttribute('tabindex');
+      expect(root).not.toHaveAttribute('role');
+      expect(root).toHaveClass('scrollbar-none');
+      expect(root).not.toHaveClass('overscroll-x-contain');
+    });
+
+    it('should show the scrollbar and become a focusable named region when content overflows', () => {
+      render(
+        <TableRoot data-testid='root' aria-label='Assets'>
+          <span />
+        </TableRoot>,
+      );
+      const root = screen.getByTestId('root');
+
+      overflowHorizontally(root);
+
+      expect(root).toHaveAttribute('tabindex', '0');
+      expect(screen.getByRole('region', { name: 'Assets' })).toBe(root);
+      expect(root).toHaveClass('scrollbar-custom', 'overscroll-x-contain');
+      expect(root).not.toHaveClass('scrollbar-none');
+    });
+
+    it('should not add a region role without an accessible name', () => {
+      render(
+        <TableRoot data-testid='root'>
+          <span />
+        </TableRoot>,
+      );
+      const root = screen.getByTestId('root');
+
+      overflowHorizontally(root);
+
+      expect(root).toHaveAttribute('tabindex', '0');
+      expect(root).not.toHaveAttribute('role');
+    });
+
+    it('should keep the consumer tabIndex', () => {
+      render(
+        <TableRoot data-testid='root' tabIndex={-1}>
+          <span />
+        </TableRoot>,
+      );
+      const root = screen.getByTestId('root');
+
+      overflowHorizontally(root);
+
+      expect(root).toHaveAttribute('tabindex', '-1');
+    });
   });
 });
 
@@ -328,5 +526,43 @@ describe('TableSortButton', () => {
     render(<TableSortButton sortDirection='asc'>Name</TableSortButton>);
     const sortButton = screen.getAllByRole('button')[0];
     expect(sortButton).toHaveAttribute('aria-label');
+  });
+});
+
+describe('TableGroupHeaderRow', () => {
+  const renderGroupHeader = (
+    horizontalLayout?: React.ComponentProps<
+      typeof TableRoot
+    >['horizontalLayout'],
+  ) =>
+    render(
+      <TableRoot horizontalLayout={horizontalLayout}>
+        <Table>
+          <tbody>
+            <TableGroupHeaderRow colSpan={2}>
+              <span>February</span>
+              <span>3 assets</span>
+            </TableGroupHeaderRow>
+          </tbody>
+        </Table>
+      </TableRoot>,
+    );
+
+  it('should render children as direct items of the bar when the table shrinks', () => {
+    renderGroupHeader();
+
+    expect(screen.getByText('February').parentElement).toHaveClass('bg-muted');
+  });
+
+  it('should keep the label sticky when the table can scroll', () => {
+    renderGroupHeader({
+      base: { type: 'scroll', minWidth: 960 },
+      lg: { type: 'shrink' },
+    });
+
+    const wrapper = screen.getByText('February').parentElement;
+    expect(wrapper).toHaveClass('sticky', 'start-12', 'flex');
+    expect(wrapper).toContainElement(screen.getByText('3 assets'));
+    expect(wrapper?.parentElement).toHaveClass('bg-muted');
   });
 });

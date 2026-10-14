@@ -48,6 +48,39 @@ Long header text should be wrapped into a non-flex element with `truncate` class
 
 <Canvas of={TableStories.ResponsiveLayout} />
 
+### Horizontal Scroll
+
+By default (`{ type: 'shrink' }`), the table fits its container and cells are truncated.
+Set `horizontalLayout` on `TableRoot` to let the table become wider than its container and scroll horizontally instead.
+When it overflows, a thin scrollbar is shown so mouse users without horizontal scrolling can reach the hidden columns.
+`horizontalLayout` and `hideBelow` can be combined: hidden columns stay hidden in scroll layout.
+
+#### With a minimum width
+
+`{ type: 'scroll', minWidth: 960 }`: the table fills its container when there is room, and scrolls once the container
+is narrower than `minWidth`. Columns without an explicit width share the available space.
+Use it when you know the width below which the columns stop being readable.
+
+<Canvas of={TableStories.WithHorizontalScroll} />
+
+#### From column widths
+
+`{ type: 'scroll' }` without `minWidth`: the table is as wide as the sum of its column widths, defined with `TableCol`.
+When the columns are narrower than the container, they stretch to fill it.
+Every column needs a width: a column without one collapses to nothing once the table overflows.
+Use it when each column has a natural width, e.g. an amount or an address column.
+
+<Canvas of={TableStories.WithHorizontalScrollFromColumnWidths} />
+
+#### Per breakpoint
+
+Pass an object keyed by breakpoint to switch layout per screen size. It is mobile-first, like Tailwind:
+each breakpoint applies from its min-width upward, and `base` applies below the first breakpoint.
+Each breakpoint can use its own layout and `minWidth`.
+The example below scrolls below `lg` (1024px) and shrinks from `lg` upward: resize the window to see it switch.
+
+<Canvas of={TableStories.WithResponsiveHorizontalScroll} />
+
 ### Clickable Rows
 
 Set `clickable` on `TableRow` to enable hover and active background states, and pass an `onClick` handler. This adds `role="button"` for accessibility. Use this when rows navigate to a detail view or trigger an action.
@@ -104,6 +137,9 @@ description alongside custom trailing content (e.g. a `Tag`).
 
 
 ## Accessibility
+
+When the table overflows horizontally, `TableRoot` shows a scrollbar and becomes focusable, so it can be scrolled with a mouse or with the arrow keys.
+Pass an `aria-label` or `aria-labelledby` to `TableRoot` so it is announced as a named region.
 
 To be implemented:
 
@@ -273,6 +309,77 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
   <TableLoadingRow />
 </TableRoot>
 ```
+
+### Horizontal Scroll
+
+Set `horizontalLayout` on `TableRoot` (or `DataTableRoot`). Pass an `aria-label` so the scrollable region is announced.
+
+```tsx
+// Scrolls below 960px
+<TableRoot horizontalLayout={{ type: 'scroll', minWidth: 960 }} aria-label='Assets'>
+  <Table>{/* ... */}</Table>
+</TableRoot>
+
+// As wide as its columns: every column needs a width
+<TableRoot horizontalLayout={{ type: 'scroll' }} aria-label='Assets'>
+  <Table>
+    <TableColGroup>
+      <TableCol className='w-256' />
+      <TableCol className='w-176' />
+      <TableCol className='w-176' />
+    </TableColGroup>
+    {/* ... */}
+  </Table>
+</TableRoot>
+
+// Per breakpoint, mobile-first
+<TableRoot
+  horizontalLayout={{
+    base: { type: 'scroll', minWidth: 640 },
+    md: { type: 'scroll', minWidth: 960 },
+    lg: { type: 'shrink' },
+  }}
+  aria-label='Assets'
+>
+  <Table>{/* ... */}</Table>
+</TableRoot>
+```
+
+#### Interaction with `table-layout`
+
+`Table` always uses `table-layout: fixed`, in both layouts. Scroll does not switch to `table-layout: auto`:
+it lets the table grow past its container, up to the larger of `minWidth` and the sum of the column widths.
+
+<div className='my-24 overflow-hidden rounded-lg'>
+  <table className='w-full'>
+    <thead>
+      <tr className='border-b border-muted bg-muted'>
+        <th className='p-12 text-left text-on-accent body-2'>table-layout</th>
+        <th className='p-12 text-left text-on-accent body-2'>shrink</th>
+        <th className='p-12 text-left text-on-accent body-2'>scroll</th>
+      </tr>
+    </thead>
+    <tbody className='bg-canvas'>
+      <tr className='border-b border-muted'>
+        <td className='text-accent p-12'>fixed (Lumen)</td>
+        <td className='p-12 text-muted'>Columns take their `TableCol` widths, the remaining space is split equally and cells truncate.</td>
+        <td className='p-12 text-muted'>The table is as wide as the larger of its container, `minWidth` and the sum of the column widths. Widths stay stable while rows load or get sorted.</td>
+      </tr>
+      <tr>
+        <td className='text-accent p-12'>auto</td>
+        <td className='p-12 text-muted'>Truncated cells never wrap, so each column needs its full content width: the table overflows instead of shrinking.</td>
+        <td className='p-12 text-muted'>Columns grow to their content: no truncation, very wide columns for long values (addresses, hashes), and widths that change as rows load.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+#### Things to know
+
+- **Flex and grid parents**: the container must be allowed to shrink. Add `min-w-0` to the flex item wrapping the table (or use `minmax(0, 1fr)` in a grid), otherwise the page scrolls instead of the table.
+- **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-480`) to scroll both ways with a sticky header.
+- **Scrollbar position**: the horizontal scrollbar sits at the bottom of `TableRoot`. For long tables, constrain the `TableRoot` height so it stays in view.
+- **Overlays in cells**: `TableRoot` clips its content, so menus, tooltips or popovers opened from a cell must be rendered in a portal.
 
 ### Action Bar
 

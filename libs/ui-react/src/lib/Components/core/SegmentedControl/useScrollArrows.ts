@@ -1,51 +1,8 @@
 import type { RefObject } from 'react';
-import { useCallback, useLayoutEffect, useState } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
+import { useScrollOverflow } from '../../../../utils/useScrollOverflow/useScrollOverflow';
 
 export type ScrollDirection = 'left' | 'right';
-
-/**
- * Tracks whether the scroll container still has content hidden on either side.
- */
-function useScrollOverflow(scrollRef: RefObject<HTMLDivElement | null>): {
-  canScrollLeft: boolean;
-  canScrollRight: boolean;
-} {
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false);
-
-  const update = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) {
-      return;
-    }
-    setCanScrollLeft(el.scrollLeft > 0);
-    setCanScrollRight(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
-  }, [scrollRef]);
-
-  useLayoutEffect(() => {
-    const el = scrollRef.current;
-    if (!el) {
-      return;
-    }
-    update();
-    el.addEventListener('scroll', update, { passive: true });
-
-    const ro = new ResizeObserver(update);
-    ro.observe(el);
-
-    // The content width drives overflow just as much as the container width.
-    if (el.firstElementChild instanceof HTMLElement) {
-      ro.observe(el.firstElementChild);
-    }
-
-    return () => {
-      el.removeEventListener('scroll', update);
-      ro.disconnect();
-    };
-  }, [update, scrollRef]);
-
-  return { canScrollLeft, canScrollRight };
-}
 
 /**
  * Overflow state and the scroll action backing the left/right arrow buttons.

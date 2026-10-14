@@ -53,6 +53,41 @@ Note that cells text is automatically truncated when the column is too narrow.
 
 <Canvas of={DataTableStories.ColumnsLayout} />
 
+## Horizontal Scroll
+
+By default (`{ type: 'shrink' }`), columns fit the container and cells are truncated.
+Set `horizontalLayout` on `DataTableRoot` to let the table become wider than its container and scroll horizontally instead,
+and pass an `aria-label` to `DataTable` so the scrollable region is announced.
+When it overflows, a thin scrollbar is shown so mouse users without horizontal scrolling can reach the hidden columns.
+`horizontalLayout` and `meta.hideBelow` can be combined: hidden columns stay hidden in scroll layout.
+See [Table](?path=/docs/react-table--docs) for how it interacts with `table-layout`.
+
+### With a minimum width
+
+`{ type: 'scroll', minWidth: 1024 }`: the table fills its container when there is room, and scrolls once the container
+is narrower than `minWidth`. Columns without a width in `meta.className` share the available space.
+Use it when you know the width below which the columns stop being readable.
+
+<Canvas of={DataTableStories.WithHorizontalScroll} />
+
+### From column widths
+
+`{ type: 'scroll' }` without `minWidth`: the table is as wide as the sum of the column widths set with `meta.className` (e.g. `w-224`).
+When the columns are narrower than the container, they stretch to fill it.
+Every column needs a width: a column without one collapses to nothing once the table overflows.
+Use it when each column has a natural width, e.g. an amount or an address column.
+
+<Canvas of={DataTableStories.WithHorizontalScrollFromColumnWidths} />
+
+### Per breakpoint
+
+Pass an object keyed by breakpoint to switch layout per screen size. It is mobile-first, like Tailwind:
+each breakpoint applies from its min-width upward, and `base` applies below the first breakpoint.
+Each breakpoint can use its own layout and `minWidth`.
+The example below scrolls below `lg` (1024px) and shrinks from `lg` upward: resize the window to see it switch.
+
+<Canvas of={DataTableStories.WithResponsiveHorizontalScroll} />
+
 ## Group Headers
 
 In order to display group headers, you must pre-sort the data by the grouping field.  

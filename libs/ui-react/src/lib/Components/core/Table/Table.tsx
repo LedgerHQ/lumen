@@ -1,6 +1,14 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import type { Breakpoint, ResponsiveValue } from '@ledgerhq/lumen-design-core';
+import {
+  cn,
+  createSafeContext,
+  useMergedRef,
+} from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
+import type { CSSProperties, UIEvent } from 'react';
+import { useRef } from 'react';
 import { useCommonTranslation } from '../../../../translations';
+import { useScrollOverflow } from '../../../../utils/useScrollOverflow/useScrollOverflow';
 import {
   ChevronAscending,
   ChevronDescending,
@@ -18,6 +26,7 @@ import type {
   TableHeaderCellProps,
   TableHeaderRowProps,
   TableHeaderProps,
+  TableHorizontalLayout,
   TableProps,
   TableRowProps,
   TableActionBarLeadingProps,
@@ -39,15 +48,23 @@ import { useThrottledScrollBottom } from './utils/useThrottledScrollBottom';
 const [TableProvider, useTableContext] = createSafeContext<{
   appearance: TableRootProps['appearance'];
   loading: TableRootProps['loading'];
+  horizontalLayout: TableRootProps['horizontalLayout'];
 }>('Table');
 
 const tableVariants = cva(
-  'relative scrollbar-none w-full max-w-full border-collapse overflow-x-auto rounded-lg',
+  'relative w-full max-w-full border-collapse overflow-x-auto rounded-lg',
   {
     variants: {
       appearance: {
         'no-background': 'bg-canvas',
         plain: 'bg-surface',
+      },
+      overflowing: {
+        // A visible scrollbar lets mouse users without horizontal wheel or
+        // trackpad scrolling reach hidden columns. overscroll-x-contain keeps
+        // trackpad swipes from triggering the browser back navigation.
+        true: 'scrollbar-custom overscroll-x-contain',
+        false: 'scrollbar-none',
       },
     },
   },
@@ -77,23 +94,43 @@ const tableVariants = cva(
 export const TableRoot = ({
   children,
   appearance = 'no-background',
+  horizontalLayout,
   className,
+  tabIndex,
+  role,
+  onScroll,
   onScrollBottom,
   loading,
   ref,
   ...props
 }: TableRootProps) => {
-  const handleScroll = useThrottledScrollBottom({
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const mergedRef = useMergedRef(scrollRef, ref);
+  const { canScrollLeft, canScrollRight } = useScrollOverflow(scrollRef);
+  const handleScrollBottom = useThrottledScrollBottom({
     onScrollBottom,
     loading,
   });
 
+  const overflowing = canScrollLeft || canScrollRight;
+  const hasAccessibleName = Boolean(
+    props['aria-label'] || props['aria-labelledby'],
+  );
+
+  const handleScroll = (event: UIEvent<HTMLDivElement>): void => {
+    onScroll?.(event);
+    handleScrollBottom?.(event);
+  };
+
   return (
-    <TableProvider value={{ appearance, loading }}>
+    <TableProvider value={{ appearance, loading, horizontalLayout }}>
       <div
         {...props}
-        ref={ref}
-        className={tableVariants({ appearance, className })}
+        ref={mergedRef}
+        // Keyboard users can only scroll a region they can focus.
+        tabIndex={tabIndex ?? (overflowing ? 0 : undefined)}
+        role={role ?? (overflowing && hasAccessibleName ? 'region' : undefined)}
+        className={tableVariants({ appearance, overflowing, className })}
         onScroll={handleScroll}
       >
         {children}
@@ -102,11 +139,104 @@ export const TableRoot = ({
   );
 };
 
-export const Table = ({ children, className, ref, ...props }: TableProps) => {
+type BreakpointKey = 'base' | Breakpoint;
+
+// Each breakpoint reads its own variable, so `minWidth` can differ per breakpoint.
+const tableLayoutVariants = cva('w-full table-fixed', {
+  variants: {
+    base: {
+      shrink: 'max-w-full min-w-0',
+      scroll: 'max-w-none min-w-(--table-min-width-base)',
+    },
+    xs: {
+      shrink: 'xs:max-w-full xs:min-w-0',
+      scroll: 'xs:max-w-none xs:min-w-(--table-min-width-xs)',
+    },
+    sm: {
+      shrink: 'sm:max-w-full sm:min-w-0',
+      scroll: 'sm:max-w-none sm:min-w-(--table-min-width-sm)',
+    },
+    md: {
+      shrink: 'md:max-w-full md:min-w-0',
+      scroll: 'md:max-w-none md:min-w-(--table-min-width-md)',
+    },
+    lg: {
+      shrink: 'lg:max-w-full lg:min-w-0',
+      scroll: 'lg:max-w-none lg:min-w-(--table-min-width-lg)',
+    },
+    xl: {
+      shrink: 'xl:max-w-full xl:min-w-0',
+      scroll: 'xl:max-w-none xl:min-w-(--table-min-width-xl)',
+    },
+    '2xl': {
+      shrink: '2xl:max-w-full 2xl:min-w-0',
+      scroll: '2xl:max-w-none 2xl:min-w-(--table-min-width-2xl)',
+    },
+  },
+  defaultVariants: {
+    base: 'shrink',
+  },
+});
+
+const DEFAULT_HORIZONTAL_LAYOUT: TableHorizontalLayout = { type: 'shrink' };
+
+const canScrollHorizontally = (
+  value: ResponsiveValue<TableHorizontalLayout> | undefined,
+): boolean => {
+  if (!value) {
+    return false;
+  }
+  if ('type' in value) {
+    return value.type === 'scroll';
+  }
+  return Object.values(value).some((layout) => layout?.type === 'scroll');
+};
+
+const resolveHorizontalLayout = (
+  value: ResponsiveValue<TableHorizontalLayout>,
+): {
+  variants: Partial<Record<BreakpointKey, TableHorizontalLayout['type']>>;
+  style: CSSProperties;
+} => {
+  const byBreakpoint = 'type' in value ? { base: value } : value;
+  const variants: Partial<
+    Record<BreakpointKey, TableHorizontalLayout['type']>
+  > = {};
+  const style: Record<string, string> = {};
+
+  for (const [breakpoint, layout] of Object.entries(byBreakpoint)) {
+    if (!layout) {
+      continue;
+    }
+    variants[breakpoint as BreakpointKey] = layout.type;
+    // Without minWidth, the variable stays unset so min-width falls back to auto
+    // and the fixed layout sizes the table from its column widths.
+    if (layout.type === 'scroll' && layout.minWidth !== undefined) {
+      style[`--table-min-width-${breakpoint}`] = `${layout.minWidth}px`;
+    }
+  }
+
+  return { variants, style: style as CSSProperties };
+};
+
+export const Table = ({
+  children,
+  className,
+  style,
+  ref,
+  ...props
+}: TableProps) => {
+  const { horizontalLayout = DEFAULT_HORIZONTAL_LAYOUT } = useTableContext({
+    consumerName: 'Table',
+    contextRequired: false,
+  });
+  const layout = resolveHorizontalLayout(horizontalLayout);
+
   return (
     <table
       {...props}
-      className={cn('w-full max-w-full table-fixed', className)}
+      className={cn(tableLayoutVariants(layout.variants), className)}
+      style={{ ...layout.style, ...style }}
       ref={ref}
     >
       {children}
@@ -145,6 +275,7 @@ const colVariants = cva('', {
       md: 'hidden md:table-column',
       lg: 'hidden lg:table-column',
       xl: 'hidden xl:table-column',
+      '2xl': 'hidden 2xl:table-column',
     },
   },
 });
@@ -276,7 +407,7 @@ export const TableGroupHeaderRow = ({
   ref,
   ...props
 }: TableGroupHeaderRowProps) => {
-  const { appearance } = useTableContext({
+  const { appearance, horizontalLayout } = useTableContext({
     consumerName: 'TableGroupHeaderRow',
     contextRequired: true,
   });
@@ -289,7 +420,13 @@ export const TableGroupHeaderRow = ({
             appearance === 'no-background' && 'rounded-sm',
           )}
         >
-          {children}
+          {canScrollHorizontally(horizontalLayout) ? (
+            <div className='sticky start-12 flex min-w-0 items-center'>
+              {children}
+            </div>
+          ) : (
+            children
+          )}
         </div>
       </td>
     </tr>
@@ -307,6 +444,7 @@ const cellVariants = {
           md: 'hidden md:table-cell',
           lg: 'hidden lg:table-cell',
           xl: 'hidden xl:table-cell',
+          '2xl': 'hidden 2xl:table-cell',
         },
       },
     },
@@ -509,6 +647,7 @@ const headerCellVariants = {
         md: 'hidden md:table-cell',
         lg: 'hidden lg:table-cell',
         xl: 'hidden xl:table-cell',
+        '2xl': 'hidden 2xl:table-cell',
       },
     },
   }),
@@ -652,7 +791,7 @@ export const TableLoadingRow = ({
       {...props}
       ref={ref}
       className={cn(
-        'flex h-80 w-full items-center justify-center p-12',
+        'sticky start-0 flex h-80 w-full items-center justify-center p-12',
         className,
       )}
     >
