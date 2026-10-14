@@ -37,7 +37,18 @@ jq -r '.[] | select(.status == "production") | .repo' internals/adoption-tool/da
 For each repo, `packageJsonPath` / `packageJsonPaths` say which workspace
 declares Lumen, and `notes` flags pnpm catalogs (the version lives in
 `pnpm-workspace.yaml`). For owners, run `npx nx run adoption-tool:owners` (see
-the `lumen-adoption-report` skill).
+the `lumen-adoption-report` skill) from a checkout with `node_modules`
+installed and `GITHUB_TOKEN` set; it prints nothing otherwise.
+
+Start every run with the manifest scan. It reads each production consumer's
+Lumen workspace `package.json` (and pnpm catalog) through the GitHub API, with
+no clone, and prints one TSV row per workspace:
+
+```bash
+node .claude/skills/consumer-impact/scripts/scan-manifests.mjs '^(@ledgerhq/lumen-|tailwindcss$|tailwind-merge$)'
+```
+
+The argument is a regex of the dependency names to report.
 
 ## 3. Get the change as installable packages
 
@@ -56,9 +67,10 @@ Work in `tmp/consumer-impact/<repo>/` (gitignored), one shallow clone per
 repo: `gh repo clone <repo> tmp/consumer-impact/<name> -- --depth 1`. Use
 parallel subagents, one per repo, when available.
 
-- **Usage scan**: search the Lumen workspace from the registry (`rg` for the
-  import, the component and the prop/variant values). Report counts and
-  file:line examples per repo.
+- **Usage scan**: needs no clone. Start from the manifest scan, then
+  `gh search code "<import or symbol>" --repo <repo>` and read the hits with
+  `gh api repos/<repo>/contents/<path>`. Only clone when the search is too
+  fuzzy. Code search covers default branches only: report counts as a floor.
 - **Install & check**:
   1. Detect the package manager from the lockfile and install as-is first, to
      get a **baseline** (a check that already fails on `main` is not ours).
@@ -71,7 +83,8 @@ parallel subagents, one per repo, when available.
 
 ## 5. Report
 
-Copy `assets/report-template.html` and fill it: the change, the matrix
+Copy `assets/report-template.html` whole (title, styles and all) and replace
+only what sits between the `REPORT CONTENT` markers: the change, the matrix
 (repo × check, baseline vs change), the breakages with error excerpts and
 owners, and the suggested fix or migration note per breakage. Delete the
 template's example rows and comments. The `<title>` names the change in 2–4

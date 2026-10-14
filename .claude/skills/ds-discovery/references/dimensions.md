@@ -20,6 +20,7 @@ keep each finding to one line.
 | Motion | Transitions, durations, reduced-motion handling | Both |
 | Content | Label length, casing, truncation, i18n and RTL | Design |
 | Platforms | React Native equivalent, and how it differs from web | Engineering |
+| Maturity | Stable, beta, pre-1.0, preview or draft spec: how much weight the finding deserves | Both |
 
 ## Naming (component, prop or token)
 

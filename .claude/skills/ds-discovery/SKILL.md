@@ -43,13 +43,17 @@ Ask one question only if the subject is ambiguous.
 Consult **every** entry in `references/sources.md`, so reports stay comparable.
 Include WAI-ARIA APG whenever behaviour or accessibility is in scope.
 
-When you can run subagents, run one per design system in parallel. Give each one
-the subject and synonyms, the dimensions, its entry from `sources.md`, and this
-return shape. Without subagents, go through them in turn with the same shape.
+When you can run subagents, run them in parallel, one per design system. Systems
+likely to lack the subject (often CDS and MetaMask for anything beyond core
+components) can share one agent. Give each agent the subject and synonyms, the
+dimensions, its entries from `sources.md`, a cap of about 8 fetches, and this
+return shape (under 250 words per system). Without subagents, go through them
+in turn with the same shape.
 
 ```
 DS: <name> (<version or docs date read>)
 Coverage: yes | partial | not covered (their name: <name>)
+Maturity: stable | beta | pre-1.0 | preview | draft spec
 Findings: one line per dimension: <dimension>: <finding> [<source URL>]
 Notable: up to 2 things Lumen should copy or avoid, with why
 ```
@@ -61,6 +65,7 @@ Notable: up to 2 things Lumen should copy or avoid, with why
 ## 4. Synthesize
 
 - **Consensus vs divergence**: what most systems agree on, where they differ and why.
+  Weigh each system by its maturity: two preview components are a weak consensus.
 - **Recommendation for Lumen**, split by audience:
   - *Design*: when to use, anatomy, states, behaviour, content.
   - *Engineering*: an API sketch that follows the `component-architecture`
@@ -71,7 +76,8 @@ Notable: up to 2 things Lumen should copy or avoid, with why
 
 ## 5. Report
 
-Copy `assets/report-template.html`, fill every section, then delete the example
+Copy `assets/report-template.html` whole (title, styles and all) and replace
+only what sits between the `REPORT CONTENT` markers; then delete the example
 rows and the `<!-- -->` guidance. The `<title>` is the subject in 2–4 words
 (e.g. "Tabs discovery").
 
