@@ -9,11 +9,12 @@ const found = (entries: Record<string, string[]>): Map<string, Set<string>> =>
 describe('diffRegistry', () => {
   it('reports no change when the found paths are exactly the registry paths', () => {
     const diff = diffRegistry(
-      [{ repo: 'o/a', packageJsonPath: 'package.json' }],
+      [{ repo: 'o/a', status: 'production', packageJsonPath: 'package.json' }],
       found({ 'o/a': ['package.json'] }),
     );
     expect(diff).toEqual({
       newRepos: [],
+      skippedRepos: [],
       missingRepos: [],
       stalePaths: [],
       untrackedPaths: [],
@@ -25,6 +26,7 @@ describe('diffRegistry', () => {
       [
         {
           repo: 'o/a',
+          status: 'production',
           packageJsonPath: 'package.json',
           packageJsonPaths: {
             '@ledgerhq/lumen-ui-react': ['apps/web/package.json'],
@@ -51,7 +53,13 @@ describe('diffRegistry', () => {
 
   it('flags a known repo whose registry path moved', () => {
     const diff = diffRegistry(
-      [{ repo: 'o/a', packageJsonPath: 'old/package.json' }],
+      [
+        {
+          repo: 'o/a',
+          status: 'production',
+          packageJsonPath: 'old/package.json',
+        },
+      ],
       found({ 'o/a': ['new/package.json'] }),
     );
     expect(diff.stalePaths).toEqual([
@@ -68,6 +76,7 @@ describe('diffRegistry', () => {
       [
         {
           repo: 'o/a',
+          status: 'production',
           packageJsonPath: 'package.json',
           packageJsonPaths: {
             '@ledgerhq/lumen-ui-react': [
@@ -86,7 +95,13 @@ describe('diffRegistry', () => {
 
   it('lists new repos with all their paths and missing repos', () => {
     const diff = diffRegistry(
-      [{ repo: 'o/gone', packageJsonPath: 'package.json' }],
+      [
+        {
+          repo: 'o/gone',
+          status: 'production',
+          packageJsonPath: 'package.json',
+        },
+      ],
       found({ 'o/new': ['b/package.json', 'a/package.json'] }),
     );
     expect(diff.newRepos).toEqual([
@@ -95,5 +110,19 @@ describe('diffRegistry', () => {
     expect(diff.missingRepos).toEqual(['o/gone']);
     expect(diff.stalePaths).toEqual([]);
     expect(diff.untrackedPaths).toEqual([]);
+  });
+
+  it('skips ignored repos instead of reporting them as new', () => {
+    const diff = diffRegistry(
+      [{ repo: 'o/a', status: 'production', packageJsonPath: 'package.json' }],
+      found({
+        'o/a': ['package.json'],
+        'o/hackathon': ['package.json'],
+        'o/new': ['package.json'],
+      }),
+      new Set(['o/hackathon']),
+    );
+    expect(diff.newRepos).toEqual([{ repo: 'o/new', paths: ['package.json'] }]);
+    expect(diff.skippedRepos).toEqual(['o/hackathon']);
   });
 });

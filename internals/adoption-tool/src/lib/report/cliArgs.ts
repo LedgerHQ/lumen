@@ -1,13 +1,22 @@
+import { CONSUMER_STATUSES } from '../shared/consumers.js';
+import type { StatusFilter } from './types.js';
+
 /** `--key value` pairs, space-separated (matches the convention used by
- * internals/sync-figma's targets) — not `--key=value`. */
+ * internals/sync-figma's targets). `--key=value` is accepted too, so a flag
+ * forwarded that way by Nx isn't silently dropped. */
 export function parseCliArgs(args: string[]): Record<string, string> {
   const params: Record<string, string> = {};
   for (let index = 0; index < args.length; index += 1) {
     if (!args[index].startsWith('--')) continue;
-    const key = args[index].slice(2);
+    const flag = args[index].slice(2);
+    const equalsIndex = flag.indexOf('=');
+    if (equalsIndex !== -1) {
+      params[flag.slice(0, equalsIndex)] = flag.slice(equalsIndex + 1);
+      continue;
+    }
     const value = args[index + 1];
     if (value && !value.startsWith('--')) {
-      params[key] = value;
+      params[flag] = value;
       index += 1;
     }
   }
@@ -30,4 +39,18 @@ export function parseReportFormat(args: string[]): ReportFormat {
     );
   }
   return format as ReportFormat;
+}
+
+const VALID_STATUS_FILTERS: StatusFilter[] = [...CONSUMER_STATUSES, 'all'];
+
+/** Which registry `status` the report covers. Production by default: that's
+ * what reaches users, so it's what the adoption numbers should track. */
+export function parseStatusFilter(args: string[]): StatusFilter {
+  const { status = 'production' } = parseCliArgs(args);
+  if (!VALID_STATUS_FILTERS.includes(status as StatusFilter)) {
+    throw new Error(
+      `Invalid --status "${status}" — expected one of: ${VALID_STATUS_FILTERS.join(', ')}`,
+    );
+  }
+  return status as StatusFilter;
 }

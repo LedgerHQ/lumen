@@ -40,7 +40,6 @@ This project can lint these rules with `@ledgerhq/lumen-lint-plugin` (ESLint or 
 ### Peer Dependencies
 
 - Button requires `@radix-ui/react-slot`
-- Switch requires `@radix-ui/react-switch`
 - Dialog requires `@radix-ui/react-dialog`
 - Tooltip requires `@radix-ui/react-tooltip`
 - Select requires `@base-ui/react/combobox`

@@ -16,11 +16,16 @@ npx nx run adoption-tool:owners            # maps each consumer repo to its cata
 npx nx run adoption-tool:discover          # diffs data/consumers.json against a fresh code search, never writes it
 ```
 
+Reports cover `production` consumers only. Append `--status internal-tool`
+or `--status all` when the user asks about internal tools or every consumer.
+
 Logic and details live in
 [internals/adoption-tool](../../../internals/adoption-tool) — read its
 README and source rather than duplicating them here. Use `report` for a full
 table, `report-summary` for Slack — present whichever one printed as-is,
 don't reformat it yourself. A non-zero exit means some repos couldn't be
 read (shown as `unresolved`) — say so rather than presenting the table as
-complete. To add a repo `discover` finds, hand-edit
-`internals/adoption-tool/data/consumers.json`.
+complete. For a repo `discover` finds, hand-edit
+`internals/adoption-tool/data/consumers.json` (with its `status`) if it is a
+real consumer, or `internals/adoption-tool/data/ignored-repos.json` (with a
+`reason`) if it is a prototype or experiment.

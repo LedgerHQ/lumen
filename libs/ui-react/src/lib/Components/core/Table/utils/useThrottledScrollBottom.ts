@@ -69,6 +69,7 @@ export const useThrottledScrollBottom = ({
   callbackRef.current = onScrollBottom;
   loadingRef.current = loading;
   const throttledCheckRef = useRef<{ cancel: () => void } | null>(null);
+  const lastScrollTopRef = useRef(0);
 
   const handler = useMemo(() => {
     if (!onScrollBottom) {
@@ -93,9 +94,13 @@ export const useThrottledScrollBottom = ({
     // Outer handler extracts currentTarget immediately before React recycles the event
     return (event: UIEvent<HTMLElement>) => {
       const element = event.currentTarget;
-      if (element) {
-        throttledCheck(element);
+      // Horizontal scrolling fires scroll events too: only a vertical move can
+      // reach the bottom, so skip the rest to avoid re-firing onScrollBottom.
+      if (!element || element.scrollTop === lastScrollTopRef.current) {
+        return;
       }
+      lastScrollTopRef.current = element.scrollTop;
+      throttledCheck(element);
     };
   }, [onScrollBottom, threshold]);
 

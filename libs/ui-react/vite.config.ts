@@ -84,7 +84,6 @@ export default defineConfig(() => ({
         'clsx',
         '@radix-ui/react-dialog',
         '@radix-ui/react-slot',
-        '@radix-ui/react-switch',
         '@radix-ui/react-tooltip',
         '@tanstack/react-table',
         '@base-ui/react',

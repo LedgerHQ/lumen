@@ -1,4 +1,4 @@
-import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as SwitchStories from './Switch.stories';
 import { Switch } from './Switch';
 import {
@@ -46,23 +46,27 @@ Includes small and large sizes.
 
 <Canvas of={SwitchStories.SizesShowcase} />
 
+### Forms
+
+Supports form props for native form submission.
+
+<Canvas of={SwitchStories.WithForm} />
+
 ## Accessibility
 
-- Switches automatically include proper ARIA attributes via Radix UI
+- Switches automatically include proper ARIA attributes through a native `input type="checkbox"` with `role="switch"`
 - Provide descriptive labels for screen readers
 - Ensure sufficient color contrast in all states
-- Support keyboard navigation (Space or Enter to toggle)
+- Support keyboard navigation (Space to toggle)
 
 </Tab>
 <Tab label="Implementation">
 
 ```bash
-npm install @ledgerhq/lumen-ui-react @radix-ui/react-switch
+npm install @ledgerhq/lumen-ui-react
 ```
 
 <SetupNote />
-
-The `@radix-ui/react-switch` dependency provides accessible switch functionality with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
 
@@ -104,6 +108,12 @@ Use `defaultSelected` for simple cases:
 <Switch defaultSelected={true} />
 ```
 
+## Usage in Forms
+
+The switch is a native `input type="checkbox"`, so it is submitted and validated with the surrounding `form` when `name` is set. `value`, `required` and `form` are forwarded to it, and `ref` points to the input.
+
+<Source of={SwitchStories.WithForm} />
+
 ## Accessibility Best Practices
 
 ### Labels and ARIA
@@ -136,8 +146,7 @@ Use `defaultSelected` for simple cases:
 The Switch component automatically supports:
 
 - **Tab**: Navigate to the Switch
-- **Space** or **Enter**: Switch selected/unselected state
-
+- **Space**: Switch selected/unselected state
 
 </Tab>
 </CustomTabs>

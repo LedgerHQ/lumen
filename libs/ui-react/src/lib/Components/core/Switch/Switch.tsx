@@ -1,26 +1,26 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import * as SwitchPrimitive from '@radix-ui/react-switch';
 import { cva } from 'class-variance-authority';
+import { useEffect, useRef } from 'react';
+import { useControllableState } from '../../../../utils/useControllableState';
 import type { SwitchProps } from './types';
 
-const switchVariants = cva(
-  cn(
-    'group flex cursor-pointer items-center rounded-full p-2 transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
-    '[&[data-state=unchecked]:not([data-disabled])]:bg-muted-strong [&[data-state=unchecked]:not([data-disabled])]:hover:bg-muted-strong-hover [&[data-state=unchecked]:not([data-disabled])]:active:bg-muted-strong-pressed',
-    '[&[data-state=checked]:not([data-disabled])]:bg-active [&[data-state=checked]:not([data-disabled])]:hover:bg-active-hover [&[data-state=checked]:not([data-disabled])]:active:bg-active-pressed',
-    'data-disabled:bg-disabled-strong',
-  ),
-  {
-    variants: {
-      size: {
-        sm: 'h-16 max-h-16 w-24 max-w-24',
-        md: 'h-24 max-h-24 w-40 max-w-40',
-      },
-    },
-    defaultVariants: {
-      size: 'md',
+const wrapperVariants = cva('relative inline-flex shrink-0', {
+  variants: {
+    size: {
+      sm: 'h-16 max-h-16 w-24 max-w-24',
+      md: 'h-24 max-h-24 w-40 max-w-40',
     },
   },
+  defaultVariants: {
+    size: 'md',
+  },
+});
+
+const trackStyles = cn(
+  'group pointer-events-none flex size-full items-center rounded-full p-2 transition-colors duration-200 ease-in-out peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-focus',
+  '[&[data-state=unchecked]:not([data-disabled])]:bg-muted-strong [&[data-state=unchecked]:not([data-disabled])]:peer-hover:bg-muted-strong-hover [&[data-state=unchecked]:not([data-disabled])]:peer-active:bg-muted-strong-pressed',
+  '[&[data-state=checked]:not([data-disabled])]:bg-active [&[data-state=checked]:not([data-disabled])]:peer-hover:bg-active-hover [&[data-state=checked]:not([data-disabled])]:peer-active:bg-active-pressed',
+  'data-disabled:bg-disabled-strong',
 );
 
 const thumbVariants = cva(
@@ -45,7 +45,7 @@ const thumbVariants = cva(
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-switch--docs Guidelines}
  *
- * @warning The `className` prop is applied to the label element. Use it for layout adjustments only.
+ * @warning The `className` prop is applied to the wrapper element. Use it for layout adjustments only.
  *
  * @example
  * // Basic switch
@@ -61,7 +61,7 @@ export const Switch = ({
   ref,
   className,
   selected,
-  defaultSelected,
+  defaultSelected = false,
   onChange,
   size = 'md',
   disabled: disabledProp,
@@ -71,18 +71,64 @@ export const Switch = ({
     consumerName: 'Switch',
     mergeWith: { disabled: disabledProp },
   });
+  const [checked, setChecked] = useControllableState({
+    prop: selected,
+    defaultProp: defaultSelected,
+    onChange,
+  });
+  const state = checked ? 'checked' : 'unchecked';
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+
+  // a native form reset restores the input without a change event, so
+  // defer (setTimeout) because reset fires before controls are restored.
+  useEffect(() => {
+    const input = wrapperRef.current?.querySelector('input');
+    const form = input?.form;
+    if (!input || !form) {
+      return;
+    }
+
+    let timeout: ReturnType<typeof setTimeout>;
+    const syncAfterReset = (): void => {
+      timeout = setTimeout(() => {
+        if (input.checked !== checked) {
+          setChecked(input.checked);
+        }
+      });
+    };
+    form.addEventListener('reset', syncAfterReset);
+    return () => {
+      form.removeEventListener('reset', syncAfterReset);
+      clearTimeout(timeout);
+    };
+  }, [checked, setChecked, props.form]);
 
   return (
-    <SwitchPrimitive.Root
-      ref={ref}
-      className={cn(switchVariants({ size }), className)}
-      checked={selected}
-      defaultChecked={defaultSelected}
-      onCheckedChange={onChange}
-      disabled={disabled}
-      {...props}
-    >
-      <SwitchPrimitive.Thumb className={thumbVariants({ size })} />
-    </SwitchPrimitive.Root>
+    <span ref={wrapperRef} className={cn(wrapperVariants({ size }), className)}>
+      <input
+        {...props}
+        ref={ref}
+        type='checkbox'
+        role='switch'
+        checked={checked}
+        disabled={disabled}
+        data-state={state}
+        data-disabled={disabled ? '' : undefined}
+        className='peer absolute inset-0 m-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed'
+        onChange={(event) => setChecked(event.target.checked)}
+      />
+      <span
+        aria-hidden
+        data-state={state}
+        data-disabled={disabled ? '' : undefined}
+        className={trackStyles}
+      >
+        <span
+          data-state={state}
+          data-disabled={disabled ? '' : undefined}
+          className={thumbVariants({ size })}
+        />
+      </span>
+    </span>
   );
 };
