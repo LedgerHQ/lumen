@@ -1,4 +1,3 @@
-import type * as SwitchPrimitive from '@radix-ui/react-switch';
 import type { ComponentPropsWithRef } from 'react';
 
 export type SwitchProps = {
@@ -19,7 +18,43 @@ export type SwitchProps = {
    * @default 'md'
    */
   size?: 'sm' | 'md';
+  /**
+   * The disabled state of the switch.
+   * @default false
+   */
+  disabled?: boolean;
+  /**
+   * The name submitted with the form.
+   */
+  name?: string;
+  /**
+   * The value submitted with the form when the switch is selected.
+   * @default 'on'
+   */
+  value?: string;
+  /**
+   * Whether the switch must be selected for the form to be submitted.
+   */
+  required?: boolean;
+  /**
+   * The id of the form the switch belongs to, when not nested in it.
+   */
+  form?: string;
+  /**
+   * Additional custom CSS classes to apply to the wrapper.
+   */
+  className?: string;
 } & Omit<
-  ComponentPropsWithRef<typeof SwitchPrimitive.Root>,
-  'onChange' | 'checked' | 'defaultChecked' | 'onCheckedChange'
+  ComponentPropsWithRef<'input'>,
+  | 'onChange'
+  | 'checked'
+  | 'defaultChecked'
+  | 'value'
+  | 'defaultValue'
+  | 'size'
+  | 'type'
+  | 'role'
+  | 'children'
+  | 'aria-checked'
+  | 'className'
 >;
