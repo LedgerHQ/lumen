@@ -1,136 +1,77 @@
 ---
 name: open-pr
 description: >-
-  Open a PR from the current branch to `main`: commit if needed, ensure an Nx
-  version plan exists, push, and create the PR with a filled-in description and
-  testing steps. Run only when the user explicitly asks to open/create a PR.
+  Open a PR from the current branch to `main`: find the DLS ticket in the
+  current sprint, ensure an Nx version plan exists, commit, push, and create the
+  PR from the repo's PR template. Run only when the user explicitly asks to
+  open/create a PR.
 disable-model-invocation: true
 ---
 
 # open-pr
 
-Open a PR from the current branch to `main`. Commit if needed, push, then create the PR with a filled-in description and testing steps.
+Run the whole flow without asking for confirmation. Only stop to ask where a
+step says so, or when something fails.
 
-**Important: Do NOT ask for confirmation at any step.** Run the entire flow automatically from start to finish. Only stop and ask the user if something fails or if the branch is `main` and you need a branch name.
+## 1. Ticket and branch
 
-## Step 0: Ensure we are on a feature branch
+Resolve the DLS key once; the title and the body both use it.
 
+1. If the branch name contains `DLS-<n>` (any case), use it.
+2. Otherwise run the current-sprint lookup from the `jira-ticket` skill and
+   match the summaries against the branch name and the diff. Use a single clear
+   match silently; otherwise ask one question with the top candidates plus
+   "No ticket".
+3. If the Jira tools are missing or unauthorized, ask once for the key or "No ticket".
 
-Run `git branch --show-current` to check the current branch.
+On `main`, create the branch once the key is known:
+`git checkout -b DLS-<n>-<short-slug>` (just `<short-slug>` without a ticket).
 
-- If already on a feature branch: **skip to Step 1**
-- If on `main`: Ask the user for a Jira ticket number, generate a descriptive branch name from uncommitted changes, then create and switch to `DLS-<number>-<branch-name>`:
-  ```bash
-  git checkout -b DLS-<number>-<branch-name>
-  ```
+## 2. Version plan
 
-## Step 1: Ensure an Nx version plan exists
+If `libs/*/src/` changed and `git diff main...HEAD --name-only -- .nx/version-plans/`
+is empty, add one following the `release-plan` skill.
 
-Run:
+## 3. Commit and push
+
+Commit any uncommitted changes with a conventional message, then
+`git push -u origin HEAD`. If `gh pr view --json url` finds a PR, print its URL
+and stop.
+
+## 4. Title
+
+`<prefix> DLS-<n> <type>(<scope>): <summary>`, e.g. `[M] DLS-1023 feat(Toast): add Toast component`
+
+- `<prefix>`: the platform prefix defined in the `jira-ticket` skill, derived
+  from the changed libs.
+- `<type>`: `feat`, `fix`, `refactor`, `chore`, `docs` or `test`, or
+  `BREAKING_CHANGE` when consumers must change their code (removed or renamed
+  export or prop, changed default).
+- Without a ticket, drop `DLS-<n>`.
+
+## 5. Body
+
+Fill `.github/pull_request_template.md` from `git diff main...HEAD`, then strip
+every HTML comment:
+
+- **Context**: the why, readable by someone who won't open the code. Set the
+  ticket link, or remove that line without a ticket.
+- **Technical details**: what changed and where to start reviewing, about 5
+  bullets at most, never a file-by-file list. A fix states the root cause, a
+  feature shows a short usage snippet, an architectural change links its ADR in
+  `docs/adr/`.
+- **How to test**: concrete steps or story names, and a reminder to add
+  before/after screenshots for UI changes. Remove it when CI covers the change.
+- **Breaking change**: uncomment and fill (before → after, migration) for
+  `BREAKING_CHANGE`; remove it otherwise.
+
+## 6. Create
+
 ```bash
-git diff main...HEAD --name-only -- .nx/version-plans/
-```
-- If the output is non-empty, a version plan already exists — **skip to Step 2**.
-- Otherwise, create one. The rules — path→package mapping, always-`patch`, one
-  file per affected package, filename convention — live in the `release-plan`
-  skill; follow them. In short: look at the changed paths
-  (`git diff main...HEAD --name-only`), and create one
-  `.nx/version-plans/version-plan-<timestamp>-<pkg>.md` per affected package with
-  single-package `patch` frontmatter, using a description line that matches the
-  PR title / commit message style.
-
-## Step 2: Create a commit if needed
-
-- If `git status` shows nothing to commit, **skip to Step 3**.
-
-- If `git status` shows **uncommitted changes** (staged or unstaged):
-  - Summarise the diff in one short sentence.
-  - Generate a conventional commit message (e.g. `feat(select): add custom trigger support`).
-  - Run immediately without asking for confirmation:
-    ```bash
-    git add -A
-    git commit -m "Your generated message"
-    ```
-
-## Step 3: Push the branch
-
-Push the branch to the remote (or update it if already pushed):
-
-```bash
-git push -u origin HEAD
+gh pr create --base main --title "<title>" --body-file - <<'EOF'
+<body>
+EOF
 ```
 
-## Step 4: Check for an existing PR
-
-Run:
-```bash
-gh pr view --json url
-```
-- If a PR already exists, print the existing PR URL and **stop**.
-- Otherwise, continue to Step 5.
-
-## Step 5: Prepare PR body
-
-1. **Generate the PR body** using the following structure:
-
-   ```markdown
-   ## Description
-
-   <!-- Focus on WHY the change is being made — the motivation, problem, or goal.
-        Briefly mention what was done only to give context for the why.
-        If the change is UI-related, remind to add screenshots. -->
-
-   ## How to test
-
-   <!-- Add concrete testing steps derived from the changed code.
-        e.g. which screen to open, what to tap, what to expect.
-        Must be specific enough for a reviewer to follow. -->
-
-   ## Screenshots
-
-   <!-- Before/after screenshots if UI change, otherwise N/A -->
-   ```
-
-2. **Fill in the template:**
-   - **Description:** Analyse the diff against `main` (`git diff main...HEAD`). Write a description focused on *why* the change is being made. Briefly mention *what* was done to give context.
-   - **How to test:** Derive concrete, specific testing steps from the changed code (e.g. which screen to open, what to interact with, what to expect).
-   - **Screenshots:** If the change is UI-related, add "Add before/after screenshots here"; otherwise write "N/A".
-
-3. **Save the body** to `/tmp/pr-body.md`.
-
-## Step 6: Create the PR with GitHub CLI
-
-1. **Generate a PR title** using a conventional commit message. Format: `<prefix>(<scope>): <summary>`. Pick the most appropriate prefix:
-   - `feat` — new feature or user-facing addition
-   - `fix` — bug fix
-   - `refactor` — code restructuring without behaviour change
-   - `chore` — maintenance, dependency updates, CI changes
-   - `docs` — documentation only
-   - `test` — adding or updating tests
-   - `style` — formatting, whitespace, etc.
-
-   Include an optional scope in parentheses when it helps clarify the area (e.g. `feat(select): ...`, `fix(button): ...`).
-   The title should be a concise, human-readable summary.
-
-2. **Run:**
-
-   ```bash
-   gh pr create --title "<generated title>" --base main --body-file /tmp/pr-body.md
-   ```
-
-   If `gh` is not installed or not authenticated, tell the user to install the [GitHub CLI](https://cli.github.com/) and run `gh auth login`, then rerun the command.
-
-3. **Output the PR link.** After the PR is created, print a clickable link to the PR URL.
-
-4. **Clean up** by deleting `/tmp/pr-body.md`.
-
-## Summary
-
-1. Ensure we are on a feature branch (create one if on `main`).
-2. Ensure an Nx version plan exists in `.nx/version-plans/` — create one if missing, based on affected packages and change type.
-3. If there are uncommitted changes, create a commit with a clear conventional message.
-4. Push the branch to the remote.
-5. Check if a PR already exists — if so, skip creation and print the URL.
-6. Build the PR body with Description (why), How to test (concrete steps), and Screenshots.
-7. Run `gh pr create --base main --body-file /tmp/pr-body.md` and output a clickable link to the created PR.
-8. Delete the temporary body file.
+Print the PR URL. If `gh` is missing or unauthenticated, tell the user to install
+the [GitHub CLI](https://cli.github.com/) and run `gh auth login`.
