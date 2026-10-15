@@ -125,7 +125,7 @@ const useTimelineStyles = () =>
       },
       header: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         minWidth: 0,
         paddingVertical: t.spacings.s8,
         gap: t.spacings.s8,

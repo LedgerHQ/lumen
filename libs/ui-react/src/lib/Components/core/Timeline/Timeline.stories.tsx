@@ -124,6 +124,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
+            <TimelineItemDescription>
+              Confirmed on device
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -141,6 +144,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Rejected</TimelineItemTitle>
+            <TimelineItemDescription>
+              Insufficient network fees.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -148,6 +154,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Confirming</TimelineItemTitle>
+            <TimelineItemDescription>
+              Waiting for confirmations.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -155,6 +164,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Settled</TimelineItemTitle>
+            <TimelineItemDescription>
+              Funds are available.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -176,6 +188,9 @@ export const WithCollapse: Story = {
           <TimelineItemHeader>
             <TimelineItemLeading>
               <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
+              <TimelineItemDescription>
+                Confirmed on device
+              </TimelineItemDescription>
             </TimelineItemLeading>
             <TimelineItemTrailing>
               <IconButton
