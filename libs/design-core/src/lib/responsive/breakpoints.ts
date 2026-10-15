@@ -1,4 +1,4 @@
-import { primitiveLayoutTokens } from '../themes/js/primitives/primitives.others';
+import { primitiveLayoutTokens } from '../themes/js/primitives/primitives.others.js';
 
 /**
  * Breakpoint min-widths in px (mobile-first). Single source for the Tailwind
