@@ -1,4 +1,4 @@
-import type { PrimitiveOtherTokens } from '../types';
+import type { PrimitiveOtherTokens } from '../types.js';
 
 export const primitiveLayoutTokens = {
   spacings: {

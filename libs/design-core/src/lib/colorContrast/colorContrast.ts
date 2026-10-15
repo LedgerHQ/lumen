@@ -1,5 +1,5 @@
-import { hexToHsl } from './hexToHsl';
-import { hslToHex } from './hslToHex';
+import { hexToHsl } from './hexToHsl.js';
+import { hslToHex } from './hslToHex.js';
 
 const HEX_COLOR_RE = /^#[a-f\d]{6}$/i;
 

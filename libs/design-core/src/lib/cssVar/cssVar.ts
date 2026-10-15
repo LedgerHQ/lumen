@@ -1,4 +1,7 @@
-import type { allBrandsCSSTheme, primitivesTheme } from '../themes/css/index';
+import type {
+  allBrandsCSSTheme,
+  primitivesTheme,
+} from '../themes/css/index.js';
 
 type PrimitiveKeys = keyof (typeof primitivesTheme)[':root'];
 type SemanticKeys = keyof (typeof allBrandsCSSTheme)['.ledger-live'];

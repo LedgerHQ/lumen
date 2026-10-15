@@ -1,5 +1,5 @@
-import type { PrimitiveGradientTokens } from '../types';
-import { extractCryptoGradients } from '../utils/extractCryptoGradients';
+import type { PrimitiveGradientTokens } from '../types.js';
+import { extractCryptoGradients } from '../utils/extractCryptoGradients.js';
 
 export const primitiveGradientTokens = {
   light: {

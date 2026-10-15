@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getContrastSafeColor } from './colorContrast';
+import { getContrastSafeColor } from './colorContrast.js';
 
 describe('getContrastSafeColor', () => {
   describe('no adjustment needed', () => {

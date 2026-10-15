@@ -1,19 +1,19 @@
 import { describe, expect, it } from 'vitest';
 
-import { tokens as enterpriseDarkCssTokens } from './css/enterprise/theme.dark-css';
-import { tokens as enterpriseLightCssTokens } from './css/enterprise/theme.light-css';
-import { tokens as ledgerLiveDarkCssTokens } from './css/ledger-live/theme.dark-css';
-import { tokens as ledgerLiveLightCssTokens } from './css/ledger-live/theme.light-css';
-import { tokens as primitivesCssTokens } from './css/primitives-css';
-import { tokens as websitesDarkCssTokens } from './css/websites/theme.dark-css';
-import { tokens as websitesLightCssTokens } from './css/websites/theme.light-css';
-import { enterpriseDarkColorTokens } from './js/enterprise/theme.dark';
-import { enterpriseLightColorTokens } from './js/enterprise/theme.light';
-import { ledgerLiveDarkColorTokens } from './js/ledger-live/theme.dark';
-import { ledgerLiveLightColorTokens } from './js/ledger-live/theme.light';
-import type { ThemeColorTokens } from './js/types';
-import { websitesDarkColorTokens } from './js/websites/theme.dark';
-import { websitesLightColorTokens } from './js/websites/theme.light';
+import { tokens as enterpriseDarkCssTokens } from './css/enterprise/theme.dark-css.js';
+import { tokens as enterpriseLightCssTokens } from './css/enterprise/theme.light-css.js';
+import { tokens as ledgerLiveDarkCssTokens } from './css/ledger-live/theme.dark-css.js';
+import { tokens as ledgerLiveLightCssTokens } from './css/ledger-live/theme.light-css.js';
+import { tokens as primitivesCssTokens } from './css/primitives-css.js';
+import { tokens as websitesDarkCssTokens } from './css/websites/theme.dark-css.js';
+import { tokens as websitesLightCssTokens } from './css/websites/theme.light-css.js';
+import { enterpriseDarkColorTokens } from './js/enterprise/theme.dark.js';
+import { enterpriseLightColorTokens } from './js/enterprise/theme.light.js';
+import { ledgerLiveDarkColorTokens } from './js/ledger-live/theme.dark.js';
+import { ledgerLiveLightColorTokens } from './js/ledger-live/theme.light.js';
+import type { ThemeColorTokens } from './js/types.js';
+import { websitesDarkColorTokens } from './js/websites/theme.dark.js';
+import { websitesLightColorTokens } from './js/websites/theme.light.js';
 
 type CssTokenMap = Record<string, string>;
 type ThemeGroup = keyof Pick<

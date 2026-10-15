@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createIconUtilities } from './createIconUtilities';
+import { createIconUtilities } from './createIconUtilities.js';
 
 const themeValues: Record<string, Record<string, string>> = {
   iconWidth: { 24: 'var(--icon-width-24)' },

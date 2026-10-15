@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import { websitesCSSTheme } from '../themes/css';
+import { websitesCSSTheme } from '../themes/css/index.js';
 import {
   createGradientPlugin,
   createScreensPlugin,
@@ -10,7 +10,7 @@ import {
   createMaskPlugin,
   createAnimationsPlugin,
   createPrimitivesPlugin,
-} from '../utils';
+} from '../utils/index.js';
 
 export const websitesPreset: Config = {
   content: [],
