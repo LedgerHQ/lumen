@@ -24,6 +24,7 @@ export * from './MediaBanner';
 export * from './MediaButton';
 export * from './MediaCard';
 export * from './MediaImage';
+export * from './MediaImageGroup';
 export * from './MediaTag';
 export * from './MenuList';
 export * from './NavBar';

@@ -1,0 +1,185 @@
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { render, screen } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import '@testing-library/jest-dom';
+import { MediaImageGroup } from './MediaImageGroup';
+
+const DisabledProbe = () => {
+  const disabled = useDisabledContext({ consumerName: 'DisabledProbe' });
+  return <span>{disabled ? 'disabled' : 'enabled'}</span>;
+};
+
+const items = (count: number) =>
+  Array.from({ length: count }, (_, i) => ({
+    id: `item-${i}`,
+    alt: `item-${i}`,
+    fallback: 'A',
+  }));
+
+describe('MediaImageGroup', () => {
+  describe('Rendering', () => {
+    it('should render every item and no badge within maxVisible', () => {
+      render(<MediaImageGroup data={items(3)} maxVisible={4} />);
+
+      expect(screen.getAllByRole('img')).toHaveLength(3);
+      expect(screen.queryByText(/^\+/)).not.toBeInTheDocument();
+    });
+
+    it('should render the overflow badge within the maxVisible budget', () => {
+      render(<MediaImageGroup data={items(10)} maxVisible={4} />);
+
+      expect(screen.getAllByRole('img')).toHaveLength(3);
+      expect(screen.getByText('+7')).toBeInTheDocument();
+    });
+
+    it('should render nothing when data is empty', () => {
+      const { container } = render(<MediaImageGroup data={[]} />);
+
+      expect(container).toBeEmptyDOMElement();
+    });
+
+    it('should not forward the item id to the rendered media image', () => {
+      render(
+        <MediaImageGroup
+          data={[{ id: 'btc', alt: 'Bitcoin', fallback: 'B' }]}
+        />,
+      );
+
+      expect(screen.getByRole('img', { name: 'Bitcoin' })).not.toHaveAttribute(
+        'id',
+      );
+    });
+  });
+
+  describe('renderItem', () => {
+    it('should pass the group size and shape to renderItem', () => {
+      const contexts: unknown[] = [];
+      render(
+        <MediaImageGroup
+          data={[{ id: 'btc' }, { id: 'eth' }]}
+          size={24}
+          shape='square'
+          renderItem={(item, context) => {
+            contexts.push(context);
+            return <span>{item.id}</span>;
+          }}
+        />,
+      );
+
+      expect(screen.getByText('btc')).toBeInTheDocument();
+      expect(screen.getByText('eth')).toBeInTheDocument();
+      expect(contexts).toEqual([
+        { size: 24, shape: 'square' },
+        { size: 24, shape: 'square' },
+      ]);
+    });
+
+    it('should only render the visible items', () => {
+      render(
+        <MediaImageGroup
+          data={Array.from({ length: 6 }, (_, i) => ({ id: `asset-${i}` }))}
+          maxVisible={3}
+          renderItem={(item) => <span>{item.id}</span>}
+        />,
+      );
+
+      expect(screen.getByText('asset-0')).toBeInTheDocument();
+      expect(screen.getByText('asset-1')).toBeInTheDocument();
+      expect(screen.queryByText('asset-2')).not.toBeInTheDocument();
+      expect(screen.getByText('+4')).toBeInTheDocument();
+    });
+  });
+
+  describe('Props', () => {
+    it('should expose a group role and forward props to the root', () => {
+      render(
+        <MediaImageGroup
+          data={items(2)}
+          aria-label='Assets'
+          data-testid='group'
+        />,
+      );
+
+      expect(screen.getByRole('group', { name: 'Assets' })).toBe(
+        screen.getByTestId('group'),
+      );
+    });
+
+    it('should forward overflowTestID to the overflow badge', () => {
+      render(
+        <MediaImageGroup
+          data={items(10)}
+          maxVisible={4}
+          overflowTestID='overflow'
+        />,
+      );
+
+      expect(screen.getByTestId('overflow')).toHaveTextContent('+7');
+    });
+  });
+
+  describe('Disabled', () => {
+    it('should dim the overflow badge when disabled', () => {
+      render(
+        <MediaImageGroup
+          data={items(10)}
+          maxVisible={4}
+          disabled
+          overflowTestID='overflow'
+        />,
+      );
+
+      expect(screen.getByTestId('overflow')).toHaveClass('opacity-30');
+    });
+
+    it('should not dim the overflow badge by default', () => {
+      render(
+        <MediaImageGroup
+          data={items(10)}
+          maxVisible={4}
+          overflowTestID='overflow'
+        />,
+      );
+
+      expect(screen.getByTestId('overflow')).not.toHaveClass('opacity-30');
+    });
+
+    it('should provide the disabled state to custom items', () => {
+      render(
+        <MediaImageGroup
+          data={[{ id: 'btc' }]}
+          disabled
+          renderItem={() => <DisabledProbe />}
+        />,
+      );
+
+      expect(screen.getByText('disabled')).toBeInTheDocument();
+    });
+  });
+
+  describe('Types', () => {
+    it('should require renderItem when data is not MediaImageGroupItem[]', () => {
+      const assets = [{ ticker: 'BTC' }];
+
+      // Compile-time only: a `@ts-expect-error` fails typecheck if the union
+      // stops rejecting the line below it.
+      const typeChecks = () => (
+        <>
+          <MediaImageGroup data={[{ src: 'btc.png', alt: 'Bitcoin' }]} />
+          <MediaImageGroup
+            data={assets}
+            renderItem={(asset) => <span>{asset.ticker}</span>}
+          />
+          {/* @ts-expect-error custom data requires renderItem */}
+          <MediaImageGroup data={assets} />
+          {/* @ts-expect-error excess property on an inline MediaImage item */}
+          <MediaImageGroup
+            data={[{ src: 'btc.png', alt: 'Bitcoin', ticker: 'BTC' }]}
+          />
+        </>
+      );
+
+      expect(typeChecks).toBeDefined();
+    });
+  });
+});

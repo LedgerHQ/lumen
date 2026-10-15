@@ -1,0 +1,90 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as MediaImageGroupStories from './MediaImageGroup.stories';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+
+<Meta title='Core/MediaImageGroup' of={MediaImageGroupStories} />
+
+# MediaImageGroup
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+MediaImageGroup displays a stack of overlapping media images. When there are more items than `maxVisible`, the last slot becomes a `+N` badge with the number of hidden items.
+
+## Anatomy
+
+<Canvas of={MediaImageGroupStories.Base} />
+
+- **Slot**: Ring around each item, sized by the group
+- **Item**: A `MediaImage`, or the element returned by `renderItem`
+- **Overflow badge**: `+N` slot shown when the data exceeds `maxVisible`
+
+## Properties
+
+### Overview
+
+<Canvas of={MediaImageGroupStories.Base} />
+<Controls of={MediaImageGroupStories.Base} />
+
+### Custom items
+
+Pass `renderItem` to render something other than a `MediaImage`, such as a **crypto icon**, and forward the `size` and `shape` it receives.
+
+<Canvas of={MediaImageGroupStories.WithRenderItem} />
+
+### Sizes
+
+The group owns the size of every item. Overlap scales with it.
+
+<Canvas of={MediaImageGroupStories.SizeShowcase} />
+
+### Shapes
+
+<Canvas of={MediaImageGroupStories.ShapeShowcase} />
+
+### Overflow
+
+`maxVisible` counts the overflow badge. With `maxVisible={4}` and 6 items, 3 items and a `+3` badge are displayed. The badge reads `99+` beyond 99 hidden items.
+
+<Canvas of={MediaImageGroupStories.WithOverflow} />
+
+### Disabled
+
+Set `disabled` to dim the items and the `+N` badge. Custom items rendered with `renderItem` inherit it.
+
+<Canvas of={MediaImageGroupStories.Disabled} />
+
+To dim a single item, set `disabled` on that item in `data`. The `+N` badge and the other items stay enabled.
+
+<Canvas of={MediaImageGroupStories.DisabledItem} />
+
+### Fallback and loading
+
+Each item accepts the `MediaImage` fallback and loading props.
+
+<Canvas of={MediaImageGroupStories.WithFallback} />
+
+## Accessibility
+
+- Each item keeps the accessibility of the element it renders, so give every item a meaningful `alt`.
+- Forward an `accessibilityLabel` to the root to describe the group.
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+### Basic Usage
+
+<Source of={MediaImageGroupStories.Base} />
+
+### Item keys
+
+To set a stable React key, pass an `id` in each `data` item. When omitted, the index is used. Items rendered with `renderItem` are keyed by index.
+
+</Tab>
+</CustomTabs>

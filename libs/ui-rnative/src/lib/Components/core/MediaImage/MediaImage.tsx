@@ -10,7 +10,7 @@ import type { MediaImageProps, MediaImageSize, MediaImageShape } from './types';
 
 type BorderRadiusKey = keyof LumenStyleSheetTheme['borderRadius'];
 
-const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
+export const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   12: 'xs',
   16: 'xs',
   20: 'xs',
