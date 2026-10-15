@@ -65,6 +65,8 @@ export const chartConfig = {
   scrubber: {
     beaconRadius: 5,
     beaconStrokeWidth: 2,
+    beaconPulseDurationInSeconds: 1.5,
+    beaconPulseScale: 2.5,
     lineColor: cssVar('var(--border-base)'),
     overlayColor: cssVar('var(--background-base)'),
     overlayOffset: 2,

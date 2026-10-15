@@ -10,6 +10,7 @@ import {
   computeOverlayRect,
   getDataIndexFromPosition,
   nearestIndex,
+  resolveLastIndex,
   resolvePixelX,
   resolvePixelY,
   resolveTooltipPayload,
@@ -404,5 +405,16 @@ describe('resolveTooltipPayload', () => {
       1,
     );
     expect(payload?.resolvedTitle).toBeUndefined();
+  });
+});
+
+describe('resolveLastIndex', () => {
+  it('returns the last non-null index', () => {
+    expect(resolveLastIndex([1, 2, null, 4, null])).toBe(3);
+  });
+
+  it('returns undefined for missing or all-null data', () => {
+    expect(resolveLastIndex(undefined)).toBeUndefined();
+    expect(resolveLastIndex([null, null])).toBeUndefined();
   });
 });
