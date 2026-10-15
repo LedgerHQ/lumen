@@ -1,13 +1,13 @@
 import { describe, it, expect } from 'vitest';
 
-import { allBrandsCSSTheme } from '../themes/css';
+import { allBrandsCSSTheme } from '../themes/css/index.js';
 import {
   createGradientPlugin,
   createPrimitivesPlugin,
   createThemePlugin,
   createTypographyPlugin,
-} from '../utils';
-import { cn } from './cn';
+} from '../utils/index.js';
+import { cn } from './cn.js';
 
 type Plugin = ReturnType<typeof createThemePlugin>;
 

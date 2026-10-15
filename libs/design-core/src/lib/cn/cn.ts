@@ -17,6 +17,7 @@ const twMerge = extendTailwindMerge<'typography'>({
       'font-size': [
         {
           text: [
+            validators.isTshirtSize,
             validators.isArbitraryVariableLength,
             validators.isArbitraryLength,
           ],

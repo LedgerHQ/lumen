@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 
-import { cn } from './cn';
+import { cn } from './cn.js';
 
 describe('cn', () => {
   describe('class composition', () => {
@@ -112,6 +112,15 @@ describe('cn', () => {
         expect(cn('text-[14px]', 'text-base')).toBe('text-[14px] text-base');
         expect(cn('text-[14px]', 'text-[16px]')).toBe('text-[16px]');
       });
+
+      it('keeps Tailwind font sizes as font sizes', () => {
+        expect(cn('text-muted', 'text-sm')).toBe('text-muted text-sm');
+        expect(cn('text-sm', 'text-on-interactive')).toBe(
+          'text-sm text-on-interactive',
+        );
+        expect(cn('text-sm', 'text-2xl')).toBe('text-2xl');
+        expect(cn('text-sm', 'text-[14px]')).toBe('text-[14px]');
+      });
     });
 
     describe('typography', () => {
@@ -147,10 +156,12 @@ describe('cn', () => {
             'body-2',
           ),
         ).toBe('body-2');
+        expect(cn('text-sm', 'body-2')).toBe('body-2');
       });
 
       it('keeps later font utilities as partial overrides', () => {
         expect(cn('body-2', 'font-bold')).toBe('body-2 font-bold');
+        expect(cn('body-2', 'text-sm')).toBe('body-2 text-sm');
         expect(cn('body-2', 'leading-tight')).toBe('body-2 leading-tight');
       });
 

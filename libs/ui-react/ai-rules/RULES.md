@@ -161,8 +161,8 @@ To verify or discover additional values, explore:
 - Compose every `className` with `cn` from `@ledgerhq/lumen-design-core/cn`. Do not write a local `twMerge(clsx(...))` helper: plain tailwind-merge misreads Lumen classes
 - Put the incoming `className` last: `cn('p-16 text-base', className)`. On conflict, the later class wins
 - `cn` is configured for the Lumen preset:
-  - Named `text-*` classes are colors (`text-base` + `text-muted` → `text-muted`). Only arbitrary values are font sizes: `text-[14px]`, `text-[length:var(--x)]`
-  - Typography classes (`responsive-display-*`, `heading-*`, `body-*`) replace each other, and replace earlier `font-*`, `leading-*`, `tracking-*` and arbitrary `text-[size]`. A later `font-*` / `leading-*` is kept as a partial override: `cn('body-2', 'font-bold')` → both
+  - Lumen `text-*` tokens are colors, including `text-base` (`text-base` + `text-muted` → `text-muted`). Tailwind size names (`text-sm`, `text-2xl`) and arbitrary lengths (`text-[14px]`) stay font sizes, so they never drop a color. The preset emits no CSS for size names: use typography classes instead
+  - Typography classes (`responsive-display-*`, `heading-*`, `body-*`) replace each other, and replace earlier `font-*`, `leading-*`, `tracking-*` and `text-*` font sizes. A later `font-*` / `leading-*` is kept as a partial override: `cn('body-2', 'font-bold')` → both
   - `bg-gradient-{name}` is a background image and coexists with `bg-*` colors. `bg-gradient-{n}` / `bg-gradient-overlay-{n}` are color tokens
 - Not merged (both kept, CSS order decides): `icon-*`, `spot-*`, `z-*`, `scrollbar-*`, `mask-fade-*`, `animate-*`, and app-defined custom classes
 
