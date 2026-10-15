@@ -22,6 +22,27 @@ keep each finding to one line.
 | Platforms | React Native equivalent, and how it differs from web | Engineering |
 | Maturity | Stable, beta, pre-1.0, preview or draft spec: how much weight the finding deserves | Both |
 
+## Fit for Lumen (new component or update)
+
+Answer these before recommending an API; they decide whether there's an API at all.
+
+**Generic or feature-specific?**
+- **Prior art**: how many reference systems ship it, and how mature they are.
+- **Demand**: how many consumers need it (the scope spreadsheet's tabs, a
+  `consumer-impact` usage scan). One consumer is a signal, not proof.
+- **Generic core**: which part every system shares, and which part is product
+  logic that stays in the app.
+
+**Maintainable at which level?**
+- **Spec maturity**: settled, or still moving (preview components, systems that
+  disagree, an unfinished Figma spec).
+- **Cost**: what Lumen already has to build on, on both platforms.
+- **Abstraction**: the smallest level that serves the demand: a hook or
+  primitive, a thin component, a full component, or a documented recipe built
+  from existing components (nothing shipped).
+
+End each half with a one-line verdict.
+
 ## Naming (component, prop or token)
 
 - **Term per system**: the name, plus the concept it covers. Check that the

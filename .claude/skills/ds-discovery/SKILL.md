@@ -64,6 +64,10 @@ Notable: up to 2 things Lumen should copy or avoid, with why
 
 ## 4. Synthesize
 
+- **Fit for Lumen** (new component or update): first answer whether it belongs
+  in Lumen and at which level of abstraction, with the "Fit for Lumen"
+  checklist in `references/dimensions.md`. If the verdict is "keep it in the
+  product" or "document a recipe", the recommendation follows from that.
 - **Consensus vs divergence**: what most systems agree on, where they differ and why.
   Weigh each system by its maturity: two preview components are a weak consensus.
 - **Recommendation for Lumen**, split by audience:
@@ -78,7 +82,16 @@ Notable: up to 2 things Lumen should copy or avoid, with why
 
 Copy `assets/report-template.html` whole (title, styles and all) and replace
 only what sits between the `REPORT CONTENT` markers; then delete the example
-rows and the `<!-- -->` guidance. The `<title>` is the subject in 2–4 words
+rows and the `<!-- -->` guidance. Each system is a summary row plus an
+expandable detail row (screenshot, copy/avoid notes).
+
+**Screenshots** (optional, only for systems that ship the component): capture
+each live docs demo with `scripts/capture-demo.mjs capture`, using a `near`
+selector for an element inside the demo (e.g. `textarea`, `[role="tablist"]`).
+Write `{{shot:<id>}}` as the image `src`, then run its `inline` command on the
+finished report. It needs Google Chrome and `playwright-core` (install command in
+the script's header); without them, skip screenshots and keep the demo links.
+Never iframe or load competitors' components: artifacts block both. The `<title>` is the subject in 2–4 words
 (e.g. "Tabs discovery"). Write it to `tmp/ds-discovery/<YYYY-MM-DD>-<slug>.html`
 (gitignored), never elsewhere in the repo tree.
 

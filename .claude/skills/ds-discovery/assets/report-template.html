@@ -99,6 +99,24 @@
 
   .sources li { font-size: 0.875rem; overflow-wrap: anywhere; }
   footer { color: var(--fg-muted); font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 16px; }
+
+  /* Expandable comparison rows */
+  .table-tools { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  .table-tools h2 { margin: 0; }
+  .btn { font: inherit; font-size: 0.8rem; font-weight: 600; padding: 4px 12px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); cursor: pointer; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .toggle { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-weight: 600; white-space: nowrap; }
+  .toggle::before { content: '▸'; color: var(--fg-muted); transition: transform 0.15s; }
+  .toggle[aria-expanded="true"]::before { transform: rotate(90deg); }
+  .toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+  @media (prefers-reduced-motion: reduce) { .toggle::before { transition: none; } }
+  tr.detail > td { background: var(--surface); padding: 16px; }
+  .detail-body { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 20px; align-items: start; max-width: 960px; }
+  @media (max-width: 720px) { .detail-body { grid-template-columns: minmax(0, 1fr); } }
+  .shot { margin: 0; display: grid; gap: 6px; }
+  .shot img { width: 100%; max-height: 220px; object-fit: contain; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+  .shot figcaption { font-size: 0.75rem; color: var(--fg-muted); }
+  .no-shot { font-size: 0.8rem; color: var(--fg-muted); border: 1px dashed var(--line); border-radius: 8px; padding: 16px; text-align: center; }
 </style>
 
 <!-- REPORT CONTENT START: replace everything down to the END marker -->
@@ -126,8 +144,37 @@
     </div>
   </section>
 
+  <!-- New component or update only; delete this section for naming, pattern and token questions. -->
+  <section aria-labelledby="fit">
+    <h2 id="fit">Does it belong in Lumen?</h2>
+    <div class="split">
+      <section>
+        <h3>Generic or feature-specific?</h3>
+        <ul>
+          <li><strong>Prior art</strong>: {{how many systems ship it, and how mature}}</li>
+          <li><strong>Demand</strong>: {{consumers or spreadsheet tabs that need it}}</li>
+          <li><strong>Generic core</strong>: {{what's generic vs product logic that stays in the app}}</li>
+        </ul>
+        <p class="flag">{{Verdict in one line}}</p>
+      </section>
+      <section>
+        <h3>Maintainable at which level?</h3>
+        <ul>
+          <li><strong>Spec maturity</strong>: {{settled, or still moving}}</li>
+          <li><strong>Cost</strong>: {{what Lumen already has to build on}}</li>
+          <li><strong>Abstraction</strong>: {{hook or primitive / thin component / full component / documented recipe, and why}}</li>
+        </ul>
+        <p class="flag">{{Verdict in one line}}</p>
+      </section>
+    </div>
+  </section>
+
   <section aria-labelledby="compare">
-    <h2 id="compare">Comparison</h2>
+    <div class="table-tools">
+      <h2 id="compare">Comparison</h2>
+      <button type="button" class="btn" id="expand-all" aria-pressed="false">Expand all</button>
+    </div>
+    <!-- With more than 4 dimensions, widen the table (e.g. style="min-width: 1040px"); it scrolls inside its wrapper. -->
     <div class="table-wrap">
       <table>
         <thead>
@@ -140,12 +187,24 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Repeat per system, in the order of the header. Cell: coverage badge (yes / partial / no), one line, source link. -->
+          <!-- Repeat this pair per system. The first row is the one-line summary; the detail row
+               (same id as aria-controls, colspan = column count) holds the screenshot and copy/avoid notes. -->
           <tr>
-            <th scope="row">{{System}}</th>
-            <td><span class="cov yes">Yes</span><br>{{One-line finding}} <a class="src" href="{{url}}">source</a></td>
-            <td><span class="cov partial">Partial</span><br>{{One-line finding}} <a class="src" href="{{url}}">source</a></td>
+            <th scope="row"><button type="button" class="toggle" aria-expanded="false" aria-controls="d-{{system-id}}">{{System}}</button></th>
+            <td><span class="cov yes">Yes</span><br>{{Their name, version, maturity}} <a class="src" href="{{url}}">source</a></td>
+            <td>{{One-line finding}} <a class="src" href="{{url}}">source</a></td>
             <td><span class="cov no">Not covered</span></td>
+          </tr>
+          <tr class="detail" id="d-{{system-id}}" hidden>
+            <td colspan="4"><div class="detail-body">
+              <!-- Screenshot from scripts/capture-demo.mjs, inlined by its `inline` command; or the no-shot line. -->
+              <figure class="shot"><img src="{{shot:system-id}}" alt="{{What the demo shows}}"><figcaption>Live demo on <a href="{{demo url}}">{{site}}</a>, captured {{YYYY-MM-DD}}</figcaption></figure>
+              <!-- <p class="no-shot">No component to show</p> -->
+              <ul>
+                <li>{{Copy: …, and why}}</li>
+                <li>{{Avoid: …, and why}}</li>
+              </ul>
+            </div></td>
           </tr>
           <!-- APG gets its own shaded row and doesn't count towards consensus. -->
           <tr class="ref">
@@ -162,25 +221,7 @@
         </tbody>
       </table>
     </div>
-  </section>
-
-  <section aria-labelledby="systems">
-    <h2 id="systems">By system</h2>
-    <div class="cards">
-      <!-- Repeat per system. Keep each card to what's notable; the table holds the rest. -->
-      <article class="card">
-        <header>
-          <h3>{{System}}</h3>
-          <span class="meta">{{Their name for it}} · {{version or docs date}}</span>
-        </header>
-        <ul>
-          <li>{{Copy or avoid, and why}}</li>
-          <li>{{Copy or avoid, and why}}</li>
-        </ul>
-        <!-- Optional API snippet, written by you, not pasted from their docs. -->
-        <pre><code>{{&lt;Tabs.Root value onValueChange&gt;…}}</code></pre>
-      </article>
-    </div>
+    <p class="meta">Expand a system for its live-demo screenshot and what Lumen should copy or avoid.</p>
   </section>
 
   <section aria-labelledby="lumen">
@@ -235,3 +276,23 @@
   <footer>Generated with the Lumen <code>ds-discovery</code> skill. Findings summarize each system's public docs and source; follow the links for the originals.</footer>
 </main>
 <!-- REPORT CONTENT END -->
+<script>
+  // Expand/collapse comparison rows; toggles visibility through `hidden`.
+  (() => {
+    const toggles = [...document.querySelectorAll('.toggle')];
+    const setOpen = (btn, open) => {
+      btn.setAttribute('aria-expanded', String(open));
+      const row = document.getElementById(btn.getAttribute('aria-controls'));
+      if (row) row.hidden = !open;
+    };
+    toggles.forEach((btn) => btn.addEventListener('click', () => setOpen(btn, btn.getAttribute('aria-expanded') !== 'true')));
+    const all = document.getElementById('expand-all');
+    if (!all) return;
+    all.addEventListener('click', () => {
+      const open = all.getAttribute('aria-pressed') !== 'true';
+      toggles.forEach((btn) => setOpen(btn, open));
+      all.setAttribute('aria-pressed', String(open));
+      all.textContent = open ? 'Collapse all' : 'Expand all';
+    });
+  })();
+</script>
