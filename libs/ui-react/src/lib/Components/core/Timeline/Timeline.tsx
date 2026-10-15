@@ -303,20 +303,18 @@ export const TimelineItemBody = ({
   ...props
 }: TimelineItemBodyProps) => {
   return (
-    <div className='flex gap-8'>
+    <div
+      ref={ref}
+      className={cn('flex min-w-0 gap-8 body-3 text-muted', className)}
+      {...props}
+    >
       <div
         aria-hidden
         className='pointer-events-none flex w-20 shrink-0 justify-center group-last/item:invisible'
       >
         <span className='h-full w-0 border-l-2 border-muted-subtle-hover' />
       </div>
-      <div
-        ref={ref}
-        className={cn('min-w-0 flex-1 pb-8 body-3 text-muted', className)}
-        {...props}
-      >
-        {children}
-      </div>
+      <div className='min-w-0 flex-1 pb-8'>{children}</div>
     </div>
   );
 };

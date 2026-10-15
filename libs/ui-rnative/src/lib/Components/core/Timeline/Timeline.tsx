@@ -551,7 +551,12 @@ export const TimelineItemBody = ({
   });
 
   return (
-    <Box style={styles.body}>
+    <Box
+      ref={ref}
+      lx={lx}
+      style={StyleSheet.flatten([styles.body, style])}
+      {...props}
+    >
       <Box
         accessibilityElementsHidden
         importantForAccessibility='no-hide-descendants'
@@ -560,12 +565,7 @@ export const TimelineItemBody = ({
       >
         {!isLast && <Box style={styles.line} />}
       </Box>
-      <Box
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([styles.bodyContent, style])}
-        {...props}
-      >
+      <Box style={styles.bodyContent}>
         {isTextChildren(children) ? <Text>{children}</Text> : children}
       </Box>
     </Box>
