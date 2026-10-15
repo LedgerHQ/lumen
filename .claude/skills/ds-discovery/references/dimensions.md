@@ -6,14 +6,31 @@ keep each finding to one line.
 
 ## New component
 
+Discovery compares **what each system exposes**, not how it's built: skip
+implementation internals (state storage, rendering tricks, DOM measurement)
+unless they constrain the API or behaviour. Default table columns: API shape,
+key props, behaviour, spec, accessibility, platforms.
+
+**API shape**: name every shape the system uses, in this vocabulary:
+
+| Shape | Looks like |
+|---|---|
+| Compound | `<Tabs><Tabs.List><Tabs.Tab/>…` parts the consumer assembles |
+| Constrained | One component, props only, fixed layout |
+| Collection | An `items` array, often with a render function per item |
+| Slots | Named props taking nodes (`leadingContent`, `slots={{…}}`) |
+| Render props | A function child or prop that renders part of the UI |
+| Headless hook | A hook returning state and props (`useTabs`), no markup |
+| Element override | `render`, `asChild` or `as` to swap the rendered element |
+
 | Dimension | What to look for | For |
 |---|---|---|
 | Purpose | When to use it, when not to, which alternatives the system points to | Design |
+| API shape | The shapes above, and which one is the main entry point | Engineering |
+| Key props | Names of the props that carry meaning (value/change pair, variants, states), controlled vs uncontrolled | Engineering |
 | Anatomy | Parts and what each is called | Both |
 | Variants & sizes | Names and how many | Both |
 | States | Hover, focus, disabled, loading, error, selected, read-only | Both |
-| API | Props (name, type, default), controlled/uncontrolled pairs, event naming | Engineering |
-| Composition | Compound parts vs props, slots, element override (`render` / `asChild`) | Engineering |
 | Behaviour | Keyboard, focus management, dismissal, selection model | Both |
 | Accessibility | APG pattern, labelling, live announcements | Both |
 | Responsiveness | Changes per breakpoint, overflow handling, touch-target size | Both |

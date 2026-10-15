@@ -54,10 +54,13 @@ in turn with the same shape.
 DS: <name> (<version or docs date read>)
 Coverage: yes | partial | not covered (their name: <name>)
 Maturity: stable | beta | pre-1.0 | preview | draft spec
+API shape: compound | constrained | collection | slots | render props | headless hook | element override (all that apply)
 Findings: one line per dimension: <dimension>: <finding> [<source URL>]
 Notable: up to 2 things Lumen should copy or avoid, with why
 ```
 
+- Compare what each system exposes (API shape, behaviour, spec, accessibility),
+  not how it implements it.
 - Read docs for guidance, and source code for exact prop names, types and defaults.
 - Every finding carries a URL. Write "not covered" rather than guessing.
 - Summarize in your own words and link to the source. Quote a short phrase at most.
@@ -72,9 +75,9 @@ Notable: up to 2 things Lumen should copy or avoid, with why
   Weigh each system by its maturity: two preview components are a weak consensus.
 - **Recommendation for Lumen**, split by audience:
   - *Design*: when to use, anatomy, states, behaviour, content.
-  - *Engineering*: an API sketch that follows the `component-architecture`
-    skill, composition, web/RN parity, and the a11y implementation (Base UI part,
-    APG pattern).
+  - *Engineering*: the API shape to adopt and why, an API sketch that follows
+    the `component-architecture` skill, web/RN parity, and the a11y
+    implementation (Base UI part, APG pattern).
 - Flag any recommendation that contradicts an existing Lumen choice, and why.
 - **Open questions**, one list for design and one for engineering.
 
