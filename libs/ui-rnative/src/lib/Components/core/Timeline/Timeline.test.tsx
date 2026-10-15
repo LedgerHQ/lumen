@@ -195,8 +195,8 @@ describe('Timeline', () => {
         ),
       ).toEqual(
         expect.objectContaining({
-          width: 20,
-          height: 20,
+          width: 16,
+          height: 16,
           borderWidth: 2,
           borderColor: colors.border.mutedSubtleHover,
         }),

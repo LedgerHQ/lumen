@@ -117,8 +117,8 @@ const useTimelineStyles = () =>
         backgroundColor: t.colors.bg.mutedPressed,
       },
       idleRing: {
-        width: t.sizes.s20,
-        height: t.sizes.s20,
+        width: t.sizes.s16,
+        height: t.sizes.s16,
         borderRadius: t.borderRadius.full,
         borderWidth: t.borderWidth.s2,
         borderColor: t.colors.border.mutedSubtleHover,

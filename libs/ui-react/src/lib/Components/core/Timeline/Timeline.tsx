@@ -51,7 +51,7 @@ const indicatorByStatus = {
   idle: (
     <span
       aria-hidden
-      className='size-20 rounded-full border-2 border-muted-subtle-hover'
+      className='size-16 rounded-full border-2 border-muted-subtle-hover'
     />
   ),
 } satisfies Record<TimelineItemStatus, ReactElement>;
