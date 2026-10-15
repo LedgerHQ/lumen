@@ -96,6 +96,49 @@ describe('Scrubber', () => {
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
   });
 
+  it('rests beacons at the end of each line while idle', () => {
+    const { getByTestId, queryByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+      scrubberContext: {
+        ...activeScrubberContext,
+        scrubberPosition: undefined,
+      },
+    });
+    expect(getByTestId('scrubber-beacon-s1')).toBeTruthy();
+    expect(getByTestId('scrubber-beacon-s2')).toBeTruthy();
+    expect(queryByTestId('scrubber-line')).toBeNull();
+    expect(queryByTestId('scrubber-overlay')).toBeNull();
+  });
+
+  it('pulses only while idle and when idlePulse is true', () => {
+    const idle = {
+      ...activeScrubberContext,
+      scrubberPosition: undefined,
+    };
+    const pulsing = renderScrubber({
+      scrubberProps: { showBeacons: true, idlePulse: true },
+      scrubberContext: idle,
+    });
+    expect(pulsing.queryAllByTestId('scrubber-pulse')).toHaveLength(2);
+    pulsing.unmount();
+
+    const scrubbing = renderScrubber({
+      scrubberProps: { showBeacons: true, idlePulse: true },
+    });
+    expect(scrubbing.queryAllByTestId('scrubber-pulse')).toHaveLength(0);
+  });
+
+  it('does not pulse by default', () => {
+    const { queryAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+      scrubberContext: {
+        ...activeScrubberContext,
+        scrubberPosition: undefined,
+      },
+    });
+    expect(queryAllByTestId('scrubber-pulse')).toHaveLength(0);
+  });
+
   it('renders chart tooltip when tooltip prop is set', () => {
     const { getByTestId } = renderScrubber({
       scrubberProps: {

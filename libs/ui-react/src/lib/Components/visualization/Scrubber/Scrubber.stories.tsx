@@ -116,6 +116,21 @@ export const WithBeacons: Story = {
   args: {},
 };
 
+export const WithIdlePulse: Story = {
+  render: (args: ScrubberProps) => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20, right: 20 }}
+    >
+      <Scrubber {...args} showBeacons idlePulse />
+    </LineChart>
+  ),
+  args: {},
+};
+
 /**
  * Return `{ items: [] }` from the `tooltip` callback to hide the tooltip at an
  * index — here it only appears on annotated `Point`s.
