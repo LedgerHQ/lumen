@@ -27,18 +27,28 @@ Resolve the DLS key once; the title and the body both use it.
 On `main`, create the branch once the key is known:
 `git checkout -b DLS-<n>-<short-slug>` (just `<short-slug>` without a ticket).
 
-## 2. Version plan
+## 2. Commit
 
-Run `git fetch origin main` first; every diff below compares against `origin/main`.
-If `libs/*/src/` changed and
-`git diff origin/main...HEAD --name-only -- .nx/version-plans/` is empty, add
-one following the `release-plan` skill.
+Commit any uncommitted changes with a conventional message, so every later
+check sees the whole change.
 
-## 3. Commit and push
+## 3. Version plan
 
-Commit any uncommitted changes with a conventional message, then push to the
-branch's own name, never to its upstream (a branch created from `origin/main`
-tracks `main`, and a bare push would target it):
+Run the same check as CI, against a fresh `origin/main`:
+
+```bash
+git fetch origin main && npx nx release plan:check --base=origin/main --verbose
+```
+
+It lists every affected publishable package that has no plan, and already
+ignores tests, stories and docs (`nx.json` → `ignorePatternsForPlanCheck`). Add
+one plan per listed package following the `release-plan` skill, commit them,
+and rerun until it passes.
+
+## 4. Push
+
+Push to the branch's own name, never to its upstream (a branch created from
+`origin/main` tracks `main`, and a bare push would target it):
 
 ```bash
 git push -u origin "HEAD:refs/heads/$(git branch --show-current)"
@@ -46,7 +56,7 @@ git push -u origin "HEAD:refs/heads/$(git branch --show-current)"
 
 If `gh pr view --json url` finds a PR, print its URL and stop.
 
-## 4. Title
+## 5. Title
 
 `<prefix> DLS-<n> <type>(<scope>): <summary>`, e.g. `[M] DLS-1023 feat(Toast): add Toast component`
 
@@ -57,7 +67,7 @@ If `gh pr view --json url` finds a PR, print its URL and stop.
   export or prop, changed default).
 - Without a ticket, drop `DLS-<n>`.
 
-## 5. Body
+## 6. Body
 
 Fill `.github/pull_request_template.md` from `git diff origin/main...HEAD`, then strip
 every HTML comment:
@@ -73,7 +83,7 @@ every HTML comment:
 - **Breaking change**: uncomment and fill (before → after, migration) for
   `BREAKING_CHANGE`; remove it otherwise.
 
-## 6. Create
+## 7. Create
 
 ```bash
 gh pr create --base main --head "$(git branch --show-current)" --title "<title>" --body-file - <<'EOF'

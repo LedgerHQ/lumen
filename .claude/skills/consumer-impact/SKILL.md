@@ -77,12 +77,14 @@ Use parallel subagents, one per repo, when available.
   fuzzy. Code search covers default branches only: report counts as a floor.
 - **Install & check**: one shallow clone per repo in `tmp/consumer-impact/`
   (gitignored): `gh repo clone <repo> tmp/consumer-impact/<name> -- --depth 1`.
-  1. Detect the package manager from the lockfile and install as-is first, to
-     get a **baseline** (a check that already fails on `main` is not ours).
+  1. **Baseline**: detect the package manager from the lockfile, install as-is,
+     then run the scripts the consumer actually has in that workspace
+     (typecheck, lint, build, test). Record pass/fail per check.
   2. Point the Lumen packages at the tarballs (catalog repos: edit the entry in
      `pnpm-workspace.yaml`) with the overrides above, and reinstall.
-  3. Run the scripts the consumer actually has in that workspace (typecheck,
-     lint, build, test), and record pass/fail plus the first relevant errors.
+  3. Run the same checks again. A check that fails now but passed at baseline
+     is caused by the change; record its first relevant errors. One that
+     already failed at baseline is reported as pre-existing.
 - Skip a repo that is too heavy or fails at baseline, and say so. Never commit,
   push, or open a PR in a consumer repo; clones are throwaway.
 

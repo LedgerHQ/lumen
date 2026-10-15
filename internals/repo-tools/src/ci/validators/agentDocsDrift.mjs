@@ -412,7 +412,12 @@ const CURSOR_ONLY_MCP = new Set(['google-sheets']);
 const claudeMcp = readServers('.mcp.json');
 const cursorMcp = readServers('.cursor/mcp.json');
 if (claudeMcp && cursorMcp) {
-  const names = new Set([...Object.keys(claudeMcp), ...Object.keys(cursorMcp)]);
+  // Include CURSOR_ONLY_MCP so removing one from both files still fails.
+  const names = new Set([
+    ...Object.keys(claudeMcp),
+    ...Object.keys(cursorMcp),
+    ...CURSOR_ONLY_MCP,
+  ]);
   for (const name of names) {
     const a = claudeMcp[name];
     const b = cursorMcp[name];

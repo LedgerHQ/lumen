@@ -55,8 +55,24 @@ repro steps or acceptance criteria. Ask instead.
 
 One bottom tab = one project scope. Ask for the sheet link and tab if they
 aren't given; read it with the Google Sheets or Drive MCP. Create one Epic for
-the tab, then one Task per row, and split a row into `[D]` and `[M]` tasks
-when the platforms ship separately. Otherwise use `[M][D]`.
+the tab, then go through its rows (one row = one component).
+
+Column positions vary between tabs, so find them by header name. The dev
+columns that matter are **Lumen - React** (`[D]`) and **Lumen - React Native**
+(`[M]`); **Lumen - Figma** is design work and never makes a dev ticket. Each
+cell holds a status:
+
+| Status | Ticket |
+|---|---|
+| To Create | `<Component>: create` |
+| Update Needed | `<Component>: <the change>`, from the Comment column |
+| Available | None, it already exists |
+| Out of Scope | None |
+| To Discuss | None; list it in the draft as an open question |
+
+When both dev columns need work, create one `[M][D]` task, or split it into
+`[D]` and `[M]` tasks when the platforms ship separately. Put the Comment
+column and any Figma or Jira design-ticket link in the task's Context.
 
 ## Create
 
