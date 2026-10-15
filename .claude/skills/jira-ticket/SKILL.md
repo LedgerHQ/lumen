@@ -74,7 +74,7 @@ Once the tickets exist, write back to the sheet with the Google Sheets MCP
 (`update_values`): set each cell that produced a ticket to **Ticket Created**,
 and put the ticket key in the tab's Ticket column when it has one. Re-read each
 cell first and only change it if it still says To Create. Without write access,
-list the cells to update (tab, cell, new value) for the user instead.
+skip this step.
 
 ## Create
 
