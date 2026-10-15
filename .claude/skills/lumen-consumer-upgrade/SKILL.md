@@ -36,8 +36,10 @@ Two sources, used together. Never infer breaking changes from memory.
    design-core exactly.
 4. **Stop conditions.** Report and stop if the repo is on Tailwind v3 (row
    `S1` is a separate project), or on a package name not in the catalog.
-5. **Select catalog rows** whose package was crossed: installed < `since` ≤
-   target. Rows marked "next release" apply once that release is out.
+5. **Select catalog rows** with the rule in "Which rows apply" at the top of
+   the catalog: a row applies when a package the repo installs is below the
+   row's "Introduced in" version. Skip every other row without running its
+   detection, and list the skipped ids in one line of the audit.
 6. **Run every selected row's detection.** Record file:line hits. A row with
    zero hits is still listed as "checked, not used". Never skip a row because
    it looks unlikely.
@@ -47,10 +49,10 @@ Two sources, used together. Never infer breaking changes from memory.
    node <this skill>/scripts/lumen-api-diff.mjs @ledgerhq/<pkg> <installed> <target>
    ```
 
-   Grep the app for every removed export, `var(--token)` and class pattern it
-   prints. A hit already explained by a catalog row is covered. Any other hit
-   goes under "Uncatalogued" in the audit: find its release note, then add a
-   catalog row (see Rules).
+   Grep the app for every removed export, file, `var(--token)` and class
+   pattern it prints. A hit already explained by a catalog row is covered.
+   Any other hit goes under "Uncatalogued" in the audit, with its release
+   note if you find one. Don't edit the catalog now (see Rules).
 8. **Find local `cn` helpers:** any file importing `tailwind-merge`, `clsx` or
    `classnames`. For each, note whether it uses `extendTailwindMerge` /
    `createTailwindMerge`, and whether the app's Tailwind config or CSS
@@ -90,8 +92,12 @@ the repo building.
 
 - Install, typecheck, lint, test and build all pass. Report any failure that
   also exists on the base branch as pre-existing, without fixing it.
-- Grep again for every 🔇 row's detection pattern and every class pattern from
-  the diff: zero hits.
+- Re-run the detection of every applied row and every pattern from the diff.
+  - Patterns that match the **old** API (a removed name, prop value, class,
+    token or file): zero hits.
+  - Patterns that match **call sites** (`<Avatar\b`, `<PageIndicator\b`,
+    `<SelectContent\b`…) keep matching after a correct fix: check each hit
+    against the row's fix and list them as reviewed.
 - Run the app and open the screens listed under 👁. If you can't run it, say so
   in the PR rather than claiming it was checked.
 
@@ -108,5 +114,8 @@ ids for every change made, so a reviewer can map each diff to its reason.
   hand-roll it. Note it under "Lumen gaps" for the Lumen backlog.
 - **No guessing:** if the catalog's fix doesn't fit a call site, leave it,
   explain why in the PR, and ask.
-- **Catalog drift:** if the upgrade hits a breaking change missing from the
-  catalog, add a row to it in Lumen (`.claude/skills/lumen-consumer-upgrade/`).
+- **Catalog drift:** never edit the catalog during the audit or the upgrade.
+  Once the consumer PR is open, turn every "Uncatalogued" finding into a row,
+  in a separate Lumen PR (`.claude/skills/lumen-consumer-upgrade/`).
+- **Release notes can be wrong:** when a row's mapping and the code disagree,
+  the published code wins. Check the package `dist` of both versions.

@@ -45,6 +45,33 @@ function typeEntries(root) {
   return entries;
 }
 
+/**
+ * Public files behind wildcard exports (design-core's `./symbols/*` icons),
+ * as the specifiers consumers import: `@ledgerhq/…/symbols/apex.svg`.
+ */
+function assetPaths(root) {
+  const manifest = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+  const paths = new Set();
+  for (const [key, value] of Object.entries(manifest.exports ?? {})) {
+    const target = typeof value === 'string' ? value : (value.default ?? value.import);
+    if (!key.includes('*') || typeof target !== 'string' || !target.includes('*')) continue;
+    const [dirPart, suffix] = target.split('*');
+    const base = resolve(root, dirPart);
+    if (!existsSync(base)) continue;
+    (function walk(dir) {
+      for (const name of readdirSync(dir)) {
+        const path = join(dir, name);
+        if (statSync(path).isDirectory()) walk(path);
+        else if (path.endsWith(suffix)) {
+          const match = path.slice(base.length + 1, path.length - suffix.length);
+          paths.add(`${pkg}${key.slice(1).replace('*', match)}`);
+        }
+      }
+    })(base);
+  }
+  return paths;
+}
+
 /** Names exported by a `.d.ts` entry, following re-exports. */
 function exportsOf(file) {
   if (!existsSync(file)) return new Set();
@@ -76,20 +103,34 @@ function tokensOf(root) {
 }
 
 // Token prefix → the Tailwind utilities generated from it (see design-core's
-// plugins). `null`: the token generates no class, only `var()` references.
+// plugins). `strip` is what the class name drops from the token: crypto and
+// discover colors keep their `crypto-` / `discover-` prefix in the class.
+// No `utilities`: the token generates no class, only `var()` references.
 // First match wins, so specific prefixes come before their parents.
+const BACKGROUND = 'bg|from|via|to|fill|accent|shadow';
 const UTILITIES = [
-  ['--border-width-', null],
-  ['--color-crypto-', 'bg|from|via|to|fill'],
-  ['--color-', null],
-  ['--size-', 'w|h|size|min-w|max-w|min-h|max-h|basis'],
-  ['--spacing-', 'p[xytrblse]?|-?m[xytrblse]?|gap(-[xy])?|space-[xy]|inset(-[xy])?|top|right|bottom|left|start|end|w|h|size|min-w|max-w|min-h|max-h'],
-  ['--border-radius-', 'rounded(-[trblse]{1,2})?'],
-  ['--background-', 'bg|from|via|to|fill|accent|shadow'],
-  ['--text-', 'text|caret|placeholder'],
-  ['--border-', 'border(-[xytrblse])?|outline|ring|stroke|divide|decoration'],
-  ['--backdrop-blur-', 'backdrop-blur'],
+  { prefix: '--border-width-' },
+  { prefix: '--color-crypto-', strip: '--color-', utilities: BACKGROUND, gradient: true },
+  { prefix: '--color-discover-', strip: '--color-', utilities: BACKGROUND },
+  { prefix: '--color-' },
+  { prefix: '--size-', utilities: 'w|h|size|min-w|max-w|min-h|max-h|basis' },
+  { prefix: '--spacing-', utilities: 'p[xytrblse]?|-?m[xytrblse]?|gap(-[xy])?|space-[xy]|inset(-[xy])?|top|right|bottom|left|start|end|w|h|size|min-w|max-w|min-h|max-h' },
+  { prefix: '--border-radius-', utilities: 'rounded(-[trblse]{1,2})?' },
+  { prefix: '--background-', utilities: BACKGROUND },
+  { prefix: '--text-', utilities: 'text|caret|placeholder' },
+  { prefix: '--border-', utilities: 'border(-[xytrblse])?|outline|ring|stroke|divide|decoration' },
+  { prefix: '--backdrop-blur-', utilities: 'backdrop-blur' },
 ];
+
+/** Class patterns that stop working when `token` is removed. */
+function classPatterns(token) {
+  const rule = UTILITIES.find(({ prefix }) => token.startsWith(prefix));
+  if (!rule?.utilities) return [];
+  const patterns = [`\\b(${rule.utilities})-${token.slice((rule.strip ?? rule.prefix).length)}\\b`];
+  // Crypto gradients (`bg-gradient-bitcoin`) are built from the base color only.
+  if (rule.gradient && !token.endsWith('-0')) patterns.push(`\\bbg-gradient-${token.slice(rule.prefix.length)}\\b`);
+  return patterns;
+}
 
 const fromRoot = fetchVersion(from);
 const toRoot = fetchVersion(to);
@@ -111,15 +152,20 @@ for (const [entry, file] of Object.entries(fromEntries)) {
 }
 if (!removedExports && Object.keys(fromEntries).every((e) => toEntries[e])) out.push('None.');
 
+const beforeAssets = assetPaths(fromRoot);
+const afterAssets = assetPaths(toRoot);
+const goneAssets = [...beforeAssets].filter((path) => !afterAssets.has(path)).sort();
+out.push('', '## Removed files (wildcard exports)', '');
+out.push(goneAssets.length ? goneAssets.map((path) => `- \`${path}\``).join('\n') : 'None.');
+
 const beforeTokens = tokensOf(fromRoot);
 const afterTokens = tokensOf(toRoot);
 const goneTokens = [...beforeTokens].filter((t) => !afterTokens.has(t)).sort();
 out.push('', '## Removed design tokens', '');
 if (!goneTokens.length) out.push('None.');
 for (const token of goneTokens) {
-  const rule = UTILITIES.find(([prefix]) => token.startsWith(prefix));
-  const pattern = rule?.[1] ? `\\b(${rule[1]})-${token.slice(rule[0].length)}\\b` : null;
-  out.push(`- \`${token}\`: \`var(${token})\`${pattern ? `, classes \`${pattern}\`` : ''}`);
+  const patterns = classPatterns(token).map((pattern) => `\`${pattern}\``);
+  out.push(`- \`${token}\`: \`var(${token})\`${patterns.length ? `, classes ${patterns.join(', ')}` : ''}`);
 }
-out.push('', 'Grep the app for each removed export and class pattern. Classes built on a removed token produce **no CSS and no error**.');
+out.push('', 'Grep the app for each removed export, file, `var()` and class pattern. Classes built on a removed token produce **no CSS and no error**.');
 console.log(out.join('\n'));

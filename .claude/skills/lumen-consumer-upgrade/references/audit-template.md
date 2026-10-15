@@ -20,6 +20,8 @@ Tailwind: <version> · Package manager: <npm|pnpm|yarn> · Workspaces: <paths>
 |---|---|---|---|
 <every selected catalog row, hits = 0 included>
 
+Skipped (already past their version): <ids>
+
 ## Uncatalogued (from the API diff)
 <removed exports, tokens or classes the app uses that no catalog row explains: name, file:line, package version range>
 

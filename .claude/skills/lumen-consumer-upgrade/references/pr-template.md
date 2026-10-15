@@ -23,6 +23,7 @@ merging to `cn` from `@ledgerhq/lumen-design-core/cn`.
 
 ## Testing
 - [ ] install, typecheck, lint, test, build
-- [ ] no hits left for silent rows: <ids>
+- [ ] old-API patterns have zero hits: <ids>
+- [ ] call-site hits reviewed against their fix: <ids>
 - [ ] visual review: <screens>
 ```
