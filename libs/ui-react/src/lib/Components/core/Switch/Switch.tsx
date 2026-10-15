@@ -5,7 +5,7 @@ import { useControllableState } from '../../../../utils/useControllableState';
 import { useSyncOnFormReset } from '../../../../utils/useSyncOnFormReset';
 import type { SwitchProps } from './types';
 
-const wrapperVariants = cva('relative inline-flex shrink-0', {
+const wrapperVariants = cva('relative inline-flex shrink-0 align-middle', {
   variants: {
     size: {
       sm: 'h-16 max-h-16 w-24 max-w-24',

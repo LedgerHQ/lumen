@@ -5,7 +5,7 @@ import { useSyncOnFormReset } from '../../../../utils/useSyncOnFormReset';
 import { Check } from '../../symbols/icons/Check';
 import type { CheckboxProps } from './types';
 
-const wrapperStyles = 'relative inline-flex size-20 shrink-0';
+const wrapperStyles = 'relative inline-flex size-20 shrink-0 align-middle';
 
 const checkboxStyles = cn(
   'flex size-full items-center justify-center rounded-xs transition-colors',
