@@ -56,10 +56,6 @@ const indicatorByStatus = {
   ),
 } satisfies Record<TimelineItemStatus, ReactElement>;
 
-const lineClassName = 'w-0 flex-1 border-l-2 border-muted-subtle-hover';
-
-// Spans the header's vertical padding so the connector stays continuous
-// between items; the indicator sits level with the first line of text.
 const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
   return (
     <div
@@ -76,7 +72,7 @@ const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
       </span>
       <span
         aria-hidden
-        className={cn(lineClassName, 'group-last/item:invisible')}
+        className='w-0 flex-1 border-l-2 border-muted-subtle-hover group-last/item:invisible'
         data-line='out'
       />
     </div>

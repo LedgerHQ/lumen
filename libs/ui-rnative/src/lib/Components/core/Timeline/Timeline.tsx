@@ -197,8 +197,6 @@ const useTitleStyles = (muted: boolean) =>
     [muted],
   );
 
-// Spans the header's vertical padding so the connector stays continuous
-// between items; the indicator sits level with the first line of text.
 const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
   const styles = useTimelineStyles();
   const { isFirst, isLast } = useTimelinePosition({
