@@ -8,6 +8,7 @@ import { useScrubberContext } from './context';
 import type { ScrubberProps } from './types';
 import {
   computeOverlayRect,
+  resolveLastIndex,
   resolvePixelX,
   resolvePixelY,
   resolveTooltipPayload,
@@ -17,14 +18,16 @@ import {
 
 const { color } = chartConfig;
 
-type Beacon = { id: string; stroke: string; pixelY: number };
+type Beacon = { id: string; stroke: string; pixelX: number; pixelY: number };
 
 type ScrubberGeometry = {
-  pixelX: number;
-  drawingArea: DrawingArea;
   beacons: Beacon[];
-  overlay: OverlayRect;
-  tooltipPayload: ScrubberTooltipPayload | undefined;
+  scrubbing?: {
+    pixelX: number;
+    drawingArea: DrawingArea;
+    overlay: OverlayRect;
+    tooltipPayload: ScrubberTooltipPayload | undefined;
+  };
 };
 
 type UseScrubberGeometryParams = {
@@ -36,8 +39,8 @@ type UseScrubberGeometryParams = {
  * Resolves the scrubber's chart geometry: reads the scrubber and chart
  * contexts, projects the active data index to the line's `pixelX`, and derives
  * the per-series beacons, the future-data overlay rect, and the tooltip
- * payload. Returns `null` when no scrubber position is active or the position
- * cannot be projected.
+ * payload. While idle, beacons sit at the end of each series. Returns `null`
+ * when there is nothing to draw.
  */
 export const useScrubberGeometry = ({
   showBeacons,
@@ -59,16 +62,33 @@ export const useScrubberGeometry = ({
   }, [scrubberPosition, getXScale, getXAxisConfig]);
 
   const beacons = useMemo(() => {
-    if (scrubberPosition === undefined || !showBeacons) return [];
+    if (!showBeacons) {
+      return [];
+    }
     return series
       .map((s) => {
         const seriesData = seriesMap.get(s.id)?.data;
-        const pixelY = resolvePixelY(scrubberPosition, seriesData, getYScale);
-        if (pixelY === undefined) return null;
-        return { id: s.id, stroke: s.stroke || color.stroke, pixelY };
+        const index = scrubberPosition ?? resolveLastIndex(seriesData);
+        if (index === undefined) {
+          return null;
+        }
+        const pixelX = resolvePixelX(index, getXScale, getXAxisConfig());
+        const pixelY = resolvePixelY(index, seriesData, getYScale);
+        if (pixelX === undefined || pixelY === undefined) {
+          return null;
+        }
+        return { id: s.id, stroke: s.stroke || color.stroke, pixelX, pixelY };
       })
       .filter((b): b is Beacon => b !== null);
-  }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
+  }, [
+    scrubberPosition,
+    showBeacons,
+    series,
+    seriesMap,
+    getXScale,
+    getXAxisConfig,
+    getYScale,
+  ]);
 
   const tooltipPayload = useMemo(() => {
     if (scrubberPosition === undefined) return undefined;
@@ -76,14 +96,16 @@ export const useScrubberGeometry = ({
   }, [scrubberPosition, tooltip]);
 
   if (scrubberPosition === undefined || pixelX === undefined) {
-    return null;
+    return beacons.length > 0 ? { beacons } : null;
   }
 
   return {
-    pixelX,
-    drawingArea,
     beacons,
-    overlay: computeOverlayRect(pixelX, drawingArea),
-    tooltipPayload,
+    scrubbing: {
+      pixelX,
+      drawingArea,
+      overlay: computeOverlayRect(pixelX, drawingArea),
+      tooltipPayload,
+    },
   };
 };
