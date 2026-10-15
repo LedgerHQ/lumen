@@ -100,6 +100,6 @@ export const RULES = {
     'shadcn/no-restyle': ['error', NO_RESTYLE_OPTIONS],
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
-    'no-restricted-imports': ['warn', NO_RESTRICTED_IMPORTS_OPTIONS],
+    'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
 };

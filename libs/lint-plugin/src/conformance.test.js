@@ -176,7 +176,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
   });
 
-  it('strict: a few more rules, and restyling raised', async () => {
+  it('strict: a few more rules, and restyling and class-merging imports raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
       lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
       lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
@@ -192,7 +192,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
         'better-tailwindcss/enforce-consistent-class-order:7:error',
         'shadcn/no-arbitrary-values:10:warn',
         'shadcn/no-inline-styles:13:warn',
-        'no-restricted-imports:3:warn',
+        'no-restricted-imports:3:error',
       ]),
     );
     // Every core rule still reports; strict only adds rules.

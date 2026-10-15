@@ -97,7 +97,7 @@ export default defineConfig({
 
 | Rule                                                                                         | Recommended | Strict | 🔧  | Flags                                                                                  |
 | -------------------------------------------------------------------------------------------- | :---------: | :----: | :-: | -------------------------------------------------------------------------------------- |
-| `no-restricted-imports` ([docs](https://eslint.org/docs/latest/rules/no-restricted-imports)) |     ⚠️      |   ⚠️   |     | `tailwind-merge`, `clsx`, `classnames`: use `cn` from `@ledgerhq/lumen-design-core/cn` |
+| `no-restricted-imports` ([docs](https://eslint.org/docs/latest/rules/no-restricted-imports)) |     ⚠️      |   ✅   |     | `tailwind-merge`, `clsx`, `classnames`: use `cn` from `@ledgerhq/lumen-design-core/cn` |
 
 ## Customize
 

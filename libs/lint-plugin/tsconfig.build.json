@@ -8,5 +8,10 @@
     "rootDir": "src"
   },
   "include": ["src/**/*.js"],
-  "exclude": ["src/**/*.test.js"]
+  "exclude": ["src/**/*.test.js"],
+  "references": [
+    {
+      "path": "../design-core/tsconfig.lib.json"
+    }
+  ]
 }

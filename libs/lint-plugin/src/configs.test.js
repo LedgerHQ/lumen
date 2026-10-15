@@ -38,7 +38,7 @@ describe('presets', () => {
     });
   });
 
-  it('strict adds the stylistic rules and the shadcn signals, and raises restyling', () => {
+  it('strict adds the stylistic rules and the shadcn signals, and raises restyling and class-merging imports', () => {
     expect(levels(RULES.strict)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
@@ -52,7 +52,7 @@ describe('presets', () => {
       'shadcn/no-restyle': 'error',
       'shadcn/no-arbitrary-values': 'warn',
       'shadcn/no-inline-styles': 'warn',
-      'no-restricted-imports': 'warn',
+      'no-restricted-imports': 'error',
     });
   });
 
@@ -85,12 +85,14 @@ describe('presets', () => {
   });
 
   it('points every class-merging import at Lumen’s cn', () => {
-    for (const rules of [RULES.recommended, RULES.strict]) {
-      expect(rules['no-restricted-imports']).toEqual([
-        'warn',
-        NO_RESTRICTED_IMPORTS_OPTIONS,
-      ]);
-    }
+    expect(RULES.recommended['no-restricted-imports']).toEqual([
+      'warn',
+      NO_RESTRICTED_IMPORTS_OPTIONS,
+    ]);
+    expect(RULES.strict['no-restricted-imports']).toEqual([
+      'error',
+      NO_RESTRICTED_IMPORTS_OPTIONS,
+    ]);
     expect(NO_RESTRICTED_IMPORTS_OPTIONS.paths.map(({ name }) => name)).toEqual(
       ['tailwind-merge', 'clsx', 'classnames'],
     );
