@@ -1,33 +1,36 @@
 import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { useRef } from 'react';
+import { useControllableState } from '../../../../utils/useControllableState';
+import { useSyncOnFormReset } from '../../../../utils/useSyncOnFormReset';
 import { Check } from '../../symbols/icons/Check';
 import type { CheckboxProps } from './types';
 
+const wrapperStyles = 'relative inline-flex size-20 shrink-0';
+
 const checkboxStyles = cn(
-  'size-20 shrink-0 cursor-pointer rounded-xs transition-colors',
-  'focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 focus-visible:outline-hidden',
+  'flex size-full items-center justify-center rounded-xs transition-colors',
+  'peer-focus-visible:ring-2 peer-focus-visible:ring-focus peer-focus-visible:ring-offset-2',
 
   'data-[state=unchecked]:border data-[state=unchecked]:border-muted data-[state=unchecked]:bg-base',
-  'data-[state=unchecked]:hover:bg-base-hover',
-  'data-[state=unchecked]:active:bg-base-pressed',
-  'data-[state=unchecked]:disabled:border-disabled data-[state=unchecked]:disabled:bg-base',
+  'data-[state=unchecked]:peer-hover:bg-base-hover',
+  'data-[state=unchecked]:peer-active:bg-base-pressed',
+  'data-[state=unchecked]:peer-disabled:border-disabled data-[state=unchecked]:peer-disabled:bg-base',
 
   'data-[state=checked]:bg-active data-[state=checked]:text-on-accent',
-  'data-[state=checked]:hover:bg-active-hover',
-  'data-[state=checked]:active:bg-active-pressed',
-  'data-[state=checked]:disabled:bg-disabled data-[state=checked]:disabled:text-disabled',
+  'data-[state=checked]:peer-hover:bg-active-hover',
+  'data-[state=checked]:peer-active:bg-active-pressed',
+  'data-[state=checked]:peer-disabled:bg-disabled data-[state=checked]:peer-disabled:text-disabled',
 );
 
 /**
- * A customizable checkbox component built on top of Radix UI Checkbox primitive.
+ * A customizable checkbox component.
  *
  * The checkbox follows the design system tokens and supports checked, unchecked,
  * disabled, and focus states with proper hover and active interactions.
  *
  * @see {@link https://ldls.vercel.app/?path=/docs/react-checkbox--docs Guidelines}
  *
- * @warning The `className` prop should only be used for layout adjustments like margins or positioning.
- * Do not use it to modify the checkbox's core appearance.
+ * @warning The `className` prop is applied to the wrapper element. Use it for layout adjustments only.
  *
  * @example
  * import { Checkbox } from '@ledgerhq/lumen-ui-react';
@@ -59,6 +62,9 @@ const checkboxStyles = cn(
 export const Checkbox = ({
   ref,
   className,
+  checked: checkedProp,
+  defaultChecked = false,
+  onCheckedChange,
   disabled: disabledProp,
   ...props
 }: CheckboxProps) => {
@@ -66,17 +72,37 @@ export const Checkbox = ({
     consumerName: 'Checkbox',
     mergeWith: { disabled: disabledProp },
   });
+  const [checked, setChecked] = useControllableState({
+    prop: checkedProp,
+    defaultProp: defaultChecked,
+    onChange: onCheckedChange,
+  });
+  const state = checked ? 'checked' : 'unchecked';
+  const wrapperRef = useRef<HTMLSpanElement>(null);
+
+  useSyncOnFormReset({
+    inputRef: wrapperRef,
+    checked,
+    setChecked,
+    form: props.form,
+  });
 
   return (
-    <CheckboxPrimitive.Root
-      ref={ref}
-      className={cn(checkboxStyles, className)}
-      disabled={disabled}
-      {...props}
-    >
-      <CheckboxPrimitive.Indicator className='flex items-center justify-center'>
-        <Check size={16} />
-      </CheckboxPrimitive.Indicator>
-    </CheckboxPrimitive.Root>
+    <span ref={wrapperRef} className={cn(wrapperStyles, className)}>
+      <input
+        {...props}
+        ref={ref}
+        type='checkbox'
+        checked={checked}
+        disabled={disabled}
+        data-state={state}
+        data-disabled={disabled ? '' : undefined}
+        className='peer absolute inset-0 m-0 size-full cursor-pointer opacity-0 disabled:cursor-not-allowed'
+        onChange={(event) => setChecked(event.target.checked)}
+      />
+      <span aria-hidden data-state={state} className={checkboxStyles}>
+        {checked && <Check size={16} />}
+      </span>
+    </span>
   );
 };

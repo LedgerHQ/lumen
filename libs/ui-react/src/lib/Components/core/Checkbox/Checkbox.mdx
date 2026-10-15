@@ -1,4 +1,4 @@
-import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import { Meta, Story, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
 import * as CheckboxStories from './Checkbox.stories';
 import { Checkbox } from './Checkbox';
 import {
@@ -45,6 +45,12 @@ Checkboxes support multiple states to provide clear feedback to users:
 
 <Canvas of={CheckboxStories.AllStates} />
 
+### Forms
+
+Supports form props for native form submission. Provide the `name` and `value` attributes, and use the `required` prop to indicate mandatory selections.
+
+<Canvas of={CheckboxStories.WithForm} />
+
 ## Usage Guidelines
 
 ### Best Practices
@@ -56,28 +62,20 @@ Checkboxes support multiple states to provide clear feedback to users:
 
 ### Accessibility
 
-- Checkboxes automatically include proper ARIA attributes via Radix UI
+- Checkboxes automatically include proper ARIA attributes through a native `input type="checkbox"`
 - Use `required` prop for mandatory form fields
 - Provide descriptive labels for screen readers
 - Ensure sufficient color contrast in all states
 - Support keyboard navigation (Space to toggle, Tab to navigate)
 
-### Form Integration
-
-<Canvas of={CheckboxStories.FormExample} />
-
-When using checkboxes in forms, provide the `name` and `value` attributes for proper form submission. Use the `required` prop to indicate mandatory selections.
-
 </Tab>
 <Tab label="Implementation">
 
 ```bash
-npm install @ledgerhq/lumen-ui-react @radix-ui/react-checkbox
+npm install @ledgerhq/lumen-ui-react
 ```
 
 <SetupNote />
-
-The `@radix-ui/react-checkbox` dependency provides accessible checkbox functionality with proper keyboard navigation, focus management, and screen reader support.
 
 ## Basic Usage
 
@@ -116,6 +114,12 @@ Use `defaultChecked` for simple cases:
 <Checkbox defaultChecked={true} />
 ```
 
+## Usage in Forms
+
+The checkbox is a native `input type="checkbox"`, so it is submitted and validated with the surrounding `form` when `name` is set. `value`, `required` and `form` are forwarded to it, and `ref` points to the input.
+
+<Source of={CheckboxStories.WithForm} />
+
 ## Accessibility Best Practices
 
 ### Labels and ARIA
@@ -149,8 +153,6 @@ The Checkbox component automatically supports:
 
 - **Tab**: Navigate to the checkbox
 - **Space**: Toggle checked/unchecked state
-- **Enter**: Submit form (when inside a form)
-
 
 </Tab>
 </CustomTabs>

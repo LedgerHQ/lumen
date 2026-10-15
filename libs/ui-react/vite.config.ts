@@ -82,7 +82,6 @@ export default defineConfig(() => ({
         'class-variance-authority',
         'tailwind-merge',
         'clsx',
-        '@radix-ui/react-checkbox',
         '@radix-ui/react-dialog',
         '@radix-ui/react-slot',
         '@radix-ui/react-tooltip',
