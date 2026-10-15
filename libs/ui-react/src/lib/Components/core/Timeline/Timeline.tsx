@@ -59,7 +59,7 @@ const indicatorByStatus = {
 const lineClassName = 'w-0 flex-1 border-l-2 border-muted-subtle-hover';
 
 // Spans the header's vertical padding so the connector stays continuous
-// between items, while the indicator stays centered on the header content.
+// between items; the indicator sits level with the first line of text.
 const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
   return (
     <div
@@ -68,7 +68,7 @@ const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
     >
       <span
         aria-hidden
-        className={cn(lineClassName, 'group-first/item:invisible')}
+        className='h-4 w-0 shrink-0 border-l-2 border-muted-subtle-hover group-first/item:invisible'
         data-line='in'
       />
       <span className='my-4 flex size-20 shrink-0 items-center justify-center'>
@@ -156,10 +156,7 @@ export const TimelineItemHeader = ({
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex min-h-48 w-full min-w-0 items-center gap-8 py-8',
-        className,
-      )}
+      className={cn('flex w-full min-w-0 items-center gap-8 py-8', className)}
       {...props}
     >
       <TimelineRail status={status} />

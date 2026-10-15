@@ -94,6 +94,11 @@ const useTimelineStyles = () =>
         width: t.borderWidth.s2,
         backgroundColor: t.colors.border.mutedSubtleHover,
       },
+      lineIn: {
+        flex: 0,
+        flexShrink: 0,
+        height: t.spacings.s4,
+      },
       lineHidden: {
         opacity: 0,
       },
@@ -121,7 +126,6 @@ const useTimelineStyles = () =>
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-        minHeight: t.sizes.s48,
         minWidth: 0,
         paddingVertical: t.spacings.s8,
         gap: t.spacings.s8,
@@ -194,7 +198,7 @@ const useTitleStyles = (muted: boolean) =>
   );
 
 // Spans the header's vertical padding so the connector stays continuous
-// between items, while the indicator stays centered on the header content.
+// between items; the indicator sits level with the first line of text.
 const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
   const styles = useTimelineStyles();
   const { isFirst, isLast } = useTimelinePosition({
@@ -244,7 +248,11 @@ const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
       <Box
         accessibilityElementsHidden
         importantForAccessibility='no-hide-descendants'
-        style={StyleSheet.flatten([styles.line, isFirst && styles.lineHidden])}
+        style={StyleSheet.flatten([
+          styles.line,
+          styles.lineIn,
+          isFirst && styles.lineHidden,
+        ])}
         testID='timeline-line-in'
       />
       <Box
