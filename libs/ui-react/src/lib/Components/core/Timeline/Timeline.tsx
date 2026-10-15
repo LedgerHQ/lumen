@@ -156,7 +156,10 @@ export const TimelineItemHeader = ({
   return (
     <div
       ref={ref}
-      className={cn('flex w-full min-w-0 items-center gap-8 py-8', className)}
+      className={cn(
+        'flex min-h-48 w-full min-w-0 items-center gap-8 py-8',
+        className,
+      )}
       {...props}
     >
       <TimelineRail status={status} />
