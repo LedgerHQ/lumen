@@ -140,7 +140,7 @@ The presets are plain config objects.
   import { NO_RESTRICTED_IMPORTS_OPTIONS } from '@ledgerhq/lumen-lint-plugin/eslint';
 
   const rules = {
-    'no-restricted-imports': ['warn', { paths: [...NO_RESTRICTED_IMPORTS_OPTIONS.paths, { name: 'lodash' }] }],
+    'no-restricted-imports': ['error', { paths: [...NO_RESTRICTED_IMPORTS_OPTIONS.paths, { name: 'lodash' }] }],
   };
   ```
 

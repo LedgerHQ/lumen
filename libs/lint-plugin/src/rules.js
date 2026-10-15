@@ -89,7 +89,7 @@ export const RULES = {
     // Never a valid choice, and `--fix` removes it.
     'better-tailwindcss/no-duplicate-classes': 'error',
     'shadcn/no-restyle': ['warn', NO_RESTYLE_OPTIONS],
-    'no-restricted-imports': ['warn', NO_RESTRICTED_IMPORTS_OPTIONS],
+    'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs
   // one `--fix`), and arbitrary values and inline styles as signals.

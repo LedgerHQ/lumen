@@ -34,7 +34,7 @@ describe('presets', () => {
       'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
       'shadcn/no-restyle': 'warn',
-      'no-restricted-imports': 'warn',
+      'no-restricted-imports': 'error',
     });
   });
 
@@ -86,7 +86,7 @@ describe('presets', () => {
 
   it('points every class-merging import at Lumen’s cn', () => {
     expect(RULES.recommended['no-restricted-imports']).toEqual([
-      'warn',
+      'error',
       NO_RESTRICTED_IMPORTS_OPTIONS,
     ]);
     expect(RULES.strict['no-restricted-imports']).toEqual([

@@ -171,7 +171,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
       'better-tailwindcss/no-conflicting-classes:9:error',
       'better-tailwindcss/no-unknown-classes:12:error',
       'better-tailwindcss/no-unknown-classes:7:error',
-      'no-restricted-imports:3:warn',
+      'no-restricted-imports:3:error',
       'shadcn/no-restyle:14:warn',
     ]);
   });
@@ -205,7 +205,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     /** @type {Linter.RulesRecord} */
     const rules = {
       'shadcn/no-restyle': 'off',
-      'shadcn/no-inline-styles': 'warn',
+      'shadcn/no-inline-styles': 'error',
     };
     const [eslint, json] = await Promise.all([
       lintWithEslint(page, [
@@ -218,14 +218,14 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
     expect(json).toEqual(eslint);
     expect(ruleIds(eslint)).not.toContain('shadcn/no-restyle');
-    expect(eslint).toContain('shadcn/no-inline-styles:13:warn');
+    expect(eslint).toContain('shadcn/no-inline-styles:13:error');
   });
 
   it('a consumer adds restricted imports and keeps Lumen’s by spreading them', async () => {
     /** @type {Linter.RulesRecord} */
     const rules = {
       'no-restricted-imports': [
-        'warn',
+        'error',
         { paths: [...NO_RESTRICTED_IMPORTS_OPTIONS.paths, { name: 'lodash' }] },
       ],
     };
@@ -239,7 +239,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
 
     expect(json).toEqual(eslint);
-    expect(eslint).toContain('no-restricted-imports:3:warn');
+    expect(eslint).toContain('no-restricted-imports:3:error');
   });
 
   it('a consumer scopes a preset to some files with its own glob', async () => {
