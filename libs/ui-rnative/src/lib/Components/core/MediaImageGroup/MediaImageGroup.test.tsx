@@ -184,4 +184,30 @@ describe('MediaImageGroup', () => {
       expect(getByText('disabled')).toBeTruthy();
     });
   });
+
+  describe('Types', () => {
+    it('should require renderItem when data is not MediaImageGroupItem[]', () => {
+      const assets = [{ ticker: 'BTC' }];
+
+      // Compile-time only: a `@ts-expect-error` fails typecheck if the union
+      // stops rejecting the line below it.
+      const typeChecks = () => (
+        <>
+          <MediaImageGroup data={[{ src: 'btc.png', alt: 'Bitcoin' }]} />
+          <MediaImageGroup
+            data={assets}
+            renderItem={(asset) => <Text>{asset.ticker}</Text>}
+          />
+          {/* @ts-expect-error custom data requires renderItem */}
+          <MediaImageGroup data={assets} />
+          {/* @ts-expect-error excess property on an inline MediaImage item */}
+          <MediaImageGroup
+            data={[{ src: 'btc.png', alt: 'Bitcoin', ticker: 'BTC' }]}
+          />
+        </>
+      );
+
+      expect(typeChecks).toBeDefined();
+    });
+  });
 });

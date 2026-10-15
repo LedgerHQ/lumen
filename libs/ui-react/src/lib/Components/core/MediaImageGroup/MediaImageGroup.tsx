@@ -7,7 +7,6 @@ import {
   formatGroupOverflowCount,
 } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
-import { useMemo } from 'react';
 import { MediaImage } from '../MediaImage';
 import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
 
@@ -104,8 +103,8 @@ const OverflowBadge = ({
  * clipped to the group's ring, so decorations overhanging an item, such as a
  * network badge, are not supported.
  *
- * Without `renderItem`, `data` must be `MediaImage` props; any other item type
- * requires `renderItem`.
+ * Without `renderItem`, `data` must be `MediaImage` props. For any other item
+ * shape, pass `renderItem`. The types can't always catch a missing one.
  *
  * @example
  * import { MediaImageGroup } from '@ledgerhq/lumen-ui-react';
@@ -142,9 +141,9 @@ export function MediaImageGroup<T = MediaImageGroupItem>({
     consumerName: 'MediaImageGroup',
     mergeWith: { disabled: disabledProp },
   });
-  const { visibleItems, overflowCount } = useMemo(
-    () => sliceGroupItems<unknown>(data, maxVisible),
-    [data, maxVisible],
+  const { visibleItems, overflowCount } = sliceGroupItems<unknown>(
+    data,
+    maxVisible,
   );
 
   if (data.length === 0) {
