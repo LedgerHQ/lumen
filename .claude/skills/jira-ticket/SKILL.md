@@ -62,17 +62,19 @@ columns that matter are **Lumen - React** (`[D]`) and **Lumen - React Native**
 (`[M]`); **Lumen - Figma** is design work and never makes a dev ticket. Each
 cell holds a status:
 
-| Status | Ticket |
-|---|---|
-| To Create | `<Component>: create` |
-| Update Needed | `<Component>: <the change>`, from the Comment column |
-| Available | None, it already exists |
-| Out of Scope | None |
-| To Discuss | None; list it in the draft as an open question |
+Only cells marked **To Create** get a ticket (`<Component>: create`). Every
+other status (Available, Update Needed, Out of Scope, To Discuss, Ticket
+Created) gets none; list To Discuss rows in the draft as open questions.
 
-When both dev columns need work, create one `[M][D]` task, or split it into
+When both dev columns are To Create, create one `[M][D]` task, or split it into
 `[D]` and `[M]` tasks when the platforms ship separately. Put the Comment
 column and any Figma or Jira design-ticket link in the task's Context.
+
+Once the tickets exist, write back to the sheet with the Google Sheets MCP
+(`update_values`): set each cell that produced a ticket to **Ticket Created**,
+and put the ticket key in the tab's Ticket column when it has one. Re-read each
+cell first and only change it if it still says To Create. Without write access,
+list the cells to update (tab, cell, new value) for the user instead.
 
 ## Create
 

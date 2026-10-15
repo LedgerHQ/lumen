@@ -7,8 +7,10 @@ your machine.
 
 ## Google Sheets
 
-Read-only access to the Google Sheets you can open (`spreadsheets.readonly`),
+Read and write access to the Google Sheets you can edit (`spreadsheets`),
 through Google's official server, `https://sheetsmcp.googleapis.com/mcp/v1`.
+Write access is needed because the `jira-ticket` skill marks spreadsheet rows
+as "Ticket Created" once their tickets exist.
 
 It doesn't support dynamic client registration, so it uses a shared OAuth
 client. Get its client ID and secret from the team vault and keep them out of
@@ -27,7 +29,7 @@ server is not in `.mcp.json`. Add it once for all your projects; it prompts for
 the secret and keeps it in your keychain:
 
 ```bash
-claude mcp add-json google-sheets --scope user --client-secret '{"type":"http","url":"https://sheetsmcp.googleapis.com/mcp/v1","oauth":{"clientId":"<client-id>","callbackPort":8787,"scopes":"https://www.googleapis.com/auth/spreadsheets.readonly"}}'
+claude mcp add-json google-sheets --scope user --client-secret '{"type":"http","url":"https://sheetsmcp.googleapis.com/mcp/v1","oauth":{"clientId":"<client-id>","callbackPort":8787,"scopes":"https://www.googleapis.com/auth/spreadsheets"}}'
 ```
 
 Then run `/mcp` and sign in with your Ledger Google account. Both tools redirect

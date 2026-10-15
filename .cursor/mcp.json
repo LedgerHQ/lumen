@@ -22,7 +22,7 @@
       "auth": {
         "CLIENT_ID": "${env:GOOGLE_SHEETS_MCP_CLIENT_ID}",
         "CLIENT_SECRET": "${env:GOOGLE_SHEETS_MCP_CLIENT_SECRET}",
-        "scopes": ["https://www.googleapis.com/auth/spreadsheets.readonly"]
+        "scopes": ["https://www.googleapis.com/auth/spreadsheets"]
       }
     }
   }
