@@ -43,11 +43,11 @@ const neutralIndicator = (
 
 const indicatorByStatus = {
   success: (
-    <CheckmarkCircleFill aria-hidden className='text-success' size={24} />
+    <CheckmarkCircleFill aria-hidden className='text-success' size={20} />
   ),
-  error: <DeleteCircleFill aria-hidden className='text-error' size={24} />,
-  pending: <ClockFill aria-hidden className='text-muted' size={24} />,
-  loading: <Spinner className='text-muted' size={24} />,
+  error: <DeleteCircleFill aria-hidden className='text-error' size={20} />,
+  pending: <ClockFill aria-hidden className='text-muted' size={20} />,
+  loading: <Spinner className='text-muted' size={20} />,
   idle: (
     <span
       aria-hidden
@@ -56,30 +56,27 @@ const indicatorByStatus = {
   ),
 } satisfies Record<TimelineItemStatus, ReactElement>;
 
-const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
-  return (
-    <span
-      className='mt-16 flex size-32 shrink-0 items-center justify-center self-start'
-      data-testid={`timeline-indicator-${status ?? 'neutral'}`}
-    >
-      {status ? indicatorByStatus[status] : neutralIndicator}
-    </span>
-  );
-};
+const lineClassName = 'w-0 flex-1 border-l-2 border-muted-subtle-hover';
 
-const TimelineRail = () => {
+// Spans the header's vertical padding so the connector stays continuous
+// between items, while the indicator stays centered on the header content.
+const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
   return (
     <div
-      aria-hidden
-      className='pointer-events-none absolute inset-y-0 start-0 flex w-32 flex-col items-center'
+      className='pointer-events-none -my-8 flex w-20 shrink-0 flex-col items-center self-stretch'
+      data-testid={`timeline-indicator-${status ?? 'neutral'}`}
     >
       <span
-        className='h-16 w-0 shrink-0 border-l-2 border-muted-subtle-hover group-first/item:invisible'
+        aria-hidden
+        className={cn(lineClassName, 'group-first/item:invisible')}
         data-line='in'
       />
-      <span className='h-32 shrink-0' />
+      <span className='my-4 flex size-20 shrink-0 items-center justify-center'>
+        {status ? indicatorByStatus[status] : neutralIndicator}
+      </span>
       <span
-        className='w-0 flex-1 border-l-2 border-muted-subtle-hover group-last/item:hidden'
+        aria-hidden
+        className={cn(lineClassName, 'group-last/item:invisible')}
         data-line='out'
       />
     </div>
@@ -133,13 +130,9 @@ export const TimelineItem = ({
       <div
         ref={ref}
         data-testid='timeline-item'
-        className={cn(
-          'group/item relative flex w-full min-w-0 flex-col',
-          className,
-        )}
+        className={cn('group/item flex w-full min-w-0 flex-col', className)}
         {...props}
       >
-        <TimelineRail />
         {children}
       </div>
     </TimelineItemProvider>
@@ -163,13 +156,10 @@ export const TimelineItemHeader = ({
   return (
     <div
       ref={ref}
-      className={cn(
-        'flex min-h-64 w-full min-w-0 items-center gap-8',
-        className,
-      )}
+      className={cn('flex w-full min-w-0 items-center gap-8 py-8', className)}
       {...props}
     >
-      <TimelineIndicator status={status} />
+      <TimelineRail status={status} />
       {children}
     </div>
   );
@@ -304,7 +294,7 @@ export const TimelineItemTrailing = ({
 };
 
 /**
- * Block under the header, indented past the indicator.
+ * Block under the header, aligned with the header text.
  */
 export const TimelineItemBody = ({
   ref,
@@ -313,12 +303,20 @@ export const TimelineItemBody = ({
   ...props
 }: TimelineItemBodyProps) => {
   return (
-    <div
-      ref={ref}
-      className={cn('ms-40 min-w-0 pt-8 pb-12 body-3 text-muted', className)}
-      {...props}
-    >
-      {children}
+    <div className='flex gap-8'>
+      <div
+        aria-hidden
+        className='pointer-events-none flex w-20 shrink-0 justify-center group-last/item:invisible'
+      >
+        <span className={lineClassName} />
+      </div>
+      <div
+        ref={ref}
+        className={cn('min-w-0 flex-1 pb-8 body-3 text-muted', className)}
+        {...props}
+      >
+        {children}
+      </div>
     </div>
   );
 };

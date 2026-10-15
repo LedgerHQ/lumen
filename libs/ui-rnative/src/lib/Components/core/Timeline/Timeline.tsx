@@ -82,37 +82,26 @@ const useTimelineStyles = () =>
         position: 'relative',
       },
       rail: {
-        position: 'absolute',
-        top: 0,
-        bottom: 0,
-        start: 0,
-        width: t.sizes.s32,
+        width: t.sizes.s20,
+        flexShrink: 0,
+        alignSelf: 'stretch',
         flexDirection: 'column',
         alignItems: 'center',
+        marginVertical: -t.spacings.s8,
       },
       line: {
+        flex: 1,
         width: t.borderWidth.s2,
         backgroundColor: t.colors.border.mutedSubtleHover,
       },
-      lineIn: {
-        height: t.sizes.s16,
-      },
-      lineInHidden: {
+      lineHidden: {
         opacity: 0,
       },
-      indicatorSpacer: {
-        height: t.sizes.s32,
-        flexShrink: 0,
-      },
-      lineOut: {
-        flex: 1,
-      },
       indicator: {
-        marginTop: t.spacings.s16,
-        width: t.sizes.s32,
-        height: t.sizes.s32,
+        marginVertical: t.spacings.s4,
+        width: t.sizes.s20,
+        height: t.sizes.s20,
         flexShrink: 0,
-        alignSelf: 'flex-start',
         alignItems: 'center',
         justifyContent: 'center',
       },
@@ -132,8 +121,8 @@ const useTimelineStyles = () =>
       header: {
         flexDirection: 'row',
         alignItems: 'center',
-        minHeight: t.sizes.s64,
         minWidth: 0,
+        paddingVertical: t.spacings.s8,
         gap: t.spacings.s8,
       },
       leading: {
@@ -171,10 +160,18 @@ const useTimelineStyles = () =>
         alignItems: 'flex-end',
       },
       body: {
-        marginStart: t.spacings.s40,
+        flexDirection: 'row',
+        gap: t.spacings.s8,
+      },
+      bodyLine: {
+        width: t.sizes.s20,
+        flexShrink: 0,
+        alignItems: 'center',
+      },
+      bodyContent: {
+        flex: 1,
         minWidth: 0,
-        paddingTop: t.spacings.s8,
-        paddingBottom: t.spacings.s12,
+        paddingBottom: t.spacings.s8,
       },
     }),
     [],
@@ -195,15 +192,21 @@ const useTitleStyles = (muted: boolean) =>
     [muted],
   );
 
-const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
+// Spans the header's vertical padding so the connector stays continuous
+// between items, while the indicator stays centered on the header content.
+const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
   const styles = useTimelineStyles();
+  const { isFirst, isLast } = useTimelinePosition({
+    consumerName: 'TimelineItem',
+    contextRequired: false,
+  });
   const decorative = status !== 'loading';
   const indicatorByStatus = {
     success: (
       <CheckmarkCircleFill
         accessible={false}
         color='success'
-        size={24}
+        size={20}
         testID='timeline-indicator-success'
       />
     ),
@@ -211,7 +214,7 @@ const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
       <DeleteCircleFill
         accessible={false}
         color='error'
-        size={24}
+        size={20}
         testID='timeline-indicator-error'
       />
     ),
@@ -219,12 +222,12 @@ const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
       <ClockFill
         accessible={false}
         color='muted'
-        size={24}
+        size={20}
         testID='timeline-indicator-pending'
       />
     ),
     loading: (
-      <Spinner color='muted' size={24} testID='timeline-indicator-loading' />
+      <Spinner color='muted' size={20} testID='timeline-indicator-loading' />
     ),
     idle: (
       <Box
@@ -236,53 +239,34 @@ const TimelineIndicator = ({ status }: { status?: TimelineItemStatus }) => {
   } satisfies Record<TimelineItemStatus, ReactElement>;
 
   return (
-    <Box
-      accessibilityElementsHidden={decorative}
-      importantForAccessibility={decorative ? 'no-hide-descendants' : 'auto'}
-      style={styles.indicator}
-    >
-      {status ? (
-        indicatorByStatus[status]
-      ) : (
-        <Box
-          accessible={false}
-          style={styles.neutralDot}
-          testID='timeline-indicator-neutral'
-        />
-      )}
-    </Box>
-  );
-};
-
-const TimelineRail = () => {
-  const styles = useTimelineStyles();
-  const { isFirst, isLast } = useTimelinePosition({
-    consumerName: 'TimelineItem',
-    contextRequired: false,
-  });
-
-  return (
-    <Box
-      accessibilityElementsHidden
-      importantForAccessibility='no-hide-descendants'
-      pointerEvents='none'
-      style={styles.rail}
-    >
+    <Box style={styles.rail}>
       <Box
-        style={StyleSheet.flatten([
-          styles.line,
-          styles.lineIn,
-          isFirst && styles.lineInHidden,
-        ])}
+        accessibilityElementsHidden
+        importantForAccessibility='no-hide-descendants'
+        style={StyleSheet.flatten([styles.line, isFirst && styles.lineHidden])}
         testID='timeline-line-in'
       />
-      <Box style={styles.indicatorSpacer} />
-      {!isLast && (
-        <Box
-          style={StyleSheet.flatten([styles.line, styles.lineOut])}
-          testID='timeline-line-out'
-        />
-      )}
+      <Box
+        accessibilityElementsHidden={decorative}
+        importantForAccessibility={decorative ? 'no-hide-descendants' : 'auto'}
+        style={styles.indicator}
+      >
+        {status ? (
+          indicatorByStatus[status]
+        ) : (
+          <Box
+            accessible={false}
+            style={styles.neutralDot}
+            testID='timeline-indicator-neutral'
+          />
+        )}
+      </Box>
+      <Box
+        accessibilityElementsHidden
+        importantForAccessibility='no-hide-descendants'
+        style={StyleSheet.flatten([styles.line, isLast && styles.lineHidden])}
+        testID='timeline-line-out'
+      />
     </Box>
   );
 };
@@ -358,7 +342,6 @@ export const TimelineItem = ({
         testID='timeline-item'
         {...props}
       >
-        <TimelineRail />
         {children}
       </Box>
     </TimelineItemProvider>
@@ -388,7 +371,7 @@ export const TimelineItemHeader = ({
       style={StyleSheet.flatten([styles.header, style])}
       {...props}
     >
-      <TimelineIndicator status={status} />
+      <TimelineRail status={status} />
       {children}
     </Box>
   );
@@ -552,7 +535,7 @@ export const TimelineItemTrailing = ({
 };
 
 /**
- * Block under the header, indented past the indicator.
+ * Block under the header, aligned with the header text.
  */
 export const TimelineItemBody = ({
   ref,
@@ -562,15 +545,29 @@ export const TimelineItemBody = ({
   ...props
 }: TimelineItemBodyProps) => {
   const styles = useTimelineStyles();
+  const { isLast } = useTimelinePosition({
+    consumerName: 'TimelineItem',
+    contextRequired: false,
+  });
 
   return (
-    <Box
-      ref={ref}
-      lx={lx}
-      style={StyleSheet.flatten([styles.body, style])}
-      {...props}
-    >
-      {isTextChildren(children) ? <Text>{children}</Text> : children}
+    <Box style={styles.body}>
+      <Box
+        accessibilityElementsHidden
+        importantForAccessibility='no-hide-descendants'
+        pointerEvents='none'
+        style={styles.bodyLine}
+      >
+        {!isLast && <Box style={styles.line} />}
+      </Box>
+      <Box
+        ref={ref}
+        lx={lx}
+        style={StyleSheet.flatten([styles.bodyContent, style])}
+        {...props}
+      >
+        {isTextChildren(children) ? <Text>{children}</Text> : children}
+      </Box>
     </Box>
   );
 };
