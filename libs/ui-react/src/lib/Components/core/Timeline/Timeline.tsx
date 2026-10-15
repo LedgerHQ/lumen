@@ -308,7 +308,7 @@ export const TimelineItemBody = ({
         aria-hidden
         className='pointer-events-none flex w-20 shrink-0 justify-center group-last/item:invisible'
       >
-        <span className={lineClassName} />
+        <span className='h-full w-0 border-l-2 border-muted-subtle-hover' />
       </div>
       <div
         ref={ref}
