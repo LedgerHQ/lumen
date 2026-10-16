@@ -13,7 +13,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -34,6 +34,7 @@ type Story = StoryObj<typeof Checkbox>;
  * The base checkbox in its normal state.
  */
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     disabled: false,
     defaultChecked: false,
@@ -49,6 +50,7 @@ export const Base: Story = {
  * Interactive example showing all states.
  */
 export const AllStates: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='grid grid-cols-2 gap-16 p-16 text-base'>
       <div className='space-y-16'>

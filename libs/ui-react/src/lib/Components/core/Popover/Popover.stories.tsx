@@ -311,7 +311,6 @@ export const WithControlledState: Story = {
 };
 
 export const WithDetachedTrigger: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     const handle = createPopoverHandle<{ label: string }>();
 

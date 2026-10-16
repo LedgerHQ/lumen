@@ -223,7 +223,6 @@ export const WithXAxis: Story = {
 };
 
 export const WithYAxis: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showYAxis: true,
     yAxis: {
@@ -234,7 +233,6 @@ export const WithYAxis: Story = {
 };
 
 export const WithBothAxis: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showYAxis: true,
     showXAxis: true,

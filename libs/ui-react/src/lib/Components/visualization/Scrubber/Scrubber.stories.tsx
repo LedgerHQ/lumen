@@ -97,7 +97,6 @@ export const WithTooltip: Story = {
  * tracks the same index across all series in a multi-line chart.
  */
 export const WithBeacons: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart
       series={multiSeries}

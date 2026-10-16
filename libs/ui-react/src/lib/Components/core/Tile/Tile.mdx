@@ -136,6 +136,20 @@ import { Settings, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
 Wrap the `TileSecondaryAction` in a `Menu` to open a menu from the tile's secondary action:
 
 ```tsx
+import {
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuTrigger,
+  Spot,
+  Tile,
+  TileContent,
+  TileDescription,
+  TileSecondaryAction,
+  TileTitle,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
+
 <Tile
   appearance='no-background'
   className='w-112'
@@ -150,6 +164,10 @@ Wrap the `TileSecondaryAction` in a `Menu` to open a menu from the tile's second
           />
         }
       />
+      <MenuContent className='w-208'>
+        <MenuItem>Rename</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </MenuContent>
     </Menu>
   }
 >

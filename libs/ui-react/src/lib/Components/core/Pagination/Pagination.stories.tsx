@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pagination } from './Pagination';
 
 const meta = {
@@ -36,6 +36,10 @@ export const Base: Story = {
   },
   render: (args) => {
     const [page, setPage] = useState(args.page);
+
+    useEffect(() => {
+      setPage(args.page);
+    }, [args.page]);
 
     return <Pagination {...args} page={page} onPageChange={setPage} />;
   },

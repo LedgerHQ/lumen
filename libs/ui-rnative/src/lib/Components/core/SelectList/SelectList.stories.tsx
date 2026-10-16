@@ -126,7 +126,7 @@ export const Base: Story = {
           <BottomSheetView>
             <BottomSheetHeader title='Select currency' />
             <SelectList
-              items={args.items}
+              {...args}
               value={value}
               onValueChange={(v) => {
                 setValue(v);

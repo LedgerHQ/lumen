@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Home,
   HomeFill,
@@ -86,6 +86,10 @@ export const Base: Story = {
   },
   render: (args) => {
     const [active, setActive] = useState(args.active);
+
+    useEffect(() => {
+      setActive(args.active);
+    }, [args.active]);
 
     return (
       <div>

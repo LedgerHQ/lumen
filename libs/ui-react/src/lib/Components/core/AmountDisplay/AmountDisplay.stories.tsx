@@ -114,9 +114,9 @@ export const Base: Story = {
 };
 
 export const Sizes: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: 1234.56,
+    formatter: eurFormatter,
   },
   render: (props) => (
     <div className='flex flex-col place-items-center gap-24'>
@@ -171,7 +171,9 @@ export const WithHideButton: Story = {
 };
 
 export const Loading: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    formatter: eurFormatter,
+  },
   render: (props) => (
     <AmountDisplay formatter={props.formatter} value={1234.56} loading={true} />
   ),
