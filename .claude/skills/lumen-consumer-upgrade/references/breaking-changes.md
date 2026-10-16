@@ -18,12 +18,17 @@ tokens removed by Figma syncs aren't listed one by one:
   utils-shared 0.1.16, lint-plugin 0.1.0). Replace it with the real version
   once released.
 - **`always`**: check on every repo.
+- **♻️ Replacement rows** follow their own rule: they apply whenever the
+  **target** is at or above their version, whatever is installed. A repo can
+  be past the version and still keep its local copy, since nothing forced the
+  switch. The detection decides whether there's anything to replace.
 - Compare versions numerically: `0.1.9` < `0.1.12`.
 - A row listing a package the repo doesn't install is judged on the others.
   A repo still on `@ledgerhq/ldls-*` starts at `S0`.
 
 Example: a repo on `ui-react@0.1.40` skips `C21` (`ui-react@0.1.36`) and
-applies `C24` (`ui-react@0.1.46`).
+applies `C24` (`ui-react@0.1.46`). It still runs `S3` (♻️, `ui-react@0.1.51`)
+even once it's past 0.1.51.
 
 ## Legend
 
@@ -31,6 +36,11 @@ applies `C24` (`ui-react@0.1.46`).
 - 🔇 **Silent**: still compiles, but renders wrong or not at all. Fix every hit.
 - ⚖️ **Judgment**: needs a choice. Confirm it, or use the default and list it.
 - 👁 **Visual only**: no code change. Review the affected screens.
+- ♻️ **Replacement**: Lumen now provides something apps built themselves. The
+  row says how to find the local version and what makes it safe to replace.
+  Smaller cases appear as a ♻️ step inside another row's fix.
+
+A fix that starts with **Stop** means the upgrade can't proceed in this PR.
 
 Detection patterns are `rg` regexes over the app's source (`.ts`, `.tsx`,
 `.css`, Tailwind config). `\|` inside the tables is a Markdown escape: use `|`. Patterns cast a wide
@@ -46,12 +56,12 @@ counting or fixing.
 | S0 | ui-react@0.0.53, ui-rnative@0.0.42, design-core@0.0.34, utils-shared@0.0.11 | Packages renamed from `@ledgerhq/ldls-*` to `@ledgerhq/lumen-*` ([#371](https://github.com/LedgerHQ/lumen/pull/371)); `ldls-ui-core` has no successor | `@ledgerhq/ldls-` | Swap each package and import specifier (`ldls-ui-react` → `lumen-ui-react`, …), then treat the repo as being on `0.0.53` | 🔊 |
 | S1 | ui-react@0.0.64, design-core@0.0.40 | Tailwind v4 required | `tailwindcss` < 4 in the lockfile | **Stop**: a separate project. `npx @tailwindcss/upgrade`, then `@tailwindcss/postcss` or `@tailwindcss/vite` ([#401](https://github.com/LedgerHQ/lumen/pull/401)) | 🔊 |
 | S2 | ui-react@0.1.57, ui-rnative@0.1.60 | Visualization packages folded into the UI packages | `@ledgerhq/lumen-ui-(react\|rnative)-visualization` | Import from `@ledgerhq/lumen-ui-react/visualization` (or `ui-rnative/visualization`) and remove the old dependency | 🔊 |
-| S3 | always | Lumen's dist scanned through a content glob, which breaks silently when the dist layout changes | `node_modules/@ledgerhq/lumen-ui-react/dist` in the Tailwind config or CSS | Replace with `@import '@ledgerhq/lumen-ui-react/tailwind.css';` in the main CSS (Tailwind v4 only) | 🔇 |
+| S3 | ui-react@0.1.51 | Lumen ships `tailwind.css`, which registers its compiled components as a Tailwind source ([#819](https://github.com/LedgerHQ/lumen/pull/819)). Apps that scan Lumen's `dist` with their own glob break silently when the dist layout changes | `node_modules/@ledgerhq/lumen-ui-react(-visualization)?/dist` in the Tailwind config (`content`) or CSS (`@source`). Safe to replace when the app is on Tailwind v4 and the glob covers only Lumen's `dist` | Remove the glob, then add `@import '@ledgerhq/lumen-ui-react/tailwind.css';` after `@import 'tailwindcss';`. It also covers charts | ♻️ |
 | S4 | utils-shared@next | `cn` removed from `@ledgerhq/lumen-utils-shared` | `import\s*\{[^}]*\bcn\b[^}]*\}\s*from\s*'@ledgerhq/lumen-utils-shared'` | `import { cn } from '@ledgerhq/lumen-design-core/cn'` | 🔊 |
-| S5 | ui-react@next | ui-react no longer installs `clsx` / `tailwind-merge` as peers | App imports them without declaring them in its own `package.json` | Migrate to Lumen's `cn` (SKILL.md, step 2.6), or declare them explicitly | 🔊 |
+| S5 | ui-react@next | ui-react no longer installs `clsx` / `tailwind-merge` as peers | App imports them without declaring them in its own `package.json` | Replace the local helper (`T8`), or declare them explicitly | 🔊 |
 | S6 | lint-plugin@next | Lint plugin pins design-core exactly as a peer | `@ledgerhq/lumen-lint-plugin` in dependencies | Bump it in the same PR as design-core | 🔊 |
 | S8 | ui-react@0.1.57 | The undocumented `./*` wildcard export is removed (its deep paths already failed to resolve) | `@ledgerhq/lumen-ui-react/(dist\|lib\|src\|[A-Z])` | Import from the package root, or `/symbols`, `/visualization` | 🔊 |
-| S7 | design-core@next | Lumen owns the breakpoints; a config that replaces `theme.screens` no longer removes Lumen's | `screens` in the Tailwind config, `--breakpoint-` in CSS | Move custom breakpoints to `theme.extend.screens`, then check every responsive layout | ⚖️ |
+| S7 | design-core@next | Lumen owns the breakpoints; a config that replaces `theme.screens` no longer removes Lumen's | `screens` in the Tailwind config, `--breakpoint-` in CSS | Move custom breakpoints to `theme.extend.screens`, then check every responsive layout. ♻️ Delete entries that only repeat Lumen's values (`xs` 360, `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536 px) | ⚖️ |
 
 ## Tokens and Tailwind classes
 
@@ -64,6 +74,7 @@ counting or fixing.
 | T5 | design-core@next, ui-rnative@next | Sizes `400`, `480`, `560` removed (#888) | `\b[\w:-]*-(400\|480\|560)\b`, `--size-(400\|480\|560)`, React Native `s(400\|480\|560)` | Use the smaller neighbor if the element must not grow, the larger if its content must not shrink: `400`→`sm`/**`md`**, `480`→`md`/**`lg`**, `560`→`lg`/**`xl`** (bold = Lumen's choice) | ⚖️ |
 | T6 | design-core@next, ui-rnative@next | Spacing `160` removed (#888); also covers `w`/`h`/`size`/`min-*`/`max-*` | `\b[\w:-]*-160\b`, `--spacing-160`, React Native `s160` | `144` or **`176`** (Lumen's choice) | ⚖️ |
 | T7 | always | Tailwind font sizes, weights and line heights produce no CSS under the preset (found by the usage report) | `\b(text-(xs\|sm\|base\|lg\|[2-9]?xl)\|font-(thin\|light\|normal\|medium\|semibold\|bold)\|leading-\w+)\b` where used as type styles | Replace with Lumen typography (`body-*`, `heading-*`). `text-base` is a **color** in Lumen: leave it | ⚖️ |
+| T8 | design-core@next | Lumen ships `cn` (`@ledgerhq/lumen-design-core/cn`): clsx + tailwind-merge configured for Lumen's classes | Files importing `tailwind-merge`, `clsx` or `classnames`. Safe to replace only when the helper uses no `extendTailwindMerge` / `createTailwindMerge` of its own, and the app doesn't restore Tailwind font sizes (`fontSize` in its config, `--text-*` in `@theme`) | `export { cn } from '@ledgerhq/lumen-design-core/cn';` in the helper's file | ♻️ |
 
 ## ui-react / ui-rnative components
 
@@ -84,7 +95,7 @@ counting or fixing.
 | C13 | ui-react@0.1.16, ui-rnative@0.1.15 | `ListItemSpot`, `ListItemIcon`, `ListItemTruncate` removed | Those names | `Spot`; the icon component with `size={24}`; `ListItemContentRow` | 🔊 |
 | C14 | ui-react@0.1.16, ui-rnative@0.1.15 | `Dialog` and `Popover` `hug` → `fit` ([#605](https://github.com/LedgerHQ/lumen/pull/605)) | `["']hug["']` near `Dialog`/`Popover` | Rename | 🔊 |
 | C15 | ui-rnative@0.1.16 | Inputs: `disabled` split from `editable` | `editable=\{false\}` | Disabled look → `disabled`; read-only → keep `editable={false}` | ⚖️ |
-| C16 | ui-react@0.1.17 | `Select` moved to a data-driven Base UI API (`items`, `SelectList renderItem`, `value: string \| null`) | `@ledgerhq/lumen-ui-react` `Select*` | Rewrite per [#599](https://github.com/LedgerHQ/lumen/pull/599) | 🔊 |
+| C16 | ui-react@0.1.17 | `Select` moved to a data-driven Base UI API (`items`, `SelectList renderItem`, `value: string \| null`) | `@ledgerhq/lumen-ui-react` `Select*` | Rewrite per [#599](https://github.com/LedgerHQ/lumen/pull/599). ♻️ With `SelectSearch`, a case-insensitive label filter is now the default: remove a custom `filter` that does only that | 🔊 |
 | C17 | ui-react@0.1.18, ui-rnative@0.1.17 | `InteractiveIcon` takes `icon` and `size`, not children | `<InteractiveIcon\b` | `icon={X} size={n}` | 🔊 |
 | C18 | ui-react@0.1.21, ui-rnative@0.1.21 | `appearance` → `density` on `DialogHeader` (ui-react), `NavBar` and `BottomSheetHeader` (ui-rnative) | Those components with `appearance` | Rename | 🔊 |
 | C19 | ui-react@0.1.22, ui-rnative@0.1.23 | `TriggerButton` → `MediaButton`; `SelectMediaButton` removed (ui-react) | `TriggerButton`, `SelectMediaButton` | Rename. Use `MediaButton` in `SelectTrigger`'s `render` | 🔊 |
@@ -110,7 +121,7 @@ counting or fixing.
 | C39 | ui-react@0.0.67, ui-rnative@0.0.55, utils-shared@0.0.16 | `extractSlottable` removed | `extractSlottable` | Inline the logic in the app, or ask the Lumen team | 🔊 |
 | C40 | ui-react@0.1.13, ui-rnative@0.1.12 | `ButtonTrigger` → `TriggerButton`, `SelectButtonTrigger` → `SelectTriggerButton` (both later replaced: `C19`) | `ButtonTrigger`, `SelectButtonTrigger` | Go straight to `MediaButton` (`C19`, `C21`) | 🔊 |
 | C41 | ui-react@0.1.24 | Select: `autoFocusSearch` → `initialFocus`, and focus now **moves into the content on open by default**, including for every `SelectContent` that sets neither prop | `autoFocusSearch`, `<SelectContent\b` | Rename. Where focus must stay put, pass `initialFocus={false}` | ⚖️ |
-| C42 | ui-react@0.1.31, ui-rnative@0.1.32 | Inputs: `errorMessage` → `helperText` + `status="error"`; `aria-invalid` is set automatically ([#653](https://github.com/LedgerHQ/lumen/pull/653)) | `errorMessage` | `helperText="…" status="error"`. Remove explicit `aria-invalid` | 🔊 |
+| C42 | ui-react@0.1.31, ui-rnative@0.1.32 | Inputs: `errorMessage` → `helperText` + `status="error"`; `aria-invalid` is set automatically ([#653](https://github.com/LedgerHQ/lumen/pull/653)) | `errorMessage`, `aria-invalid` on Lumen inputs | `helperText="…" status="error"`. ♻️ Remove `aria-invalid` where it only mirrors the error state | 🔊 |
 | C43 | ui-react@0.1.36 | `Menu` moved to Base UI ([#716](https://github.com/LedgerHQ/lumen/pull/716)): needs `@base-ui/react`; `MenuTrigger` `asChild`/children → `render`; items `onSelect` → `onClick`, `textValue` → `label`; keep-open via `closeOnClick={false}`; `MenuPortal`, `modal`, `inset`, `asChild`, collision/event props and `checked="indeterminate"` removed; checkbox items stay open by default. **`onSelect` still typechecks** (it's a valid DOM prop) but no longer runs on activation | `<Menu\w*\b`, `MenuPortal`, `onSelect=` | Install `@base-ui/react`. `<MenuTrigger render={<IconButton …/>} />`. Rename every `onSelect` on menu items to `onClick`, and check each item's close behavior: `e.preventDefault()` keep-open → `closeOnClick={false}` | 🔊 🔇 |
 | C44 | ui-rnative@0.1.38 | Deprecated `Select` removed | `Select` imported from `@ledgerhq/lumen-ui-rnative` | `SelectList` (`C29`) | 🔊 |
 | C45 | ui-react@0.1.52 | Lumen buttons default to `type="button"`: inside a `<form>` they **no longer submit**. Applies to `Button`, `IconButton`, `MediaButton` and `CardButton` (all render `BaseButton`) | `<(Button\|IconButton\|MediaButton\|CardButton)\b` without `type=`, in files containing `<form` or `onSubmit` | Add `type="submit"` where the button submits the form | 🔇 |

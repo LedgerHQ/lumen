@@ -13,7 +13,7 @@ Fill in every section, even when empty ("none"). Keep it factual: hits with
 Tailwind: <version> · Package manager: <npm|pnpm|yarn> · Workspaces: <paths>
 
 ## Blockers
-<Tailwind v3, unknown package name, anything that stops the upgrade. "None" otherwise.>
+<rows whose fix says Stop, Lumen packages the catalog doesn't know, anything else that stops the upgrade. "None" otherwise.>
 
 ## Breaking changes crossed
 | Row | Hits | Where (file:line, first 5) | Effort |
@@ -28,14 +28,13 @@ Skipped (already past their version): <ids>
 ## Judgment calls needed
 <one bullet per ⚖️ hit: the call site, the options, the catalog default>
 
-## cn
-- Local helpers: <files, and whether each has its own tailwind-merge config>
-- App restores Tailwind font sizes: <yes/no, where>
-- Plan: <re-export / keep and flag>
+## Replacements (♻️)
+| Row | Local version (file) | Safe to replace? (the row's check) | Plan |
+|---|---|---|---|
 
 ## Visual review list
 <screens or components hit by 👁 rows>
 
 ## Out of scope (follow-ups)
-<hex colors, arbitrary values, lint-plugin adoption, Lumen gaps…>
+<findings outside the upgrade, Lumen packages to adopt, Lumen gaps…>
 ```
