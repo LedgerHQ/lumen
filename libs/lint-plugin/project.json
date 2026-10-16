@@ -4,10 +4,7 @@
   "sourceRoot": "libs/lint-plugin/src",
   "projectType": "library",
   "tags": ["scope:shared", "type:tooling"],
-  "implicitDependencies": [
-    "!@ledgerhq/lumen-ui-react",
-    "!@ledgerhq/lumen-utils-shared"
-  ],
+  "implicitDependencies": ["!@ledgerhq/lumen-ui-react"],
   "targets": {
     "build": {
       "executor": "nx:run-commands",

@@ -93,6 +93,12 @@ export default defineConfig({
 | [`no-unknown-classes`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-unknown-classes.md)         |             |        |     | Unknown classes (use better-tailwindcss' rule instead)           |
 | [`require-static-classes`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/require-static-classes.md) |             |        |     | Dynamic `className` on a component                               |
 
+### Core
+
+| Rule                                                                                         | Recommended | Strict | 🔧  | Flags                                                                                  |
+| -------------------------------------------------------------------------------------------- | :---------: | :----: | :-: | -------------------------------------------------------------------------------------- |
+| `no-restricted-imports` ([docs](https://eslint.org/docs/latest/rules/no-restricted-imports)) |     ⚠️      |   ✅   |     | `tailwind-merge`, `clsx`, `classnames`: use `cn` from `@ledgerhq/lumen-design-core/cn` |
+
 ## Customize
 
 The presets are plain config objects.
@@ -124,6 +130,17 @@ The presets are plain config objects.
 
   const rules = {
     'shadcn/no-restyle': ['warn', { ...NO_RESTYLE_OPTIONS, allow: ['layout', 'spacing'] }],
+  };
+  ```
+
+- **Add your own restricted imports:** your `no-restricted-imports` entry replaces Lumen's,
+  so spread its options to keep both.
+
+  ```js
+  import { NO_RESTRICTED_IMPORTS_OPTIONS } from '@ledgerhq/lumen-lint-plugin/eslint';
+
+  const rules = {
+    'no-restricted-imports': ['error', { paths: [...NO_RESTRICTED_IMPORTS_OPTIONS.paths, { name: 'lodash' }] }],
   };
   ```
 

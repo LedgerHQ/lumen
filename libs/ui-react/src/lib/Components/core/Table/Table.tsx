@@ -1,9 +1,6 @@
 import type { Breakpoint, ResponsiveValue } from '@ledgerhq/lumen-design-core';
-import {
-  cn,
-  createSafeContext,
-  useMergedRef,
-} from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { CSSProperties, UIEvent } from 'react';
 import { useRef } from 'react';

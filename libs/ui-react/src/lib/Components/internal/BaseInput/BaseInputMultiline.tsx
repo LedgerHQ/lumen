@@ -1,4 +1,5 @@
-import { cn, useMergedRef } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { ChangeEvent, ChangeEventHandler, RefObject } from 'react';
 import { useLayoutEffect, useRef } from 'react';

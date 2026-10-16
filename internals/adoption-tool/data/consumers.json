@@ -75,15 +75,6 @@
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
   },
   {
-    "repo": "LedgerHQ/ledger-button-public",
-    "status": "production",
-    "packageJsonPath": "packages/ledger-button/package.json",
-    "packageJsonPaths": {
-      "@ledgerhq/lumen-ui-react": ["apps/test-dapp/package.json"]
-    },
-    "notes": "pnpm catalog — public mirror of ledger-button"
-  },
-  {
     "repo": "LedgerHQ/protect-frontend-lumen",
     "status": "production",
     "packageJsonPath": "package.json"

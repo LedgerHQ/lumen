@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import type { HTMLAttributes } from 'react';
 import { Link } from '../Link/Link';

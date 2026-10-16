@@ -34,6 +34,7 @@
     "eslint-plugin-better-tailwindcss": "^4.7.0"
   },
   "peerDependencies": {
+    "@ledgerhq/lumen-design-core": "0.1.33",
     "eslint": "^9.30.0 || ^10.0.0",
     "oxlint": "^1.82.0",
     "tailwindcss": "^4.1.17"

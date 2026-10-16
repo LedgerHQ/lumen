@@ -24,7 +24,11 @@ const toConfig = (preset) => ({
 });
 
 // For consumers who change a rule's options but keep Lumen's.
-export { NO_ARBITRARY_VALUES_OPTIONS, NO_RESTYLE_OPTIONS } from './rules.js';
+export {
+  NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTRICTED_IMPORTS_OPTIONS,
+  NO_RESTYLE_OPTIONS,
+} from './rules.js';
 
 export const configs = {
   recommended: toConfig('recommended'),

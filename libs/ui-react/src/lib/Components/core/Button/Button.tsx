@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import { cva } from 'class-variance-authority';
 import { BaseButton } from '../../internal/BaseButton';
 import type { ButtonProps } from './types';

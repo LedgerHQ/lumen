@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import { cva } from 'class-variance-authority';
 import { createElement } from 'react';
 import type { IconProps } from './types';
