@@ -51,7 +51,7 @@ export type LineChartProps = LineRenderOptions &
     /**
      * Whether the chart is loading. When there is no data, renders an animated
      * shimmer placeholder line (initial loading). When data is present (e.g. a
-     * time-range change), the current line is recoloured to a muted grey and
+     * time-range change), the current line is recolored to a muted grey and
      * shimmers until the new `series` is provided (transition loading).
      *
      * To get the transition behavior, keep passing the previous `series` while

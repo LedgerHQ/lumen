@@ -6,12 +6,12 @@ import { tokenFilesFromLocalVariables } from './tokenFilesFromLocalVariables.js'
 
 describe('tokenFilesFromLocalVariables', () => {
   it('check filenames with default renamer', async () => {
-    const localVariablesMockRespoonse =
+    const localVariablesMockResponse =
       await figmaApiMock.getMocksFromFileSystem(
         'get-local-variables-response.json',
       );
     const tokenFilesDictionary = await tokenFilesFromLocalVariables(
-      localVariablesMockRespoonse,
+      localVariablesMockResponse,
     );
     const tokenFilesNames = Object.keys(tokenFilesDictionary);
 
@@ -29,12 +29,12 @@ describe('tokenFilesFromLocalVariables', () => {
     ]);
   });
   it('check file names with a custom filename modifier function', async () => {
-    const localVariablesMockRespoonse =
+    const localVariablesMockResponse =
       await figmaApiMock.getMocksFromFileSystem(
         'get-local-variables-response.json',
       );
     const tokenFilesDictionary = await tokenFilesFromLocalVariables(
-      localVariablesMockRespoonse,
+      localVariablesMockResponse,
       tokenFileNameRenamer,
     );
     const tokenFilesNames = Object.keys(tokenFilesDictionary);
