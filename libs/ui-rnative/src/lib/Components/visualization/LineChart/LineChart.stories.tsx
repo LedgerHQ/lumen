@@ -4,6 +4,9 @@ import { View } from 'react-native';
 import { LineChart } from './LineChart';
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   component: LineChart,
   id: 'rnative-linechart',
   title: 'Visualization/LineChart',

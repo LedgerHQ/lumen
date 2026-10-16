@@ -80,8 +80,12 @@ export const Base: Story = {
   parameters: {
     backgrounds: { default: 'light' },
   },
+  args: {
+    active: 'earn',
+    defaultCollapsed: false,
+  },
   render: (args) => {
-    const [active, setActive] = useState('earn');
+    const [active, setActive] = useState(args.active);
 
     return (
       <div>

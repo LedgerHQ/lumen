@@ -13,7 +13,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -45,6 +45,7 @@ type ButtonAppearance =
   | 'red';
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     children: 'Base Button',
@@ -53,21 +54,15 @@ export const Base: Story = {
 };
 
 export const IconText: Story = {
-  args: {
-    appearance: 'base',
-    children: 'Add Item',
-    icon: Plus,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<Button appearance="base" icon={Plus}>Add Item</Button>`,
-      },
-    },
-  },
+  render: () => (
+    <Button appearance='base' icon={Plus}>
+      Add Item
+    </Button>
+  ),
 };
 
 export const Loading: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     children: 'Loading...',
@@ -76,6 +71,7 @@ export const Loading: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },
@@ -135,6 +131,7 @@ export const SizesShowcase: Story = {
 };
 
 export const StatesShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },

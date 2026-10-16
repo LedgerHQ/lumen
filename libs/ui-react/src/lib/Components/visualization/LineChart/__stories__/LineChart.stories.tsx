@@ -42,6 +42,7 @@ import {
 } from './cryptoChartData';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: LineChart,
   id: 'react-linechart',
   title: 'Visualization/LineChart',
@@ -62,9 +63,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof LineChart>;
 
-export const Base: Story = {};
+export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+};
 
 export const Series: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     series: [
       {
@@ -79,12 +83,14 @@ export const Series: Story = {
 };
 
 export const MultipleSeries: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     series: multiSeries,
   },
 };
 
 export const CustomLine: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     series: curveSeries,
   },
@@ -117,6 +123,7 @@ export const MissingData: Story = {
 };
 
 export const WidthAndHeight: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     width: CHART_WIDTH,
     height: 120,
@@ -133,6 +140,7 @@ const insetExamples = [
 ];
 
 export const Inset: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-wrap gap-24'>
       {insetExamples.map(({ label, inset }) => (
@@ -173,12 +181,14 @@ export const Scrubbing: Story = {
 };
 
 export const Area: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showArea: true,
   },
 };
 
 export const Empty: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     series: [],
     emptyLabel: 'No data available',
@@ -186,6 +196,7 @@ export const Empty: Story = {
 };
 
 export const Loading: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-wrap gap-24'>
       <div className='flex w-full flex-col gap-8'>
@@ -201,6 +212,7 @@ export const Loading: Story = {
 };
 
 export const WithXAxis: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showXAxis: true,
     xAxis: {
@@ -211,6 +223,7 @@ export const WithXAxis: Story = {
 };
 
 export const WithYAxis: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showYAxis: true,
     yAxis: {
@@ -221,6 +234,7 @@ export const WithYAxis: Story = {
 };
 
 export const WithBothAxis: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showYAxis: true,
     showXAxis: true,
@@ -239,6 +253,7 @@ export const WithBothAxis: Story = {
 };
 
 export const WithPoint: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showArea: true,
   },
@@ -262,6 +277,7 @@ export const WithPoint: Story = {
 };
 
 export const WithReferenceLine: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showArea: true,
   },
@@ -285,6 +301,7 @@ const legendItems = multiSeries.map(({ id, label, stroke }) => ({
 }));
 
 export const WithLegend: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     series: multiSeries,
     showArea: true,
@@ -327,6 +344,7 @@ const darkContrastSeries = [
 ];
 
 export const WithColorContrast: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-col gap-24'>
       <div className='flex items-end gap-32'>

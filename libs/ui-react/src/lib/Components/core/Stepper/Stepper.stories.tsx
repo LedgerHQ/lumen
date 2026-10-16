@@ -11,7 +11,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
     backgrounds: { default: 'light' },
@@ -33,18 +33,6 @@ export const Base: Story = {
     currentStep: 2,
     totalSteps: 4,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Stepper
-  currentStep={2}
-  totalSteps={4}
-/>
-`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {
@@ -60,16 +48,6 @@ export const AppearanceShowcase: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Stepper currentStep={2} totalSteps={4} appearance="accent" />
-<Stepper currentStep={4} totalSteps={4} appearance="success" />
-`,
-      },
-    },
-  },
 };
 
 export const SizeShowcase: Story = {
@@ -85,16 +63,6 @@ export const SizeShowcase: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Stepper currentStep={2} totalSteps={4} size="md" />
-<Stepper currentStep={2} totalSteps={4} size="lg" />
-`,
-      },
-    },
-  },
 };
 
 export const DisabledShowcase: Story = {
@@ -114,17 +82,6 @@ export const DisabledShowcase: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Stepper currentStep={2} totalSteps={4} />
-<Stepper currentStep={2} totalSteps={4} disabled />
-<Stepper currentStep={0} totalSteps={8} />
-`,
-      },
-    },
-  },
 };
 
 export const WithCustomLabel: Story = {
@@ -132,18 +89,5 @@ export const WithCustomLabel: Story = {
     currentStep: 5,
     totalSteps: 5,
     label: '🎉',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Stepper
-  currentStep={5}
-  totalSteps={5}
-  label="🎉"
-/>
-`,
-      },
-    },
   },
 };

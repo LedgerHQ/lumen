@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { useEffect, useState } from 'react';
 import { Box, Text } from '../../primitives';
 import { Switch } from './Switch';
 
@@ -43,7 +44,14 @@ type Story = StoryObj<typeof Switch>;
  * The base switch in its normal state.
  */
 export const Base: Story = {
+  args: {
+    checked: false,
+    size: 'md',
+    disabled: false,
+  },
   render: (args) => {
+    const [checked, setChecked] = useState(args.checked);
+    useEffect(() => setChecked(args.checked), [args.checked]);
     return (
       <Box
         style={{
@@ -55,7 +63,14 @@ export const Base: Story = {
         }}
       >
         <Box style={{ width: '100%', maxWidth: 400 }}>
-          <Switch {...args} />
+          <Switch
+            {...args}
+            checked={checked}
+            onCheckedChange={(value) => {
+              setChecked(value);
+              args.onCheckedChange?.(value);
+            }}
+          />
         </Box>
       </Box>
     );
@@ -66,6 +81,7 @@ export const Base: Story = {
  * Interactive example showing all states.
  */
 export const AllStates: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box
       style={{

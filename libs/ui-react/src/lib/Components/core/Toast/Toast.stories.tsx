@@ -44,6 +44,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
+        type: 'code',
       },
     },
   },
@@ -188,7 +189,9 @@ export const WithDurations: Story = {
 
 export const WithInsets: Story = {
   parameters: {
-    docs: { story: { inline: false, height: '448px' } },
+    docs: {
+      story: { inline: false, height: '448px' },
+    },
   },
   render: () => (
     <>

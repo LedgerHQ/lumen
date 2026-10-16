@@ -43,6 +43,7 @@ const meta = {
     MenuGroup,
   },
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: {
       default: 'light',
@@ -220,6 +221,7 @@ export const ItemTypeShowcase: Story = {
 };
 
 export const WithSubmenu: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Menu>
       <MenuTrigger
@@ -249,6 +251,7 @@ export const WithSubmenu: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   name: 'With Disabled Items',
   render: () => (
     <Menu>
@@ -271,6 +274,7 @@ export const Disabled: Story = {
 };
 
 export const Appearance: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   name: 'Item Appearance',
   render: () => (
     <Menu>
@@ -301,6 +305,7 @@ export const Appearance: Story = {
 };
 
 export const PositionShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex items-center gap-16'>
       <Menu>

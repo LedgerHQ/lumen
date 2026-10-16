@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Trend } from './Trend';
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   component: Trend,
   id: 'react-trend',
   title: 'Core/Trend',

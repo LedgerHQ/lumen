@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   BasketPutIn,
   HomeFill,
@@ -25,6 +25,7 @@ const meta = {
     TabBarItem,
   },
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -57,11 +58,20 @@ export default meta;
 type Story = StoryObj<typeof TabBar>;
 
 export const Base: Story = {
-  args: {} as React.ComponentProps<typeof TabBar>,
-  render: () => {
-    const [active, setActive] = useState('home');
+  args: { active: 'home' } as React.ComponentProps<typeof TabBar>,
+  render: (args) => {
+    const [active, setActive] = useState(args.active);
+    useEffect(() => setActive(args.active), [args.active]);
     return (
-      <TabBar active={active} onTabPress={setActive} lx={{ width: 's320' }}>
+      <TabBar
+        {...args}
+        active={active}
+        onTabPress={(value) => {
+          setActive(value);
+          args.onTabPress?.(value);
+        }}
+        lx={{ width: 's320' }}
+      >
         <TabBarItem
           value='home'
           label='Home'

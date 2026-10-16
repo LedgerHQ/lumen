@@ -28,6 +28,7 @@ export default meta;
 type Story = StoryObj<typeof Switch>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     size: 'md',
     disabled: false,
@@ -36,6 +37,7 @@ export const Base: Story = {
 };
 
 export const StatesShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex items-center gap-32'>
       <Switch aria-label='Toggle' selected={false} />
@@ -47,6 +49,7 @@ export const StatesShowcase: Story = {
 };
 
 export const SizesShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex items-center gap-32'>
       <Switch aria-label='Toggle' size='sm' />

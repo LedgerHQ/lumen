@@ -34,6 +34,7 @@ const meta = {
     CardFooterActions,
   },
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -227,6 +228,7 @@ export const StatesShowcase: Story = {
 };
 
 export const FooterAppearance: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-col gap-16'>
       <Card type='info' className='w-320'>
@@ -281,6 +283,7 @@ export const FooterAppearance: Story = {
 };
 
 export const DisabledWithIcon: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     className: 'w-320',
     disabled: true,

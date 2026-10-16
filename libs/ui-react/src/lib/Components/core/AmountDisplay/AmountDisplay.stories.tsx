@@ -103,21 +103,18 @@ export default meta;
 type Story = StoryObj<typeof AmountDisplay>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: { functionValue: (fn: { name?: string }) => fn.name || '() => {}' },
+  },
   args: {
     value: 1234.56,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-          <AmountDisplay value={1234.56} formatter={eurFormatter} />
-        `.trim(),
-      },
-    },
+    formatter: eurFormatter,
   },
 };
 
 export const Sizes: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: 1234.56,
   },
@@ -174,6 +171,7 @@ export const WithHideButton: Story = {
 };
 
 export const Loading: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (props) => (
     <AmountDisplay formatter={props.formatter} value={1234.56} loading={true} />
   ),

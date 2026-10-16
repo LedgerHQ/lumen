@@ -104,19 +104,15 @@ export default meta;
 type Story = StoryObj<typeof AmountDisplay>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: 1234.56,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<AmountDisplay value={1234.56} />`,
-      },
-    },
+    formatter: eurFormatter,
   },
 };
 
 export const Sizes: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: 1234.56,
   },
@@ -177,6 +173,7 @@ export const AnimationShowcase: Story = {
 };
 
 export const Loading: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: 1234.56,
   },

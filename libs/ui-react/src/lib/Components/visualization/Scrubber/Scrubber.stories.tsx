@@ -18,6 +18,7 @@ import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Scrubber,
   id: 'react-scrubber',
   title: 'Visualization/Scrubber',
@@ -43,6 +44,7 @@ const magneticIndices = [20, 60, 100, 140];
  * past the cursor is dimmed.
  */
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart
       series={sampleSeries}
@@ -54,7 +56,11 @@ export const Base: Story = {
       <Scrubber {...args} />
     </LineChart>
   ),
-  args: {},
+  args: {
+    hideLine: false,
+    hideOverlay: false,
+    showBeacons: false,
+  },
 };
 
 /**
@@ -91,6 +97,7 @@ export const WithTooltip: Story = {
  * tracks the same index across all series in a multi-line chart.
  */
 export const WithBeacons: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart
       series={multiSeries}

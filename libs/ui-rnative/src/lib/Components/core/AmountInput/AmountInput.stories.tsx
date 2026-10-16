@@ -2,11 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { AmountInput } from './AmountInput';
-import {
-  type AmountInputAlign,
-  type AmountInputProps,
-  type AmountInputSize,
-} from './types';
+import { type AmountInputAlign, type AmountInputSize } from './types';
 
 const ALIGNMENTS: AmountInputAlign[] = ['start', 'center', 'end'];
 
@@ -19,6 +15,23 @@ const meta = {
   component: AmountInput,
   id: 'rnative-amountinput',
   title: 'Core/AmountInput',
+  decorators: [
+    (Story) => (
+      <View
+        style={{
+          flex: 1,
+          minHeight: 96,
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 24,
+        }}
+      >
+        <View style={{ width: '100%', maxWidth: 320 }}>
+          <Story />
+        </View>
+      </View>
+    ),
+  ],
   parameters: {
     docs: {
       source: {
@@ -42,71 +55,43 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof AmountInput>;
 
-const AmountInputStory = (args: AmountInputProps) => {
-  const [value, setValue] = useState(args.value?.toString() ?? '');
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        minHeight: 96,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 24,
-      }}
-    >
-      <View style={{ width: '100%', maxWidth: 320 }}>
-        <AmountInput {...args} value={value} onChangeText={setValue} />
-      </View>
-    </View>
-  );
-};
-
 export const Base: Story = {
   args: {
-    value: '',
-    onChangeText: () => {},
     currencyText: 'USD',
     currencyPosition: 'left',
     allowDecimals: true,
     thousandsSeparator: true,
     maxIntegerLength: 9,
     maxDecimalLength: 9,
-    isInvalid: false,
-    editable: true,
   },
-  render: (args) => <AmountInputStory {...args} />,
+  render: (args) => {
+    const [value, setValue] = useState('');
+
+    return <AmountInput {...args} value={value} onChangeText={setValue} />;
+  },
 };
 
 export const WithValue: Story = {
-  args: {
-    value: '1234.56',
-    onChangeText: () => {},
-    currencyText: 'USD',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1234.56');
+
+    return (
+      <AmountInput
+        currencyText='USD'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const Size: Story = {
-  args: {
-    value: '1234.56',
-    onChangeText: () => {},
-  },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
-    <View
-      style={{
-        width: '100%',
-        maxWidth: 320,
-        alignItems: 'center',
-        gap: 24,
-        padding: 24,
-      }}
-    >
+    <View style={{ width: '100%', alignItems: 'center', gap: 24 }}>
       {SIZES.map(({ size, value }) => (
         <AmountInput
           key={size}
@@ -121,19 +106,9 @@ export const Size: Story = {
 };
 
 export const Alignment: Story = {
-  args: {
-    value: '1234.56',
-    onChangeText: () => {},
-  },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
-    <View
-      style={{
-        width: '100%',
-        maxWidth: 320,
-        gap: 24,
-        padding: 24,
-      }}
-    >
+    <View style={{ width: '100%', gap: 24 }}>
       {ALIGNMENTS.map((align) => (
         <AmountInput
           key={align}
@@ -148,130 +123,159 @@ export const Alignment: Story = {
 };
 
 export const CurrencyPositionLeft: Story = {
-  args: {
-    value: '1000',
-    onChangeText: () => {},
-    currencyText: '$',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1000');
+
+    return (
+      <AmountInput
+        currencyText='$'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const CurrencyPositionRight: Story = {
-  args: {
-    value: '1000',
-    onChangeText: () => {},
-    currencyText: 'ETH',
-    currencyPosition: 'right',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1000');
+
+    return (
+      <AmountInput
+        currencyText='ETH'
+        currencyPosition='right'
+        allowDecimals
+        thousandsSeparator
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const IntegerOnly: Story = {
-  args: {
-    value: '1234',
-    onChangeText: () => {},
-    currencyText: 'items',
-    currencyPosition: 'right',
-    allowDecimals: false,
-    thousandsSeparator: true,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1234');
+
+    return (
+      <AmountInput
+        currencyText='items'
+        currencyPosition='right'
+        allowDecimals={false}
+        thousandsSeparator
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const WithThousandsSeparator: Story = {
-  args: {
-    value: '1000000',
-    onChangeText: () => {},
-    currencyText: 'USD',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1000000');
+
+    return (
+      <AmountInput
+        currencyText='USD'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const WithoutThousandsSeparator: Story = {
-  args: {
-    value: '1000000',
-    onChangeText: () => {},
-    currencyText: 'USD',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: false,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1000000');
+
+    return (
+      <AmountInput
+        currencyText='USD'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator={false}
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const DecimalSeparatorComma: Story = {
-  args: {
-    value: '1234.5',
-    onChangeText: () => {},
-    currencyText: '€',
-    currencyPosition: 'right',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    decimalSeparator: ',',
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1234.5');
+
+    return (
+      <AmountInput
+        currencyText='€'
+        currencyPosition='right'
+        allowDecimals
+        thousandsSeparator
+        decimalSeparator=','
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const ErrorState: Story = {
-  args: {
-    value: '1234.56',
-    onChangeText: () => {},
-    currencyText: 'USD',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    isInvalid: true,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('1234.56');
+
+    return (
+      <AmountInput
+        currencyText='USD'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator
+        isInvalid
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const DisabledAmountInput: Story = {
-  args: {
-    value: '1234.56',
-    onChangeText: () => {},
-    currencyText: 'USD',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    isInvalid: false,
-    disabled: true,
+  render: () => {
+    const [value, setValue] = useState('1234.56');
+
+    return (
+      <AmountInput
+        currencyText='USD'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator
+        disabled
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };
 
 export const CustomLengthLimits: Story = {
-  args: {
-    value: '123',
-    onChangeText: () => {},
-    currencyText: '$',
-    currencyPosition: 'left',
-    allowDecimals: true,
-    thousandsSeparator: true,
-    maxIntegerLength: 6,
-    maxDecimalLength: 2,
-    isInvalid: false,
-    editable: true,
+  render: () => {
+    const [value, setValue] = useState('123');
+
+    return (
+      <AmountInput
+        currencyText='$'
+        currencyPosition='left'
+        allowDecimals
+        thousandsSeparator
+        maxIntegerLength={6}
+        maxDecimalLength={2}
+        value={value}
+        onChangeText={setValue}
+      />
+    );
   },
-  render: (args) => <AmountInputStory {...args} />,
 };

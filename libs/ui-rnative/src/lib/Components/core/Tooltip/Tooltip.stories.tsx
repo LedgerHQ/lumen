@@ -8,6 +8,7 @@ import { GlobalTooltipBottomSheet } from './GlobalTooltipBottomSheet';
 import { Tooltip, TooltipTrigger, TooltipContent } from './Tooltip';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Tooltip,
   subcomponents: { TooltipTrigger, TooltipContent },
   id: 'rnative-tooltip',
@@ -19,10 +20,11 @@ export default meta;
 type Story = StoryObj<typeof Tooltip>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
-    children: null,
+    onOpenChange: () => {},
   },
-  render: () => (
+  render: (args) => (
     <>
       <Box
         lx={{
@@ -32,7 +34,7 @@ export const Base: Story = {
           padding: 's24',
         }}
       >
-        <Tooltip>
+        <Tooltip {...args}>
           <TooltipTrigger asChild>
             <Button>Press me</Button>
           </TooltipTrigger>
@@ -48,6 +50,7 @@ export const Base: Story = {
 };
 
 export const WithCustomContent: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },
@@ -144,6 +147,7 @@ export const WithMultipleTooltips: Story = {
 };
 
 export const WithChangeCallback: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },

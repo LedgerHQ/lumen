@@ -55,7 +55,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -159,91 +159,80 @@ export const WithDuration: Story = {
   ),
 };
 
-const DismissDemo = () => {
-  const [id, setId] = useState<string | null>(null);
-
-  return (
-    <Button
-      appearance='base'
-      onPress={() => {
-        if (id === null) {
-          const next = toast.error({ title: 'Unable to save' });
-          setId(next.id);
-          return;
-        }
-        toast.dismiss(id);
-        setId(null);
-      }}
-    >
-      {id === null ? 'Show toast' : 'Hide toast'}
-    </Button>
-  );
-};
-
 export const WithDismiss: Story = {
-  render: () => (
-    <SafeAreaProvider>
-      <Toaster />
-      <DismissDemo />
-    </SafeAreaProvider>
-  ),
-};
+  render: () => {
+    const [id, setId] = useState<string | null>(null);
 
-const UpdateDemo = () => (
-  <Button
-    appearance='base'
-    onPress={() => {
-      const { id } = toast.loading({ title: 'Uploading…' });
-      setTimeout(() => {
-        toast.update(id, {
-          appearance: 'success',
-          loading: false,
-          title: 'Upload complete',
-        });
-      }, 2000);
-    }}
-  >
-    Upload file
-  </Button>
-);
+    return (
+      <SafeAreaProvider>
+        <Toaster />
+        <Button
+          appearance='base'
+          onPress={() => {
+            if (id === null) {
+              const next = toast.error({ title: 'Unable to save' });
+              setId(next.id);
+              return;
+            }
+            toast.dismiss(id);
+            setId(null);
+          }}
+        >
+          {id === null ? 'Show toast' : 'Hide toast'}
+        </Button>
+      </SafeAreaProvider>
+    );
+  },
+};
 
 export const WithUpdate: Story = {
   render: () => (
     <SafeAreaProvider>
       <Toaster />
-      <UpdateDemo />
+      <Button
+        appearance='base'
+        onPress={() => {
+          const { id } = toast.loading({ title: 'Uploading…' });
+          setTimeout(() => {
+            toast.update(id, {
+              appearance: 'success',
+              loading: false,
+              title: 'Upload complete',
+            });
+          }, 2000);
+        }}
+      >
+        Upload file
+      </Button>
     </SafeAreaProvider>
   ),
 };
-
-const simulateSaveProfile = () =>
-  new Promise<void>((resolve) => setTimeout(resolve, 2000));
-
-const PromiseDemo = () => (
-  <Button
-    appearance='base'
-    onPress={() =>
-      toast.promise(simulateSaveProfile(), {
-        loading: { title: 'Saving…' },
-        success: { title: 'Profile saved' },
-        error: { title: 'Could not save' },
-      })
-    }
-  >
-    Save profile
-  </Button>
-);
 
 export const WithPromise: Story = {
   render: () => (
     <SafeAreaProvider>
       <Toaster />
-      <PromiseDemo />
+      <Button
+        appearance='base'
+        onPress={() =>
+          toast.promise(
+            new Promise<void>((resolve) => setTimeout(resolve, 2000)),
+            {
+              loading: { title: 'Saving…' },
+              success: { title: 'Profile saved' },
+              error: { title: 'Could not save' },
+            },
+          )
+        }
+      >
+        Save profile
+      </Button>
     </SafeAreaProvider>
   ),
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's8', width: 's400' }}>
       <Toast appearance='info' title='Your transaction was sent' />

@@ -17,6 +17,7 @@ const meta = {
     SegmentedControlButton,
   },
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -128,6 +129,7 @@ export const TabLayoutShowcase: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {} as React.ComponentProps<typeof SegmentedControl>,
   render: (args) => (
     <SegmentedControl

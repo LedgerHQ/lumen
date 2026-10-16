@@ -1,6 +1,6 @@
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives';
-import { MediaImage } from '../MediaImage';
 import { MediaImageGroup } from './MediaImageGroup';
 import type { MediaImageGroupItem } from './types';
 
@@ -13,7 +13,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -23,20 +23,20 @@ export default meta;
 type Story = StoryObj<typeof MediaImageGroup>;
 
 const assets = [
-  { src: 'https://crypto-icons.ledger.com/BTC.png', id: 'btc', alt: 'Bitcoin' },
+  { id: 'btc', src: 'https://crypto-icons.ledger.com/BTC.png', alt: 'Bitcoin' },
   {
-    src: 'https://crypto-icons.ledger.com/ETH.png',
     id: 'eth',
+    src: 'https://crypto-icons.ledger.com/ETH.png',
     alt: 'Ethereum',
   },
-  { src: 'https://crypto-icons.ledger.com/ADA.png', id: 'ada', alt: 'Cardano' },
-  { src: 'https://crypto-icons.ledger.com/SOL.png', id: 'sol', alt: 'Solana' },
+  { id: 'ada', src: 'https://crypto-icons.ledger.com/ADA.png', alt: 'Cardano' },
+  { id: 'sol', src: 'https://crypto-icons.ledger.com/SOL.png', alt: 'Solana' },
   {
-    src: 'https://crypto-icons.ledger.com/DOT.png',
     id: 'dot',
+    src: 'https://crypto-icons.ledger.com/DOT.png',
     alt: 'Polkadot',
   },
-  { src: 'https://crypto-icons.ledger.com/XRP.png', id: 'xrp', alt: 'XRP' },
+  { id: 'xrp', src: 'https://crypto-icons.ledger.com/XRP.png', alt: 'XRP' },
 ];
 
 const fallbackItems: MediaImageGroupItem[] = [
@@ -46,8 +46,25 @@ const fallbackItems: MediaImageGroupItem[] = [
 ];
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
-    data: assets.slice(0, 3),
+    data: [
+      {
+        id: 'btc',
+        src: 'https://crypto-icons.ledger.com/BTC.png',
+        alt: 'Bitcoin',
+      },
+      {
+        id: 'eth',
+        src: 'https://crypto-icons.ledger.com/ETH.png',
+        alt: 'Ethereum',
+      },
+      {
+        id: 'ada',
+        src: 'https://crypto-icons.ledger.com/ADA.png',
+        alt: 'Cardano',
+      },
+    ],
     size: 32,
     shape: 'circle',
     maxVisible: 4,
@@ -55,7 +72,7 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
-  args: { data: assets },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ gap: 's16' }}>
       <MediaImageGroup data={assets} size={12} />
@@ -73,7 +90,7 @@ export const SizeShowcase: Story = {
 };
 
 export const ShapeShowcase: Story = {
-  args: { data: assets },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ gap: 's24' }}>
       <MediaImageGroup data={assets} size={40} shape='circle' />
@@ -83,7 +100,7 @@ export const ShapeShowcase: Story = {
 };
 
 export const WithOverflow: Story = {
-  args: { data: assets },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ gap: 's24' }}>
       <MediaImageGroup data={assets.slice(0, 4)} maxVisible={4} />
@@ -94,10 +111,12 @@ export const WithOverflow: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { data: assets, maxVisible: 4, disabled: true },
 };
 
 export const DisabledItem: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     data: assets.map((asset) => ({ ...asset, disabled: asset.id === 'eth' })),
     maxVisible: 4,
@@ -105,17 +124,30 @@ export const DisabledItem: Story = {
 };
 
 export const WithFallback: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { data: fallbackItems },
 };
 
 export const WithRenderItem: Story = {
-  args: { data: assets },
   render: () => (
     <MediaImageGroup
-      data={assets}
+      data={[
+        { id: 'btc', ledgerId: 'bitcoin', ticker: 'BTC' },
+        { id: 'eth', ledgerId: 'ethereum', ticker: 'ETH' },
+        { id: 'ada', ledgerId: 'cardano', ticker: 'ADA' },
+        { id: 'sol', ledgerId: 'solana', ticker: 'SOL' },
+        { id: 'dot', ledgerId: 'polkadot', ticker: 'DOT' },
+        { id: 'xrp', ledgerId: 'ripple', ticker: 'XRP' },
+      ]}
       size={40}
+      maxVisible={4}
       renderItem={(asset, { size, shape }) => (
-        <MediaImage src={asset.src} alt={asset.alt} size={size} shape={shape} />
+        <CryptoIcon
+          ledgerId={asset.ledgerId}
+          ticker={asset.ticker}
+          size={size}
+          shape={shape}
+        />
       )}
     />
   ),

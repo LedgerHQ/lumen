@@ -7,6 +7,7 @@ const meta = {
   title: 'Core/Skeleton',
   component: Skeleton,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     actions: { disable: true },
   },
   argTypes: {

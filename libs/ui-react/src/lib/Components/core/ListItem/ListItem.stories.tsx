@@ -66,25 +66,6 @@ export const Base: Story = {
       </ListItemLeading>
     </ListItem>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<ListItem>
-  <ListItemLeading>
-    <Spot icon={Settings} size={density === 'compact' ? 32 : 48} />
-    <ListItemContent>
-      <ListItemTitle>Item with Icon and Description</ListItemTitle>
-      {density === 'expanded' && (
-        <ListItemDescription>Additional information</ListItemDescription>
-      )}
-    </ListItemContent>
-  </ListItemLeading>
-</ListItem>
-`,
-      },
-    },
-  },
 };
 
 export const DensityShowcase: Story = {

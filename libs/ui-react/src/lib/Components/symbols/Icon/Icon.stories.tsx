@@ -5,6 +5,7 @@ import * as Icons from '../../symbols';
 import type { IconSize } from './types';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   id: 'react-icon',
   title: 'Symbols/Interface Icons',
 } satisfies Meta;
@@ -21,47 +22,6 @@ type IconStoryProps = {
   name: IconName;
   className?: string;
   disabled?: boolean;
-};
-
-type IconCardProps = {
-  name: string;
-  size?: IconSize;
-  className?: string;
-};
-
-const IconCard = ({
-  name,
-  size = 24,
-  className = 'text-base',
-}: IconCardProps) => {
-  const [copied, setCopied] = useState(false);
-  const IconComponent = Icons[name as keyof typeof Icons];
-
-  const handleClick = async () => {
-    try {
-      await navigator.clipboard.writeText(name);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch (err) {
-      console.error('Failed to copy:', err);
-    }
-  };
-
-  return (
-    <div
-      key={name}
-      className='relative flex cursor-pointer flex-col items-center gap-2 rounded-lg p-4 transition-colors hover:bg-muted-pressed'
-      onClick={handleClick}
-    >
-      <IconComponent size={size} className={className} />
-      <span className='body-4 text-muted'>{name}</span>
-      {copied && (
-        <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-muted'>
-          <span className='body-4 text-on-accent'>Copied!</span>
-        </div>
-      )}
-    </div>
-  );
 };
 
 export const Base: StoryObj<IconStoryProps> = {
@@ -94,15 +54,6 @@ export const Base: StoryObj<IconStoryProps> = {
       </div>
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-        <Information size={24} className="text-base" />
-      `,
-      },
-    },
-  },
 };
 
 export const Sizes: StoryObj = {
@@ -112,18 +63,29 @@ export const Sizes: StoryObj = {
         <div key={size}>
           <h3 className='mb-16 heading-4'>Size {size}px</h3>
           <div className='flex max-w-fit flex-wrap gap-16 rounded-lg border border-muted-subtle p-16'>
-            {[
-              'Home',
-              'Settings',
-              'Heart',
-              'Star',
-              'ArrowDown',
-              'ArrowLeft',
-              'ArrowRight',
-              'ArrowUp',
-            ].map((iconName) => (
-              <IconCard key={iconName} name={iconName} size={size} />
-            ))}
+            {(
+              [
+                'Home',
+                'Settings',
+                'Heart',
+                'Star',
+                'ArrowDown',
+                'ArrowLeft',
+                'ArrowRight',
+                'ArrowUp',
+              ] as const
+            ).map((iconName) => {
+              const IconComponent = Icons[iconName];
+              return (
+                <div
+                  key={iconName}
+                  className='flex flex-col items-center gap-2 rounded-lg p-4'
+                >
+                  <IconComponent size={size} className='text-base' />
+                  <span className='body-4 text-muted'>{iconName}</span>
+                </div>
+              );
+            })}
           </div>
         </div>
       ))}
@@ -132,20 +94,27 @@ export const Sizes: StoryObj = {
 };
 
 export const Gallery: StoryObj = {
-  parameters: {
-    layout: 'fullscreen',
-  },
+  parameters: { layout: 'fullscreen' },
   render: () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [copiedName, setCopiedName] = useState<string | null>(null);
 
-    // Filter icons based on search term
     const filteredIcons = Object.entries(Icons).filter(([name]) =>
       name.toLowerCase().includes(searchTerm.toLowerCase()),
     );
 
+    const copyName = async (name: string) => {
+      try {
+        await navigator.clipboard.writeText(name);
+        setCopiedName(name);
+        setTimeout(() => setCopiedName(null), 1500);
+      } catch (err) {
+        console.error('Failed to copy:', err);
+      }
+    };
+
     return (
       <div className='p-8'>
-        {/* Search bar */}
         <div className='mb-32'>
           <div className='mb-8 max-w-md'>
             <SearchInput
@@ -156,7 +125,6 @@ export const Gallery: StoryObj = {
             />
           </div>
 
-          {/* Results count */}
           <div className='mb-4'>
             <span className='ml-8 body-3 text-muted'>
               {filteredIcons.length} of {Object.keys(Icons).length} icons
@@ -165,14 +133,24 @@ export const Gallery: StoryObj = {
           </div>
         </div>
 
-        {/* Icon grid */}
         <div className='grid grid-cols-[repeat(auto-fill,minmax(120px,1fr))] gap-8'>
-          {filteredIcons.map(([name]) => (
-            <IconCard key={name} name={name} />
+          {filteredIcons.map(([name, IconComponent]) => (
+            <div
+              key={name}
+              className='relative flex cursor-pointer flex-col items-center gap-2 rounded-lg p-4 transition-colors hover:bg-muted-pressed'
+              onClick={() => copyName(name)}
+            >
+              <IconComponent size={24} className='text-base' />
+              <span className='body-4 text-muted'>{name}</span>
+              {copiedName === name && (
+                <div className='absolute inset-0 flex items-center justify-center rounded-lg bg-muted'>
+                  <span className='body-4 text-on-accent'>Copied!</span>
+                </div>
+              )}
+            </div>
           ))}
         </div>
 
-        {/* No results message */}
         {filteredIcons.length === 0 && searchTerm && (
           <div className='flex flex-col items-center justify-center py-16'>
             <p className='body-2 text-muted'>

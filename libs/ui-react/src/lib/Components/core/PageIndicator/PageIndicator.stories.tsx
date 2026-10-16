@@ -9,6 +9,7 @@ const meta = {
   title: 'Core/PageIndicator',
   component: PageIndicator,
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -23,45 +24,41 @@ export default meta;
 type Story = StoryObj<typeof PageIndicator>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     currentPage: 1,
     totalPages: 5,
   },
 };
 
-const InteractiveComponent = ({ totalPages }: { totalPages: number }) => {
-  const [page, setPage] = useState(1);
-
-  return (
-    <div className='flex w-full flex-col items-center gap-16'>
-      <div className='flex flex-row items-center justify-center gap-16'>
-        <IconButton
-          icon={ArrowLeft}
-          size='xs'
-          aria-label='Previous page'
-          appearance='transparent'
-          onClick={() => setPage((v) => Math.max(1, v - 1))}
-        />
-        <span className='w-28 text-center heading-2-semi-bold text-base'>
-          {page}
-        </span>
-        <IconButton
-          icon={ArrowRight}
-          size='xs'
-          aria-label='Next page'
-          appearance='transparent'
-          onClick={() => setPage((v) => Math.min(totalPages, v + 1))}
-        />
-      </div>
-      <PageIndicator currentPage={page} totalPages={totalPages} />
-    </div>
-  );
-};
-
 export const Interactive: Story = {
-  args: {
-    currentPage: 1,
-    totalPages: 9,
+  render: () => {
+    const totalPages = 9;
+    const [page, setPage] = useState(1);
+
+    return (
+      <div className='flex w-full flex-col items-center gap-16'>
+        <div className='flex flex-row items-center justify-center gap-16'>
+          <IconButton
+            icon={ArrowLeft}
+            size='xs'
+            aria-label='Previous page'
+            appearance='transparent'
+            onClick={() => setPage((v) => Math.max(1, v - 1))}
+          />
+          <span className='w-28 text-center heading-2-semi-bold text-base'>
+            {page}
+          </span>
+          <IconButton
+            icon={ArrowRight}
+            size='xs'
+            aria-label='Next page'
+            appearance='transparent'
+            onClick={() => setPage((v) => Math.min(totalPages, v + 1))}
+          />
+        </div>
+        <PageIndicator currentPage={page} totalPages={totalPages} />
+      </div>
+    );
   },
-  render: (args) => <InteractiveComponent totalPages={args.totalPages} />,
 };

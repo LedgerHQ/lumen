@@ -55,10 +55,10 @@ import * as ComponentStories from './Component.stories';
 </Tab>
 ```
 
-- Pair each `<Source>` with a real story export. Stories keep `docs.source.type: 'dynamic'` on the meta (see `component-stories`), including showcases, so the snippet is generated from `render` and is not a second copy of the JSX.
+- Pair each `<Source>` with a real story export.
 - Do not duplicate story code as manual ` ```tsx ` blocks in the Implementation tab.
 
-See the `component-stories` skill for story setup (`type: 'dynamic'`, `Base` + `args`, naming conventions).
+See the `component-stories` skill for story setup (`Base` + `args`, naming conventions).
 
 ### Required Structure
 
@@ -87,6 +87,8 @@ import { CustomTabs, Tab, SetupNote } from '../../../../.storybook/components';
   </Tab>
 </CustomTabs>
 ```
+
+- Every component page has `<Controls of={ComponentStories.Base} />` in the Overview tab (under "Properties"), and `Base` must have `args` that its `render` applies, so the controls are live (see `component-stories`, "Controls"). Do not replace it with `<ArgTypes />`. Subcomponent tabs inside the Controls block always show "Setup controls"; that is expected.
 
 **Example**: See `Button.mdx` in ui-react or ui-rnative for reference implementation.
 

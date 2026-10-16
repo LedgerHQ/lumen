@@ -14,7 +14,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -29,17 +29,6 @@ export const Base: Story = {
     appearance: 'gray',
   },
   render: (args) => <MediaButton {...args} />,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<MediaButton appearance="gray">
-  All accounts
-</MediaButton>
-`,
-      },
-    },
-  },
 };
 
 export const SizeShowcase: Story = {

@@ -65,6 +65,7 @@ export default meta;
 type Story = StoryObj<typeof Card>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     lx: { width: 's320' },
     children: null,
@@ -91,37 +92,10 @@ export const Base: Story = {
       </CardFooter>
     </Card>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Card onPress={handlePress}>
-  <CardHeader>
-    <CardLeading>
-      <CryptoIcon ledgerId="bitcoin" ticker="BTC" size={48} />
-      <CardContent>
-        <CardContentTitle>Bitcoin</CardContentTitle>
-        <CardContentDescription>BTC</CardContentDescription>
-      </CardContent>
-    </CardLeading>
-    <CardTrailing>
-      <CardContent>
-        <CardContentTitle>$43,210.00</CardContentTitle>
-        <CardContentDescription>0.5 BTC</CardContentDescription>
-      </CardContent>
-    </CardTrailing>
-  </CardHeader>
-  <CardFooter>
-    <CardContentDescription>Balance desc</CardContentDescription>
-  </CardFooter>
-</Card>
-`,
-      },
-    },
-  },
 };
 
 export const StatesShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },
@@ -248,6 +222,7 @@ export const StatesShowcase: Story = {
 };
 
 export const FooterAppearance: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },
@@ -374,6 +349,7 @@ export const ExpandableShowcase: Story = {
 };
 
 export const LayoutShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },

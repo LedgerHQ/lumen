@@ -12,7 +12,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -30,13 +30,6 @@ export const Base: Story = {
     size: 'md',
     alt: 'Open user menu',
     onClick: () => ({}),
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<AvatarButton src="https://example.com" alt="Open user menu" onClick={openMenu} />`,
-      },
-    },
   },
 };
 

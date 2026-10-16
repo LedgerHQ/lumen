@@ -12,6 +12,9 @@ import {
 import { ReferenceLine } from './ReferenceLine';
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   component: ReferenceLine,
   id: 'react-referenceline',
   title: 'Visualization/ReferenceLine',

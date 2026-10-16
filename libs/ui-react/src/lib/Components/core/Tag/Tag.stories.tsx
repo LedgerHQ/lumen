@@ -3,6 +3,7 @@ import { Check } from '../../symbols/icons/Check';
 import { Tag } from './Tag';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Tag,
   id: 'react-tag',
   title: 'Core/Tag',
@@ -20,6 +21,7 @@ export default meta;
 type Story = StoryObj<typeof Tag>;
 
 export const Default: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     appearance: 'accent',
@@ -58,6 +60,7 @@ export const Showcase: Story = {
 };
 
 export const SizesShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex items-center gap-4'>
       <Tag size='md' label='Large Tag' />
@@ -76,6 +79,7 @@ export const ContentTypesShowcase: Story = {
 };
 
 export const TruncateShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex max-w-160 items-center gap-4'>
       <Tag label='Very long custom Tag text that should truncate' />

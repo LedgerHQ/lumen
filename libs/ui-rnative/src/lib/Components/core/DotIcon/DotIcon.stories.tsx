@@ -27,6 +27,14 @@ type Story = StoryObj<typeof DotIcon>;
 const parentSrc = 'https://crypto-icons.ledger.com/ADA.png';
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries({ ArrowDown }).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
+  },
   args: {
     appearance: 'success',
     icon: ArrowDown,

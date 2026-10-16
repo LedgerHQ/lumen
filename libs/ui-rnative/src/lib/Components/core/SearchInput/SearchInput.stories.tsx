@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
 import { View } from 'react-native';
 import { SearchInput } from './SearchInput';
-import type { SearchInputProps } from './types';
 
 const meta = {
   component: SearchInput,
@@ -11,6 +10,23 @@ const meta = {
   args: {
     appearance: 'plain',
   },
+  decorators: [
+    (Story) => (
+      <View
+        style={{
+          flex: 1,
+          minHeight: 96,
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 24,
+        }}
+      >
+        <View style={{ width: '100%', maxWidth: 400 }}>
+          <Story />
+        </View>
+      </View>
+    ),
+  ],
   parameters: {
     docs: {
       source: {
@@ -25,95 +41,104 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof SearchInput>;
 
-const SearchInputStory = (
-  args: SearchInputProps & { initialValue?: string },
-) => {
-  const [query, setQuery] = useState(args.initialValue ?? '');
-
-  return (
-    <View
-      style={{
-        flex: 1,
-        minHeight: 96,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 24,
-      }}
-    >
-      <View style={{ width: '100%', maxWidth: 400 }}>
-        <SearchInput
-          {...args}
-          value={query}
-          onChangeText={setQuery}
-          onClear={args.onClear}
-        />
-      </View>
-    </View>
-  );
-};
-
 export const Base: Story = {
-  render: (args) => <SearchInputStory {...args} />,
   args: {
+    appearance: 'plain',
     placeholder: 'Search products',
     editable: true,
     hideClearButton: false,
+  },
+  render: (args) => {
+    const [query, setQuery] = useState('');
+
+    return <SearchInput {...args} value={query} onChangeText={setQuery} />;
   },
 };
 
 export const WithContent: Story = {
-  render: (args) => <SearchInputStory {...args} initialValue='Search text' />,
-  args: {
-    placeholder: 'Search products',
-    editable: true,
-    hideClearButton: false,
+  render: () => {
+    const [query, setQuery] = useState('Search text');
+
+    return (
+      <SearchInput
+        appearance='plain'
+        placeholder='Search products'
+        editable
+        hideClearButton={false}
+        value={query}
+        onChangeText={setQuery}
+      />
+    );
   },
 };
 
 export const WithError: Story = {
-  render: (args) => (
-    <SearchInputStory {...args} initialValue='Invalid search' />
-  ),
-  args: {
-    placeholder: 'Search products',
-    helperText: 'Search term is invalid',
-    status: 'error',
-    editable: true,
-    hideClearButton: false,
+  render: () => {
+    const [query, setQuery] = useState('Invalid search');
+
+    return (
+      <SearchInput
+        appearance='plain'
+        placeholder='Search products'
+        helperText='Search term is invalid'
+        status='error'
+        editable
+        hideClearButton={false}
+        value={query}
+        onChangeText={setQuery}
+      />
+    );
   },
 };
 
 export const DisabledSearchInput: Story = {
-  render: (args) => (
-    <SearchInputStory {...args} initialValue='Disabled search' />
-  ),
-  args: {
-    placeholder: 'Search products',
-    disabled: true,
-    hideClearButton: false,
+  render: () => {
+    const [query, setQuery] = useState('Disabled search');
+
+    return (
+      <SearchInput
+        appearance='plain'
+        placeholder='Search products'
+        disabled
+        hideClearButton={false}
+        value={query}
+        onChangeText={setQuery}
+      />
+    );
   },
 };
 
 export const WithHiddenClearButton: Story = {
-  render: (args) => <SearchInputStory {...args} initialValue='Search text' />,
-  args: {
-    placeholder: 'Search products',
-    editable: true,
-    hideClearButton: true,
+  render: () => {
+    const [query, setQuery] = useState('Search text');
+
+    return (
+      <SearchInput
+        appearance='plain'
+        placeholder='Search products'
+        editable
+        hideClearButton
+        value={query}
+        onChangeText={setQuery}
+      />
+    );
   },
 };
 
 export const WithClearCallback: Story = {
-  render: (args) => (
-    <SearchInputStory
-      {...args}
-      initialValue='Click clear to see callback'
-      onClear={() => alert('Search cleared!')}
-    />
-  ),
-  args: {
-    placeholder: 'Search products',
-    editable: true,
-    hideClearButton: false,
+  render: () => {
+    const [query, setQuery] = useState('Click clear to see callback');
+
+    return (
+      <SearchInput
+        appearance='plain'
+        placeholder='Search products'
+        editable
+        hideClearButton={false}
+        value={query}
+        onChangeText={setQuery}
+        onClear={() => alert('Search cleared!')}
+      />
+    );
   },
 };

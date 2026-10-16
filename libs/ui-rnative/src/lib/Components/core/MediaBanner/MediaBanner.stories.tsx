@@ -54,6 +54,7 @@ export default meta;
 type Story = StoryObj<typeof MediaBanner>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     imageUrl: IMAGE_URL,
     children: null,
@@ -66,23 +67,10 @@ export const Base: Story = {
       </MediaBanner>
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<MediaBanner imageUrl="https://images.unsplash.com/photo-1663741954108-d15d514529ef">
-  <MediaBannerTitle>Firmware Update</MediaBannerTitle>
-  <MediaBannerDescription>
-    Keep your Nano updated!
-  </MediaBannerDescription>
-</MediaBanner>
-`,
-      },
-    },
-  },
 };
 
 export const Truncation: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     imageUrl: IMAGE_URL,
     children: null,
@@ -104,6 +92,7 @@ export const Truncation: Story = {
 };
 
 export const WithBrokenImage: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     imageUrl: IMAGE_URL,
     children: null,

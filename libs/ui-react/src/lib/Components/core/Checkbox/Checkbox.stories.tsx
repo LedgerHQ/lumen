@@ -13,7 +13,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -36,6 +36,7 @@ type Story = StoryObj<typeof Checkbox>;
 export const Base: Story = {
   args: {
     disabled: false,
+    defaultChecked: false,
   },
   render: (args) => (
     <div className='flex size-80 items-center justify-center'>

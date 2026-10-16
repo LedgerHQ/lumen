@@ -57,109 +57,47 @@ type Story = StoryObj<typeof CardButton>;
 type CardButtonAppearance = 'base' | 'outline';
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     title: 'Basic Card Button',
   },
   render: (args) => <CardButton {...args} />,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Basic Card Button"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithIcon: Story = {
-  args: {
-    appearance: 'base',
-    title: 'Settings',
-    icon: Settings,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Settings"
-  icon={Settings}
-/>
-`,
-      },
-    },
-  },
+  render: () => (
+    <CardButton appearance='base' title='Settings' icon={Settings} />
+  ),
 };
 
 export const WithDescription: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     title: 'Payment Method',
     description: 'Add or manage your payment options',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Payment Method"
-  description="Add or manage your payment options"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithoutChevron: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     title: 'Navigate Forward',
     hideChevron: true,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Navigate Forward"
-  hideChevron
-/>
-`,
-      },
-    },
-  },
 };
 
 export const FullFeatures: Story = {
-  args: {
-    appearance: 'base',
-    title: 'Account Settings',
-    description: 'Manage your account preferences and security',
-    icon: Settings,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Account Settings"
-  description="Manage your account preferences and security"
-  icon={Settings}
-/>
-`,
-      },
-    },
-  },
+  render: () => (
+    <CardButton
+      appearance='base'
+      title='Account Settings'
+      description='Manage your account preferences and security'
+      icon={Settings}
+    />
+  ),
 };
 
 export const NaturalWidth: Story = {
@@ -182,20 +120,6 @@ export const NaturalWidth: Story = {
       />
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Natural Width Example"
-  description="This card button demonstrates how it flows naturally to fill the full width of its parent container without any max-width constraints"
-  icon={CreditCard}
-/>
-`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {

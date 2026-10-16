@@ -1,4 +1,4 @@
-import { Meta, Canvas } from '@storybook/addon-docs/blocks';
+import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as SelectListStories from './SelectList.stories';
 import {
   CustomTabs,
@@ -36,6 +36,8 @@ It handles **selection state**, **automatic grouping** (via a `group` field on i
 - **SelectListSearch**: Search input that filters items by label (default) or via a custom `filter` function
 
 ## Properties
+
+<Controls of={SelectListStories.Base} />
 
 ### Grouped items
 

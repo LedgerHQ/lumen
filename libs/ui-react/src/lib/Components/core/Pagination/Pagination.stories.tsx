@@ -7,6 +7,7 @@ const meta = {
   title: 'Core/Pagination',
   component: Pagination,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'code' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -27,45 +28,54 @@ export default meta;
 
 type Story = StoryObj<typeof Pagination>;
 
-const InteractivePagination = ({
-  totalPages,
-  initialPage = 1,
-  siblingCount,
-}: {
-  totalPages: number;
-  initialPage?: number;
-  siblingCount?: number;
-}) => {
-  const [page, setPage] = useState(initialPage);
-
-  return (
-    <Pagination
-      page={page}
-      totalPages={totalPages}
-      siblingCount={siblingCount}
-      onPageChange={setPage}
-    />
-  );
-};
-
 export const Base: Story = {
-  render: () => <InteractivePagination totalPages={10} initialPage={5} />,
+  args: {
+    page: 5,
+    totalPages: 10,
+    siblingCount: 1,
+  },
+  render: (args) => {
+    const [page, setPage] = useState(args.page);
+
+    return <Pagination {...args} page={page} onPageChange={setPage} />;
+  },
 };
 
 export const FewPages: Story = {
-  render: () => <InteractivePagination totalPages={3} initialPage={2} />,
+  render: () => {
+    const [page, setPage] = useState(2);
+
+    return <Pagination page={page} totalPages={3} onPageChange={setPage} />;
+  },
 };
 
 export const FirstPage: Story = {
-  render: () => <InteractivePagination totalPages={20} initialPage={1} />,
+  render: () => {
+    const [page, setPage] = useState(1);
+
+    return <Pagination page={page} totalPages={20} onPageChange={setPage} />;
+  },
 };
 
 export const LastPage: Story = {
-  render: () => <InteractivePagination totalPages={20} initialPage={20} />,
+  render: () => {
+    const [page, setPage] = useState(20);
+
+    return <Pagination page={page} totalPages={20} onPageChange={setPage} />;
+  },
 };
 
 export const WithMoreSiblings: Story = {
-  render: () => (
-    <InteractivePagination totalPages={20} initialPage={10} siblingCount={2} />
-  ),
+  render: () => {
+    const [page, setPage] = useState(10);
+
+    return (
+      <Pagination
+        page={page}
+        totalPages={20}
+        siblingCount={2}
+        onPageChange={setPage}
+      />
+    );
+  },
 };
