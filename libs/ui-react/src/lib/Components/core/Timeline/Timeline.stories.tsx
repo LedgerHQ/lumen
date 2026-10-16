@@ -1,3 +1,4 @@
+import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from '../../symbols';
@@ -124,6 +125,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
+            <TimelineItemDescription>
+              Confirmed on device
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -141,6 +145,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Rejected</TimelineItemTitle>
+            <TimelineItemDescription>
+              Insufficient network fees.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -148,6 +155,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Confirming</TimelineItemTitle>
+            <TimelineItemDescription>
+              Waiting for confirmations.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -155,6 +165,9 @@ export const StatusShowcase: Story = {
         <TimelineItemHeader>
           <TimelineItemLeading>
             <TimelineItemTitle>Settled</TimelineItemTitle>
+            <TimelineItemDescription>
+              Funds are available.
+            </TimelineItemDescription>
           </TimelineItemLeading>
         </TimelineItemHeader>
       </TimelineItem>
@@ -176,6 +189,9 @@ export const WithCollapse: Story = {
           <TimelineItemHeader>
             <TimelineItemLeading>
               <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
+              <TimelineItemDescription>
+                Confirmed on device
+              </TimelineItemDescription>
             </TimelineItemLeading>
             <TimelineItemTrailing>
               <IconButton
@@ -190,9 +206,19 @@ export const WithCollapse: Story = {
               />
             </TimelineItemTrailing>
           </TimelineItemHeader>
-          {open ? (
-            <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
-          ) : null}
+          <div
+            aria-hidden={!open}
+            className={cn(
+              'grid transition-[grid-template-rows,opacity] duration-300 ease-out',
+              open
+                ? 'grid-rows-[1fr] opacity-100'
+                : 'grid-rows-[0fr] opacity-0',
+            )}
+          >
+            <div className='min-h-0 overflow-hidden'>
+              <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
+            </div>
+          </div>
         </TimelineItem>
         <TimelineItem status='pending'>
           <TimelineItemHeader>

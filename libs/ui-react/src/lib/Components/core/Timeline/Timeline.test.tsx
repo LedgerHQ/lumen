@@ -149,7 +149,7 @@ describe('Timeline', () => {
         'group-first/item:invisible',
       );
       expect(last?.querySelector('[data-line="out"]')).toHaveClass(
-        'group-last/item:hidden',
+        'group-last/item:invisible',
       );
     });
   });
