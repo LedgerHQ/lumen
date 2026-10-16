@@ -12,13 +12,6 @@ import {
   NavBarTrailing,
 } from './NavBar';
 
-type PlaygroundArgs = {
-  title: string;
-  showBackButton: boolean;
-  showTrailing: boolean;
-  showCoinCapsule: boolean;
-};
-
 const meta = {
   component: NavBar,
   id: 'react-navbar',
@@ -53,45 +46,21 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof NavBar>;
 
-export const Base: StoryObj<PlaygroundArgs> = {
-  args: {
-    title: 'Page Title',
-    showBackButton: true,
-    showTrailing: true,
-    showCoinCapsule: false,
-  },
-  render: ({ title, showBackButton, showTrailing, showCoinCapsule }) => (
+export const Base: Story = {
+  render: () => (
     <NavBar>
-      {showBackButton && (
-        <NavBarBackButton onClick={() => console.log('Back clicked')} />
-      )}
-      {showCoinCapsule ? (
-        <NavBarCoinCapsule
-          ticker='BTC'
-          leadingContent={
-            <CryptoIcon
-              ledgerId='bitcoin'
-              ticker='BTC'
-              size={24}
-              alt='Bitcoin'
-            />
-          }
+      <NavBarBackButton onClick={() => console.log('Back clicked')} />
+      <NavBarLeading>
+        <NavBarTitle>Page Title</NavBarTitle>
+      </NavBarLeading>
+      <NavBarTrailing>
+        <IconButton
+          appearance='gray'
+          size='sm'
+          icon={Settings}
+          aria-label='Settings'
         />
-      ) : (
-        <NavBarLeading>
-          <NavBarTitle>{title}</NavBarTitle>
-        </NavBarLeading>
-      )}
-      {showTrailing && (
-        <NavBarTrailing>
-          <IconButton
-            appearance='gray'
-            size='sm'
-            icon={Settings}
-            aria-label='Settings'
-          />
-        </NavBarTrailing>
-      )}
+      </NavBarTrailing>
     </NavBar>
   ),
 };

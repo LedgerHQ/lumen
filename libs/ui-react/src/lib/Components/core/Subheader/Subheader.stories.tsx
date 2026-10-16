@@ -37,19 +37,17 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof Subheader>;
 
-export const Base: StoryObj<{ title: string; description: string }> = {
-  args: {
-    title: 'Section Title',
-    description:
-      'This is a detailed description that provides additional context about this section.',
-  },
-  render: ({ title, description }) => (
+export const Base: Story = {
+  render: () => (
     <div className='w-400 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow>
-          <SubheaderTitle>{title}</SubheaderTitle>
+          <SubheaderTitle>Section Title</SubheaderTitle>
         </SubheaderRow>
-        <SubheaderDescription>{description}</SubheaderDescription>
+        <SubheaderDescription>
+          This is a detailed description that provides additional context about
+          this section.
+        </SubheaderDescription>
       </Subheader>
     </div>
   ),

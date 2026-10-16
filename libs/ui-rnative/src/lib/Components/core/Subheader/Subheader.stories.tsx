@@ -46,7 +46,6 @@ export default meta;
 type Story = StoryObj<typeof Subheader>;
 
 export const Base: Story = {
-  args: {},
   render: (args) => (
     <Subheader {...args}>
       <SubheaderRow>
