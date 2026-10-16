@@ -17,29 +17,25 @@ The canonical map from a path to its platform and conventions. Skills route by
 lib rather than re-describing this table; derive the touched libs from a diff
 with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 
-
-| Lib path                        | Package                                    | Platform                | Styling                                                  | Tests                                | Docs (stories / mdx / figma)                      |
-| ------------------------------- | ------------------------------------------ | ----------------------- | -------------------------------------------------------- | ------------------------------------ | ------------------------------------------------- |
-| `libs/ui-react`                 | `@ledgerhq/lumen-ui-react`                 | React web               | Tailwind + `cva` + `cn`                                  | Vitest + RTL, no wrapper             | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
-| `libs/ui-rnative`               | `@ledgerhq/lumen-ui-rnative`               | React Native            | `useStyleSheet` + themeJS + `lx`                         | Jest + RNTL, `ThemeProvider` wrapper | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
-| `libs/design-core`              | `@ledgerhq/lumen-design-core`              | Cross-platform tokens   | CSS/Tailwind tokens + JS theme objects (source of truth) | —                                    | —                                                 |
-| `libs/utils-shared`             | `@ledgerhq/lumen-utils-shared`             | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
-| `libs/lint-plugin`              | `@ledgerhq/lumen-lint-plugin`              | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
-
-
-
+| Lib path            | Package                        | Platform                | Styling                                                  | Tests                                | Docs (stories / mdx / figma)                      |
+| ------------------- | ------------------------------ | ----------------------- | -------------------------------------------------------- | ------------------------------------ | ------------------------------------------------- |
+| `libs/ui-react`     | `@ledgerhq/lumen-ui-react`     | React web               | Tailwind + `cva` + `cn`                                  | Vitest + RTL, no wrapper             | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
+| `libs/ui-rnative`   | `@ledgerhq/lumen-ui-rnative`   | React Native            | `useStyleSheet` + themeJS + `lx`                         | Jest + RNTL, `ThemeProvider` wrapper | co-located `.stories.tsx` / `.mdx` / `.figma.tsx` |
+| `libs/design-core`  | `@ledgerhq/lumen-design-core`  | Cross-platform tokens   | CSS/Tailwind tokens + JS theme objects (source of truth) | —                                    | —                                                 |
+| `libs/utils-shared` | `@ledgerhq/lumen-utils-shared` | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
+| `libs/lint-plugin`  | `@ledgerhq/lumen-lint-plugin`  | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
 
 ## Internals
 
 `internals/*` holds Nx projects that are **local/dev-only and never published**.
-Litmus test: *would a consumer of `@ledgerhq/lumen-*` ever load this code?* If
+Litmus test: _would a consumer of `@ledgerhq/lumen-_` ever load this code?\* If
 no, it belongs here — codegen, ETL, external-API sync and their input data.
 
-| Path                   | Purpose                                                                                                                  |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `internals/sync-figma` | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
-| `internals/repo-tools` | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md` |
-| `internals/adoption-tool` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md` |
+| Path                      | Purpose                                                                                                                    |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| `internals/sync-figma`    | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
+| `internals/repo-tools`    | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                           |
+| `internals/adoption-tool` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                       |
 
 Rules for adding one:
 
@@ -54,7 +50,7 @@ Rules for adding one:
   `prodConfig` is for published libs.
 - May import `scope:internal` and `scope:shared` only, and nothing under `libs/`
   or `apps/` may import it — see `depConstraints` in `eslint.config.mjs`.
-  Filesystem *writes* into libs are expected; only imports are governed.
+  Filesystem _writes_ into libs are expected; only imports are governed.
 - Run `npx nx sync` after adding one.
 
 `internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` enforces the table
@@ -75,22 +71,20 @@ questions and generators instead of guessing.
 ## Universal rules
 
 - **The codebase is the source of truth.** Read the file you're touching and one
-neighbor that shows the local convention before writing. Reading beats guessing.
+  neighbor that shows the local convention before writing. Reading beats guessing.
 - **Load the matching skill before non-trivial work.** Skills (below) are the
-authoritative conventions; when a skill conflicts with this file, the skill wins.
-- **Comments explain intent, not mechanics.** Comment the *why* (trade-offs,
+  authoritative conventions; when a skill conflicts with this file, the skill wins.
+- **Comments explain intent, not mechanics.** Comment the _why_ (trade-offs,
   gotchas, constraints), never restate the code. Prefer clear names over comments. Comment only when necessary, prevent verbose comment.
 - **JSDoc must not restate TypeScript.** Do not list union/literal values in
   JSDoc (e.g. `- \`'plain'\`: …`). Types and JSDoc parsers already surface them.
 - **American English** everywhere (code, comments, docs, tests): `color`, `behavior`, `canceled`.
 - **Explicit return types** on module-level functions (helps future readers and
-agents). Exception: components returning JSX.
+  agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
-an Nx version plan in `.nx/version-plans/` — bump type always `patch`, one
-package per file (see the `release-plan` skill). `internals/*` is never
-published, so changes there need no plan.
-
-
+  an Nx version plan in `.nx/version-plans/` — bump type always `patch`, one
+  package per file (see the `release-plan` skill). `internals/*` is never
+  published, so changes there need no plan.
 
 ## Skills index
 
@@ -132,62 +126,62 @@ frontmatter controls auto-attach.
 
 ### Process
 
-| When…                                                                     | Skill                    |
-| ------------------------------------------------------------------------- | ------------------------ |
-| creating DLS Jira tickets (bug, task, epic from the scope spreadsheet)    | `jira-ticket`            |
-| opening a PR from the current branch (manual — run `/open-pr`)            | `open-pr`                |
-| reviewing a PR, a branch, or code changes                                 | `pr-review`              |
-| generating an Nx version plan (`.nx/version-plans/`)                      | `release-plan`           |
-| announcing a shipped release in Slack from a GitHub Releases dump         | `release-notes-slack`    |
+| When…                                                                  | Skill                 |
+| ---------------------------------------------------------------------- | --------------------- |
+| creating DLS Jira tickets (bug, task, epic from the scope spreadsheet) | `jira-ticket`         |
+| opening a PR from the current branch (manual — run `/open-pr`)         | `open-pr`             |
+| reviewing a PR, a branch, or code changes                              | `pr-review`           |
+| generating an Nx version plan (`.nx/version-plans/`)                   | `release-plan`        |
+| announcing a shipped release in Slack from a GitHub Releases dump      | `release-notes-slack` |
 
 ### Discovery
 
-| When…                                                                     | Skill                    |
-| ------------------------------------------------------------------------- | ------------------------ |
-| comparing how other design systems handle a component, name, token or pattern (shareable report) | `ds-discovery` |
-| testing a breaking/architectural change or a usage scan across consumer repos (shareable report) | `consumer-impact` |
-| checking Lumen version adoption across consumer repos                     | `lumen-adoption-report`  |
-| researching an external library/framework                                 | `context7`               |
+| When…                                                                                            | Skill                    |
+| ------------------------------------------------------------------------------------------------ | ------------------------ |
+| comparing how other design systems handle a component, name, token or pattern (shareable report) | `ds-discovery`           |
+| testing a breaking/architectural change or a usage scan across consumer repos (shareable report) | `consumer-impact`        |
+| checking Lumen version adoption across consumer repos                                            | `lumen-adoption-report`  |
+| researching an external library/framework                                                        | `context7`               |
+| upgrading a consumer repo to the latest Lumen (manual — run `/lumen-consumer-upgrade`)           | `lumen-consumer-upgrade` |
 
 ## How this is wired (maintainers)
 
 One source, no duplication:
 
 - `AGENTS.md` (this file) is the canonical always-on core. Cursor and Copilot
-read it natively; Claude Code reads it via `CLAUDE.md` → `@AGENTS.md`.
+  read it natively; Claude Code reads it via `CLAUDE.md` → `@AGENTS.md`.
 - `.claude/skills/` is the single skills tree, consumed by Claude Code,
-Cursor, and GitHub Copilot code review (it reads the skills tree and `AGENTS.md`
-from the PR head branch). A single `.github/instructions/*` file
-(`applyTo: "**"`) is a thin, ruleless hook that routes Copilot review into the
-`pr-review` skill — no per-skill restatements. `.claude/agents/` (subagents)
-is shared by Claude Code and Cursor.
+  Cursor, and GitHub Copilot code review (it reads the skills tree and `AGENTS.md`
+  from the PR head branch). A single `.github/instructions/*` file
+  (`applyTo: "**"`) is a thin, ruleless hook that routes Copilot review into the
+  `pr-review` skill — no per-skill restatements. `.claude/agents/` (subagents)
+  is shared by Claude Code and Cursor.
 - **Internal vs published skills.** `.claude/skills/` is the **internal** tree —
-skills for people *building* Lumen (maintainers). A future top-level `skills/`
-tree will hold **published**, consumer-facing skills for people *using* Lumen
-in their apps — versioned, with `evals/` and a `## Performance` section per
-README, following the [CDS](https://github.com/coinbase/cds) layout. Nothing is
-published yet; the boundary is reserved. Name internal skills for the
-maintainer task (`component-styling`, `component-anatomy`), leaving
-consumer-facing names (e.g. `lumen-code`) free for the published tree.
+  skills for people _building_ Lumen (maintainers). A future top-level `skills/`
+  tree will hold **published**, consumer-facing skills for people _using_ Lumen
+  in their apps — versioned, with `evals/` and a `## Performance` section per
+  README, following the [CDS](https://github.com/coinbase/cds) layout. Nothing is
+  published yet; the boundary is reserved. Name internal skills for the
+  maintainer task (`component-styling`, `component-anatomy`), leaving
+  consumer-facing names (e.g. `lumen-code`) free for the published tree.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
-`.github/instructions/*`) are thin pointers/wrappers — they must not restate
-content. The `internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` drift
-check (run in CI as the
-`agent-drift` job via `npm run check:agent-docs`) enforces the mechanical
-invariants: the AGENTS.md index and the skill folders stay in bijection,
-inter-skill references resolve, cited repo paths exist, no skill hardcodes a
-stale tool version, every skill's `paths:` globs still match at least one file,
-the Libraries table matches the libs on disk (path + package name), every
-`internals/*` project matches the Internals table and its four rules, and
-`.mcp.json` and `.cursor/mcp.json` stay in parity.
+  `.github/instructions/*`) are thin pointers/wrappers — they must not restate
+  content. The `internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` drift
+  check (run in CI as the
+  `agent-drift` job via `npm run check:agent-docs`) enforces the mechanical
+  invariants: the AGENTS.md index and the skill folders stay in bijection,
+  inter-skill references resolve, cited repo paths exist, no skill hardcodes a
+  stale tool version, every skill's `paths:` globs still match at least one file,
+  the Libraries table matches the libs on disk (path + package name), every
+  `internals/*` project matches the Internals table and its four rules, and
+  `.mcp.json` and `.cursor/mcp.json` stay in parity.
 - **MCP servers are the one exception to "no duplication":** each tool hardcodes
-its own project-scoped path (Claude Code → `.mcp.json`, Cursor →
-`.cursor/mcp.json`), so these files are kept in parallel and synced by hand —
-edit both when adding or changing a server. Expected differences: the `type`
-field (Claude states it explicitly; Cursor infers it from `url`) and OAuth
-settings (`oauth` for Claude, `auth` for Cursor). A server that needs a
-per-person OAuth client secret lives only in `.cursor/mcp.json`; Claude Code
-users add it once at user scope, because Claude Code stores the secret only at
-`claude mcp add` time and a `.mcp.json` entry would shadow theirs. Setup steps:
-`docs/mcp-servers.md`.
-
+  its own project-scoped path (Claude Code → `.mcp.json`, Cursor →
+  `.cursor/mcp.json`), so these files are kept in parallel and synced by hand —
+  edit both when adding or changing a server. Expected differences: the `type`
+  field (Claude states it explicitly; Cursor infers it from `url`) and OAuth
+  settings (`oauth` for Claude, `auth` for Cursor). A server that needs a
+  per-person OAuth client secret lives only in `.cursor/mcp.json`; Claude Code
+  users add it once at user scope, because Claude Code stores the secret only at
+  `claude mcp add` time and a `.mcp.json` entry would shadow theirs. Setup steps:
+  `docs/mcp-servers.md`.
