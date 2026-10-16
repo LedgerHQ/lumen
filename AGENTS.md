@@ -82,9 +82,7 @@ authoritative conventions; when a skill conflicts with this file, the skill wins
   gotchas, constraints), never restate the code. Prefer clear names over comments. Comment only when necessary, prevent verbose comment.
 - **JSDoc must not restate TypeScript.** Do not list union/literal values in
   JSDoc (e.g. `- \`'plain'\`: …`). Types and JSDoc parsers already surface them.
-- **American English** in code, comments, docs and tests (`color`, `center`,
-  `behavior`, `canceled`, `customize`). Never British variants (`colour`,
-  `centre`, `behaviour`, `cancelled`, `customise`).
+- **American English** everywhere (code, comments, docs, tests): `color`, `behavior`, `canceled`.
 - **Explicit return types** on module-level functions (helps future readers and
 agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
