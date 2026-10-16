@@ -38,7 +38,7 @@ export type MediaButtonProps = {
   /**
    * The native button `type`. Defaults to `'button'` so the media button does
    * not accidentally submit a surrounding `<form>`. Set `'submit'` or `'reset'`
-   * to opt into form behaviour. Ignored when `asChild` is used, since the
+   * to opt into form behavior. Ignored when `asChild` is used, since the
    * rendered element (e.g. an anchor) is not a native button.
    * @default 'button'
    */

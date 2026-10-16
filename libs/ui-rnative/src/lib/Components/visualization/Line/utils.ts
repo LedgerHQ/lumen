@@ -44,7 +44,7 @@ const getCurveFactory = (curve: CurveType = DEFAULT_CURVE): CurveFactory =>
  * Project series data into scaled [x, y] pixel coordinates.
  *
  * When `xData` contains numeric values, those values are fed into the scale
- * instead of the array index so the points honour a numeric X domain.
+ * instead of the array index so the points honor a numeric X domain.
  *
  * When `xData` is provided, iteration is capped at `xData.length` so a series
  * with more points than the axis has labels does not overflow past the right

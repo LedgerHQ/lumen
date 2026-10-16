@@ -72,7 +72,7 @@ export const resolveDataXToIndex = (
 
 /**
  * Computes the label's horizontal placement, keeping it inside the drawing area
- * near the left/right edges. Centred on the point when it fits; otherwise
+ * near the left/right edges. Centered on the point when it fits; otherwise
  * anchored to the edge and aligned with the arrow's outer vertex (offset by half
  * the arrow width from the point, when an arrow is rendered).
  */

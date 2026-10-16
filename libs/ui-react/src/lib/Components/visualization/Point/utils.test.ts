@@ -125,7 +125,7 @@ describe('computeLabelX', () => {
   const area = { x: 100, y: 0, width: 200, height: 100 };
   const halfArrow = point.arrowWidth / 2;
 
-  it('centres the label on the point when clamping is disabled', () => {
+  it('centers the label on the point when clamping is disabled', () => {
     expect(
       computeLabelX(105, 'A very long label', area, 'center', true),
     ).toEqual({
@@ -134,7 +134,7 @@ describe('computeLabelX', () => {
     });
   });
 
-  it('centres the label on the point when it fits inside the bounds', () => {
+  it('centers the label on the point when it fits inside the bounds', () => {
     expect(computeLabelX(200, 'Peak', area, 'auto', true)).toEqual({
       x: 200,
       textAnchor: 'middle',

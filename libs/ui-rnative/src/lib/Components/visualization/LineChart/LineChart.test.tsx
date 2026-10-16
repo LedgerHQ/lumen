@@ -359,7 +359,7 @@ describe('LineChart', () => {
       expect(countMoves(d)).toBe(1);
     });
 
-    it('honours connectNulls set per-series', () => {
+    it('honors connectNulls set per-series', () => {
       const { getByTestId } = render(
         <LineChartWrapper>
           <LineChart

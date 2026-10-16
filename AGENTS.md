@@ -75,13 +75,14 @@ questions and generators instead of guessing.
 ## Universal rules
 
 - **The codebase is the source of truth.** Read the file you're touching and one
-neighbour that shows the local convention before writing. Reading beats guessing.
+neighbor that shows the local convention before writing. Reading beats guessing.
 - **Load the matching skill before non-trivial work.** Skills (below) are the
 authoritative conventions; when a skill conflicts with this file, the skill wins.
 - **Comments explain intent, not mechanics.** Comment the *why* (trade-offs,
   gotchas, constraints), never restate the code. Prefer clear names over comments. Comment only when necessary, prevent verbose comment.
 - **JSDoc must not restate TypeScript.** Do not list union/literal values in
   JSDoc (e.g. `- \`'plain'\`: …`). Types and JSDoc parsers already surface them.
+- **American English** everywhere (code, comments, docs, tests): `color`, `behavior`, `canceled`.
 - **Explicit return types** on module-level functions (helps future readers and
 agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires

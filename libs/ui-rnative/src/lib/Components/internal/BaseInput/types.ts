@@ -110,7 +110,7 @@ export type BaseInputLabelProps = {
    */
   showClearButton: boolean;
   /**
-   * Whether the input is editable, driving the disabled label colour.
+   * Whether the input is editable, driving the disabled label color.
    */
   isEditable: boolean;
   /**

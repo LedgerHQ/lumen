@@ -16,7 +16,7 @@ export type ScrubbingOptions = {
   /**
    * Enables scrubbing (hover/touch/keyboard) interactions on the chart.
    * When true, the SVG becomes focusable; add a `<Scrubber>` child to
-   * visualise the interaction.
+   * visualize the interaction.
    * @default false
    */
   enableScrubbing?: boolean;

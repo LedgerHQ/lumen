@@ -24,7 +24,7 @@ const geometries: {
   chrome: number;
 }[] = [
   {
-    name: 'labelled',
+    name: 'labeled',
     props: { label: 'Note' },
     lineHeight: body2.lineHeight,
     suffixOffset: spacings.s8,
@@ -32,7 +32,7 @@ const geometries: {
     chrome: spacings.s16 + 2 * spacings.s6,
   },
   {
-    name: 'unlabelled',
+    name: 'unlabeled',
     props: {},
     lineHeight: body1.lineHeight,
     suffixOffset: spacings.s2,

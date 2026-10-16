@@ -275,7 +275,7 @@ describe('DonutChart', () => {
       expect(onActiveIdChange).not.toHaveBeenCalled();
     });
 
-    it('ignores a rejected/cancelled tap even over a segment', () => {
+    it('ignores a rejected/canceled tap even over a segment', () => {
       const onActiveIdChange = jest.fn();
       const { getByTestId } = renderDonut({ onActiveIdChange });
 

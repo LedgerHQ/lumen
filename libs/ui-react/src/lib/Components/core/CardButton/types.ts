@@ -28,7 +28,7 @@ export type CardButtonProps = {
   /**
    * The native button `type`. Defaults to `'button'` so the card button does
    * not accidentally submit a surrounding `<form>`. Set `'submit'` or `'reset'`
-   * to opt into form behaviour.
+   * to opt into form behavior.
    * @default 'button'
    */
   type?: 'button' | 'submit' | 'reset';
