@@ -83,30 +83,6 @@ export const Base: Story = {
       </TileContent>
     </Tile>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Tile 
-  appearance="no-background" 
-  className="w-112"
-  onClick={() => console.log('tile clicked')}
-  secondaryAction={
-    <Menu>
-      <MenuTrigger render={<TileSecondaryAction icon={MoreVertical} onClick={() => console.log('secondary action clicked')} />} />
-    </Menu>
-  }
-  >
-  <Spot icon={Settings} />
-  <TileContent>
-    <TileTitle>Item with Spot and Description</TileTitle>
-    <TileDescription>Additional information</TileDescription>
-  </TileContent>
-</Tile>
-`,
-      },
-    },
-  },
 };
 
 export const VariantsShowcase: Story = {

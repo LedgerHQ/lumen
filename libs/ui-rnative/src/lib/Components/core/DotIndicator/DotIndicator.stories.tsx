@@ -36,12 +36,14 @@ export default meta;
 type Story = StoryObj<typeof DotIndicator>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
   },
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotIndicator size='sm' />
@@ -53,6 +55,7 @@ export const SizeShowcase: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's12' }}>
       <DotIndicator appearance='base' />

@@ -14,6 +14,7 @@ const iconOptions = {
 };
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: TileButton,
   id: 'rnative-tilebutton',
   title: 'Core/TileButton',
@@ -37,18 +38,19 @@ export default meta;
 type Story = StoryObj<typeof TileButton>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries(iconOptions).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
+  },
   args: {
     icon: Settings,
     children: 'Settings',
   },
   render: (args) => <TileButton {...args} />,
-  parameters: {
-    docs: {
-      source: {
-        code: `<TileButton icon={Settings} onPress={() => {}}>Settings</TileButton>`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {

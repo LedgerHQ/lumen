@@ -10,7 +10,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -43,15 +43,6 @@ export const Base: Story = {
       </div>
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Divider />
-`,
-      },
-    },
-  },
 };
 
 export const OrientationShowcase: Story = {
@@ -76,19 +67,6 @@ export const OrientationShowcase: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Horizontal divider
-<Divider orientation="horizontal" />
-
-// Vertical divider
-<Divider orientation="vertical" className="h-48" />
-`,
-      },
-    },
-  },
 };
 
 export const InList: Story = {
@@ -110,19 +88,4 @@ export const InList: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<div className="flex flex-col rounded-lg border border-muted">
-  <div className="p-16">Item 1</div>
-  <Divider />
-  <div className="p-16">Item 2</div>
-  <Divider />
-  <div className="p-16">Item 3</div>
-</div>
-`,
-      },
-    },
-  },
 };

@@ -12,13 +12,6 @@ import {
   NavBarTrailing,
 } from './NavBar';
 
-type PlaygroundArgs = {
-  title: string;
-  showBackButton: boolean;
-  showTrailing: boolean;
-  showCoinCapsule: boolean;
-};
-
 const meta = {
   component: NavBar,
   id: 'react-navbar',
@@ -53,33 +46,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof NavBar>;
 
-export const Base: StoryObj<PlaygroundArgs> = {
-  args: {
-    title: 'Page Title',
-  },
-
-  parameters: {
-    docs: {
-      source: {
-        code: `
-        <NavBar>
-        <NavBarBackButton onClick={() => navigate(-1)} />
-        <NavBarLeading>
-          <NavBarTitle>Page Title</NavBarTitle>
-        </NavBarLeading>
-        <NavBarTrailing>
-          <IconButton
-            appearance="gray"
-            size="sm"
-            icon={Settings}
-            aria-label="Settings"
-          />
-        </NavBarTrailing>
-      </NavBar>
-      `,
-      },
-    },
-  },
+export const Base: Story = {
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
@@ -99,6 +66,7 @@ export const Base: StoryObj<PlaygroundArgs> = {
 };
 
 export const WithDescription: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
@@ -108,24 +76,10 @@ export const WithDescription: Story = {
       </NavBarLeading>
     </NavBar>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<NavBar>
-  <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarLeading>
-    <NavBarTitle>Page Title</NavBarTitle>
-    <NavBarDescription>Page Description</NavBarDescription>
-  </NavBarLeading>
-</NavBar>
-        `,
-      },
-    },
-  },
 };
 
 export const WithoutTrailing: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <NavBar>
       <NavBarBackButton onClick={() => console.log('Back clicked')} />
@@ -134,18 +88,6 @@ export const WithoutTrailing: Story = {
       </NavBarLeading>
     </NavBar>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<NavBar>
-  <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarTitle>Settings</NavBarTitle>
-</NavBar>
-        `,
-      },
-    },
-  },
 };
 
 export const WithoutTitle: Story = {
@@ -162,25 +104,6 @@ export const WithoutTitle: Story = {
       </NavBarTrailing>
     </NavBar>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<NavBar>
-  <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarTrailing>
-    <IconButton
-      appearance="gray"
-      size="sm"
-      icon={Settings}
-      aria-label="Settings"
-    />
-  </NavBarTrailing>
-</NavBar>
-        `,
-      },
-    },
-  },
 };
 
 export const WithMultipleTrailingActions: Story = {
@@ -206,34 +129,6 @@ export const WithMultipleTrailingActions: Story = {
       </NavBarTrailing>
     </NavBar>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<NavBar>
-  <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarLeading>
-  <NavBarTitle>Account Details</NavBarTitle>
-  </NavBarLeading>
-  <NavBarTrailing>
-    <IconButton
-      appearance="no-background"
-      size="sm"
-      icon={Settings}
-      aria-label="Settings"
-    />
-    <IconButton
-      appearance="gray"
-      size="sm"
-      icon={MoreHorizontal}
-      aria-label="More options"
-    />
-  </NavBarTrailing>
-</NavBar>
-        `,
-      },
-    },
-  },
 };
 
 export const WithCoinCapsule: Story = {
@@ -257,27 +152,4 @@ export const WithCoinCapsule: Story = {
       </NavBarTrailing>
     </NavBar>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import { NavBar, NavBarBackButton, NavBarCoinCapsule, NavBarTrailing, IconButton } from '@ledgerhq/lumen-ui-react';
-
-<NavBar>
-  <NavBarBackButton onClick={() => navigate(-1)} />
-  <NavBarCoinCapsule ticker="BTC" leadingContent={<CryptoIcon ledgerId="bitcoin" ticker="BTC" size={24} />} />
-  <NavBarTrailing>
-    <IconButton
-      appearance="gray"
-      size="sm"
-      icon={MoreHorizontal}
-      aria-label="More options"
-    />
-  </NavBarTrailing>
-</NavBar>
-        `,
-      },
-    },
-  },
 };

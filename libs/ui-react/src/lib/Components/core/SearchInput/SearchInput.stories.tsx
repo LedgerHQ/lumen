@@ -34,15 +34,9 @@ type Story = StoryObj<typeof SearchInput>;
  * The default search component with a search icon prefix and automatic clear button functionality.
  */
 export const Default: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Search text',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<SearchInput placeholder="Search text" />',
-      },
-    },
   },
 };
 
@@ -50,16 +44,10 @@ export const Default: Story = {
  * Empty search showing placeholder text.
  */
 export const Empty: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Search text',
     className: 'max-w-md',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<SearchInput placeholder="Search text" className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -67,17 +55,11 @@ export const Empty: Story = {
  * Search with content showing the clear button.
  */
 export const WithContent: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Search text',
     defaultValue: 'Search text',
     className: 'max-w-md',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<SearchInput placeholder="Search text" defaultValue="Search text" className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -85,18 +67,12 @@ export const WithContent: Story = {
  * Disabled search input.
  */
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Search text',
     disabled: true,
     defaultValue: 'Disabled input',
     className: 'max-w-md',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: '<SearchInput placeholder="Search text" disabled defaultValue="Disabled input" className="max-w-md" />',
-      },
-    },
   },
 };
 
@@ -104,6 +80,7 @@ export const Disabled: Story = {
  * Search in error state with error message.
  */
 export const Error: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Search text',
     defaultValue: 'Invalid search',
@@ -111,19 +88,6 @@ export const Error: Story = {
     status: 'error',
     className: 'max-w-md',
     'aria-label': 'Search',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<SearchInput 
-  placeholder="Search text"
-  defaultValue="Invalid search"
-  helperText="Search term is invalid"
-  status="error"
-  className="max-w-md"
-/>`,
-      },
-    },
   },
 };
 

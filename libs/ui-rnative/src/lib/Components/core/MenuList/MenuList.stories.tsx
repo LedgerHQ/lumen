@@ -17,7 +17,7 @@ const meta = {
   subcomponents: { MenuListItem, MenuListSwitchItem },
   parameters: {
     docs: {
-      source: { language: 'tsx', format: true, type: 'dynamic' },
+      source: { language: 'tsx', format: true, type: 'code' },
     },
   },
 } satisfies Meta<typeof MenuList>;
@@ -41,6 +41,12 @@ export const Base: Story = {
 
 export const ItemShowcase: StoryObj<typeof MenuListItem> = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries(iconMap).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -89,6 +95,12 @@ export const AppearanceShowcase: Story = {
 
 export const SwitchItemShowcase: StoryObj<typeof MenuListSwitchItem> = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries(iconMap).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },

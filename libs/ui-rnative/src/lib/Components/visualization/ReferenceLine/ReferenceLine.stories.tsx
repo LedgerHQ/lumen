@@ -15,6 +15,9 @@ const sampleSeries = [
 ];
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'code' } },
+  },
   component: ReferenceLine,
   id: 'rnative-referenceline',
   title: 'Visualization/ReferenceLine',
@@ -32,6 +35,7 @@ type Story = StoryObj<typeof ReferenceLine>;
 
 export const HorizontalLine: Story = {
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -50,6 +54,7 @@ export const HorizontalLine: Story = {
 
 export const VerticalLine: Story = {
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },

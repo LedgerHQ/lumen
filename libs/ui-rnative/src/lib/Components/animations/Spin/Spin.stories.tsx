@@ -9,6 +9,7 @@ const meta = {
   title: 'Primitives/Spin',
   component: Spin,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     layout: 'centered',
   },
 } satisfies Meta<typeof Spin>;

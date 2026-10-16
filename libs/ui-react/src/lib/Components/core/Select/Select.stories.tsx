@@ -36,6 +36,7 @@ const meta = {
     SelectEmptyState,
   },
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },

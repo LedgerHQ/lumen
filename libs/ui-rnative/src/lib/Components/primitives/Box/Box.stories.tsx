@@ -10,7 +10,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -26,23 +26,6 @@ export const Base: Story = {
       width: 's48',
       backgroundColor: 'accent',
       borderRadius: 'md',
-    },
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Box
-  lx={{
-    height: 's48',
-    width: 's48',
-    backgroundColor: 'accent',
-    borderRadius: 'md',
-    alignSelf: 'center',
-  }}
-/>
-`,
-      },
     },
   },
 };

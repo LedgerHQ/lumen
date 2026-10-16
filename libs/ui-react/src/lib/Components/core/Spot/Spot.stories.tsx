@@ -27,7 +27,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -49,6 +49,14 @@ export default meta;
 type Story = StoryObj<typeof Spot>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries({ Settings }).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
+  },
   args: {
     icon: Settings,
   },
@@ -179,6 +187,7 @@ export const WithDotSymbol: Story = {
 };
 
 export const WithNumber: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     return (
       <div className='flex flex-col gap-32 p-16'>

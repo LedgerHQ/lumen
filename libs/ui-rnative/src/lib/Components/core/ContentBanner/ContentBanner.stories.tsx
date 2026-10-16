@@ -65,23 +65,6 @@ export const Base: Story = {
       </ContentBanner>
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<ContentBanner>
-  <Spot icon={Settings} size={48} />
-  <ContentBannerContent>
-    <ContentBannerTitle>Content Banner</ContentBannerTitle>
-    <ContentBannerDescription>
-      This is a description for the content banner.
-    </ContentBannerDescription>
-  </ContentBannerContent>
-</ContentBanner>
-`,
-      },
-    },
-  },
 };
 
 export const WithClose: Story = {
@@ -180,6 +163,7 @@ export const ContentVariationsShowcase: Story = {
 };
 
 export const WithStepper: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },

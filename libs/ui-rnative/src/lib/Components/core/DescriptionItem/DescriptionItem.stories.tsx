@@ -46,6 +46,7 @@ export default meta;
 type Story = StoryObj<typeof DescriptionItem>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
     size: 'md',
@@ -63,6 +64,7 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
     size: 'md',
@@ -109,6 +111,7 @@ export const SizeShowcase: Story = {
 };
 
 export const TrailingVariants: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },
@@ -197,6 +200,7 @@ export const WithInfoIcon: Story = {
 };
 
 export const PriorityShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     children: null,
   },

@@ -47,6 +47,7 @@ export default meta;
 type Story = StoryObj<typeof MediaBanner>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     imageUrl: IMAGE_URL,
   },
@@ -61,6 +62,7 @@ export const Base: Story = {
 };
 
 export const Truncation: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='w-400'>
       <MediaBanner imageUrl={IMAGE_URL} onClose={() => console.log('close')}>
@@ -78,6 +80,7 @@ export const Truncation: Story = {
 };
 
 export const WithBrokenImage: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='w-400'>
       <MediaBanner

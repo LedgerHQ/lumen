@@ -39,7 +39,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -53,6 +53,7 @@ export const Base: Story = {
     status: 'idle',
   },
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -93,6 +94,7 @@ export const Base: Story = {
 
 export const WithInformative: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -120,6 +122,7 @@ export const WithInformative: Story = {
 
 export const StatusShowcase: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -217,6 +220,7 @@ export const WithCollapse: Story = {
 
 export const ResponsivenessShowcase: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },

@@ -25,6 +25,9 @@ export default meta;
 type Story = StoryObj<typeof LinearGradient>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   args: {
     direction: 'to-bottom',
     stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
@@ -37,6 +40,9 @@ export const Base: Story = {
 };
 
 export const DirectionShowcase: Story = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   args: {
     stops: [{ color: 'accent' }, { color: 'active', opacity: 0 }],
   },
@@ -78,6 +84,9 @@ export const DirectionShowcase: Story = {
 };
 
 export const WithChildren: Story = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   args: {
     direction: 'to-bottomright',
     stops: [{ color: 'accent' }, { color: 'active', opacity: 0, offset: 0.75 }],
@@ -104,6 +113,9 @@ export const WithChildren: Story = {
 };
 
 export const WithMultipleStops: Story = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   args: {
     direction: 'to-right',
     stops: [

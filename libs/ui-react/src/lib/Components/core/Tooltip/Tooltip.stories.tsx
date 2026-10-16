@@ -45,13 +45,18 @@ export default meta;
 type Story = StoryObj<typeof TooltipContent>;
 
 export const Basic: Story = {
-  render: () => (
+  args: {
+    children: 'This is a basic tooltip',
+    side: 'top',
+    sideOffset: 0,
+  },
+  render: (args) => (
     <div className='flex h-256 items-center justify-center'>
       <Tooltip>
         <TooltipTrigger asChild>
           <Button>Hover me</Button>
         </TooltipTrigger>
-        <TooltipContent>This is a basic tooltip</TooltipContent>
+        <TooltipContent {...args} />
       </Tooltip>
     </div>
   ),

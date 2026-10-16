@@ -28,6 +28,7 @@ const parentSrc = 'https://crypto-icons.ledger.com/ADA.png';
 const dotSrc = 'https://crypto-icons.ledger.com/BTC.png';
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     src: dotSrc,
     alt: 'Ethereum network',
@@ -79,6 +80,7 @@ export const PinShowcase: Story = {
 };
 
 export const ShapeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { src: dotSrc, alt: 'Shape showcase' },
   render: () => (
     <Box lx={{ flexDirection: 'column', alignItems: 'center', gap: 's48' }}>
@@ -112,6 +114,7 @@ export const DisabledShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { src: dotSrc, alt: 'Size showcase' },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's40' }}>

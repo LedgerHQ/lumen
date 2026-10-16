@@ -58,99 +58,45 @@ type Story = StoryObj<typeof Link>;
 type LinkAppearance = 'base' | 'accent' | 'gray';
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     size: 'md',
     children: 'Base Link',
     href: 'https://ledger.com',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link appearance="base" href="https://ledger.com">
-  Base Link
-</Link>
-`,
-      },
-    },
-  },
 };
 
 export const WithIcon: Story = {
-  args: {
-    appearance: 'base',
-    children: 'Link with Icon',
-    icon: Information,
-    href: 'https://ledger.com',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link
-  appearance="base"
-  icon={Information}
-  href="https://ledger.com"
->
-  Link with Icon
-</Link>
-`,
-      },
-    },
-  },
+  render: () => (
+    <Link appearance='base' icon={Information} href='https://ledger.com'>
+      Link with Icon
+    </Link>
+  ),
 };
 
 export const External: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     children: 'External Link',
     isExternal: true,
     href: 'https://ledger.com',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link
-  appearance="base"
-  isExternal
-  href="https://ledger.com"
->
-  External Link
-</Link>
-`,
-      },
-    },
-  },
 };
 
 export const ExternalLinkWithIcon: Story = {
-  args: {
-    appearance: 'base',
-    size: 'md',
-    children: 'External Link with Icon',
-    icon: Information,
-    isExternal: true,
-    href: 'https://ledger.com',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link
-  appearance="base"
-  size="md"
-  icon={Information}
-  isExternal
-  href="https://ledger.com"
->
-  External Link with Icon
-</Link>
-`,
-      },
-    },
-  },
+  render: () => (
+    <Link
+      appearance='base'
+      size='md'
+      icon={Information}
+      isExternal
+      href='https://ledger.com'
+    >
+      External Link with Icon
+    </Link>
+  ),
 };
 
 export const AppearanceShowcase: Story = {
@@ -181,6 +127,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const UnderlineShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16', padding: 's8' }}>
       <Link appearance='accent' size='md' href='https://ledger.com'>
@@ -334,43 +281,10 @@ export const WithCustomNavigation: Story = {
       </Box>
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-import { useNavigation } from '@react-navigation/native';
-
-function MyComponent() {
-  const navigation = useNavigation();
-  
-  return (
-    <>
-      <Link
-        appearance="base"
-        size="md"
-        onPress={() => navigation.navigate('Dashboard')}
-      >
-        Navigate to Dashboard
-      </Link>
-      
-      <Link
-        appearance="accent"
-        size="md"
-        icon={ArrowRight}
-        onPress={() => navigation.navigate('Next')}
-      >
-        Continue to Next Screen
-      </Link>
-    </>
-  );
-}
-`,
-      },
-    },
-  },
 };
 
 export const InTextUsage: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's32', padding: 's8' }}>
       <Text typography='body2' lx={{ color: 'base' }}>
@@ -405,44 +319,4 @@ export const InTextUsage: Story = {
       </Text>
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Links within text content
-<Text typography='body2' lx={{ color: 'base' }}>
-  By continuing, you agree to our{' '}
-  <Link appearance='base' size='sm' href='https://ledger.com/terms'>
-    Terms & Conditions
-  </Link>{' '}
-  and{' '}
-  <Link appearance='base' size='sm' href='https://ledger.com/privacy'>
-    Privacy Policy
-  </Link>.
-</Text>
-
-// Heading with inline link
-<Text typography='body1SemiBold' lx={{ color: 'interactive' }}>
-  Need help?{' '}
-  <Link appearance='accent' size='md' href='https://ledger.com/support'>
-    Contact Support
-  </Link>
-</Text>
-
-// Bold text with ununderlined link
-<Text typography='body1SemiBold' lx={{ color: 'base' }}>
-  Already have an account?{' '}
-  <Link
-    appearance='accent'
-    size='md'
-    underline={false}
-    href='https://ledger.com/signin'
-  >
-    Sign in
-  </Link>
-</Text>
-`,
-      },
-    },
-  },
 };

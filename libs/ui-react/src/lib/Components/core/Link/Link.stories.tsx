@@ -37,6 +37,7 @@ type Story = StoryObj<typeof Link>;
 type LinkAppearance = 'base' | 'accent' | 'gray' | 'inherit';
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     size: 'md',
@@ -44,47 +45,24 @@ export const Base: Story = {
     href: '#',
     onClick,
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link appearance="base" href="#">
-  Base Link
-</Link>
-`,
-      },
-    },
-  },
 };
 
 export const WithIcon: Story = {
-  args: {
-    appearance: 'base',
-    size: 'md',
-    children: 'Link with Icon',
-    icon: Information,
-    href: '#',
-    onClick,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link
-  appearance="base"
-  size="md"
-  icon={Information}
-  href="#"
->
-  Link with Icon
-</Link>
-`,
-      },
-    },
-  },
+  render: () => (
+    <Link
+      appearance='base'
+      size='md'
+      icon={Information}
+      href='#'
+      onClick={onClick}
+    >
+      Link with Icon
+    </Link>
+  ),
 };
 
 export const External: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     size: 'md',
@@ -92,50 +70,20 @@ export const External: Story = {
     isExternal: true,
     href: 'https://ledger.com',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Link
-  appearance="base"
-  size="md"
-  isExternal
-  href="https://ledger.com"
->
-  External Link
-</Link>
-`,
-      },
-    },
-  },
 };
 
 export const ExternalLinkWithIcon: Story = {
-  args: {
-    appearance: 'base',
-    size: 'md',
-    children: 'External Link with Icon',
-    icon: Information,
-    isExternal: true,
-    href: 'https://ledger.com',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <Link
-    appearance="base"
-    size="md"
-    icon={Information}
-    isExternal
-    href="https://ledger.com"
-  >
-    External Link with Icon
-  </Link>
-  `,
-      },
-    },
-  },
+  render: () => (
+    <Link
+      appearance='base'
+      size='md'
+      icon={Information}
+      isExternal
+      href='https://ledger.com'
+    >
+      External Link with Icon
+    </Link>
+  ),
 };
 
 export const AppearanceShowcase: Story = {
@@ -167,6 +115,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const UnderlineShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-col gap-16 p-8'>
       <Link appearance='accent' size='md' href='#' onClick={onClick}>
@@ -293,30 +242,10 @@ export const AsChild: Story = {
       </div>
     );
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Example with react-router-dom
-import { Link as RouterLink } from 'react-router-dom';
-
-<Link asChild appearance="base" size="md">
-  <RouterLink to="#">Dashboard</RouterLink>
-</Link>
-
-// Example as external link
-<Link asChild appearance="accent" size="md">
-  <a href="https://shop.ledger.com" target="_blank" rel="noopener noreferrer">
-    External Link to Ledger Shop
-  </a>
-</Link>
-`,
-      },
-    },
-  },
 };
 
 export const InheritVariants: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-col gap-32 p-8'>
       <div className='body-2 text-base'>
@@ -354,36 +283,4 @@ export const InheritVariants: Story = {
       </div>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Terms and conditions in body text (default behavior)
-<div className='text-base body-2'>
-  By continuing, you agree to our{' '}
-  <Link href='#'>Terms & Conditions</Link>
-  {' '}and{' '}
-  <Link href='#'>Privacy Policy</Link>.
-</div>
-
-// Heading with inline link
-<div className='text-interactive heading-4'>
-  Need help? <Link href='#'>Contact Support</Link>
-</div>
-
-// Muted text with link
-<div className='text-muted body-3'>
-  Learn more about security in our{' '}
-  <Link href='#'>Security Guide</Link>.
-</div>
-
-// Bold text with ununderlined link
-<div className='text-base body-1-semi-bold'>
-  Already have an account?{' '}
-  <Link underline={false} href='#'>Sign in</Link>
-</div>
-`,
-      },
-    },
-  },
 };

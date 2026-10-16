@@ -16,7 +16,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -33,13 +33,6 @@ export const Base: Story = {
     src: exampleSrc,
     size: 'md',
     alt: 'Avatar',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<Avatar src="https://example.com" size="md" alt="Avatar" />`,
-      },
-    },
   },
 };
 
@@ -75,15 +68,6 @@ export const SizeShowcase: Story = {
 };
 
 export const FallbackShowcase: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `import { resolveAvatarColor } from '@ledgerhq/lumen-ui-react';
-
-<Avatar fallbackColor={resolveAvatarColor(user.id)} alt={user.name} />`,
-      },
-    },
-  },
   render: () => {
     const getInitials = (index: number) => {
       const left = String.fromCharCode(65 + index * 2);

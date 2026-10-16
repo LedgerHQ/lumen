@@ -14,6 +14,7 @@ import { Scrubber } from '../Scrubber';
 import { Point, PointLabel } from './Point';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Point,
   id: 'react-point',
   title: 'Visualization/Point',
@@ -41,6 +42,7 @@ const magneticPoints = [
 ];
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     dataX: 4,
     dataY: 98,
@@ -56,6 +58,7 @@ export const Base: Story = {
 };
 
 export const NoPoint: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     dataX: 4,
     dataY: 98,

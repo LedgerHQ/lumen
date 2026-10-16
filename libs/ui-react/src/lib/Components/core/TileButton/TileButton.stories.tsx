@@ -47,16 +47,17 @@ export default meta;
 type Story = StoryObj<typeof TileButton>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries(iconOptions).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
+  },
   args: {
     icon: Settings,
     children: 'Settings',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `<TileButton icon={Settings}>Settings</TileButton>`,
-      },
-    },
   },
 };
 
@@ -152,17 +153,4 @@ export const AsChild: Story = {
       </TileButton>
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-import { Link } from 'react-router-dom';
-
-<TileButton asChild icon={Settings}>
-  <Link to="/settings">Settings</Link>
-</TileButton>
-`,
-      },
-    },
-  },
 };

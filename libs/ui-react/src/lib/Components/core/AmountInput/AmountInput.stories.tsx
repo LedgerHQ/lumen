@@ -13,15 +13,14 @@ const meta = {
   id: 'react-amountinput',
   title: 'Core/AmountInput',
   component: AmountInput,
-  parameters: {
-    layout: 'centered',
-  },
+  parameters: { docs: { source: { type: 'code' } }, layout: 'centered' },
 } satisfies Meta<typeof AmountInput>;
 
 export default meta;
 type Story = StoryObj<typeof AmountInput>;
 
 export const Default: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: '0',
     currencyText: '$',
@@ -31,6 +30,7 @@ export const Default: Story = {
 };
 
 export const WithRightCurrency: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: '0',
     currencyText: 'ETH',
@@ -41,6 +41,7 @@ export const WithRightCurrency: Story = {
 };
 
 export const WithValue: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: '1234.56',
     currencyText: '$',
@@ -50,6 +51,7 @@ export const WithValue: Story = {
 };
 
 export const Size: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: '1234.56',
     onChange: () => console.log('onChange triggered'),
@@ -72,6 +74,7 @@ export const Size: Story = {
 };
 
 export const Alignment: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: '1234.56',
     onChange: () => console.log('onChange triggered'),
@@ -94,6 +97,7 @@ export const Alignment: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: '1234.56',
     currencyText: 'ETH',
@@ -105,6 +109,7 @@ export const Disabled: Story = {
 };
 
 export const Error: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: '1234.56',
     currencyText: '$',
@@ -124,23 +129,17 @@ export const IntegerOnly: Story = {
   },
   parameters: {
     docs: {
+      source: { type: 'dynamic' },
       description: {
         story:
           'Integer-only input with allowDecimals set to false to prevent decimal values.',
-      },
-      source: {
-        code: `<AmountInput
-  value="1234"
-  currencyText="$"
-  allowDecimals={false} // Important: disables decimal input
-  onChange={() => console.log('onChange triggered')}
-/>`,
       },
     },
   },
 };
 
 export const CustomMaxLength: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: '123',
     currencyText: '$',
@@ -160,18 +159,10 @@ export const DecimalSeparator: Story = {
   },
   parameters: {
     docs: {
+      source: { type: 'dynamic' },
       description: {
         story:
           'Use `decimalSeparator=","` to display decimals with a comma (e.g. for fr-FR). Typing still accepts both `,` and `.`, so it stays compatible with any locale keyboard.',
-      },
-      source: {
-        code: `<AmountInput
-  value="1234.5"
-  currencyText="€"
-  currencyPosition="right"
-  decimalSeparator="," // displays "1 234,5"
-  onChange={() => console.log('onChange triggered')}
-/>`,
       },
     },
   },

@@ -3,6 +3,9 @@ import { Box } from '../../primitives/Box';
 import { Trend } from './Trend';
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   component: Trend,
   id: 'rnative-trend',
   title: 'Core/Trend',

@@ -19,6 +19,9 @@ const Container = ({ children }: { children: React.ReactNode }) => (
 );
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   component: Subheader,
   id: 'rnative-subheader',
   title: 'Core/Subheader',
@@ -43,8 +46,8 @@ export default meta;
 type Story = StoryObj<typeof Subheader>;
 
 export const Base: Story = {
-  render: () => (
-    <Subheader>
+  render: (args) => (
+    <Subheader {...args}>
       <SubheaderRow>
         <SubheaderTitle>Section Title</SubheaderTitle>
       </SubheaderRow>

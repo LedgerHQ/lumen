@@ -107,10 +107,7 @@ function MyComponent() {
 While the component comes with predefined styles, you can extend them using the `lx` prop for layout purposes:
 
 ```tsx
-<Link
-  href='https://example.com'
-  lx={{ marginTop: 's4' }}
->
+<Link href='https://example.com' lx={{ marginTop: 's4' }}>
   Custom Link
 </Link>
 ```
@@ -180,6 +177,37 @@ function MyComponent() {
 }
 ```
 
+### With React Navigation
+
+```tsx
+import { useNavigation } from '@react-navigation/native';
+
+function MyComponent() {
+  const navigation = useNavigation();
+
+  return (
+    <>
+      <Link
+        appearance='base'
+        size='md'
+        onPress={() => navigation.navigate('Dashboard')}
+      >
+        Navigate to Dashboard
+      </Link>
+
+      <Link
+        appearance='accent'
+        size='md'
+        icon={ArrowRight}
+        onPress={() => navigation.navigate('Next')}
+      >
+        Continue to Next Screen
+      </Link>
+    </>
+  );
+}
+```
+
 ### Inline Within Text
 
 The Link component is built on React Native's `Text`, so it can be nested inside a sentence without breaking the line height:
@@ -208,7 +236,6 @@ The Link component accepts all `Text` props, e.g. press callbacks or line clampi
   Interactive Link
 </Link>
 ```
-
 
 ## Platform Considerations
 

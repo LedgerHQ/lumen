@@ -8,6 +8,7 @@ const meta = {
   title: 'Core/Spinner',
   component: Spinner,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     actions: { disable: true },
   },
   argTypes: {

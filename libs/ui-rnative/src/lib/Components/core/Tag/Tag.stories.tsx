@@ -4,6 +4,7 @@ import { Check } from '../../symbols/icons/Check';
 import { Tag } from './Tag';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Tag,
   id: 'rnative-tag',
   title: 'Core/Tag',
@@ -42,6 +43,7 @@ export default meta;
 type Story = StoryObj<typeof Tag>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     appearance: 'accent',
@@ -83,6 +85,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
   },
@@ -107,6 +110,7 @@ export const ContentTypeShowcase: Story = {
 };
 
 export const TruncateShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
   },
