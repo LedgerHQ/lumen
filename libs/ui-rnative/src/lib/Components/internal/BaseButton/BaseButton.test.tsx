@@ -34,6 +34,7 @@ describe('BaseButton Component', () => {
       'transparent',
       'no-background',
       'red',
+      'green',
     ] as const)('should render with %s appearance', (appearance) => {
       renderWithProvider(
         <BaseButton testID='button' appearance={appearance}>
