@@ -42,7 +42,8 @@ type ButtonAppearance =
   | 'accent'
   | 'transparent'
   | 'no-background'
-  | 'red';
+  | 'red'
+  | 'green';
 
 export const Base: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
@@ -83,6 +84,7 @@ export const AppearanceShowcase: Story = {
       { name: 'Transparent', appearance: 'transparent' },
       { name: 'No Background', appearance: 'no-background' },
       { name: 'Red', appearance: 'red' },
+      { name: 'Green', appearance: 'green' },
     ];
 
     return (

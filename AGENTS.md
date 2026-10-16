@@ -75,13 +75,14 @@ questions and generators instead of guessing.
 ## Universal rules
 
 - **The codebase is the source of truth.** Read the file you're touching and one
-neighbour that shows the local convention before writing. Reading beats guessing.
+neighbor that shows the local convention before writing. Reading beats guessing.
 - **Load the matching skill before non-trivial work.** Skills (below) are the
 authoritative conventions; when a skill conflicts with this file, the skill wins.
 - **Comments explain intent, not mechanics.** Comment the *why* (trade-offs,
   gotchas, constraints), never restate the code. Prefer clear names over comments. Comment only when necessary, prevent verbose comment.
 - **JSDoc must not restate TypeScript.** Do not list union/literal values in
   JSDoc (e.g. `- \`'plain'\`: …`). Types and JSDoc parsers already surface them.
+- **American English** everywhere (code, comments, docs, tests): `color`, `behavior`, `canceled`.
 - **Explicit return types** on module-level functions (helps future readers and
 agents). Exception: components returning JSX.
 - **Library changes need a version plan.** Any change under `libs/*/src/` requires
@@ -100,11 +101,20 @@ matches. They live in `.claude/skills/` — a single tree read by Claude Code
 `.github/instructions/*` hook (`applyTo: "**"`) routes Copilot review into the
 `pr-review` skill; it restates no rules.
 
-Skills are grouped by **topic**, not by platform: a `component-`* skill is
-cross-platform and routes internally by lib (web vs React Native) using the
-`Libraries` table above. Unprefixed skills are workflow / meta. Each skill's
-`paths` frontmatter controls auto-attach.
+Skills are grouped into three **categories** below. The folders stay flat
+(`.claude/skills/<name>/`), because Claude Code and Copilot only discover
+direct children; the category lives in this index only. Within Build, a
+`component-*` skill is cross-platform and routes internally by lib (web vs
+React Native) using the `Libraries` table above. Each skill's `paths`
+frontmatter controls auto-attach.
 
+- **Build**: shapes code in `libs/`; most auto-attach through `paths`.
+- **Process**: moves work through the pipeline (ticket → PR → review →
+  release → announcement); usually writes to GitHub, Jira or Slack.
+- **Discovery**: reads outside the repo (consumers, other design systems,
+  library docs) and produces knowledge, not code.
+
+### Build
 
 | When…                                                                     | Skill                    |
 | ------------------------------------------------------------------------- | ------------------------ |
@@ -112,22 +122,32 @@ cross-platform and routes internally by lib (web vs React Native) using the
 | deciding where a file/folder lives, naming it, or scaffolding a component | `component-anatomy`      |
 | building or styling a component (web Tailwind or RN `useStyleSheet`)      | `component-styling`      |
 | writing component tests (Vitest or Jest)                                  | `component-testing`      |
+| writing or editing Storybook stories (`*.stories.tsx`)                    | `component-stories`      |
+| writing or editing Storybook MDX docs (`*.mdx`)                           | `component-mdx`          |
+| a component has or owns a `disabled` state                                | `disabled-context`       |
 | implementing a component from a Figma link                                | `figma-to-code`          |
 | creating/updating Figma Code Connect (`*.figma.tsx`)                      | `code-connect`           |
 | syncing design tokens to React Native JS themes after a Figma sync        | `figma-token-sync`       |
-| writing or editing Storybook stories (`*.stories.tsx`)                    | `component-stories`      |
-| writing or editing Storybook MDX docs (`*.mdx`)                           | `component-mdx`          |
-| generating an Nx version plan (`.nx/version-plans/`)                      | `release-plan`           |
-| announcing a shipped release in Slack from a GitHub Releases dump         | `release-notes-slack`    |
-| a component has or owns a `disabled` state                                | `disabled-context`       |
-| researching an external library/framework                                 | `context7`               |
+| running Nx tasks/generators, or asking workspace questions                | `nx`                     |
+
+### Process
+
+| When…                                                                     | Skill                    |
+| ------------------------------------------------------------------------- | ------------------------ |
+| creating DLS Jira tickets (bug, task, epic from the scope spreadsheet)    | `jira-ticket`            |
 | opening a PR from the current branch (manual — run `/open-pr`)            | `open-pr`                |
 | reviewing a PR, a branch, or code changes                                 | `pr-review`              |
-| running Nx tasks/generators, or asking workspace questions                | `nx`                     |
+| generating an Nx version plan (`.nx/version-plans/`)                      | `release-plan`           |
+| announcing a shipped release in Slack from a GitHub Releases dump         | `release-notes-slack`    |
+
+### Discovery
+
+| When…                                                                     | Skill                    |
+| ------------------------------------------------------------------------- | ------------------------ |
+| comparing how other design systems handle a component, name, token or pattern (shareable report) | `ds-discovery` |
+| testing a breaking/architectural change or a usage scan across consumer repos (shareable report) | `consumer-impact` |
 | checking Lumen version adoption across consumer repos                     | `lumen-adoption-report`  |
-
-
-
+| researching an external library/framework                                 | `context7`               |
 
 ## How this is wired (maintainers)
 
@@ -163,7 +183,11 @@ the Libraries table matches the libs on disk (path + package name), every
 - **MCP servers are the one exception to "no duplication":** each tool hardcodes
 its own project-scoped path (Claude Code → `.mcp.json`, Cursor →
 `.cursor/mcp.json`), so these files are kept in parallel and synced by hand —
-edit both when adding or changing a server (not CI-enforced). The only expected
-difference is the `type` field: Claude states it explicitly; Cursor infers it
-from `url`.
+edit both when adding or changing a server. Expected differences: the `type`
+field (Claude states it explicitly; Cursor infers it from `url`) and OAuth
+settings (`oauth` for Claude, `auth` for Cursor). A server that needs a
+per-person OAuth client secret lives only in `.cursor/mcp.json`; Claude Code
+users add it once at user scope, because Claude Code stores the secret only at
+`claude mcp add` time and a `.mcp.json` entry would shadow theirs. Setup steps:
+`docs/mcp-servers.md`.
 

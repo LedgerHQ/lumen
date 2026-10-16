@@ -25,7 +25,7 @@ const typographyMap: Record<Size, LumenTypographyTokenName> = {
 
 /**
  * Icons nested in a Text are laid out as inline attachments sitting on the
- * baseline, which places them above the text's optical centre. These offsets
+ * baseline, which places them above the text's optical center. These offsets
  * (`iconSize / 2 - 0.35 * fontSize`, rounded) push them back down.
  */
 const iconOffsetMap: Record<Size, number> = {

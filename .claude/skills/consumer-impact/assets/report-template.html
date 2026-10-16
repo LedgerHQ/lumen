@@ -1,0 +1,156 @@
+<title>{{Change}} impact</title>
+<!--
+  consumer-impact report template. Fill every {{placeholder}}, repeat the marked
+  blocks, then delete these comments and unused example rows.
+  Artifact: publish as-is (the publisher adds <html>/<head>/<body>).
+  Local file: wrap in <!doctype html><html lang="en"><head><meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"></head><body>…</body></html>.
+-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+  /* Layout: summary first, then the repo × check matrix, then one block per breakage. */
+  /* Palette: Lumen's Ledger Live greys and purple accent (libs/design-core). */
+  :root {
+    --bg: #ffffff; --surface: #f7f7f7; --muted: #f1f1f1; --line: #e8e8e8;
+    --fg: #000000; --fg-muted: #6a6a6a; --accent: #d4a0ff; --on-accent: #000000; --link: #7e4ea5;
+    --ok: #1f7a4d; --ok-bg: #e3f4ea; --warn: #8a5a00; --warn-bg: #fbf0d9; --bad: #b42318; --bad-bg: #fde8e6;
+    --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #000000; --surface: #151515; --muted: #1f1f1f; --line: #3c3c3c; --fg: #ffffff; --fg-muted: #9c9c9c; --link: #d4a0ff;
+      --ok: #6fd39b; --ok-bg: #12301f; --warn: #f0c46b; --warn-bg: #33270f; --bad: #ff8a80; --bad-bg: #3a1411;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #000000; --surface: #151515; --muted: #1f1f1f; --line: #3c3c3c; --fg: #ffffff; --fg-muted: #9c9c9c; --link: #d4a0ff;
+    --ok: #6fd39b; --ok-bg: #12301f; --warn: #f0c46b; --warn-bg: #33270f; --bad: #ff8a80; --bad-bg: #3a1411;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding-inline: 16px; padding-block: 40px 64px; background: var(--bg); color: var(--fg); font: 400 15px/1.6 var(--font); }
+  main { max-width: 1040px; margin-inline: auto; display: grid; gap: 44px; }
+  a { color: var(--link); text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  h1, h2, h3 { margin: 0; text-wrap: balance; }
+  h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; font-weight: 700; letter-spacing: -0.02em; }
+  h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 14px; }
+  h3 { font-size: 1rem; font-weight: 600; }
+  p, li { max-width: 70ch; margin: 0; }
+  ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  code, pre { font-family: var(--mono); font-size: 0.85em; }
+  code { background: var(--muted); padding: 1px 5px; border-radius: 4px; }
+  pre { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; overflow-x: auto; margin: 0; }
+  pre code { background: none; padding: 0; }
+
+  .eyebrow { font-size: 0.75rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-muted); }
+  header { display: grid; gap: 12px; }
+  .meta { color: var(--fg-muted); font-size: 0.875rem; }
+
+  .totals { display: flex; flex-wrap: wrap; gap: 12px; }
+  .total { background: var(--surface); border-radius: 10px; padding: 12px 16px; min-width: 120px; }
+  .total b { display: block; font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+  .total span { font-size: 0.8rem; color: var(--fg-muted); }
+
+  .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; }
+  table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 0.875rem; }
+  th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+  thead th { background: var(--surface); font-size: 0.8rem; font-weight: 600; white-space: nowrap; }
+  tbody tr:last-child > * { border-bottom: 0; }
+  tbody th { position: sticky; left: 0; background: var(--bg); font-weight: 600; white-space: nowrap; }
+
+  .st { display: inline-block; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 7px; border-radius: 4px; }
+  .st.pass { background: var(--ok-bg); color: var(--ok); }
+  .st.fail { background: var(--bad-bg); color: var(--bad); }
+  .st.pre { background: var(--warn-bg); color: var(--warn); }
+  .st.skip { background: var(--muted); color: var(--fg-muted); }
+
+  .breakages { display: grid; gap: 16px; }
+  .breakage { border: 1px solid var(--line); border-radius: 12px; padding: 18px; display: grid; gap: 10px; min-width: 0; }
+  .breakage header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  footer { color: var(--fg-muted); font-size: 0.8rem; border-top: 1px solid var(--line); padding-top: 16px; }
+</style>
+
+<!-- REPORT CONTENT START: replace everything down to the END marker -->
+<main>
+  <header>
+    <span class="eyebrow">Lumen · Consumer impact</span>
+    <h1>{{What was tested, e.g. "Moving tailwindcss from dependency to peer in ui-react"}}</h1>
+    <p class="meta">{{YYYY-MM-DD}} · Packages: {{@ledgerhq/lumen-ui-react@x.y.z-pr.N.sha}} · Source: {{PR link or branch}} · Mode: {{Install &amp; check | Usage scan}}</p>
+  </header>
+
+  <section aria-labelledby="summary">
+    <h2 id="summary">Summary</h2>
+    <div class="totals">
+      <div class="total"><b>{{n}}</b><span>repos tested</span></div>
+      <div class="total"><b>{{n}}</b><span>broken by the change</span></div>
+      <div class="total"><b>{{n}}</b><span>already failing on main</span></div>
+      <div class="total"><b>{{n}}</b><span>skipped</span></div>
+    </div>
+    <ul>
+      <!-- 2–4 bullets: is it safe to ship, what breaks, what consumers must do. -->
+      <li>{{Verdict}}</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="matrix">
+    <h2 id="matrix">Results</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Repo</th>
+            <!-- Install & check mode. For a usage scan, use: Imports · Matches · Example locations. -->
+            <th scope="col">Install</th>
+            <th scope="col">Typecheck</th>
+            <th scope="col">Lint</th>
+            <th scope="col">Build</th>
+            <th scope="col">Tests</th>
+            <th scope="col">Owners</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Repeat per production consumer. pass / fail (caused by the change) / pre (already failing on main) / skip. -->
+          <tr>
+            <th scope="row">{{repo}}</th>
+            <td><span class="st pass">Pass</span></td>
+            <td><span class="st fail">Fail</span> {{n errors}}</td>
+            <td><span class="st pre">Pre-existing</span></td>
+            <td><span class="st skip">No script</span></td>
+            <td><span class="st pass">Pass</span></td>
+            <td>{{team or handles}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="breakages">
+    <h2 id="breakages">Breakages</h2>
+    <div class="breakages">
+      <!-- Repeat per distinct root cause, listing every repo it hits. Keep excerpts short: this report may be shared. -->
+      <article class="breakage">
+        <header>
+          <h3>{{Root cause in one line}}</h3>
+          <span class="meta">{{repo-a, repo-b}} · {{check}}</span>
+        </header>
+        <pre><code>{{First relevant error lines}}</code></pre>
+        <p><strong>Fix:</strong> {{Change in Lumen, or migration step for consumers}}</p>
+      </article>
+    </div>
+  </section>
+
+  <section aria-labelledby="method">
+    <h2 id="method">How it was tested</h2>
+    <ul>
+      <li>Consumers: production repos from <code>internals/adoption-tool/data/consumers.json</code>.</li>
+      <li>{{Baseline: install and checks on each repo's default branch, before swapping Lumen}}</li>
+      <li>{{Skipped repos and why}}</li>
+    </ul>
+  </section>
+
+  <footer>Generated with the Lumen <code>consumer-impact</code> skill.</footer>
+</main>
+<!-- REPORT CONTENT END -->

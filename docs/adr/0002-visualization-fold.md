@@ -51,7 +51,7 @@ libs/ui-rnative/src/lib/Components/{animations,core,internal,primitives,symbols}
 
 Charts land at `src/lib/Components/visualization/`. **Decided: fold onto the
 current layout — the `src/lib` flatten is *not* a prerequisite for DLS-1022.**
-Three consequences, all favourable: `libs/ui-react/tailwind.css:16`
+Three consequences, all favorable: `libs/ui-react/tailwind.css:16`
 `@source "./dist/lib"` needs **no change**; the ui-react
 `../src/lib/**/*.mdx` glob **already covers** the new tree; and the fold stops
 waiting on a large mechanical PR.

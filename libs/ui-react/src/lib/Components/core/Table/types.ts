@@ -45,7 +45,7 @@ export type TableRootProps = {
    * How the table handles columns that don't fit the container width: kept within
    * the container with truncated cells, or wider than the container (at least
    * `minWidth`, or the sum of the column widths) with a horizontal scroll.
-   * Pass an object keyed by breakpoint (mobile-first) to switch behaviour
+   * Pass an object keyed by breakpoint (mobile-first) to switch behavior
    * responsively, e.g. `{ base: { type: 'scroll', minWidth: 960 }, lg: { type: 'shrink' } }`.
    * @default { type: 'shrink' }
    */

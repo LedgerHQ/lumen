@@ -114,7 +114,7 @@ describe('Link Component', () => {
 
         const iconStyle = getIconWrapperStyle(screen.getByText('Link'));
         expect(iconStyle.paddingRight).toBe(expectedGap);
-        // Keeps the inline icons optically centred on the text baseline.
+        // Keeps the inline icons optically centered on the text baseline.
         expect(iconStyle.transform).toEqual([{ translateY: expectedOffset }]);
       },
     );

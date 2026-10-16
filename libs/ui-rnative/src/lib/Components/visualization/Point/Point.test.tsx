@@ -209,7 +209,7 @@ describe('Point', () => {
     );
   });
 
-  it("centres a long edge label when labelAlignment is 'center'", () => {
+  it("centers a long edge label when labelAlignment is 'center'", () => {
     const labelSpy = jest.fn(({ x, y, children }: PointLabelProps) => (
       <SvgText x={x} y={y}>
         {children}
