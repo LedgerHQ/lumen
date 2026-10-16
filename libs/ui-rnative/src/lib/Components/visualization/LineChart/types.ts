@@ -54,13 +54,13 @@ export type LineChartProps = LineRenderOptions &
      * time-range change), the current line is recoloured to a muted grey and
      * shimmers until the new `series` is provided (transition loading).
      *
-     * To get the transition behaviour, keep passing the previous `series` while
+     * To get the transition behavior, keep passing the previous `series` while
      * refetching; clearing it falls back to the initial placeholder.
      * @default false
      */
     loading?: boolean;
     /**
-     * Text shown in the centre of the chart when there is no data and the chart
+     * Text shown in the center of the chart when there is no data and the chart
      * is not loading.
      * @default 'No data' (translated)
      */

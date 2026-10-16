@@ -25,7 +25,7 @@ type PointGeometry = {
 };
 
 /**
- * Resolves a point's chart geometry and behaviour: projects its data
+ * Resolves a point's chart geometry and behavior: projects its data
  * coordinates to pixels, registers it as a magnetic snap target when enabled,
  * exposes the reveal-animation props, and reports whether it falls inside the
  * drawing area.

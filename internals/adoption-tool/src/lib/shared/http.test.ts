@@ -23,7 +23,7 @@ describe('retryDelayMs', () => {
     expect(retryDelayMs(response(503), 3, NOW)).toBe(4_000);
   });
 
-  it('honours retry-after on 429 and on rate-limit 403s', () => {
+  it('honors retry-after on 429 and on rate-limit 403s', () => {
     expect(retryDelayMs(response(429, { 'retry-after': '7' }), 1, NOW)).toBe(
       7_000,
     );

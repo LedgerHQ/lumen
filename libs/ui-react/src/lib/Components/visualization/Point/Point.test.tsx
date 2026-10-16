@@ -176,7 +176,7 @@ describe('Point', () => {
     );
   });
 
-  it("centres a long edge label when labelAlignment is 'center'", () => {
+  it("centers a long edge label when labelAlignment is 'center'", () => {
     const labelSpy = vi.fn(({ x, y, children }: PointLabelProps) => (
       <text x={x} y={y}>
         {children}

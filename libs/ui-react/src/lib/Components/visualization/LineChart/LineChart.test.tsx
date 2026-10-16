@@ -205,7 +205,7 @@ describe('LineChart', () => {
       expect(linePathD(container).match(/M/g)).toHaveLength(1);
     });
 
-    it('honours connectNulls per series', () => {
+    it('honors connectNulls per series', () => {
       const { getAllByTestId } = render(
         <LineChartWrapper
           series={[
