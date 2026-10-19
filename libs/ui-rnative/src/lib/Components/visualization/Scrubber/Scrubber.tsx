@@ -85,15 +85,19 @@ function BeaconPulse({
 }) {
   const progress = useSharedValue(0);
   const reducedMotion = useReducedMotion();
-  const { beaconRadius, beaconPulseScale, beaconPulseDurationInMs } =
-    chartConfig.scrubber;
+  const {
+    beaconRadius,
+    beaconPulseScale,
+    beaconPulseOpacity,
+    beaconPulseDurationInMs,
+  } = chartConfig.scrubber;
 
   useEffect(() => {
     if (!reducedMotion) {
       progress.value = withRepeat(
         withTiming(1, {
           duration: beaconPulseDurationInMs,
-          easing: Easing.out(Easing.ease),
+          easing: Easing.bezier(0, 0, 0.2, 1),
         }),
         -1,
         false,
@@ -104,7 +108,7 @@ function BeaconPulse({
 
   const animatedProps = useAnimatedProps(() => ({
     r: beaconRadius * (1 + (beaconPulseScale - 1) * progress.value),
-    opacity: 0.4 * (1 - progress.value),
+    opacity: beaconPulseOpacity * (1 - progress.value),
   }));
 
   if (reducedMotion) {

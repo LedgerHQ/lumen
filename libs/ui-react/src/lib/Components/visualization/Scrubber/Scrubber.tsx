@@ -69,7 +69,7 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
   return (
     <>
       <style>
-        {`@keyframes ${animationName} { from { opacity: 0.4; transform: scale(1); } to { opacity: 0; transform: scale(${scrubber.beaconPulseScale}); } } ` +
+        {`@keyframes ${animationName} { from { opacity: ${scrubber.beaconPulseOpacity}; transform: scale(1); } to { opacity: 0; transform: scale(${scrubber.beaconPulseScale}); } } ` +
           `@media (prefers-reduced-motion: reduce) { @keyframes ${animationName} { from, to { opacity: 0; } } }`}
       </style>
       <circle
@@ -81,7 +81,7 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
         style={{
           transformBox: 'fill-box',
           transformOrigin: 'center',
-          animation: `${animationName} ${scrubber.beaconPulseDurationInSeconds}s ease-out infinite`,
+          animation: `${animationName} ${scrubber.beaconPulseDurationInSeconds}s ${scrubber.beaconPulseEasing} infinite`,
         }}
       />
     </>
