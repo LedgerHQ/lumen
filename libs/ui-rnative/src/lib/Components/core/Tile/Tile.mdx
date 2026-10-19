@@ -72,11 +72,11 @@ By default the tile fills the width of its container. The title and description 
 
 <Canvas of={TileStories.ResponsiveLayout} />
 
-### Centered Content
+### Alignment
 
-Use the `centered` prop to vertically center tile content. This is useful when a tile has less content than its neighbors, like a "Show more" tile in a grid.
+Use `horizontalAlignment` to align the tile content to the start or the center (default), and `verticalAlignment='center'` to vertically center it when the tile is taller than its content, like a "Show more" tile in a grid. The horizontal alignment is applied to the subcomponents automatically.
 
-<Canvas of={TileStories.CenteredShowcase} />
+<Canvas of={TileStories.AlignmentShowcase} />
 
 </Tab>
 <Tab label="Implementation">
@@ -156,9 +156,23 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-rnative/symbols';
 </Tile>
 ```
 
-### Centered Content
+### Horizontal Alignment
 
-Use the `centered` prop to vertically center the tile content. This is useful when a tile has less content than its neighbors in a grid, like a "Show more" tile that needs to align with richer tiles.
+Use `horizontalAlignment='start'` to align the tile content to the start. Subcomponents follow the tile alignment, so no extra styling is needed.
+
+```tsx
+<Tile horizontalAlignment='start'>
+  <Spot icon={Settings} />
+  <TileContent>
+    <TileTitle>Settings</TileTitle>
+    <TileDescription>Manage your preferences</TileDescription>
+  </TileContent>
+</Tile>
+```
+
+### Vertical Alignment
+
+Use `verticalAlignment='center'` to vertically center the tile content. This is useful when a tile has less content than its neighbors in a grid, like a "Show more" tile that needs to align with richer tiles.
 
 ```tsx
 import { ChevronRight, CryptoBitcoinCoin } from '@ledgerhq/lumen-ui-rnative/symbols';
@@ -179,7 +193,7 @@ import { View } from 'react-native';
   </Tile>
 
   {/* Show more tile with centered content */}
-  <Tile appearance='card' centered>
+  <Tile appearance='card' verticalAlignment='center'>
     <Spot icon={ChevronRight} />
     <TileContent>
       <TileTitle>Show more</TileTitle>

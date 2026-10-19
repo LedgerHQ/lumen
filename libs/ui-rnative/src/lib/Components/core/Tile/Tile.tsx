@@ -1,4 +1,5 @@
 import {
+  createSafeContext,
   DisabledProvider,
   isTextChildren,
   useDisabledContext,
@@ -9,24 +10,52 @@ import { useStyleSheet } from '../../../../styles';
 import { Box, Pressable, Text } from '../../primitives';
 import type {
   TileContentProps,
+  TileContextValue,
   TileDescriptionProps,
+  TileHorizontalAlignment,
   TileProps,
   TileTitleProps,
   TileTrailingContentProps,
+  TileVerticalAlignment,
 } from './types';
 
+const [TileProvider, useTileContext] = createSafeContext<TileContextValue>(
+  'Tile',
+  {
+    horizontalAlignment: 'center',
+  },
+);
+
 type Appearance = NonNullable<TileProps['appearance']>;
+
+const alignItemsMap = {
+  start: 'flex-start',
+  center: 'center',
+} as const satisfies Record<TileHorizontalAlignment, string>;
+
+const textAlignMap = {
+  start: 'left',
+  center: 'center',
+} as const satisfies Record<TileHorizontalAlignment, string>;
+
+const useHorizontalAlignment = (
+  consumerName: string,
+): TileHorizontalAlignment =>
+  useTileContext({ consumerName, contextRequired: false })
+    .horizontalAlignment ?? 'center';
 
 const useRootStyles = ({
   appearance,
   disabled,
   pressed,
-  centered,
+  horizontalAlignment,
+  verticalAlignment,
 }: {
   appearance: Appearance;
   disabled: boolean;
   pressed: boolean;
-  centered: boolean;
+  horizontalAlignment: TileHorizontalAlignment;
+  verticalAlignment: TileVerticalAlignment;
 }) => {
   return useStyleSheet(
     (t) => {
@@ -48,7 +77,7 @@ const useRootStyles = ({
             overflow: 'hidden',
             width: '100%',
             flex: 1,
-            alignItems: 'center',
+            alignItems: alignItemsMap[horizontalAlignment],
             gap: t.spacings.s8,
             paddingHorizontal: t.spacings.s8,
             paddingVertical: t.spacings.s12,
@@ -59,13 +88,13 @@ const useRootStyles = ({
             !disabled && {
               backgroundColor: pressedBgColors[appearance],
             },
-          centered && {
+          verticalAlignment === 'center' && {
             justifyContent: 'center',
           },
         ]),
       };
     },
-    [appearance, disabled, pressed, centered],
+    [appearance, disabled, pressed, horizontalAlignment, verticalAlignment],
   );
 };
 
@@ -112,7 +141,8 @@ export const Tile = ({
   style,
   appearance = 'no-background',
   disabled: disabledProp = false,
-  centered = false,
+  horizontalAlignment = 'center',
+  verticalAlignment = 'start',
   children,
   ref,
   ...props
@@ -124,29 +154,32 @@ export const Tile = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <Pressable
-        ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([
-          { width: '100%', overflow: 'hidden' },
-          style,
-        ])}
-        disabled={disabled}
-        accessibilityRole='button'
-        accessibilityState={{ disabled }}
-        {...props}
-      >
-        {({ pressed }) => (
-          <TilePressableContent
-            appearance={appearance}
-            disabled={!!disabled}
-            pressed={pressed}
-            centered={centered}
-          >
-            {children}
-          </TilePressableContent>
-        )}
-      </Pressable>
+      <TileProvider value={{ horizontalAlignment }}>
+        <Pressable
+          ref={ref}
+          lx={lx}
+          style={StyleSheet.flatten([
+            { width: '100%', overflow: 'hidden' },
+            style,
+          ])}
+          disabled={disabled}
+          accessibilityRole='button'
+          accessibilityState={{ disabled }}
+          {...props}
+        >
+          {({ pressed }) => (
+            <TilePressableContent
+              appearance={appearance}
+              disabled={!!disabled}
+              pressed={pressed}
+              horizontalAlignment={horizontalAlignment}
+              verticalAlignment={verticalAlignment}
+            >
+              {children}
+            </TilePressableContent>
+          )}
+        </Pressable>
+      </TileProvider>
     </DisabledProvider>
   );
 };
@@ -155,28 +188,44 @@ const TilePressableContent = ({
   appearance,
   disabled,
   pressed,
-  centered,
+  horizontalAlignment,
+  verticalAlignment,
   children,
 }: {
   appearance: Appearance;
   disabled: boolean;
   pressed: boolean;
-  centered: boolean;
+  horizontalAlignment: TileHorizontalAlignment;
+  verticalAlignment: TileVerticalAlignment;
   children: ReactNode;
 }) => {
-  const styles = useRootStyles({ appearance, disabled, pressed, centered });
-  return <View style={styles.container}>{children}</View>;
+  const styles = useRootStyles({
+    appearance,
+    disabled,
+    pressed,
+    horizontalAlignment,
+    verticalAlignment,
+  });
+  return (
+    <View style={styles.container} testID='tile-container'>
+      {children}
+    </View>
+  );
 };
 
-const useContentStyles = () => {
+const useContentStyles = ({
+  horizontalAlignment,
+}: {
+  horizontalAlignment: TileHorizontalAlignment;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: {
         width: t.sizes.full,
-        alignItems: 'center',
+        alignItems: alignItemsMap[horizontalAlignment],
       },
     }),
-    [],
+    [horizontalAlignment],
   );
 };
 /**
@@ -195,7 +244,8 @@ const useContentStyles = () => {
  * </Tile>
  */
 export const TileContent = ({ children, lx, style }: TileContentProps) => {
-  const styles = useContentStyles();
+  const horizontalAlignment = useHorizontalAlignment('TileContent');
+  const styles = useContentStyles({ horizontalAlignment });
   return (
     <Box
       lx={lx}
@@ -207,24 +257,29 @@ export const TileContent = ({ children, lx, style }: TileContentProps) => {
   );
 };
 
-const useTitleStyles = ({ disabled }: { disabled: boolean }) => {
+const useTitleStyles = ({
+  disabled,
+  horizontalAlignment,
+}: {
+  disabled: boolean;
+  horizontalAlignment: TileHorizontalAlignment;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: {
         width: t.sizes.full,
-        alignItems: 'center',
+        alignItems: alignItemsMap[horizontalAlignment],
       },
       text: StyleSheet.flatten([
         t.typographies.body2SemiBold,
         {
-          alignItems: 'center',
           width: t.sizes.full,
-          textAlign: 'center',
+          textAlign: textAlignMap[horizontalAlignment],
           color: disabled ? t.colors.text.disabled : t.colors.text.base,
         },
       ]),
     }),
-    [disabled],
+    [disabled, horizontalAlignment],
   );
 };
 
@@ -238,7 +293,8 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
     consumerName: 'TileTitle',
     contextRequired: true,
   });
-  const styles = useTitleStyles({ disabled });
+  const horizontalAlignment = useHorizontalAlignment('TileTitle');
+  const styles = useTitleStyles({ disabled, horizontalAlignment });
 
   if (isTextChildren(children)) {
     return (
@@ -264,24 +320,29 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
   );
 };
 
-const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
+const useDescriptionStyles = ({
+  disabled,
+  horizontalAlignment,
+}: {
+  disabled: boolean;
+  horizontalAlignment: TileHorizontalAlignment;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: {
         width: t.sizes.full,
-        alignItems: 'center',
+        alignItems: alignItemsMap[horizontalAlignment],
       },
       text: StyleSheet.flatten([
         t.typographies.body3,
         {
           width: t.sizes.full,
-          alignItems: 'center',
-          textAlign: 'center',
+          textAlign: textAlignMap[horizontalAlignment],
           color: disabled ? t.colors.text.disabled : t.colors.text.muted,
         },
       ]),
     }),
-    [disabled],
+    [disabled, horizontalAlignment],
   );
 };
 
@@ -307,7 +368,8 @@ export const TileDescription = ({
     consumerName: 'TileDescription',
     contextRequired: true,
   });
-  const styles = useDescriptionStyles({ disabled });
+  const horizontalAlignment = useHorizontalAlignment('TileDescription');
+  const styles = useDescriptionStyles({ disabled, horizontalAlignment });
 
   if (isTextChildren(children)) {
     return (
@@ -333,17 +395,21 @@ export const TileDescription = ({
   );
 };
 
-const useTrailingContentStyles = () => {
+const useTrailingContentStyles = ({
+  horizontalAlignment,
+}: {
+  horizontalAlignment: TileHorizontalAlignment;
+}) => {
   return useStyleSheet(
     (t) => ({
       container: {
         width: t.sizes.full,
-        alignItems: 'center',
+        alignItems: alignItemsMap[horizontalAlignment],
         marginTop: t.spacings.s4,
         gap: t.spacings.s8,
       },
     }),
-    [],
+    [horizontalAlignment],
   );
 };
 
@@ -369,7 +435,8 @@ export const TileTrailingContent = ({
   lx,
   style,
 }: TileTrailingContentProps) => {
-  const styles = useTrailingContentStyles();
+  const horizontalAlignment = useHorizontalAlignment('TileTrailingContent');
+  const styles = useTrailingContentStyles({ horizontalAlignment });
   return (
     <Box
       lx={lx}

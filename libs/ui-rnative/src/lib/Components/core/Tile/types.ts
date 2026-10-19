@@ -5,8 +5,12 @@ import type {
   StyledViewProps,
 } from '../../../../styles';
 
+export type TileHorizontalAlignment = 'start' | 'center';
+
+export type TileVerticalAlignment = 'start' | 'center';
+
 export type TileContextValue = {
-  disabled: boolean;
+  horizontalAlignment: TileHorizontalAlignment;
 };
 
 export type TileProps = {
@@ -24,11 +28,16 @@ export type TileProps = {
    */
   disabled?: boolean;
   /**
-   * Whether the tile content should be centered vertically.
-   * Useful when the tile has a fixed height and you want the content centered.
-   * @default false
+   * The horizontal alignment of the tile content, propagated to TileContent, TileTitle, TileDescription and TileTrailingContent.
+   * @default 'center'
    */
-  centered?: boolean;
+  horizontalAlignment?: TileHorizontalAlignment;
+  /**
+   * The vertical alignment of the tile content.
+   * Use `center` when the tile is stretched taller than its content, like a "Show more" tile in a grid.
+   * @default 'start'
+   */
+  verticalAlignment?: TileVerticalAlignment;
   /**
    * Callback function when the tile is pressed.
    */

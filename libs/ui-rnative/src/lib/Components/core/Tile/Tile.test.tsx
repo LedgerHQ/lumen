@@ -12,6 +12,7 @@ import {
   TileDescription,
   TileTrailingContent,
 } from './Tile';
+import type { TileProps } from './types';
 
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
@@ -155,6 +156,66 @@ describe('Tile Component', () => {
 
       expect(getByText('Test Title')).toBeTruthy();
       expect(getByText('Test Description')).toBeTruthy();
+    });
+  });
+
+  describe('Alignment', () => {
+    const renderTile = (props: Partial<TileProps> = {}) =>
+      render(
+        <TestWrapper>
+          <Tile {...props}>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle>Title</TileTitle>
+              <TileDescription>Description</TileDescription>
+              <TileTrailingContent>
+                <Tag label='Label' />
+              </TileTrailingContent>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+    it('should center content horizontally and align it to the top by default', () => {
+      const { getByTestId } = renderTile();
+      expect(getByTestId('tile-container')).toHaveStyle({
+        alignItems: 'center',
+      });
+      expect(getByTestId('tile-container')).not.toHaveStyle({
+        justifyContent: 'center',
+      });
+      expect(getByTestId('tile-content')).toHaveStyle({ alignItems: 'center' });
+      expect(getByTestId('tile-title')).toHaveStyle({ textAlign: 'center' });
+      expect(getByTestId('tile-description')).toHaveStyle({
+        textAlign: 'center',
+      });
+      expect(getByTestId('tile-trailing-content')).toHaveStyle({
+        alignItems: 'center',
+      });
+    });
+
+    it('should propagate horizontalAlignment="start" to subcomponents', () => {
+      const { getByTestId } = renderTile({ horizontalAlignment: 'start' });
+      expect(getByTestId('tile-container')).toHaveStyle({
+        alignItems: 'flex-start',
+      });
+      expect(getByTestId('tile-content')).toHaveStyle({
+        alignItems: 'flex-start',
+      });
+      expect(getByTestId('tile-title')).toHaveStyle({ textAlign: 'left' });
+      expect(getByTestId('tile-description')).toHaveStyle({
+        textAlign: 'left',
+      });
+      expect(getByTestId('tile-trailing-content')).toHaveStyle({
+        alignItems: 'flex-start',
+      });
+    });
+
+    it('should center content vertically with verticalAlignment="center"', () => {
+      const { getByTestId } = renderTile({ verticalAlignment: 'center' });
+      expect(getByTestId('tile-container')).toHaveStyle({
+        justifyContent: 'center',
+      });
     });
   });
 

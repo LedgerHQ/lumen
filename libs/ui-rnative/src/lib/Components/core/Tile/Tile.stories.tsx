@@ -1,13 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box, Text } from '../../primitives';
-import {
-  Settings,
-  Plus,
-  User,
-  Apps,
-  ChevronRight,
-  CheckmarkCircleFill,
-} from '../../symbols';
+import { Settings, Plus, User, Apps, CheckmarkCircleFill } from '../../symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
 import {
@@ -51,9 +44,6 @@ const meta = {
     disabled: {
       control: 'boolean',
     },
-    centered: {
-      control: 'boolean',
-    },
   },
 } satisfies Meta<typeof Tile>;
 
@@ -64,7 +54,8 @@ export const Base: Story = {
   args: {
     appearance: 'no-background',
     disabled: false,
-    centered: false,
+    horizontalAlignment: 'center',
+    verticalAlignment: 'start',
     children: null,
   },
   render: (args) => (
@@ -273,46 +264,65 @@ export const AppearanceShowcase: Story = {
   ),
 };
 
-export const CenteredShowcase: Story = {
+export const AlignmentShowcase: Story = {
   args: {
     children: null,
   },
   render: () => (
-    <Box lx={{ flexDirection: 'row', gap: 's8' }}>
+    <Box lx={{ flexDirection: 'row', gap: 's8', height: 's144' }}>
       <Tile appearance='card' lx={{ width: 's128' }}>
         <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Title</TileTitle>
+          <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
-          <TileTrailingContent>
-            <Tag label='Label' appearance='base' />
-          </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile appearance='card' lx={{ width: 's128' }}>
+      <Tile
+        appearance='card'
+        horizontalAlignment='start'
+        verticalAlignment='start'
+        lx={{ width: 's128' }}
+      >
         <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Title</TileTitle>
+          <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
-          <TileTrailingContent>
-            <Tag label='Label' appearance='base' />
-          </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile appearance='card' lx={{ width: 's128' }}>
+      <Tile
+        appearance='card'
+        horizontalAlignment='center'
+        verticalAlignment='start'
+        lx={{ width: 's128' }}
+      >
         <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Title</TileTitle>
+          <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
-          <TileTrailingContent>
-            <Tag label='Label' appearance='base' />
-          </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile appearance='card' centered lx={{ width: 's128' }}>
-        <Spot icon={ChevronRight} />
+      <Tile
+        appearance='card'
+        horizontalAlignment='start'
+        verticalAlignment='center'
+        lx={{ width: 's128' }}
+      >
+        <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Show more</TileTitle>
+          <TileTitle>Reference</TileTitle>
+          <TileDescription>Description</TileDescription>
+        </TileContent>
+      </Tile>
+      <Tile
+        appearance='card'
+        horizontalAlignment='center'
+        verticalAlignment='center'
+        lx={{ width: 's128' }}
+      >
+        <Spot icon={Apps} />
+        <TileContent>
+          <TileTitle>Reference</TileTitle>
+          <TileDescription>Description</TileDescription>
         </TileContent>
       </Tile>
     </Box>

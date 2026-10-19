@@ -38,13 +38,60 @@ export default function Tiles() {
             </TileTrailingContent>
           </TileContent>
         </Tile>
-        <Tile lx={{ width: 's112' }} centered>
+        <Tile lx={{ width: 's112' }} verticalAlignment='center'>
           <Spot icon={ChevronRight} />
           <TileContent>
             <TileTitle>See more</TileTitle>
           </TileContent>
         </Tile>
       </Box>
+
+      <Box lx={{ flexDirection: 'row', gap: 's8', alignItems: 'stretch' }}>
+        <Tile
+          appearance='card'
+          lx={{ width: 's112' }}
+          horizontalAlignment='start'
+        >
+          <Spot icon={Settings} />
+          <TileContent>
+            <TileTitle>Start</TileTitle>
+            <TileDescription>Tile description</TileDescription>
+            <TileTrailingContent>
+              <Tag label='Tag' appearance='accent' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>
+        <Tile appearance='card' lx={{ width: 's112' }}>
+          <Spot icon={Settings} />
+          <TileContent>
+            <TileTitle>Center</TileTitle>
+          </TileContent>
+        </Tile>
+        <Tile
+          appearance='card'
+          lx={{ width: 's112' }}
+          horizontalAlignment='start'
+          verticalAlignment='center'
+        >
+          <Spot icon={ChevronRight} />
+          <TileContent>
+            <TileTitle>Start, centered</TileTitle>
+          </TileContent>
+        </Tile>
+      </Box>
+
+      <Tile appearance='card' horizontalAlignment='start'>
+        <Spot appearance='muted' icon={InformationFill} />
+        <TileContent>
+          <TileTitle>Full-width tile aligned to the start</TileTitle>
+          <TileDescription>
+            Title, description and trailing content follow the tile alignment.
+          </TileDescription>
+          <TileTrailingContent>
+            <Tag label='Tag' appearance='base' />
+          </TileTrailingContent>
+        </TileContent>
+      </Tile>
 
       <Tile>
         <Spot appearance='muted' icon={InformationFill} />

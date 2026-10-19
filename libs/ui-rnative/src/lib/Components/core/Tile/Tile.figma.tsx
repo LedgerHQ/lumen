@@ -32,6 +32,9 @@ const sharedProps = {
   disabled: figma.enum('state', {
     disabled: true,
   }),
+  horizontalAlignment: figma.enum('alignment', {
+    left: 'start',
+  }),
   leadingContent: figma.enum('leading-icon', {
     coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
     spot: <Spot icon={Settings} />,
@@ -58,6 +61,7 @@ figma.connect(
       <Tile
         appearance={props.appearance}
         disabled={props.disabled}
+        horizontalAlignment={props.horizontalAlignment}
         onPress={() => {}}
       >
         {props.leadingContent}
@@ -95,6 +99,7 @@ figma.connect(
       <Tile
         appearance={props.appearance}
         disabled={props.disabled}
+        horizontalAlignment={props.horizontalAlignment}
         onPress={() => {}}
       >
         {props.leadingContent}
