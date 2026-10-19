@@ -37,33 +37,16 @@ const baseArgs = {
 };
 
 export const Base: Story = {
-  args: baseArgs,
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<MediaCard
-  imageUrl="/promo.jpg"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <Tag label="Label" size="md" />
-  <MediaCardTitle>
-    <span>Black Friday sale. </span>
-    <span className="text-interactive">3 days with no fees </span>
-    <span>on your transactions.</span>
-  </MediaCardTitle>
-</MediaCard>`.trim(),
-      },
-    },
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    imageUrl:
+      'https://ledger-wp-website-s3-prd.ledger.com/uploads/2026/03/hero_visual-1.webp',
+    onClick: () => ({}),
+    onClose: () => ({}),
   },
   render: (args) => (
     <div className='w-full xs:w-320'>
-      <MediaCard
-        imageUrl={args.imageUrl}
-        onClick={args.onClick}
-        onClose={args.onClose}
-      >
+      <MediaCard {...args}>
         <Tag label='Label' size='md' />
         <MediaCardTitle>
           <span>Black Friday sale. </span>
@@ -76,41 +59,7 @@ export const Base: Story = {
 };
 
 export const LayoutShowcase: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<MediaCard
-  imageUrl="/promo.jpg"
-  className="w-fit"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <Tag label="Label" size="md" />
-  <MediaCardTitle>Fit displayed content</MediaCardTitle>
-</MediaCard>
-
-<MediaCard
-  imageUrl="/promo.jpg"
-  className="w-320"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <Tag label="Label" size="md" />
-  <MediaCardTitle>Defined width (320px)</MediaCardTitle>
-</MediaCard>
-
-<MediaCard
-  imageUrl="/promo.jpg"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <Tag label="Label" size="md" />
-  <MediaCardTitle>Full width (fills parent)</MediaCardTitle>
-</MediaCard>`.trim(),
-      },
-    },
-  },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-[640px] flex-col gap-16'>
       <MediaCard {...baseArgs} className='w-fit'>
@@ -132,53 +81,7 @@ export const LayoutShowcase: Story = {
 };
 
 export const CompositionShowcase: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `
-{/* Title only */}
-<MediaCard
-  imageUrl="/promo.jpg"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <MediaCardTitle>Title only</MediaCardTitle>
-</MediaCard>
-
-{/* With tag */}
-<MediaCard
-  imageUrl="/promo.jpg"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <Tag label="Promo" size="md" />
-  <MediaCardTitle>With tag and text</MediaCardTitle>
-</MediaCard>
-
-{/* With rich text */}
-<MediaCard
-  imageUrl="/promo.jpg"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <Tag label="New" size="md" />
-  <MediaCardTitle>
-    With<span className="text-interactive"> rich text </span>styling
-  </MediaCardTitle>
-</MediaCard>
-
-{/* With crypto icon */}
-<MediaCard
-  imageUrl="/promo.jpg"
-  onClick={() => {}}
-  onClose={() => {}}
->
-  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size={32} />
-  <MediaCardTitle>With crypto icon</MediaCardTitle>
-</MediaCard>`.trim(),
-      },
-    },
-  },
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-400 flex-col gap-16'>
       <MediaCard {...baseArgs}>

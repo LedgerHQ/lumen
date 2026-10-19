@@ -12,7 +12,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -45,6 +45,7 @@ type Story = StoryObj<typeof AddressInput>;
  * The default address field input with "To:" prefix and clickable QR code scanner icon.
  */
 export const Default: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     onQrCodeClick: () => console.log('QR code clicked!'),
@@ -55,6 +56,7 @@ export const Default: Story = {
  * Empty address field showing placeholder text and clickable QR code scanner.
  */
 export const Empty: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     onQrCodeClick: () => console.log('QR code clicked!'),
@@ -65,6 +67,7 @@ export const Empty: Story = {
  * Address field with content showing the clear button instead of QR code scanner.
  */
 export const WithContent: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     defaultValue: '0x95f980s5ag77xe7csuz',
@@ -76,6 +79,7 @@ export const WithContent: Story = {
  * Disabled address field input.
  */
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     disabled: true,
@@ -88,6 +92,7 @@ export const Disabled: Story = {
  * Read-only address field input.
  */
 export const ReadOnly: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     readOnly: true,
@@ -100,6 +105,7 @@ export const ReadOnly: Story = {
  * Address field in error state with error message.
  */
 export const Error: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     defaultValue: 'invalid-address-format',
@@ -172,6 +178,7 @@ export const Controlled: Story = {
 };
 
 export const WithMultilineTextarea: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     multiline: true,
@@ -183,6 +190,7 @@ export const WithMultilineTextarea: Story = {
 };
 
 export const WithMultilineFixedHeight: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     multiline: true,
@@ -197,6 +205,7 @@ export const WithMultilineFixedHeight: Story = {
  * Address field without QR code scanner (no onQrCodeClick handler provided).
  */
 export const WithoutQrCode: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     placeholder: 'Enter address or ENS',
     onQrCodeClick: undefined,

@@ -234,8 +234,17 @@ You can specify explicit appearance and size if needed:
 </Link>
 ```
 
-Note: When using asChild, the child element handles its own content. Props like 'icon' and 'isExternal' are ignored - implement equivalent functionality in the child if needed.
+### With an External Anchor
 
+```tsx
+<Link asChild appearance='accent' size='md'>
+  <a href='https://shop.ledger.com' target='_blank' rel='noopener noreferrer'>
+    External Link to Ledger Shop
+  </a>
+</Link>
+```
+
+Note: When using asChild, the child element handles its own content. Props like 'icon' and 'isExternal' are ignored - implement equivalent functionality in the child if needed.
 
 </Tab>
 </CustomTabs>

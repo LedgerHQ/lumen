@@ -66,6 +66,7 @@ export default meta;
 type Story = StoryObj<typeof Banner>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Information Banner',
@@ -78,23 +79,10 @@ export const Base: Story = {
       <Banner {...args} />
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Banner
-  appearance="info"
-  title="Information Banner"
-  onClose={() => console.log('Closed')}
-  closeAriaLabel="Close banner"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithDescription: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Banner with Description',
@@ -105,24 +93,10 @@ export const WithDescription: Story = {
       <Banner {...args} />
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Banner
-  appearance="info"
-  title="Banner with Description"
-  description="This is additional information about the banner."
-  onClose={() => console.log('Closed')}
-  closeAriaLabel="Close banner"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithActions: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Banner with Actions',
@@ -134,42 +108,10 @@ export const WithActions: Story = {
       <Banner {...args} />
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <Banner
-    appearance="info"
-    title="Banner with Full Features"
-    description="This is additional information about the banner."
-    primaryAction={(
-      <Button
-        appearance="gray"
-        size="sm"
-        onClick={() => console.log('Primary clicked')}
-      >
-        Primary
-      </Button>
-    )}
-    secondaryAction={(
-      <Button
-        appearance="no-background"
-        size="sm"
-        onClick={() => console.log('Secondary clicked')}
-      >
-        Secondary
-      </Button>
-    )}
-    onClose={() => console.log('Closed')}
-    closeAriaLabel="Close banner"
-  />
-  `,
-      },
-    },
-  },
 };
 
 export const WithFullFeatures: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Banner with Full Features',
@@ -200,42 +142,10 @@ export const WithFullFeatures: Story = {
       <Banner {...args} />
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <Banner
-    appearance="info"
-    title="Banner with Full Features"
-    description="This is additional information about the banner."
-    primaryAction={(
-      <Button
-        appearance="gray"
-        size="sm"
-        onClick={() => console.log('Primary clicked')}
-      >
-        Primary
-      </Button>
-    )}
-    secondaryAction={(
-      <Button
-        appearance="no-background"
-        size="sm"
-        onClick={() => console.log('Secondary clicked')}
-      >
-        Secondary
-      </Button>
-    )}
-    onClose={() => console.log('Closed')}
-    closeAriaLabel="Close banner"
-  />
-  `,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     const appearances = [
       { name: 'Info', appearance: 'info' },
@@ -263,6 +173,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentVariations: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     // max-w-md container for visual presentation - not required for Banner component
     <div className='flex max-w-md flex-col gap-16 p-8'>
@@ -339,6 +250,7 @@ export const ContentVariations: Story = {
 };
 
 export const NaturalWidth: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='space-y-4'>
       <p className='body-3 text-muted'>
@@ -364,6 +276,7 @@ export const NaturalWidth: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='grid w-400 grid-cols-1 gap-16 bg-muted-pressed p-16'>
       <div className='body-4-semi-bold text-muted'>

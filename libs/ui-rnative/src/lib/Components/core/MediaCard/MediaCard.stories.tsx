@@ -38,7 +38,14 @@ const baseArgs = {
 };
 
 export const Base: Story = {
-  args: baseArgs,
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    imageUrl:
+      'https://ledger-wp-website-s3-prd.ledger.com/uploads/2026/03/hero_visual-1.webp',
+    children: null,
+    onPress: () => ({}),
+    onClose: () => ({}),
+  },
   render: (args) => (
     <Box lx={{ width: 's320' }}>
       <MediaCard {...args}>
@@ -54,27 +61,10 @@ export const Base: Story = {
       </MediaCard>
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
-  <Tag label='Label' size='md' />
-  <MediaCardTitle>
-    Black Friday sale.
-    <Text typography='heading3SemiBold' lx={{ color: 'active' }}>
-      {' '}
-      3 days with no fees{' '}
-    </Text>
-    on your transactions.
-  </MediaCardTitle>
-</MediaCard>`,
-      },
-    },
-  },
 };
 
 export const LayoutShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     imageUrl: EXAMPLE_SRC,
     children: null,
@@ -94,20 +84,10 @@ export const LayoutShowcase: Story = {
       </MediaCard>
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
-  <Tag label="Label" size="md" />
-  <MediaCardTitle>Full width card</MediaCardTitle>
-</MediaCard>`,
-      },
-    },
-  },
 };
 
 export const CompositionShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     imageUrl: EXAMPLE_SRC,
     children: null,
@@ -136,29 +116,6 @@ export const CompositionShowcase: Story = {
       </MediaCard>
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-{/* Title only */}
-<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
-  <MediaCardTitle>Title only</MediaCardTitle>
-</MediaCard>
-
-{/* With tag */}
-<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
-  <Tag label="Promo" size="md" />
-  <MediaCardTitle>With tag and title</MediaCardTitle>
-</MediaCard>
-
-{/* With crypto icon */}
-<MediaCard imageUrl="/promo.jpg" onPress={() => {}} onClose={() => {}}>
-  <CryptoIcon ledgerId="bitcoin" ticker="BTC" size={32} />
-  <MediaCardTitle>With crypto icon</MediaCardTitle>
-</MediaCard>`,
-      },
-    },
-  },
 };
 
 export const WithClose: Story = {

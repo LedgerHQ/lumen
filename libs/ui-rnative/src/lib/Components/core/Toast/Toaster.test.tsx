@@ -431,7 +431,7 @@ describe('Toaster', () => {
       jest.useRealTimers();
     });
 
-    it('should expose the toast as one element labelled by its title', () => {
+    it('should expose the toast as one element labeled by its title', () => {
       renderToaster();
       act(() => {
         toast.info({ title: 'Saved' });

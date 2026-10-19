@@ -34,117 +34,54 @@ type Story = StoryObj<typeof CardButton>;
 type CardButtonAppearance = 'base' | 'outline';
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     title: 'Basic Card Button',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Basic Card Button"
-  className="max-w-md"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithIcon: Story = {
-  args: {
-    appearance: 'base',
-    title: 'Settings',
-    icon: Settings,
-    className: 'max-w-md',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Settings"
-  icon={Settings}
-  className="max-w-md"
-/>
-`,
-      },
-    },
-  },
+  render: () => (
+    <CardButton
+      appearance='base'
+      title='Settings'
+      icon={Settings}
+      className='max-w-md'
+    />
+  ),
 };
 
 export const WithDescription: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     title: 'Payment Method',
     description: 'Add or manage your payment options',
     className: 'max-w-md',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Payment Method"
-  description="Add or manage your payment options"
-  className="max-w-md"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithoutChevron: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'base',
     title: 'Navigate Forward',
     hideChevron: true,
     className: 'max-w-md',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Navigate Forward"
-  hideChevron
-  className="max-w-md"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const FullFeatures: Story = {
-  args: {
-    appearance: 'base',
-    title: 'Account Settings',
-    description: 'Manage your account preferences and security',
-    icon: Settings,
-    className: 'max-w-md',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Account Settings"
-  description="Manage your account preferences and security"
-  icon={Settings}
-  className="max-w-md"
-/>
-`,
-      },
-    },
-  },
+  render: () => (
+    <CardButton
+      appearance='base'
+      title='Account Settings'
+      description='Manage your account preferences and security'
+      icon={Settings}
+      className='max-w-md'
+    />
+  ),
 };
 
 export const NaturalWidth: Story = {
@@ -161,20 +98,6 @@ export const NaturalWidth: Story = {
       />
     </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<CardButton
-  appearance="base"
-  title="Natural Width Example"
-  description="This card button demonstrates how it flows naturally to fill the full width of its parent container without any max-width constraints"
-  icon={CreditCard}
-/>
-`,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {

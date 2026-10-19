@@ -1,6 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks';
 
-
 <Meta title='Getting Started/Setup Tailwind' />
 
 # Setup Tailwind CSS
@@ -35,7 +34,7 @@ npm install @ledgerhq/lumen-design-core
 npm install @ledgerhq/lumen-ui-react
 
 # Install peer dependencies
-npm install tailwindcss@^4.1.17 @tailwindcss/postcss @tailwindcss/vite react@^18.3.1 clsx tailwind-merge class-variance-authority
+npm install tailwindcss@^4.1.17 @tailwindcss/postcss @tailwindcss/vite react@^18.3.1 class-variance-authority
 ```
 
 ---
@@ -106,6 +105,7 @@ For the best development experience, we recommend the following setup:
      npm install -D @ledgerhq/lumen-lint-plugin
      ```
    - ESLint (`eslint.config.mjs`):
+
      ```javascript
      import lumen from '@ledgerhq/lumen-lint-plugin/eslint';
      import tseslint from 'typescript-eslint';
@@ -113,18 +113,25 @@ For the best development experience, we recommend the following setup:
      export default [
        ...tseslint.configs.recommended, // the presets set no parser
        lumen.configs.recommended,
-       { settings: { 'better-tailwindcss': { entryPoint: './src/styles.css' } } },
+       {
+         settings: { 'better-tailwindcss': { entryPoint: './src/styles.css' } },
+       },
      ];
      ```
+
    - oxlint (`.oxlintrc.json`; the oxlint side is experimental):
      ```json
      {
-       "extends": ["./node_modules/@ledgerhq/lumen-lint-plugin/oxlint/recommended.json"],
-       "settings": { "better-tailwindcss": { "entryPoint": "./src/styles.css" } }
+       "extends": [
+         "./node_modules/@ledgerhq/lumen-lint-plugin/oxlint/recommended.json"
+       ],
+       "settings": {
+         "better-tailwindcss": { "entryPoint": "./src/styles.css" }
+       }
      }
      ```
    - The presets register `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers `oxlint.config.ts`.
-   - Presets: `recommended` is the core: unknown, conflicting or duplicate classes, and restyling a Lumen component through `className` (a warning). `strict` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling to an error. Layout classes stay allowed on Lumen components in both, and any rule can be overridden like any other config.
+   - Presets: `recommended` is the core: unknown, conflicting or duplicate classes, restyling a Lumen component through `className` (a warning), and importing `tailwind-merge`, `clsx` or `classnames` instead of Lumen's `cn` (a warning). `strict` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling and those imports to errors. Layout classes stay allowed on Lumen components in both, and any rule can be overridden like any other config.
    - Without `entryPoint`, Tailwind's default theme is used and every Lumen class looks unknown.
 
 3. **AI Assistant Rules** (Optional)
@@ -137,56 +144,23 @@ For the best development experience, we recommend the following setup:
 
 ### 4. Utility Functions
 
-We recommend creating utility functions to help you work with Tailwind classes. Here's how to create powerful utilities that handle conditional classes, Tailwind class conflicts, and type-safe variants:
+**Merging class names with `cn`**
 
-**Creating Class Names Utility**
-
-Create your class names utility file (e.g., `utils/cn.ts`):
+`cn` ships with `@ledgerhq/lumen-design-core`, no extra install needed:
 
 ```typescript
-import { ClassValue, clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
-}
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 ```
 
-This utility combines the power of two popular libraries:
+It joins conditional classes ([clsx](https://www.npmjs.com/package/clsx)) and resolves conflicts ([tailwind-merge](https://www.npmjs.com/package/tailwind-merge)): the last class wins, including Lumen tokens like text colors and typography.
 
-- [clsx](https://www.npmjs.com/package/clsx): Handles conditional class names
-- [tailwind-merge](https://www.npmjs.com/package/tailwind-merge): Intelligently handles Tailwind CSS class conflicts
+```tsx
+<div className={cn('flex p-16', isActive && 'bg-active', className)} />;
 
-Example usage of cn utility:
-
-```typescript
-import { cn } from '../utils/cn';
-
-// Basic usage
-<div className={cn(
-  "base-class",
-  isActive && "active-class",
-  variant === "large" && "large-class"
-)}>
-
-// With conditional objects
-<div className={cn(
-  "px-4 py-2 rounded",
-  {
-    "bg-accent": isAccent,
-    "bg-base": !isAccent,
-    "bg-disabled": isDisabled
-  }
-)}>
-
-// Merging with component classes - handles Tailwind conflicts!
-<Component
-  className={cn(
-    "body-1 md:body-2", // Base styles
-    "body-2 md:body-3"  // Override - properly merges breakpoints
-  )}
-/>
+cn('text-base body-2', 'text-muted body-1'); // → 'text-muted body-1'
 ```
+
+Pass `className` last so it overrides the defaults.
 
 **Creating Component Variants Utility**
 
@@ -349,7 +323,7 @@ import { cssVar } from '@ledgerhq/lumen-design-core';
 <line
   style={{ stroke: cssVar('var(--border-muted)') }}
   strokeWidth={cssVar('var(--stroke-1)')}
-/>
+/>;
 ```
 
 Typos and invalid tokens are caught at compile time. Web-only — React Native should use `useTheme()` instead.

@@ -1,6 +1,6 @@
 import { Menu as MenuPrimitive } from '@base-ui/react/menu';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import {
-  cn,
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
@@ -280,7 +280,7 @@ const MenuSwitchItem = ({
         {...props}
       >
         {children}
-        <span className='pointer-events-none ml-auto'>
+        <span className='pointer-events-none ml-auto flex'>
           <Switch
             selected={checked}
             disabled={disabled}

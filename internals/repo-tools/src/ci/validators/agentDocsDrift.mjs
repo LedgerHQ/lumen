@@ -21,7 +21,8 @@
 //      `scope:internal` + `type:tooling` tags, ships a `private: true`
 //      package.json under the `@lumen/*` scope, and spreads `sharedConfig`.
 //   8. MCP config parity — `.mcp.json` and `.cursor/mcp.json` list the same
-//      servers with the same url/command (the one hand-synced, non-CI invariant).
+//      servers with the same url/command, except `CURSOR_ONLY_MCP` servers,
+//      which must stay out of `.mcp.json`.
 //
 // Deterministic, no dependencies. Run: node internals/repo-tools/src/ci/validators/agentDocsDrift.mjs
 
@@ -403,13 +404,34 @@ const readServers = (rel) => {
     return null;
   }
 };
+// Servers needing a per-person OAuth client secret: Claude Code stores it only at
+// `claude mcp add` time, and a project entry outranks the user-scoped one people
+// add (docs/mcp-servers.md), so these must not be in .mcp.json.
+const CURSOR_ONLY_MCP = new Set(['google-sheets']);
+
 const claudeMcp = readServers('.mcp.json');
 const cursorMcp = readServers('.cursor/mcp.json');
 if (claudeMcp && cursorMcp) {
-  const names = new Set([...Object.keys(claudeMcp), ...Object.keys(cursorMcp)]);
+  // Include CURSOR_ONLY_MCP so removing one from both files still fails.
+  const names = new Set([
+    ...Object.keys(claudeMcp),
+    ...Object.keys(cursorMcp),
+    ...CURSOR_ONLY_MCP,
+  ]);
   for (const name of names) {
     const a = claudeMcp[name];
     const b = cursorMcp[name];
+    if (CURSOR_ONLY_MCP.has(name)) {
+      if (a)
+        err(
+          `MCP server "${name}" is Cursor-only; remove it from .mcp.json (it would shadow each person's user-scoped Claude Code setup).`,
+        );
+      if (!b)
+        err(
+          `MCP server "${name}" is Cursor-only but missing from .cursor/mcp.json.`,
+        );
+      continue;
+    }
     if (!a) {
       err(`MCP server "${name}" is in .cursor/mcp.json but not .mcp.json.`);
       continue;

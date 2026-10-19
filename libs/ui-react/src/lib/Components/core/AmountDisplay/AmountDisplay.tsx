@@ -1,4 +1,5 @@
-import { cn, useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useSplitText, buildAriaLabel } from '@ledgerhq/lumen-utils-shared';
 import { memo } from 'react';
 import { useCommonTranslation } from '../../../../translations';
 import type {

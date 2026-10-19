@@ -3,6 +3,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 const CRYPTO_ICONS_URL = 'https://crypto-icons-storybook.pages.dev';
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   id: 'react-cryptoicon',
   title: 'Symbols/Crypto Icons',
 } satisfies Meta;

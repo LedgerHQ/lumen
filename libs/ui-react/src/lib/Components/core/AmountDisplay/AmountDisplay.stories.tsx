@@ -103,23 +103,20 @@ export default meta;
 type Story = StoryObj<typeof AmountDisplay>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: { functionValue: (fn: { name?: string }) => fn.name || '() => {}' },
+  },
   args: {
     value: 1234.56,
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-          <AmountDisplay value={1234.56} formatter={eurFormatter} />
-        `.trim(),
-      },
-    },
+    formatter: eurFormatter,
   },
 };
 
 export const Sizes: Story = {
   args: {
     value: 1234.56,
+    formatter: eurFormatter,
   },
   render: (props) => (
     <div className='flex flex-col place-items-center gap-24'>
@@ -174,6 +171,9 @@ export const WithHideButton: Story = {
 };
 
 export const Loading: Story = {
+  args: {
+    formatter: eurFormatter,
+  },
   render: (props) => (
     <AmountDisplay formatter={props.formatter} value={1234.56} loading={true} />
   ),

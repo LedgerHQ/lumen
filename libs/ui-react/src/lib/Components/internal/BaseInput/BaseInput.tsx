@@ -1,5 +1,5 @@
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import {
-  cn,
   resolveBaseInputPlaceholder,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';

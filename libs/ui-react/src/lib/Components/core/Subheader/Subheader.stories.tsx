@@ -1,6 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import type { HTMLAttributes } from 'react';
 import { Link } from '../Link/Link';
 import { Tooltip, TooltipTrigger, TooltipContent } from '../Tooltip/Tooltip';
 import {
@@ -12,10 +10,6 @@ import {
   SubheaderShowMore,
   SubheaderDescription,
 } from './Subheader';
-
-const Container = ({ className, ...props }: HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('w-400 bg-canvas p-8 text-base', className)} {...props} />
-);
 
 const meta = {
   component: Subheader,
@@ -34,7 +28,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -45,7 +39,7 @@ type Story = StoryObj<typeof Subheader>;
 
 export const Base: Story = {
   render: () => (
-    <Container>
+    <div className='w-400 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow>
           <SubheaderTitle>Section Title</SubheaderTitle>
@@ -55,29 +49,13 @@ export const Base: Story = {
           this section.
         </SubheaderDescription>
       </Subheader>
-    </Container>
+    </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Section Title</SubheaderTitle>
-  </SubheaderRow>
-  <SubheaderDescription>
-    This is a detailed description that provides additional context about this section.
-  </SubheaderDescription>
-</Subheader>
-        `,
-      },
-    },
-  },
 };
 
 export const InteractiveRow: Story = {
   render: () => (
-    <Container>
+    <div className='w-400 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow onClick={() => console.log('Row clicked')}>
           <SubheaderTitle>Accounts</SubheaderTitle>
@@ -89,31 +67,13 @@ export const InteractiveRow: Story = {
           more content
         </SubheaderDescription>
       </Subheader>
-    </Container>
+    </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Subheader>
-  <SubheaderRow onClick={handleRowClick}>
-    <SubheaderTitle>Accounts</SubheaderTitle>
-    <SubheaderCount value={5} />
-    <SubheaderShowMore />
-  </SubheaderRow>
-  <SubheaderDescription>
-    Interactive rows always include the chevron to indicate they lead to more content
-  </SubheaderDescription>
-</Subheader>
-        `,
-      },
-    },
-  },
 };
 
 export const WithInfoIcon: Story = {
   render: () => (
-    <Container>
+    <div className='w-400 bg-canvas p-8 text-base'>
       <Subheader>
         <SubheaderRow>
           <SubheaderTitle>Section with Info</SubheaderTitle>
@@ -130,37 +90,13 @@ export const WithInfoIcon: Story = {
           Use the info icon to provide contextual help or additional details
         </SubheaderDescription>
       </Subheader>
-    </Container>
+    </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Subheader>
-  <SubheaderRow>
-    <SubheaderTitle>Section with Info</SubheaderTitle>
-    <Tooltip>
-      <TooltipTrigger>
-        <SubheaderInfo />
-      </TooltipTrigger>
-      <TooltipContent>
-        Additional information about this section
-      </TooltipContent>
-    </Tooltip>
-  </SubheaderRow>
-  <SubheaderDescription>
-    Use the info icon to provide contextual help or additional details
-  </SubheaderDescription>
-</Subheader>
-        `,
-      },
-    },
-  },
 };
 
 export const WithAction: Story = {
   render: () => (
-    <Container>
+    <div className='w-400 bg-canvas p-8 text-base'>
       <Subheader>
         <div className='flex w-full items-center justify-between gap-24'>
           <SubheaderRow className='min-w-0 flex-1'>
@@ -184,27 +120,6 @@ export const WithAction: Story = {
           Place the action link in a flex layout beside the subheader
         </SubheaderDescription>
       </Subheader>
-    </Container>
+    </div>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Subheader>
-  <div className="flex w-full items-center justify-between gap-24">
-    <SubheaderRow className="min-w-0 flex-1">
-      <SubheaderTitle>Recent Activity</SubheaderTitle>
-    </SubheaderRow>
-    <Link href="#" appearance="accent" size="sm" underline={false} className="shrink-0">
-      View all
-    </Link>
-  </div>
-  <SubheaderDescription>
-    Place the action link in a flex layout beside the subheader
-  </SubheaderDescription>
-</Subheader>
-        `,
-      },
-    },
-  },
 };

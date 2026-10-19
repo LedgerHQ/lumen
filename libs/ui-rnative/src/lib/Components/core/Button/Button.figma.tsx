@@ -25,6 +25,7 @@ figma.connect(
         transparent: 'transparent',
         'no-background': 'no-background',
         red: 'red',
+        green: 'green',
       }),
       size: figma.enum('size', {
         sm: 'sm',

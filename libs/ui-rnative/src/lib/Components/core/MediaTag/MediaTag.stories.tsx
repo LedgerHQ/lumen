@@ -13,6 +13,9 @@ const ETH_ICON = (
 );
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
+  },
   component: MediaTag,
   id: 'rnative-mediatag',
   title: 'Core/MediaTag',

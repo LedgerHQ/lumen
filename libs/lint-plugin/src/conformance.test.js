@@ -10,7 +10,7 @@ import { ESLint } from 'eslint';
 import tseslint from 'typescript-eslint';
 import { afterAll, describe, expect, it } from 'vitest';
 
-import lumen from './eslint.js';
+import lumen, { NO_RESTRICTED_IMPORTS_OPTIONS } from './eslint.js';
 
 /** @import { Linter } from 'eslint' */
 
@@ -27,6 +27,7 @@ const oxlintBin = join(
   'oxlint',
 );
 const OUR_PLUGINS = new Set(['better-tailwindcss', 'shadcn']);
+const OUR_CORE_RULES = new Set(['no-restricted-imports']);
 
 /** @param {string} name */
 const fixture = (name) =>
@@ -95,7 +96,11 @@ async function lintWithEslint(target, config, { withFile = false } = {}) {
   return results
     .flatMap(({ filePath, messages }) =>
       messages
-        .filter(({ ruleId }) => OUR_PLUGINS.has(ruleId?.split('/')[0] ?? ''))
+        .filter(
+          ({ ruleId }) =>
+            OUR_PLUGINS.has(ruleId?.split('/')[0] ?? '') ||
+            OUR_CORE_RULES.has(ruleId ?? ''),
+        )
         .map(({ ruleId, line, severity }) =>
           entry(
             filePath,
@@ -129,11 +134,12 @@ async function lintWithOxlint(config, target, { withFile = false } = {}) {
         /** @type {{ code: string, filename: string, severity: string, labels: { span: { line: number } }[] }} */ d,
       ) => {
         const [, plugin, rule] = /^(.+)\((.+)\)$/.exec(d.code) ?? [];
-        return OUR_PLUGINS.has(plugin)
+        const isCore = plugin === 'eslint' && OUR_CORE_RULES.has(rule);
+        return OUR_PLUGINS.has(plugin) || isCore
           ? [
               entry(
                 d.filename,
-                `${plugin}/${rule}`,
+                isCore ? rule : `${plugin}/${rule}`,
                 d.labels[0].span.line,
                 d.severity === 'error' ? 'error' : 'warn',
                 withFile,
@@ -160,16 +166,17 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
     expect(json).toEqual(eslint);
     expect(eslint).toEqual([
-      'better-tailwindcss/no-concatenated-classes:10:error',
-      'better-tailwindcss/no-conflicting-classes:8:error',
-      'better-tailwindcss/no-conflicting-classes:8:error',
-      'better-tailwindcss/no-unknown-classes:11:error',
-      'better-tailwindcss/no-unknown-classes:6:error',
-      'shadcn/no-restyle:13:warn',
+      'better-tailwindcss/no-concatenated-classes:11:error',
+      'better-tailwindcss/no-conflicting-classes:9:error',
+      'better-tailwindcss/no-conflicting-classes:9:error',
+      'better-tailwindcss/no-unknown-classes:12:error',
+      'better-tailwindcss/no-unknown-classes:7:error',
+      'no-restricted-imports:3:error',
+      'shadcn/no-restyle:14:warn',
     ]);
   });
 
-  it('strict: a few more rules, and restyling raised', async () => {
+  it('strict: a few more rules, and restyling and class-merging imports raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
       lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
       lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
@@ -181,10 +188,11 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     expect(json).toEqual(strict);
     expect(strict).toEqual(
       expect.arrayContaining([
-        'shadcn/no-restyle:13:error',
-        'better-tailwindcss/enforce-consistent-class-order:6:error',
-        'shadcn/no-arbitrary-values:9:warn',
-        'shadcn/no-inline-styles:12:warn',
+        'shadcn/no-restyle:14:error',
+        'better-tailwindcss/enforce-consistent-class-order:7:error',
+        'shadcn/no-arbitrary-values:10:warn',
+        'shadcn/no-inline-styles:13:warn',
+        'no-restricted-imports:3:error',
       ]),
     );
     // Every core rule still reports; strict only adds rules.
@@ -197,7 +205,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     /** @type {Linter.RulesRecord} */
     const rules = {
       'shadcn/no-restyle': 'off',
-      'shadcn/no-inline-styles': 'warn',
+      'shadcn/no-inline-styles': 'error',
     };
     const [eslint, json] = await Promise.all([
       lintWithEslint(page, [
@@ -210,7 +218,28 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
     expect(json).toEqual(eslint);
     expect(ruleIds(eslint)).not.toContain('shadcn/no-restyle');
-    expect(eslint).toContain('shadcn/no-inline-styles:12:warn');
+    expect(eslint).toContain('shadcn/no-inline-styles:13:error');
+  });
+
+  it('a consumer adds restricted imports and keeps Lumen’s by spreading them', async () => {
+    /** @type {Linter.RulesRecord} */
+    const rules = {
+      'no-restricted-imports': [
+        'error',
+        { paths: [...NO_RESTRICTED_IMPORTS_OPTIONS.paths, { name: 'lodash' }] },
+      ],
+    };
+    const [eslint, json] = await Promise.all([
+      lintWithEslint(page, [
+        lumen.configs.recommended,
+        tailwindSettings,
+        { rules },
+      ]),
+      lintWithOxlint(oxlintrc('recommended.json', rules), page),
+    ]);
+
+    expect(json).toEqual(eslint);
+    expect(eslint).toContain('no-restricted-imports:3:error');
   });
 
   it('a consumer scopes a preset to some files with its own glob', async () => {
@@ -229,7 +258,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
 
     expect(oxlint).toEqual(eslint);
-    expect(eslint).toContain('page.web.tsx|shadcn/no-restyle:13:error');
+    expect(eslint).toContain('page.web.tsx|shadcn/no-restyle:14:error');
     // The unsuffixed file holds an unknown class and is left alone.
     expect(eslint.filter((line) => line.startsWith('helpers.ts|'))).toEqual([]);
   });

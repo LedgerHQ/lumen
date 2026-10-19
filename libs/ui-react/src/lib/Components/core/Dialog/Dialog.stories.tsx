@@ -29,25 +29,6 @@ import {
   DialogTrigger,
 } from './Dialog';
 
-const DialogContentTemplate = () => {
-  return (
-    <div className='flex flex-col gap-16'>
-      <p className='body-2 text-base'>
-        The content area after the DialogHeader can contain any components.
-        Ensure proper padding and scrolling if needed.
-      </p>
-      <div className='rounded-sm bg-muted p-12'>
-        <p className='body-3 text-muted'>
-          <strong className='body-3-semi-bold text-base'>Note:</strong> The
-          dialog content defaults to a width of 400px and height auto-adjusts to
-          content. Use the className prop on DialogContent to customize
-          dimensions if needed.
-        </p>
-      </div>
-    </div>
-  );
-};
-
 const meta = {
   component: Dialog,
   id: 'react-dialog',
@@ -76,8 +57,14 @@ export default meta;
 type Story = StoryObj<typeof Dialog>;
 
 export const Base: Story = {
-  render: () => (
-    <Dialog>
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    height: 'fit',
+    modal: true,
+    defaultOpen: false,
+  },
+  render: (args) => (
+    <Dialog {...args}>
       <DialogTrigger asChild>
         <Button appearance='base'>Open Dialog</Button>
       </DialogTrigger>
@@ -88,7 +75,20 @@ export const Base: Story = {
           description='Additional information'
         />
         <DialogBody>
-          <DialogContentTemplate />
+          <div className='flex flex-col gap-16'>
+            <p className='body-2 text-base'>
+              The content area after the DialogHeader can contain any
+              components. Ensure proper padding and scrolling if needed.
+            </p>
+            <div className='rounded-sm bg-muted p-12'>
+              <p className='body-3 text-muted'>
+                <strong className='body-3-semi-bold text-base'>Note:</strong>{' '}
+                The dialog content defaults to a width of 400px and height
+                auto-adjusts to content. Use the className prop on DialogContent
+                to customize dimensions if needed.
+              </p>
+            </div>
+          </div>
         </DialogBody>
         <DialogFooter>
           <DialogClose asChild>
@@ -101,39 +101,6 @@ export const Base: Story = {
       </DialogContent>
     </Dialog>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Uncontrolled — no open/onOpenChange state needed.
-// Use DialogClose to dismiss the dialog from buttons.
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader
-      density="compact"
-      title="Sheet Title"
-      description="Additional information"
-    />
-    <DialogBody>
-      Content here ...
-    </DialogBody>
-    <DialogFooter>
-      <DialogClose asChild>
-        <Button appearance="no-background">Cancel</Button>
-      </DialogClose>
-      <DialogClose asChild>
-        <Button appearance="base">Done</Button>
-      </DialogClose>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-        `,
-      },
-    },
-  },
 };
 
 export const Controlled: Story = {
@@ -153,7 +120,20 @@ export const Controlled: Story = {
             onClose={() => setOpen(false)}
           />
           <DialogBody>
-            <DialogContentTemplate />
+            <div className='flex flex-col gap-16'>
+              <p className='body-2 text-base'>
+                The content area after the DialogHeader can contain any
+                components. Ensure proper padding and scrolling if needed.
+              </p>
+              <div className='rounded-sm bg-muted p-12'>
+                <p className='body-3 text-muted'>
+                  <strong className='body-3-semi-bold text-base'>Note:</strong>{' '}
+                  The dialog content defaults to a width of 400px and height
+                  auto-adjusts to content. Use the className prop on
+                  DialogContent to customize dimensions if needed.
+                </p>
+              </div>
+            </div>
           </DialogBody>
           <DialogFooter>
             <Button appearance='no-background' onClick={() => setOpen(false)}>
@@ -166,42 +146,6 @@ export const Controlled: Story = {
         </DialogContent>
       </Dialog>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Controlled — manage open state yourself.
-// Use onClose on DialogHeader and onClick handlers to close via state.
-const [open, setOpen] = useState(false);
-
-<Dialog open={open} onOpenChange={setOpen}>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Controlled Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader
-      density="compact"
-      title="Controlled Dialog"
-      description="State is managed externally"
-      onClose={() => setOpen(false)}
-    />
-    <DialogBody>
-      Content here ...
-    </DialogBody>
-    <DialogFooter>
-      <Button appearance="no-background" onClick={() => setOpen(false)}>
-        Cancel
-      </Button>
-      <Button appearance="base" onClick={() => setOpen(false)}>
-        Done
-      </Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-        `,
-      },
-    },
   },
 };
 
@@ -280,6 +224,7 @@ export const HeightLayouts: Story = {
 };
 
 export const WithFooter: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     return (
       <div className='flex flex-wrap gap-16'>
@@ -330,6 +275,7 @@ export const WithFooter: Story = {
 };
 
 export const HeaderVariants: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     return (
       <div className='flex flex-wrap gap-16'>
@@ -344,7 +290,22 @@ export const HeaderVariants: Story = {
               description='Additional information'
             />
             <DialogBody>
-              <DialogContentTemplate />
+              <div className='flex flex-col gap-16'>
+                <p className='body-2 text-base'>
+                  The content area after the DialogHeader can contain any
+                  components. Ensure proper padding and scrolling if needed.
+                </p>
+                <div className='rounded-sm bg-muted p-12'>
+                  <p className='body-3 text-muted'>
+                    <strong className='body-3-semi-bold text-base'>
+                      Note:
+                    </strong>{' '}
+                    The dialog content defaults to a width of 400px and height
+                    auto-adjusts to content. Use the className prop on
+                    DialogContent to customize dimensions if needed.
+                  </p>
+                </div>
+              </div>
             </DialogBody>
           </DialogContent>
         </Dialog>
@@ -360,7 +321,22 @@ export const HeaderVariants: Story = {
               description='Additional information'
             />
             <DialogBody>
-              <DialogContentTemplate />
+              <div className='flex flex-col gap-16'>
+                <p className='body-2 text-base'>
+                  The content area after the DialogHeader can contain any
+                  components. Ensure proper padding and scrolling if needed.
+                </p>
+                <div className='rounded-sm bg-muted p-12'>
+                  <p className='body-3 text-muted'>
+                    <strong className='body-3-semi-bold text-base'>
+                      Note:
+                    </strong>{' '}
+                    The dialog content defaults to a width of 400px and height
+                    auto-adjusts to content. Use the className prop on
+                    DialogContent to customize dimensions if needed.
+                  </p>
+                </div>
+              </div>
             </DialogBody>
           </DialogContent>
         </Dialog>
@@ -377,7 +353,22 @@ export const HeaderVariants: Story = {
               onBack={() => console.log('Back clicked')}
             />
             <DialogBody>
-              <DialogContentTemplate />
+              <div className='flex flex-col gap-16'>
+                <p className='body-2 text-base'>
+                  The content area after the DialogHeader can contain any
+                  components. Ensure proper padding and scrolling if needed.
+                </p>
+                <div className='rounded-sm bg-muted p-12'>
+                  <p className='body-3 text-muted'>
+                    <strong className='body-3-semi-bold text-base'>
+                      Note:
+                    </strong>{' '}
+                    The dialog content defaults to a width of 400px and height
+                    auto-adjusts to content. Use the className prop on
+                    DialogContent to customize dimensions if needed.
+                  </p>
+                </div>
+              </div>
             </DialogBody>
           </DialogContent>
         </Dialog>
@@ -394,62 +385,27 @@ export const HeaderVariants: Story = {
               onBack={() => console.log('Back clicked')}
             />
             <DialogBody>
-              <DialogContentTemplate />
+              <div className='flex flex-col gap-16'>
+                <p className='body-2 text-base'>
+                  The content area after the DialogHeader can contain any
+                  components. Ensure proper padding and scrolling if needed.
+                </p>
+                <div className='rounded-sm bg-muted p-12'>
+                  <p className='body-3 text-muted'>
+                    <strong className='body-3-semi-bold text-base'>
+                      Note:
+                    </strong>{' '}
+                    The dialog content defaults to a width of 400px and height
+                    auto-adjusts to content. Use the className prop on
+                    DialogContent to customize dimensions if needed.
+                  </p>
+                </div>
+              </div>
             </DialogBody>
           </DialogContent>
         </Dialog>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Compact appearance (uncontrolled)
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader density="compact" title="Sheet Title" description="Additional information" />
-    <DialogBody>
-      Content here
-    </DialogBody>
-  </DialogContent>
-</Dialog>
-
-// Expanded appearance (uncontrolled)
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader density="expanded" title="Sheet Title" description="Additional information" />
-    <DialogBody>
-      Content here
-    </DialogBody>
-  </DialogContent>
-</Dialog>
-
-// With back button (uncontrolled)
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader 
-      density="compact" 
-      title="Sheet Title" 
-      onBack={() => console.log('Back clicked')}
-    />
-    <DialogBody>
-      Content here
-    </DialogBody>
-  </DialogContent>
-</Dialog>
-        `,
-      },
-    },
   },
 };
 
@@ -497,56 +453,6 @@ export const WithMultiSteps: Story = {
         </DialogContent>
       </Dialog>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Controlled — multi-step dialogs require state to manage steps and open/close.
-// Use onClose on DialogHeader to close the dialog via state.
-const [open, setOpen] = useState(false);
-const [step, setStep] = useState(1);
-
-const handleOpenChange = (isOpen: boolean) => {
-  setOpen(isOpen);
-  if (!isOpen) {
-    setStep(1);
-  }
-};
-
-<Dialog height="fixed" open={open} onOpenChange={handleOpenChange}>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader
-      density="expanded"
-      title={step === 1 ? 'Step 1' : 'Step 2'}
-      onClose={() => setOpen(false)}
-      onBack={step > 1 ? () => setStep(step - 1) : undefined}
-    />
-    <DialogBody>
-          <p className="text-base body-2">
-        {step === 1
-          ? 'Please review the information and click Continue to proceed.'
-          : 'You are now on step 2. Use the back button to return to the previous step.'}
-      </p>
-    </DialogBody>
-    <DialogFooter>
-      <Button
-        appearance="base"
-        size="lg"
-        isFull
-        onClick={() => (step === 1 ? setStep(2) : setOpen(false))}
-      >
-        {step === 1 ? 'Continue' : 'Done'}
-      </Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-        `,
-      },
-    },
   },
 };
 
@@ -774,96 +680,5 @@ export const InfoStateVariants: Story = {
         </Dialog>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-// Error state (uncontrolled)
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Error Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader density="compact" className="relative" />
-    <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-error" />
-        <Spot appearance="error" icon={DeleteCircleFill} size={72} />
-        <div className="flex flex-col items-center gap-12 text-center">
-          <h3 className="heading-4-semi-bold text-base">Title</h3>
-          <p className="body-2 text-muted">Description</p>
-        </div>
-      </div>
-    </DialogBody>
-    <DialogFooter className="gap-8">
-      <DialogClose asChild>
-        <Button appearance="base" size="lg" isFull>Label</Button>
-      </DialogClose>
-      <DialogClose asChild>
-        <Button appearance="no-background" size="lg" isFull>Label</Button>
-      </DialogClose>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-
-// Success state (uncontrolled)
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Success Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader density="compact" className="relative" />
-    <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-success" />
-        <Spot appearance="success" icon={CheckmarkCircleFill} size={72} />
-        <div className="flex flex-col items-center gap-12 text-center">
-          <h3 className="heading-4-semi-bold text-base">Title</h3>
-          <p className="body-2 text-muted">Description</p>
-        </div>
-      </div>
-    </DialogBody>
-    <DialogFooter className="gap-8">
-      <DialogClose asChild>
-        <Button appearance="base" size="lg" isFull>Label</Button>
-      </DialogClose>
-      <DialogClose asChild>
-        <Button appearance="no-background" size="lg" isFull>Label</Button>
-      </DialogClose>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-
-// Muted state (uncontrolled)
-<Dialog>
-  <DialogTrigger asChild>
-    <Button appearance="base">Open Muted Dialog</Button>
-  </DialogTrigger>
-  <DialogContent>
-    <DialogHeader density="compact" className="relative" />
-    <DialogBody>
-      <div className="flex flex-col items-center gap-24 overflow-hidden">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-full bg-gradient-muted" />
-        <Spot appearance="muted" icon={InformationFill} size={72} />
-        <div className="flex flex-col items-center gap-12 text-center">
-          <h3 className="heading-4-semi-bold text-base">Title</h3>
-          <p className="body-2 text-muted">Description</p>
-        </div>
-      </div>
-    </DialogBody>
-    <DialogFooter className="gap-8">
-      <DialogClose asChild>
-        <Button appearance="base" size="lg" isFull>Confirm</Button>
-      </DialogClose>
-      <DialogClose asChild>
-        <Button appearance="no-background" size="lg" isFull>Cancel</Button>
-      </DialogClose>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-        `,
-      },
-    },
   },
 };

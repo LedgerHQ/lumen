@@ -87,6 +87,7 @@ export default meta;
 type Story = StoryObj<typeof Banner>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Information Banner',
@@ -102,23 +103,10 @@ export const Base: Story = {
       />
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Banner
-  appearance="info"
-  title="Information Banner"
-  onClose={() => console.log('Closed')}
-  description="This is additional information about the banner."
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithDescription: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Banner with Description',
@@ -129,24 +117,10 @@ export const WithDescription: Story = {
       <Banner {...args} />
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Banner
-  appearance="info"
-  title="Banner with Description"
-  description="This is additional information about the banner."
-  onClose={() => console.log('Closed')}
-  closeAriaLabel="Close banner"
-/>
-`,
-      },
-    },
-  },
 };
 
 export const WithActions: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Banner with Actions',
@@ -158,42 +132,10 @@ export const WithActions: Story = {
       <Banner {...args} />
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <Banner
-    appearance="info"
-    title="Banner with Full Features"
-    description="This is additional information about the banner."
-    primaryAction={(
-      <Button
-        appearance="gray"
-        size="sm"
-        onPress={() => console.log('Primary clicked')}
-      >
-        Primary
-      </Button>
-    )}
-    secondaryAction={(
-      <Button
-        appearance="no-background"
-        size="sm"
-        onPress={() => console.log('Secondary clicked')}
-      >
-        Secondary
-      </Button>
-    )}
-    onClose={() => console.log('Closed')}
-    closeAriaLabel="Close banner"
-  />
-  `,
-      },
-    },
-  },
 };
 
 export const WithFullFeatures: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     appearance: 'info',
     title: 'Banner with Full Features',
@@ -224,42 +166,10 @@ export const WithFullFeatures: Story = {
       <Banner {...args} />
     </Box>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-  <Banner
-    appearance="info"
-    title="Banner with Full Features"
-    description="This is additional information about the banner."
-    primaryAction={(
-      <Button
-        appearance="gray"
-        size="sm"
-        onPress={() => console.log('Primary clicked')}
-      >
-        Primary
-      </Button>
-    )}
-    secondaryAction={(
-      <Button
-        appearance="no-background"
-        size="sm"
-        onPress={() => console.log('Secondary clicked')}
-      >
-        Secondary
-      </Button>
-    )}
-    onClose={() => console.log('Closed')}
-    closeAriaLabel="Close banner"
-  />
-  `,
-      },
-    },
-  },
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     const appearances = [
       { name: 'Info', appearance: 'info' },
@@ -294,6 +204,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const ContentVariations: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box
       lx={{
@@ -376,6 +287,7 @@ export const ContentVariations: Story = {
 };
 
 export const NaturalWidth: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'column', gap: 's16' }}>
       <Text typography='body3' lx={{ color: 'muted' }}>
@@ -401,6 +313,7 @@ export const NaturalWidth: Story = {
 };
 
 export const ResponsiveLayout: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box
       lx={{

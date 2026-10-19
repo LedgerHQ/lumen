@@ -6,6 +6,7 @@ import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Scrubber,
   id: 'rnative-scrubber',
   title: 'Visualization/Scrubber',
@@ -38,6 +39,7 @@ const multiSeries = [
 ];
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart series={singleSeries} height={200} showArea enableScrubbing>
       <Scrubber {...args} />
@@ -47,6 +49,7 @@ export const Base: Story = {
 };
 
 export const MultiSeries: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart series={multiSeries} height={200} enableScrubbing>
       <Scrubber {...args} showBeacons />
@@ -65,6 +68,7 @@ export const IdlePulse: Story = {
 };
 
 export const HiddenLine: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart series={singleSeries} height={200} showArea enableScrubbing>
       <Scrubber {...args} hideLine />
@@ -74,6 +78,7 @@ export const HiddenLine: Story = {
 };
 
 export const HiddenOverlay: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (
     <LineChart series={singleSeries} height={200} showArea enableScrubbing>
       <Scrubber {...args} hideOverlay />

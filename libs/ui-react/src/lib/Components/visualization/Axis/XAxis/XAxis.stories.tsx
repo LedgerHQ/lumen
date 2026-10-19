@@ -18,6 +18,7 @@ import { XAxis } from './XAxis';
  * the `xAxis` config so each control maps directly to an `XAxisProps` field.
  */
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: XAxis,
   id: 'react-xaxis',
   title: 'Visualization/XAxis',
@@ -47,6 +48,7 @@ type Story = StoryObj<typeof XAxis>;
 
 /** Numeric, index-based axis with no decorations beyond labels. */
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showLine: true,
     showGrid: true,
@@ -57,6 +59,7 @@ export const Base: Story = {
  * `gridLineStyle` switches between `'dashed'` and `'solid'`.
  */
 export const GridLineStyle: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showGrid: true,
     showLine: true,
@@ -66,6 +69,7 @@ export const GridLineStyle: Story = {
 
 /** `showTickMark` draws a small tick at each label. */
 export const ShowTickMark: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showTickMark: true,
   },
@@ -76,6 +80,7 @@ export const ShowTickMark: Story = {
  * of the raw numeric index.
  */
 export const StringLabels: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     data: monthLabels,
     showGrid: true,
@@ -95,6 +100,7 @@ export const TickLabelFormatter: Story = {
  * marks, useful when the values are conveyed elsewhere (e.g. a scrubber tooltip).
  */
 export const HideLabels: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     data: monthLabels,
     showGrid: true,
@@ -105,6 +111,7 @@ export const HideLabels: Story = {
 
 /** `ticks` pins explicit positions instead of the auto-computed set. */
 export const CustomTicks: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showGrid: true,
     ticks: [0, 3, 6, 9, 13],
@@ -113,6 +120,7 @@ export const CustomTicks: Story = {
 
 /** `position` moves the axis to the top of the drawing area. */
 export const Position: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     position: 'top',
     showGrid: true,
@@ -124,6 +132,7 @@ export const Position: Story = {
  * discrete labels supplied via `data`.
  */
 export const ScaleType: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     scaleType: 'band',
     data: monthLabels,

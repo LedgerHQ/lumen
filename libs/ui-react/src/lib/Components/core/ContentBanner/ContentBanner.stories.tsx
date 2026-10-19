@@ -99,6 +99,7 @@ export const WithClose: Story = {
 };
 
 export const WithStepper: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='w-320'>
       <ContentBanner onClose={() => console.log('close')}>

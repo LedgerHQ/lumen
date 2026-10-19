@@ -90,6 +90,12 @@ The root forwards its ref and props, so the group can be wrapped as a tooltip tr
 
 <Source of={MediaImageGroupStories.Base} />
 
+### Custom items
+
+Pass `renderItem` to render something other than a `MediaImage`, such as a crypto icon. Forward the `size` and `shape` it receives so the overlap and the overflow badge stay consistent.
+
+<Source of={MediaImageGroupStories.WithRenderItem} type='code' />
+
 ### Item keys
 
 To set a stable React key, pass an `id` in each `data` item. When omitted, the index is used. Items rendered with `renderItem` are keyed by index.

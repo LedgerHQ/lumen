@@ -1,4 +1,5 @@
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { Slot, Slottable } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
 import { Spinner } from '../../core/Spinner';
@@ -19,6 +20,8 @@ export const baseButtonVariants = cva(
         'no-background':
           'bg-transparent text-base hover:bg-base-transparent-hover active:bg-base-transparent-pressed disabled:bg-base-transparent',
         red: 'bg-error-transparent text-error hover:bg-error-transparent-hover active:bg-error-transparent-pressed',
+        green:
+          'bg-success-transparent text-success hover:bg-success-transparent-hover active:bg-success-transparent-pressed',
       },
       disabled: {
         true: '',
@@ -66,6 +69,7 @@ const iconVariants = cva('shrink-0', {
       base: 'text-on-interactive',
       accent: 'text-on-accent',
       red: 'text-error',
+      green: 'text-success',
       gray: 'text-base',
       'no-background': 'text-base',
       transparent: 'text-base',

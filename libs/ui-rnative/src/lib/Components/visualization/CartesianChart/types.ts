@@ -15,7 +15,7 @@ import type {
 export type ScrubbingOptions = {
   /**
    * Enables scrubbing (pan gesture) interactions on the chart.
-   * When true, add a `<Scrubber>` as a child to visualise the interaction.
+   * When true, add a `<Scrubber>` as a child to visualize the interaction.
    * @default false
    */
   enableScrubbing?: boolean;

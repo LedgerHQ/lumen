@@ -1,5 +1,5 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
 
@@ -36,6 +36,7 @@ const cryptoSegments: DonutSegment[] = [
 ];
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: DonutChart,
   id: 'react-donutchart',
   title: 'Visualization/DonutChart',
@@ -56,9 +57,12 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof DonutChart>;
 
-export const Base: Story = {};
+export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+};
 
 export const Sizes: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args) => (
     <div className='flex flex-wrap items-center gap-32'>
       <div className='flex flex-col items-center gap-8'>
@@ -80,6 +84,7 @@ const uncoloredSegments: DonutSegment[] = [
 ];
 
 export const DefaultColors: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     series: uncoloredSegments,
   },
@@ -109,6 +114,7 @@ const buildSegments = (count: number): DonutSegment[] =>
 const LOAD_REPLAY_DELAY_MS = 1500;
 
 export const SegmentCounts: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-wrap items-center gap-32'>
       {[1, 2, 3, 4, 5, 6, 7].map((count) => (
@@ -130,26 +136,6 @@ const tinyValueSegments: DonutSegment[] = [
 ];
 
 export const WithTinyValues: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<DonutChart
-  series={tinyValueSegments}
-  defaultActiveId="dust"
-  renderCenter={({ activeSegment }) => (
-    <DonutChartCenter>
-      <DonutChartTitle size="sm">
-        {activeSegment?.percentLabel ?? '100%'}
-      </DonutChartTitle>
-      <DonutChartDescription>
-        {activeSegment?.label ?? 'Total'}
-      </DonutChartDescription>
-    </DonutChartCenter>
-  )}
-/>`,
-      },
-    },
-  },
   render: (args) => (
     <DonutChart
       {...args}
@@ -172,20 +158,6 @@ export const WithTinyValues: Story = {
 const emptySegments: DonutSegment[] = [];
 
 export const NoData: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `<DonutChart
-  series={emptySegments}
-  renderCenter={() => (
-    <DonutChartCenter>
-      <DonutChartDescription>No data</DonutChartDescription>
-    </DonutChartCenter>
-  )}
-/>`,
-      },
-    },
-  },
   render: (args) => (
     <DonutChart
       {...args}
@@ -201,6 +173,7 @@ export const NoData: Story = {
 
 export const Loading: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     chromatic: { pauseAnimationAtEnd: true },
   },
   args: {
@@ -208,9 +181,12 @@ export const Loading: Story = {
   },
 };
 
-export const Interactive: Story = {};
+export const Interactive: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+};
 
 export const WithLegend: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args) => (
     <div className='flex items-center gap-24'>
       <DonutChart {...args} />
@@ -379,6 +355,7 @@ const darkContrastSegments: DonutSegment[] = [
 ];
 
 export const WithColorContrast: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-col gap-24'>
       <div className='flex items-end gap-32'>
@@ -442,7 +419,6 @@ const longLabelSegments: DonutSegment[] = [
 ];
 
 export const ResponsivenessShowcase: Story = {
-  parameters: { docs: { source: { type: 'code' } } },
   render: (args) => (
     <DonutChart
       {...args}
@@ -469,7 +445,6 @@ export const ResponsivenessShowcase: Story = {
 };
 
 export const ResponsivenessShowcaseWithReactNode: Story = {
-  parameters: { docs: { source: { type: 'code' } } },
   render: (args) => (
     <DonutChart
       {...args}

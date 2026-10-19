@@ -81,7 +81,6 @@ const meta = {
     TableActionBar,
     TableActionBarLeading,
     TableActionBarTrailing,
-    TableRoot,
     TableCellItem,
     TableCellContent,
     TableCellContentTitle,
@@ -196,6 +195,7 @@ export const Base: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args) => {
     const table = (appearance: 'no-background' | 'plain') => (
       <div className='w-3xl'>
@@ -290,99 +290,147 @@ const horizontalScrollColumns = [
   { header: 'Volume', align: 'end', width: 'w-176' },
 ] as const;
 
-const HorizontalScrollTable = ({
-  withColumnWidths = false,
-}: {
-  withColumnWidths?: boolean;
-}) => (
-  <Table>
-    {withColumnWidths && (
-      <TableColGroup>
-        {horizontalScrollColumns.map((column) => (
-          <TableCol key={column.header} className={column.width} />
-        ))}
-      </TableColGroup>
-    )}
-    <TableHeader>
-      <TableHeaderRow>
-        {horizontalScrollColumns.map((column) => (
-          <TableHeaderCell key={column.header} align={column.align}>
-            {column.header}
-          </TableHeaderCell>
-        ))}
-      </TableHeaderRow>
-    </TableHeader>
-    <TableBody>
-      {largeData.map((row) => (
-        <TableRow key={row.symbol}>
-          <TableCell>
-            <TableCellItem>
-              <Spot size={40} icon={Android} />
-              <TableCellContent>
-                <TableCellContentTitle>{row.name}</TableCellContentTitle>
-                <TableCellContentDescription>
-                  {row.symbol}
-                </TableCellContentDescription>
-              </TableCellContent>
-            </TableCellItem>
-          </TableCell>
-          <TableCell align='end'>{row.price}</TableCell>
-          <TableCell align='end'>{row.change}</TableCell>
-          <TableCell align='end'>$1.2B</TableCell>
-          <TableCell align='end'>$320M</TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-);
-
 export const WithHorizontalScroll: Story = {
-  args: {
-    horizontalLayout: { type: 'scroll', minWidth: 960 },
-  },
-  parameters: {
-    layout: 'padded',
-  },
-  render: (args) => (
+  parameters: { layout: 'padded' },
+  render: () => (
     <div className='mx-auto w-3xl max-w-full text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
-        <HorizontalScrollTable />
+      <TableRoot
+        horizontalLayout={{ type: 'scroll', minWidth: 960 }}
+        aria-label='Assets'
+        className='max-h-320'
+      >
+        <Table>
+          <TableHeader>
+            <TableHeaderRow>
+              {horizontalScrollColumns.map((column) => (
+                <TableHeaderCell key={column.header} align={column.align}>
+                  {column.header}
+                </TableHeaderCell>
+              ))}
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            {largeData.map((row) => (
+              <TableRow key={row.symbol}>
+                <TableCell>
+                  <TableCellItem>
+                    <Spot size={40} icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
+                </TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
+                <TableCell align='end'>$1.2B</TableCell>
+                <TableCell align='end'>$320M</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </TableRoot>
     </div>
   ),
 };
 
 export const WithHorizontalScrollFromColumnWidths: Story = {
-  args: {
-    horizontalLayout: { type: 'scroll' },
-  },
-  parameters: {
-    layout: 'padded',
-  },
-  render: (args) => (
+  parameters: { layout: 'padded' },
+  render: () => (
     <div className='mx-auto w-3xl max-w-full text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
-        <HorizontalScrollTable withColumnWidths />
+      <TableRoot
+        horizontalLayout={{ type: 'scroll' }}
+        aria-label='Assets'
+        className='max-h-320'
+      >
+        <Table>
+          <TableColGroup>
+            {horizontalScrollColumns.map((column) => (
+              <TableCol key={column.header} className={column.width} />
+            ))}
+          </TableColGroup>
+          <TableHeader>
+            <TableHeaderRow>
+              {horizontalScrollColumns.map((column) => (
+                <TableHeaderCell key={column.header} align={column.align}>
+                  {column.header}
+                </TableHeaderCell>
+              ))}
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            {largeData.map((row) => (
+              <TableRow key={row.symbol}>
+                <TableCell>
+                  <TableCellItem>
+                    <Spot size={40} icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
+                </TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
+                <TableCell align='end'>$1.2B</TableCell>
+                <TableCell align='end'>$320M</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </TableRoot>
     </div>
   ),
 };
 
 export const WithResponsiveHorizontalScroll: Story = {
-  args: {
-    horizontalLayout: {
-      base: { type: 'scroll', minWidth: 960 },
-      lg: { type: 'shrink' },
-    },
-  },
-  parameters: {
-    layout: 'padded',
-    chromatic: { viewports: [800, 1280] },
-  },
-  render: (args) => (
+  parameters: { layout: 'padded', chromatic: { viewports: [800, 1280] } },
+  render: () => (
     <div className='mx-auto w-3xl max-w-full text-base'>
-      <TableRoot {...args} aria-label='Assets' className='max-h-320'>
-        <HorizontalScrollTable />
+      <TableRoot
+        horizontalLayout={{
+          base: { type: 'scroll', minWidth: 960 },
+          lg: { type: 'shrink' },
+        }}
+        aria-label='Assets'
+        className='max-h-320'
+      >
+        <Table>
+          <TableHeader>
+            <TableHeaderRow>
+              {horizontalScrollColumns.map((column) => (
+                <TableHeaderCell key={column.header} align={column.align}>
+                  {column.header}
+                </TableHeaderCell>
+              ))}
+            </TableHeaderRow>
+          </TableHeader>
+          <TableBody>
+            {largeData.map((row) => (
+              <TableRow key={row.symbol}>
+                <TableCell>
+                  <TableCellItem>
+                    <Spot size={40} icon={Android} />
+                    <TableCellContent>
+                      <TableCellContentTitle>{row.name}</TableCellContentTitle>
+                      <TableCellContentDescription>
+                        {row.symbol}
+                      </TableCellContentDescription>
+                    </TableCellContent>
+                  </TableCellItem>
+                </TableCell>
+                <TableCell align='end'>{row.price}</TableCell>
+                <TableCell align='end'>{row.change}</TableCell>
+                <TableCell align='end'>$1.2B</TableCell>
+                <TableCell align='end'>$320M</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </TableRoot>
     </div>
   ),

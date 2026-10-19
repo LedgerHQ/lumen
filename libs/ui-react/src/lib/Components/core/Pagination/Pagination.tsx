@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import { useCommonTranslation } from '../../../../translations';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import { Button } from '../Button';

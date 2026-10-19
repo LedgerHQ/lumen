@@ -15,6 +15,7 @@ const sampleSeries = [
 ];
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: Point,
   id: 'rnative-point',
   title: 'Visualization/Point',
@@ -118,6 +119,7 @@ export const NoPoint: Story = {
     dataY: 98,
   },
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },

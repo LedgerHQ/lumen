@@ -1,5 +1,5 @@
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import {
-  cn,
   getStepperCalculations,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';

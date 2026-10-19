@@ -6,6 +6,7 @@ const meta = {
   title: 'Core/Skeleton',
   component: Skeleton,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     backgrounds: { default: 'light' },
     layout: 'centered',
   },

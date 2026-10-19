@@ -37,37 +37,30 @@ export default meta;
 type Story = StoryObj<typeof InteractiveIcon>;
 
 export const Filled: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries({ DeleteCircleFill }).find(
+          ([, icon]) => icon === fn,
+        )?.[0] ?? '() => {}',
+    },
+  },
   args: {
     iconType: 'filled',
     icon: DeleteCircleFill,
     'aria-label': 'Delete',
   },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<InteractiveIcon iconType="filled" icon={DeleteCircleFill} aria-label="Delete" />
-`,
-      },
-    },
-  },
 };
 
 export const Stroked: Story = {
-  args: {
-    iconType: 'stroked',
-    icon: MoreVertical,
-    'aria-label': 'More actions',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<InteractiveIcon iconType="stroked" icon={MoreVertical} aria-label="More actions" />
-`,
-      },
-    },
-  },
+  render: () => (
+    <InteractiveIcon
+      iconType='stroked'
+      icon={MoreVertical}
+      aria-label='More actions'
+    />
+  ),
 };
 
 export const IconTypeShowcase: Story = {

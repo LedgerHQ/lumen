@@ -61,6 +61,21 @@ export const NO_ARBITRARY_VALUES_OPTIONS = deepFreeze({
   componentImports: LUMEN_COMPONENTS,
 });
 
+const USE_LUMEN_CN_MESSAGE =
+  "Use cn from '@ledgerhq/lumen-design-core/cn': it joins classes like clsx and resolves conflicts between Lumen classes, which plain tailwind-merge misreads.";
+
+/**
+ * Pushes class composition to Lumen's `cn`. A consumer who sets their own
+ * `no-restricted-imports` replaces this whole entry, so they spread these
+ * options to keep ours.
+ */
+export const NO_RESTRICTED_IMPORTS_OPTIONS = deepFreeze({
+  paths: ['tailwind-merge', 'clsx', 'classnames'].map((name) => ({
+    name,
+    message: USE_LUMEN_CN_MESSAGE,
+  })),
+});
+
 /** @typedef {'recommended' | 'strict'} PresetName */
 
 /** @type {Record<PresetName, Record<string, unknown>>} */
@@ -74,6 +89,7 @@ export const RULES = {
     // Never a valid choice, and `--fix` removes it.
     'better-tailwindcss/no-duplicate-classes': 'error',
     'shadcn/no-restyle': ['warn', NO_RESTYLE_OPTIONS],
+    'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs
   // one `--fix`), and arbitrary values and inline styles as signals.
@@ -84,5 +100,6 @@ export const RULES = {
     'shadcn/no-restyle': ['error', NO_RESTYLE_OPTIONS],
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
+    'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
 };

@@ -19,9 +19,7 @@ const meta = {
   id: 'react-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
-  parameters: {
-    layout: 'centered',
-  },
+  parameters: { docs: { source: { type: 'code' } }, layout: 'centered' },
   argTypes: {
     icon: {
       options: Object.keys(iconMap),
@@ -47,6 +45,14 @@ export default meta;
 type Story = StoryObj<typeof IconButton>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries(iconMap).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
+  },
   args: {
     'aria-label': 'Settings',
     icon: Settings,
@@ -230,33 +236,5 @@ export const AsChild: Story = {
         </IconButton>
       </div>
     );
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-        <IconButton
-          asChild
-          aria-label='Go to home'
-          icon={Home}
-          appearance='accent'
-          tooltip
-        >
-          <CustomLink to='/' />
-        </IconButton>
-
-        <IconButton
-          asChild
-          aria-label='Go to Ledger Shop'
-          icon={ExternalLink}
-          appearance='base'
-          tooltip
-        >
-          <CustomLink to='https://shop.ledger.com' />
-        </IconButton>
-
-        `,
-      },
-    },
   },
 };

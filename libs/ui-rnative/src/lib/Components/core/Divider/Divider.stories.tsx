@@ -8,6 +8,7 @@ const meta = {
   id: 'rnative-divider',
   title: 'Core/Divider',
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     actions: { disable: true },
   },
 } satisfies Meta<typeof Divider>;

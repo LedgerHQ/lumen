@@ -22,6 +22,7 @@ const meta = {
   title: 'Primitives/Pulse',
   component: Pulse,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     layout: 'centered',
   },
 } satisfies Meta<typeof Pulse>;

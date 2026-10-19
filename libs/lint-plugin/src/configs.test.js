@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 
 import { plugin as shadcn } from '@shadcn/lint';
+import { builtinRules } from 'eslint/use-at-your-own-risk';
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 import { describe, expect, it } from 'vitest';
 
@@ -11,6 +12,7 @@ import eslint from './eslint.js';
 import oxlint from './oxlint.js';
 import {
   NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTRICTED_IMPORTS_OPTIONS,
   NO_RESTYLE_OPTIONS,
   RULES,
 } from './rules.js';
@@ -25,17 +27,18 @@ const levels = (rules) =>
   );
 
 describe('presets', () => {
-  it('recommended is better-tailwindcss’ correctness config plus duplicates, and restyling as a warning', () => {
+  it('recommended is better-tailwindcss’ correctness config plus duplicates, and restyling and class-merging imports as warnings', () => {
     expect(levels(RULES.recommended)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
       'shadcn/no-restyle': 'warn',
+      'no-restricted-imports': 'error',
     });
   });
 
-  it('strict adds the stylistic rules and the shadcn signals, and raises restyling', () => {
+  it('strict adds the stylistic rules and the shadcn signals, and raises restyling and class-merging imports', () => {
     expect(levels(RULES.strict)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
@@ -49,17 +52,19 @@ describe('presets', () => {
       'shadcn/no-restyle': 'error',
       'shadcn/no-arbitrary-values': 'warn',
       'shadcn/no-inline-styles': 'warn',
+      'no-restricted-imports': 'error',
     });
   });
 
   it.each(['recommended', 'strict'])(
-    '%s only names rules the plugins really have',
+    '%s only names rules the plugins or ESLint core really have',
     (preset) => {
       const known = [
         ...Object.keys(betterTailwindcss.rules ?? {}).map(
           (rule) => `better-tailwindcss/${rule}`,
         ),
         ...Object.keys(shadcn.rules ?? {}).map((rule) => `shadcn/${rule}`),
+        ...builtinRules.keys(),
       ];
       for (const id of Object.keys(
         RULES[/** @type {'recommended' | 'strict'} */ (preset)],
@@ -79,6 +84,23 @@ describe('presets', () => {
     expect(NO_RESTYLE_OPTIONS.allow).toEqual(['layout']);
   });
 
+  it('points every class-merging import at Lumen’s cn', () => {
+    expect(RULES.recommended['no-restricted-imports']).toEqual([
+      'error',
+      NO_RESTRICTED_IMPORTS_OPTIONS,
+    ]);
+    expect(RULES.strict['no-restricted-imports']).toEqual([
+      'error',
+      NO_RESTRICTED_IMPORTS_OPTIONS,
+    ]);
+    expect(NO_RESTRICTED_IMPORTS_OPTIONS.paths.map(({ name }) => name)).toEqual(
+      ['tailwind-merge', 'clsx', 'classnames'],
+    );
+    for (const { message } of NO_RESTRICTED_IMPORTS_OPTIONS.paths) {
+      expect(message).toContain('@ledgerhq/lumen-design-core/cn');
+    }
+  });
+
   it('exports Lumen’s options frozen, so no consumer changes them for everyone', () => {
     for (const options of [NO_RESTYLE_OPTIONS, NO_ARBITRARY_VALUES_OPTIONS]) {
       expect(Object.isFrozen(options)).toBe(true);
@@ -86,6 +108,7 @@ describe('presets', () => {
       expect(Object.isFrozen(options.componentImports)).toBe(true);
     }
     expect(Object.isFrozen(NO_RESTYLE_OPTIONS.message)).toBe(true);
+    expect(Object.isFrozen(NO_RESTRICTED_IMPORTS_OPTIONS.paths)).toBe(true);
   });
 
   it('leave the selectors to better-tailwindcss’ defaults', () => {

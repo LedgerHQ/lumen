@@ -11,7 +11,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'code',
+        type: 'dynamic',
       },
     },
   },
@@ -25,16 +25,5 @@ export const Base: Story = {
     typography: 'body1',
     lx: { color: 'base' },
     children: 'Hello World',
-  },
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Text typography='body1' lx={{ color: 'base' }}>
-  Hello World
-</Text>
-`,
-      },
-    },
   },
 };

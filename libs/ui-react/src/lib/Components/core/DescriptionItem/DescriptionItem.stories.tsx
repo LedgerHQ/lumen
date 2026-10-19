@@ -46,6 +46,7 @@ export default meta;
 type Story = StoryObj<typeof DescriptionItem>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     size: 'md',
     className: 'w-320',
@@ -63,6 +64,7 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-320 flex-col gap-16'>
       <DescriptionItem size='md'>
@@ -105,6 +107,7 @@ export const SizeShowcase: Story = {
 };
 
 export const TrailingVariants: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-320 flex-col gap-16'>
       <DescriptionItem>
@@ -139,6 +142,7 @@ export const TrailingVariants: Story = {
 };
 
 export const WithInfoIcon: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-320 flex-col gap-16'>
       <DescriptionItem>
@@ -177,6 +181,7 @@ export const WithInfoIcon: Story = {
 };
 
 export const PriorityShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-320 flex-col gap-16'>
       <DescriptionItem priority='end'>

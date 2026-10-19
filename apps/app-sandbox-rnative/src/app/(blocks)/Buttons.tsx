@@ -70,6 +70,14 @@ export default function Buttons() {
       >
         Red
       </Button>
+      <Button
+        appearance='green'
+        onPress={() => {
+          console.log('Button pressed');
+        }}
+      >
+        Green
+      </Button>
     </>
   );
 }

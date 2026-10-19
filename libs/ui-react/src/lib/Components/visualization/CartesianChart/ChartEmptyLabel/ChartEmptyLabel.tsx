@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react';
 type ChartEmptyLabelProps = PropsWithChildren;
 
 /**
- * Centred HTML overlay label shown when a chart has no data (and is not
+ * Centered HTML overlay label shown when a chart has no data (and is not
  * loading). Rendered through the `overlay` prop of `CartesianChart` so it shares
  * the chart's positioned container and aligns with the chart footprint. Shared
  * across cartesian charts.

@@ -199,7 +199,7 @@ export function useTooltipMeasurement(
   useEffect(() => {
     if (itemsRef.current.length === 0) return;
 
-    let cancelled = false;
+    let canceled = false;
 
     const { promise, cancel } = measureWidths(
       itemsRef.current,
@@ -209,11 +209,11 @@ export function useTooltipMeasurement(
       valueRefs,
     );
     void promise.then((result) => {
-      if (!cancelled) setWidths(result);
+      if (!canceled) setWidths(result);
     });
 
     return () => {
-      cancelled = true;
+      canceled = true;
       cancel();
     };
   }, [shapeKey]);

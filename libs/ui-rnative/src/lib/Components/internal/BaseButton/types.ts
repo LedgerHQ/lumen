@@ -13,7 +13,8 @@ export type BaseButtonProps = {
     | 'accent'
     | 'transparent'
     | 'no-background'
-    | 'red';
+    | 'red'
+    | 'green';
   /**
    * The size variant of the button.
    * @default md

@@ -39,8 +39,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
 
   return plugin(
     function ({ addBase, theme, addUtilities }) {
-      // TODO: Remove type cast after exporting all values as strings from Figma
-      addBase(primitivesTheme as never);
+      addBase(primitivesTheme);
       addUtilities(createIconUtilities(theme));
       addUtilities(createSpotUtilities(theme));
     },

@@ -18,6 +18,7 @@ const meta = {
     PopoverContent,
   },
   parameters: {
+    docs: { source: { type: 'code' } },
     layout: 'centered',
     backgrounds: {
       default: 'light',
@@ -29,41 +30,12 @@ export default meta;
 
 type Story = StoryObj<typeof Popover>;
 
-const DefaultContent = () => {
-  return (
-    <div className='flex flex-col gap-24'>
-      <div className='flex items-center gap-12'>
-        <Avatar
-          size='lg'
-          src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-        />
-        <div>
-          <div className='heading-4-semi-bold text-base'>John Doe</div>
-          <Tag label='Status: Active' appearance='success' />
-        </div>
-      </div>
-
-      <div>
-        <p className='heading-4-semi-bold text-base'>Notifications</p>
-        <p className='body-2 text-muted'>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-          quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Quisquam, quos.
-        </p>
-      </div>
-      <div className='flex gap-12'>
-        <Button size='sm' appearance='gray'>
-          View all
-        </Button>
-        <Button size='sm' appearance='gray'>
-          Settings
-        </Button>
-      </div>
-    </div>
-  );
-};
-
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    overlay: false,
+    defaultOpen: false,
+  },
   render: (args) => (
     <Popover {...args}>
       <PopoverTrigger
@@ -71,13 +43,42 @@ export const Base: Story = {
       />
 
       <PopoverContent className='w-400'>
-        <DefaultContent />
+        <div className='flex flex-col gap-24'>
+          <div className='flex items-center gap-12'>
+            <Avatar
+              size='lg'
+              src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+            />
+            <div>
+              <div className='heading-4-semi-bold text-base'>John Doe</div>
+              <Tag label='Status: Active' appearance='success' />
+            </div>
+          </div>
+
+          <div>
+            <p className='heading-4-semi-bold text-base'>Notifications</p>
+            <p className='body-2 text-muted'>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.
+              Quisquam, quos.
+            </p>
+          </div>
+          <div className='flex gap-12'>
+            <Button size='sm' appearance='gray'>
+              View all
+            </Button>
+            <Button size='sm' appearance='gray'>
+              Settings
+            </Button>
+          </div>
+        </div>
       </PopoverContent>
     </Popover>
   ),
 };
 
 export const WidthShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex items-center gap-16'>
       <Popover>
@@ -125,6 +126,7 @@ export const WidthShowcase: Story = {
 };
 
 export const PositionShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => {
     const side = ['top', 'bottom', 'left', 'right'] as const;
     const align = ['end', 'center', 'start'] as const;
@@ -157,6 +159,7 @@ export const PositionShowcase: Story = {
 };
 
 export const WithOverlay: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex items-center gap-16'>
       <Popover overlay>
@@ -165,7 +168,35 @@ export const WithOverlay: Story = {
         />
 
         <PopoverContent width='fixed'>
-          <DefaultContent />
+          <div className='flex flex-col gap-24'>
+            <div className='flex items-center gap-12'>
+              <Avatar
+                size='lg'
+                src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              />
+              <div>
+                <div className='heading-4-semi-bold text-base'>John Doe</div>
+                <Tag label='Status: Active' appearance='success' />
+              </div>
+            </div>
+
+            <div>
+              <p className='heading-4-semi-bold text-base'>Notifications</p>
+              <p className='body-2 text-muted'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Quisquam, quos. Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Quisquam, quos.
+              </p>
+            </div>
+            <div className='flex gap-12'>
+              <Button size='sm' appearance='gray'>
+                View all
+              </Button>
+              <Button size='sm' appearance='gray'>
+                Settings
+              </Button>
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
 
@@ -175,7 +206,35 @@ export const WithOverlay: Story = {
         />
 
         <PopoverContent width='fixed'>
-          <DefaultContent />
+          <div className='flex flex-col gap-24'>
+            <div className='flex items-center gap-12'>
+              <Avatar
+                size='lg'
+                src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+              />
+              <div>
+                <div className='heading-4-semi-bold text-base'>John Doe</div>
+                <Tag label='Status: Active' appearance='success' />
+              </div>
+            </div>
+
+            <div>
+              <p className='heading-4-semi-bold text-base'>Notifications</p>
+              <p className='body-2 text-muted'>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Quisquam, quos. Lorem ipsum dolor sit amet consectetur
+                adipisicing elit. Quisquam, quos.
+              </p>
+            </div>
+            <div className='flex gap-12'>
+              <Button size='sm' appearance='gray'>
+                View all
+              </Button>
+              <Button size='sm' appearance='gray'>
+                Settings
+              </Button>
+            </div>
+          </div>
         </PopoverContent>
       </Popover>
     </div>
@@ -202,7 +261,37 @@ export const WithControlledState: Story = {
 
           <PopoverContent>
             <div className='flex w-400 flex-col gap-16'>
-              <DefaultContent />
+              <div className='flex flex-col gap-24'>
+                <div className='flex items-center gap-12'>
+                  <Avatar
+                    size='lg'
+                    src='https://plus.unsplash.com/premium_photo-1689551670902-19b441a6afde?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                  />
+                  <div>
+                    <div className='heading-4-semi-bold text-base'>
+                      John Doe
+                    </div>
+                    <Tag label='Status: Active' appearance='success' />
+                  </div>
+                </div>
+
+                <div>
+                  <p className='heading-4-semi-bold text-base'>Notifications</p>
+                  <p className='body-2 text-muted'>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                    Quisquam, quos. Lorem ipsum dolor sit amet consectetur
+                    adipisicing elit. Quisquam, quos.
+                  </p>
+                </div>
+                <div className='flex gap-12'>
+                  <Button size='sm' appearance='gray'>
+                    View all
+                  </Button>
+                  <Button size='sm' appearance='gray'>
+                    Settings
+                  </Button>
+                </div>
+              </div>
               <Button
                 size='sm'
                 appearance='gray'

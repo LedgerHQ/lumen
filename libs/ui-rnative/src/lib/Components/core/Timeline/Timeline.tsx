@@ -337,7 +337,7 @@ export const Timeline = ({
 
 /**
  * One row of a timeline. Draws the indicator from `status` and the connector
- * to the neighbouring items.
+ * to the neighboring items.
  */
 export const TimelineItem = ({
   ref,

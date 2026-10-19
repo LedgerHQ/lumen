@@ -15,7 +15,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -70,6 +70,7 @@ export const Default: Story = {
 };
 
 export const WithContent: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     defaultValue: 'Initial content',
@@ -77,6 +78,7 @@ export const WithContent: Story = {
 };
 
 export const WithLabelAndPlaceholder: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Phone',
     placeholder: '+1 (555) 000-0000',
@@ -84,6 +86,7 @@ export const WithLabelAndPlaceholder: Story = {
 };
 
 export const ExtendedClearBehavior: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Extended Clear Behavior',
     onClear: () => {
@@ -115,6 +118,7 @@ export const UncontrolledInputExample = () => {
 };
 
 export const HiddenClearButton: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Clear Button Hidden',
     defaultValue: 'Content with no clear button',
@@ -145,6 +149,7 @@ export const WithError: Story = {
 };
 
 export const WithCounter: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     helperText: 'Info text',
@@ -172,6 +177,7 @@ export const WithCounterExceeded: Story = {
 };
 
 export const WithNativeMaxLength: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     helperText: 'Input is capped at 8 characters',
@@ -181,6 +187,7 @@ export const WithNativeMaxLength: Story = {
 };
 
 export const WithSuccess: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Address',
     defaultValue: '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb27',
@@ -190,6 +197,7 @@ export const WithSuccess: Story = {
 };
 
 export const WithNeutralHint: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Address',
     placeholder: '0x…',
@@ -198,6 +206,7 @@ export const WithNeutralHint: Story = {
 };
 
 export const WithMultilineTextarea: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex flex-col gap-24'>
       <div>
@@ -234,6 +243,7 @@ export const WithMultilineTextarea: Story = {
 };
 
 export const WithMultilineFixedHeight: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Note',
     multiline: true,
@@ -243,6 +253,7 @@ export const WithMultilineFixedHeight: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     defaultValue: 'Disabled content',
@@ -251,6 +262,7 @@ export const Disabled: Story = {
 };
 
 export const ReadOnly: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     label: 'Label',
     defaultValue: 'Read-only content',

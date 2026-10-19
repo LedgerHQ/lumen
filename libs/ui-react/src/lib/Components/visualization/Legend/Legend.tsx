@@ -1,4 +1,4 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 
 import { LegendItem } from './LegendItem';
 import type { LegendProps } from './types';

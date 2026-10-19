@@ -15,7 +15,7 @@ export type PointLabelComponent = ComponentType<PointLabelProps>;
  *
  * - `'auto'`: keep the label inside the drawing area, anchoring it to the
  *   nearest edge when it would overflow.
- * - `'center'`: always centre the label on the point.
+ * - `'center'`: always center the label on the point.
  */
 export type LabelAlignment = 'center' | 'auto';
 
@@ -77,7 +77,7 @@ export type PointProps = {
    * Custom component rendered instead of the default `PointLabel`.
    * Receives pixel coordinates (`x`, `y`) and the resolved label as
    * `children`. Use `PointLabel` inside your component to retain
-   * theme styling while customising layout or appearance.
+   * theme styling while customizing layout or appearance.
    */
   LabelComponent?: PointLabelComponent;
   /**
@@ -116,7 +116,7 @@ export type PointProps = {
    * Horizontal alignment of the label relative to the chart's drawing area.
    * With `'auto'`, a label that would overflow the left/right edge is anchored
    * to that edge and grows inward instead of being clipped, while the arrow
-   * keeps pointing at the exact data point. Use `'center'` to always centre the
+   * keeps pointing at the exact data point. Use `'center'` to always center the
    * label on the point.
    * @default 'auto'
    */

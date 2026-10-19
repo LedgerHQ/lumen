@@ -104,10 +104,10 @@ export const Base: Story = {
     items: CURRENCIES,
     children: null,
   },
-  render: () => {
+  render: (args) => {
     const [value, setValue] = useState<string | null>(null);
     const bottomSheetRef = useBottomSheetRef();
-    const selected = CURRENCIES.find((c) => c.value === value);
+    const selected = args.items.find((c) => c.value === value);
 
     return (
       <>
@@ -126,7 +126,7 @@ export const Base: Story = {
           <BottomSheetView>
             <BottomSheetHeader title='Select currency' />
             <SelectList
-              items={CURRENCIES}
+              {...args}
               value={value}
               onValueChange={(v) => {
                 setValue(v);

@@ -1,4 +1,5 @@
-import { cn, isTextChildren } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { isTextChildren } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 
 import { useDonutSizeContext } from './donutSizeContext';

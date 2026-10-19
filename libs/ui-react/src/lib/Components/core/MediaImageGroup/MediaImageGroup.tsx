@@ -1,5 +1,5 @@
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import {
-  cn,
   DisabledProvider,
   useDisabledContext,
   DEFAULT_GROUP_MAX_VISIBLE,

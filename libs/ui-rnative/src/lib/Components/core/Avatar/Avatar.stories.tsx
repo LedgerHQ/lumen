@@ -1,19 +1,9 @@
-import { AVATAR_COLOR_KEYS } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import type { ComponentProps } from 'react';
 
 import { Box } from '../../primitives';
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { Avatar } from './Avatar';
 import { useResolveAvatarColor } from '.';
-
-const FallbackAvatar = ({
-  identifier,
-  ...props
-}: { identifier: string } & Omit<
-  ComponentProps<typeof Avatar>,
-  'fallbackColor'
->) => <Avatar {...props} fallbackColor={useResolveAvatarColor(identifier)} />;
 
 const meta = {
   component: Avatar,
@@ -43,22 +33,17 @@ const getInitials = (index: number) => {
 };
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     src: exampleSrc,
     alt: 'avatar',
     size: 'md',
   },
   render: (args) => <Avatar {...args} />,
-  parameters: {
-    docs: {
-      source: {
-        code: `<Avatar src="https://example.com" size="md" alt="avatar" />`,
-      },
-    },
-  },
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ gap: 's8' }}>
       <Box lx={{ alignItems: 'flex-end', flexDirection: 'row', gap: 's16' }}>
@@ -81,39 +66,44 @@ export const SizeShowcase: Story = {
 };
 
 export const FallbackShowcase: Story = {
-  parameters: {
-    docs: {
-      source: {
-        code: `function UserAvatar({ user }) {
-  return <Avatar fallbackColor={useResolveAvatarColor(user.id)} alt={user.name} />;
-}`,
-      },
-    },
+  render: () => {
+    const fallbackColors = [
+      useResolveAvatarColor('user-0'),
+      useResolveAvatarColor('user-1'),
+      useResolveAvatarColor('user-2'),
+      useResolveAvatarColor('user-3'),
+      useResolveAvatarColor('user-4'),
+      useResolveAvatarColor('user-5'),
+      useResolveAvatarColor('user-6'),
+      useResolveAvatarColor('user-7'),
+    ];
+
+    return (
+      <Box lx={{ gap: 's16' }}>
+        <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
+          {fallbackColors.map((fallbackColor, i) => (
+            <Avatar
+              key={i}
+              fallbackColor={fallbackColor}
+              fallbackText={getInitials(i)}
+              alt={getInitials(i)}
+            />
+          ))}
+          <Avatar fallbackText={getInitials(fallbackColors.length)} />
+        </Box>
+        <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
+          {fallbackColors.map((fallbackColor, i) => (
+            <Avatar key={i} fallbackColor={fallbackColor} alt={`User ${i}`} />
+          ))}
+          <Avatar />
+        </Box>
+      </Box>
+    );
   },
-  render: () => (
-    <Box lx={{ gap: 's16' }}>
-      <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
-        {AVATAR_COLOR_KEYS.map((_, i) => (
-          <FallbackAvatar
-            key={i}
-            identifier={`user-${i}`}
-            fallbackText={getInitials(i)}
-            alt={getInitials(i)}
-          />
-        ))}
-        <Avatar fallbackText={getInitials(AVATAR_COLOR_KEYS.length)} />
-      </Box>
-      <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's16' }}>
-        {AVATAR_COLOR_KEYS.map((_, i) => (
-          <FallbackAvatar key={i} identifier={`user-${i}`} alt={`User ${i}`} />
-        ))}
-        <Avatar />
-      </Box>
-    </Box>
-  ),
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
       <Avatar size='md' alt='No ring' />
@@ -124,6 +114,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const NotificationShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <Box lx={{ flexDirection: 'row', gap: 's16' }}>
       <Avatar src={exampleSrc} alt='avatar' size='md' />

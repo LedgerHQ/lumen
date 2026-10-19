@@ -1,5 +1,6 @@
 import { Combobox } from '@base-ui/react/combobox';
-import { cn, useDisabledContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import type { ReactElement } from 'react';
 import { useLayoutEffect } from 'react';
 import { useCommonTranslation } from '../../../../translations';

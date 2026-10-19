@@ -18,6 +18,7 @@ import { YAxis } from './YAxis';
  * with a focus on the domain & scale mental model.
  */
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   component: YAxis,
   id: 'react-yaxis',
   title: 'Visualization/YAxis',
@@ -47,6 +48,7 @@ type Story = StoryObj<typeof YAxis>;
 
 /** Base y-axis with labels and a baseline. */
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showLine: true,
   },
@@ -54,6 +56,7 @@ export const Base: Story = {
 
 /** `showLine` renders the axis baseline. */
 export const ShowLine: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showLine: true,
   },
@@ -61,6 +64,7 @@ export const ShowLine: Story = {
 
 /** `showGrid` draws a horizontal grid line at each tick. */
 export const ShowGrid: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showGrid: true,
   },
@@ -78,6 +82,7 @@ export const TickLabelFormatter: Story = {
  * with `width: 0` to also reclaim the horizontal space the labels would use.
  */
 export const HideLabels: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showGrid: true,
     showLabels: false,
@@ -90,6 +95,7 @@ export const HideLabels: Story = {
  * independent of the data's own extent.
  */
 export const CustomDomain: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showGrid: true,
     domain: { min: -50, max: 150 },
@@ -115,6 +121,7 @@ export const DomainFunction: Story = {
  * data fill the plot area boundary-to-boundary.
  */
 export const Nice: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     showGrid: true,
     nice: false,
@@ -124,6 +131,7 @@ export const Nice: Story = {
 
 /** `position` moves the axis to the end (right) side of the drawing area. */
 export const Position: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     position: 'end',
     showGrid: true,
@@ -144,6 +152,7 @@ export const Width: Story = {
  * positive.
  */
 export const LogScale: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     scaleType: 'log',
     showGrid: true,

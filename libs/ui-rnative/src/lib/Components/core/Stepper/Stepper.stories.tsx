@@ -8,6 +8,7 @@ const meta = {
   title: 'Core/Stepper',
   component: Stepper,
   parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'dynamic' } },
     actions: { disable: true },
   },
   argTypes: {

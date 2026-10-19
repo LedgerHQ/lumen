@@ -4,6 +4,9 @@ import { View } from 'react-native';
 import { LineChart } from './LineChart';
 
 const meta = {
+  parameters: {
+    docs: { source: { language: 'tsx', format: true, type: 'code' } },
+  },
   component: LineChart,
   id: 'rnative-linechart',
   title: 'Visualization/LineChart',
@@ -44,6 +47,7 @@ const multiSeries = [
 
 export const Base: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -56,6 +60,7 @@ export const Base: Story = {
 
 export const WithXAxis: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -73,6 +78,7 @@ export const WithXAxis: Story = {
 
 export const XAxisExplicitNumericData: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -91,6 +97,7 @@ export const XAxisExplicitNumericData: Story = {
 
 export const XAxisStringData: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -109,6 +116,7 @@ export const XAxisStringData: Story = {
 
 export const WithStringLabels: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -142,6 +150,7 @@ export const WithStringLabels: Story = {
 
 export const WithCustomTicks: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -193,6 +202,7 @@ export const WithTickFormatter: Story = {
 
 export const XAxisTop: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -211,6 +221,7 @@ export const XAxisTop: Story = {
 
 export const MultipleSeries: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -228,6 +239,7 @@ export const MultipleSeries: Story = {
 
 export const CustomDomain: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -271,6 +283,7 @@ export const WithBothAxes: Story = {
 
 export const WithBothAxesMultipleSeries: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -293,6 +306,7 @@ export const WithBothAxesMultipleSeries: Story = {
 
 export const WithArea: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },
@@ -310,6 +324,7 @@ export const WithArea: Story = {
 
 export const WithAreaMultipleSeries: Story = {
   parameters: {
+    docs: { source: { type: 'dynamic' } },
     layout: 'centered',
     backgrounds: { default: 'light' },
   },

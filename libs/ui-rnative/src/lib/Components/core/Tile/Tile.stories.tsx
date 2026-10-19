@@ -76,21 +76,6 @@ export const Base: Story = {
       </TileContent>
     </Tile>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Tile lx={{ maxWidth: 's112' }}>
-  <Spot icon={Settings} />
-  <TileContent>
-    <TileTitle>Item with Spot and Description</TileTitle>
-    <TileDescription>Additional information</TileDescription>
-  </TileContent>
-</Tile>
-`,
-      },
-    },
-  },
 };
 
 export const VariantsShowcase: Story = {
@@ -154,24 +139,6 @@ export const WithSecondaryAction: Story = {
       </TileContent>
     </Tile>
   ),
-  parameters: {
-    docs: {
-      source: {
-        code: `
-<Tile
-  onLongPress={() => alert('Long press - secondary action triggered!')}
-  lx={{ maxWidth: 's160' }}
->
-  <Spot icon={Settings} />
-  <TileContent>
-    <TileTitle>Long Press Me</TileTitle>
-    <TileDescription>Try long pressing this tile</TileDescription>
-  </TileContent>
-</Tile>
-`,
-      },
-    },
-  },
 };
 
 export const HorizontalList: Story = {

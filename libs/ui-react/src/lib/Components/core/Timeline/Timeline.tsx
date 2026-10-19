@@ -1,4 +1,5 @@
-import { cn, createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { ReactElement } from 'react';
 import {
@@ -119,7 +120,7 @@ export const Timeline = ({
 
 /**
  * One row of a timeline. Draws the indicator from `status` and the connector
- * to the neighbouring items.
+ * to the neighboring items.
  */
 export const TimelineItem = ({
   ref,

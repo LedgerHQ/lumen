@@ -33,7 +33,7 @@ export type BaseAxisProps = {
   /**
    * Explicit tick positions along the axis.
    * When omitted, ticks are computed automatically from the scale. An empty
-   * array is honoured literally and renders no ticks — to keep ticks while
+   * array is honored literally and renders no ticks — to keep ticks while
    * hiding their marks or labels, use `showTickMark` / `showLabels` instead.
    */
   ticks?: number[];

@@ -39,10 +39,12 @@ Tile components are compact, card-like interactive elements designed for horizon
 Two appearance variants are available with multiple interactive states:
 
 **Appearances:**
+
 - **no-background** (default): Transparent background with hover/pressed states
 - **card**: Surface background color with hover/pressed states
 
 **States:**
+
 - **Default**: Base state with no interaction
 - **Hover / Pressed**: Darker background when hovered or pressed
 - **Disabled**: Non-interactive state with disabled styles
@@ -129,6 +131,54 @@ import { Settings, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
 </Tile>;
 ```
 
+### With Secondary Action Menu
+
+Wrap the `TileSecondaryAction` in a `Menu` to open a menu from the tile's secondary action:
+
+```tsx
+import {
+  Menu,
+  MenuContent,
+  MenuItem,
+  MenuTrigger,
+  Spot,
+  Tile,
+  TileContent,
+  TileDescription,
+  TileSecondaryAction,
+  TileTitle,
+} from '@ledgerhq/lumen-ui-react';
+import { Settings, MoreVertical } from '@ledgerhq/lumen-ui-react/symbols';
+
+<Tile
+  appearance='no-background'
+  className='w-112'
+  onClick={() => console.log('tile clicked')}
+  secondaryAction={
+    <Menu>
+      <MenuTrigger
+        render={
+          <TileSecondaryAction
+            icon={MoreVertical}
+            onClick={() => console.log('secondary action clicked')}
+          />
+        }
+      />
+      <MenuContent className='w-208'>
+        <MenuItem>Rename</MenuItem>
+        <MenuItem>Delete</MenuItem>
+      </MenuContent>
+    </Menu>
+  }
+>
+  <Spot icon={Settings} />
+  <TileContent>
+    <TileTitle>Item with Spot and Description</TileTitle>
+    <TileDescription>Additional information</TileDescription>
+  </TileContent>
+</Tile>
+```
+
 ### With Trailing Content (Tags, etc.)
 
 Use TileTrailingContent inside TileContent to wrap Tags or other supplementary content.
@@ -202,7 +252,13 @@ import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
 ### With Coin Icon
 
 ```tsx
-import { Tile, TileContent, TileTitle, TileDescription, Spot } from '@ledgerhq/lumen-ui-react';
+import {
+  Tile,
+  TileContent,
+  TileTitle,
+  TileDescription,
+  Spot,
+} from '@ledgerhq/lumen-ui-react';
 import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 
 <Tile onClick={() => console.log('Clicked!')}>
@@ -284,8 +340,6 @@ function VirtualTileList({ items }) {
 ```
 
 > 📦 Install with `npm install @tanstack/react-virtual`. See the [TanStack Virtual documentation](https://tanstack.com/virtual/latest/docs/introduction) for more details.
-
-
 
 </Tab>
 </CustomTabs>

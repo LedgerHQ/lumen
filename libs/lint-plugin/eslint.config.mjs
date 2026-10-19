@@ -20,7 +20,15 @@ export default [
           ],
           // eslint, oxlint and tailwindcss are the host the plugin runs in, not
           // modules it imports; `tslib` is a build helper but only types are emitted.
-          ignoredDependencies: ['eslint', 'oxlint', 'tailwindcss', 'tslib'],
+          // design-core is never imported: its peer pins the version whose
+          // `/cn` entry `no-restricted-imports` points consumers to.
+          ignoredDependencies: [
+            'eslint',
+            'oxlint',
+            'tailwindcss',
+            'tslib',
+            '@ledgerhq/lumen-design-core',
+          ],
         },
       ],
     },

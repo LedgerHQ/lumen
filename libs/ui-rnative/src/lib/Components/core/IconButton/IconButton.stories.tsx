@@ -12,6 +12,7 @@ const iconMap = {
 } as const;
 
 const meta = {
+  parameters: { docs: { source: { type: 'code' } } },
   id: 'rnative-iconbutton',
   title: 'Core/IconButton',
   component: IconButton,
@@ -59,6 +60,14 @@ export default meta;
 type Story = StoryObj<typeof IconButton>;
 
 export const Base: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+    jsx: {
+      functionValue: (fn: unknown) =>
+        Object.entries(iconMap).find(([, icon]) => icon === fn)?.[0] ??
+        '() => {}',
+    },
+  },
   args: {
     accessibilityLabel: 'Settings',
     icon: Settings,

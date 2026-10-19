@@ -40,6 +40,7 @@ export default meta;
 type Story = StoryObj<typeof DotCount>;
 
 export const Base: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     value: 3,
     size: 'lg',
@@ -48,6 +49,7 @@ export const Base: Story = {
 };
 
 export const SizeShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { value: 5 },
   render: () => (
     <div className='flex items-center gap-12'>
@@ -58,6 +60,7 @@ export const SizeShowcase: Story = {
 };
 
 export const AppearanceShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { value: 3 },
   render: () => (
     <div className='flex items-center gap-12'>
@@ -69,6 +72,7 @@ export const AppearanceShowcase: Story = {
 };
 
 export const OverflowShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: { value: 100 },
   render: () => (
     <div className='flex items-center gap-12'>
