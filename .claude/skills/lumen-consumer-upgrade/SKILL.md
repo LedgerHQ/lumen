@@ -46,6 +46,10 @@ Never infer it from memory.
    node <this skill>/scripts/lumen-api-diff.mjs @ledgerhq/<pkg> <installed> <target>
    ```
 
+   The script resolves `typescript` from the working directory. If the repo's
+   dependencies aren't installed, run it from a scratch folder that has
+   `typescript` installed.
+
    Grep the app for every removed export, file, `var(--token)` and class
    pattern. A hit no row explains goes under "Uncatalogued".
 
@@ -71,7 +75,11 @@ building.
      overrides the title in the PR template. Test your title against the regex.
    - **Release intent:** if the diff touches a published package, add what the
      repo requires (`.nx/version-plans/`, `.changeset/`, a label) in the same
-     PR, following an existing file's format.
+     PR, following an existing file's format. If the consumer is itself
+     published and releases from its `package.json` `version` (no marker
+     files), bump it in the same PR or nothing ships. A dependency-only
+     upgrade is a `patch`; use `minor` only if the user asks or the repo's
+     history does.
    - **Toolchain:** the pinned Node/package manager (`.prototools`, `.nvmrc`,
      `packageManager`). If it isn't installed, say so up front and list which
      checks ran under a different version.
