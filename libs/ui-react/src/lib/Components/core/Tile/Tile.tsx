@@ -129,9 +129,7 @@ export const Tile = ({
         <div
           ref={ref}
           style={style}
-          className={tileVariants.root({
-            className,
-          })}
+          className={cn(tileVariants.root(), className)}
         >
           <button
             {...props}
@@ -169,7 +167,7 @@ export const TileContent = ({
 
   return (
     <div
-      className={tileVariants.content({ horizontalAlignment, className })}
+      className={cn(tileVariants.content({ horizontalAlignment }), className)}
       {...props}
     >
       {children}
@@ -260,10 +258,10 @@ export const TileTrailingContent = ({
 
   return (
     <div
-      className={tileVariants.trailingContent({
-        horizontalAlignment,
+      className={cn(
+        tileVariants.trailingContent({ horizontalAlignment }),
         className,
-      })}
+      )}
       {...props}
     >
       {children}
