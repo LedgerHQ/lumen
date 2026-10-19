@@ -1,4 +1,3 @@
-import { cn } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { ChevronDown, ChevronUp } from '../../symbols';
@@ -206,19 +205,9 @@ export const WithCollapse: Story = {
               />
             </TimelineItemTrailing>
           </TimelineItemHeader>
-          <div
-            aria-hidden={!open}
-            className={cn(
-              'grid transition-[grid-template-rows,opacity] duration-300 ease-out',
-              open
-                ? 'grid-rows-[1fr] opacity-100'
-                : 'grid-rows-[0fr] opacity-0',
-            )}
-          >
-            <div className='min-h-0 overflow-hidden'>
-              <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
-            </div>
-          </div>
+          {open ? (
+            <TimelineItemBody>Viewed in Ledger Live.</TimelineItemBody>
+          ) : null}
         </TimelineItem>
         <TimelineItem status='pending'>
           <TimelineItemHeader>

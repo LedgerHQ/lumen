@@ -1,10 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useState } from 'react';
-import Animated, {
-  FadeIn,
-  FadeOut,
-  LinearTransition,
-} from 'react-native-reanimated';
 import { Text } from '../../primitives';
 import { ChevronDown, ChevronUp } from '../../symbols';
 import { IconButton } from '../IconButton';
@@ -194,51 +189,42 @@ export const WithCollapse: Story = {
 
     return (
       <Timeline lx={{ width: 's320' }}>
-        <Animated.View layout={LinearTransition}>
-          <TimelineItem status='success'>
-            <TimelineItemHeader>
-              <TimelineItemLeading>
-                <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
-                <TimelineItemDescription>
-                  Confirmed on device
-                </TimelineItemDescription>
-              </TimelineItemLeading>
-              <TimelineItemTrailing>
-                <IconButton
-                  accessibilityLabel={open ? 'Hide details' : 'Show details'}
-                  accessibilityState={{ expanded: open }}
-                  appearance='no-background'
-                  icon={open ? ChevronUp : ChevronDown}
-                  size='sm'
-                  onPress={() => {
-                    setOpen((current) => !current);
-                  }}
-                />
-              </TimelineItemTrailing>
-            </TimelineItemHeader>
-            {open ? (
-              <Animated.View
-                entering={FadeIn.duration(250)}
-                exiting={FadeOut.duration(150)}
-              >
-                <TimelineItemBody>
-                  <Text typography='body3' lx={{ color: 'muted' }}>
-                    Viewed in Ledger Live.
-                  </Text>
-                </TimelineItemBody>
-              </Animated.View>
-            ) : null}
-          </TimelineItem>
-        </Animated.View>
-        <Animated.View layout={LinearTransition}>
-          <TimelineItem status='pending'>
-            <TimelineItemHeader>
-              <TimelineItemLeading>
-                <TimelineItemTitle>Broadcasting</TimelineItemTitle>
-              </TimelineItemLeading>
-            </TimelineItemHeader>
-          </TimelineItem>
-        </Animated.View>
+        <TimelineItem status='success'>
+          <TimelineItemHeader>
+            <TimelineItemLeading>
+              <TimelineItemTitle>Payment confirmed</TimelineItemTitle>
+              <TimelineItemDescription>
+                Confirmed on device
+              </TimelineItemDescription>
+            </TimelineItemLeading>
+            <TimelineItemTrailing>
+              <IconButton
+                accessibilityLabel={open ? 'Hide details' : 'Show details'}
+                accessibilityState={{ expanded: open }}
+                appearance='no-background'
+                icon={open ? ChevronUp : ChevronDown}
+                size='sm'
+                onPress={() => {
+                  setOpen((current) => !current);
+                }}
+              />
+            </TimelineItemTrailing>
+          </TimelineItemHeader>
+          {open ? (
+            <TimelineItemBody>
+              <Text typography='body3' lx={{ color: 'muted' }}>
+                Viewed in Ledger Live.
+              </Text>
+            </TimelineItemBody>
+          ) : null}
+        </TimelineItem>
+        <TimelineItem status='pending'>
+          <TimelineItemHeader>
+            <TimelineItemLeading>
+              <TimelineItemTitle>Broadcasting</TimelineItemTitle>
+            </TimelineItemLeading>
+          </TimelineItemHeader>
+        </TimelineItem>
       </Timeline>
     );
   },
