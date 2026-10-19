@@ -67,7 +67,13 @@ export const useScrubberGeometry = ({
     return series
       .map((s) => {
         const seriesData = seriesMap.get(s.id)?.data;
-        const index = scrubberPosition ?? resolveLastIndex(seriesData);
+        const axisData = getXAxisConfig()?.data;
+
+        const lastIndex = resolveLastIndex(
+          axisData ? seriesData?.slice(0, axisData.length) : seriesData,
+        );
+
+        const index = scrubberPosition ?? lastIndex;
         if (index === undefined) {
           return null;
         }

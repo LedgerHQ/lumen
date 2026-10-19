@@ -150,7 +150,7 @@ export const resolvePixelY = (
 };
 
 /**
- * Returns the index of the last non-null value in a series, or undefined when
+ * Returns the index of the last finite value in a series, or undefined when
  * the series has none. Anchors the idle beacon at the end of the line.
  */
 export const resolveLastIndex = (
@@ -160,7 +160,7 @@ export const resolveLastIndex = (
     return undefined;
   }
   for (let i = seriesData.length - 1; i >= 0; i--) {
-    if (seriesData[i] !== null && seriesData[i] !== undefined) {
+    if (Number.isFinite(seriesData[i])) {
       return i;
     }
   }

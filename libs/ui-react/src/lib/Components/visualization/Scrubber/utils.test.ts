@@ -413,6 +413,11 @@ describe('resolveLastIndex', () => {
     expect(resolveLastIndex([1, 2, null, 4, null])).toBe(3);
   });
 
+  it('ignores trailing non-finite values', () => {
+    expect(resolveLastIndex([10, 20, NaN])).toBe(1);
+    expect(resolveLastIndex([10, 20, Infinity, -Infinity])).toBe(1);
+  });
+
   it('returns undefined for missing or all-null data', () => {
     expect(resolveLastIndex(undefined)).toBeUndefined();
     expect(resolveLastIndex([null, null])).toBeUndefined();
