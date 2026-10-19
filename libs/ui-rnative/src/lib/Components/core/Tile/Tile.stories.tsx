@@ -291,18 +291,6 @@ export const AlignmentShowcase: Story = {
       </Tile>
       <Tile
         appearance='card'
-        horizontalAlignment='center'
-        verticalAlignment='start'
-        lx={{ width: 's128' }}
-      >
-        <Spot icon={Apps} />
-        <TileContent>
-          <TileTitle>Reference</TileTitle>
-          <TileDescription>Description</TileDescription>
-        </TileContent>
-      </Tile>
-      <Tile
-        appearance='card'
         horizontalAlignment='start'
         verticalAlignment='center'
         lx={{ width: 's128' }}

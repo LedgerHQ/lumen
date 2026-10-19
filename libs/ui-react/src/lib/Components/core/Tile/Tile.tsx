@@ -68,6 +68,9 @@ const tileVariants = {
         center: 'items-center text-center',
       },
     },
+    defaultVariants: {
+      horizontalAlignment: 'center',
+    },
   }),
   trailingContent: cva('mt-4 flex w-full flex-col gap-8', {
     variants: {
@@ -75,6 +78,9 @@ const tileVariants = {
         start: 'items-start',
         center: 'items-center',
       },
+    },
+    defaultVariants: {
+      horizontalAlignment: 'center',
     },
   }),
 };
