@@ -1,5 +1,6 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
 import {
+  createSafeContext,
   DisabledProvider,
   useDisabledContext,
 } from '@ledgerhq/lumen-utils-shared';
@@ -8,6 +9,7 @@ import { useCallback } from 'react';
 import { InteractiveIcon } from '../InteractiveIcon';
 import type {
   TileContentProps,
+  TileContextValue,
   TileDescriptionProps,
   TileProps,
   TileSecondaryActionProps,
@@ -15,13 +17,20 @@ import type {
   TileTrailingContentProps,
 } from './types';
 
+const [TileProvider, useTileContext] = createSafeContext<TileContextValue>(
+  'Tile',
+  {
+    horizontalAlignment: 'center',
+  },
+);
+
 const tileVariants = {
   root: cva([
     'group relative flex flex-col items-center rounded-md text-base transition-colors focus-visible:outline-2 focus-visible:outline-focus',
   ]),
   inner: cva(
     [
-      'flex w-full flex-1 flex-col items-center gap-8 px-8 py-12',
+      'flex w-full flex-1 flex-col gap-8 px-8 py-12',
       'rounded-md focus-visible:outline-2 focus-visible:outline-focus',
     ],
     {
@@ -35,18 +44,39 @@ const tileVariants = {
           true: 'cursor-default',
           false: 'cursor-pointer',
         },
-        centered: {
-          true: 'h-full justify-center',
-          false: '',
+        horizontalAlignment: {
+          start: 'items-start text-start',
+          center: 'items-center text-center',
+        },
+        verticalAlignment: {
+          start: '',
+          center: 'h-full justify-center',
         },
       },
       defaultVariants: {
         appearance: 'no-background',
         disabled: false,
-        centered: false,
+        horizontalAlignment: 'center',
+        verticalAlignment: 'start',
       },
     },
   ),
+  content: cva('flex w-full flex-col', {
+    variants: {
+      horizontalAlignment: {
+        start: 'items-start text-start',
+        center: 'items-center text-center',
+      },
+    },
+  }),
+  trailingContent: cva('mt-4 flex w-full flex-col gap-8', {
+    variants: {
+      horizontalAlignment: {
+        start: 'items-start',
+        center: 'items-center',
+      },
+    },
+  }),
 };
 
 /**
@@ -82,7 +112,8 @@ export const Tile = ({
   secondaryAction,
   appearance = 'no-background',
   disabled: disabledProp = false,
-  centered = false,
+  horizontalAlignment = 'center',
+  verticalAlignment = 'start',
   children,
   style,
   ...props
@@ -94,27 +125,30 @@ export const Tile = ({
 
   return (
     <DisabledProvider value={{ disabled }}>
-      <div
-        ref={ref}
-        style={style}
-        className={tileVariants.root({
-          className,
-        })}
-      >
-        <button
-          {...props}
-          onClick={onClick}
-          disabled={disabled}
-          className={tileVariants.inner({
-            appearance,
-            disabled,
-            centered,
+      <TileProvider value={{ horizontalAlignment }}>
+        <div
+          ref={ref}
+          style={style}
+          className={tileVariants.root({
+            className,
           })}
         >
-          <DisabledProvider value={{ disabled }}>{children}</DisabledProvider>
-        </button>
-        {secondaryAction}
-      </div>
+          <button
+            {...props}
+            onClick={onClick}
+            disabled={disabled}
+            className={tileVariants.inner({
+              appearance,
+              disabled,
+              horizontalAlignment,
+              verticalAlignment,
+            })}
+          >
+            <DisabledProvider value={{ disabled }}>{children}</DisabledProvider>
+          </button>
+          {secondaryAction}
+        </div>
+      </TileProvider>
     </DisabledProvider>
   );
 };
@@ -128,9 +162,14 @@ export const TileContent = ({
   className,
   ...props
 }: TileContentProps) => {
+  const { horizontalAlignment } = useTileContext({
+    consumerName: 'TileContent',
+    contextRequired: false,
+  });
+
   return (
     <div
-      className={cn('flex w-full flex-col items-center text-center', className)}
+      className={tileVariants.content({ horizontalAlignment, className })}
       {...props}
     >
       {children}
@@ -214,9 +253,17 @@ export const TileTrailingContent = ({
   className,
   ...props
 }: TileTrailingContentProps) => {
+  const { horizontalAlignment } = useTileContext({
+    consumerName: 'TileTrailingContent',
+    contextRequired: false,
+  });
+
   return (
     <div
-      className={cn('mt-4 flex w-full flex-col items-center gap-8', className)}
+      className={tileVariants.trailingContent({
+        horizontalAlignment,
+        className,
+      })}
       {...props}
     >
       {children}

@@ -8,8 +8,12 @@ import type {
 } from 'react';
 import type { IconProps } from '../../symbols/Icon';
 
+export type TileHorizontalAlignment = 'start' | 'center';
+
+export type TileVerticalAlignment = 'start' | 'center';
+
 export type TileContextValue = {
-  disabled: boolean;
+  horizontalAlignment: TileHorizontalAlignment;
 };
 
 export type TileProps = {
@@ -27,11 +31,16 @@ export type TileProps = {
    */
   disabled?: boolean;
   /**
-   * Whether the tile content should be centered vertically.
-   * Useful when the tile has a fixed height and you want the content centered.
-   * @default false
+   * The horizontal alignment of the tile content, propagated to TileContent and TileTrailingContent.
+   * @default "center"
    */
-  centered?: boolean;
+  horizontalAlignment?: TileHorizontalAlignment;
+  /**
+   * The vertical alignment of the tile content.
+   * Use `center` when the tile is stretched taller than its content, like a "Show more" tile in a grid.
+   * @default "start"
+   */
+  verticalAlignment?: TileVerticalAlignment;
   /**
    * The function to call when the tile is clicked.
    */

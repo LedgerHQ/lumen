@@ -13,6 +13,7 @@ import {
   TileSecondaryAction,
   TileTrailingContent,
 } from './Tile';
+import type { TileProps } from './types';
 
 describe('Tile Component', () => {
   describe('Basic Rendering', () => {
@@ -189,6 +190,51 @@ describe('Tile Component', () => {
 
       const secondaryAction = screen.queryByLabelText(/more actions/i);
       expect(secondaryAction).not.toBeInTheDocument();
+    });
+  });
+
+  describe('Alignment', () => {
+    const renderTile = (props: Partial<TileProps> = {}) =>
+      render(
+        <Tile {...props}>
+          <Spot icon={Settings} />
+          <TileContent data-testid='content'>
+            <TileTitle>Title</TileTitle>
+            <TileTrailingContent data-testid='trailing'>
+              <Tag label='Label' />
+            </TileTrailingContent>
+          </TileContent>
+        </Tile>,
+      );
+
+    it('should center content horizontally and align it to the top by default', () => {
+      renderTile();
+      const button = screen.getByRole('button');
+      expect(button).toHaveClass('items-center', 'text-center');
+      expect(button).not.toHaveClass('justify-center');
+      expect(screen.getByTestId('content')).toHaveClass('items-center');
+      expect(screen.getByTestId('trailing')).toHaveClass('items-center');
+    });
+
+    it('should propagate horizontalAlignment="start" to TileContent and TileTrailingContent', () => {
+      renderTile({ horizontalAlignment: 'start' });
+      expect(screen.getByRole('button')).toHaveClass(
+        'items-start',
+        'text-start',
+      );
+      expect(screen.getByTestId('content')).toHaveClass(
+        'items-start',
+        'text-start',
+      );
+      expect(screen.getByTestId('trailing')).toHaveClass('items-start');
+    });
+
+    it('should center content vertically with verticalAlignment="center"', () => {
+      renderTile({ verticalAlignment: 'center' });
+      expect(screen.getByRole('button')).toHaveClass(
+        'h-full',
+        'justify-center',
+      );
     });
   });
 

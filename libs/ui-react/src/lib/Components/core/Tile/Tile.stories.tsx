@@ -5,7 +5,6 @@ import {
   User,
   Apps,
   MoreVertical,
-  ChevronRight,
   CheckmarkCircleFill,
 } from '../../symbols';
 import { Spot } from '../Spot';
@@ -51,9 +50,6 @@ const meta = {
     disabled: {
       control: 'boolean',
     },
-    centered: {
-      control: 'boolean',
-    },
   },
 } satisfies Meta<typeof Tile>;
 
@@ -72,7 +68,8 @@ export const Base: Story = {
   args: {
     appearance: 'no-background',
     disabled: false,
-    centered: false,
+    horizontalAlignment: 'center',
+    verticalAlignment: 'start',
   },
   render: (args) => (
     <Tile {...args} className='w-112' secondaryAction={tileSecondaryAction}>
@@ -250,42 +247,50 @@ export const AppearanceShowcase: Story = {
   ),
 };
 
-export const CenteredShowcase: Story = {
+export const AlignmentShowcase: Story = {
   render: () => (
-    <div className='flex gap-8'>
+    <div className='flex h-144 gap-8'>
       <Tile appearance='card' className='w-128'>
         <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Title</TileTitle>
+          <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
-          <TileTrailingContent>
-            <Tag label='Label' appearance='base' />
-          </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile appearance='card' className='w-128'>
+      <Tile
+        appearance='card'
+        horizontalAlignment='start'
+        verticalAlignment='start'
+        className='w-128'
+      >
         <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Title</TileTitle>
+          <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
-          <TileTrailingContent>
-            <Tag label='Label' appearance='base' />
-          </TileTrailingContent>
         </TileContent>
       </Tile>
-      <Tile appearance='card' className='w-128'>
+      <Tile
+        appearance='card'
+        horizontalAlignment='start'
+        verticalAlignment='center'
+        className='w-128'
+      >
         <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Title</TileTitle>
-          <TileTrailingContent>
-            <Tag label='Label' appearance='base' />
-          </TileTrailingContent>
+          <TileTitle>Reference</TileTitle>
+          <TileDescription>Description</TileDescription>
         </TileContent>
       </Tile>
-      <Tile appearance='card' centered className='w-128'>
-        <Spot icon={ChevronRight} />
+      <Tile
+        appearance='card'
+        horizontalAlignment='center'
+        verticalAlignment='center'
+        className='w-128'
+      >
+        <Spot icon={Apps} />
         <TileContent>
-          <TileTitle>Show more</TileTitle>
+          <TileTitle>Reference</TileTitle>
+          <TileDescription>Description</TileDescription>
         </TileContent>
       </Tile>
     </div>

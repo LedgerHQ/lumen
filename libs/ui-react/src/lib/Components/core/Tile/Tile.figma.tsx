@@ -26,6 +26,9 @@ const sharedProps = {
   disabled: figma.enum('state', {
     disabled: true,
   }),
+  horizontalAlignment: figma.enum('alignment', {
+    left: 'start',
+  }),
   secondaryAction: figma.boolean('show-more-action', {
     true: <TileSecondaryAction icon={MoreVertical} onClick={() => {}} />,
     false: undefined,
@@ -55,6 +58,7 @@ figma.connect(
       <Tile
         appearance={props.appearance}
         disabled={props.disabled}
+        horizontalAlignment={props.horizontalAlignment}
         onClick={() => {}}
       >
         {props.secondaryAction}
@@ -93,6 +97,7 @@ figma.connect(
       <Tile
         appearance={props.appearance}
         disabled={props.disabled}
+        horizontalAlignment={props.horizontalAlignment}
         onClick={() => {}}
       >
         {props.secondaryAction}
