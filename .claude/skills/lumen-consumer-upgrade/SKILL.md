@@ -48,15 +48,33 @@ Never infer it from memory.
 
    Grep the app for every removed export, file, `var(--token)` and class
    pattern. A hit no row explains goes under "Uncatalogued".
+
 7. **Write the audit** with
    [references/audit-template.md](references/audit-template.md), then
-   **stop**: ask for the judgment calls and whether to proceed.
+   **stop**: ask for the judgment calls and whether to proceed. Print the
+   audit in your reply first: the user must be able to read it before
+   answering.
 
 ## 2. Upgrade
 
 One branch and one PR per repo. Apply in this order. Each step leaves the repo
 building.
 
+0. **Repo conventions, before the first branch or commit.** The consumer's
+   rules beat this skill's templates. Read its `CONTRIBUTING.md`, `AGENTS.md`
+   and `.github/workflows` (PR-title, branch-name and release-marker
+   validators), and note:
+   - **Branch name:** match the validator's regex exactly (e.g.
+     `chore/no-issue-upgrade-lumen-<version>`, not `chore/upgrade-lumen-…`).
+     A pushed branch can't be renamed under an open PR, so get it right first.
+   - **Commit and PR title format** (e.g. gitmoji + scope + ticket): it
+     overrides the title in the PR template. Test your title against the regex.
+   - **Release intent:** if the diff touches a published package, add what the
+     repo requires (`.nx/version-plans/`, `.changeset/`, a label) in the same
+     PR, following an existing file's format.
+   - **Toolchain:** the pinned Node/package manager (`.prototools`, `.nvmrc`,
+     `packageManager`). If it isn't installed, say so up front and list which
+     checks ran under a different version.
 1. **Setup rows** first: they change packages or build setup that later steps
    depend on.
 2. **Bump** every Lumen package to its target and reinstall.
@@ -78,6 +96,7 @@ building.
 
    ♻️ steps inside other rows' fixes follow the same rule, applied with their
    row.
+
 7. **👁 Visual rows:** no code change. List each affected screen in the PR.
 
 Bump packages the repo already uses. Don't add new Lumen packages in this PR:
@@ -97,8 +116,13 @@ list them as follow-ups.
 
 ## 4. PR
 
-Use [references/pr-template.md](references/pr-template.md). Cite the row id
-behind every change.
+Use [references/pr-template.md](references/pr-template.md) for the body. Cite
+the row id behind every change. The branch name, PR title and release marker
+follow step 0, not the template.
+
+Committing and pushing may need credentials the agent can't reach (commit
+signing, GitHub login). Check early with a dry run, and if blocked, hand the
+user the exact commands instead of retrying around it.
 
 ## Rules
 
