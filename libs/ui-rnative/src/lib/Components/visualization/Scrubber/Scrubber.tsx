@@ -1,7 +1,6 @@
 import { Fragment, useEffect, useId } from 'react';
 import Animated, {
   cancelAnimation,
-  Easing,
   useAnimatedProps,
   useReducedMotion,
   useSharedValue,
@@ -90,6 +89,7 @@ function BeaconPulse({
     beaconPulseScale,
     beaconPulseOpacity,
     beaconPulseDurationInMs,
+    beaconPulseEasing,
   } = chartConfig.scrubber;
 
   useEffect(() => {
@@ -97,14 +97,14 @@ function BeaconPulse({
       progress.value = withRepeat(
         withTiming(1, {
           duration: beaconPulseDurationInMs,
-          easing: Easing.bezier(0, 0, 0.2, 1),
+          easing: beaconPulseEasing,
         }),
         -1,
         false,
       );
     }
     return () => cancelAnimation(progress);
-  }, [reducedMotion, beaconPulseDurationInMs, progress]);
+  }, [reducedMotion, beaconPulseDurationInMs, beaconPulseEasing, progress]);
 
   const animatedProps = useAnimatedProps(() => ({
     r: beaconRadius * (1 + (beaconPulseScale - 1) * progress.value),

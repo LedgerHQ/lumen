@@ -48,6 +48,7 @@ export const chartConfig = {
     beaconPulseDurationInMs: 1000,
     beaconPulseScale: 3.2,
     beaconPulseOpacity: 0.5,
+    beaconPulseEasing: Easing.bezier(0, 0, 0.2, 1),
     overlayOffset: 2,
     overlayLineInset: 0.5,
     overlayOpacity: 0.8,

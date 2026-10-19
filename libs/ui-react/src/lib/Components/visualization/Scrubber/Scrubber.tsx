@@ -8,15 +8,13 @@ import { useScrubberGeometry } from './useScrubberGeometry';
 
 const { color, strokeWidth, scrubber } = chartConfig;
 
-function ScrubberLine({
-  pixelX,
-  top,
-  bottom,
-}: {
+type ScrubberLineProps = {
   pixelX: number;
   top: number;
   bottom: number;
-}) {
+};
+
+function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
   const gradientId = useId();
 
   return (
