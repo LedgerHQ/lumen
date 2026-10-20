@@ -1,4 +1,10 @@
-import { Meta, Story, Canvas, Controls } from '@storybook/addon-docs/blocks';
+import {
+  Meta,
+  Story,
+  Canvas,
+  Controls,
+  Source,
+} from '@storybook/addon-docs/blocks';
 import * as TileStories from './Tile.stories';
 import { Tile } from './Tile';
 import {
@@ -219,49 +225,11 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 </Tile>
 ```
 
-### Horizontal Alignment
+### Alignment
 
-Use `horizontalAlignment='start'` to align the tile content to the start. Subcomponents follow the tile alignment, so no extra styling is needed.
+Use `horizontalAlignment='start'` to align the tile content to the start; subcomponents follow automatically. Use `verticalAlignment='center'` to vertically center the content when the tile is taller than it, like a "Show more" tile next to richer tiles.
 
-```tsx
-<Tile horizontalAlignment='start'>
-  <Spot icon={Settings} />
-  <TileContent>
-    <TileTitle>Settings</TileTitle>
-    <TileDescription>Manage your preferences</TileDescription>
-  </TileContent>
-</Tile>
-```
-
-### Vertical Alignment
-
-Use `verticalAlignment='center'` to vertically center the tile content. This is useful when a tile has less content than its neighbors in a grid, like a "Show more" tile that needs to align with richer tiles.
-
-```tsx
-import { ChevronRight } from '@ledgerhq/lumen-ui-react/symbols';
-
-// In a grid where other tiles have more content
-<div className='grid grid-cols-4 gap-8'>
-  <Tile appearance='card'>
-    <Spot icon={Bitcoin} />
-    <TileContent>
-      <TileTitle>Title</TileTitle>
-      <TileDescription>Description</TileDescription>
-      <TileTrailingContent>
-        <Tag label='Label' />
-      </TileTrailingContent>
-    </TileContent>
-  </Tile>
-
-  {/* Show more tile with centered content */}
-  <Tile appearance='card' verticalAlignment='center'>
-    <Spot icon={ChevronRight} />
-    <TileContent>
-      <TileTitle>Show more</TileTitle>
-    </TileContent>
-  </Tile>
-</div>
-```
+<Source of={TileStories.AlignmentShowcase} />
 
 ### With Coin Icon
 
@@ -286,19 +254,7 @@ import { Bitcoin } from '@ledgerhq/lumen-ui-react/symbols';
 
 ### Horizontal List
 
-```tsx
-<div className='flex overflow-x-auto'>
-  {items.map((item) => (
-    <Tile key={item.id} className='w-128 shrink-0'>
-      <Spot icon={item.icon} />
-      <TileContent>
-        <TileTitle>{item.title}</TileTitle>
-        <TileDescription>{item.description}</TileDescription>
-      </TileContent>
-    </Tile>
-  ))}
-</div>
-```
+<Source of={TileStories.HorizontalList} />
 
 ### Virtual Lists
 
