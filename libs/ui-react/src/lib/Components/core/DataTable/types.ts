@@ -149,22 +149,36 @@ export type DataTablePaginationProps = Omit<
   'page' | 'totalPages' | 'onPageChange'
 >;
 
-export type DataTableShowMoreProps = {
-  /**
-   * Number of rows added per click in client-side mode.
-   * @default the table's initial `pageSize`
-   */
-  step?: number;
-  /**
-   * Server-side mode: called on click instead of growing the page size.
-   * The loading state comes from `DataTableRoot`'s `loading` prop.
-   */
-  onShowMore?: () => void;
-  /**
-   * Whether more rows can be shown. The button is not rendered when false.
-   * @default table.getCanNextPage()
-   */
-  hasMore?: boolean;
+// Server-side rows accumulate outside TanStack pagination, so `getCanNextPage()`
+// can't tell whether the server has more: `hasMore` is required with `onShowMore`.
+type DataTableShowMoreModeProps =
+  | {
+      /**
+       * Number of rows added per click.
+       * @default the page size when the button first renders
+       */
+      step?: number;
+      onShowMore?: never;
+      /**
+       * Whether more rows can be shown. The button is not rendered when false.
+       * @default table.getCanNextPage()
+       */
+      hasMore?: boolean;
+    }
+  | {
+      step?: never;
+      /**
+       * Server-side mode: called on click instead of growing the page size.
+       * The loading state comes from `DataTableRoot`'s `loading` prop.
+       */
+      onShowMore: () => void;
+      /**
+       * Whether the server has more rows. The button is not rendered when false.
+       */
+      hasMore: boolean;
+    };
+
+export type DataTableShowMoreProps = DataTableShowMoreModeProps & {
   /**
    * Button label.
    * @default 'Show more' (translated)

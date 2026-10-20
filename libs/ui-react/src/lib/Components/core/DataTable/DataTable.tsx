@@ -7,7 +7,7 @@ import type {
 } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 import type { ChangeEvent, ReactNode } from 'react';
-import { Fragment, useCallback } from 'react';
+import { Fragment, useCallback, useRef } from 'react';
 import { useCommonTranslation } from '../../../../translations';
 import { Button } from '../Button';
 import { Pagination } from '../Pagination';
@@ -456,6 +456,9 @@ export const DataTableShowMore = ({
     consumerName: 'DataTableShowMore',
     contextRequired: true,
   });
+  // Read from state, not `table.initialState`, which ignores a controlled
+  // `state.pagination`. Captured once so the step doesn't grow with each click.
+  const initialPageSizeRef = useRef(table.getState().pagination.pageSize);
 
   if (!(hasMore ?? table.getCanNextPage())) {
     return null;
@@ -469,7 +472,7 @@ export const DataTableShowMore = ({
       onShowMore();
       return;
     }
-    const increment = step ?? table.initialState.pagination.pageSize;
+    const increment = step ?? initialPageSizeRef.current;
     table.setPageSize((pageSize) => pageSize + increment);
   };
 

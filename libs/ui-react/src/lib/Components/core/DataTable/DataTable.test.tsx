@@ -513,12 +513,43 @@ describe('DataTableShowMore', () => {
 
   it('should call onShowMore instead of growing the page size', () => {
     const onShowMore = vi.fn();
-    render(<TestComponent onShowMore={onShowMore} />);
+    render(<TestComponent onShowMore={onShowMore} hasMore />);
 
     fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
 
     expect(onShowMore).toHaveBeenCalledTimes(1);
     expect(getBodyRowCount()).toBe(5);
+  });
+
+  it('should default the step to a controlled page size', () => {
+    const ControlledComponent = () => {
+      const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 3,
+      });
+      const table = useLumenDataTable({
+        data: pagedData,
+        columns: testColumns,
+        getPaginationRowModel: getPaginationRowModel(),
+        state: { pagination },
+        onPaginationChange: setPagination,
+      });
+      return (
+        <DataTableRoot table={table}>
+          <DataTable>
+            <DataTableShowMore />
+          </DataTable>
+        </DataTableRoot>
+      );
+    };
+
+    render(<ControlledComponent />);
+
+    expect(getBodyRowCount()).toBe(3);
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    expect(getBodyRowCount()).toBe(6);
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    expect(getBodyRowCount()).toBe(9);
   });
 
   it('should not render when hasMore is false', () => {
@@ -531,7 +562,7 @@ describe('DataTableShowMore', () => {
 
   it('should show the loading state and ignore clicks while loading', () => {
     const onShowMore = vi.fn();
-    render(<TestComponent onShowMore={onShowMore} loading />);
+    render(<TestComponent onShowMore={onShowMore} hasMore loading />);
 
     const button = screen.getByRole('button', { name: new RegExp(SHOW_MORE) });
     expect(within(button).getByRole('img', { name: LOADING })).toBeVisible();
@@ -546,5 +577,23 @@ describe('DataTableShowMore', () => {
     expect(
       screen.getByRole('button', { name: 'Load more assets' }),
     ).toBeInTheDocument();
+  });
+
+  it('should require hasMore with onShowMore', () => {
+    // Compile-time only: a `@ts-expect-error` fails typecheck if the union
+    // stops rejecting the line below it.
+    const typeChecks = () => (
+      <>
+        <DataTableShowMore />
+        <DataTableShowMore step={2} hasMore />
+        <DataTableShowMore onShowMore={vi.fn()} hasMore={false} />
+        {/* @ts-expect-error server-side mode requires hasMore */}
+        <DataTableShowMore onShowMore={vi.fn()} />
+        {/* @ts-expect-error step only applies to client-side mode */}
+        <DataTableShowMore onShowMore={vi.fn()} hasMore step={2} />
+      </>
+    );
+
+    expect(typeChecks).toBeDefined();
   });
 });
