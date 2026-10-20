@@ -31,6 +31,19 @@ tracks the same index across all series in a multi-line chart.
 
 <Canvas of={ScrubberStories.WithBeacons} />
 
+## Beacon labels
+
+`showBeaconLabel` adds a label next to each beacon, showing the series label and
+value. Labels sit to the right of the beacon and flip to the left when there is
+no room, and are spaced apart so they never overlap.
+
+<Canvas of={ScrubberStories.WithBeaconLabels} />
+
+Pass `beaconLabel` to render your own content. It receives the series and
+value as context, and should draw from the origin.
+
+<Canvas of={ScrubberStories.WithCustomBeaconLabel} />
+
 ## Conditional tooltips
 
 Return `{ items: [] }` from the `tooltip` callback to hide the tooltip at a

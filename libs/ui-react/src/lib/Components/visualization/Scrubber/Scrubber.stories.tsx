@@ -14,6 +14,7 @@ import {
 } from '../LineChart/__stories__/chartStoryFixtures';
 
 import { Point } from '../Point/Point';
+import { BeaconLabel } from './BeaconLabel/BeaconLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -120,6 +121,42 @@ export const WithBeacons: Story = {
     </LineChart>
   ),
   args: {},
+};
+
+export const WithBeaconLabels: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  ),
+};
+
+export const WithCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={(ctx) => (
+          <BeaconLabel
+            title={ctx.series.label ?? ctx.series.id}
+            value={ctx.value}
+          />
+        )}
+      />
+    </LineChart>
+  ),
 };
 
 /**
