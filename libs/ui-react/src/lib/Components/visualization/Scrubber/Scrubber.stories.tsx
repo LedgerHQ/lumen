@@ -14,7 +14,6 @@ import {
 } from '../LineChart/__stories__/chartStoryFixtures';
 
 import { Point } from '../Point/Point';
-import { BeaconLabel } from './BeaconLabel/BeaconLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -137,6 +136,11 @@ export const WithBeaconLabels: Story = {
   ),
 };
 
+/**
+ * `beaconLabel` accepts any SVG drawn from the label's top-left corner, so the
+ * default pill can be replaced entirely, even by bare text. Keep the height at 24px so the labels
+ * stack without overlapping.
+ */
 export const WithCustomBeaconLabel: Story = {
   render: () => (
     <LineChart
@@ -148,11 +152,20 @@ export const WithCustomBeaconLabel: Story = {
     >
       <Scrubber
         showBeaconLabel
-        beaconLabel={(ctx) => (
-          <BeaconLabel
-            title={ctx.series.label ?? ctx.series.id}
-            value={ctx.value}
-          />
+        beaconLabel={({ series, value }) => (
+          <text y={12} dominantBaseline='central' paintOrder='stroke'>
+            <tspan fontSize={16} fontWeight={700} fill={series.stroke}>
+              {`$${value}`}
+            </tspan>
+            <tspan
+              dx={6}
+              fontSize={10}
+              fontWeight={600}
+              fill={cssVar('var(--text-muted)')}
+            >
+              {series.label?.toUpperCase()}
+            </tspan>
+          </text>
         )}
       />
     </LineChart>
