@@ -195,8 +195,8 @@ describe('Timeline', () => {
         ),
       ).toEqual(
         expect.objectContaining({
-          width: 20,
-          height: 20,
+          width: 16,
+          height: 16,
           borderWidth: 2,
           borderColor: colors.border.mutedSubtleHover,
         }),
@@ -213,7 +213,7 @@ describe('Timeline', () => {
         </TestWrapper>,
       );
 
-      const outgoing = screen.getByTestId('timeline-line-out', hidden);
+      const outgoing = screen.getAllByTestId('timeline-line-out', hidden)[0];
       const incoming = screen.getAllByTestId('timeline-line-in', hidden)[1];
 
       expect(StyleSheet.flatten(outgoing.props.style).backgroundColor).toBe(
@@ -241,9 +241,12 @@ describe('Timeline', () => {
 
       expect(StyleSheet.flatten(firstIn.props.style).opacity).toBe(0);
       expect(StyleSheet.flatten(lastIn.props.style).opacity).not.toBe(0);
-      expect(screen.getAllByTestId('timeline-line-out', hidden)).toHaveLength(
-        1,
+      const [firstOut, lastOut] = screen.getAllByTestId(
+        'timeline-line-out',
+        hidden,
       );
+      expect(StyleSheet.flatten(firstOut.props.style).opacity).not.toBe(0);
+      expect(StyleSheet.flatten(lastOut.props.style).opacity).toBe(0);
     });
 
     it('should position items grouped in a fragment as siblings', () => {
@@ -267,9 +270,10 @@ describe('Timeline', () => {
       expect(StyleSheet.flatten(firstIn.props.style).opacity).toBe(0);
       expect(StyleSheet.flatten(secondIn.props.style).opacity).not.toBe(0);
       expect(StyleSheet.flatten(lastIn.props.style).opacity).not.toBe(0);
-      expect(screen.getAllByTestId('timeline-line-out', hidden)).toHaveLength(
-        2,
-      );
+      const outs = screen.getAllByTestId('timeline-line-out', hidden);
+      expect(
+        outs.map((o) => StyleSheet.flatten(o.props.style).opacity),
+      ).toEqual([undefined, undefined, 0]);
     });
   });
 });
