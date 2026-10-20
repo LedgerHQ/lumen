@@ -155,7 +155,8 @@ const table = useLumenDataTable({ data, columns });
 
 `DataTablePagination` renders `Pagination` wired to the table's pagination state. Place it below `DataTable`, or inside a `TableActionBar`.
 
-**Server-side:** set `manualPagination`, pass the total number of rows with `rowCount`, and control the `pagination` state so it drives your query.
+**Server-side:** set `manualPagination`, pass the total number of rows with `rowCount`, and control the `pagination` state so it drives your query.  
+Sorting still runs in the browser on the current page only: sort on the server too (`manualSorting`), or set `enableSorting: false` on the columns.
 
 ```tsx
 const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 5 });

@@ -1,6 +1,7 @@
-import type { ColumnDef, Row } from '@tanstack/react-table';
+import type { ColumnDef, PaginationState, Row } from '@tanstack/react-table';
 import { getPaginationRowModel } from '@tanstack/react-table';
 import { fireEvent, render, screen, within } from '@testing-library/react';
+import { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
 import {
@@ -410,6 +411,50 @@ describe('DataTablePagination', () => {
     expect(
       within(pagination).getByRole('button', { current: 'page' }),
     ).toHaveTextContent('2');
+  });
+
+  it('should drive controlled server-side pagination', () => {
+    const onPaginationChange = vi.fn();
+    const ServerComponent = () => {
+      const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 5,
+      });
+      // The server returns only the requested page.
+      const start = pagination.pageIndex * pagination.pageSize;
+      const table = useLumenDataTable({
+        data: pagedData.slice(start, start + pagination.pageSize),
+        columns: testColumns,
+        manualPagination: true,
+        rowCount: pagedData.length,
+        state: { pagination },
+        onPaginationChange: (updater) => {
+          onPaginationChange(updater);
+          setPagination(updater);
+        },
+      });
+      return (
+        <DataTableRoot table={table}>
+          <DataTable />
+          <DataTablePagination />
+        </DataTableRoot>
+      );
+    };
+
+    render(<ServerComponent />);
+
+    const pagination = screen.getByRole('navigation');
+    expect(within(pagination).getByText('3')).toBeInTheDocument();
+    expect(within(pagination).queryByText('4')).not.toBeInTheDocument();
+
+    fireEvent.click(within(pagination).getByText('2'));
+
+    expect(onPaginationChange).toHaveBeenCalledTimes(1);
+    expect(
+      within(pagination).getByRole('button', { current: 'page' }),
+    ).toHaveTextContent('2');
+    expect(screen.getByText('Asset 6')).toBeInTheDocument();
+    expect(screen.queryByText('Asset 1')).not.toBeInTheDocument();
   });
 
   it('should forward Pagination props', () => {

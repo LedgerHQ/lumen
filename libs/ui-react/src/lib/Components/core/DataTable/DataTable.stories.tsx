@@ -1345,6 +1345,7 @@ export const WithServerSidePagination: Story = {
         {
           accessorKey: 'name',
           header: 'Asset',
+          enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
               <Spot icon={Android} />
@@ -1363,15 +1364,18 @@ export const WithServerSidePagination: Story = {
         {
           accessorKey: 'symbol',
           header: 'Symbol',
+          enableSorting: false,
         },
         {
           accessorKey: 'price',
           header: 'Price',
+          enableSorting: false,
           meta: { align: 'end' },
         },
         {
           accessorKey: 'change',
           header: 'Performance',
+          enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem align='end'>
               <TableCellContent>
@@ -1498,6 +1502,7 @@ export const WithServerSideShowMore: Story = {
         {
           accessorKey: 'name',
           header: 'Asset',
+          enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem>
               <Spot icon={Android} />
@@ -1516,15 +1521,18 @@ export const WithServerSideShowMore: Story = {
         {
           accessorKey: 'symbol',
           header: 'Symbol',
+          enableSorting: false,
         },
         {
           accessorKey: 'price',
           header: 'Price',
+          enableSorting: false,
           meta: { align: 'end' },
         },
         {
           accessorKey: 'change',
           header: 'Performance',
+          enableSorting: false,
           cell: ({ row }) => (
             <TableCellItem align='end'>
               <TableCellContent>
