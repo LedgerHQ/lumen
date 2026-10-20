@@ -1,5 +1,6 @@
 import { Fragment, useId } from 'react';
 
+import { usePointReveal } from '../CartesianChart/RevealAnimation';
 import { chartConfig } from '../config';
 
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
@@ -120,6 +121,7 @@ export function Scrubber({
   tooltip,
 }: Readonly<ScrubberProps>) {
   const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const revealStyle = usePointReveal();
 
   if (!geometry) {
     return null;
@@ -149,26 +151,28 @@ export function Scrubber({
         />
       )}
 
-      {beacons.map((beacon) => (
-        <Fragment key={beacon.id}>
-          {!scrubbing && idlePulse && (
-            <BeaconPulse
+      <g style={revealStyle}>
+        {beacons.map((beacon) => (
+          <Fragment key={beacon.id}>
+            {!scrubbing && idlePulse && (
+              <BeaconPulse
+                cx={beacon.pixelX}
+                cy={beacon.pixelY}
+                fill={beacon.stroke}
+              />
+            )}
+            <circle
+              data-testid={`scrubber-beacon-${beacon.id}`}
               cx={beacon.pixelX}
               cy={beacon.pixelY}
+              r={scrubber.beaconRadius}
               fill={beacon.stroke}
+              stroke={color.markOutline}
+              strokeWidth={scrubber.beaconStrokeWidth}
             />
-          )}
-          <circle
-            data-testid={`scrubber-beacon-${beacon.id}`}
-            cx={beacon.pixelX}
-            cy={beacon.pixelY}
-            r={scrubber.beaconRadius}
-            fill={beacon.stroke}
-            stroke={color.markOutline}
-            strokeWidth={scrubber.beaconStrokeWidth}
-          />
-        </Fragment>
-      ))}
+          </Fragment>
+        ))}
+      </g>
       {scrubbing?.tooltipPayload !== undefined && (
         <DefaultScrubberTooltip
           pixelX={scrubbing.pixelX}

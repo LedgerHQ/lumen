@@ -17,12 +17,14 @@ import {
   Stop,
 } from 'react-native-svg';
 
+import { useRevealFadeProps } from '../CartesianChart/RevealAnimation';
 import { chartConfig, useChartTokens } from '../config';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedG = Animated.createAnimatedComponent(G);
 
 type ScrubberLineProps = {
   pixelX: number;
@@ -73,15 +75,13 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
   );
 }
 
-function BeaconPulse({
-  cx,
-  cy,
-  fill,
-}: {
+type BeaconPulseProps = {
   cx: number;
   cy: number;
   fill: string;
-}) {
+};
+
+function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
   const progress = useSharedValue(0);
   const reducedMotion = useReducedMotion();
   const {
@@ -162,6 +162,7 @@ export function Scrubber({
 }: Readonly<ScrubberProps>) {
   const tokens = useChartTokens();
   const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const fadeProps = useRevealFadeProps();
 
   if (!geometry) {
     return null;
@@ -191,26 +192,28 @@ export function Scrubber({
         />
       )}
 
-      {beacons.map((beacon) => (
-        <Fragment key={beacon.id}>
-          {!scrubbing && idlePulse && (
-            <BeaconPulse
+      <AnimatedG animatedProps={fadeProps}>
+        {beacons.map((beacon) => (
+          <Fragment key={beacon.id}>
+            {!scrubbing && idlePulse && (
+              <BeaconPulse
+                cx={beacon.pixelX}
+                cy={beacon.pixelY}
+                fill={beacon.stroke}
+              />
+            )}
+            <Circle
+              testID={`scrubber-beacon-${beacon.id}`}
               cx={beacon.pixelX}
               cy={beacon.pixelY}
+              r={chartConfig.scrubber.beaconRadius}
               fill={beacon.stroke}
+              stroke={tokens.color.markOutline}
+              strokeWidth={tokens.stroke.line}
             />
-          )}
-          <Circle
-            testID={`scrubber-beacon-${beacon.id}`}
-            cx={beacon.pixelX}
-            cy={beacon.pixelY}
-            r={chartConfig.scrubber.beaconRadius}
-            fill={beacon.stroke}
-            stroke={tokens.color.markOutline}
-            strokeWidth={tokens.stroke.line}
-          />
-        </Fragment>
-      ))}
+          </Fragment>
+        ))}
+      </AnimatedG>
 
       {scrubbing?.tooltipPayload !== undefined && (
         <DefaultScrubberTooltip
