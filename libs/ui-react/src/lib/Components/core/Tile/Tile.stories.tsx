@@ -9,6 +9,7 @@ import {
 } from '../../symbols';
 import { Spot } from '../Spot';
 import { Tag } from '../Tag/Tag';
+import { Trend } from '../Trend/Trend';
 import {
   Tile,
   TileContent,
@@ -249,13 +250,16 @@ export const AppearanceShowcase: Story = {
 
 export const AlignmentShowcase: Story = {
   render: () => (
-    <div className='flex h-144 gap-8'>
+    <div className='flex gap-8'>
       <Tile appearance='card' className='w-128'>
         <Spot icon={Apps} />
         <TileContent>
           <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
         </TileContent>
+        <TileTrailingContent>
+          <Tag label='Custom' appearance='base' />
+        </TileTrailingContent>
       </Tile>
       <Tile
         appearance='card'
@@ -268,6 +272,9 @@ export const AlignmentShowcase: Story = {
           <TileTitle>Reference</TileTitle>
           <TileDescription>Description</TileDescription>
         </TileContent>
+        <TileTrailingContent>
+          <Trend value={7.87} />
+        </TileTrailingContent>
       </Tile>
       <Tile
         appearance='card'
