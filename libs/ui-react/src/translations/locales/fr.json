@@ -41,7 +41,8 @@
     },
     "table": {
       "ascAriaLabel": "Trier par ordre croissant",
-      "descAriaLabel": "Trier par ordre décroissant"
+      "descAriaLabel": "Trier par ordre décroissant",
+      "showMore": "Afficher plus"
     },
     "pagination": {
       "navigationAriaLabel": "Pagination",

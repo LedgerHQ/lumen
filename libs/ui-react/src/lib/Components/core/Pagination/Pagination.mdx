@@ -140,13 +140,13 @@ function PaginatedTable({ data }) {
 
 ### With DataTable
 
-Use TanStack Table's pagination row model and sync `Pagination` with `table.getState().pagination`.
+Use `DataTablePagination`: it renders `Pagination` wired to the table's pagination state. See the [DataTable](?path=/docs/react-datatable--docs) docs for server-side pagination.
 
 ```tsx
 import {
   DataTableRoot,
   DataTable,
-  Pagination,
+  DataTablePagination,
   useLumenDataTable,
 } from '@ledgerhq/lumen-ui-react';
 import { getPaginationRowModel } from '@tanstack/react-table';
@@ -163,18 +163,10 @@ function PaginatedDataTable({ data, columns }) {
     },
   });
 
-  const { pageIndex } = table.getState().pagination;
-
   return (
-    <DataTableRoot table={table} paginationMode='pagination' className='flex flex-col gap-16'>
+    <DataTableRoot table={table} className='gap-16'>
       <DataTable />
-      <div className='flex justify-center'>
-        <Pagination
-          page={pageIndex + 1}
-          totalPages={table.getPageCount()}
-          onPageChange={(nextPage) => table.setPageIndex(nextPage - 1)}
-        />
-      </div>
+      <DataTablePagination className='self-center' />
     </DataTableRoot>
   );
 }

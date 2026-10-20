@@ -981,6 +981,63 @@ export const WithPagination: Story = {
   },
 };
 
+export const WithShowMore: Story = {
+  render: (args) => {
+    const [visibleCount, setVisibleCount] = useState(TABLE_PAGE_SIZE);
+    const visibleData = largeData.slice(0, visibleCount);
+
+    return (
+      <div className='w-3xl text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {visibleData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellItem>
+                      <Spot icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {visibleCount < largeData.length && (
+            <div className='sticky start-0 flex w-full justify-center p-12'>
+              <Button
+                size='sm'
+                appearance='gray'
+                onClick={() =>
+                  setVisibleCount((count) => count + TABLE_PAGE_SIZE)
+                }
+              >
+                Show more
+              </Button>
+            </div>
+          )}
+        </TableRoot>
+      </div>
+    );
+  },
+};
+
 export const WithComplexCellContent: Story = {
   render: (args) => (
     <div className='w-3xl text-base'>

@@ -106,6 +106,13 @@ A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable s
 
 <Canvas of={TableStories.WithInfiniteLoading} />
 
+### Show More
+
+Render a `Button` after `Table`, inside `TableRoot`, and grow the number of visible rows on click.  
+Hide the button once every row is shown. With `DataTable`, use `DataTableShowMore` instead.
+
+<Canvas of={TableStories.WithShowMore} />
+
 ### Group Header
 
 The `TableGroupHeaderRow` sits can be used to group rows together by a date or other category. It is rendered as `<tr>` + `<td>`.

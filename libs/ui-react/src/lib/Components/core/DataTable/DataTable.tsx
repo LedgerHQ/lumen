@@ -8,6 +8,9 @@ import type {
 import { flexRender } from '@tanstack/react-table';
 import type { ChangeEvent, ReactNode } from 'react';
 import { Fragment, useCallback } from 'react';
+import { useCommonTranslation } from '../../../../translations';
+import { Button } from '../Button';
+import { Pagination } from '../Pagination';
 import type { SearchInputProps } from '../SearchInput';
 import { SearchInput } from '../SearchInput';
 
@@ -29,8 +32,10 @@ import {
 import type {
   DataTableBodyProps,
   DataTableHeaderProps,
+  DataTablePaginationProps,
   DataTableProps,
   DataTableRootProps,
+  DataTableShowMoreProps,
 } from './types';
 
 type DataTableContextValue<TData extends RowData = RowData> = {
@@ -64,7 +69,7 @@ const [DataTableProvider, useDataTableContext] =
 export const DataTableRoot = <TData extends RowData = RowData>({
   table,
   appearance = 'no-background',
-  paginationMode = 'none',
+  paginationMode,
   loading = false,
   onScrollBottom,
   onRowClick,
@@ -197,7 +202,12 @@ const DataTableHeader = ({
  *   <DataTable />
  * </DataTableRoot>
  */
-export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
+export const DataTable = ({
+  className,
+  children,
+  ref,
+  ...props
+}: DataTableProps) => {
   const {
     appearance,
     paginationMode,
@@ -210,6 +220,11 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
     consumerName: 'DataTable',
     contextRequired: true,
   });
+
+  // An explicit (deprecated) `paginationMode` keeps its previous behavior.
+  const showLoadingRow = paginationMode
+    ? paginationMode === 'infinite-scroll'
+    : Boolean(onScrollBottom);
 
   return (
     <TableRoot
@@ -226,7 +241,8 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
-      {paginationMode === 'infinite-scroll' && <TableLoadingRow />}
+      {showLoadingRow && <TableLoadingRow />}
+      {children}
     </TableRoot>
   );
 };
@@ -379,5 +395,101 @@ export const DataTableGlobalSearchInput = ({
       onChange={handleChange}
       {...props}
     />
+  );
+};
+
+/**
+ * `Pagination` wired to the TanStack pagination state of the `DataTableRoot` table.
+ * Place it wherever the pages should appear: below `DataTable`, or inside a
+ * `TableActionBar`. Accepts every `Pagination` prop except the page wiring.
+ *
+ * @example
+ * const table = useLumenDataTable({
+ *   data,
+ *   columns,
+ *   getPaginationRowModel: getPaginationRowModel(),
+ * });
+ *
+ * <DataTableRoot table={table}>
+ *   <DataTable />
+ *   <DataTablePagination />
+ * </DataTableRoot>
+ */
+export const DataTablePagination = (props: DataTablePaginationProps) => {
+  const { table } = useDataTableContext({
+    consumerName: 'DataTablePagination',
+    contextRequired: true,
+  });
+
+  return (
+    <Pagination
+      page={table.getState().pagination.pageIndex + 1}
+      totalPages={table.getPageCount()}
+      onPageChange={(page) => table.setPageIndex(page - 1)}
+      {...props}
+    />
+  );
+};
+
+/**
+ * A "Show more" button rendered at the bottom of the table, as a `DataTable` child.
+ * Client-side, it grows the page size (requires `getPaginationRowModel`).
+ * Server-side, pass `onShowMore` and `hasMore`; the loading state comes from
+ * `DataTableRoot`'s `loading` prop.
+ *
+ * @example
+ * <DataTableRoot table={table} loading={isFetchingNextPage}>
+ *   <DataTable>
+ *     <DataTableShowMore onShowMore={fetchNextPage} hasMore={hasNextPage} />
+ *   </DataTable>
+ * </DataTableRoot>
+ */
+export const DataTableShowMore = ({
+  step,
+  onShowMore,
+  hasMore,
+  children,
+  className,
+}: DataTableShowMoreProps) => {
+  const { t } = useCommonTranslation();
+  const { table, loading } = useDataTableContext({
+    consumerName: 'DataTableShowMore',
+    contextRequired: true,
+  });
+
+  if (!(hasMore ?? table.getCanNextPage())) {
+    return null;
+  }
+
+  const handleClick = (): void => {
+    if (loading) {
+      return;
+    }
+    if (onShowMore) {
+      onShowMore();
+      return;
+    }
+    const increment = step ?? table.initialState.pagination.pageSize;
+    table.setPageSize((pageSize) => pageSize + increment);
+  };
+
+  return (
+    // Sticky like TableLoadingRow so it stays in view under horizontal scroll.
+    <div
+      className={cn(
+        'sticky start-0 flex w-full justify-center p-12',
+        className,
+      )}
+    >
+      <Button
+        type='button'
+        size='sm'
+        appearance='gray'
+        loading={loading}
+        onClick={handleClick}
+      >
+        {children ?? t('components.table.showMore')}
+      </Button>
+    </div>
   );
 };
