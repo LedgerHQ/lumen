@@ -149,11 +149,29 @@ const table = useLumenDataTable({ data, columns });
 </DataTableRoot>
 ```
 
-<Canvas of={DataTableStories.WithInfiniteLoading} />
+<Canvas of={DataTableStories.WithInfiniteScrollPagination} />
 
 ### Numbered Pages
 
 `DataTablePagination` renders `Pagination` wired to the table's pagination state. Place it below `DataTable`, or inside a `TableActionBar`.
+
+**Client-side:** add `getPaginationRowModel` and set the page size.
+
+```tsx
+const table = useLumenDataTable({
+  data,
+  columns,
+  getPaginationRowModel: getPaginationRowModel(),
+  initialState: { pagination: { pageSize: 5 } },
+});
+
+<DataTableRoot table={table} className='gap-16'>
+  <DataTable />
+  <DataTablePagination className='self-center' />
+</DataTableRoot>
+```
+
+<Canvas of={DataTableStories.WithPagination} />
 
 **Server-side:** set `manualPagination`, pass the total number of rows with `rowCount`, and control the `pagination` state so it drives your query.  
 Sorting still runs in the browser on the current page only: sort on the server too (`manualSorting`), or set `enableSorting: false` on the columns.
@@ -187,24 +205,6 @@ const table = useLumenDataTable({
 
 <Canvas of={DataTableStories.WithServerSidePagination} />
 
-**Client-side:** add `getPaginationRowModel` and set the page size.
-
-```tsx
-const table = useLumenDataTable({
-  data,
-  columns,
-  getPaginationRowModel: getPaginationRowModel(),
-  initialState: { pagination: { pageSize: 5 } },
-});
-
-<DataTableRoot table={table} className='gap-16'>
-  <DataTable />
-  <DataTablePagination className='self-center' />
-</DataTableRoot>
-```
-
-<Canvas of={DataTableStories.WithPagination} />
-
 ### Show More
 
 `DataTableShowMore` renders a button at the bottom of the table, as a `DataTable` child. It hides itself once there is nothing more to show.
@@ -222,7 +222,7 @@ const table = useLumenDataTable({
 </DataTableRoot>
 ```
 
-<Canvas of={DataTableStories.WithServerSideShowMore} />
+<Canvas of={DataTableStories.WithServerSideShowMorePagination} />
 
 **Client-side:** add `getPaginationRowModel`. Each click adds `step` rows, which defaults to the initial page size.
 
@@ -241,7 +241,7 @@ const table = useLumenDataTable({
 </DataTableRoot>
 ```
 
-<Canvas of={DataTableStories.WithShowMore} />
+<Canvas of={DataTableStories.WithShowMorePagination} />
 
 </Tab>
 <Tab label="Implementation ">

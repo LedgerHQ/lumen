@@ -104,14 +104,20 @@ Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicat
 Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
 A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
 
-<Canvas of={TableStories.WithInfiniteLoading} />
+<Canvas of={TableStories.WithInfiniteScrollPagination} />
+
+### Pagination
+
+Slice the rows for the current page and render `Pagination` after `TableRoot`. With `DataTable`, use `DataTablePagination` instead.
+
+<Canvas of={TableStories.WithPagination} />
 
 ### Show More
 
 Render a `Button` after `Table`, inside `TableRoot`, and grow the number of visible rows on click.  
 Hide the button once every row is shown. With `DataTable`, use `DataTableShowMore` instead.
 
-<Canvas of={TableStories.WithShowMore} />
+<Canvas of={TableStories.WithShowMorePagination} />
 
 ### Group Header
 
