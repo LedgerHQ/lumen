@@ -79,6 +79,18 @@ export const chartConfig = {
     keyboardPageStepMax: 10,
   },
 
+  beaconLabel: {
+    gap: 8,
+    rowGap: 4,
+    height: 24,
+    paddingX: 8,
+    contentGap: 4,
+    background: cssVar('var(--background-muted)'),
+    borderRadius: cssVar('var(--border-radius-xs)'),
+    titleColor: cssVar('var(--text-muted)'),
+    valueColor: cssVar('var(--text-base)'),
+  },
+
   tooltip: {
     defaultOffset: 10,
     paddingX: 8,

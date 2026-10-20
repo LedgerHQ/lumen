@@ -2,6 +2,7 @@ import { useId } from 'react';
 
 import { chartConfig } from '../config';
 
+import { ScrubberBeaconLabels } from './BeaconLabel/BeaconLabel';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
@@ -70,6 +71,15 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
  * </LineChart>
  * ```
  *
+ * @example Beacon labels
+ * ```tsx
+ * <Scrubber showBeaconLabel />
+ * <Scrubber
+ *   showBeaconLabel
+ *   beaconLabel={(ctx) => <BeaconLabel title={ctx.series.label ?? ctx.series.id} value={ctx.value} />}
+ * />
+ * ```
+ *
  * @example Tooltip
  * ```tsx
  * <Scrubber
@@ -85,9 +95,12 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  showBeaconLabel = false,
+  beaconLabel,
   tooltip,
 }: Readonly<ScrubberProps>) {
-  const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const drawBeacons = showBeacons || showBeaconLabel;
+  const geometry = useScrubberGeometry({ showBeacons: drawBeacons, tooltip });
 
   if (!geometry) {
     return null;
@@ -117,7 +130,7 @@ export function Scrubber({
         />
       )}
 
-      {showBeacons &&
+      {drawBeacons &&
         beacons.map((beacon) => (
           <circle
             key={beacon.id}
@@ -130,6 +143,14 @@ export function Scrubber({
             strokeWidth={scrubber.beaconStrokeWidth}
           />
         ))}
+      {showBeaconLabel && (
+        <ScrubberBeaconLabels
+          pixelX={pixelX}
+          drawingArea={drawingArea}
+          beacons={beacons}
+          renderLabel={beaconLabel}
+        />
+      )}
       {tooltipPayload !== undefined && (
         <DefaultScrubberTooltip
           pixelX={pixelX}

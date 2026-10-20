@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { chartConfig } from '../config';
-import type { DrawingArea } from '../utils/types';
+import type { DrawingArea, Series } from '../utils/types';
 
 import { useScrubberContext } from './context';
 import type { ScrubberProps } from './types';
@@ -17,7 +17,13 @@ import {
 
 const { color } = chartConfig;
 
-type Beacon = { id: string; stroke: string; pixelY: number };
+export type Beacon = {
+  id: string;
+  stroke: string;
+  pixelY: number;
+  series: Series;
+  value: number;
+};
 
 type ScrubberGeometry = {
   pixelX: number;
@@ -65,7 +71,17 @@ export const useScrubberGeometry = ({
         const seriesData = seriesMap.get(s.id)?.data;
         const pixelY = resolvePixelY(scrubberPosition, seriesData, getYScale);
         if (pixelY === undefined) return null;
-        return { id: s.id, stroke: s.stroke || color.stroke, pixelY };
+        const value = seriesData?.[scrubberPosition];
+        if (value === null || value === undefined) {
+          return null;
+        }
+        return {
+          id: s.id,
+          stroke: s.stroke || color.stroke,
+          pixelY,
+          series: s,
+          value,
+        };
       })
       .filter((b): b is Beacon => b !== null);
   }, [scrubberPosition, showBeacons, series, seriesMap, getYScale]);
