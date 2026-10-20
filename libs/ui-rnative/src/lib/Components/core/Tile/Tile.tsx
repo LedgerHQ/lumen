@@ -79,7 +79,7 @@ const useRootStyles = ({
             flex: 1,
             alignItems: alignItemsMap[horizontalAlignment],
             gap: t.spacings.s8,
-            padding: t.spacings.s12,
+            padding: t.spacings.s10,
             borderRadius: t.borderRadius.sm,
             backgroundColor: bgColors[appearance],
           },

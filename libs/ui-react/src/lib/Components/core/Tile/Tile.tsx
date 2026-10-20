@@ -30,7 +30,7 @@ const tileVariants = {
   ]),
   inner: cva(
     [
-      'flex w-full flex-1 flex-col gap-8 p-12',
+      'flex w-full flex-1 flex-col gap-8 p-10',
       'rounded-md focus-visible:outline-2 focus-visible:outline-focus',
     ],
     {
