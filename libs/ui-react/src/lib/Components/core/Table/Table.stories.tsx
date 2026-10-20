@@ -536,6 +536,7 @@ export const WithInfiniteLoading: Story = {
               ))}
             </TableBody>
           </Table>
+          <TableLoadingRow />
         </TableRoot>
       </div>
     );
