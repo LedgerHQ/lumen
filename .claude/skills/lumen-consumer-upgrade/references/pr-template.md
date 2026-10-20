@@ -1,6 +1,7 @@
 # PR template
 
-Title: `chore(deps): upgrade Lumen to <ui-react version>`
+Title (default only; use the repo's own format and branch convention, see
+SKILL.md step 0): `chore(deps): upgrade Lumen to <ui-react version>`
 
 ```markdown
 ## Overview
