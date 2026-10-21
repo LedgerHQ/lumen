@@ -13,10 +13,6 @@ tokens removed by Figma syncs aren't listed one by one:
   or above its listed version. Don't run its detection.
 - **Apply it** when at least one listed package is installed below its
   listed version, and the target reaches it.
-- **`@next`**: not released yet, above every published version (latest as
-  of 2026-10-21: ui-react 0.1.66, ui-rnative 0.1.69, design-core 0.1.34,
-  utils-shared 0.1.17, lint-plugin 0.1.1). Replace it with the real version
-  once released.
 - **`always`**: check on every repo.
 - **♻️ Replacement rows** follow their own rule: they apply whenever the
   **target** is at or above their version, whatever is installed. A repo can
@@ -43,11 +39,9 @@ even once it's past 0.1.51.
 A fix that starts with **Stop** means the upgrade can't proceed in this PR.
 
 Detection patterns are `rg` regexes over the app's source (`.ts`, `.tsx`,
-`.css`, Tailwind config). `\|` inside the tables is a Markdown escape: use `|`. Patterns cast a wide
-net: `T4`–`T6` also match `duration-*`, `delay-*`, `z-*` and color steps
-(`grey-400`). Keep only sizing and spacing utilities (`w`, `h`, `size`,
-`min-*`, `max-*`, `basis`, `p*`, `m*`, `gap`, `inset`, `top`/`left`/…) before
-counting or fixing.
+`.css`, Tailwind config). `\|` inside the tables is a Markdown escape: use `|`. Some patterns cast a
+wide net: keep only the hits that match the row's change before counting or
+fixing.
 
 ## Setup
 
@@ -61,7 +55,6 @@ counting or fixing.
 | S5 | ui-react@0.1.66 | ui-react no longer installs `clsx` / `tailwind-merge` as peers | App imports them without declaring them in its own `package.json` | Replace the local helper (`T8`), or declare them explicitly | 🔊 |
 | S6 | lint-plugin@0.1.1 | Lint plugin pins design-core exactly as a peer | `@ledgerhq/lumen-lint-plugin` in dependencies | Bump it in the same PR as design-core | 🔊 |
 | S8 | ui-react@0.1.57 | The undocumented `./*` wildcard export is removed (its deep paths already failed to resolve) | `@ledgerhq/lumen-ui-react/(dist\|lib\|src\|[A-Z])` | Import from the package root, or `/symbols`, `/visualization` | 🔊 |
-| S7 | design-core@next | Lumen owns the breakpoints; a config that replaces `theme.screens` no longer removes Lumen's | `screens` in the Tailwind config, `--breakpoint-` in CSS | Move custom breakpoints to `theme.extend.screens`, then check every responsive layout. ♻️ Delete entries that only repeat Lumen's values (`xs` 360, `sm` 640, `md` 768, `lg` 1024, `xl` 1280, `2xl` 1536 px) | ⚖️ |
 
 ## Tokens and Tailwind classes
 
@@ -70,9 +63,6 @@ counting or fixing.
 | T1 | design-core@0.1.29, ui-react@0.1.59, ui-rnative@0.1.62 | `error`/`warning`/`success` backgrounds and colors render **solid** (were translucent) | Web: `\b(bg\|text\|border)-(error\|warning\|success)\b`, `--(color\|background)-(error\|warning\|success)\b`. React Native: `\b(bg\|text\|border)\.(error\|warning\|success)\b` (`t.colors.bg.error`) | For the old look use the `-transparent` variant (`bg-error-transparent`, `t.colors.bg.errorTransparent`). Check each with design | ⚖️ |
 | T2 | design-core@0.1.29, ui-react@0.1.59, ui-rnative@0.1.62 | **Background** error `-hover`/`-pressed` renamed to `-transparent-hover`/`-transparent-pressed`. Border error hover/pressed are unchanged: leave `border-error-hover`, `ring-error-pressed` and `--border-error-*` alone | Web: `\b(bg\|from\|via\|to\|fill\|accent\|shadow)-error-(hover\|pressed)\b`, `--(color-)?background-error-(hover\|pressed)\b`. React Native: `\bbg\.error(Hover\|Pressed)\b` | Rename (`bg-error-transparent-hover`, `t.colors.bg.errorTransparentHover`). The old classes produce no CSS | 🔇 |
 | T3 | design-core@0.1.29, ui-react@0.1.59, ui-rnative@0.1.62 | Decorative backgrounds moved to their `-400` step | `-decorative-` | No change. Review the screens | 👁 |
-| T4 | design-core@next, ui-rnative@next | Sizes from 256px up renamed to t-shirt sizes ([#888](https://github.com/LedgerHQ/lumen/pull/888)) | `\b[\w:-]*-(256\|288\|320)\b` in class strings, `--size-(256\|288\|320)`, React Native `s(256\|288\|320)` | `256`→`3xs`, `288`→`2xs`, `320`→`xs` (`w-320`→`w-xs`, React Native `sXs`) | 🔇 (web), 🔊 (RN) |
-| T5 | design-core@next, ui-rnative@next | Sizes `400`, `480`, `560` removed (#888) | `\b[\w:-]*-(400\|480\|560)\b`, `--size-(400\|480\|560)`, React Native `s(400\|480\|560)` | Use the smaller neighbor if the element must not grow, the larger if its content must not shrink: `400`→`sm`/**`md`**, `480`→`md`/**`lg`**, `560`→`lg`/**`xl`** (bold = Lumen's choice) | ⚖️ |
-| T6 | design-core@next, ui-rnative@next | Spacing `160` removed (#888); also covers `w`/`h`/`size`/`min-*`/`max-*` | `\b[\w:-]*-160\b`, `--spacing-160`, React Native `s160` | `144` or **`176`** (Lumen's choice) | ⚖️ |
 | T7 | always | Tailwind font sizes, weights and line heights produce no CSS under the preset (found by the usage report) | `\b(text-(xs\|sm\|base\|lg\|[2-9]?xl)\|font-(thin\|light\|normal\|medium\|semibold\|bold)\|leading-\w+)\b` where used as type styles | Replace with Lumen typography (`body-*`, `heading-*`). `text-base` is a **color** in Lumen: leave it | ⚖️ |
 | T8 | design-core@0.1.34 | Lumen ships `cn` (`@ledgerhq/lumen-design-core/cn`): clsx + tailwind-merge configured for Lumen's classes | Files importing `tailwind-merge`, `clsx` or `classnames`. Safe to replace only when the helper uses no `extendTailwindMerge` / `createTailwindMerge` of its own, and the app doesn't restore Tailwind font sizes (`fontSize` in its config, `--text-*` in `@theme`) | `export { cn } from '@ledgerhq/lumen-design-core/cn';` in the helper's file | ♻️ |
 
@@ -112,7 +102,6 @@ counting or fixing.
 | C30 | ui-rnative@0.1.62, utils-shared@0.1.13 | `resolveAvatarColor` → `useResolveAvatarColor` (a hook) | `resolveAvatarColor` | Rename. Call it only inside components | 🔊 |
 | C31 | ui-react@0.1.62, ui-rnative@0.1.65, utils-shared@0.1.15 | `getStepperCalculations` returns new fields | `getStepperCalculations` | Use `progressDashArray`, `progressMaskDashArray`, `progressDashOffset`, `dashPatternOffset` | 🔊 |
 | C32 | ui-react@0.1.63 | `Link` with `size="inherit"` gets a 4px gap | `<Link\b` with `size=["']inherit` | Review | 👁 |
-| C33 | ui-react@next | `Dialog` (448px, max height 576px), `Popover` fixed (448px), `Menu` min width (176px), `Toast` (448px) are bigger | Those components | Review the host layouts | 👁 |
 | C34 | ui-react@0.1.66, ui-rnative@0.1.69, design-core@0.1.34 | Icons removed: `Apex` (→ `NanoGen5`), `Charon` (→ `RecoveryKey`), `BellNotification`, `ShieldCheckNotification` | Those names, and `apex.svg` / `charon.svg` | Rename. For the last two, ask design | 🔊 |
 | C35 | ui-react@0.1.66 | `Switch` renders a native input: Enter no longer toggles it, `className` lands on the wrapper; `@radix-ui/react-switch` no longer needed | `<Switch\b` with `className` | Review. Remove the Radix dependency if nothing else uses it | 👁 |
 | C36 | design-core@0.1.34 | `cn` merges Lumen classes correctly: `className` overrides now win where CSS order used to decide | Any Lumen component given a `className` | Review the screens that override text color or typography | 👁 |
@@ -136,5 +125,5 @@ counting or fixing.
 ## Maintaining this file
 
 Add a row whenever a version plan contains `BREAKING CHANGE`. Ids are
-permanent: never renumber, append instead. Once a "Next" release ships,
-replace "Next" with the real versions.
+permanent: never renumber, append instead. Add a row only once its release
+is published, with the real versions.
