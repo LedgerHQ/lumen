@@ -477,7 +477,55 @@ export const WithClickableRow: Story = {
   ),
 };
 
-export const WithInfiniteScrollPagination: Story = {
+export const WithActiveRow: Story = {
+  render: (args) => {
+    const [activeSymbol, setActiveSymbol] = useState(smallData[1].symbol);
+
+    return (
+      <div className='w-480 text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {smallData.map((row) => (
+                <TableRow
+                  clickable
+                  key={row.symbol}
+                  active={row.symbol === activeSymbol}
+                  onClick={() => setActiveSymbol(row.symbol)}
+                >
+                  <TableCell>
+                    <TableCellItem>
+                      <Spot size={40} icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+      </div>
+    );
+  },
+};
+
+export const WithInfiniteLoading: Story = {
   render: (args) => {
     const [data, setData] = useState(
       largeData.map((item, i) => ({ ...item, id: i })),

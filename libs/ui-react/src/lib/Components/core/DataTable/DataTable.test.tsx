@@ -194,6 +194,26 @@ describe('DataTable row props', () => {
     expect(onRowClick).toHaveBeenCalledTimes(1);
     expect(onRowClick.mock.calls[0][0].original).toBe(testData[0]);
   });
+
+  it('should mark only the row flagged as active', () => {
+    const TestComponent = () => {
+      const table = useLumenDataTable({ data: testData, columns: testColumns });
+      return (
+        <DataTableRoot
+          table={table}
+          getRowProps={(row) => ({ active: row.original.id === 2 })}
+        >
+          <DataTable />
+        </DataTableRoot>
+      );
+    };
+
+    render(<TestComponent />);
+
+    const activeRows = screen.getAllByRole('row', { current: true });
+    expect(activeRows).toHaveLength(1);
+    expect(activeRows[0]).toHaveTextContent('Ethereum');
+  });
 });
 
 describe('DataTableColGroup', () => {

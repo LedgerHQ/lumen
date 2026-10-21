@@ -328,6 +328,33 @@ export const TableBody = ({
   );
 };
 
+const rowVariants = cva('', {
+  variants: {
+    clickable: {
+      true: 'cursor-pointer outline-none select-none',
+      false: '',
+    },
+    active: {
+      true: 'bg-muted-transparent',
+      false: '',
+    },
+  },
+  compoundVariants: [
+    {
+      clickable: true,
+      active: false,
+      className:
+        'hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
+    },
+    {
+      clickable: true,
+      active: true,
+      className:
+        'hover:bg-muted-transparent-hover active:bg-muted-transparent-pressed',
+    },
+  ],
+});
+
 /**
  * Table row component for body rows. Wraps the HTML `<tr>` element.
  */
@@ -335,6 +362,7 @@ export const TableRow = ({
   children,
   className,
   clickable = false,
+  active = false,
   onClick,
   ref,
   ...props
@@ -344,11 +372,9 @@ export const TableRow = ({
       ref={ref}
       onClick={onClick}
       role={clickable ? 'button' : undefined}
-      className={cn(
-        clickable &&
-          'cursor-pointer outline-none select-none hover:bg-base-transparent-hover active:bg-base-transparent-pressed',
-        className,
-      )}
+      // aria-selected isn't allowed on role="button" and only applies to grid rows.
+      aria-current={active || undefined}
+      className={cn(rowVariants({ clickable, active }), className)}
       {...props}
     >
       {children}
