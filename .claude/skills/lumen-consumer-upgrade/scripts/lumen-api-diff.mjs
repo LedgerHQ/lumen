@@ -87,15 +87,20 @@ function exportsOf(file) {
   return new Set(symbol ? checker.getExportsOfModule(symbol).map((s) => s.name) : []);
 }
 
-/** Every CSS custom property name declared in the package's built files. */
+/**
+ * Every CSS custom property name declared in the package's built files.
+ * Skips test fixtures, and prefixes (`'--text-'`) that plugins build names from.
+ */
 function tokensOf(root) {
   const tokens = new Set();
   (function walk(dir) {
     for (const name of readdirSync(dir)) {
       const path = join(dir, name);
       if (statSync(path).isDirectory()) walk(path);
-      else if (/\.(css|js)$/.test(name)) {
-        for (const [, token] of readFileSync(path, 'utf8').matchAll(/['"\s{;](--[a-z][a-z0-9-]*)['"]?\s*:/g)) tokens.add(token);
+      else if (/\.(css|js)$/.test(name) && !/\.(test|spec)\.js$/.test(name)) {
+        for (const [, token] of readFileSync(path, 'utf8').matchAll(/['"\s{;](--[a-z][a-z0-9-]*)['"]?\s*:/g)) {
+          if (!token.endsWith('-')) tokens.add(token);
+        }
       }
     }
   })(root);
