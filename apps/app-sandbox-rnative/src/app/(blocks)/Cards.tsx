@@ -1,3 +1,4 @@
+import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import {
   Box,
   Card,
@@ -313,6 +314,30 @@ export default function Cards() {
             elit.
           </CardContentDescription>
         </CardFooter>
+      </Card>
+
+      <Card
+        lx={{ width: 's112' }}
+        onPress={() => {
+          return;
+        }}
+      >
+        <CardHeader>
+          <CardLeading
+            lx={{
+              flex: 0,
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              gap: 's8',
+            }}
+          >
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CardContent>
+              <CardContentTitle>Title</CardContentTitle>
+              <CardContentDescription>Description</CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
       </Card>
     </Box>
   );

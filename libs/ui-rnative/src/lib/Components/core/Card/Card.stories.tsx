@@ -94,6 +94,34 @@ export const Base: Story = {
   ),
 };
 
+export const WithVerticalLayout: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    lx: { width: 's112' },
+    children: null,
+  },
+  render: (args) => (
+    <Card {...args}>
+      <CardHeader>
+        <CardLeading
+          lx={{
+            flex: 0,
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            gap: 's8',
+          }}
+        >
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+          <CardContent>
+            <CardContentTitle>Title</CardContentTitle>
+            <CardContentDescription>Description</CardContentDescription>
+          </CardContent>
+        </CardLeading>
+      </CardHeader>
+    </Card>
+  ),
+};
+
 export const StatesShowcase: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
