@@ -52,7 +52,7 @@ type ScrubberBeaconLabelsProps = {
   pixelX: number;
   drawingArea: DrawingArea;
   beacons: Beacon[];
-  renderLabel?: ScrubberProps['beaconLabel'];
+  renderLabel: ScrubberProps['beaconLabel'];
 };
 
 export function ScrubberBeaconLabels({
