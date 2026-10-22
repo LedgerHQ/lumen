@@ -45,10 +45,11 @@
       "showMore": "Daha fazla göster"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "Sayfalama",
+      "previousPageAriaLabel": "Önceki sayfa",
+      "nextPageAriaLabel": "Sonraki sayfa",
+      "pageAriaLabel": "Sayfa {{page}}",
+      "pageOfTotal": "{{current}} / {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

@@ -48,7 +48,8 @@
       "navigationAriaLabel": "Pagination",
       "previousPageAriaLabel": "Previous page",
       "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "pageAriaLabel": "Page {{page}}",
+      "pageOfTotal": "{{current}} of {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

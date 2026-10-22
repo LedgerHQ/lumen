@@ -45,10 +45,11 @@
       "showMore": "显示更多"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "分页",
+      "previousPageAriaLabel": "上一页",
+      "nextPageAriaLabel": "下一页",
+      "pageAriaLabel": "第 {{page}} 页",
+      "pageOfTotal": "{{current}} / {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

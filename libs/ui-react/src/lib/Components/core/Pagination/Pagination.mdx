@@ -1,9 +1,6 @@
 import { Meta, Canvas, Controls } from '@storybook/addon-docs/blocks';
 import * as PaginationStories from './Pagination.stories';
-import {
-  CustomTabs,
-  Tab,
-} from '../../../../../.storybook/components';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
 <Meta title='Core/Pagination' of={PaginationStories} />
 
@@ -29,6 +26,8 @@ The Pagination consists of:
 - **Ellipsis**: non-interactive marker when pages are collapsed
 - **Next control**: `IconButton` with a chevron right icon; disabled on the last page
 
+In `compact` density, the page buttons and ellipsis are replaced by a "current of total" label.
+
 ## Properties
 
 <Controls of={PaginationStories.Base} />
@@ -53,12 +52,19 @@ Increase `siblingCount` to show more page numbers around the current page.
 
 <Canvas of={PaginationStories.WithMoreSiblings} />
 
+### Density
+
+Use `density='compact'` where space is tight, such as a table footer. It keeps the previous and next controls and shows the current position as a localized "current of total" label instead of page buttons.
+
+<Canvas of={PaginationStories.Compact} />
+
 ## Accessibility
 
 - Root element is a `<nav>` with an accessible name
 - Previous and next controls expose dedicated `aria-label`s
 - Each page button has an `aria-label` and the active page sets `aria-current="page"`
 - Ellipsis markers are hidden from assistive technology (`aria-hidden`)
+- In `compact` density, the "current of total" label is a polite live region, so page changes are announced
 
 </Tab>
 <Tab label="Implementation">
@@ -85,7 +91,7 @@ function MyComponent() {
 
 ### With Table
 
-Slice your dataset by page size and render `Pagination` below the table. Center it in the layout when needed.
+Slice your dataset by page size and render `Pagination` below the table. Center it in the layout when needed, or use `density='compact'` aligned to the end for a lighter footer (see the [Table compact pagination story](?path=/story/react-table--with-compact-pagination)).
 
 ```tsx
 import {

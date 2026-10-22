@@ -9,6 +9,8 @@ import type { PaginationProps } from './types';
 /**
  * Pagination navigation for tables and other paginated content.
  *
+ * @see [Figma – Pagination](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=11768-12849&m=dev)
+ *
  * @example
  * <Pagination
  *   page={page}
@@ -21,6 +23,7 @@ export const Pagination = ({
   totalPages,
   onPageChange,
   siblingCount = 1,
+  density = 'expanded',
   className,
   ref,
   ...props
@@ -32,12 +35,10 @@ export const Pagination = ({
   }
 
   const clampedPage = Math.min(Math.max(page, 1), totalPages);
-  const clampedSiblingCount = Math.max(siblingCount, 0);
-  const items = getPaginationRange(
-    clampedPage,
-    totalPages,
-    clampedSiblingCount,
-  );
+  const isCompact = density === 'compact';
+  const items = isCompact
+    ? []
+    : getPaginationRange(clampedPage, totalPages, Math.max(siblingCount, 0));
 
   return (
     <nav
@@ -55,6 +56,17 @@ export const Pagination = ({
         aria-label={t('components.pagination.previousPageAriaLabel')}
         onClick={() => onPageChange(clampedPage - 1)}
       />
+      {isCompact && (
+        <span
+          aria-live='polite'
+          className='shrink-0 px-4 body-2-semi-bold whitespace-nowrap text-base'
+        >
+          {t('components.pagination.pageOfTotal', {
+            current: clampedPage,
+            total: totalPages,
+          })}
+        </span>
+      )}
       {items.map((item, index) => {
         if (item === 'ellipsis') {
           return (
