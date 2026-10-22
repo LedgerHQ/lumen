@@ -27,6 +27,13 @@
     },
     "stepper": {
       "progressAriaLabel": "Schritt {{currentStep}} von {{totalSteps}}"
+    },
+    "pagination": {
+      "navigationAriaLabel": "Seitennavigation",
+      "previousPageAriaLabel": "Vorherige Seite",
+      "nextPageAriaLabel": "Nächste Seite",
+      "pageAriaLabel": "Seite {{page}}",
+      "pageOfTotal": "{{current}} von {{total}}"
     }
   }
 }

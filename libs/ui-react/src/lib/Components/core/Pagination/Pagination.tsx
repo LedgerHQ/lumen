@@ -1,9 +1,9 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
+import { getPaginationRange } from '@ledgerhq/lumen-utils-shared';
 import { useCommonTranslation } from '../../../../translations';
 import { ChevronLeft, ChevronRight } from '../../symbols';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
-import { getPaginationRange } from './getPaginationRange';
 import type { PaginationProps } from './types';
 
 /**
