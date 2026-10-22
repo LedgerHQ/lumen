@@ -1,47 +1,19 @@
-import { useMemo, useRef } from 'react';
+import { useState } from 'react';
 import type { ReactNode } from 'react';
+import type { LayoutChangeEvent } from 'react-native';
 import { G, Rect, Text as SvgText, TSpan } from 'react-native-svg';
 
 import { chartConfig, useChartTokens } from '../../config';
 import type { DrawingArea } from '../../utils/types';
-import type { BeaconLabelProps, ScrubberProps, SvgBBoxElement } from '../types';
+import type { BeaconLabelProps, ScrubberProps } from '../types';
 import type { Beacon } from '../useScrubberGeometry';
-import { TextMeasurer } from './TextMeasurer';
-import {
-  computeBeaconLabelX,
-  computeBeaconLabelYs,
-  useMeasuredWidth,
-  useTextWidth,
-  type TextFont,
-} from './utils';
+import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
 const { beaconLabel } = chartConfig;
 
-const useLabelFonts = (): { title: TextFont; value: TextFont } => {
-  const { font } = useChartTokens();
-  return useMemo(() => {
-    const title = {
-      family: font.family,
-      size: font.bodySize,
-      weight: font.bodyWeightMedium,
-    };
-    return { title, value: { ...title, weight: font.bodyWeightSemiBold } };
-  }, [font]);
-};
-
-const usePillWidth = (title: string, value: string): number => {
-  const fonts = useLabelFonts();
-  const titleWidth = useTextWidth(title, fonts.title);
-  const valueWidth = useTextWidth(value, fonts.value);
-  const width = useRef(0);
-  if (titleWidth !== undefined && valueWidth !== undefined) {
-    width.current =
-      titleWidth +
-      beaconLabel.contentGap +
-      valueWidth +
-      beaconLabel.paddingX * 2;
-  }
-  return width.current;
+const useLayoutWidth = (): [number, (event: LayoutChangeEvent) => void] => {
+  const [width, setWidth] = useState(0);
+  return [width, (event) => setWidth(event.nativeEvent.layout.width)];
 };
 
 /**
@@ -50,20 +22,18 @@ const usePillWidth = (title: string, value: string): number => {
  */
 export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
   const tokens = useChartTokens();
-  const fonts = useLabelFonts();
-  const titleText = String(title);
-  const valueText = String(value);
-  const width = usePillWidth(titleText, valueText);
+  const [textWidth, onTextLayout] = useLayoutWidth();
 
   return (
     <G>
       <Rect
-        width={width}
+        width={textWidth + beaconLabel.paddingX * 2}
         height={beaconLabel.height}
         rx={tokens.radius.xs}
         fill={tokens.color.surface}
       />
       <SvgText
+        onLayout={onTextLayout}
         x={beaconLabel.paddingX}
         y={beaconLabel.height / 2}
         alignmentBaseline='central'
@@ -74,18 +44,16 @@ export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
           fill={tokens.color.textMuted}
           fontWeight={tokens.font.bodyWeightMedium}
         >
-          {titleText}
+          {String(title)}
         </TSpan>
         <TSpan
           dx={beaconLabel.contentGap}
           fill={tokens.color.text}
           fontWeight={tokens.font.bodyWeightSemiBold}
         >
-          {valueText}
+          {String(value)}
         </TSpan>
       </SvgText>
-      <TextMeasurer text={titleText} font={fonts.title} />
-      <TextMeasurer text={valueText} font={fonts.value} />
     </G>
   );
 }
@@ -109,26 +77,24 @@ export function ScrubberBeaconLabels({
     drawingArea,
   );
 
-  return sorted.map((beacon, i) => {
-    const props = {
-      testID: `scrubber-beacon-label-${beacon.id}`,
-      pixelX,
-      y: ys[i],
-      drawingArea,
-    };
-    return renderLabel ? (
-      <PositionedLabel key={beacon.id} {...props}>
-        {renderLabel(beacon)}
-      </PositionedLabel>
-    ) : (
-      <DefaultLabel
-        key={beacon.id}
-        {...props}
-        title={String(beacon.series.label ?? beacon.series.id)}
-        value={String(beacon.value)}
-      />
-    );
-  });
+  return sorted.map((beacon, i) => (
+    <PositionedLabel
+      key={beacon.id}
+      testID={`scrubber-beacon-label-${beacon.id}`}
+      pixelX={pixelX}
+      y={ys[i]}
+      drawingArea={drawingArea}
+    >
+      {renderLabel ? (
+        renderLabel(beacon)
+      ) : (
+        <BeaconLabel
+          title={beacon.series.label ?? beacon.series.id}
+          value={beacon.value}
+        />
+      )}
+    </PositionedLabel>
+  ));
 }
 
 type PositionedLabelProps = {
@@ -136,7 +102,6 @@ type PositionedLabelProps = {
   pixelX: number;
   y: number;
   drawingArea: DrawingArea;
-  width?: number;
   children: ReactNode;
 };
 
@@ -145,41 +110,21 @@ function PositionedLabel({
   pixelX,
   y,
   drawingArea,
-  width,
   children,
 }: Readonly<PositionedLabelProps>) {
-  const [ref, measuredWidth] = useMeasuredWidth(
-    width === undefined ? testID : null,
-  );
-  const resolvedWidth = width ?? measuredWidth;
+  const [width, onLayout] = useLayoutWidth();
+  const x = computeBeaconLabelX(pixelX, width, drawingArea);
 
   return (
     <G
-      ref={(el) => {
-        ref.current = el as unknown as SvgBBoxElement | null;
-      }}
       testID={testID}
-      x={computeBeaconLabelX(pixelX, resolvedWidth, drawingArea)}
+      onLayout={onLayout}
+      x={x}
       y={y}
-      opacity={resolvedWidth === 0 ? 0 : 1}
+      opacity={width === 0 ? 0 : 1}
       pointerEvents='none'
     >
       {children}
     </G>
-  );
-}
-
-type DefaultLabelProps = Omit<PositionedLabelProps, 'width' | 'children'> & {
-  title: string;
-  value: string;
-};
-
-function DefaultLabel({ title, value, ...props }: Readonly<DefaultLabelProps>) {
-  const width = usePillWidth(title, value);
-
-  return (
-    <PositionedLabel {...props} width={width}>
-      <BeaconLabel title={title} value={value} />
-    </PositionedLabel>
   );
 }
