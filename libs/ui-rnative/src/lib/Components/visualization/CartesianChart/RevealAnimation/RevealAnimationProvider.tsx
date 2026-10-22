@@ -13,10 +13,14 @@ import { useDataFingerprint, useRevealAnimation } from './utils';
 
 const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
-export function RevealAnimationProvider({
+export function RevealAnimationProvider(props: RevealAnimationProps) {
+  const dataFingerprint = useDataFingerprint(props.series);
+  return <RevealAnimationScope key={dataFingerprint} {...props} />;
+}
+
+function RevealAnimationScope({
   children,
   drawingArea,
-  series,
   animate = true,
   transitions,
 }: RevealAnimationProps) {
@@ -30,11 +34,9 @@ export function RevealAnimationProvider({
       ? chartConfig.reveal.duration
       : transitions.enter.duration * 1000;
 
-  const dataFingerprint = useDataFingerprint(series);
   const { clipId, animatedRectProps, pointOpacity } = useRevealAnimation({
     durationMs,
     drawingArea,
-    dataFingerprint,
   });
 
   const contextValue = useMemo(
