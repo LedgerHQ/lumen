@@ -41,7 +41,8 @@
     },
     "table": {
       "ascAriaLabel": "Sort ascending",
-      "descAriaLabel": "Sort descending"
+      "descAriaLabel": "Sort descending",
+      "showMore": "Показать ещё"
     },
     "pagination": {
       "navigationAriaLabel": "Pagination",

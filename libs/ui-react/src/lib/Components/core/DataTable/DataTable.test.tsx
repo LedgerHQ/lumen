@@ -1,8 +1,16 @@
-import type { ColumnDef, Row } from '@tanstack/react-table';
-import { fireEvent, render, screen } from '@testing-library/react';
+import type { ColumnDef, PaginationState, Row } from '@tanstack/react-table';
+import { getPaginationRowModel } from '@tanstack/react-table';
+import { fireEvent, render, screen, within } from '@testing-library/react';
+import { useState } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom';
-import { DataTableRoot, DataTable } from './DataTable';
+import {
+  DataTableRoot,
+  DataTable,
+  DataTablePagination,
+  DataTableShowMore,
+} from './DataTable';
+import type { DataTableRootProps, DataTableShowMoreProps } from './types';
 import { useLumenDataTable } from './useLumenDataTable';
 
 type TestData = {
@@ -293,5 +301,360 @@ describe('DataTable horizontal layout', () => {
     expect(table.style.getPropertyValue('--table-min-width-base')).toBe(
       '960px',
     );
+  });
+});
+
+// Translations resolve to their keys in tests.
+const SHOW_MORE = 'components.table.showMore';
+const LOADING = 'components.spinner.loadingAriaLabel';
+
+const pagedData: TestData[] = Array.from({ length: 12 }, (_, index) => ({
+  id: index + 1,
+  name: `Asset ${index + 1}`,
+  price: `$${index + 1}.00`,
+}));
+
+// 1 header row + body rows
+const getBodyRowCount = (): number => screen.getAllByRole('row').length - 1;
+
+describe('DataTable children', () => {
+  it('should render children inside the scroll container, after the table', () => {
+    const TestComponent = () => {
+      const table = useLumenDataTable({ data: testData, columns: testColumns });
+      return (
+        <DataTableRoot table={table}>
+          <DataTable data-testid='scroll-container'>
+            <div data-testid='footer' />
+          </DataTable>
+        </DataTableRoot>
+      );
+    };
+
+    render(<TestComponent />);
+
+    const container = screen.getByTestId('scroll-container');
+    const footer = screen.getByTestId('footer');
+    expect(container).toContainElement(footer);
+    expect(container.lastElementChild).toBe(footer);
+  });
+});
+
+describe('DataTable loading row', () => {
+  const TestComponent = ({
+    onScrollBottom,
+    loading = true,
+    loadingIndicator,
+  }: {
+    onScrollBottom?: () => void;
+    loading?: boolean;
+    loadingIndicator?: DataTableRootProps['loadingIndicator'];
+  }) => {
+    const table = useLumenDataTable({ data: testData, columns: testColumns });
+    return (
+      <DataTableRoot
+        table={table}
+        loading={loading}
+        onScrollBottom={onScrollBottom}
+        loadingIndicator={loadingIndicator}
+      >
+        <DataTable />
+      </DataTableRoot>
+    );
+  };
+
+  it('should render when onScrollBottom is set and loading', () => {
+    render(<TestComponent onScrollBottom={vi.fn()} />);
+
+    expect(screen.getByRole('img', { name: LOADING })).toBeInTheDocument();
+  });
+
+  it('should not render when not loading', () => {
+    render(<TestComponent onScrollBottom={vi.fn()} loading={false} />);
+
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not render when loadingIndicator is none', () => {
+    render(<TestComponent onScrollBottom={vi.fn()} loadingIndicator='none' />);
+
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should render a custom loadingIndicator instead of the spinner', () => {
+    render(
+      <TestComponent
+        onScrollBottom={vi.fn()}
+        loadingIndicator={<span>Loading more assets</span>}
+      />,
+    );
+
+    expect(screen.getByText('Loading more assets')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not render a custom loadingIndicator when not loading', () => {
+    render(
+      <TestComponent
+        onScrollBottom={vi.fn()}
+        loading={false}
+        loadingIndicator={<span>Loading more assets</span>}
+      />,
+    );
+
+    expect(screen.queryByText('Loading more assets')).not.toBeInTheDocument();
+  });
+
+  it('should only accept presets or an element', () => {
+    // Compile-time only: a `@ts-expect-error` fails typecheck if the union
+    // stops rejecting the line below it.
+    const typeChecks = () => (
+      <>
+        <TestComponent loadingIndicator='spinner' />
+        <TestComponent loadingIndicator={<span />} />
+        {/* @ts-expect-error unknown preset */}
+        <TestComponent loadingIndicator='spiner' />
+      </>
+    );
+
+    expect(typeChecks).toBeDefined();
+  });
+
+  it('should not render without onScrollBottom', () => {
+    render(<TestComponent />);
+
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+});
+
+describe('DataTablePagination', () => {
+  const TestComponent = () => {
+    const table = useLumenDataTable({
+      data: pagedData,
+      columns: testColumns,
+      getPaginationRowModel: getPaginationRowModel(),
+      initialState: { pagination: { pageSize: 5 } },
+    });
+    return (
+      <DataTableRoot table={table}>
+        <DataTable />
+        <DataTablePagination className='self-center' />
+      </DataTableRoot>
+    );
+  };
+
+  it('should render one page button per table page', () => {
+    render(<TestComponent />);
+
+    const pagination = screen.getByRole('navigation');
+    expect(
+      within(pagination).getByRole('button', { current: 'page' }),
+    ).toHaveTextContent('1');
+    expect(within(pagination).getByText('3')).toBeInTheDocument();
+    expect(within(pagination).queryByText('4')).not.toBeInTheDocument();
+  });
+
+  it('should show the rows of the selected page', () => {
+    render(<TestComponent />);
+
+    const pagination = screen.getByRole('navigation');
+    fireEvent.click(within(pagination).getByText('2'));
+
+    expect(screen.getByText('Asset 6')).toBeInTheDocument();
+    expect(screen.queryByText('Asset 1')).not.toBeInTheDocument();
+    expect(
+      within(pagination).getByRole('button', { current: 'page' }),
+    ).toHaveTextContent('2');
+  });
+
+  it('should drive controlled server-side pagination', () => {
+    const onPaginationChange = vi.fn();
+    const ServerComponent = () => {
+      const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 5,
+      });
+      // The server returns only the requested page.
+      const start = pagination.pageIndex * pagination.pageSize;
+      const table = useLumenDataTable({
+        data: pagedData.slice(start, start + pagination.pageSize),
+        columns: testColumns,
+        manualPagination: true,
+        rowCount: pagedData.length,
+        state: { pagination },
+        onPaginationChange: (updater) => {
+          onPaginationChange(updater);
+          setPagination(updater);
+        },
+      });
+      return (
+        <DataTableRoot table={table}>
+          <DataTable />
+          <DataTablePagination />
+        </DataTableRoot>
+      );
+    };
+
+    render(<ServerComponent />);
+
+    const pagination = screen.getByRole('navigation');
+    expect(within(pagination).getByText('3')).toBeInTheDocument();
+    expect(within(pagination).queryByText('4')).not.toBeInTheDocument();
+
+    fireEvent.click(within(pagination).getByText('2'));
+
+    expect(onPaginationChange).toHaveBeenCalledTimes(1);
+    expect(
+      within(pagination).getByRole('button', { current: 'page' }),
+    ).toHaveTextContent('2');
+    expect(screen.getByText('Asset 6')).toBeInTheDocument();
+    expect(screen.queryByText('Asset 1')).not.toBeInTheDocument();
+  });
+
+  it('should forward Pagination props', () => {
+    render(<TestComponent />);
+
+    expect(screen.getByRole('navigation')).toHaveClass('self-center');
+  });
+});
+
+describe('DataTableShowMore', () => {
+  const TestComponent = ({
+    loading,
+    ...props
+  }: DataTableShowMoreProps & { loading?: boolean }) => {
+    const table = useLumenDataTable({
+      data: pagedData,
+      columns: testColumns,
+      getPaginationRowModel: getPaginationRowModel(),
+      initialState: { pagination: { pageSize: 5 } },
+    });
+    return (
+      <DataTableRoot table={table} loading={loading}>
+        <DataTable>
+          <DataTableShowMore {...props} />
+        </DataTable>
+      </DataTableRoot>
+    );
+  };
+
+  it('should add the initial page size of rows on click', () => {
+    render(<TestComponent />);
+
+    expect(getBodyRowCount()).toBe(5);
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    expect(getBodyRowCount()).toBe(10);
+  });
+
+  it('should add step rows on click', () => {
+    render(<TestComponent step={2} />);
+
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    expect(getBodyRowCount()).toBe(7);
+  });
+
+  it('should hide once all rows are shown', () => {
+    render(<TestComponent />);
+
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+
+    expect(getBodyRowCount()).toBe(12);
+    expect(
+      screen.queryByRole('button', { name: SHOW_MORE }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should call onShowMore instead of growing the page size', () => {
+    const onShowMore = vi.fn();
+    render(<TestComponent onShowMore={onShowMore} hasMore />);
+
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+
+    expect(onShowMore).toHaveBeenCalledTimes(1);
+    expect(getBodyRowCount()).toBe(5);
+  });
+
+  it('should default the step to a controlled page size', () => {
+    const ControlledComponent = () => {
+      const [pagination, setPagination] = useState<PaginationState>({
+        pageIndex: 0,
+        pageSize: 3,
+      });
+      const table = useLumenDataTable({
+        data: pagedData,
+        columns: testColumns,
+        getPaginationRowModel: getPaginationRowModel(),
+        state: { pagination },
+        onPaginationChange: setPagination,
+      });
+      return (
+        <DataTableRoot table={table}>
+          <DataTable>
+            <DataTableShowMore />
+          </DataTable>
+        </DataTableRoot>
+      );
+    };
+
+    render(<ControlledComponent />);
+
+    expect(getBodyRowCount()).toBe(3);
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    expect(getBodyRowCount()).toBe(6);
+    fireEvent.click(screen.getByRole('button', { name: SHOW_MORE }));
+    expect(getBodyRowCount()).toBe(9);
+  });
+
+  it('should not render when hasMore is false', () => {
+    render(<TestComponent hasMore={false} />);
+
+    expect(
+      screen.queryByRole('button', { name: SHOW_MORE }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should show the loading state and ignore clicks while loading', () => {
+    const onShowMore = vi.fn();
+    render(<TestComponent onShowMore={onShowMore} hasMore loading />);
+
+    const button = screen.getByRole('button', { name: new RegExp(SHOW_MORE) });
+    expect(within(button).getByRole('img', { name: LOADING })).toBeVisible();
+
+    fireEvent.click(button);
+    expect(onShowMore).not.toHaveBeenCalled();
+  });
+
+  it('should render a custom label', () => {
+    render(<TestComponent>Load more assets</TestComponent>);
+
+    expect(
+      screen.getByRole('button', { name: 'Load more assets' }),
+    ).toBeInTheDocument();
+  });
+
+  it('should require hasMore with onShowMore', () => {
+    // Compile-time only: a `@ts-expect-error` fails typecheck if the union
+    // stops rejecting the line below it.
+    const typeChecks = () => (
+      <>
+        <DataTableShowMore />
+        <DataTableShowMore step={2} hasMore />
+        <DataTableShowMore onShowMore={vi.fn()} hasMore={false} />
+        {/* @ts-expect-error server-side mode requires hasMore */}
+        <DataTableShowMore onShowMore={vi.fn()} />
+        {/* @ts-expect-error step only applies to client-side mode */}
+        <DataTableShowMore onShowMore={vi.fn()} hasMore step={2} />
+      </>
+    );
+
+    expect(typeChecks).toBeDefined();
   });
 });
