@@ -63,6 +63,12 @@ Cards default to full width (`w-full`). Use `className` to control sizing: `w-fi
 
 <Canvas of={CardStories.LayoutShowcase} />
 
+### Vertical layout
+
+Cards stack their content horizontally by default. To build a vertical card, with the leading visual above the text, override the layout of `CardLeading` with `flex-col items-start`.
+
+<Canvas of={CardStories.WithVerticalLayout} />
+
 ## Compositions
 
 Cards support various compositions by combining sub-components differently.

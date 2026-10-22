@@ -77,6 +77,28 @@ export const Base: Story = {
   ),
 };
 
+export const WithVerticalLayout: Story = {
+  args: {
+    className: 'w-112',
+    onClick: () => {
+      return;
+    },
+  },
+  render: (args) => (
+    <Card {...args}>
+      <CardHeader>
+        <CardLeading className='flex-none flex-col items-start gap-8'>
+          <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} alt='Bitcoin' />
+          <CardContent>
+            <CardContentTitle>Title</CardContentTitle>
+            <CardContentDescription>Description</CardContentDescription>
+          </CardContent>
+        </CardLeading>
+      </CardHeader>
+    </Card>
+  ),
+};
+
 export const StatesShowcase: Story = {
   args: {
     className: 'w-320',

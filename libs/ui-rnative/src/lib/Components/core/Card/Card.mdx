@@ -87,6 +87,12 @@ Cards default to full width. Use `lx` prop to control sizing: `maxWidth: 's320'`
 
 <Canvas of={CardStories.LayoutShowcase} />
 
+### Vertical layout
+
+Cards stack their content horizontally by default. To build a vertical card, with the leading visual above the text, override the layout of `CardLeading` with `lx` (`flexDirection: 'column'`, `alignItems: 'flex-start'`, `flex: 0`).
+
+<Canvas of={CardStories.WithVerticalLayout} />
+
 ## Compositions
 
 Cards support various compositions by combining sub-components differently.
