@@ -70,6 +70,12 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    */
   onScrollBottom?: () => void;
   /**
+   * Distance from the bottom of the table container, in pixels, at which
+   * `onScrollBottom` fires. See `TableRoot` `scrollBottomThreshold`.
+   * @default 128
+   */
+  scrollBottomThreshold?: TableRootProps['scrollBottomThreshold'];
+  /**
    * Content rendered inside the DataTableRoot (e.g. DataTableActionBar, DataTable).
    */
   children: ReactNode;

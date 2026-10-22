@@ -124,6 +124,7 @@ No external state management is needed for the basic case. For controlled filter
 ## Infinite Loading
 
 Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.  
+`onScrollBottom` fires within `128` pixels (about two rows) of the bottom. Set `scrollBottomThreshold` on `DataTableRoot` to load earlier, e.g. `scrollBottomThreshold={800}`.  
 Set `paginationMode='infinite-scroll'` and `loading={true}` on `DataTableRoot` to display the loading indicator.  
 Use a `Skeleton` component with `component='table'` while the initial page is loading.
 
