@@ -372,7 +372,6 @@ export const TableRow = ({
       ref={ref}
       onClick={onClick}
       role={clickable ? 'button' : undefined}
-      // aria-selected isn't allowed on role="button" and only applies to grid rows.
       aria-current={active || undefined}
       className={cn(rowVariants({ clickable, active }), className)}
       {...props}
