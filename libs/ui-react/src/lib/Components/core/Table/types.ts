@@ -295,10 +295,6 @@ export type TableActionBarTrailingProps = {
 
 export type TableLoadingRowProps = {
   /**
-   * Custom loading content, rendered instead of the default spinner.
-   */
-  children?: ReactNode;
-  /**
    * @optional
    */
   className?: string;

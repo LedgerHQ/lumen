@@ -470,20 +470,6 @@ describe('TableLoadingRow', () => {
     expect(screen.getByTestId('loading')).toBeInTheDocument();
   });
 
-  it('should render children instead of the spinner', () => {
-    render(
-      <TableRoot loading>
-        <TableLoadingRow>Loading more</TableLoadingRow>
-      </TableRoot>,
-    );
-    expect(screen.getByText('Loading more')).toBeInTheDocument();
-    expect(
-      screen.queryByRole('img', {
-        name: 'components.spinner.loadingAriaLabel',
-      }),
-    ).not.toBeInTheDocument();
-  });
-
   it('should not render when loading is false', () => {
     render(
       <TableRoot loading={false}>

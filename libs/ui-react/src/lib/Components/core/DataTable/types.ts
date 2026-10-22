@@ -65,8 +65,8 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   loading?: boolean;
   /**
    * What shows at the bottom of the table while `loading` is true and
-   * `onScrollBottom` is set. Pass an element to render your own indicator;
-   * it is placed below the rows, not inside the table body.
+   * `onScrollBottom` is set. An element is rendered as-is below the rows,
+   * without the default loading row wrapper, so it owns its own layout.
    * @default 'spinner'
    */
   loadingIndicator?: 'spinner' | 'none' | ReactElement;

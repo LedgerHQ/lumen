@@ -212,7 +212,6 @@ export const DataTable = ({
     appearance,
     hideHeader,
     loading,
-    loadingIndicator,
     onScrollBottom,
     groupBy,
     horizontalLayout,
@@ -236,14 +235,31 @@ export const DataTable = ({
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
-      {onScrollBottom && loadingIndicator !== 'none' && (
-        <TableLoadingRow>
-          {loadingIndicator === 'spinner' ? undefined : loadingIndicator}
-        </TableLoadingRow>
-      )}
+      <DataTableLoadingIndicator />
       {children}
     </TableRoot>
   );
+};
+
+/**
+ * Internal component that renders the infinite-scroll loading indicator
+ * selected by `loadingIndicator`, while `loading` is true.
+ */
+const DataTableLoadingIndicator = () => {
+  const { loading, loadingIndicator, onScrollBottom } = useDataTableContext({
+    consumerName: 'DataTableLoadingIndicator',
+    contextRequired: true,
+  });
+
+  if (!onScrollBottom || !loading || loadingIndicator === 'none') {
+    return null;
+  }
+
+  if (loadingIndicator === 'spinner') {
+    return <TableLoadingRow />;
+  }
+
+  return loadingIndicator;
 };
 
 /**

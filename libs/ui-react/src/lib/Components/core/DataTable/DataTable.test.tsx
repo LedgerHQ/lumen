@@ -398,6 +398,18 @@ describe('DataTable loading row', () => {
     ).not.toBeInTheDocument();
   });
 
+  it('should not render a custom loadingIndicator when not loading', () => {
+    render(
+      <TestComponent
+        onScrollBottom={vi.fn()}
+        loading={false}
+        loadingIndicator={<span>Loading more assets</span>}
+      />,
+    );
+
+    expect(screen.queryByText('Loading more assets')).not.toBeInTheDocument();
+  });
+
   it('should only accept presets or an element', () => {
     // Compile-time only: a `@ts-expect-error` fails typecheck if the union
     // stops rejecting the line below it.
