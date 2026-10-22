@@ -456,8 +456,6 @@ export const DataTableShowMore = ({
     consumerName: 'DataTableShowMore',
     contextRequired: true,
   });
-  // Read from state, not `table.initialState`, which ignores a controlled
-  // `state.pagination`. Captured once so the step doesn't grow with each click.
   const initialPageSizeRef = useRef(table.getState().pagination.pageSize);
 
   if (!(hasMore ?? table.getCanNextPage())) {
