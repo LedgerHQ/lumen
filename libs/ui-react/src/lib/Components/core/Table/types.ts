@@ -37,6 +37,12 @@ export type TableRootProps = {
    */
   onScrollBottom?: () => void;
   /**
+   * Distance from the bottom of the table container, in pixels, at which
+   * `onScrollBottom` fires. Increase it to start loading the next page earlier.
+   * @default 128
+   */
+  scrollBottomThreshold?: number;
+  /**
    * When true, disables onScrollBottom to prevent duplicate fetches.
    * Use this while data is being loaded.
    */

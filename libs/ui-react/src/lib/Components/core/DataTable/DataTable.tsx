@@ -39,6 +39,7 @@ type DataTableContextValue<TData extends RowData = RowData> = {
   loading: DataTableRootProps['loading'];
   paginationMode: DataTableRootProps['paginationMode'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
+  scrollBottomThreshold: DataTableRootProps['scrollBottomThreshold'];
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
   horizontalLayout: DataTableRootProps['horizontalLayout'];
@@ -67,6 +68,7 @@ export const DataTableRoot = <TData extends RowData = RowData>({
   paginationMode = 'none',
   loading = false,
   onScrollBottom,
+  scrollBottomThreshold,
   onRowClick,
   getRowProps,
   groupBy,
@@ -91,6 +93,7 @@ export const DataTableRoot = <TData extends RowData = RowData>({
           appearance,
           loading,
           onScrollBottom,
+          scrollBottomThreshold,
           onRowClick,
           getRowProps,
           groupBy,
@@ -204,6 +207,7 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
     hideHeader,
     loading,
     onScrollBottom,
+    scrollBottomThreshold,
     groupBy,
     horizontalLayout,
   } = useDataTableContext({
@@ -217,6 +221,7 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
       appearance={appearance}
       loading={loading}
       onScrollBottom={onScrollBottom}
+      scrollBottomThreshold={scrollBottomThreshold}
       horizontalLayout={horizontalLayout}
       className={className}
       {...props}
