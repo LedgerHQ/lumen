@@ -81,6 +81,33 @@ describe('RevealAnimationProvider', () => {
     expect(mounts).toBe(2);
   });
 
+  it('keeps children mounted across data changes when animate is false', () => {
+    let mounts = 0;
+    function MountCounter() {
+      useEffect(() => {
+        mounts += 1;
+      }, []);
+      return null;
+    }
+    const tree = (data: number[]) => (
+      <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+        <Svg>
+          <RevealAnimationProvider
+            drawingArea={drawingArea}
+            series={[{ id: 'a', stroke: '#000', data }]}
+            animate={false}
+          >
+            <MountCounter />
+          </RevealAnimationProvider>
+        </Svg>
+      </ThemeProvider>
+    );
+
+    const { rerender } = render(tree([1, 2, 3]));
+    rerender(tree([3, 2, 1]));
+    expect(mounts).toBe(1);
+  });
+
   it('renders a ClipPath with a Rect when animate is true', () => {
     const { UNSAFE_root } = renderInSvg(
       <RevealAnimationProvider

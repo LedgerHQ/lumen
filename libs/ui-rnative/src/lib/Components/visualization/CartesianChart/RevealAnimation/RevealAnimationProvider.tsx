@@ -15,7 +15,13 @@ const AnimatedRect = Animated.createAnimatedComponent(Rect);
 
 export function RevealAnimationProvider(props: RevealAnimationProps) {
   const dataFingerprint = useDataFingerprint(props.series);
-  return <RevealAnimationScope key={dataFingerprint} {...props} />;
+  const isDisabled = props.animate === false || RuntimeConstants.isAndroid;
+  return (
+    <RevealAnimationScope
+      key={isDisabled ? undefined : dataFingerprint}
+      {...props}
+    />
+  );
 }
 
 function RevealAnimationScope({

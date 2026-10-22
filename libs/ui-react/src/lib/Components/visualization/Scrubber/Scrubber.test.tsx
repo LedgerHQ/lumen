@@ -146,6 +146,43 @@ describe('Scrubber', () => {
     expect(getByText(/^s2:/)).toBeTruthy();
   });
 
+  it('repositions a beacon label when its rendered size changes', () => {
+    let bboxWidth = 10;
+    const callbacks: ResizeObserverCallback[] = [];
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          callbacks.push(callback);
+        }
+        observe(): void {}
+        unobserve(): void {}
+        disconnect(): void {}
+      },
+    );
+    Object.defineProperty(SVGElement.prototype, 'getBBox', {
+      configurable: true,
+      value: () => ({ x: 0, y: 0, width: bboxWidth, height: 24 }),
+    });
+
+    try {
+      const { getByTestId } = renderScrubber({
+        scrubberProps: { showBeaconLabel: true },
+      });
+      activateScrubber(getByTestId('chart-svg'), 300);
+      const label = getByTestId('scrubber-beacon-label-s1');
+      const before = label.getAttribute('transform');
+
+      bboxWidth = 300;
+      act(() => callbacks.forEach((cb) => cb([], {} as ResizeObserver)));
+
+      expect(label.getAttribute('transform')).not.toBe(before);
+    } finally {
+      vi.unstubAllGlobals();
+      delete (SVGElement.prototype as Partial<SVGGraphicsElement>).getBBox;
+    }
+  });
+
   it('hides the scrubber group on mouseleave', () => {
     const { getByTestId, queryByTestId } = renderScrubber();
     const svg = getByTestId('chart-svg');

@@ -112,6 +112,18 @@ function PositionedLabel({
     setWidth(safeGetBBoxWidth(ref.current));
   }, [testId, value]);
 
+  useLayoutEffect(() => {
+    const element = ref.current;
+    if (!element || typeof ResizeObserver === 'undefined') {
+      return;
+    }
+    const observer = new ResizeObserver(() => {
+      setWidth(safeGetBBoxWidth(element));
+    });
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   const x = computeBeaconLabelX(pixelX, width, drawingArea);
 
   return (
