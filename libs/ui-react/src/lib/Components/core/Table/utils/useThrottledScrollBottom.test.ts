@@ -51,6 +51,36 @@ describe('useThrottledScrollBottom', () => {
     expect(onScrollBottom).toHaveBeenCalledTimes(1);
   });
 
+  it('should call onScrollBottom within two rows (128px) of the bottom by default', () => {
+    const onScrollBottom = vi.fn();
+    const { result } = renderHook(() =>
+      useThrottledScrollBottom({ onScrollBottom }),
+    );
+    const element = createScrollContainer();
+
+    result.current?.(createScrollEvent(element, 471));
+    expect(onScrollBottom).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(200);
+    result.current?.(createScrollEvent(element, 472));
+    expect(onScrollBottom).toHaveBeenCalledTimes(1);
+  });
+
+  it('should call onScrollBottom within a custom threshold of the bottom', () => {
+    const onScrollBottom = vi.fn();
+    const { result } = renderHook(() =>
+      useThrottledScrollBottom({ onScrollBottom, threshold: 400 }),
+    );
+    const element = createScrollContainer();
+
+    result.current?.(createScrollEvent(element, 199));
+    expect(onScrollBottom).not.toHaveBeenCalled();
+
+    vi.advanceTimersByTime(200);
+    result.current?.(createScrollEvent(element, 200));
+    expect(onScrollBottom).toHaveBeenCalledTimes(1);
+  });
+
   it('should not call onScrollBottom while loading', () => {
     const onScrollBottom = vi.fn();
     const { result } = renderHook(() =>
