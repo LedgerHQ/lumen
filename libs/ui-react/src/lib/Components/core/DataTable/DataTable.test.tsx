@@ -10,7 +10,7 @@ import {
   DataTablePagination,
   DataTableShowMore,
 } from './DataTable';
-import type { DataTableShowMoreProps } from './types';
+import type { DataTableRootProps, DataTableShowMoreProps } from './types';
 import { useLumenDataTable } from './useLumenDataTable';
 
 type TestData = {
@@ -343,9 +343,11 @@ describe('DataTable loading row', () => {
   const TestComponent = ({
     onScrollBottom,
     loading = true,
+    loadingIndicator,
   }: {
     onScrollBottom?: () => void;
     loading?: boolean;
+    loadingIndicator?: DataTableRootProps['loadingIndicator'];
   }) => {
     const table = useLumenDataTable({ data: testData, columns: testColumns });
     return (
@@ -353,6 +355,7 @@ describe('DataTable loading row', () => {
         table={table}
         loading={loading}
         onScrollBottom={onScrollBottom}
+        loadingIndicator={loadingIndicator}
       >
         <DataTable />
       </DataTableRoot>
@@ -371,6 +374,43 @@ describe('DataTable loading row', () => {
     expect(
       screen.queryByRole('img', { name: LOADING }),
     ).not.toBeInTheDocument();
+  });
+
+  it('should not render when loadingIndicator is none', () => {
+    render(<TestComponent onScrollBottom={vi.fn()} loadingIndicator='none' />);
+
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should render a custom loadingIndicator instead of the spinner', () => {
+    render(
+      <TestComponent
+        onScrollBottom={vi.fn()}
+        loadingIndicator={<span>Loading more assets</span>}
+      />,
+    );
+
+    expect(screen.getByText('Loading more assets')).toBeInTheDocument();
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should only accept presets or an element', () => {
+    // Compile-time only: a `@ts-expect-error` fails typecheck if the union
+    // stops rejecting the line below it.
+    const typeChecks = () => (
+      <>
+        <TestComponent loadingIndicator='spinner' />
+        <TestComponent loadingIndicator={<span />} />
+        {/* @ts-expect-error unknown preset */}
+        <TestComponent loadingIndicator='spiner' />
+      </>
+    );
+
+    expect(typeChecks).toBeDefined();
   });
 
   it('should not render without onScrollBottom', () => {

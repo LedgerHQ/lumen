@@ -770,6 +770,7 @@ export const TableActionBarTrailing = ({
  * Loading row component displayed at the bottom of the table during infinite scroll loading.
  */
 export const TableLoadingRow = ({
+  children,
   className,
   ref,
   ...props
@@ -788,11 +789,11 @@ export const TableLoadingRow = ({
       {...props}
       ref={ref}
       className={cn(
-        'sticky start-0 flex h-80 w-full items-center justify-center p-12',
+        'sticky start-0 flex min-h-80 w-full items-center justify-center p-12',
         className,
       )}
     >
-      <Spot icon={Spinner} size={48} />
+      {children ?? <Spot icon={Spinner} size={48} />}
     </div>
   );
 };

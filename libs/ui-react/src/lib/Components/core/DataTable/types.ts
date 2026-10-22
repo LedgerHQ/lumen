@@ -1,6 +1,6 @@
 import type { Breakpoint } from '@ledgerhq/lumen-design-core';
 import type { Row, RowData, Table } from '@tanstack/react-table';
-import type { ComponentPropsWithRef, ReactNode } from 'react';
+import type { ComponentPropsWithRef, ReactElement, ReactNode } from 'react';
 import type { PaginationProps } from '../Pagination/types';
 import type { TableRootProps, TableRowProps } from '../Table/types';
 
@@ -63,6 +63,13 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    * `onScrollBottom` to prevent duplicate fetches.
    */
   loading?: boolean;
+  /**
+   * What shows at the bottom of the table while `loading` is true and
+   * `onScrollBottom` is set. Pass an element to render your own indicator;
+   * it is placed below the rows, not inside the table body.
+   * @default 'spinner'
+   */
+  loadingIndicator?: 'spinner' | 'none' | ReactElement;
   /**
    * Callback fired when scroll reaches the bottom of the table container.
    */

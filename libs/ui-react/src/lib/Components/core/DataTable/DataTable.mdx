@@ -131,6 +131,7 @@ Use a `Skeleton` component with `component='table'` while the first page is load
 
 Pass `onScrollBottom` to `DataTableRoot` to load the next page when the user scrolls near the bottom of the table.  
 While `loading` is true, the loading row is shown and `onScrollBottom` is paused to prevent duplicate fetches.  
+Set `loadingIndicator='none'` to hide the loading row, or pass an element to render your own indicator below the rows.  
 The table must scroll itself, so constrain its height (e.g. `max-h-320`).
 
 ```tsx

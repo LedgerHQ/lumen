@@ -42,6 +42,7 @@ type DataTableContextValue<TData extends RowData = RowData> = {
   table: TanstackTable<TData>;
   appearance: DataTableRootProps['appearance'];
   loading: DataTableRootProps['loading'];
+  loadingIndicator: DataTableRootProps['loadingIndicator'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
@@ -69,6 +70,7 @@ export const DataTableRoot = <TData extends RowData = RowData>({
   table,
   appearance = 'no-background',
   loading = false,
+  loadingIndicator = 'spinner',
   onScrollBottom,
   onRowClick,
   getRowProps,
@@ -92,6 +94,7 @@ export const DataTableRoot = <TData extends RowData = RowData>({
           table,
           appearance,
           loading,
+          loadingIndicator,
           onScrollBottom,
           onRowClick,
           getRowProps,
@@ -209,6 +212,7 @@ export const DataTable = ({
     appearance,
     hideHeader,
     loading,
+    loadingIndicator,
     onScrollBottom,
     groupBy,
     horizontalLayout,
@@ -232,7 +236,11 @@ export const DataTable = ({
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
-      {onScrollBottom && <TableLoadingRow />}
+      {onScrollBottom && loadingIndicator !== 'none' && (
+        <TableLoadingRow>
+          {loadingIndicator === 'spinner' ? undefined : loadingIndicator}
+        </TableLoadingRow>
+      )}
       {children}
     </TableRoot>
   );
