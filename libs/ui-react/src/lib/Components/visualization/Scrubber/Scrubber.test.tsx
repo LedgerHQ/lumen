@@ -115,6 +115,37 @@ describe('Scrubber', () => {
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
   });
 
+  it('does not render beacon labels by default', () => {
+    const { getByTestId, queryAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(queryAllByTestId(/scrubber-beacon-label-/)).toHaveLength(0);
+  });
+
+  it('renders a label per series and implies beacons when showBeaconLabel is true', () => {
+    const { getByTestId, getAllByTestId } = renderScrubber({
+      scrubberProps: { showBeaconLabel: true },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getAllByTestId(/^scrubber-beacon-label-/)).toHaveLength(2);
+    expect(getAllByTestId(/^scrubber-beacon-(?!label)/)).toHaveLength(2);
+  });
+
+  it('renders the custom beaconLabel content with series and value', () => {
+    const { getByTestId, getByText } = renderScrubber({
+      scrubberProps: {
+        showBeaconLabel: true,
+        beaconLabel: ({ series, value }) => (
+          <text>{`${series.id}:${value}`}</text>
+        ),
+      },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getByText(/^s1:/)).toBeTruthy();
+    expect(getByText(/^s2:/)).toBeTruthy();
+  });
+
   it('hides the scrubber group on mouseleave', () => {
     const { getByTestId, queryByTestId } = renderScrubber();
     const svg = getByTestId('chart-svg');

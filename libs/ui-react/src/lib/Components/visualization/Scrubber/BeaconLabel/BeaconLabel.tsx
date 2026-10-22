@@ -6,8 +6,9 @@ import type { DrawingArea } from '../../utils/types';
 import { safeGetBBoxWidth } from '../DefaultScrubberTooltip/utils';
 import type { BeaconLabelProps, ScrubberProps } from '../types';
 import type { Beacon } from '../useScrubberGeometry';
+import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
-const { beaconLabel, font, scrubber } = chartConfig;
+const { beaconLabel, font } = chartConfig;
 
 export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
   const textRef = useRef<SVGTextElement>(null);
@@ -60,23 +61,16 @@ export function ScrubberBeaconLabels({
   beacons,
   renderLabel,
 }: Readonly<ScrubberBeaconLabelsProps>) {
-  const { height, rowGap } = beaconLabel;
   const sorted = [...beacons].sort((a, b) => a.pixelY - b.pixelY);
-  const ys = sorted.map((b) => b.pixelY - height / 2);
-
-  for (let i = 1; i < ys.length; i++) {
-    ys[i] = Math.max(ys[i], ys[i - 1] + height + rowGap);
-  }
-
-  let limit = drawingArea.y + drawingArea.height - height;
-  for (let i = ys.length - 1; i >= 0; i--) {
-    ys[i] = Math.min(ys[i], limit);
-    limit = ys[i] - height - rowGap;
-  }
+  const ys = computeBeaconLabelYs(
+    sorted.map((b) => b.pixelY),
+    drawingArea,
+  );
 
   return sorted.map((beacon, i) => (
     <PositionedLabel
       key={beacon.id}
+      testId={`scrubber-beacon-label-${beacon.id}`}
       pixelX={pixelX}
       y={ys[i]}
       drawingArea={drawingArea}
@@ -94,6 +88,7 @@ export function ScrubberBeaconLabels({
 }
 
 type PositionedLabelProps = {
+  testId: string;
   pixelX: number;
   y: number;
   drawingArea: DrawingArea;
@@ -101,6 +96,7 @@ type PositionedLabelProps = {
 };
 
 function PositionedLabel({
+  testId,
   pixelX,
   y,
   drawingArea,
@@ -114,13 +110,15 @@ function PositionedLabel({
     setWidth(safeGetBBoxWidth(ref.current));
   });
 
-  const offset = scrubber.beaconRadius + beaconLabel.gap;
-  const fitsRight =
-    pixelX + offset + width <= drawingArea.x + drawingArea.width;
-  const x = fitsRight ? pixelX + offset : pixelX - offset - width;
+  const x = computeBeaconLabelX(pixelX, width, drawingArea);
 
   return (
-    <g ref={ref} transform={`translate(${x} ${y})`} pointerEvents='none'>
+    <g
+      ref={ref}
+      data-testid={testId}
+      transform={`translate(${x} ${y})`}
+      pointerEvents='none'
+    >
       {children}
     </g>
   );
