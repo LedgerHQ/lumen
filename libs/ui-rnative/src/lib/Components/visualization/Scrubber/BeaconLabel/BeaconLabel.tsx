@@ -53,7 +53,7 @@ export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
         <TSpan
           dx={beaconLabel.contentGap}
           fill={tokens.color.text}
-          fontWeight={tokens.font.bodyWeightSemiBold}
+          fontWeight={tokens.font.bodyWeightMedium}
         >
           {String(value)}
         </TSpan>
