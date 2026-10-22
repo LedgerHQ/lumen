@@ -477,7 +477,6 @@ export const DataTableShowMore = ({
   };
 
   return (
-    // Sticky like TableLoadingRow so it stays in view under horizontal scroll.
     <div
       className={cn(
         'sticky start-0 flex w-full justify-center p-12',
