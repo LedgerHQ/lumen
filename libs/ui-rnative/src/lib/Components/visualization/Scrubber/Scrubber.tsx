@@ -10,6 +10,7 @@ import {
 } from 'react-native-svg';
 
 import { chartConfig, useChartTokens } from '../config';
+import { ScrubberBeaconLabels } from './BeaconLabel/BeaconLabel';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
@@ -65,8 +66,8 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
- * rect, per-series beacon dots, and an optional tooltip when
- * {@link ScrubberProps.tooltip} is set, using {@link DefaultScrubberTooltip}.
+ * rect, per-series beacon dots, optional beacon labels, and an optional tooltip
+ * when {@link ScrubberProps.tooltip} is set, using {@link DefaultScrubberTooltip}.
  *
  * Must be used as a child of `LineChart` (or `CartesianChart`) with
  * `enableScrubbing` enabled. Renders nothing when no scrubber position is active.
@@ -76,6 +77,15 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
  * <LineChart series={data} enableScrubbing>
  *   <Scrubber showBeacons />
  * </LineChart>
+ * ```
+ *
+ * @example Beacon labels
+ * ```tsx
+ * <Scrubber showBeaconLabel />
+ * <Scrubber
+ *   showBeaconLabel
+ *   beaconLabel={(ctx) => <BeaconLabel title={ctx.series.label ?? ctx.series.id} value={ctx.value} />}
+ * />
  * ```
  *
  * @example Tooltip
@@ -93,10 +103,13 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  showBeaconLabel = false,
+  beaconLabel,
   tooltip,
 }: Readonly<ScrubberProps>) {
   const tokens = useChartTokens();
-  const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const drawBeacons = showBeacons || showBeaconLabel;
+  const geometry = useScrubberGeometry({ showBeacons: drawBeacons, tooltip });
 
   if (!geometry) {
     return null;
@@ -126,7 +139,7 @@ export function Scrubber({
         />
       )}
 
-      {showBeacons &&
+      {drawBeacons &&
         beacons.map((beacon) => (
           <Circle
             key={beacon.id}
@@ -139,6 +152,15 @@ export function Scrubber({
             strokeWidth={tokens.stroke.line}
           />
         ))}
+
+      {showBeaconLabel && (
+        <ScrubberBeaconLabels
+          pixelX={pixelX}
+          drawingArea={drawingArea}
+          beacons={beacons}
+          renderLabel={beaconLabel}
+        />
+      )}
 
       {tooltipPayload !== undefined && (
         <DefaultScrubberTooltip

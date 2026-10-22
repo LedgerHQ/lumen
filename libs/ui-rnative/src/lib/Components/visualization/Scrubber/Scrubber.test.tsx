@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render } from '@testing-library/react-native';
 import type { ReactNode, ComponentProps } from 'react';
+import { Text } from 'react-native';
 import { ThemeProvider } from '../../core/ThemeProvider';
 
 import { CartesianChart } from '../CartesianChart';
@@ -94,6 +95,34 @@ describe('Scrubber', () => {
       scrubberProps: { showBeacons: true },
     });
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
+  });
+
+  it('does not render beacon labels by default', () => {
+    const { queryAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    expect(queryAllByTestId(/scrubber-beacon-label-/)).toHaveLength(0);
+  });
+
+  it('renders a label per series and implies beacons when showBeaconLabel is true', () => {
+    const { getAllByTestId } = renderScrubber({
+      scrubberProps: { showBeaconLabel: true },
+    });
+    expect(getAllByTestId(/^scrubber-beacon-label-/)).toHaveLength(2);
+    expect(getAllByTestId(/^scrubber-beacon-(?!label)/)).toHaveLength(2);
+  });
+
+  it('renders the custom beaconLabel content with series and value', () => {
+    const { getByText } = renderScrubber({
+      scrubberProps: {
+        showBeaconLabel: true,
+        beaconLabel: ({ series, value }) => (
+          <Text>{`${series.id}:${value}`}</Text>
+        ),
+      },
+    });
+    expect(getByText('s1:30')).toBeTruthy();
+    expect(getByText('s2:30')).toBeTruthy();
   });
 
   it('renders chart tooltip when tooltip prop is set', () => {

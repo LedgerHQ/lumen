@@ -9,6 +9,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/visualization';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import { Text as SvgText, TSpan } from 'react-native-svg';
 
 export default function LineCharts() {
   return (
@@ -39,6 +40,8 @@ export default function LineCharts() {
       <PointWithAxes />
       <ScrubberBasic />
       <ScrubberMultiSeriesWithBeacons />
+      <ScrubberWithBeaconLabels />
+      <ScrubberWithCustomBeaconLabels />
       <ScrubberWithAxes />
       <ReferenceLineBasic />
       <ScrubberWithTooltip />
@@ -461,6 +464,52 @@ const ScrubberMultiSeriesWithBeacons = () => (
     </LineChart>
   </Section>
 );
+
+const ScrubberWithBeaconLabels = () => (
+  <Section title='Scrubber - beacon labels'>
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  </Section>
+);
+
+const ScrubberWithCustomBeaconLabels = () => {
+  const { theme } = useTheme();
+  return (
+    <Section title='Scrubber - custom beacon labels'>
+      <LineChart
+        series={multiSeries}
+        height={200}
+        enableScrubbing
+        inset={{ top: 20 }}
+      >
+        <Scrubber
+          showBeaconLabel
+          beaconLabel={({ series, value }) => (
+            <SvgText y={12} alignmentBaseline='central'>
+              <TSpan fontSize={16} fontWeight='700' fill={series.stroke}>
+                {`$${value}`}
+              </TSpan>
+              <TSpan
+                dx={6}
+                fontSize={10}
+                fontWeight='600'
+                fill={theme.colors.text.muted}
+              >
+                {series.label?.toUpperCase()}
+              </TSpan>
+            </SvgText>
+          )}
+        />
+      </LineChart>
+    </Section>
+  );
+};
 
 const ScrubberWithAxes = () => (
   <Section title='Scrubber – with axes'>
