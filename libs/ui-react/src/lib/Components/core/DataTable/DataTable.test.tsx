@@ -341,17 +341,18 @@ describe('DataTable children', () => {
 
 describe('DataTable loading row', () => {
   const TestComponent = ({
-    paginationMode,
+    onScrollBottom,
+    loading = true,
   }: {
-    paginationMode?: 'infinite-scroll' | 'none';
+    onScrollBottom?: () => void;
+    loading?: boolean;
   }) => {
     const table = useLumenDataTable({ data: testData, columns: testColumns });
     return (
       <DataTableRoot
         table={table}
-        loading
-        onScrollBottom={vi.fn()}
-        paginationMode={paginationMode}
+        loading={loading}
+        onScrollBottom={onScrollBottom}
       >
         <DataTable />
       </DataTableRoot>
@@ -359,13 +360,21 @@ describe('DataTable loading row', () => {
   };
 
   it('should render when onScrollBottom is set and loading', () => {
-    render(<TestComponent />);
+    render(<TestComponent onScrollBottom={vi.fn()} />);
 
     expect(screen.getByRole('img', { name: LOADING })).toBeInTheDocument();
   });
 
-  it('should not render when paginationMode is explicitly none', () => {
-    render(<TestComponent paginationMode='none' />);
+  it('should not render when not loading', () => {
+    render(<TestComponent onScrollBottom={vi.fn()} loading={false} />);
+
+    expect(
+      screen.queryByRole('img', { name: LOADING }),
+    ).not.toBeInTheDocument();
+  });
+
+  it('should not render without onScrollBottom', () => {
+    render(<TestComponent />);
 
     expect(
       screen.queryByRole('img', { name: LOADING }),

@@ -42,7 +42,6 @@ type DataTableContextValue<TData extends RowData = RowData> = {
   table: TanstackTable<TData>;
   appearance: DataTableRootProps['appearance'];
   loading: DataTableRootProps['loading'];
-  paginationMode: DataTableRootProps['paginationMode'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
@@ -69,7 +68,6 @@ const [DataTableProvider, useDataTableContext] =
 export const DataTableRoot = <TData extends RowData = RowData>({
   table,
   appearance = 'no-background',
-  paginationMode,
   loading = false,
   onScrollBottom,
   onRowClick,
@@ -91,7 +89,6 @@ export const DataTableRoot = <TData extends RowData = RowData>({
           hideHeader,
           stickyHeader,
           horizontalLayout,
-          paginationMode,
           table,
           appearance,
           loading,
@@ -210,7 +207,6 @@ export const DataTable = ({
 }: DataTableProps) => {
   const {
     appearance,
-    paginationMode,
     hideHeader,
     loading,
     onScrollBottom,
@@ -220,11 +216,6 @@ export const DataTable = ({
     consumerName: 'DataTable',
     contextRequired: true,
   });
-
-  // An explicit (deprecated) `paginationMode` keeps its previous behavior.
-  const showLoadingRow = paginationMode
-    ? paginationMode === 'infinite-scroll'
-    : Boolean(onScrollBottom);
 
   return (
     <TableRoot
@@ -241,7 +232,7 @@ export const DataTable = ({
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
-      {showLoadingRow && <TableLoadingRow />}
+      {onScrollBottom && <TableLoadingRow />}
       {children}
     </TableRoot>
   );

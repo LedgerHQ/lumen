@@ -58,13 +58,6 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    */
   appearance?: TableRootProps['appearance'];
   /**
-   * Whether the infinite-scroll loading row is rendered.
-   * When omitted, it is rendered whenever `onScrollBottom` is set.
-   * @deprecated The mode is now what you compose: `onScrollBottom` for infinite
-   * scroll, `DataTablePagination` for pages, `DataTableShowMore` for a show-more button.
-   */
-  paginationMode?: 'infinite-scroll' | 'none';
-  /**
    * When true, more rows are being fetched: shows the loading row (with
    * `onScrollBottom`) or the `DataTableShowMore` loading state, and disables
    * `onScrollBottom` to prevent duplicate fetches.
