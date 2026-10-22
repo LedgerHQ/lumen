@@ -22,6 +22,11 @@ describe('computeBeaconLabelYs', () => {
     expect(ys[1] - ys[0]).toBe(height + rowGap);
   });
 
+  it('keeps the first label inside the drawing area', () => {
+    const [first] = computeBeaconLabelYs([0, 1], area);
+    expect(first).toBe(area.y);
+  });
+
   it('returns an empty list without beacons', () => {
     expect(computeBeaconLabelYs([], area)).toEqual([]);
   });
@@ -36,5 +41,9 @@ describe('computeBeaconLabelX', () => {
 
   it('flips to the left when it would overflow', () => {
     expect(computeBeaconLabelX(180, 60, area)).toBe(180 - offset - 60);
+  });
+
+  it('never places a label left of the drawing area', () => {
+    expect(computeBeaconLabelX(30, 300, area)).toBe(area.x);
   });
 });

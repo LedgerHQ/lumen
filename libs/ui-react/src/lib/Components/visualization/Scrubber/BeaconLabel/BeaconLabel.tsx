@@ -71,12 +71,13 @@ export function ScrubberBeaconLabels({
     <PositionedLabel
       key={beacon.id}
       testId={`scrubber-beacon-label-${beacon.id}`}
+      value={beacon.value}
       pixelX={pixelX}
       y={ys[i]}
       drawingArea={drawingArea}
     >
       {renderLabel ? (
-        renderLabel(beacon)
+        renderLabel({ series: beacon.series, value: beacon.value })
       ) : (
         <BeaconLabel
           title={beacon.series.label ?? beacon.series.id}
@@ -89,6 +90,7 @@ export function ScrubberBeaconLabels({
 
 type PositionedLabelProps = {
   testId: string;
+  value: number;
   pixelX: number;
   y: number;
   drawingArea: DrawingArea;
@@ -97,6 +99,7 @@ type PositionedLabelProps = {
 
 function PositionedLabel({
   testId,
+  value,
   pixelX,
   y,
   drawingArea,
@@ -105,10 +108,9 @@ function PositionedLabel({
   const ref = useRef<SVGGElement>(null);
   const [width, setWidth] = useState(0);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   useLayoutEffect(() => {
     setWidth(safeGetBBoxWidth(ref.current));
-  });
+  }, [testId, value]);
 
   const x = computeBeaconLabelX(pixelX, width, drawingArea);
 

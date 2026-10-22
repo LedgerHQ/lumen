@@ -25,6 +25,15 @@ export const computeBeaconLabelYs = (
     limit = ys[i] - height - rowGap;
   }
 
+  if (ys.length === 0) {
+    return ys;
+  }
+
+  ys[0] = Math.max(ys[0], drawingArea.y);
+  for (let i = 1; i < ys.length; i++) {
+    ys[i] = Math.max(ys[i], ys[i - 1] + height + rowGap);
+  }
+
   return ys;
 };
 
@@ -41,5 +50,7 @@ export const computeBeaconLabelX = (
   const fitsRight =
     pixelX + offset + width <= drawingArea.x + drawingArea.width;
 
-  return fitsRight ? pixelX + offset : pixelX - offset - width;
+  return fitsRight
+    ? pixelX + offset
+    : Math.max(drawingArea.x, pixelX - offset - width);
 };

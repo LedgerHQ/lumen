@@ -68,12 +68,12 @@ export const useScrubberGeometry = ({
     return series
       .map((s) => {
         const seriesData = seriesMap.get(s.id)?.data;
-        const pixelY = resolvePixelY(scrubberPosition, seriesData, getYScale);
-        if (pixelY === undefined) {
-          return null;
-        }
         const value = seriesData?.[scrubberPosition];
         if (value === null || value === undefined) {
+          return null;
+        }
+        const pixelY = resolvePixelY(scrubberPosition, seriesData, getYScale);
+        if (pixelY === undefined) {
           return null;
         }
         return {

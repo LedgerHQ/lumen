@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render } from '@testing-library/react-native';
+import { useEffect } from 'react';
 import { Svg } from 'react-native-svg';
 import { ThemeProvider } from '../../../core/ThemeProvider';
 
@@ -49,6 +50,35 @@ describe('RevealAnimationProvider', () => {
     );
 
     expect(getByTestId('child')).toBeTruthy();
+  });
+
+  it('remounts children when the data changes, and not when it does not', () => {
+    let mounts = 0;
+    function MountCounter() {
+      useEffect(() => {
+        mounts += 1;
+      }, []);
+      return null;
+    }
+    const tree = (data: number[]) => (
+      <ThemeProvider themes={ledgerLiveThemes} colorScheme='light'>
+        <Svg>
+          <RevealAnimationProvider
+            drawingArea={drawingArea}
+            series={[{ id: 'a', stroke: '#000', data }]}
+          >
+            <MountCounter />
+          </RevealAnimationProvider>
+        </Svg>
+      </ThemeProvider>
+    );
+
+    const { rerender } = render(tree([1, 2, 3]));
+    rerender(tree([1, 2, 3]));
+    expect(mounts).toBe(1);
+
+    rerender(tree([3, 2, 1]));
+    expect(mounts).toBe(2);
   });
 
   it('renders a ClipPath with a Rect when animate is true', () => {

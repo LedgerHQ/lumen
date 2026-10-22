@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { LayoutChangeEvent } from 'react-native';
 import { G, Rect, Text as SvgText, TSpan } from 'react-native-svg';
@@ -13,7 +13,11 @@ const { beaconLabel } = chartConfig;
 
 const useLayoutWidth = (): [number, (event: LayoutChangeEvent) => void] => {
   const [width, setWidth] = useState(0);
-  return [width, (event) => setWidth(event.nativeEvent.layout.width)];
+  const onLayout = useCallback(
+    (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width),
+    [],
+  );
+  return [width, onLayout];
 };
 
 /**
@@ -86,7 +90,7 @@ export function ScrubberBeaconLabels({
       drawingArea={drawingArea}
     >
       {renderLabel ? (
-        renderLabel(beacon)
+        renderLabel({ series: beacon.series, value: beacon.value })
       ) : (
         <BeaconLabel
           title={beacon.series.label ?? beacon.series.id}
