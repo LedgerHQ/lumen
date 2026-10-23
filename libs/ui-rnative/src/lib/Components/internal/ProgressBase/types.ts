@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import type { StyleProp, ViewStyle } from 'react-native';
+import type { StyledViewProps } from '../../../../styles';
 
 export type ProgressLabelPosition =
   | 'start-top'
@@ -16,5 +18,11 @@ export type ProgressLabelLayoutProps = {
    * @default 'start-bottom'
    */
   labelPosition?: ProgressLabelPosition;
+  /**
+   * Layout props for the outermost element: the wrapper with a label,
+   * otherwise the bar itself.
+   */
+  lx?: StyledViewProps['lx'];
+  style?: StyleProp<ViewStyle>;
   children: ReactNode;
 };

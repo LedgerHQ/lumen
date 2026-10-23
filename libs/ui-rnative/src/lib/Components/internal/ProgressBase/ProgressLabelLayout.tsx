@@ -1,4 +1,6 @@
+import type { ReactNode } from 'react';
 import type { TextStyle, ViewStyle } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { Box, Text } from '../../primitives';
 import type { ProgressLabelLayoutProps, ProgressLabelPosition } from './types';
@@ -15,6 +17,12 @@ const positionLayouts: Record<
   'end-top': { flexDirection: 'column', alignItems: 'flex-end' },
   'end-bottom': { flexDirection: 'column-reverse', alignItems: 'flex-end' },
 };
+
+export const hasProgressLabel = (label: ReactNode): boolean =>
+  label != null && typeof label !== 'boolean';
+
+export const clampProgress = (value: number): number =>
+  Number.isNaN(value) ? 0 : Math.min(100, Math.max(0, value));
 
 const useLabelStyles = ({
   labelPosition,
@@ -46,14 +54,16 @@ const useLabelStyles = ({
 export const ProgressLabelLayout = ({
   label,
   labelPosition = 'start-bottom',
+  lx,
+  style,
   children,
 }: ProgressLabelLayoutProps) => {
   const styles = useLabelStyles({ labelPosition });
 
-  if (label == null || label === false) return children;
+  if (!hasProgressLabel(label)) return children;
 
   return (
-    <Box style={styles.layout}>
+    <Box lx={lx} style={StyleSheet.flatten([styles.layout, style])}>
       <Text typography='body4' style={styles.label}>
         {label}
       </Text>

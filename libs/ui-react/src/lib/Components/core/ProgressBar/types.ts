@@ -24,14 +24,14 @@ type ProgressBarName =
       /**
        * A visible label that also names the bar for assistive technology.
        */
-      label: NonNullable<ReactNode>;
+      label: Exclude<NonNullable<ReactNode>, boolean>;
       /**
        * Names the bar. Takes precedence over the rendered label.
        */
       'aria-label'?: string;
     }
   | {
-      label?: undefined;
+      label?: ReactNode;
       /**
        * Names the bar. Required when there is no rendered label.
        */

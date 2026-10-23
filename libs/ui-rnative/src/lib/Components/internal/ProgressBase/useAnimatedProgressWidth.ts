@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import {
   cancelAnimation,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -18,7 +19,10 @@ export const useAnimatedProgressWidth = (
   const timingConfig = useTimingConfig({ duration: 200, easing: 'easeOut' });
 
   useEffect(() => {
-    progress.value = withTiming(value, timingConfig);
+    progress.value = withTiming(value, {
+      ...timingConfig,
+      reduceMotion: ReduceMotion.System,
+    });
     return () => cancelAnimation(progress);
   }, [value, progress, timingConfig]);
 

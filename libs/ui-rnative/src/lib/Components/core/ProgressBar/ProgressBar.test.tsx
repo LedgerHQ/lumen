@@ -146,4 +146,34 @@ describe('ProgressBar', () => {
       'column-reverse',
     );
   });
+
+  it('should apply style to the label wrapper rather than the bar', () => {
+    renderWithProvider(
+      <ProgressBar
+        value={50}
+        accessibilityLabel='Upload'
+        label='Syncing'
+        style={{ display: 'none' }}
+      />,
+    );
+
+    const tree = screen.toJSON() as { props: { style: ViewStyle } };
+    expect(StyleSheet.flatten(tree.props.style).display).toBe('none');
+    expect(
+      StyleSheet.flatten(
+        screen.getByLabelText('Upload', { includeHiddenElements: true }).props
+          .style,
+      ).display,
+    ).toBeUndefined();
+  });
+
+  it('should clamp NaN to zero', () => {
+    renderWithProvider(
+      <ProgressBar value={Number.NaN} accessibilityLabel='Upload' />,
+    );
+
+    expect(screen.getByLabelText('Upload').props.accessibilityValue.now).toBe(
+      0,
+    );
+  });
 });

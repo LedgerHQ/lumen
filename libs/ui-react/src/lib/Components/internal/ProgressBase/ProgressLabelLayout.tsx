@@ -1,4 +1,6 @@
+import { cn } from '@ledgerhq/lumen-design-core/cn';
 import { cva } from 'class-variance-authority';
+import type { ReactNode } from 'react';
 import type { ProgressLabelLayoutProps } from './types';
 
 const layoutVariants = cva('flex w-full gap-8', {
@@ -26,6 +28,12 @@ const labelVariants = cva('body-4 text-muted', {
   },
 });
 
+export const hasProgressLabel = (label: ReactNode): boolean =>
+  label != null && typeof label !== 'boolean';
+
+export const clampProgress = (value: number): number =>
+  Number.isNaN(value) ? 0 : Math.min(100, Math.max(0, value));
+
 /**
  * Places an optional label above or below a progress bar. Without a label it
  * renders the bar alone, so the DOM stays a single element.
@@ -37,12 +45,13 @@ export const ProgressLabelLayout = ({
   label,
   labelPosition,
   labelId,
+  className,
   children,
 }: ProgressLabelLayoutProps) => {
-  if (label == null || label === false) return children;
+  if (!hasProgressLabel(label)) return children;
 
   return (
-    <div className={layoutVariants({ labelPosition })}>
+    <div className={cn(layoutVariants({ labelPosition }), className)}>
       <span id={labelId} className={labelVariants({ labelPosition })}>
         {label}
       </span>

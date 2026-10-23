@@ -122,6 +122,37 @@ describe('ProgressBar', () => {
     expect(ref.current).toHaveClass('mt-8');
   });
 
+  it('should apply className to the label wrapper rather than the bar', () => {
+    const { container } = render(
+      <ProgressBar value={50} label='Syncing' className='hidden' />,
+    );
+
+    expect(container.firstElementChild).toHaveClass('hidden');
+    expect(screen.getByRole('progressbar')).not.toHaveClass('hidden');
+  });
+
+  it('should clamp NaN to zero', () => {
+    render(<ProgressBar value={Number.NaN} aria-label='X' />);
+
+    expect(screen.getByRole('progressbar')).toHaveAttribute(
+      'aria-valuenow',
+      '0',
+    );
+  });
+
+  it('should not render a boolean label', () => {
+    const { container } = render(
+      <ProgressBar value={50} label={false} aria-label='X' />,
+    );
+
+    expect(container.children).toHaveLength(1);
+  });
+
+  it('should reject a boolean label without an aria-label', () => {
+    // @ts-expect-error a boolean label does not name the bar
+    render(<ProgressBar value={50} label={false} />);
+  });
+
   it('should require a name through aria-label or label', () => {
     // @ts-expect-error a bar needs either `aria-label` or `label`
     render(<ProgressBar value={50} />);

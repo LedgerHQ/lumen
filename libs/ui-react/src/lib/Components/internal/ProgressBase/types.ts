@@ -20,5 +20,10 @@ export type ProgressLabelLayoutProps = {
    * The id given to the label element, for `aria-labelledby`.
    */
   labelId?: string;
+  /**
+   * Classes for the outermost element: the wrapper with a label, otherwise
+   * the bar itself.
+   */
+  className?: string;
   children: ReactNode;
 };

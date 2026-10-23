@@ -1,7 +1,11 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
 import { cva } from 'class-variance-authority';
 import { useId } from 'react';
-import { ProgressLabelLayout } from '../../internal/ProgressBase';
+import {
+  clampProgress,
+  hasProgressLabel,
+  ProgressLabelLayout,
+} from '../../internal/ProgressBase';
 import type { ProgressBarProps } from './types';
 
 const progressTrackVariants = cva(
@@ -36,7 +40,8 @@ const progressFillVariants = cva(
 
 /**
  * A determinate progress bar showing how far along a task is. An optional label
- * can sit above or below the bar.
+ * can sit above or below the bar. `className` targets the outermost element:
+ * the label wrapper when there is a label, otherwise the bar.
  *
  * @example
  * <ProgressBar value={40} aria-label='Upload progress' />
@@ -54,8 +59,8 @@ export const ProgressBar = ({
   ...props
 }: ProgressBarProps) => {
   const labelId = useId();
-  const hasLabel = label != null && label !== false;
-  const clampedValue = Math.min(100, Math.max(0, value));
+  const hasLabel = hasProgressLabel(label);
+  const clampedValue = clampProgress(value);
   const labelledBy =
     ariaLabelledBy ?? (hasLabel && !ariaLabel ? labelId : undefined);
 
@@ -64,6 +69,7 @@ export const ProgressBar = ({
       label={label}
       labelPosition={labelPosition}
       labelId={labelId}
+      className={className}
     >
       <div
         {...props}
@@ -74,7 +80,7 @@ export const ProgressBar = ({
         aria-valuenow={clampedValue}
         aria-label={ariaLabel}
         aria-labelledby={labelledBy}
-        className={cn(progressTrackVariants(), className)}
+        className={cn(progressTrackVariants(), !hasLabel && className)}
       >
         <div
           className={progressFillVariants({ appearance })}

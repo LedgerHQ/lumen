@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../../styles';
 import {
+  clampProgress,
+  hasProgressLabel,
   ProgressLabelLayout,
   useAnimatedProgressWidth,
 } from '../../internal/ProgressBase';
@@ -53,7 +55,8 @@ const useStyles = ({
 
 /**
  * A determinate progress bar showing how far along a task is. An optional label
- * can sit above or below the bar.
+ * can sit above or below the bar. `lx` and `style` target the outermost
+ * element: the label wrapper when there is a label, otherwise the bar.
  *
  * @example
  * <ProgressBar value={40} accessibilityLabel='Upload progress' />
@@ -70,22 +73,30 @@ export const ProgressBar = ({
   label,
   labelPosition,
   accessibilityLabel,
-  lx = {},
+  lx,
   style,
   ref,
   ...props
 }: ProgressBarProps) => {
-  const clampedValue = Math.min(100, Math.max(0, value));
+  const hasLabel = hasProgressLabel(label);
+  const clampedValue = clampProgress(value);
   const styles = useStyles({ appearance });
   const animatedFillStyle = useAnimatedProgressWidth(clampedValue);
 
   return (
-    <ProgressLabelLayout label={label} labelPosition={labelPosition}>
+    <ProgressLabelLayout
+      label={label}
+      labelPosition={labelPosition}
+      lx={lx}
+      style={style}
+    >
       <Box
         {...props}
         ref={ref}
-        lx={lx}
-        style={StyleSheet.flatten([styles.track, style])}
+        lx={hasLabel ? undefined : lx}
+        style={
+          hasLabel ? styles.track : StyleSheet.flatten([styles.track, style])
+        }
         accessible
         accessibilityRole='progressbar'
         accessibilityLabel={accessibilityLabel}
