@@ -130,6 +130,56 @@ export const WithBeacons: Story = {
   args: {},
 };
 
+export const WithBeaconLabels: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  ),
+};
+
+/**
+ * `beaconLabel` accepts any SVG drawn from the label's top-left corner, so the
+ * default pill can be replaced entirely, even by bare text. Keep the height at 24px so the labels
+ * stack without overlapping.
+ */
+export const WithCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <text y={12} dominantBaseline='central' paintOrder='stroke'>
+            <tspan fontSize={16} fontWeight={700} fill={series.stroke}>
+              {`$${value}`}
+            </tspan>
+            <tspan
+              dx={6}
+              fontSize={10}
+              fontWeight={600}
+              fill={cssVar('var(--text-muted)')}
+            >
+              {series.label?.toUpperCase()}
+            </tspan>
+          </text>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
 export const WithIdlePulse: Story = {
   render: (args: ScrubberProps) => (
     <LineChart

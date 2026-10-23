@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useCartesianChartContext } from '../CartesianChart/context';
 import { useChartTokens } from '../config';
-import type { DrawingArea } from '../utils/types';
+import type { DrawingArea, Series } from '../utils/types';
 
 import { useScrubberContext } from './context';
 import type { ScrubberProps } from './types';
@@ -16,7 +16,14 @@ import {
   type ScrubberTooltipPayload,
 } from './utils';
 
-type Beacon = { id: string; stroke: string; pixelX: number; pixelY: number };
+export type Beacon = {
+  id: string;
+  stroke: string;
+  pixelX: number;
+  pixelY: number;
+  series: Series;
+  value: number;
+};
 
 type ScrubberGeometry = {
   beacons: Beacon[];
@@ -78,6 +85,10 @@ export const useScrubberGeometry = ({
         if (index === undefined) {
           return null;
         }
+        const value = seriesData?.[index];
+        if (value === null || value === undefined) {
+          return null;
+        }
         const pixelX = resolvePixelX(index, getXScale, getXAxisConfig());
         const pixelY = resolvePixelY(index, seriesData, getYScale);
         if (pixelX === undefined || pixelY === undefined) {
@@ -88,6 +99,8 @@ export const useScrubberGeometry = ({
           stroke: s.stroke ?? tokens.color.stroke,
           pixelX,
           pixelY,
+          series: s,
+          value,
         };
       })
       .filter((b): b is Beacon => b !== null);

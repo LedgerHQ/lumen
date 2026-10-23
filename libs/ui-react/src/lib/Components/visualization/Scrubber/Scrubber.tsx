@@ -3,6 +3,7 @@ import { Fragment, useId } from 'react';
 import { usePointReveal } from '../CartesianChart/RevealAnimation';
 import { chartConfig } from '../config';
 
+import { ScrubberBeaconLabels } from './BeaconLabel/BeaconLabel';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
@@ -102,6 +103,15 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
  * </LineChart>
  * ```
  *
+ * @example Beacon labels
+ * ```tsx
+ * <Scrubber showBeaconLabel />
+ * <Scrubber
+ *   showBeaconLabel
+ *   beaconLabel={(ctx) => <BeaconLabel title={ctx.series.label ?? ctx.series.id} value={ctx.value} />}
+ * />
+ * ```
+ *
  * @example Tooltip
  * ```tsx
  * <Scrubber
@@ -117,10 +127,15 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  showBeaconLabel = false,
+  beaconLabel,
   idlePulse = false,
   tooltip,
 }: Readonly<ScrubberProps>) {
-  const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const geometry = useScrubberGeometry({
+    showBeacons: showBeacons || showBeaconLabel,
+    tooltip,
+  });
   const revealStyle = usePointReveal();
 
   if (!geometry) {
@@ -174,6 +189,14 @@ export function Scrubber({
             </Fragment>
           ))}
         </g>
+      )}
+      {scrubbing && showBeaconLabel && (
+        <ScrubberBeaconLabels
+          pixelX={scrubbing.pixelX}
+          drawingArea={scrubbing.drawingArea}
+          beacons={beacons}
+          renderLabel={beaconLabel}
+        />
       )}
       {scrubbing?.tooltipPayload !== undefined && (
         <DefaultScrubberTooltip

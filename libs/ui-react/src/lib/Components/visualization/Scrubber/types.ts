@@ -1,7 +1,7 @@
 import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
 import type { ScrubbingOptions } from '../CartesianChart/types';
-import type { DrawingArea } from '../utils/types';
+import type { DrawingArea, Series } from '../utils/types';
 
 export type ScrubberContextValue = Required<
   Pick<ScrubbingOptions, 'enableScrubbing' | 'onScrubberPositionChange'>
@@ -120,6 +120,28 @@ export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
   items: ChartTooltipItemData[];
 };
 
+export type BeaconLabelContext = {
+  /**
+   * The series the beacon belongs to.
+   */
+  series: Series;
+  /**
+   * The series value at the scrubbed index.
+   */
+  value: number;
+};
+
+export type BeaconLabelProps = {
+  /**
+   * Muted text on the left, typically the series label.
+   */
+  title: SvgTextContent;
+  /**
+   * Emphasized text on the right, typically the series value.
+   */
+  value: SvgTextContent;
+};
+
 export type ScrubberProps = {
   /**
    * Hides the vertical reference line.
@@ -138,6 +160,19 @@ export type ScrubberProps = {
    * @default false
    */
   showBeacons?: boolean;
+  /**
+   * Shows a label next to each beacon while scrubbing, rendering the series
+   * label and value
+   * unless {@link ScrubberProps.beaconLabel} is set. Implies `showBeacons`.
+   * @default false
+   */
+  showBeaconLabel?: boolean;
+  /**
+   * Custom label content for each beacon, rendered when `showBeaconLabel` is
+   * set. Draw with its top-left corner at the origin (like {@link BeaconLabel});
+   * the scrubber measures and positions it.
+   */
+  beaconLabel?: (context: BeaconLabelContext) => ReactNode;
   /**
    * Pulses the beacons while idle. Requires `showBeacons`.
    * @default false
