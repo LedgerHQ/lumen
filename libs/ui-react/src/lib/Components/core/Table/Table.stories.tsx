@@ -1,5 +1,4 @@
 import { CryptoIcon } from '@ledgerhq/crypto-icons';
-import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useMemo, useState } from 'react';
 import { Android, ArrowDown } from '../../symbols';

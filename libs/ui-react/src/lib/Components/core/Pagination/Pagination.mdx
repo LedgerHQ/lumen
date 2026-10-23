@@ -56,7 +56,7 @@ Increase `siblingCount` to show more page numbers around the current page.
 
 Use `density='compact'` where space is tight, such as a table footer. It keeps the previous and next controls and shows the current position as a localized "current of total" label instead of page buttons.
 
-<Canvas of={PaginationStories.Compact} />
+<Canvas of={PaginationStories.DensityShowcase} />
 
 ## Accessibility
 
@@ -91,7 +91,7 @@ function MyComponent() {
 
 ### With Table
 
-Slice your dataset by page size and render `Pagination` below the table. Center it in the layout when needed, or use `density='compact'` aligned to the end for a lighter footer (see the [Table compact pagination story](?path=/story/react-table--with-compact-pagination)).
+Slice your dataset by page size and render `Pagination` below the table. Center it in the layout when needed, or use `density='compact'` aligned to the end for a lighter footer (see the [DataTable server-side pagination story](?path=/story/react-datatable--with-server-side-pagination)).
 
 ```tsx
 import {

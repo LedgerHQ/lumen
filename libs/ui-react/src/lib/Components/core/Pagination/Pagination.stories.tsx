@@ -85,17 +85,20 @@ export const WithMoreSiblings: Story = {
   },
 };
 
-export const Compact: Story = {
+export const DensityShowcase: Story = {
   render: () => {
     const [page, setPage] = useState(2);
 
     return (
-      <Pagination
-        page={page}
-        totalPages={8}
-        density='compact'
-        onPageChange={setPage}
-      />
+      <div className='flex flex-col items-center gap-16'>
+        <Pagination page={page} totalPages={8} onPageChange={setPage} />
+        <Pagination
+          page={page}
+          totalPages={8}
+          density='compact'
+          onPageChange={setPage}
+        />
+      </div>
     );
   },
 };

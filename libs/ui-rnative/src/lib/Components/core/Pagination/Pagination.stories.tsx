@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useEffect, useState } from 'react';
+import { Box } from '../../primitives/Box';
 import { Pagination } from './Pagination';
 
 const meta = {
@@ -7,6 +8,8 @@ const meta = {
   title: 'Core/Pagination',
   component: Pagination,
   parameters: {
+    layout: 'centered',
+    backgrounds: { default: 'light' },
     docs: { source: { language: 'tsx', format: true, type: 'code' } },
     actions: { disable: true },
   },
@@ -68,17 +71,20 @@ export const LastPage: Story = {
   },
 };
 
-export const Compact: Story = {
+export const DensityShowcase: Story = {
   render: () => {
     const [page, setPage] = useState(2);
 
     return (
-      <Pagination
-        page={page}
-        totalPages={8}
-        density='compact'
-        onPageChange={setPage}
-      />
+      <Box lx={{ alignItems: 'center', gap: 's16' }}>
+        <Pagination page={page} totalPages={8} onPageChange={setPage} />
+        <Pagination
+          page={page}
+          totalPages={8}
+          density='compact'
+          onPageChange={setPage}
+        />
+      </Box>
     );
   },
 };
