@@ -1329,7 +1329,7 @@ export const WithServerSidePagination: Story = {
       <DataTableRoot {...args} table={table}>
         <TableActionBar>
           <TableActionBarTrailing>
-            <DataTablePagination />
+            <DataTablePagination density='compact' />
           </TableActionBarTrailing>
         </TableActionBar>
         <DataTable />
