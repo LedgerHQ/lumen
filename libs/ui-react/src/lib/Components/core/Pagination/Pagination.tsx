@@ -67,11 +67,11 @@ export const Pagination = ({
           })}
         </span>
       )}
-      {items.map((item, index) => {
-        if (item === 'ellipsis') {
+      {items.map((item) => {
+        if (typeof item === 'string') {
           return (
             <span
-              key={`ellipsis-${index}`}
+              key={item}
               aria-hidden
               className='inline-flex w-40 items-center justify-center body-2 text-muted'
             >

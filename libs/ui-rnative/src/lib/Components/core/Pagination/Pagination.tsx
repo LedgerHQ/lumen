@@ -153,11 +153,11 @@ export const Pagination = ({
           contentContainerStyle={styles.scrollContent}
           onLayout={onViewportLayout}
         >
-          {items.map((item, index) => {
-            if (item === 'ellipsis') {
+          {items.map((item) => {
+            if (typeof item === 'string') {
               return (
                 <Box
-                  key={`ellipsis-${index}`}
+                  key={item}
                   importantForAccessibility='no-hide-descendants'
                   accessibilityElementsHidden
                   style={styles.ellipsis}
