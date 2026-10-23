@@ -164,7 +164,7 @@ export const WithLoading: Story = {
     }, [loading]);
 
     return (
-      <div className='flex w-full flex-col items-start gap-16'>
+      <div className='flex w-full flex-col items-center gap-16'>
         <LineChart
           series={series}
           width={CHART_WIDTH}
