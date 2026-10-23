@@ -29,6 +29,7 @@ export * from './MediaTag';
 export * from './MenuList';
 export * from './NavBar';
 export * from './PageIndicator';
+export * from './ProgressBar';
 export * from './SearchInput';
 export * from './SectionHeader';
 export * from './SegmentedControl';

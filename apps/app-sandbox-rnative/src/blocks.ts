@@ -39,6 +39,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'MenuLists', title: 'MenuList' },
   { slug: 'NavBars', title: 'Navbar' },
   { slug: 'PageIndicators', title: 'PageIndicator' },
+  { slug: 'ProgressBars', title: 'ProgressBar' },
   { slug: 'SectionHeaders', title: 'SectionHeader' },
   { slug: 'SegmentedControls', title: 'SegmentedControl' },
   { slug: 'SelectLists', title: 'SelectList' },
