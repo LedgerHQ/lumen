@@ -215,7 +215,7 @@ describe('TableRoot', () => {
 
   describe('Scroll bottom', () => {
     // 1000px of content in a 400px viewport: the bottom is at scrollTop 600.
-    const scrollTo = (root: HTMLElement, scrollTop: number): void => {
+    const scrollContainerTo = (root: HTMLElement, scrollTop: number): void => {
       Object.defineProperties(root, {
         scrollHeight: { configurable: true, value: 1000 },
         clientHeight: { configurable: true, value: 400 },
@@ -232,7 +232,7 @@ describe('TableRoot', () => {
         </TableRoot>,
       );
 
-      scrollTo(screen.getByTestId('root'), 500);
+      scrollContainerTo(screen.getByTestId('root'), 500);
 
       expect(onScrollBottom).toHaveBeenCalledTimes(1);
     });
@@ -245,7 +245,7 @@ describe('TableRoot', () => {
         </TableRoot>,
       );
 
-      scrollTo(screen.getByTestId('root'), 300);
+      scrollContainerTo(screen.getByTestId('root'), 300);
 
       expect(onScrollBottom).not.toHaveBeenCalled();
     });
@@ -262,7 +262,7 @@ describe('TableRoot', () => {
         </TableRoot>,
       );
 
-      scrollTo(screen.getByTestId('root'), 300);
+      scrollContainerTo(screen.getByTestId('root'), 300);
 
       expect(onScrollBottom).toHaveBeenCalledTimes(1);
     });

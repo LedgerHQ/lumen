@@ -81,6 +81,17 @@ describe('useThrottledScrollBottom', () => {
     expect(onScrollBottom).toHaveBeenCalledTimes(1);
   });
 
+  it('should still call onScrollBottom at a fractional bottom with a 0 threshold', () => {
+    const onScrollBottom = vi.fn();
+    const { result } = renderHook(() =>
+      useThrottledScrollBottom({ onScrollBottom, threshold: 0 }),
+    );
+
+    result.current?.(createScrollEvent(createScrollContainer(), 599.5));
+
+    expect(onScrollBottom).toHaveBeenCalledTimes(1);
+  });
+
   it('should not call onScrollBottom while loading', () => {
     const onScrollBottom = vi.fn();
     const { result } = renderHook(() =>

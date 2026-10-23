@@ -64,7 +64,6 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
    */
   loading?: boolean;
   /**
-<<<<<<< HEAD
    * What shows at the bottom of the table while `loading` is true and
    * `onScrollBottom` is set. An element is rendered as-is below the rows,
    * without the default loading row wrapper, so it owns its own layout.
@@ -73,10 +72,8 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   loadingIndicator?: 'spinner' | 'none' | ReactElement;
   /**
    * Callback fired when scroll reaches the bottom of the table container.
-=======
    * Callback fired when the user scrolls within `scrollBottomThreshold` of the
    * bottom of the table container.
->>>>>>> 4d68bc703 (docs(Table): give scrollBottomThreshold in rows as well as pixels)
    */
   onScrollBottom?: () => void;
   /**
