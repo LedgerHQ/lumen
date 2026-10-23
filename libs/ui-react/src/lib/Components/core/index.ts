@@ -30,6 +30,7 @@ export * from './MediaTag';
 export * from './Menu';
 export * from './NavBar';
 export * from './Popover';
+export * from './ProgressBar';
 export * from './PageIndicator';
 export * from './Pagination';
 export * from './SearchInput';
