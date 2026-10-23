@@ -58,6 +58,17 @@ Use `density='compact'` where space is tight, such as a table footer. It keeps t
 
 <Canvas of={PaginationStories.DensityShowcase} />
 
+#### Responsive density
+
+`density` is a single value, so switch it per breakpoint by rendering both densities and toggling them with Tailwind's responsive `display` classes. Share the page state between the two. Resize the viewport to see compact below `md` and expanded from `md` up.
+
+<Canvas of={PaginationStories.WithResponsiveDensity} />
+
+```tsx
+<Pagination density='compact' className='md:hidden' {...paginationProps} />
+<Pagination className='hidden md:flex' {...paginationProps} />
+```
+
 ## Accessibility
 
 - Root element is a `<nav>` with an accessible name

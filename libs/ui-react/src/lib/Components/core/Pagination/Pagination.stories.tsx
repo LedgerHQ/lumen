@@ -102,3 +102,27 @@ export const DensityShowcase: Story = {
     );
   },
 };
+
+export const WithResponsiveDensity: Story = {
+  render: () => {
+    const [page, setPage] = useState(10);
+
+    return (
+      <>
+        <Pagination
+          page={page}
+          totalPages={20}
+          density='compact'
+          onPageChange={setPage}
+          className='md:hidden'
+        />
+        <Pagination
+          page={page}
+          totalPages={20}
+          onPageChange={setPage}
+          className='hidden md:flex'
+        />
+      </>
+    );
+  },
+};
