@@ -27,6 +27,13 @@
     },
     "stepper": {
       "progressAriaLabel": "Шаг {{currentStep}} из {{totalSteps}}"
+    },
+    "pagination": {
+      "navigationAriaLabel": "Навигация по страницам",
+      "previousPageAriaLabel": "Предыдущая страница",
+      "nextPageAriaLabel": "Следующая страница",
+      "pageAriaLabel": "Страница {{page}}",
+      "pageOfTotal": "{{current}} из {{total}}"
     }
   }
 }

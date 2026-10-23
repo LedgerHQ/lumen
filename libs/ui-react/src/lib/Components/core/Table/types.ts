@@ -92,6 +92,12 @@ export type TableRowProps = {
    */
   clickable?: boolean;
   /**
+   * Whether the row is the active one, e.g. the row whose details are
+   * currently displayed. Announced to assistive technologies via `aria-current`.
+   * @default false
+   */
+  active?: boolean;
+  /**
    * The function to call when the row is clicked
    */
   onClick?: (e: React.MouseEvent<HTMLTableRowElement>) => void;

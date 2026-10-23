@@ -83,9 +83,15 @@ The example below scrolls below `lg` (1024px) and shrinks from `lg` upward: resi
 
 ### Clickable Rows
 
-Set `clickable` on `TableRow` to enable hover and active background states, and pass an `onClick` handler. This adds `role="button"` for accessibility. Use this when rows navigate to a detail view or trigger an action.
+Set `clickable` on `TableRow` to enable hover and pressed background states, and pass an `onClick` handler. This adds `role="button"` for accessibility. Use this when rows navigate to a detail view or trigger an action.
 
 <Canvas of={TableStories.WithClickableRow} />
+
+### Active Row
+
+Set `active` on `TableRow` to highlight the row the user is currently working with, for example the one whose details are open in a side panel. The active row keeps a muted background, with its own hover and pressed shades when it is also `clickable`.
+
+<Canvas of={TableStories.WithActiveRow} />
 
 ### Custom Header
 
@@ -104,7 +110,20 @@ Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicat
 Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
 A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
 
-<Canvas of={TableStories.WithInfiniteLoading} />
+<Canvas of={TableStories.WithInfiniteScrollPagination} />
+
+### Pagination
+
+Slice the rows for the current page and render `Pagination` after `TableRoot`. With `DataTable`, use `DataTablePagination` instead.
+
+<Canvas of={TableStories.WithPagination} />
+
+### Show More
+
+Render a `Button` after `Table`, inside `TableRoot`, and grow the number of visible rows on click.  
+Hide the button once every row is shown. With `DataTable`, use `DataTableShowMore` instead.
+
+<Canvas of={TableStories.WithShowMorePagination} />
 
 ### Group Header
 
@@ -140,6 +159,8 @@ description alongside custom trailing content (e.g. a `Tag`).
 
 When the table overflows horizontally, `TableRoot` shows a scrollbar and becomes focusable, so it can be scrolled with a mouse or with the arrow keys.
 Pass an `aria-label` or `aria-labelledby` to `TableRoot` so it is announced as a named region.
+
+An `active` row gets `aria-current="true"`, so screen readers announce it as the current item.
 
 To be implemented:
 

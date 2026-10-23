@@ -41,13 +41,15 @@
     },
     "table": {
       "ascAriaLabel": "Sort ascending",
-      "descAriaLabel": "Sort descending"
+      "descAriaLabel": "Sort descending",
+      "showMore": "Mostrar más"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "Paginación",
+      "previousPageAriaLabel": "Página anterior",
+      "nextPageAriaLabel": "Página siguiente",
+      "pageAriaLabel": "Página {{page}}",
+      "pageOfTotal": "{{current}} de {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

@@ -41,13 +41,15 @@
     },
     "table": {
       "ascAriaLabel": "Sort ascending",
-      "descAriaLabel": "Sort descending"
+      "descAriaLabel": "Sort descending",
+      "showMore": "แสดงเพิ่มเติม"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "การแบ่งหน้า",
+      "previousPageAriaLabel": "หน้าก่อนหน้า",
+      "nextPageAriaLabel": "หน้าถัดไป",
+      "pageAriaLabel": "หน้า {{page}}",
+      "pageOfTotal": "{{current}} จาก {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

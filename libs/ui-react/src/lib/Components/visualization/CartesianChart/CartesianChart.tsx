@@ -74,6 +74,7 @@ export function CartesianChart({
     height,
     inset: resolvedInset,
     axisPadding: resolvedAxisPadding,
+    loading: ariaBusy,
   });
 
   return (

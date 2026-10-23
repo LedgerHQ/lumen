@@ -1,13 +1,17 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import {
+  keepPreviousData,
+  useInfiniteQuery,
+  useQuery,
+} from '@tanstack/react-query';
 import {
   getPaginationRowModel,
+  type PaginationState,
   type SortingState,
 } from '@tanstack/react-table';
 import { useMemo, useState } from 'react';
 import { Android } from '../../symbols';
 import { Button } from '../Button/Button';
-import { Pagination } from '../Pagination';
 import { Skeleton } from '../Skeleton/Skeleton';
 import { Spot } from '../Spot';
 import {
@@ -27,6 +31,8 @@ import {
   DataTableRoot,
   DataTable,
   DataTableGlobalSearchInput,
+  DataTablePagination,
+  DataTableShowMore,
 } from './DataTable';
 import { useLumenDataTable } from './useLumenDataTable/useLumenDataTable';
 
@@ -216,14 +222,6 @@ const meta = {
       description: 'Visual appearance of the table',
       table: {
         defaultValue: { summary: 'no-background' },
-      },
-    },
-    paginationMode: {
-      control: 'radio',
-      options: ['infinite-scroll', 'pagination', 'none'],
-      description: 'Pagination mode of the table',
-      table: {
-        defaultValue: { summary: 'none' },
       },
     },
   },
@@ -464,6 +462,46 @@ export const WithRowProps: Story = {
         getRowProps={(row) => ({
           'data-testid': `asset-row-${row.original.symbol}`,
           'aria-label': `${row.original.name} asset`,
+        })}
+      >
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithActiveRow: Story = {
+  render: (args) => {
+    const [activeSymbol, setActiveSymbol] = useState(data[1].symbol);
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+      ],
+    });
+
+    return (
+      <DataTableRoot
+        {...args}
+        table={table}
+        onRowClick={(row) => setActiveSymbol(row.original.symbol)}
+        getRowProps={(row) => ({
+          active: row.original.symbol === activeSymbol,
         })}
       >
         <DataTable className='max-h-400' />
@@ -1074,7 +1112,29 @@ const fetchCryptos = (cursor: string | null): Promise<CryptoPage> =>
     }, 1000);
   });
 
-export const WithInfiniteLoading: Story = {
+type CryptoPageResult = {
+  data: CryptoAsset[];
+  total: number;
+};
+
+const fetchCryptoPage = ({
+  pageIndex,
+  pageSize,
+}: PaginationState): Promise<CryptoPageResult> =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      const start = pageIndex * pageSize;
+
+      resolve({
+        data: largeData.slice(start, start + pageSize),
+        total: largeData.length,
+      });
+    }, 1000);
+  });
+
+const DATA_TABLE_PAGE_SIZE = 5;
+
+export const WithInfiniteScrollPagination: Story = {
   render: (args) => {
     const query = useInfiniteQuery({
       queryKey: ['crypto-assets'],
@@ -1147,7 +1207,6 @@ export const WithInfiniteLoading: Story = {
         {...args}
         table={table}
         loading={query.isFetchingNextPage}
-        paginationMode='infinite-scroll'
         onScrollBottom={() => {
           if (query.hasNextPage) {
             query.fetchNextPage();
@@ -1155,6 +1214,318 @@ export const WithInfiniteLoading: Story = {
         }}
       >
         <DataTable className='max-h-320' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithPagination: Story = {
+  render: (args) => {
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellItem>
+              <Spot icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      getPaginationRowModel: getPaginationRowModel(),
+      initialState: {
+        pagination: {
+          pageSize: DATA_TABLE_PAGE_SIZE,
+        },
+      },
+    });
+
+    return (
+      <DataTableRoot {...args} table={table} className='gap-16'>
+        <DataTable />
+        <DataTablePagination className='self-center' />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithServerSidePagination: Story = {
+  render: (args) => {
+    const [pagination, setPagination] = useState<PaginationState>({
+      pageIndex: 0,
+      pageSize: 5,
+    });
+
+    const query = useQuery({
+      queryKey: ['crypto-assets-page', pagination],
+      queryFn: () => fetchCryptoPage(pagination),
+      placeholderData: keepPreviousData,
+    });
+
+    const table = useLumenDataTable({
+      data: query.data?.data ?? [],
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellItem>
+              <Spot icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      manualPagination: true,
+      rowCount: query.data?.total,
+      state: { pagination },
+      onPaginationChange: setPagination,
+    });
+
+    if (query.isLoading) {
+      return <Skeleton component='table' />;
+    }
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <TableActionBar>
+          <TableActionBarTrailing>
+            <DataTablePagination density='compact' />
+          </TableActionBarTrailing>
+        </TableActionBar>
+        <DataTable />
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithServerSideShowMorePagination: Story = {
+  render: (args) => {
+    const query = useInfiniteQuery({
+      queryKey: ['crypto-assets-show-more'],
+      queryFn: ({ pageParam }) => fetchCryptos(pageParam),
+      initialPageParam: null as string | null,
+      getNextPageParam: (lastPage) => lastPage.nextCursor,
+    });
+
+    const flatData = useMemo(
+      () => query.data?.pages.flatMap((page) => page.data) ?? [],
+      [query.data],
+    );
+
+    const table = useLumenDataTable({
+      data: flatData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellItem>
+              <Spot icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          enableSorting: false,
+          cell: ({ row }) => (
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+    });
+
+    if (query.isLoading) {
+      return <Skeleton component='table' />;
+    }
+
+    return (
+      <DataTableRoot {...args} table={table} loading={query.isFetchingNextPage}>
+        <DataTable>
+          <DataTableShowMore
+            onShowMore={() => query.fetchNextPage()}
+            hasMore={query.hasNextPage}
+          />
+        </DataTable>
+      </DataTableRoot>
+    );
+  },
+};
+
+export const WithShowMorePagination: Story = {
+  render: (args) => {
+    const table = useLumenDataTable({
+      data: largeData,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          cell: ({ row }) => (
+            <TableCellItem>
+              <Spot icon={Android} />
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.name}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.symbol}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { className: 'w-224' },
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          meta: { align: 'end' },
+        },
+        {
+          accessorKey: 'change',
+          header: 'Performance',
+          cell: ({ row }) => (
+            <TableCellItem align='end'>
+              <TableCellContent>
+                <TableCellContentTitle>
+                  {row.original.price}
+                </TableCellContentTitle>
+                <TableCellContentDescription>
+                  {row.original.change}
+                </TableCellContentDescription>
+              </TableCellContent>
+            </TableCellItem>
+          ),
+          meta: { align: 'end', className: 'w-144' },
+        },
+      ],
+      getPaginationRowModel: getPaginationRowModel(),
+      initialState: {
+        pagination: {
+          pageSize: 5,
+        },
+      },
+    });
+
+    return (
+      <DataTableRoot {...args} table={table}>
+        <DataTable>
+          <DataTableShowMore />
+        </DataTable>
       </DataTableRoot>
     );
   },
@@ -1231,92 +1602,6 @@ export const WithServerSideState: Story = {
     return (
       <DataTableRoot {...args} table={table}>
         <DataTable className='max-h-400' />
-      </DataTableRoot>
-    );
-  },
-};
-
-const DATA_TABLE_PAGE_SIZE = 5;
-
-export const WithPagination: Story = {
-  render: (args) => {
-    const table = useLumenDataTable({
-      data: largeData,
-      columns: [
-        {
-          accessorKey: 'name',
-          header: 'Asset',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellItem>
-              <Spot icon={Android} />
-              <TableCellContent>
-                <TableCellContentTitle>
-                  {row.original.name}
-                </TableCellContentTitle>
-                <TableCellContentDescription>
-                  {row.original.symbol}
-                </TableCellContentDescription>
-              </TableCellContent>
-            </TableCellItem>
-          ),
-          meta: { className: 'w-224' },
-        },
-        {
-          accessorKey: 'symbol',
-          header: 'Symbol',
-          enableSorting: false,
-        },
-        {
-          accessorKey: 'price',
-          header: 'Price',
-          enableSorting: false,
-          meta: { align: 'end' },
-        },
-        {
-          accessorKey: 'change',
-          header: 'Performance',
-          enableSorting: false,
-          cell: ({ row }) => (
-            <TableCellItem align='end'>
-              <TableCellContent>
-                <TableCellContentTitle>
-                  {row.original.price}
-                </TableCellContentTitle>
-                <TableCellContentDescription>
-                  {row.original.change}
-                </TableCellContentDescription>
-              </TableCellContent>
-            </TableCellItem>
-          ),
-          meta: { align: 'end', className: 'w-144' },
-        },
-      ],
-      getPaginationRowModel: getPaginationRowModel(),
-      initialState: {
-        pagination: {
-          pageSize: DATA_TABLE_PAGE_SIZE,
-        },
-      },
-    });
-
-    const { pageIndex } = table.getState().pagination;
-
-    return (
-      <DataTableRoot
-        {...args}
-        table={table}
-        paginationMode='pagination'
-        className='flex flex-col gap-16'
-      >
-        <DataTable className='max-h-400' />
-        <div className='flex justify-center'>
-          <Pagination
-            page={pageIndex + 1}
-            totalPages={table.getPageCount()}
-            onPageChange={(nextPage) => table.setPageIndex(nextPage - 1)}
-          />
-        </div>
       </DataTableRoot>
     );
   },

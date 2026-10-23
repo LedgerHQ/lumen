@@ -44,6 +44,12 @@ Pass `getRowProps` to `DataTableRoot` to add native attributes, styles, classes,
 
 <Canvas of={DataTableStories.WithRowProps} />
 
+## Active Row
+
+Return `active` from `getRowProps` to highlight the row the user is currently working with, for example the one whose details are open in a side panel. Pair it with `onRowClick` to track the active row in your own state.
+
+<Canvas of={DataTableStories.WithActiveRow} />
+
 ## Columns Layout
 
 Use `meta.className` on column definition to define custom width using design-tokens.  
@@ -121,13 +127,128 @@ No external state management is needed for the basic case. For controlled filter
 
 <Canvas of={DataTableStories.WithGlobalFilter} />
 
-## Infinite Loading
+## Pagination
 
-Combine `onScrollBottom` with TanStack Query's `useInfiniteQuery` to load data as the user scrolls to the bottom of the table.  
-Set `paginationMode='infinite-scroll'` and `loading={true}` on `DataTableRoot` to display the loading indicator.  
-Use a `Skeleton` component with `component='table'` while the initial page is loading.
+Each pagination pattern is composed: use the matching prop or part and place it where it should appear.  
+**Server-side** tables load one page at a time from your backend. **Client-side** tables page through rows already in memory.  
+Use a `Skeleton` component with `component='table'` while the first page is loading.
 
-<Canvas of={DataTableStories.WithInfiniteLoading} />
+### Infinite Scroll
+
+Pass `onScrollBottom` to `DataTableRoot` to load the next page when the user scrolls near the bottom of the table.  
+While `loading` is true, the loading row is shown and `onScrollBottom` is paused to prevent duplicate fetches.  
+Set `loadingIndicator='none'` to hide the loading row, or pass an element to render it as-is below the rows instead.  
+The table must scroll itself, so constrain its height (e.g. `max-h-320`).
+
+```tsx
+const query = useInfiniteQuery({ queryKey, queryFn, initialPageParam: null, getNextPageParam });
+const data = useMemo(() => query.data?.pages.flatMap((page) => page.data) ?? [], [query.data]);
+const table = useLumenDataTable({ data, columns });
+
+<DataTableRoot
+  table={table}
+  loading={query.isFetchingNextPage}
+  onScrollBottom={() => {
+    if (query.hasNextPage) query.fetchNextPage();
+  }}
+>
+  <DataTable className='max-h-320' />
+</DataTableRoot>
+```
+
+<Canvas of={DataTableStories.WithInfiniteScrollPagination} />
+
+### Numbered Pages
+
+`DataTablePagination` renders `Pagination` wired to the table's pagination state. Place it below `DataTable`, or inside a `TableActionBar`.
+
+**Client-side:** add `getPaginationRowModel` and set the page size.
+
+```tsx
+const table = useLumenDataTable({
+  data,
+  columns,
+  getPaginationRowModel: getPaginationRowModel(),
+  initialState: { pagination: { pageSize: 5 } },
+});
+
+<DataTableRoot table={table} className='gap-16'>
+  <DataTable />
+  <DataTablePagination className='self-center' />
+</DataTableRoot>
+```
+
+<Canvas of={DataTableStories.WithPagination} />
+
+**Server-side:** set `manualPagination`, pass the total number of rows with `rowCount`, and control the `pagination` state so it drives your query.  
+Sorting still runs in the browser on the current page only: sort on the server too (`manualSorting`), or set `enableSorting: false` on the columns.
+
+```tsx
+const [pagination, setPagination] = useState<PaginationState>({ pageIndex: 0, pageSize: 5 });
+const query = useQuery({
+  queryKey: ['assets', pagination],
+  queryFn: () => fetchAssets(pagination),
+  placeholderData: keepPreviousData,
+});
+
+const table = useLumenDataTable({
+  data: query.data?.data ?? [],
+  columns,
+  manualPagination: true,
+  rowCount: query.data?.total,
+  state: { pagination },
+  onPaginationChange: setPagination,
+});
+
+<DataTableRoot table={table}>
+  <TableActionBar>
+    <TableActionBarTrailing>
+      <DataTablePagination />
+    </TableActionBarTrailing>
+  </TableActionBar>
+  <DataTable />
+</DataTableRoot>
+```
+
+<Canvas of={DataTableStories.WithServerSidePagination} />
+
+### Show More
+
+`DataTableShowMore` renders a button at the bottom of the table, as a `DataTable` child. It hides itself once there is nothing more to show.
+
+**Server-side:** pass `onShowMore` and `hasMore`. The `loading` prop of `DataTableRoot` drives the button's loading state. The query setup is the same as for infinite scroll.
+
+```tsx
+<DataTableRoot table={table} loading={query.isFetchingNextPage}>
+  <DataTable>
+    <DataTableShowMore
+      onShowMore={() => query.fetchNextPage()}
+      hasMore={query.hasNextPage}
+    />
+  </DataTable>
+</DataTableRoot>
+```
+
+<Canvas of={DataTableStories.WithServerSideShowMorePagination} />
+
+**Client-side:** add `getPaginationRowModel`. Each click adds `step` rows, which defaults to the initial page size.
+
+```tsx
+const table = useLumenDataTable({
+  data,
+  columns,
+  getPaginationRowModel: getPaginationRowModel(),
+  initialState: { pagination: { pageSize: 5 } },
+});
+
+<DataTableRoot table={table}>
+  <DataTable>
+    <DataTableShowMore />
+  </DataTable>
+</DataTableRoot>
+```
+
+<Canvas of={DataTableStories.WithShowMorePagination} />
 
 </Tab>
 <Tab label="Implementation ">

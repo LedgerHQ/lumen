@@ -477,6 +477,54 @@ export const WithClickableRow: Story = {
   ),
 };
 
+export const WithActiveRow: Story = {
+  render: (args) => {
+    const [activeSymbol, setActiveSymbol] = useState(smallData[1].symbol);
+
+    return (
+      <div className='w-480 text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {smallData.map((row) => (
+                <TableRow
+                  clickable
+                  key={row.symbol}
+                  active={row.symbol === activeSymbol}
+                  onClick={() => setActiveSymbol(row.symbol)}
+                >
+                  <TableCell>
+                    <TableCellItem>
+                      <Spot size={40} icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+      </div>
+    );
+  },
+};
+
 export const WithInfiniteLoading: Story = {
   render: (args) => {
     const [data, setData] = useState(
@@ -536,6 +584,121 @@ export const WithInfiniteLoading: Story = {
               ))}
             </TableBody>
           </Table>
+          <TableLoadingRow />
+        </TableRoot>
+      </div>
+    );
+  },
+};
+
+const TABLE_PAGE_SIZE = 5;
+
+export const WithPagination: Story = {
+  render: (args) => {
+    const [page, setPage] = useState(1);
+    const totalPages = Math.ceil(largeData.length / TABLE_PAGE_SIZE);
+    const paginatedData = largeData.slice(
+      (page - 1) * TABLE_PAGE_SIZE,
+      page * TABLE_PAGE_SIZE,
+    );
+
+    return (
+      <div className='flex w-3xl flex-col gap-16 text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {paginatedData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellItem>
+                      <Spot icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableRoot>
+        <div className='flex justify-center'>
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
+        </div>
+      </div>
+    );
+  },
+};
+
+export const WithShowMorePagination: Story = {
+  render: (args) => {
+    const [visibleCount, setVisibleCount] = useState(TABLE_PAGE_SIZE);
+    const visibleData = largeData.slice(0, visibleCount);
+
+    return (
+      <div className='w-3xl text-base'>
+        <TableRoot {...args}>
+          <Table>
+            <TableHeader>
+              <TableHeaderRow>
+                <TableHeaderCell>Asset</TableHeaderCell>
+                <TableHeaderCell align='end'>Price</TableHeaderCell>
+                <TableHeaderCell align='end'>Change</TableHeaderCell>
+              </TableHeaderRow>
+            </TableHeader>
+            <TableBody>
+              {visibleData.map((row) => (
+                <TableRow key={row.symbol}>
+                  <TableCell>
+                    <TableCellItem>
+                      <Spot icon={Android} />
+                      <TableCellContent>
+                        <TableCellContentTitle>
+                          {row.name}
+                        </TableCellContentTitle>
+                        <TableCellContentDescription>
+                          {row.symbol}
+                        </TableCellContentDescription>
+                      </TableCellContent>
+                    </TableCellItem>
+                  </TableCell>
+                  <TableCell align='end'>{row.price}</TableCell>
+                  <TableCell align='end'>{row.change}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          {visibleCount < largeData.length && (
+            <div className='sticky start-0 flex w-full justify-center p-12'>
+              <Button
+                size='sm'
+                appearance='gray'
+                onClick={() =>
+                  setVisibleCount((count) => count + TABLE_PAGE_SIZE)
+                }
+              >
+                Show more
+              </Button>
+            </div>
+          )}
         </TableRoot>
       </div>
     );
@@ -919,63 +1082,6 @@ export const WithNetworkIconsAndActionBar: Story = {
             </TableBody>
           </Table>
         </TableRoot>
-      </div>
-    );
-  },
-};
-
-const TABLE_PAGE_SIZE = 5;
-
-export const WithPagination: Story = {
-  render: (args) => {
-    const [page, setPage] = useState(1);
-    const totalPages = Math.ceil(largeData.length / TABLE_PAGE_SIZE);
-    const paginatedData = largeData.slice(
-      (page - 1) * TABLE_PAGE_SIZE,
-      page * TABLE_PAGE_SIZE,
-    );
-
-    return (
-      <div className='flex w-3xl flex-col gap-16 text-base'>
-        <TableRoot {...args}>
-          <Table>
-            <TableHeader>
-              <TableHeaderRow>
-                <TableHeaderCell>Asset</TableHeaderCell>
-                <TableHeaderCell align='end'>Price</TableHeaderCell>
-                <TableHeaderCell align='end'>Change</TableHeaderCell>
-              </TableHeaderRow>
-            </TableHeader>
-            <TableBody>
-              {paginatedData.map((row) => (
-                <TableRow key={row.symbol}>
-                  <TableCell>
-                    <TableCellItem>
-                      <Spot icon={Android} />
-                      <TableCellContent>
-                        <TableCellContentTitle>
-                          {row.name}
-                        </TableCellContentTitle>
-                        <TableCellContentDescription>
-                          {row.symbol}
-                        </TableCellContentDescription>
-                      </TableCellContent>
-                    </TableCellItem>
-                  </TableCell>
-                  <TableCell align='end'>{row.price}</TableCell>
-                  <TableCell align='end'>{row.change}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableRoot>
-        <div className='flex justify-center'>
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            onPageChange={setPage}
-          />
-        </div>
       </div>
     );
   },

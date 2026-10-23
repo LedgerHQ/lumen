@@ -41,13 +41,15 @@
     },
     "table": {
       "ascAriaLabel": "Sort ascending",
-      "descAriaLabel": "Sort descending"
+      "descAriaLabel": "Sort descending",
+      "showMore": "더 보기"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "페이지 탐색",
+      "previousPageAriaLabel": "이전 페이지",
+      "nextPageAriaLabel": "다음 페이지",
+      "pageAriaLabel": "{{page}} 페이지",
+      "pageOfTotal": "{{current}} / {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

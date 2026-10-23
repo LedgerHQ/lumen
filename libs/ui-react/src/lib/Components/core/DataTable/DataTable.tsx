@@ -7,7 +7,10 @@ import type {
 } from '@tanstack/react-table';
 import { flexRender } from '@tanstack/react-table';
 import type { ChangeEvent, ReactNode } from 'react';
-import { Fragment, useCallback } from 'react';
+import { Fragment, useCallback, useRef } from 'react';
+import { useCommonTranslation } from '../../../../translations';
+import { Button } from '../Button';
+import { Pagination } from '../Pagination';
 import type { SearchInputProps } from '../SearchInput';
 import { SearchInput } from '../SearchInput';
 
@@ -29,15 +32,17 @@ import {
 import type {
   DataTableBodyProps,
   DataTableHeaderProps,
+  DataTablePaginationProps,
   DataTableProps,
   DataTableRootProps,
+  DataTableShowMoreProps,
 } from './types';
 
 type DataTableContextValue<TData extends RowData = RowData> = {
   table: TanstackTable<TData>;
   appearance: DataTableRootProps['appearance'];
   loading: DataTableRootProps['loading'];
-  paginationMode: DataTableRootProps['paginationMode'];
+  loadingIndicator: DataTableRootProps['loadingIndicator'];
   onScrollBottom: DataTableRootProps['onScrollBottom'];
   hideHeader: DataTableRootProps['hideHeader'];
   stickyHeader: DataTableRootProps['stickyHeader'];
@@ -64,8 +69,8 @@ const [DataTableProvider, useDataTableContext] =
 export const DataTableRoot = <TData extends RowData = RowData>({
   table,
   appearance = 'no-background',
-  paginationMode = 'none',
   loading = false,
+  loadingIndicator = 'spinner',
   onScrollBottom,
   onRowClick,
   getRowProps,
@@ -86,10 +91,10 @@ export const DataTableRoot = <TData extends RowData = RowData>({
           hideHeader,
           stickyHeader,
           horizontalLayout,
-          paginationMode,
           table,
           appearance,
           loading,
+          loadingIndicator,
           onScrollBottom,
           onRowClick,
           getRowProps,
@@ -197,10 +202,14 @@ const DataTableHeader = ({
  *   <DataTable />
  * </DataTableRoot>
  */
-export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
+export const DataTable = ({
+  className,
+  children,
+  ref,
+  ...props
+}: DataTableProps) => {
   const {
     appearance,
-    paginationMode,
     hideHeader,
     loading,
     onScrollBottom,
@@ -226,9 +235,31 @@ export const DataTable = ({ className, ref, ...props }: DataTableProps) => {
         {!hideHeader && <DataTableHeader />}
         {groupBy ? <DataTableGroupedBody /> : <DataTableBody />}
       </Table>
-      {paginationMode === 'infinite-scroll' && <TableLoadingRow />}
+      <DataTableLoadingIndicator />
+      {children}
     </TableRoot>
   );
+};
+
+/**
+ * Internal component that renders the infinite-scroll loading indicator
+ * selected by `loadingIndicator`, while `loading` is true.
+ */
+const DataTableLoadingIndicator = () => {
+  const { loading, loadingIndicator, onScrollBottom } = useDataTableContext({
+    consumerName: 'DataTableLoadingIndicator',
+    contextRequired: true,
+  });
+
+  if (!onScrollBottom || !loading || loadingIndicator === 'none') {
+    return null;
+  }
+
+  if (loadingIndicator === 'spinner') {
+    return <TableLoadingRow />;
+  }
+
+  return loadingIndicator;
 };
 
 /**
@@ -379,5 +410,101 @@ export const DataTableGlobalSearchInput = ({
       onChange={handleChange}
       {...props}
     />
+  );
+};
+
+/**
+ * `Pagination` wired to the TanStack pagination state of the `DataTableRoot` table.
+ * Place it wherever the pages should appear: below `DataTable`, or inside a
+ * `TableActionBar`. Accepts every `Pagination` prop except the page wiring.
+ *
+ * @example
+ * const table = useLumenDataTable({
+ *   data,
+ *   columns,
+ *   getPaginationRowModel: getPaginationRowModel(),
+ * });
+ *
+ * <DataTableRoot table={table}>
+ *   <DataTable />
+ *   <DataTablePagination />
+ * </DataTableRoot>
+ */
+export const DataTablePagination = (props: DataTablePaginationProps) => {
+  const { table } = useDataTableContext({
+    consumerName: 'DataTablePagination',
+    contextRequired: true,
+  });
+
+  return (
+    <Pagination
+      page={table.getState().pagination.pageIndex + 1}
+      totalPages={table.getPageCount()}
+      onPageChange={(page) => table.setPageIndex(page - 1)}
+      {...props}
+    />
+  );
+};
+
+/**
+ * A "Show more" button rendered at the bottom of the table, as a `DataTable` child.
+ * Client-side, it grows the page size (requires `getPaginationRowModel`).
+ * Server-side, pass `onShowMore` and `hasMore`; the loading state comes from
+ * `DataTableRoot`'s `loading` prop.
+ *
+ * @example
+ * <DataTableRoot table={table} loading={isFetchingNextPage}>
+ *   <DataTable>
+ *     <DataTableShowMore onShowMore={fetchNextPage} hasMore={hasNextPage} />
+ *   </DataTable>
+ * </DataTableRoot>
+ */
+export const DataTableShowMore = ({
+  step,
+  onShowMore,
+  hasMore,
+  children,
+  className,
+}: DataTableShowMoreProps) => {
+  const { t } = useCommonTranslation();
+  const { table, loading } = useDataTableContext({
+    consumerName: 'DataTableShowMore',
+    contextRequired: true,
+  });
+  const initialPageSizeRef = useRef(table.getState().pagination.pageSize);
+
+  if (!(hasMore ?? table.getCanNextPage())) {
+    return null;
+  }
+
+  const handleClick = (): void => {
+    if (loading) {
+      return;
+    }
+    if (onShowMore) {
+      onShowMore();
+      return;
+    }
+    const increment = step ?? initialPageSizeRef.current;
+    table.setPageSize((pageSize) => pageSize + increment);
+  };
+
+  return (
+    <div
+      className={cn(
+        'sticky start-0 flex w-full justify-center p-12',
+        className,
+      )}
+    >
+      <Button
+        type='button'
+        size='sm'
+        appearance='gray'
+        loading={loading}
+        onClick={handleClick}
+      >
+        {children ?? t('components.table.showMore')}
+      </Button>
+    </div>
   );
 };

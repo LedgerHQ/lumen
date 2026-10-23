@@ -71,6 +71,7 @@ export function CartesianChart({
     height: svgHeight,
     inset: resolvedInset,
     axisPadding: resolvedAxisPadding,
+    loading: ariaBusy,
   });
 
   return (

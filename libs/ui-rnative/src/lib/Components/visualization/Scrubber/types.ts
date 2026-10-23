@@ -168,12 +168,14 @@ export type ScrubberProps = {
    */
   hideOverlay?: boolean;
   /**
-   * Shows the beacon dots on each series at the scrubbed data index.
+   * Shows the beacon dots on each series at the scrubbed data index. While
+   * idle, they rest at the end of each line.
    * @default false
    */
   showBeacons?: boolean;
   /**
-   * Shows a label next to each beacon, rendering the series label and value
+   * Shows a label next to each beacon while scrubbing, rendering the series
+   * label and value
    * unless {@link ScrubberProps.beaconLabel} is set. Implies `showBeacons`.
    * @default false
    */
@@ -184,6 +186,11 @@ export type ScrubberProps = {
    * origin (like {@link BeaconLabel}); the scrubber measures and positions it.
    */
   beaconLabel?: (context: BeaconLabelContext) => ReactNode;
+  /**
+   * Pulses the beacons while idle. Requires `showBeacons`.
+   * @default false
+   */
+  idlePulse?: boolean;
   /**
    * Produces tooltip content for the active data index. When set, {@link DefaultScrubberTooltip}
    * is rendered. Optional `offset` and `minWidth` on the returned object tune layout.

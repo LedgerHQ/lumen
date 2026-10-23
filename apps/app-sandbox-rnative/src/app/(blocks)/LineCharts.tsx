@@ -42,6 +42,8 @@ export default function LineCharts() {
       <ScrubberMultiSeriesWithBeacons />
       <ScrubberWithBeaconLabels />
       <ScrubberWithCustomBeaconLabels />
+      <ScrubberIdlePulse />
+      <InfiniteLoading />
       <ScrubberWithAxes />
       <ReferenceLineBasic />
       <ScrubberWithTooltip />
@@ -270,7 +272,7 @@ const CustomLines = () => (
 );
 
 const CustomDomain = () => (
-  <Section title='Custom domain (0–1)'>
+  <Section title='Custom domain (0-1)'>
     <LineChart
       series={sampleSeries}
       height={125}
@@ -336,7 +338,7 @@ const PointMinMax = () => {
   const maxIdx = data.indexOf(max);
 
   return (
-    <Section title='Point – min/max highlights'>
+    <Section title='Point - min/max highlights'>
       <LineChart series={sampleSeries} height={125} showArea>
         <Point dataX={maxIdx} dataY={max} color='#47883A' label={`$${max}`} />
         <Point
@@ -352,7 +354,7 @@ const PointMinMax = () => {
 };
 
 const PointAllDataPoints = () => (
-  <Section title='Point – all data points'>
+  <Section title='Point - all data points'>
     <LineChart series={sampleSeries} height={125} showArea>
       {sampleSeries[0].data.map((value, i) => (
         <Point key={i} dataX={i} dataY={value} size={8} />
@@ -362,7 +364,7 @@ const PointAllDataPoints = () => (
 );
 
 const PointLabelFunction = () => (
-  <Section title='Point – label function'>
+  <Section title='Point - label function'>
     <LineChart series={sampleSeries} height={125}>
       <Point
         dataX={2}
@@ -382,7 +384,7 @@ const PointLabelFunction = () => (
 );
 
 const PointHiddenPoint = () => (
-  <Section title='Point – hidden point (label only)'>
+  <Section title='Point - hidden point (label only)'>
     <LineChart series={sampleSeries} height={125} showArea>
       <Point dataX={2} dataY={98} hidePoint label='Peak' />
       <Point
@@ -397,7 +399,7 @@ const PointHiddenPoint = () => (
 );
 
 const PointWithAxes = () => (
-  <Section title='Point – with axes'>
+  <Section title='Point - with axes'>
     <LineChart
       series={sampleSeries}
       height={220}
@@ -424,7 +426,7 @@ const PointWithAxes = () => (
 );
 
 const ScrubberBasic = () => (
-  <Section title='Scrubber – basic'>
+  <Section title='Scrubber - basic'>
     <LineChart
       series={sampleSeries}
       height={125}
@@ -444,7 +446,7 @@ const ScrubberBasic = () => (
 );
 
 const ScrubberMultiSeriesWithBeacons = () => (
-  <Section title='Scrubber – multi-series with beacons'>
+  <Section title='Scrubber - multi-series with beacons'>
     <LineChart
       series={multiSeries}
       height={125}
@@ -511,8 +513,38 @@ const ScrubberWithCustomBeaconLabels = () => {
   );
 };
 
+const ScrubberIdlePulse = () => (
+  <Section title='Scrubber - idle pulse'>
+    <LineChart series={multiSeries} height={125} enableScrubbing>
+      <Scrubber showBeacons idlePulse />
+    </LineChart>
+  </Section>
+);
+
+const InfiniteLoading = () => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <Section title='Loading (infinite)'>
+      <Box lx={{ gap: 's24' }}>
+        <LineChart series={sampleSeries} height={125} loading={loading} />
+        <LineChart series={multiSeries} height={125} loading={loading}>
+          <Scrubber showBeacons idlePulse />
+        </LineChart>
+      </Box>
+      <Button
+        lx={{ marginTop: 's32' }}
+        appearance={loading ? 'transparent' : 'base'}
+        onPress={() => setLoading((value) => !value)}
+      >
+        {loading ? 'Stop' : 'Start'} loading
+      </Button>
+    </Section>
+  );
+};
+
 const ScrubberWithAxes = () => (
-  <Section title='Scrubber – with axes'>
+  <Section title='Scrubber - with axes'>
     <LineChart
       series={sampleSeries}
       height={220}
@@ -534,7 +566,7 @@ const ScrubberWithAxes = () => (
 );
 
 const ScrubberWithTooltip = () => (
-  <Section title='Scrubber – with tooltip'>
+  <Section title='Scrubber - with tooltip'>
     <LineChart
       series={sampleSeries}
       height={220}
