@@ -31,7 +31,7 @@ type UseThrottledScrollBottomOptions = {
   loading?: boolean;
   /**
    * Distance from the bottom, in pixels, at which the callback fires.
-   * @default 128
+   * @default 128 (2 rows)
    */
   threshold?: number;
 };

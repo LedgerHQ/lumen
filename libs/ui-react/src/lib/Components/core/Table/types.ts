@@ -32,14 +32,15 @@ export type TableRootProps = {
    */
   className?: string;
   /**
-   * Callback fired when scroll reaches the bottom of the table container.
-   * Useful for implementing infinite scroll or pagination.
+   * Callback fired when the user scrolls within `scrollBottomThreshold` of the
+   * bottom of the table container. Useful for implementing infinite scroll.
    */
   onScrollBottom?: () => void;
   /**
    * Distance from the bottom of the table container, in pixels, at which
-   * `onScrollBottom` fires. Increase it to start loading the next page earlier.
-   * @default 128
+   * `onScrollBottom` fires. Increase it to load the next page earlier: a row is
+   * 64px tall, so `640` fires about 10 rows before the end.
+   * @default 128 (2 rows)
    */
   scrollBottomThreshold?: number;
   /**
