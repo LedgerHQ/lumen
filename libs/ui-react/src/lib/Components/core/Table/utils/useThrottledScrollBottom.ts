@@ -76,7 +76,9 @@ export const useThrottledScrollBottom = ({
         return;
       }
 
-      if (isScrolledToBottom({ element, threshold })) {
+      // scrollTop can be fractional (browser zoom, high-DPI) while scrollHeight
+      // is rounded, so a 0 threshold could never match: keep 1px of tolerance.
+      if (isScrolledToBottom({ element, threshold: Math.max(threshold, 1) })) {
         callbackRef.current();
       }
     }, SCROLL_THROTTLE_MS);
