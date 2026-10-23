@@ -1,5 +1,6 @@
-import { useId } from 'react';
+import { Fragment, useId } from 'react';
 
+import { usePointReveal } from '../CartesianChart/RevealAnimation';
 import { chartConfig } from '../config';
 
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
@@ -55,6 +56,37 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
   );
 }
 
+type BeaconPulseProps = {
+  cx: number;
+  cy: number;
+  fill: string;
+};
+
+function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
+  const animationName = `beacon-pulse-${useId().replaceAll(':', '')}`;
+
+  return (
+    <>
+      <style>
+        {`@keyframes ${animationName} { from { opacity: ${scrubber.beaconPulseOpacity}; transform: scale(1); } to { opacity: 0; transform: scale(${scrubber.beaconPulseScale}); } } ` +
+          `@media (prefers-reduced-motion: reduce) { @keyframes ${animationName} { from, to { opacity: 0; } } }`}
+      </style>
+      <circle
+        data-testid='scrubber-pulse'
+        cx={cx}
+        cy={cy}
+        r={scrubber.beaconRadius}
+        fill={fill}
+        style={{
+          transformBox: 'fill-box',
+          transformOrigin: 'center',
+          animation: `${animationName} ${scrubber.beaconPulseDurationInSeconds}s ${scrubber.beaconPulseEasing} infinite`,
+        }}
+      />
+    </>
+  );
+}
+
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
  * rect, per-series beacon dots, and an optional tooltip when
@@ -85,59 +117,72 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  idlePulse = false,
   tooltip,
 }: Readonly<ScrubberProps>) {
   const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const revealStyle = usePointReveal();
 
   if (!geometry) {
     return null;
   }
 
-  const { pixelX, drawingArea, beacons, overlay, tooltipPayload } = geometry;
+  const { beacons, scrubbing } = geometry;
 
   return (
     <g data-testid='scrubber'>
-      {!hideLine && (
+      {scrubbing && !hideLine && (
         <ScrubberLine
-          pixelX={pixelX}
-          top={drawingArea.y}
-          bottom={drawingArea.y + drawingArea.height}
+          pixelX={scrubbing.pixelX}
+          top={scrubbing.drawingArea.y}
+          bottom={scrubbing.drawingArea.y + scrubbing.drawingArea.height}
         />
       )}
 
-      {!hideOverlay && (
+      {scrubbing && !hideOverlay && (
         <rect
           data-testid='scrubber-overlay'
-          x={overlay.x}
-          y={overlay.y}
-          width={overlay.width}
-          height={overlay.height}
+          x={scrubbing.overlay.x}
+          y={scrubbing.overlay.y}
+          width={scrubbing.overlay.width}
+          height={scrubbing.overlay.height}
           fill={scrubber.overlayColor}
           opacity={scrubber.overlayOpacity}
         />
       )}
 
-      {showBeacons &&
-        beacons.map((beacon) => (
-          <circle
-            key={beacon.id}
-            data-testid={`scrubber-beacon-${beacon.id}`}
-            cx={pixelX}
-            cy={beacon.pixelY}
-            r={scrubber.beaconRadius}
-            fill={beacon.stroke}
-            stroke={color.markOutline}
-            strokeWidth={scrubber.beaconStrokeWidth}
-          />
-        ))}
-      {tooltipPayload !== undefined && (
+      {beacons.length > 0 && (
+        <g style={revealStyle}>
+          {beacons.map((beacon) => (
+            <Fragment key={beacon.id}>
+              {!scrubbing && idlePulse && (
+                <BeaconPulse
+                  cx={beacon.pixelX}
+                  cy={beacon.pixelY}
+                  fill={beacon.stroke}
+                />
+              )}
+              <circle
+                data-testid={`scrubber-beacon-${beacon.id}`}
+                cx={beacon.pixelX}
+                cy={beacon.pixelY}
+                r={scrubber.beaconRadius}
+                fill={beacon.stroke}
+                stroke={color.markOutline}
+                strokeWidth={scrubber.beaconStrokeWidth}
+              />
+            </Fragment>
+          ))}
+        </g>
+      )}
+      {scrubbing?.tooltipPayload !== undefined && (
         <DefaultScrubberTooltip
-          pixelX={pixelX}
-          drawingArea={drawingArea}
-          title={tooltipPayload.resolvedTitle}
-          items={tooltipPayload.items}
-          offset={tooltipPayload.offset}
-          minWidth={tooltipPayload.minWidth}
+          pixelX={scrubbing.pixelX}
+          drawingArea={scrubbing.drawingArea}
+          title={scrubbing.tooltipPayload.resolvedTitle}
+          items={scrubbing.tooltipPayload.items}
+          offset={scrubbing.tooltipPayload.offset}
+          minWidth={scrubbing.tooltipPayload.minWidth}
         />
       )}
     </g>

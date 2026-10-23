@@ -130,4 +130,8 @@ export type CartesianChartContextValue = {
    * Number of data points along the x-axis.
    */
   dataLength: number;
+  /**
+   * Whether the chart content is loading, mirroring `ariaBusy`.
+   */
+  loading: boolean;
 };

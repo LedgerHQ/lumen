@@ -1,4 +1,12 @@
-import { useId } from 'react';
+import { Fragment, useEffect, useId } from 'react';
+import Animated, {
+  cancelAnimation,
+  useAnimatedProps,
+  useReducedMotion,
+  useSharedValue,
+  withRepeat,
+  withTiming,
+} from 'react-native-reanimated';
 import {
   Circle,
   Defs,
@@ -9,10 +17,14 @@ import {
   Stop,
 } from 'react-native-svg';
 
+import { useRevealFadeProps } from '../CartesianChart/RevealAnimation';
 import { chartConfig, useChartTokens } from '../config';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
+
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
+const AnimatedG = Animated.createAnimatedComponent(G);
 
 type ScrubberLineProps = {
   pixelX: number;
@@ -63,6 +75,58 @@ function ScrubberLine({ pixelX, top, bottom }: Readonly<ScrubberLineProps>) {
   );
 }
 
+type BeaconPulseProps = {
+  cx: number;
+  cy: number;
+  fill: string;
+};
+
+function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
+  const progress = useSharedValue(0);
+  const reducedMotion = useReducedMotion();
+  const {
+    beaconRadius,
+    beaconPulseScale,
+    beaconPulseOpacity,
+    beaconPulseDurationInMs,
+    beaconPulseEasing,
+  } = chartConfig.scrubber;
+
+  useEffect(() => {
+    if (!reducedMotion) {
+      progress.value = withRepeat(
+        withTiming(1, {
+          duration: beaconPulseDurationInMs,
+          easing: beaconPulseEasing,
+        }),
+        -1,
+        false,
+      );
+    }
+    return () => cancelAnimation(progress);
+  }, [reducedMotion, beaconPulseDurationInMs, beaconPulseEasing, progress]);
+
+  const animatedProps = useAnimatedProps(() => ({
+    r: beaconRadius * (1 + (beaconPulseScale - 1) * progress.value),
+    opacity: beaconPulseOpacity * (1 - progress.value),
+  }));
+
+  if (reducedMotion) {
+    return null;
+  }
+
+  return (
+    <AnimatedCircle
+      testID='scrubber-pulse'
+      cx={cx}
+      cy={cy}
+      r={beaconRadius}
+      fill={fill}
+      animatedProps={animatedProps}
+    />
+  );
+}
+
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
  * rect, per-series beacon dots, and an optional tooltip when
@@ -93,61 +157,74 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  idlePulse = false,
   tooltip,
 }: Readonly<ScrubberProps>) {
   const tokens = useChartTokens();
   const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const fadeProps = useRevealFadeProps();
 
   if (!geometry) {
     return null;
   }
 
-  const { pixelX, drawingArea, beacons, overlay, tooltipPayload } = geometry;
+  const { beacons, scrubbing } = geometry;
 
   return (
     <G testID='scrubber'>
-      {!hideLine && (
+      {scrubbing && !hideLine && (
         <ScrubberLine
-          pixelX={pixelX}
-          top={drawingArea.y}
-          bottom={drawingArea.y + drawingArea.height}
+          pixelX={scrubbing.pixelX}
+          top={scrubbing.drawingArea.y}
+          bottom={scrubbing.drawingArea.y + scrubbing.drawingArea.height}
         />
       )}
 
-      {!hideOverlay && (
+      {scrubbing && !hideOverlay && (
         <Rect
           testID='scrubber-overlay'
-          x={overlay.x}
-          y={overlay.y}
-          width={overlay.width}
-          height={overlay.height}
+          x={scrubbing.overlay.x}
+          y={scrubbing.overlay.y}
+          width={scrubbing.overlay.width}
+          height={scrubbing.overlay.height}
           fill={tokens.color.scrubberOverlay}
           opacity={chartConfig.scrubber.overlayOpacity}
         />
       )}
 
-      {showBeacons &&
-        beacons.map((beacon) => (
-          <Circle
-            key={beacon.id}
-            testID={`scrubber-beacon-${beacon.id}`}
-            cx={pixelX}
-            cy={beacon.pixelY}
-            r={chartConfig.scrubber.beaconRadius}
-            fill={beacon.stroke}
-            stroke={tokens.color.markOutline}
-            strokeWidth={tokens.stroke.line}
-          />
-        ))}
+      {beacons.length > 0 && (
+        <AnimatedG animatedProps={fadeProps}>
+          {beacons.map((beacon) => (
+            <Fragment key={beacon.id}>
+              {!scrubbing && idlePulse && (
+                <BeaconPulse
+                  cx={beacon.pixelX}
+                  cy={beacon.pixelY}
+                  fill={beacon.stroke}
+                />
+              )}
+              <Circle
+                testID={`scrubber-beacon-${beacon.id}`}
+                cx={beacon.pixelX}
+                cy={beacon.pixelY}
+                r={chartConfig.scrubber.beaconRadius}
+                fill={beacon.stroke}
+                stroke={tokens.color.markOutline}
+                strokeWidth={tokens.stroke.line}
+              />
+            </Fragment>
+          ))}
+        </AnimatedG>
+      )}
 
-      {tooltipPayload !== undefined && (
+      {scrubbing?.tooltipPayload !== undefined && (
         <DefaultScrubberTooltip
-          pixelX={pixelX}
-          drawingArea={drawingArea}
-          title={tooltipPayload.resolvedTitle}
-          items={tooltipPayload.items}
-          offset={tooltipPayload.offset}
-          minWidth={tooltipPayload.minWidth}
+          pixelX={scrubbing.pixelX}
+          drawingArea={scrubbing.drawingArea}
+          title={scrubbing.tooltipPayload.resolvedTitle}
+          items={scrubbing.tooltipPayload.items}
+          offset={scrubbing.tooltipPayload.offset}
+          minWidth={scrubbing.tooltipPayload.minWidth}
         />
       )}
     </G>

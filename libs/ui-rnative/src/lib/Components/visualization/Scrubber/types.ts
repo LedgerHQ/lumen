@@ -146,10 +146,16 @@ export type ScrubberProps = {
    */
   hideOverlay?: boolean;
   /**
-   * Shows the beacon dots on each series at the scrubbed data index.
+   * Shows the beacon dots on each series at the scrubbed data index. While
+   * idle, they rest at the end of each line.
    * @default false
    */
   showBeacons?: boolean;
+  /**
+   * Pulses the beacons while idle. Requires `showBeacons`.
+   * @default false
+   */
+  idlePulse?: boolean;
   /**
    * Produces tooltip content for the active data index. When set, {@link DefaultScrubberTooltip}
    * is rendered. Optional `offset` and `minWidth` on the returned object tune layout.

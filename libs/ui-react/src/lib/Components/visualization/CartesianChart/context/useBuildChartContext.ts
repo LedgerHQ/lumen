@@ -27,6 +27,7 @@ type UseBuildChartContextParams = {
   height: number;
   inset: ChartInset;
   axisPadding: ChartInset;
+  loading?: boolean;
 };
 
 type AxisRange = { min: number; max: number };
@@ -79,6 +80,7 @@ export const useBuildChartContext = ({
   height,
   inset,
   axisPadding,
+  loading = false,
 }: UseBuildChartContextParams): CartesianChartContextValue => {
   const drawingArea = useMemo(
     () => computeDrawingArea(width, height, inset, axisPadding),
@@ -110,6 +112,7 @@ export const useBuildChartContext = ({
       getYAxisConfig: (_id?: string) => yAxis,
       drawingArea,
       dataLength,
+      loading,
     };
-  }, [series, xAxis, yAxis, drawingArea]);
+  }, [series, xAxis, yAxis, drawingArea, loading]);
 };
