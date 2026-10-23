@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { useEffect, useState } from 'react';
 
+import { Button } from '../../core/Button';
+import { Box } from '../../primitives';
 import { LineChart } from '../LineChart';
 import { Point } from '../Point';
+import type { Series } from '../utils/types';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -65,6 +69,53 @@ export const IdlePulse: Story = {
     </LineChart>
   ),
   args: {},
+};
+
+const reversedMultiSeries = multiSeries.map((s) => ({
+  ...s,
+  data: [...s.data].reverse(),
+}));
+
+export const WithLoading: Story = {
+  render: () => {
+    const [loading, setLoading] = useState(true);
+    const [series, setSeries] = useState<Series[]>([]);
+
+    useEffect(() => {
+      if (!loading) {
+        return;
+      }
+      const timeout = setTimeout(() => {
+        setSeries((current) =>
+          current === multiSeries ? reversedMultiSeries : multiSeries,
+        );
+        setLoading(false);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }, [loading]);
+
+    return (
+      <Box lx={{ gap: 's16' }}>
+        <LineChart
+          series={series}
+          height={200}
+          loading={loading}
+          enableScrubbing
+        >
+          <Scrubber showBeacons idlePulse />
+        </LineChart>
+        <Button
+          appearance='gray'
+          size='sm'
+          loading={loading}
+          lx={{ alignSelf: 'flex-start' }}
+          onPress={() => setLoading(true)}
+        >
+          Reload
+        </Button>
+      </Box>
+    );
+  },
 };
 
 export const HiddenLine: Story = {

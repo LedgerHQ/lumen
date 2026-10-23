@@ -192,28 +192,30 @@ export function Scrubber({
         />
       )}
 
-      <AnimatedG animatedProps={fadeProps}>
-        {beacons.map((beacon) => (
-          <Fragment key={beacon.id}>
-            {!scrubbing && idlePulse && (
-              <BeaconPulse
+      {beacons.length > 0 && (
+        <AnimatedG animatedProps={fadeProps}>
+          {beacons.map((beacon) => (
+            <Fragment key={beacon.id}>
+              {!scrubbing && idlePulse && (
+                <BeaconPulse
+                  cx={beacon.pixelX}
+                  cy={beacon.pixelY}
+                  fill={beacon.stroke}
+                />
+              )}
+              <Circle
+                testID={`scrubber-beacon-${beacon.id}`}
                 cx={beacon.pixelX}
                 cy={beacon.pixelY}
+                r={chartConfig.scrubber.beaconRadius}
                 fill={beacon.stroke}
+                stroke={tokens.color.markOutline}
+                strokeWidth={tokens.stroke.line}
               />
-            )}
-            <Circle
-              testID={`scrubber-beacon-${beacon.id}`}
-              cx={beacon.pixelX}
-              cy={beacon.pixelY}
-              r={chartConfig.scrubber.beaconRadius}
-              fill={beacon.stroke}
-              stroke={tokens.color.markOutline}
-              strokeWidth={tokens.stroke.line}
-            />
-          </Fragment>
-        ))}
-      </AnimatedG>
+            </Fragment>
+          ))}
+        </AnimatedG>
+      )}
 
       {scrubbing?.tooltipPayload !== undefined && (
         <DefaultScrubberTooltip

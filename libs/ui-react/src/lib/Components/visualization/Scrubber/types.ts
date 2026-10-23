@@ -133,7 +133,8 @@ export type ScrubberProps = {
   hideOverlay?: boolean;
   /**
    * Shows the beacon dots on each series at the scrubbed data index. While
-   * idle, they rest at the end of each line.
+   * idle, they rest at the end of each line. Hidden while the chart is
+   * loading, they fade in with the reveal once it has loaded.
    * @default false
    */
   showBeacons?: boolean;

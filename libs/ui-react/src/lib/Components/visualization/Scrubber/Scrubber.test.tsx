@@ -156,6 +156,31 @@ describe('Scrubber', () => {
     expect(queryAllByTestId('scrubber-pulse')).toHaveLength(0);
   });
 
+  it('hides beacons while loading, then reveals them once loaded', () => {
+    const renderChart = (loading: boolean) => (
+      <CartesianChart
+        series={sampleSeries}
+        width={400}
+        height={200}
+        enableScrubbing
+        ariaBusy={loading}
+      >
+        <Scrubber showBeacons idlePulse />
+      </CartesianChart>
+    );
+    const { getByTestId, queryAllByTestId, rerender } = render(
+      renderChart(true),
+    );
+    expect(queryAllByTestId(/scrubber-beacon-/)).toHaveLength(0);
+    expect(queryAllByTestId('scrubber-pulse')).toHaveLength(0);
+
+    rerender(renderChart(false));
+    expect(queryAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
+    expect(
+      getByTestId('scrubber-beacon-s1').parentElement?.style.animation,
+    ).toContain('reveal-fade');
+  });
+
   it('does not pulse by default', () => {
     const { queryAllByTestId } = renderScrubber({
       scrubberProps: { showBeacons: true },

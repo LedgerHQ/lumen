@@ -53,6 +53,7 @@ export const useScrubberGeometry = ({
     drawingArea,
     series,
     seriesMap,
+    loading,
   } = useCartesianChartContext();
 
   const pixelX = useMemo(() => {
@@ -61,7 +62,7 @@ export const useScrubberGeometry = ({
   }, [scrubberPosition, getXScale, getXAxisConfig]);
 
   const beacons = useMemo(() => {
-    if (!showBeacons) {
+    if (!showBeacons || loading) {
       return [];
     }
     return series
@@ -93,6 +94,7 @@ export const useScrubberGeometry = ({
   }, [
     scrubberPosition,
     showBeacons,
+    loading,
     series,
     seriesMap,
     getXScale,

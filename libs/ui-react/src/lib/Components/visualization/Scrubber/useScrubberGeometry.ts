@@ -39,8 +39,8 @@ type UseScrubberGeometryParams = {
  * Resolves the scrubber's chart geometry: reads the scrubber and chart
  * contexts, projects the active data index to the line's `pixelX`, and derives
  * the per-series beacons, the future-data overlay rect, and the tooltip
- * payload. While idle, beacons sit at the end of each series. Returns `null`
- * when there is nothing to draw.
+ * payload. While idle, beacons sit at the end of each series. While the chart
+ * is loading, there are none. Returns `null` when there is nothing to draw.
  */
 export const useScrubberGeometry = ({
   showBeacons,
@@ -54,6 +54,7 @@ export const useScrubberGeometry = ({
     drawingArea,
     series,
     seriesMap,
+    loading,
   } = useCartesianChartContext();
 
   const pixelX = useMemo(() => {
@@ -62,7 +63,7 @@ export const useScrubberGeometry = ({
   }, [scrubberPosition, getXScale, getXAxisConfig]);
 
   const beacons = useMemo(() => {
-    if (!showBeacons) {
+    if (!showBeacons || loading) {
       return [];
     }
     return series
@@ -89,6 +90,7 @@ export const useScrubberGeometry = ({
   }, [
     scrubberPosition,
     showBeacons,
+    loading,
     series,
     seriesMap,
     getXScale,

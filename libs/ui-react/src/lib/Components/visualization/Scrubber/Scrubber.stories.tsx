@@ -1,7 +1,9 @@
 import { cssVar } from '@ledgerhq/lumen-design-core';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useEffect, useState } from 'react';
 
 import { StoryDecorator } from '../../../../../.storybook/StoryDecorator';
+import { Button } from '../../core/Button';
 import { LineChart } from '../LineChart';
 import {
   CHART_HEIGHT,
@@ -14,6 +16,7 @@ import {
 } from '../LineChart/__stories__/chartStoryFixtures';
 
 import { Point } from '../Point/Point';
+import type { Series } from '../utils/types';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -37,6 +40,11 @@ type Story = StoryObj<typeof Scrubber>;
 const annotatedIndices = new Set([4, 9]);
 
 const magneticIndices = [20, 60, 100, 140];
+
+const reversedMultiSeries = multiSeries.map((s) => ({
+  ...s,
+  data: [...s.data].reverse(),
+}));
 
 /**
  * The simplest setup: `enableScrubbing` on the chart and a bare `<Scrubber>`
@@ -135,6 +143,49 @@ export const WithIdlePulse: Story = {
     </LineChart>
   ),
   args: {},
+};
+
+export const WithLoading: Story = {
+  render: () => {
+    const [loading, setLoading] = useState(true);
+    const [series, setSeries] = useState<Series[]>([]);
+
+    useEffect(() => {
+      if (!loading) {
+        return;
+      }
+      const timeout = setTimeout(() => {
+        setSeries((current) =>
+          current === multiSeries ? reversedMultiSeries : multiSeries,
+        );
+        setLoading(false);
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }, [loading]);
+
+    return (
+      <div className='flex w-full flex-col items-start gap-16'>
+        <LineChart
+          series={series}
+          width={CHART_WIDTH}
+          height={CHART_HEIGHT}
+          loading={loading}
+          enableScrubbing
+          inset={{ top: 20, right: 20 }}
+        >
+          <Scrubber showBeacons idlePulse />
+        </LineChart>
+        <Button
+          appearance='gray'
+          size='sm'
+          loading={loading}
+          onClick={() => setLoading(true)}
+        >
+          Reload
+        </Button>
+      </div>
+    );
+  },
 };
 
 /**
