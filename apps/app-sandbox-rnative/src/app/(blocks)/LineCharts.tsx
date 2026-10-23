@@ -472,16 +472,27 @@ const ScrubberIdlePulse = () => (
   </Section>
 );
 
-const InfiniteLoading = () => (
-  <Section title='Loading (infinite)'>
-    <Box lx={{ gap: 's24' }}>
-      <LineChart series={[]} height={125} loading />
-      <LineChart series={multiSeries} height={125} loading>
-        <Scrubber showBeacons idlePulse />
-      </LineChart>
-    </Box>
-  </Section>
-);
+const InfiniteLoading = () => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <Section title='Loading (infinite)'>
+      <Box lx={{ gap: 's24' }}>
+        <LineChart series={sampleSeries} height={125} loading={loading} />
+        <LineChart series={multiSeries} height={125} loading={loading}>
+          <Scrubber showBeacons idlePulse />
+        </LineChart>
+      </Box>
+      <Button
+        lx={{ marginTop: 's32' }}
+        appearance={loading ? 'transparent' : 'base'}
+        onPress={() => setLoading((value) => !value)}
+      >
+        {loading ? 'Stop' : 'Start'} loading
+      </Button>
+    </Section>
+  );
+};
 
 const ScrubberWithAxes = () => (
   <Section title='Scrubber - with axes'>
