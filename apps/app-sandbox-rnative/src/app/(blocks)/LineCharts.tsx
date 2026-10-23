@@ -40,6 +40,7 @@ export default function LineCharts() {
       <ScrubberBasic />
       <ScrubberMultiSeriesWithBeacons />
       <ScrubberIdlePulse />
+      <InfiniteLoading />
       <ScrubberWithAxes />
       <ReferenceLineBasic />
       <ScrubberWithTooltip />
@@ -468,6 +469,17 @@ const ScrubberIdlePulse = () => (
     <LineChart series={multiSeries} height={125} enableScrubbing>
       <Scrubber showBeacons idlePulse />
     </LineChart>
+  </Section>
+);
+
+const InfiniteLoading = () => (
+  <Section title='Loading (infinite)'>
+    <Box lx={{ gap: 's24' }}>
+      <LineChart series={[]} height={125} loading />
+      <LineChart series={multiSeries} height={125} loading>
+        <Scrubber showBeacons idlePulse />
+      </LineChart>
+    </Box>
   </Section>
 );
 
