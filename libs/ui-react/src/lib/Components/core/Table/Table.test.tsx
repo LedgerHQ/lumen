@@ -344,6 +344,60 @@ describe('TableRow', () => {
     );
     expect(screen.queryByRole('button')).not.toBeInTheDocument();
   });
+
+  it('should not be marked as current by default', () => {
+    renderTable(
+      <TableBody>
+        <TableRow>
+          <TableCell>Normal</TableCell>
+        </TableRow>
+      </TableBody>,
+    );
+    expect(screen.getByRole('row')).not.toHaveAttribute('aria-current');
+  });
+
+  it('should be marked as current when active', () => {
+    renderTable(
+      <TableBody>
+        <TableRow active>
+          <TableCell>Active</TableCell>
+        </TableRow>
+      </TableBody>,
+    );
+    expect(screen.getByRole('row', { current: true })).toHaveTextContent(
+      'Active',
+    );
+  });
+
+  it('should use the muted interaction backgrounds when active and clickable', () => {
+    renderTable(
+      <TableBody>
+        <TableRow active clickable>
+          <TableCell>Active</TableCell>
+        </TableRow>
+      </TableBody>,
+    );
+    const row = screen.getByRole('button');
+    expect(row).toHaveClass(
+      'bg-muted-transparent',
+      'hover:bg-muted-transparent-hover',
+      'active:bg-muted-transparent-pressed',
+    );
+    expect(row).not.toHaveClass('hover:bg-base-transparent-hover');
+  });
+
+  it('should let the consumer className override the interaction backgrounds', () => {
+    renderTable(
+      <TableBody>
+        <TableRow clickable className='hover:bg-muted-hover'>
+          <TableCell>Custom</TableCell>
+        </TableRow>
+      </TableBody>,
+    );
+    const row = screen.getByRole('button');
+    expect(row).toHaveClass('hover:bg-muted-hover');
+    expect(row).not.toHaveClass('hover:bg-base-transparent-hover');
+  });
 });
 
 describe('TableHeaderRow', () => {

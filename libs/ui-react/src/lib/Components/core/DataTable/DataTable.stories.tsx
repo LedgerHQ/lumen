@@ -470,6 +470,46 @@ export const WithRowProps: Story = {
   },
 };
 
+export const WithActiveRow: Story = {
+  render: (args) => {
+    const [activeSymbol, setActiveSymbol] = useState(data[1].symbol);
+    const table = useLumenDataTable({
+      data,
+      columns: [
+        {
+          accessorKey: 'name',
+          header: 'Asset',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'symbol',
+          header: 'Symbol',
+          enableSorting: false,
+        },
+        {
+          accessorKey: 'price',
+          header: 'Price',
+          enableSorting: false,
+          meta: { align: 'end' },
+        },
+      ],
+    });
+
+    return (
+      <DataTableRoot
+        {...args}
+        table={table}
+        onRowClick={(row) => setActiveSymbol(row.original.symbol)}
+        getRowProps={(row) => ({
+          active: row.original.symbol === activeSymbol,
+        })}
+      >
+        <DataTable className='max-h-400' />
+      </DataTableRoot>
+    );
+  },
+};
+
 export const ColumnsLayout: Story = {
   parameters: {
     chromatic: { viewports: [800, 1280] },
