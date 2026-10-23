@@ -45,10 +45,11 @@
       "showMore": "Показать ещё"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "Навигация по страницам",
+      "previousPageAriaLabel": "Предыдущая страница",
+      "nextPageAriaLabel": "Следующая страница",
+      "pageAriaLabel": "Страница {{page}}",
+      "pageOfTotal": "{{current}} из {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

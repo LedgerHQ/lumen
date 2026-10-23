@@ -45,10 +45,11 @@
       "showMore": "Mostrar mais"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "Paginação",
+      "previousPageAriaLabel": "Página anterior",
+      "nextPageAriaLabel": "Próxima página",
+      "pageAriaLabel": "Página {{page}}",
+      "pageOfTotal": "{{current}} de {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

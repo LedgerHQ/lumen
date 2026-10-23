@@ -137,6 +137,67 @@ describe('Pagination', () => {
     expect(container).toBeEmptyDOMElement();
   });
 
+  it('should render the current of total label instead of page buttons when compact', () => {
+    render(
+      <Pagination
+        page={2}
+        totalPages={8}
+        density='compact'
+        onPageChange={vi.fn()}
+      />,
+    );
+
+    expect(
+      screen.getByText('components.pagination.pageOfTotal'),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { current: 'page' }),
+    ).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(2);
+  });
+
+  it('should navigate with previous and next when compact', () => {
+    const onPageChange = vi.fn();
+
+    render(
+      <Pagination
+        page={2}
+        totalPages={8}
+        density='compact'
+        onPageChange={onPageChange}
+      />,
+    );
+
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'components.pagination.previousPageAriaLabel',
+      }),
+    );
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: 'components.pagination.nextPageAriaLabel',
+      }),
+    );
+
+    expect(onPageChange).toHaveBeenNthCalledWith(1, 1);
+    expect(onPageChange).toHaveBeenNthCalledWith(2, 3);
+  });
+
+  it('should disable previous and next when compact with a single page', () => {
+    render(
+      <Pagination
+        page={1}
+        totalPages={1}
+        density='compact'
+        onPageChange={vi.fn()}
+      />,
+    );
+
+    for (const button of screen.getAllByRole('button')) {
+      expect(button).toBeDisabled();
+    }
+  });
+
   it('should accept ref and className', () => {
     const ref = createRef<HTMLElement>();
 

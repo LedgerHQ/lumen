@@ -28,6 +28,13 @@
     "stepper": {
       "progressAriaLabel": "Step {{currentStep}} of {{totalSteps}}"
     },
+    "pagination": {
+      "navigationAriaLabel": "Pagination",
+      "previousPageAriaLabel": "Previous page",
+      "nextPageAriaLabel": "Next page",
+      "pageAriaLabel": "Page {{page}}",
+      "pageOfTotal": "{{current}} of {{total}}"
+    },
     "trend": {
       "positiveAriaLabel": "Trending up by {{value}}",
       "negativeAriaLabel": "Trending down by {{value}}",

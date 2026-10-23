@@ -27,6 +27,13 @@
     },
     "stepper": {
       "progressAriaLabel": "第 {{currentStep}} / {{totalSteps}} 步"
+    },
+    "pagination": {
+      "navigationAriaLabel": "分页",
+      "previousPageAriaLabel": "上一页",
+      "nextPageAriaLabel": "下一页",
+      "pageAriaLabel": "第 {{page}} 页",
+      "pageOfTotal": "{{current}} / {{total}}"
     }
   }
 }

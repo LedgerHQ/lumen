@@ -1,3 +1,4 @@
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type { ComponentPropsWithRef } from 'react';
 
 export type PaginationProps = {
@@ -19,6 +20,12 @@ export type PaginationProps = {
    * @default 1
    */
   siblingCount?: number;
+  /**
+   * The density of the pagination. Compact replaces the page buttons with a
+   * "current of total" label, for tight spaces such as table footers.
+   * @default 'expanded'
+   */
+  density?: Density;
   /**
    * Custom classname for the root nav element.
    */

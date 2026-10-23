@@ -20,6 +20,7 @@ const meta = {
     page: { control: 'number' },
     totalPages: { control: 'number' },
     siblingCount: { control: 'number' },
+    density: { control: 'radio', options: ['expanded', 'compact'] },
     onPageChange: { action: false },
   },
 } satisfies Meta<typeof Pagination>;
@@ -80,6 +81,48 @@ export const WithMoreSiblings: Story = {
         siblingCount={2}
         onPageChange={setPage}
       />
+    );
+  },
+};
+
+export const DensityShowcase: Story = {
+  render: () => {
+    const [page, setPage] = useState(2);
+
+    return (
+      <div className='flex flex-col items-center gap-16'>
+        <Pagination page={page} totalPages={8} onPageChange={setPage} />
+        <Pagination
+          page={page}
+          totalPages={8}
+          density='compact'
+          onPageChange={setPage}
+        />
+      </div>
+    );
+  },
+};
+
+export const WithResponsiveDensity: Story = {
+  render: () => {
+    const [page, setPage] = useState(10);
+
+    return (
+      <>
+        <Pagination
+          page={page}
+          totalPages={20}
+          density='compact'
+          onPageChange={setPage}
+          className='md:hidden'
+        />
+        <Pagination
+          page={page}
+          totalPages={20}
+          onPageChange={setPage}
+          className='hidden md:flex'
+        />
+      </>
     );
   },
 };
