@@ -1,9 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 
-import { Text as SvgText, TSpan } from 'react-native-svg';
-
+import { TSpan } from 'react-native-svg';
 import { LineChart } from '../LineChart';
 import { Point } from '../Point';
+
+import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -113,14 +114,13 @@ export const WithCustomBeaconLabel: Story = {
       <Scrubber
         showBeaconLabel
         beaconLabel={({ series, value }) => (
-          <SvgText y={12} alignmentBaseline='central'>
-            <TSpan fontSize={16} fontWeight='700' fill={series.stroke}>
-              {`$${value}`}
-            </TSpan>
-            <TSpan dx={6} fontSize={10} fontWeight='600' fill='#8C8C8C'>
-              {series.label?.toUpperCase()}
-            </TSpan>
-          </SvgText>
+          <DefaultBeaconLabel
+            label={
+              <TSpan fill={series.stroke} fontWeight='700'>
+                {`$${value}`}
+              </TSpan>
+            }
+          />
         )}
       />
     </LineChart>

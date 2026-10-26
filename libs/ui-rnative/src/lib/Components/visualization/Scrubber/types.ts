@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
+import type { TSpanProps } from 'react-native-svg';
 
 import type { ScrubbingOptions } from '../CartesianChart/types';
 import type { DrawingArea, Series } from '../utils/types';
@@ -145,15 +146,11 @@ export type BeaconLabelContext = {
   value: number;
 };
 
-export type BeaconLabelProps = {
+export type DefaultBeaconLabelProps = {
   /**
-   * Muted text on the left, typically the series label.
+   * Text shown in the pill. Pass a `TSpan` to style parts of it.
    */
-  title: string | number;
-  /**
-   * Emphasized text on the right, typically the series value.
-   */
-  value: string | number;
+  label: string | number | ReactElement<TSpanProps>;
 };
 
 export type ScrubberProps = {
@@ -183,7 +180,7 @@ export type ScrubberProps = {
   /**
    * Custom label content for each beacon, rendered when `showBeaconLabel` is
    * set. Draw `react-native-svg` elements with the top-left corner at the
-   * origin (like {@link BeaconLabel}); the scrubber measures and positions it.
+   * origin (like {@link DefaultBeaconLabel}); the scrubber measures and positions it.
    * Keep the content within 24px of height: labels are stacked on that fixed
    * row height, so taller content overlaps its neighbors.
    */

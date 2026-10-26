@@ -1,6 +1,7 @@
 import { Box, Button, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
+  DefaultBeaconLabel,
   LineChart,
   Point,
   ReferenceLine,
@@ -9,7 +10,7 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/visualization';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { Text as SvgText, TSpan } from 'react-native-svg';
+import { TSpan } from 'react-native-svg';
 
 export default function LineCharts() {
   return (
@@ -480,38 +481,29 @@ const ScrubberWithBeaconLabels = () => (
   </Section>
 );
 
-const ScrubberWithCustomBeaconLabels = () => {
-  const { theme } = useTheme();
-  return (
-    <Section title='Scrubber - custom beacon labels'>
-      <LineChart
-        series={multiSeries}
-        height={200}
-        enableScrubbing
-        inset={{ top: 20 }}
-      >
-        <Scrubber
-          showBeaconLabel
-          beaconLabel={({ series, value }) => (
-            <SvgText y={12} alignmentBaseline='central'>
-              <TSpan fontSize={16} fontWeight='700' fill={series.stroke}>
+const ScrubberWithCustomBeaconLabels = () => (
+  <Section title='Scrubber - custom beacon labels'>
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel
+            label={
+              <TSpan fill={series.stroke} fontWeight='700'>
                 {`$${value}`}
               </TSpan>
-              <TSpan
-                dx={6}
-                fontSize={10}
-                fontWeight='600'
-                fill={theme.colors.text.muted}
-              >
-                {series.label?.toUpperCase()}
-              </TSpan>
-            </SvgText>
-          )}
-        />
-      </LineChart>
-    </Section>
-  );
-};
+            }
+          />
+        )}
+      />
+    </LineChart>
+  </Section>
+);
 
 const ScrubberIdlePulse = () => (
   <Section title='Scrubber - idle pulse'>

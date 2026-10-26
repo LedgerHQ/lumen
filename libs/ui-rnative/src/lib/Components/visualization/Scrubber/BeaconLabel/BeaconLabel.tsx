@@ -5,7 +5,7 @@ import { G, Rect, Text as SvgText, TSpan } from 'react-native-svg';
 
 import { chartConfig, useChartTokens } from '../../config';
 import type { DrawingArea } from '../../utils/types';
-import type { BeaconLabelProps, ScrubberProps } from '../types';
+import type { DefaultBeaconLabelProps, ScrubberProps } from '../types';
 import type { Beacon } from '../useScrubberGeometry';
 import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
@@ -21,10 +21,12 @@ const useLayoutWidth = (): [number, (event: LayoutChangeEvent) => void] => {
 };
 
 /**
- * Default beacon label: a pill with a muted title and an emphasized value.
- * Draws from its top-left corner, like any custom `beaconLabel` content.
+ * Default beacon label: a pill sized to its `label`, drawn from its top-left
+ * corner.
  */
-export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
+export function DefaultBeaconLabel({
+  label,
+}: Readonly<DefaultBeaconLabelProps>) {
   const tokens = useChartTokens();
   const [textWidth, onTextLayout] = useLayoutWidth();
 
@@ -41,24 +43,31 @@ export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
         x={beaconLabel.paddingX}
         y={beaconLabel.height / 2}
         alignmentBaseline='central'
+        fill={tokens.color.text}
         fontSize={tokens.font.bodySize}
         fontFamily={tokens.font.family}
+        fontWeight={tokens.font.bodyWeightMedium}
       >
-        <TSpan
-          fill={tokens.color.textMuted}
-          fontWeight={tokens.font.bodyWeightMedium}
-        >
-          {String(title)}
-        </TSpan>
-        <TSpan
-          dx={beaconLabel.contentGap}
-          fill={tokens.color.text}
-          fontWeight={tokens.font.bodyWeightMedium}
-        >
-          {String(value)}
-        </TSpan>
+        {typeof label === 'number' ? String(label) : label}
       </SvgText>
     </G>
+  );
+}
+
+function SeriesLabel({ beacon }: Readonly<{ beacon: Beacon }>) {
+  const tokens = useChartTokens();
+
+  return (
+    <DefaultBeaconLabel
+      label={
+        <TSpan>
+          <TSpan fill={tokens.color.textMuted}>
+            {String(beacon.series.label ?? beacon.series.id)}
+          </TSpan>
+          <TSpan dx={beaconLabel.contentGap}>{String(beacon.value)}</TSpan>
+        </TSpan>
+      }
+    />
   );
 }
 
@@ -92,10 +101,7 @@ export function ScrubberBeaconLabels({
       {renderLabel ? (
         renderLabel({ series: beacon.series, value: beacon.value })
       ) : (
-        <BeaconLabel
-          title={beacon.series.label ?? beacon.series.id}
-          value={beacon.value}
-        />
+        <SeriesLabel beacon={beacon} />
       )}
     </PositionedLabel>
   ));

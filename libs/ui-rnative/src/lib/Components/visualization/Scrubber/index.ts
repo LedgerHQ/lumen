@@ -1,10 +1,10 @@
 export { Scrubber } from './Scrubber';
-export { BeaconLabel } from './BeaconLabel/BeaconLabel';
+export { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
 export { useScrubberContext } from './context';
 
 export type {
   BeaconLabelContext,
-  BeaconLabelProps,
+  DefaultBeaconLabelProps,
   ChartTooltipItemData,
   ChartTooltipItemProps,
   ScrubberContextValue,
