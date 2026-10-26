@@ -306,12 +306,12 @@ const useStyles = () =>
         overflow: 'hidden',
       },
       blur: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         bottom: -t.sizes.s16,
         zIndex: -1,
       },
       fallbackBackground: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         zIndex: -1,
         backgroundColor: t.colors.bg.muted,
       },

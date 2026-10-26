@@ -47,7 +47,7 @@ const angleToCoordinates = (angle: number): GradientCoordinates => {
 
 const styles = StyleSheet.create({
   gradient: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     width: '100%',
     height: '100%',
   },

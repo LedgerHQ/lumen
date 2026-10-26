@@ -19,7 +19,7 @@ const transformIncludePatterns = [
 
 export default {
   displayName: '@ledgerhq/lumen-ui-rnative',
-  preset: 'react-native',
+  preset: '@react-native/jest-preset',
   setupFiles: ['<rootDir>/jest.setup.ts'],
   transformIgnorePatterns: [
     `node_modules/(?!(.pnpm|${transformIncludePatterns.join('|')})/)`,

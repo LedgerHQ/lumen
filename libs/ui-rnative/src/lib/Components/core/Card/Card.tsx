@@ -114,7 +114,7 @@ const useCardStyles = ({
           },
       ]),
       outline: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         borderRadius: t.borderRadius.lg,
         borderWidth: t.borderWidth.s2,
         borderColor: t.colors.border.active,

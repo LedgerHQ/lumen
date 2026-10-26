@@ -66,7 +66,7 @@ const useStyles = ({ disabled }: { disabled: boolean }) =>
         ...(disabled && { opacity: 0.3 }),
       },
       overlay: {
-        ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFill,
         borderRadius: 9999,
       },
       overlayPressed: {

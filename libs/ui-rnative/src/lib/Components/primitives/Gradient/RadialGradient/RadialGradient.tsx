@@ -15,7 +15,7 @@ const DEFAULT_CENTER = { x: 0.5, y: 0.5 };
 
 const styles = StyleSheet.create({
   gradient: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     width: '100%',
     height: '100%',
   },
