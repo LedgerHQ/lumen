@@ -11,7 +11,7 @@ import {
   denseData,
   denseSeries,
   monthLabels,
-  multiSeries,
+  multiSeries as stepMultiSeries,
   sampleSeries,
 } from '../LineChart/__stories__/chartStoryFixtures';
 
@@ -40,6 +40,11 @@ type Story = StoryObj<typeof Scrubber>;
 const annotatedIndices = new Set([4, 9]);
 
 const magneticIndices = [20, 60, 100, 140];
+
+const multiSeries = stepMultiSeries.map((s) => ({
+  ...s,
+  curve: 'bump' as const,
+}));
 
 const reversedMultiSeries = multiSeries.map((s) => ({
   ...s,
@@ -144,11 +149,6 @@ export const WithBeaconLabels: Story = {
   ),
 };
 
-/**
- * `beaconLabel` accepts any SVG drawn from the label's top-left corner, so the
- * default pill can be replaced entirely, even by bare text. Keep the height at 24px so the labels
- * stack without overlapping.
- */
 export const WithCustomBeaconLabel: Story = {
   render: () => (
     <LineChart

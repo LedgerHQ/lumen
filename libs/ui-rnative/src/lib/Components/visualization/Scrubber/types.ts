@@ -184,6 +184,8 @@ export type ScrubberProps = {
    * Custom label content for each beacon, rendered when `showBeaconLabel` is
    * set. Draw `react-native-svg` elements with the top-left corner at the
    * origin (like {@link BeaconLabel}); the scrubber measures and positions it.
+   * Keep the content within 24px of height: labels are stacked on that fixed
+   * row height, so taller content overlaps its neighbors.
    */
   beaconLabel?: (context: BeaconLabelContext) => ReactNode;
   /**
