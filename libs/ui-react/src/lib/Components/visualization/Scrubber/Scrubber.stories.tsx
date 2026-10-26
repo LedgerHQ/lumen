@@ -17,6 +17,7 @@ import {
 
 import { Point } from '../Point/Point';
 import type { Series } from '../utils/types';
+import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -161,19 +162,13 @@ export const WithCustomBeaconLabel: Story = {
       <Scrubber
         showBeaconLabel
         beaconLabel={({ series, value }) => (
-          <text y={12} dominantBaseline='central' paintOrder='stroke'>
-            <tspan fontSize={16} fontWeight={700} fill={series.stroke}>
-              {`$${value}`}
-            </tspan>
-            <tspan
-              dx={6}
-              fontSize={10}
-              fontWeight={600}
-              fill={cssVar('var(--text-muted)')}
-            >
-              {series.label?.toUpperCase()}
-            </tspan>
-          </text>
+          <DefaultBeaconLabel
+            label={
+              <tspan fill={series.stroke} fontWeight={700}>
+                {`$${value}`}
+              </tspan>
+            }
+          />
         )}
       />
     </LineChart>

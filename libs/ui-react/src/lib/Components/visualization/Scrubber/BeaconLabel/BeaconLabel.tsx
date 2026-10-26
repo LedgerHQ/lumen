@@ -4,19 +4,25 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { chartConfig } from '../../config';
 import type { DrawingArea } from '../../utils/types';
 import { safeGetBBoxWidth } from '../DefaultScrubberTooltip/utils';
-import type { BeaconLabelProps, ScrubberProps } from '../types';
+import type { DefaultBeaconLabelProps, ScrubberProps } from '../types';
 import type { Beacon } from '../useScrubberGeometry';
 import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
 const { beaconLabel, font } = chartConfig;
 
-export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
+/**
+ * Default beacon label: a pill sized to its `label`, drawn from its top-left
+ * corner.
+ */
+export function DefaultBeaconLabel({
+  label,
+}: Readonly<DefaultBeaconLabelProps>) {
   const textRef = useRef<SVGTextElement>(null);
   const [textWidth, setTextWidth] = useState(0);
 
   useLayoutEffect(() => {
     setTextWidth(safeGetBBoxWidth(textRef.current));
-  }, [title, value]);
+  }, [label]);
 
   return (
     <g>
@@ -31,22 +37,24 @@ export function BeaconLabel({ title, value }: Readonly<BeaconLabelProps>) {
         x={beaconLabel.paddingX}
         y={beaconLabel.height / 2}
         dominantBaseline='middle'
+        fill={beaconLabel.valueColor}
+        fontWeight={font.bodyWeightMedium}
         style={{ fontSize: font.bodySize, fontFamily: font.family }}
       >
-        <tspan fill={beaconLabel.titleColor} fontWeight={font.bodyWeightMedium}>
-          {title}
-        </tspan>
-        <tspan
-          dx={beaconLabel.contentGap}
-          fill={beaconLabel.valueColor}
-          fontWeight={font.bodyWeightMedium}
-        >
-          {value}
-        </tspan>
+        {label}
       </text>
     </g>
   );
 }
+
+const seriesLabel = (beacon: Beacon): DefaultBeaconLabelProps['label'] => (
+  <tspan>
+    <tspan fill={beaconLabel.titleColor}>
+      {beacon.series.label ?? beacon.series.id}
+    </tspan>
+    <tspan dx={beaconLabel.contentGap}>{beacon.value}</tspan>
+  </tspan>
+);
 
 type ScrubberBeaconLabelsProps = {
   pixelX: number;
@@ -79,10 +87,7 @@ export function ScrubberBeaconLabels({
       {renderLabel ? (
         renderLabel({ series: beacon.series, value: beacon.value })
       ) : (
-        <BeaconLabel
-          title={beacon.series.label ?? beacon.series.id}
-          value={beacon.value}
-        />
+        <DefaultBeaconLabel label={seriesLabel(beacon)} />
       )}
     </PositionedLabel>
   ));

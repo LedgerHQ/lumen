@@ -56,7 +56,8 @@ no room, and are spaced apart so they never overlap.
 <Canvas of={ScrubberStories.WithBeaconLabels} />
 
 Pass `beaconLabel` to render your own content. It receives the series and
-value as context, and should draw from the origin.
+value as context. Return `DefaultBeaconLabel` with your own `label` to keep the
+default pill, or any SVG drawn from the origin that stays within 24px of height.
 
 <Canvas of={ScrubberStories.WithCustomBeaconLabel} />
 

@@ -108,7 +108,7 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
  * <Scrubber showBeaconLabel />
  * <Scrubber
  *   showBeaconLabel
- *   beaconLabel={(ctx) => <BeaconLabel title={ctx.series.label ?? ctx.series.id} value={ctx.value} />}
+ *   beaconLabel={({ series, value }) => <DefaultBeaconLabel label={`${series.label}: $${value}`} />}
  * />
  * ```
  *

@@ -131,15 +131,11 @@ export type BeaconLabelContext = {
   value: number;
 };
 
-export type BeaconLabelProps = {
+export type DefaultBeaconLabelProps = {
   /**
-   * Muted text on the left, typically the series label.
+   * Text shown in the pill. Pass a `<tspan>` to style parts of it.
    */
-  title: SvgTextContent;
-  /**
-   * Emphasized text on the right, typically the series value.
-   */
-  value: SvgTextContent;
+  label: SvgTextContent;
 };
 
 export type ScrubberProps = {
@@ -169,7 +165,7 @@ export type ScrubberProps = {
   showBeaconLabel?: boolean;
   /**
    * Custom label content for each beacon, rendered when `showBeaconLabel` is
-   * set. Draw with its top-left corner at the origin (like {@link BeaconLabel});
+   * set. Draw with its top-left corner at the origin (like {@link DefaultBeaconLabel});
    * the scrubber measures and positions it.
    * Keep the content within 24px of height: labels are stacked on that fixed
    * row height, so taller content overlaps its neighbors.
