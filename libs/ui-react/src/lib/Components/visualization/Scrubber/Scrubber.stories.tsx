@@ -162,13 +162,7 @@ export const WithCustomBeaconLabel: Story = {
       <Scrubber
         showBeaconLabel
         beaconLabel={({ series, value }) => (
-          <DefaultBeaconLabel
-            label={
-              <tspan fill={series.stroke} fontWeight={700}>
-                {`$${value}`}
-              </tspan>
-            }
-          />
+          <DefaultBeaconLabel label={`${series.label}: $${value}`} />
         )}
       />
     </LineChart>

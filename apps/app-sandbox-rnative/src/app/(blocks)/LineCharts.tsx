@@ -10,8 +10,6 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/visualization';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-import { TSpan } from 'react-native-svg';
-
 export default function LineCharts() {
   return (
     <Box
@@ -492,13 +490,7 @@ const ScrubberWithCustomBeaconLabels = () => (
       <Scrubber
         showBeaconLabel
         beaconLabel={({ series, value }) => (
-          <DefaultBeaconLabel
-            label={
-              <TSpan fill={series.stroke} fontWeight='700'>
-                {`$${value}`}
-              </TSpan>
-            }
-          />
+          <DefaultBeaconLabel label={`${series.label}: $${value}`} />
         )}
       />
     </LineChart>
