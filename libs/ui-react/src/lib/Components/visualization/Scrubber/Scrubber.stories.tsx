@@ -169,6 +169,37 @@ export const WithCustomBeaconLabel: Story = {
   ),
 };
 
+export const WithFullyCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <text y={12} dominantBaseline='central' paintOrder='stroke'>
+            <tspan fontSize={16} fontWeight={700} fill={series.stroke}>
+              {`$${value}`}
+            </tspan>
+            <tspan
+              dx={6}
+              fontSize={10}
+              fontWeight={600}
+              fill={cssVar('var(--text-muted)')}
+            >
+              {series.label?.toUpperCase()}
+            </tspan>
+          </text>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
 export const WithIdlePulse: Story = {
   render: (args: ScrubberProps) => (
     <LineChart
