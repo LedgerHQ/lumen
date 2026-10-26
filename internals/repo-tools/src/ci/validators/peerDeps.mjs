@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
- * Every peer a published lib declares must be installed in the root
- * devDependencies, at a version its peer range accepts — otherwise we build,
- * test and document against a version we tell consumers they cannot use.
+ * Every peer a published lib declares must be in the root devDependencies, and
+ * the version the lockfile installs must satisfy the peer range — otherwise we
+ * build, test and document against a version we tell consumers they cannot use.
  *
  * Complements syncpack: it keeps each package on a single version, but cannot
  * relate a peer range to the devDependency it is tested with.
@@ -17,13 +17,23 @@ import {
 } from '../../lib/workspaceProjects.mjs';
 
 /**
+ * @param {string} file
+ * @returns {any}
+ */
+const readJson = (file) =>
+  JSON.parse(readFileSync(join(workspaceRoot, file), 'utf8'));
+
+/**
  * @param {string} dir
  * @returns {Record<string, Record<string, string> | undefined>}
  */
-const readManifest = (dir) =>
-  JSON.parse(readFileSync(join(workspaceRoot, dir, 'package.json'), 'utf8'));
+const readManifest = (dir) => readJson(join(dir, 'package.json'));
 
 const rootDevDependencies = readManifest('.').devDependencies ?? {};
+// The range floor can sit outside the peer range while the installed version
+// does not (or the reverse), so check what CI actually installs.
+/** @type {Record<string, { version?: string } | undefined>} */
+const lockedPackages = readJson('package-lock.json').packages;
 const libs = publishableLibs();
 // Local libs are versioned by nx release, not installed from the registry.
 const localNames = new Set(libs.map((lib) => lib.name));
@@ -38,17 +48,23 @@ for (const lib of libs) {
   for (const [name, range] of Object.entries(peers)) {
     if (localNames.has(name)) continue;
 
-    const installed = rootDevDependencies[name];
-    if (!installed) {
+    const declared = rootDevDependencies[name];
+    if (!declared) {
       failed += 1;
       fail(`${name}: peer ${range} is not in the root devDependencies`);
       continue;
     }
 
-    const version = semver.minVersion(installed);
-    if (!version || !semver.satisfies(version, range)) {
+    const installed = lockedPackages[`node_modules/${name}`]?.version;
+    if (!installed) {
       failed += 1;
-      fail(`${name}: root devDependency ${installed} is outside peer ${range}`);
+      fail(`${name}: not installed at the root of package-lock.json`);
+      continue;
+    }
+
+    if (!semver.satisfies(installed, range)) {
+      failed += 1;
+      fail(`${name}: installed ${installed} is outside peer ${range}`);
       continue;
     }
 
