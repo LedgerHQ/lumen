@@ -16,6 +16,8 @@ const { beaconLabel, font } = chartConfig;
  */
 export function DefaultBeaconLabel({
   label,
+  background = beaconLabel.background,
+  color = beaconLabel.valueColor,
 }: Readonly<DefaultBeaconLabelProps>) {
   const textRef = useRef<SVGTextElement>(null);
   const [textWidth, setTextWidth] = useState(0);
@@ -29,7 +31,7 @@ export function DefaultBeaconLabel({
       <rect
         width={textWidth + beaconLabel.paddingX * 2}
         height={beaconLabel.height}
-        fill={beaconLabel.background}
+        fill={background}
         style={{ rx: beaconLabel.borderRadius }}
       />
       <text
@@ -37,7 +39,7 @@ export function DefaultBeaconLabel({
         x={beaconLabel.paddingX}
         y={beaconLabel.height / 2}
         dominantBaseline='middle'
-        fill={beaconLabel.valueColor}
+        fill={color}
         fontWeight={font.bodyWeightMedium}
         style={{ fontSize: font.bodySize, fontFamily: font.family }}
       >

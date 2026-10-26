@@ -151,6 +151,17 @@ export type DefaultBeaconLabelProps = {
    * Text shown in the pill. Pass a `TSpan` to style parts of it.
    */
   label: string | number | ReactElement<TSpanProps>;
+  /**
+   * Fill color of the pill.
+   * @default background-muted
+   */
+  background?: string;
+  /**
+   * Text color of the label. Parts of a styled `label` that set their own
+   * fill keep it.
+   * @default text-base
+   */
+  color?: string;
 };
 
 export type ScrubberProps = {

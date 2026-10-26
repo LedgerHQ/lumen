@@ -26,6 +26,8 @@ const useLayoutWidth = (): [number, (event: LayoutChangeEvent) => void] => {
  */
 export function DefaultBeaconLabel({
   label,
+  background,
+  color,
 }: Readonly<DefaultBeaconLabelProps>) {
   const tokens = useChartTokens();
   const [textWidth, onTextLayout] = useLayoutWidth();
@@ -36,14 +38,14 @@ export function DefaultBeaconLabel({
         width={textWidth + beaconLabel.paddingX * 2}
         height={beaconLabel.height}
         rx={tokens.radius.xs}
-        fill={tokens.color.surface}
+        fill={background ?? tokens.color.surface}
       />
       <SvgText
         onLayout={onTextLayout}
         x={beaconLabel.paddingX}
         y={beaconLabel.height / 2}
         alignmentBaseline='central'
-        fill={tokens.color.text}
+        fill={color ?? tokens.color.text}
         fontSize={tokens.font.bodySize}
         fontFamily={tokens.font.family}
         fontWeight={tokens.font.bodyWeightMedium}

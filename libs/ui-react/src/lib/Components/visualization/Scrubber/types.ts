@@ -136,6 +136,17 @@ export type DefaultBeaconLabelProps = {
    * Text shown in the pill. Pass a `<tspan>` to style parts of it.
    */
   label: SvgTextContent;
+  /**
+   * Fill color of the pill.
+   * @default background-muted
+   */
+  background?: string;
+  /**
+   * Text color of the label. Parts of a styled `label` that set their own
+   * fill keep it.
+   * @default text-base
+   */
+  color?: string;
 };
 
 export type ScrubberProps = {
