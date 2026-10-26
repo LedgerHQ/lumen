@@ -44,11 +44,12 @@ git checkout -- libs/
 | --- | --- | --- |
 | `agentDocsDrift.mjs` | `npm run check:agent-docs` | `pr.yml` job `agent-drift` |
 | `packageExports.mjs` | `npm run check:package-exports` | `pr.yml` job `static-analysis` |
+| `peerDeps.mjs` | `npm run check:peer-deps` | `pr.yml` job `dependency-alignment` |
 
 > **`agentDocsDrift.mjs` must stay dependency-free.** Its CI job runs with
 > `setup-node` only — no `npm ci`, no Nx — so it may import `node:` builtins and
 > sibling files in this project, nothing else. `packageExports.mjs` has no such
-> constraint; it uses `publint`.
+> constraint; it uses `publint`. `peerDeps.mjs` uses `semver`.
 
 ## Typechecking
 

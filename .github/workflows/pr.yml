@@ -53,6 +53,26 @@ jobs:
       - name: Check agent docs & structure for drift
         run: npm run check:agent-docs
 
+  dependency-alignment:
+    name: Dependency alignment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-nx: 'false'
+          set-shas: 'false'
+
+      - name: One version per package across manifests (syncpack)
+        run: npm run check:deps
+
+      - name: Peer ranges accept the versions we test with
+        run: npm run check:peer-deps
+
   static-analysis:
     name: Static Analysis
     runs-on: ubuntu-latest

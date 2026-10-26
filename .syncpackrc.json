@@ -1,0 +1,92 @@
+{
+  "$schema": "./node_modules/syncpack/schema.json",
+  "source": [
+    "package.json",
+    "apps/*/package.json",
+    "internals/*/package.json",
+    "libs/*/package.json"
+  ],
+  "dependencyGroups": [
+    {
+      "aliasName": "nx (family)",
+      "dependencies": ["nx", "@nx/**"],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
+      "aliasName": "storybook (web family)",
+      "dependencies": [
+        "storybook",
+        "@storybook/addon-a11y",
+        "@storybook/addon-docs",
+        "@storybook/addon-themes",
+        "@storybook/cli",
+        "@storybook/react-native-web-vite",
+        "@storybook/react-vite",
+        "eslint-plugin-storybook"
+      ],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
+      "aliasName": "react (family)",
+      "dependencies": ["react", "react-dom", "react-test-renderer"],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
+      "aliasName": "react-native (family)",
+      "dependencies": ["react-native", "@react-native/**"],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
+      "aliasName": "vitest (family)",
+      "dependencies": ["vitest", "@vitest/**"],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
+      "aliasName": "tailwindcss (family)",
+      "dependencies": ["tailwindcss", "@tailwindcss/**"],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
+      "aliasName": "svgr (family)",
+      "dependencies": ["@svgr/**"],
+      "dependencyTypes": ["dev", "prod"]
+    }
+  ],
+  "versionGroups": [
+    {
+      "label": "Sandbox apps consume the local libs straight from the workspace",
+      "packages": ["app-sandbox-*"],
+      "dependencies": ["$LOCAL"],
+      "dependencyTypes": ["prod", "dev"],
+      "pinVersion": "*"
+    },
+    {
+      "label": "ui-rnative peers on React 19 only: React Native 0.81 requires it, the web libs still support 18",
+      "packages": ["@ledgerhq/lumen-ui-rnative"],
+      "dependencies": ["react"],
+      "dependencyTypes": ["peer"],
+      "pinVersion": "^19.0.0"
+    },
+    {
+      "label": "Peer ranges are identical across the published libs",
+      "dependencyTypes": ["peer"]
+    },
+    {
+      "label": "One version per package (or package family) across dependencies and devDependencies",
+      "dependencyTypes": ["!peer"]
+    }
+  ],
+  "semverGroups": [
+    {
+      "label": "Local packages keep the exact version nx release writes",
+      "dependencies": ["$LOCAL"],
+      "isIgnored": true
+    },
+    {
+      "label": "Published libs use caret ranges so consumers can dedupe",
+      "packages": ["@ledgerhq/lumen-*"],
+      "dependencyTypes": ["prod"],
+      "range": "^"
+    }
+  ]
+}

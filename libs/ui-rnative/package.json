@@ -63,7 +63,7 @@
     "d3-shape": "^3.2.0"
   },
   "devDependencies": {
-    "@types/react": "^19.0.0"
+    "@types/react": "~19.1.10"
   },
   "peerDependencies": {
     "@types/react": "^19.0.0",

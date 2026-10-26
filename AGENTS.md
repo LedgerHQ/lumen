@@ -64,6 +64,9 @@ and the first four rules.
 - Typecheck all: `npx nx run-many --target=typecheck --all`
 - Build all: `npx nx run-many --target=build --all`
 - Storybook: `npx nx run @ledgerhq/lumen-ui-react:serve:storybook`
+- Dependency versions: `npm run check:deps` (fix with `npm run fix:deps`) — one
+  version per package across every manifest. A second version is allowed only
+  through a labeled `versionGroups` entry in `.syncpackrc.json`.
 
 Prefer the Nx MCP server (`nx_workspace`, `nx_generators`, …) for workspace
 questions and generators instead of guessing.
