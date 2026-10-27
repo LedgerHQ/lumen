@@ -3,9 +3,9 @@
  * Print the npm names of the libs that actually publish, one per line, so
  * workflows stop globbing `libs/*\/` and re-reading every manifest inline.
  *
- * Run: node internals/repo-tools/src/ci/getPublishableProjects.mjs
+ * Run: node internals/repo-tools/src/publish-dev-packages/getPublishableProjects.mjs
  */
-import { publishableLibs } from '../lib/workspaceProjects.mjs';
+import { publishableLibs } from '../shared/workspaceProjects.mjs';
 
 if (import.meta.url === `file://${process.argv[1]}`) {
   for (const lib of publishableLibs()) console.log(lib.name);

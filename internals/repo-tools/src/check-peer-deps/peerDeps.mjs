@@ -10,11 +10,11 @@
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import semver from 'semver';
-import { fail, ok, step } from '../../lib/logging.mjs';
+import { fail, ok, step } from '../shared/logging.mjs';
 import {
   publishableLibs,
   workspaceRoot,
-} from '../../lib/workspaceProjects.mjs';
+} from '../shared/workspaceProjects.mjs';
 
 /**
  * @param {string} file

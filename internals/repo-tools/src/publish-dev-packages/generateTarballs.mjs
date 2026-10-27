@@ -18,8 +18,11 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
-import { fail, info, ok, step } from '../lib/logging.mjs';
-import { libByPackageName, workspaceRoot } from '../lib/workspaceProjects.mjs';
+import { fail, info, ok, step } from '../shared/logging.mjs';
+import {
+  libByPackageName,
+  workspaceRoot,
+} from '../shared/workspaceProjects.mjs';
 
 /**
  * @param {string} version

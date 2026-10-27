@@ -8,12 +8,12 @@
  * `sonar-project.properties`. The runner is now detected from whichever report
  * exists on disk.
  *
- * Run: node internals/repo-tools/src/ci/fixLcovPaths.mjs
+ * Run: node internals/repo-tools/src/fix-lcov-paths/fixLcovPaths.mjs
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ok, skip, step } from '../lib/logging.mjs';
-import { libs, workspaceRoot } from '../lib/workspaceProjects.mjs';
+import { ok, skip, step } from '../shared/logging.mjs';
+import { libs, workspaceRoot } from '../shared/workspaceProjects.mjs';
 
 const RUNNERS = ['vitest', 'jest'];
 

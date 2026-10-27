@@ -24,13 +24,13 @@
 //      servers with the same url/command, except `CURSOR_ONLY_MCP` servers,
 //      which must stay out of `.mcp.json`.
 //
-// Deterministic, no dependencies. Run: node internals/repo-tools/src/ci/validators/agentDocsDrift.mjs
+// Deterministic, no dependencies. Run: node internals/repo-tools/src/check-agent-docs/agentDocsDrift.mjs
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '../../../../..');
+const root = join(dirname(fileURLToPath(import.meta.url)), '../../../..');
 const skillsDir = join(root, '.claude/skills');
 /** @type {string[]} */
 const errors = [];

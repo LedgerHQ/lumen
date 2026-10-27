@@ -146,7 +146,7 @@ jobs:
           fi
 
       - name: Fix lcov paths to be relative to workspace root
-        run: node internals/repo-tools/src/ci/fixLcovPaths.mjs
+        run: node internals/repo-tools/src/fix-lcov-paths/fixLcovPaths.mjs
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
