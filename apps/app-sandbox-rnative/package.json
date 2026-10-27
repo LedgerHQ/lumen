@@ -38,7 +38,6 @@
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
     "@react-native/babel-preset": "0.81.6",
-    "@react-native/eslint-config": "0.81.6",
     "@react-native/typescript-config": "0.81.6",
     "@types/jest": "29.5.14",
     "babel-preset-expo": "~54.0.10",
