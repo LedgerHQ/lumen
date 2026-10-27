@@ -72,8 +72,16 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   loadingIndicator?: 'spinner' | 'none' | ReactElement;
   /**
    * Callback fired when scroll reaches the bottom of the table container.
+   * Callback fired when the user scrolls within `scrollBottomThreshold` of the
+   * bottom of the table container.
    */
   onScrollBottom?: () => void;
+  /**
+   * Distance from the bottom of the table container, in pixels, at which
+   * `onScrollBottom` fires. See `TableRoot` `scrollBottomThreshold`.
+   * @default 128 (2 rows)
+   */
+  scrollBottomThreshold?: TableRootProps['scrollBottomThreshold'];
   /**
    * Content rendered inside the DataTableRoot (e.g. DataTableActionBar, DataTable).
    */

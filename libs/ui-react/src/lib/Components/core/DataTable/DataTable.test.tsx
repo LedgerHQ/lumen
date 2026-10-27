@@ -291,6 +291,61 @@ describe('DataTableRoot', () => {
   });
 });
 
+describe('DataTable scroll bottom', () => {
+  const ScrollableDataTable = ({
+    onScrollBottom,
+    scrollBottomThreshold,
+  }: {
+    onScrollBottom: () => void;
+    scrollBottomThreshold?: number;
+  }) => {
+    const table = useLumenDataTable({ data: testData, columns: testColumns });
+    return (
+      <DataTableRoot
+        table={table}
+        onScrollBottom={onScrollBottom}
+        scrollBottomThreshold={scrollBottomThreshold}
+      >
+        <DataTable data-testid='scroll-container' />
+      </DataTableRoot>
+    );
+  };
+
+  // Scrolls 300px away from the bottom of 1000px of content in a 400px viewport.
+  const scrollNearBottom = (): void => {
+    const container = screen.getByTestId('scroll-container');
+    Object.defineProperties(container, {
+      scrollHeight: { configurable: true, value: 1000 },
+      clientHeight: { configurable: true, value: 400 },
+      scrollTop: { configurable: true, value: 300 },
+    });
+    fireEvent.scroll(container);
+  };
+
+  it('should not call onScrollBottom 300px from the bottom by default', () => {
+    const onScrollBottom = vi.fn();
+    render(<ScrollableDataTable onScrollBottom={onScrollBottom} />);
+
+    scrollNearBottom();
+
+    expect(onScrollBottom).not.toHaveBeenCalled();
+  });
+
+  it('should forward scrollBottomThreshold to the table container', () => {
+    const onScrollBottom = vi.fn();
+    render(
+      <ScrollableDataTable
+        onScrollBottom={onScrollBottom}
+        scrollBottomThreshold={400}
+      />,
+    );
+
+    scrollNearBottom();
+
+    expect(onScrollBottom).toHaveBeenCalledTimes(1);
+  });
+});
+
 describe('DataTable horizontal layout', () => {
   it('should shrink to the container by default', () => {
     render(<TestDataTable />);
