@@ -45,10 +45,11 @@ jobs:
 
       # Zero-dependency Node script (AGENTS.md ↔ .claude/skills ↔ codebase);
       # no npm install or Nx needed, so keep this job lean.
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '22.23.4'
+          install: 'false'
+          cache-nx: 'false'
+          set-shas: 'false'
 
       - name: Check agent docs & structure for drift
         run: npm run check:agent-docs
