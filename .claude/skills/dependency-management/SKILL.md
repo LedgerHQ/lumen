@@ -60,7 +60,7 @@ Never loosen a rule for everyone. Each exception names its package and says why:
   `isBanned: true` and a `label`.
 - **A peer with no upper bound**: a `{ name, reason }` entry in
   `unboundedPeerExceptions` in
-  `internals/repo-tools/src/check-peer-deps/peerDeps.mjs`. The check fails once
+  `internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs`. The check fails once
   the range is bounded, so remove the entry then.
 
 ## When a check fails

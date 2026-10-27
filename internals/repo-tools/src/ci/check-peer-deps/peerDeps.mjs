@@ -7,16 +7,16 @@
  * Complements syncpack: it keeps each package on a single version, but cannot
  * relate a peer range to the devDependency it is tested with.
  *
- * Run: node internals/repo-tools/src/check-peer-deps/peerDeps.mjs
+ * Run: node internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import semver from 'semver';
-import { fail, ok, step } from '../shared/logging.mjs';
+import { fail, ok, step } from '../../shared/logging.mjs';
 import {
   publishableLibs,
   workspaceRoot,
-} from '../shared/workspaceProjects.mjs';
+} from '../../shared/workspaceProjects.mjs';
 
 // Each entry says why, like a syncpack `label`. Bounding a published peer
 // narrows what consumers may install, so it waits for a planned release.

@@ -58,7 +58,7 @@ jobs:
       - name: Determine affected libraries
         id: affected
         run: |
-          PUBLISHABLE=$(node internals/repo-tools/src/publish-dev-packages/getPublishableProjects.mjs | paste -sd, -)
+          PUBLISHABLE=$(node internals/repo-tools/src/ci/publish-dev-packages/getPublishableProjects.mjs | paste -sd, -)
           AFFECTED=$(npx nx show projects --affected --projects="$PUBLISHABLE" 2>/dev/null || true)
           if [ -z "$AFFECTED" ]; then
             echo "No affected libraries found"
@@ -84,7 +84,7 @@ jobs:
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
           REPO: ${{ github.repository }}
           AFFECTED_PROJECTS: ${{ steps.affected.outputs.projects }}
-        run: node internals/repo-tools/src/publish-dev-packages/generateTarballs.mjs
+        run: node internals/repo-tools/src/ci/publish-dev-packages/generateTarballs.mjs
 
       - name: Publish tarballs to GitHub pre-release
         if: steps.affected.outputs.has_affected == 'true'

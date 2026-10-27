@@ -53,8 +53,8 @@ Rules for adding one:
   Filesystem _writes_ into libs are expected; only imports are governed.
 - Run `npx nx sync` after adding one.
 
-`internals/repo-tools/src/check-agent-docs/agentDocsDrift.mjs` enforces the
-table and the first four rules.
+`internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs` enforces
+the table and the first four rules.
 
 ## Commands
 
@@ -170,7 +170,7 @@ One source, no duplication:
   consumer-facing names (e.g. `lumen-code`) free for the published tree.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
   `.github/instructions/*`) are thin pointers/wrappers — they must not restate
-  content. The `internals/repo-tools/src/check-agent-docs/agentDocsDrift.mjs`
+  content. The `internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs`
   drift check (run in CI as the
   `agent-drift` job via `npm run check:agent-docs`) enforces the mechanical
   invariants: the AGENTS.md index and the skill folders stay in bijection,
