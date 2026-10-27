@@ -173,6 +173,36 @@ export const WithCustomBeaconLabel: Story = {
   ),
 };
 
+export const WithSlottedBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel>
+            <circle cx={3} cy={12} r={3} fill={series.stroke} />
+            <text
+              x={12}
+              y={12}
+              dominantBaseline='central'
+              fontSize={12}
+              fontWeight={600}
+            >
+              {`$${value}`}
+            </text>
+          </DefaultBeaconLabel>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
 export const WithFullyCustomBeaconLabel: Story = {
   render: () => (
     <LineChart

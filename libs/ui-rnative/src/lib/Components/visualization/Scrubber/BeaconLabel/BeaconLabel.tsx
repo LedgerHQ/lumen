@@ -21,37 +21,43 @@ const useLayoutWidth = (): [number, (event: LayoutChangeEvent) => void] => {
 };
 
 /**
- * Default beacon label: a pill sized to its `label`, drawn from its top-left
- * corner.
+ * Default beacon label: a pill sized to its content, drawn from its top-left
+ * corner. Pass a `label` for text, or `children` for any SVG inside the pill.
  */
 export function DefaultBeaconLabel({
   label,
+  children,
   background,
   color,
 }: Readonly<DefaultBeaconLabelProps>) {
   const tokens = useChartTokens();
-  const [textWidth, onTextLayout] = useLayoutWidth();
+  const [contentWidth, onContentLayout] = useLayoutWidth();
 
   return (
     <G>
       <Rect
-        width={textWidth + beaconLabel.paddingX * 2}
+        width={contentWidth + beaconLabel.paddingX * 2}
         height={beaconLabel.height}
         rx={tokens.radius.xs}
         fill={background ?? tokens.color.surface}
       />
-      <SvgText
-        onLayout={onTextLayout}
+      <G
+        onLayout={onContentLayout}
         x={beaconLabel.paddingX}
-        y={beaconLabel.height / 2}
-        alignmentBaseline='central'
         fill={color ?? tokens.color.text}
-        fontSize={tokens.font.bodySize}
-        fontFamily={tokens.font.family}
-        fontWeight={tokens.font.bodyWeightMedium}
       >
-        {typeof label === 'number' ? String(label) : label}
-      </SvgText>
+        {children ?? (
+          <SvgText
+            y={beaconLabel.height / 2}
+            alignmentBaseline='central'
+            fontSize={tokens.font.bodySize}
+            fontFamily={tokens.font.family}
+            fontWeight={tokens.font.bodyWeightMedium}
+          >
+            {typeof label === 'number' ? String(label) : label}
+          </SvgText>
+        )}
+      </G>
     </G>
   );
 }

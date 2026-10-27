@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { Text as SvgText, TSpan } from 'react-native-svg';
+import { Circle, Text as SvgText, TSpan } from 'react-native-svg';
 
 import { LineChart } from '../LineChart';
 import { Point } from '../Point';
@@ -119,6 +119,35 @@ export const WithCustomBeaconLabel: Story = {
             background={series.stroke}
             color='#FFFFFF'
           />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithSlottedBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel>
+            <Circle cx={3} cy={12} r={3} fill={series.stroke} />
+            <SvgText
+              x={12}
+              y={12}
+              alignmentBaseline='central'
+              fontSize={12}
+              fontWeight='600'
+            >
+              {`$${value}`}
+            </SvgText>
+          </DefaultBeaconLabel>
         )}
       />
     </LineChart>

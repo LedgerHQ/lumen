@@ -4,52 +4,62 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import { chartConfig } from '../../config';
 import type { DrawingArea } from '../../utils/types';
 import { safeGetBBoxWidth } from '../DefaultScrubberTooltip/utils';
-import type { DefaultBeaconLabelProps, ScrubberProps } from '../types';
+import type {
+  DefaultBeaconLabelProps,
+  ScrubberProps,
+  SvgTextContent,
+} from '../types';
 import type { Beacon } from '../useScrubberGeometry';
 import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
 const { beaconLabel, font } = chartConfig;
 
 /**
- * Default beacon label: a pill sized to its `label`, drawn from its top-left
- * corner.
+ * Default beacon label: a pill sized to its content, drawn from its top-left
+ * corner. Pass a `label` for text, or `children` for any SVG inside the pill.
  */
 export function DefaultBeaconLabel({
   label,
+  children,
   background = beaconLabel.background,
   color = beaconLabel.valueColor,
 }: Readonly<DefaultBeaconLabelProps>) {
-  const textRef = useRef<SVGTextElement>(null);
-  const [textWidth, setTextWidth] = useState(0);
+  const contentRef = useRef<SVGGElement>(null);
+  const [contentWidth, setContentWidth] = useState(0);
 
   useLayoutEffect(() => {
-    setTextWidth(safeGetBBoxWidth(textRef.current));
-  }, [label]);
+    setContentWidth(safeGetBBoxWidth(contentRef.current));
+  }, [label, children]);
 
   return (
     <g>
       <rect
-        width={textWidth + beaconLabel.paddingX * 2}
+        width={contentWidth + beaconLabel.paddingX * 2}
         height={beaconLabel.height}
         fill={background}
         style={{ rx: beaconLabel.borderRadius }}
       />
-      <text
-        ref={textRef}
-        x={beaconLabel.paddingX}
-        y={beaconLabel.height / 2}
-        dominantBaseline='central'
+      <g
+        ref={contentRef}
+        transform={`translate(${beaconLabel.paddingX} 0)`}
         fill={color}
-        fontWeight={font.bodyWeightMedium}
-        style={{ fontSize: font.bodySize, fontFamily: font.family }}
       >
-        {label}
-      </text>
+        {children ?? (
+          <text
+            y={beaconLabel.height / 2}
+            dominantBaseline='central'
+            fontWeight={font.bodyWeightMedium}
+            style={{ fontSize: font.bodySize, fontFamily: font.family }}
+          >
+            {label}
+          </text>
+        )}
+      </g>
     </g>
   );
 }
 
-const seriesLabel = (beacon: Beacon): DefaultBeaconLabelProps['label'] => (
+const seriesLabel = (beacon: Beacon): SvgTextContent => (
   <tspan>
     <tspan fill={beaconLabel.titleColor}>
       {beacon.series.label ?? beacon.series.id}

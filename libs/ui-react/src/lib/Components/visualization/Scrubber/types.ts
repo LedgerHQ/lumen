@@ -133,21 +133,32 @@ export type BeaconLabelContext = {
 
 export type DefaultBeaconLabelProps = {
   /**
-   * Text shown in the pill. Pass a `<tspan>` to style parts of it.
-   */
-  label: SvgTextContent;
-  /**
    * Fill color of the pill.
    * @default background-muted
    */
   background?: string;
   /**
-   * Text color of the label. Parts of a styled `label` that set their own
-   * fill keep it.
+   * Default fill of the content. Elements that set their own fill keep it.
    * @default text-base
    */
   color?: string;
-};
+} & (
+  | {
+      /**
+       * Text shown in the pill. Pass a `<tspan>` to style parts of it.
+       */
+      label: SvgTextContent;
+      children?: never;
+    }
+  | {
+      label?: never;
+      /**
+       * Any SVG drawn inside the pill, for content a `label` can't hold
+       * (icons, shapes).
+       */
+      children: ReactNode;
+    }
+);
 
 export type ScrubberProps = {
   /**

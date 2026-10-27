@@ -61,6 +61,12 @@ default pill, and set `background` and `color` to recolor it.
 
 <Canvas of={ScrubberStories.WithCustomBeaconLabel} />
 
+To keep the pill but draw content a `label` can't hold, such as an icon or a
+shape, pass SVG as `children` instead. Draw it from the origin; the pill adds
+the padding and grows to fit it.
+
+<Canvas of={ScrubberStories.WithSlottedBeaconLabel} />
+
 For full control, skip `DefaultBeaconLabel` and draw any SVG from the origin,
 as long as it stays within 24px of height.
 
