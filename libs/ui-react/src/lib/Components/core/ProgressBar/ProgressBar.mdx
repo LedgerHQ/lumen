@@ -73,8 +73,6 @@ The track spans the full width of its container, so size the bar by sizing its c
 - **Without a visible label**: pass `aria-label`, for example `aria-label='Upload progress'`.
 - **When the spoken name should differ from the visible text**: pass both. `aria-label` takes precedence over `label` for assistive technology, while the label stays visible.
 
-<Canvas of={ProgressBarStories.WithAriaLabel} />
-
 </Tab>
 <Tab label="Implementation">
 
@@ -112,7 +110,13 @@ A bar without a visible label needs an `aria-label`:
 
 ### Custom accessible name
 
-<Source of={ProgressBarStories.WithAriaLabel} />
+```tsx
+<ProgressBar
+  value={33}
+  label='4 of 12'
+  aria-label='Account sync progress'
+/>
+```
 
 </Tab>
 </CustomTabs>

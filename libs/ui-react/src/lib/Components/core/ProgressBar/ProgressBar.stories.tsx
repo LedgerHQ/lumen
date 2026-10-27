@@ -136,13 +136,3 @@ export const WithRichLabel: Story = {
     />
   ),
 };
-
-export const WithAriaLabel: Story = {
-  render: () => (
-    <ProgressBar
-      value={33}
-      label='4 of 12'
-      aria-label='Account sync progress'
-    />
-  ),
-};

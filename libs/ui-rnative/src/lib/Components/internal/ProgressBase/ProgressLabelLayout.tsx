@@ -54,16 +54,16 @@ const useLabelStyles = ({
 export const ProgressLabelLayout = ({
   label,
   labelPosition = 'start-bottom',
-  lx,
   style,
   children,
+  ...props
 }: ProgressLabelLayoutProps) => {
   const styles = useLabelStyles({ labelPosition });
 
   if (!hasProgressLabel(label)) return children;
 
   return (
-    <Box lx={lx} style={StyleSheet.flatten([styles.layout, style])}>
+    <Box {...props} style={StyleSheet.flatten([styles.layout, style])}>
       <Text typography='body4' style={styles.label}>
         {label}
       </Text>
