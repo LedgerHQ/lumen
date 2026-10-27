@@ -27,6 +27,14 @@
       "dependencyTypes": ["dev", "prod"]
     },
     {
+      "aliasName": "storybook (on-device family)",
+      "dependencies": [
+        "@storybook/react-native",
+        "@storybook/addon-ondevice-*"
+      ],
+      "dependencyTypes": ["dev", "prod"]
+    },
+    {
       "aliasName": "react (family)",
       "dependencies": ["react", "react-dom", "react-test-renderer"],
       "dependencyTypes": ["dev", "prod"]
@@ -53,6 +61,16 @@
     }
   ],
   "versionGroups": [
+    {
+      "label": "Deprecated since Storybook 8: import from storybook/test instead",
+      "dependencies": ["@storybook/jest", "@storybook/testing-library"],
+      "isBanned": true
+    },
+    {
+      "label": "Superseded by the @storybook/react-native-web-vite framework",
+      "dependencies": ["@storybook/addon-react-native-web"],
+      "isBanned": true
+    },
     {
       "label": "Sandbox apps consume the local libs straight from the workspace",
       "packages": ["app-sandbox-*"],
