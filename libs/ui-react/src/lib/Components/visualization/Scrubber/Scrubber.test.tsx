@@ -115,6 +115,79 @@ describe('Scrubber', () => {
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
   });
 
+  it('rests beacons at the end of each line while idle', () => {
+    const { getByTestId, queryByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    expect(getByTestId('scrubber-beacon-s1')).toBeTruthy();
+    expect(getByTestId('scrubber-beacon-s2')).toBeTruthy();
+    expect(queryByTestId('scrubber-line')).toBeNull();
+    expect(queryByTestId('scrubber-overlay')).toBeNull();
+    expect(getByTestId('scrubber-beacon-s1').getAttribute('cx')).toBe(
+      getByTestId('scrubber-beacon-s2').getAttribute('cx'),
+    );
+  });
+
+  it('follows the pointer, then returns to the end of the line', () => {
+    const { getByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    const svg = getByTestId('chart-svg');
+    const idleX = getByTestId('scrubber-beacon-s1').getAttribute('cx');
+
+    activateScrubber(svg, 100);
+    expect(getByTestId('scrubber-beacon-s1').getAttribute('cx')).not.toBe(
+      idleX,
+    );
+
+    act(() => {
+      fireEvent.mouseLeave(svg);
+    });
+    expect(getByTestId('scrubber-beacon-s1').getAttribute('cx')).toBe(idleX);
+  });
+
+  it('pulses only while idle and when idlePulse is true', () => {
+    const { getByTestId, queryAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true, idlePulse: true },
+    });
+    expect(queryAllByTestId('scrubber-pulse')).toHaveLength(2);
+
+    activateScrubber(getByTestId('chart-svg'));
+    expect(queryAllByTestId('scrubber-pulse')).toHaveLength(0);
+  });
+
+  it('hides beacons while loading, then reveals them once loaded', () => {
+    const renderChart = (loading: boolean) => (
+      <CartesianChart
+        series={sampleSeries}
+        width={400}
+        height={200}
+        enableScrubbing
+        ariaBusy={loading}
+      >
+        <Scrubber showBeacons idlePulse />
+      </CartesianChart>
+    );
+    const { getByTestId, queryAllByTestId, rerender } = render(
+      renderChart(true),
+    );
+    expect(queryAllByTestId(/scrubber-beacon-/)).toHaveLength(0);
+    expect(queryAllByTestId('scrubber-pulse')).toHaveLength(0);
+
+    rerender(renderChart(false));
+    expect(queryAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
+    expect(
+      getByTestId('scrubber-beacon-s1').parentElement?.style.animation,
+    ).toContain('reveal-fade');
+  });
+
+  it('does not pulse by default', () => {
+    const { queryAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    expect(queryAllByTestId('scrubber-pulse')).toHaveLength(0);
+  });
+
   it('hides the scrubber group on mouseleave', () => {
     const { getByTestId, queryByTestId } = renderScrubber();
     const svg = getByTestId('chart-svg');

@@ -31,6 +31,22 @@ tracks the same index across all series in a multi-line chart.
 
 <Canvas of={ScrubberStories.WithBeacons} />
 
+## Idle beacons & pulse
+
+With `showBeacons`, the beacons stay at the end of each line while idle and
+follow the pointer while scrubbing. Add `idlePulse` to pulse them while idle,
+useful for live data. The pulse is disabled under
+`prefers-reduced-motion`.
+
+<Canvas of={ScrubberStories.WithIdlePulse} />
+
+## Beacons while loading
+
+Beacons are hidden while the chart's `loading` is set, so they never sit on
+the placeholder or the muted lines of a refetch.
+
+<Canvas of={ScrubberStories.WithLoading} />
+
 ## Conditional tooltips
 
 Return `{ items: [] }` from the `tooltip` callback to hide the tooltip at a

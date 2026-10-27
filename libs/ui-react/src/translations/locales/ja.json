@@ -45,10 +45,11 @@
       "showMore": "もっと見る"
     },
     "pagination": {
-      "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "navigationAriaLabel": "ページネーション",
+      "previousPageAriaLabel": "前のページ",
+      "nextPageAriaLabel": "次のページ",
+      "pageAriaLabel": "{{page}} ページ",
+      "pageOfTotal": "{{current}} / {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

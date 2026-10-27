@@ -38,7 +38,7 @@ describe('getPaginationRange', () => {
       3,
       4,
       5,
-      'ellipsis',
+      'end-ellipsis',
       20,
     ]);
   });
@@ -50,7 +50,7 @@ describe('getPaginationRange', () => {
       3,
       4,
       5,
-      'ellipsis',
+      'end-ellipsis',
       20,
     ]);
   });
@@ -58,7 +58,7 @@ describe('getPaginationRange', () => {
   it('should show a left ellipsis near the end', () => {
     expect(getPaginationRange(20, 20, 1)).toEqual([
       1,
-      'ellipsis',
+      'start-ellipsis',
       16,
       17,
       18,
@@ -70,7 +70,7 @@ describe('getPaginationRange', () => {
   it('should show a left ellipsis on the second-to-last page', () => {
     expect(getPaginationRange(19, 20, 1)).toEqual([
       1,
-      'ellipsis',
+      'start-ellipsis',
       16,
       17,
       18,
@@ -82,11 +82,11 @@ describe('getPaginationRange', () => {
   it('should show both ellipses in the middle', () => {
     expect(getPaginationRange(10, 20, 1)).toEqual([
       1,
-      'ellipsis',
+      'start-ellipsis',
       9,
       10,
       11,
-      'ellipsis',
+      'end-ellipsis',
       20,
     ]);
   });
@@ -94,13 +94,13 @@ describe('getPaginationRange', () => {
   it('should respect siblingCount', () => {
     expect(getPaginationRange(10, 20, 2)).toEqual([
       1,
-      'ellipsis',
+      'start-ellipsis',
       8,
       9,
       10,
       11,
       12,
-      'ellipsis',
+      'end-ellipsis',
       20,
     ]);
   });
@@ -114,7 +114,7 @@ describe('getPaginationRange', () => {
       5,
       6,
       7,
-      'ellipsis',
+      'end-ellipsis',
       20,
     ]);
   });
@@ -122,7 +122,7 @@ describe('getPaginationRange', () => {
   it('should clamp siblings when page is near the end', () => {
     expect(getPaginationRange(20, 20, 2)).toEqual([
       1,
-      'ellipsis',
+      'start-ellipsis',
       14,
       15,
       16,
@@ -136,9 +136,9 @@ describe('getPaginationRange', () => {
   it('should support siblingCount of 0', () => {
     expect(getPaginationRange(10, 20, 0)).toEqual([
       1,
-      'ellipsis',
+      'start-ellipsis',
       10,
-      'ellipsis',
+      'end-ellipsis',
       20,
     ]);
   });

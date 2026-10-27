@@ -58,6 +58,15 @@ export const MultiSeries: Story = {
   args: {},
 };
 
+export const IdlePulse: Story = {
+  render: (args: ScrubberProps) => (
+    <LineChart series={multiSeries} height={200} enableScrubbing>
+      <Scrubber {...args} showBeacons idlePulse />
+    </LineChart>
+  ),
+  args: {},
+};
+
 export const HiddenLine: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   render: (args: ScrubberProps) => (

@@ -27,6 +27,13 @@
     },
     "stepper": {
       "progressAriaLabel": "ขั้นตอนที่ {{currentStep}} จาก {{totalSteps}}"
+    },
+    "pagination": {
+      "navigationAriaLabel": "การแบ่งหน้า",
+      "previousPageAriaLabel": "หน้าก่อนหน้า",
+      "nextPageAriaLabel": "หน้าถัดไป",
+      "pageAriaLabel": "หน้า {{page}}",
+      "pageOfTotal": "{{current}} จาก {{total}}"
     }
   }
 }

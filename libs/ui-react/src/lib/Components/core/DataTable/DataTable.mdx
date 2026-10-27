@@ -44,6 +44,12 @@ Pass `getRowProps` to `DataTableRoot` to add native attributes, styles, classes,
 
 <Canvas of={DataTableStories.WithRowProps} />
 
+## Active Row
+
+Return `active` from `getRowProps` to highlight the row the user is currently working with, for example the one whose details are open in a side panel. Pair it with `onRowClick` to track the active row in your own state.
+
+<Canvas of={DataTableStories.WithActiveRow} />
+
 ## Columns Layout
 
 Use `meta.className` on column definition to define custom width using design-tokens.  

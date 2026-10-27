@@ -1,4 +1,4 @@
-export type PaginationRangeItem = number | 'ellipsis';
+export type PaginationRangeItem = number | 'start-ellipsis' | 'end-ellipsis';
 
 const FIRST_PAGE = 1;
 const SIBLING_SIDES = 2;
@@ -47,7 +47,7 @@ export const getPaginationRange = (
       getCollapsedClusterPageCount(siblingCount),
     );
 
-    return [...startClusterRange, 'ellipsis', totalPages];
+    return [...startClusterRange, 'end-ellipsis', totalPages];
   }
 
   if (shouldShowLeftEllipsis && !shouldShowRightEllipsis) {
@@ -57,13 +57,19 @@ export const getPaginationRange = (
       totalPages,
     );
 
-    return [FIRST_PAGE, 'ellipsis', ...endClusterRange];
+    return [FIRST_PAGE, 'start-ellipsis', ...endClusterRange];
   }
 
   if (shouldShowLeftEllipsis && shouldShowRightEllipsis) {
     const middleRange = range(leftSiblingIndex, rightSiblingIndex);
 
-    return [FIRST_PAGE, 'ellipsis', ...middleRange, 'ellipsis', totalPages];
+    return [
+      FIRST_PAGE,
+      'start-ellipsis',
+      ...middleRange,
+      'end-ellipsis',
+      totalPages,
+    ];
   }
 
   return range(FIRST_PAGE, totalPages);

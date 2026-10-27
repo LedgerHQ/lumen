@@ -150,6 +150,24 @@ export const resolvePixelY = (
 };
 
 /**
+ * Returns the index of the last finite value in a series, or undefined when
+ * the series has none. Anchors the idle beacon at the end of the line.
+ */
+export const resolveLastIndex = (
+  seriesData: (number | null)[] | undefined,
+): number | undefined => {
+  if (!seriesData) {
+    return undefined;
+  }
+  for (let i = seriesData.length - 1; i >= 0; i--) {
+    if (Number.isFinite(seriesData[i])) {
+      return i;
+    }
+  }
+  return undefined;
+};
+
+/**
  * Resolves the pixel x-coordinate for a given data index using the x-scale.
  * When numeric x-axis data is provided, the corresponding axis value is used;
  * otherwise the data index is used as the x input.

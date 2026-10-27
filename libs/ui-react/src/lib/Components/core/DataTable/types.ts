@@ -109,6 +109,7 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   onRowClick?: (row: Row<TData>) => void;
   /**
    * Returns native props to apply to a rendered data row.
+   * Return `active: true` to highlight the active row.
    * @default undefined
    */
   getRowProps?: (row: Row<TData>) => DataTableRowProps | undefined;

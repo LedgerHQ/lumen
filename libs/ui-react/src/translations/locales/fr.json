@@ -46,9 +46,10 @@
     },
     "pagination": {
       "navigationAriaLabel": "Pagination",
-      "previousPageAriaLabel": "Previous page",
-      "nextPageAriaLabel": "Next page",
-      "pageAriaLabel": "Page {{page}}"
+      "previousPageAriaLabel": "Page précédente",
+      "nextPageAriaLabel": "Page suivante",
+      "pageAriaLabel": "Page {{page}}",
+      "pageOfTotal": "{{current}} sur {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

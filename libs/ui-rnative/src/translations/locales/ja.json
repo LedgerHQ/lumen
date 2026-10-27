@@ -27,6 +27,13 @@
     },
     "stepper": {
       "progressAriaLabel": "ステップ{{currentStep}}/{{totalSteps}}"
+    },
+    "pagination": {
+      "navigationAriaLabel": "ページネーション",
+      "previousPageAriaLabel": "前のページ",
+      "nextPageAriaLabel": "次のページ",
+      "pageAriaLabel": "{{page}} ページ",
+      "pageOfTotal": "{{current}} / {{total}}"
     }
   }
 }
