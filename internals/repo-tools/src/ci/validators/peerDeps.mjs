@@ -68,6 +68,13 @@ for (const lib of libs) {
       continue;
     }
 
+    // A range with no upper bound (`>=2.0.0`, `*`) accepts majors we never tested.
+    if (semver.satisfies('99999.0.0', range)) {
+      failed += 1;
+      fail(`${name}: peer ${range} has no upper bound`);
+      continue;
+    }
+
     ok(`${name} ${installed} ∈ ${range}`);
   }
 }
