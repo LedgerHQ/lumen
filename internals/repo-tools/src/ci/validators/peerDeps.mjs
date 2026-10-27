@@ -37,6 +37,12 @@ const lockedPackages = readJson('package-lock.json').packages;
 const libs = publishableLibs();
 // Local libs are versioned by nx release, not installed from the registry.
 const localNames = new Set(libs.map((lib) => lib.name));
+// Published before this check existed. Bounding them narrows what consumers may
+// install, so it waits for a planned release rather than a dependency chore.
+/** @type {Record<string, string[]>} */
+const unboundedPeerExceptions = {
+  '@ledgerhq/lumen-ui-rnative': ['react-native-gesture-handler', 'expo'],
+};
 
 let failed = 0;
 
@@ -69,7 +75,10 @@ for (const lib of libs) {
     }
 
     // A range with no upper bound (`>=2.0.0`, `*`) accepts majors we never tested.
-    if (semver.satisfies('99999.0.0', range)) {
+    if (
+      semver.satisfies('99999.0.0', range) &&
+      !unboundedPeerExceptions[lib.name]?.includes(name)
+    ) {
       failed += 1;
       fail(`${name}: peer ${range} has no upper bound`);
       continue;

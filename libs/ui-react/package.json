@@ -49,6 +49,7 @@
   "dependencies": {
     "@ledgerhq/lumen-utils-shared": "0.1.18",
     "@types/d3-scale": "^4.0.9",
+    "@types/d3-shape": "^3.1.8",
     "d3-scale": "^4.0.2",
     "d3-shape": "^3.2.0"
   },
