@@ -58,7 +58,8 @@ Never loosen a rule for everyone. Each exception names its package and says why:
   (the first matching group wins) with a `label` giving the reason.
 - **A package that must not come back**: a `versionGroups` entry with
   `isBanned: true` and a `label`.
-- **A peer with no upper bound**: `unboundedPeerExceptions` in
+- **A peer with no upper bound**: a `{ name, reason }` entry in
+  `unboundedPeerExceptions` in
   `internals/repo-tools/src/check-peer-deps/peerDeps.mjs`. The check fails once
   the range is bounded, so remove the entry then.
 

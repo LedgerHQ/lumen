@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { checkPeer, isUnbounded } from './peerDeps.mjs';
+import {
+  checkPeer,
+  isUnbounded,
+  unboundedPeerExceptions,
+} from './peerDeps.mjs';
 
 /**
  * @param {string} name
@@ -127,4 +131,14 @@ describe('isUnbounded', () => {
       expect(isUnbounded(range)).toBe(false);
     },
   );
+});
+
+describe('unboundedPeerExceptions', () => {
+  it('gives every exception a reason', () => {
+    for (const exceptions of Object.values(unboundedPeerExceptions)) {
+      for (const { reason } of exceptions) {
+        expect(reason.trim()).not.toBe('');
+      }
+    }
+  });
 });

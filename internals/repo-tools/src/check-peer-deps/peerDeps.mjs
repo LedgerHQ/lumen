@@ -18,11 +18,21 @@ import {
   workspaceRoot,
 } from '../shared/workspaceProjects.mjs';
 
-// Published before this check existed. Bounding them narrows what consumers may
-// install, so it waits for a planned release rather than a dependency chore.
-/** @type {Record<string, string[]>} */
+// Each entry says why, like a syncpack `label`. Bounding a published peer
+// narrows what consumers may install, so it waits for a planned release.
+/** @type {Record<string, { name: string, reason: string }[]>} */
 export const unboundedPeerExceptions = {
-  '@ledgerhq/lumen-ui-rnative': ['react-native-gesture-handler', 'expo'],
+  '@ledgerhq/lumen-ui-rnative': [
+    {
+      name: 'react-native-gesture-handler',
+      reason: 'published as >=2.0.0 before this check existed',
+    },
+    {
+      name: 'expo',
+      reason:
+        'published as >=54.0.0 before this check existed; only sets the SDK floor expo-haptics ~15 needs',
+    },
+  ],
 };
 
 /**
@@ -123,7 +133,9 @@ export function checkPeerDeps() {
       if (localNames.has(name)) continue;
 
       const result = checkPeer(name, range, workspace, {
-        allowUnbounded: unboundedPeerExceptions[lib.name]?.includes(name),
+        allowUnbounded: unboundedPeerExceptions[lib.name]?.some(
+          (exception) => exception.name === name,
+        ),
       });
       if (result.ok) {
         ok(`${name} ${result.installed} ∈ ${range}`);
