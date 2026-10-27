@@ -26,7 +26,7 @@
 //
 // Deterministic, no dependencies. Run: node internals/repo-tools/src/check-agent-docs/agentDocsDrift.mjs
 
-import { readFileSync, readdirSync, existsSync } from 'node:fs';
+import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -167,6 +167,8 @@ const globToRegex = (glob) => {
 const anyFileMatches = (regex, startRel) => {
   const startAbs = join(root, startRel || '.');
   if (!existsSync(startAbs)) return false;
+  // A glob without wildcards is its own prefix: a file, not a folder to walk.
+  if (!statSync(startAbs).isDirectory()) return regex.test(startRel);
   const stack = [startRel || ''];
   while (stack.length) {
     const relDir = stack.pop() ?? '';
