@@ -38,7 +38,7 @@ export function DefaultBeaconLabel({
         ref={textRef}
         x={beaconLabel.paddingX}
         y={beaconLabel.height / 2}
-        dominantBaseline='middle'
+        dominantBaseline='central'
         fill={color}
         fontWeight={font.bodyWeightMedium}
         style={{ fontSize: font.bodySize, fontFamily: font.family }}
