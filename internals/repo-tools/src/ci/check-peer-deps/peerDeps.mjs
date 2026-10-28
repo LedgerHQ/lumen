@@ -1,11 +1,8 @@
 #!/usr/bin/env node
 /**
- * Every peer a published lib declares must be in the root devDependencies, and
- * the version the lockfile installs must satisfy the peer range — otherwise we
- * build, test and document against a version we tell consumers they cannot use.
- *
- * Complements syncpack: it keeps each package on a single version, but cannot
- * relate a peer range to the devDependency it is tested with.
+ * Every peer a published lib declares must be a root devDependency whose
+ * installed version satisfies the peer range, or we test against a version
+ * consumers are told they cannot use. syncpack cannot relate the two.
  *
  * Run: node internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs
  */
@@ -18,8 +15,8 @@ import {
   workspaceRoot,
 } from '../../shared/workspaceProjects.mjs';
 
-// Each entry says why, like a syncpack `label`. Bounding a published peer
-// narrows what consumers may install, so it waits for a planned release.
+// Bounding a published peer narrows what consumers may install, so it waits
+// for a planned release.
 /** @type {Record<string, { name: string, reason: string }[]>} */
 export const unboundedPeerExceptions = {
   '@ledgerhq/lumen-ui-rnative': [
@@ -47,7 +44,6 @@ export const unboundedPeerExceptions = {
  */
 
 /**
- * A range with no upper bound (`>=2.0.0`, `*`) accepts majors we never tested.
  * @param {string} range
  * @returns {boolean}
  */

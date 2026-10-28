@@ -109,10 +109,9 @@ const devOnlyFiles = [
 ];
 
 /**
- * `@nx/dependency-checks` for a published lib: its package.json must declare
- * what the shipped code imports, and nothing else. A lib passes only its own
- * extras, with a comment saying why; options are not merged across configs,
- * so overriding the rule elsewhere would drop the shared `devOnlyFiles`.
+ * `@nx/dependency-checks` for a published lib. Rule options are not merged
+ * across configs, so a lib passes its extras here rather than overriding the
+ * rule, which would drop `devOnlyFiles`.
  * @param {{ ignoredFiles?: string[], ignoredDependencies?: string[] }} [options]
  * @returns {Linter.Config}
  */

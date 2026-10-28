@@ -67,7 +67,6 @@ describe('checkPeer', () => {
     });
   });
 
-  // The declared floor (5.0.0) is outside the peer, the installed version is not.
   it('judges the installed version, not the declared range floor', () => {
     expect(
       checkPeer(
