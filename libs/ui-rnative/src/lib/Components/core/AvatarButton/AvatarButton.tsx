@@ -1,5 +1,5 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { Pressable } from '../../primitives';
 import { Avatar } from '../Avatar/Avatar';
@@ -66,7 +66,11 @@ const useStyles = ({ disabled }: { disabled: boolean }) =>
         ...(disabled && { opacity: 0.3 }),
       },
       overlay: {
-        ...StyleSheet.absoluteFill,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         borderRadius: 9999,
       },
       overlayPressed: {
