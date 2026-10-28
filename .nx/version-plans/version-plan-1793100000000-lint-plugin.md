@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-lint-plugin': patch
 ---
 
-fix(lint-plugin): turn off `shadcn/no-restyle` in the recommended preset.
+fix(lint-plugin): remove `shadcn/no-restyle` and `NO_RESTYLE_OPTIONS` from the presets
