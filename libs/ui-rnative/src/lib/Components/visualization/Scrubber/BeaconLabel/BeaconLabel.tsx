@@ -1,24 +1,17 @@
-import { useCallback, useState } from 'react';
-import type { ReactNode } from 'react';
-import type { LayoutChangeEvent } from 'react-native';
+import {
+  computeBeaconLabelX,
+  computeBeaconLabelYs,
+} from '@ledgerhq/lumen-utils-shared';
 import { G, Rect, Text as SvgText, TSpan } from 'react-native-svg';
 
 import { chartConfig, useChartTokens } from '../../config';
 import type { DrawingArea } from '../../utils/types';
+import { PositionedLabel } from '../PositionedLabel/PositionedLabel';
+import { useLayoutWidth } from '../PositionedLabel/useLayoutWidth';
 import type { DefaultBeaconLabelProps, ScrubberProps } from '../types';
 import type { Beacon } from '../useScrubberGeometry';
-import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
-const { beaconLabel } = chartConfig;
-
-const useLayoutWidth = (): [number, (event: LayoutChangeEvent) => void] => {
-  const [width, setWidth] = useState(0);
-  const onLayout = useCallback(
-    (event: LayoutChangeEvent) => setWidth(event.nativeEvent.layout.width),
-    [],
-  );
-  return [width, onLayout];
-};
+const { beaconLabel, scrubber } = chartConfig;
 
 /**
  * Default beacon label: a pill sized to its content, drawn from its top-left
@@ -96,13 +89,21 @@ export function ScrubberBeaconLabels({
   const ys = computeBeaconLabelYs(
     sorted.map((b) => b.pixelY),
     drawingArea,
+    beaconLabel,
   );
 
   return sorted.map((beacon, i) => (
     <PositionedLabel
       key={beacon.id}
       testID={`scrubber-beacon-label-${beacon.id}`}
-      placeX={(width) => computeBeaconLabelX(pixelX, width, drawingArea)}
+      placeX={(width) =>
+        computeBeaconLabelX(
+          pixelX,
+          width,
+          drawingArea,
+          scrubber.beaconRadius + beaconLabel.gap,
+        )
+      }
       y={ys[i]}
     >
       {renderLabel ? (
@@ -112,34 +113,4 @@ export function ScrubberBeaconLabels({
       )}
     </PositionedLabel>
   ));
-}
-
-type PositionedLabelProps = {
-  testID: string;
-  placeX: (width: number) => number;
-  y: number;
-  children: ReactNode;
-};
-
-export function PositionedLabel({
-  testID,
-  placeX,
-  y,
-  children,
-}: Readonly<PositionedLabelProps>) {
-  const [width, onLayout] = useLayoutWidth();
-  const x = placeX(width);
-
-  return (
-    <G
-      testID={testID}
-      onLayout={onLayout}
-      x={x}
-      y={y}
-      opacity={width === 0 ? 0 : 1}
-      pointerEvents='none'
-    >
-      {children}
-    </G>
-  );
 }

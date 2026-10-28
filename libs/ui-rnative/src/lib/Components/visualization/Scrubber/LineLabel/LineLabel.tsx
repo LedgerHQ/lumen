@@ -1,15 +1,15 @@
+import {
+  computeLineLabelX,
+  computeLineLabelY,
+} from '@ledgerhq/lumen-utils-shared';
 import { G, Text as SvgText } from 'react-native-svg';
 
 import { useCartesianChartContext } from '../../CartesianChart/context';
 import { chartConfig, useChartTokens } from '../../config';
 import type { DrawingArea } from '../../utils/types';
-import { PositionedLabel } from '../BeaconLabel/BeaconLabel';
+import { PositionedLabel } from '../PositionedLabel/PositionedLabel';
 import type { DefaultLineLabelProps, ScrubberProps } from '../types';
-import {
-  computeLineLabelX,
-  computeLineLabelY,
-  resolveLineLabelContext,
-} from './utils';
+import { resolveLineLabelContext } from './utils';
 
 const { lineLabel } = chartConfig;
 
@@ -60,7 +60,7 @@ export function ScrubberLineLabel({
     <PositionedLabel
       testID='scrubber-line-label'
       placeX={(width) => computeLineLabelX(pixelX, width, drawingArea)}
-      y={computeLineLabelY(drawingArea)}
+      y={computeLineLabelY(drawingArea, lineLabel)}
     >
       {renderLabel ? (
         renderLabel(context)

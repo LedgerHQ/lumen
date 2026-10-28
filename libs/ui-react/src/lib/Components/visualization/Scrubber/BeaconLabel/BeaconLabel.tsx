@@ -1,18 +1,20 @@
-import type { ReactNode } from 'react';
-import { useLayoutEffect, useRef, useState } from 'react';
+import {
+  computeBeaconLabelX,
+  computeBeaconLabelYs,
+} from '@ledgerhq/lumen-utils-shared';
 
 import { chartConfig } from '../../config';
 import type { DrawingArea } from '../../utils/types';
-import { safeGetBBoxWidth } from '../DefaultScrubberTooltip/utils';
+import { PositionedLabel } from '../PositionedLabel/PositionedLabel';
+import { useMeasuredWidth } from '../PositionedLabel/useMeasuredWidth';
 import type {
   DefaultBeaconLabelProps,
   ScrubberProps,
   SvgTextContent,
 } from '../types';
 import type { Beacon } from '../useScrubberGeometry';
-import { computeBeaconLabelX, computeBeaconLabelYs } from './utils';
 
-const { beaconLabel, font } = chartConfig;
+const { beaconLabel, font, scrubber } = chartConfig;
 
 /**
  * Default beacon label: a pill sized to its content, drawn from its top-left
@@ -24,12 +26,7 @@ export function DefaultBeaconLabel({
   background = beaconLabel.background,
   color = beaconLabel.valueColor,
 }: Readonly<DefaultBeaconLabelProps>) {
-  const contentRef = useRef<SVGGElement>(null);
-  const [contentWidth, setContentWidth] = useState(0);
-
-  useLayoutEffect(() => {
-    setContentWidth(safeGetBBoxWidth(contentRef.current));
-  }, [label, children]);
+  const [contentRef, contentWidth] = useMeasuredWidth([label, children]);
 
   return (
     <g>
@@ -85,6 +82,7 @@ export function ScrubberBeaconLabels({
   const ys = computeBeaconLabelYs(
     sorted.map((b) => b.pixelY),
     drawingArea,
+    beaconLabel,
   );
 
   return sorted.map((beacon, i) => (
@@ -92,7 +90,14 @@ export function ScrubberBeaconLabels({
       key={beacon.id}
       testId={`scrubber-beacon-label-${beacon.id}`}
       measureKey={beacon.value}
-      placeX={(width) => computeBeaconLabelX(pixelX, width, drawingArea)}
+      placeX={(width) =>
+        computeBeaconLabelX(
+          pixelX,
+          width,
+          drawingArea,
+          scrubber.beaconRadius + beaconLabel.gap,
+        )
+      }
       y={ys[i]}
     >
       {renderLabel ? (
@@ -102,52 +107,4 @@ export function ScrubberBeaconLabels({
       )}
     </PositionedLabel>
   ));
-}
-
-type PositionedLabelProps = {
-  testId: string;
-  measureKey: number;
-  placeX: (width: number) => number;
-  y: number;
-  children: ReactNode;
-};
-
-export function PositionedLabel({
-  testId,
-  measureKey,
-  placeX,
-  y,
-  children,
-}: Readonly<PositionedLabelProps>) {
-  const ref = useRef<SVGGElement>(null);
-  const [width, setWidth] = useState(0);
-
-  useLayoutEffect(() => {
-    setWidth(safeGetBBoxWidth(ref.current));
-  }, [testId, measureKey]);
-
-  useLayoutEffect(() => {
-    const element = ref.current;
-    if (!element || typeof ResizeObserver === 'undefined') {
-      return;
-    }
-    const observer = new ResizeObserver(() => {
-      setWidth(safeGetBBoxWidth(element));
-    });
-    observer.observe(element);
-    return () => observer.disconnect();
-  }, []);
-
-  const x = placeX(width);
-
-  return (
-    <g
-      ref={ref}
-      data-testid={testId}
-      transform={`translate(${x} ${y})`}
-      pointerEvents='none'
-    >
-      {children}
-    </g>
-  );
 }
