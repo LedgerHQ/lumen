@@ -5,6 +5,7 @@ import { LineChart } from '../LineChart';
 import { Point } from '../Point';
 
 import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
+import { DefaultLineLabel } from './LineLabel/LineLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -205,6 +206,84 @@ const tooltipDates = [
 ];
 
 const tooltipAnnotatedIndices = new Set([4, 9]);
+
+const monthXAxis = {
+  data: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+};
+
+export const WithLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={monthXAxis}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber showLineLabel showBeacons />
+    </LineChart>
+  ),
+};
+
+export const WithCustomLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={monthXAxis}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label }) => (
+          <DefaultLineLabel label={`${label} 2026`} color='#7B61FF' />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithFullyCustomLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={monthXAxis}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label, dataIndex }) => (
+          <SvgText y={8} alignmentBaseline='central'>
+            <TSpan fontSize={12} fontWeight={600}>
+              {label.toUpperCase()}
+            </TSpan>
+            <TSpan dx={6} fontSize={10} fill='#999999'>
+              {`#${dataIndex + 1}`}
+            </TSpan>
+          </SvgText>
+        )}
+      />
+    </LineChart>
+  ),
+};
 
 export const WithBaseTooltip: Story = {
   render: () => (
