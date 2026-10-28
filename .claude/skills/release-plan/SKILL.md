@@ -77,7 +77,8 @@ are defined authoritatively in `nx.json` under
 `release.versionPlans.ignorePatternsForPlanCheck`: `*.test.*` / `*.spec.*`,
 `*.stories.*`, `*.md`, `*.mdx`, `*.figma.@(ts|tsx)`, `tsconfig*.json`, eslint
 configs, `jest.config.*`, `test-setup.*`, `*.snap`, `.storybook/**`. A PR
-touching only these needs no plan.
+touching only these needs no plan. A lib's `package.json` is not exempt: any
+edit to it, devDependencies included, needs a plan.
 
 `internals/*` is outside `release.projects`, so a PR touching only `internals/*`
 never needs a plan.

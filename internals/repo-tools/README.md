@@ -10,19 +10,30 @@ project carries only `lint`, `typecheck` and `test`.
 
 ## Layout
 
-| Path | What |
-| --- | --- |
-| `src/ci/validators/` | Checks that fail CI — one file per invariant |
-| `src/ci/` | Workflow helpers that replace inline bash |
-| `src/lib/` | Shared helpers (Nx graph access, logging) |
+`src/` is grouped by where a script runs. Today everything runs in CI, so it
+all sits in `ci/`; a future group (local codegen, release helpers…) gets its own
+folder next to it. Inside a group, one folder per use case, named after the npm
+script or workflow that runs it. A `check-*` folder is a CI gate.
 
-## Workflow helpers
+| Folder | Intent | Entry point | Run by |
+| --- | --- | --- | --- |
+| `ci/check-agent-docs/` | AGENTS.md, skills and the codebase stay in sync | `agentDocsDrift.mjs` | `npm run check:agent-docs`, `pr.yml` job `agent-drift` |
+| `ci/check-package-exports/` | Every advertised export ships in the tarball | `packageExports.mjs` | `npm run check:package-exports`, `pr.yml` job `bundle-checks` |
+| `ci/check-peer-deps/` | Lib peers accept the versions we test with | `peerDeps.mjs` | `npm run check:peer-deps`, `pr.yml` job `dependency-alignment` |
+| `ci/fix-lcov-paths/` | Coverage paths SonarCloud can resolve | `fixLcovPaths.mjs` | `pr.yml` job `unit-testing` |
+| `ci/publish-dev-packages/` | Per-PR dev tarballs and their PR comment | `getPublishableProjects.mjs`, `generateTarballs.mjs` | `publish-dev-packages.yml` |
+| `shared/` | Which libs exist and publish; console output | `workspaceProjects.mjs`, `logging.mjs` | imported only |
 
-| Script | Replaces | Used by |
-| --- | --- | --- |
-| `ci/fixLcovPaths.mjs` | two hand-kept lib lists in `pr.yml` | `pr.yml` job `unit-testing` |
-| `ci/getPublishableProjects.mjs` | the `--projects='libs/*'` glob | `publish-dev-packages.yml` |
-| `ci/generateTarballs.mjs` | ~45 lines of inline bash | `publish-dev-packages.yml` |
+A new script goes in the folder of its use case, or in a new folder named after
+its npm script or workflow. Tests sit next to the code as `*.test.mjs`. A
+use-case folder imports from `shared/` only, never from another use case.
+
+> **`ci/check-agent-docs/` must stay dependency-free.** Its CI job skips
+> `npm ci` and Nx, so it may import `node:` builtins and sibling files in this
+> project, nothing else. `ci/check-package-exports/` uses `publint`,
+> `ci/check-peer-deps/` uses `semver`.
+
+## Dev tarballs dry run
 
 `generateTarballs.mjs` runs locally for a dry run — it patches `libs/*` versions
 in place, so revert afterwards:
@@ -31,24 +42,12 @@ in place, so revert afterwards:
 PR_NUMBER=999 HEAD_SHA=abcdef1234567890 REPO=LedgerHQ/lumen \
 AFFECTED_PROJECTS='@ledgerhq/lumen-utils-shared' \
 RUNNER_TEMP=$(mktemp -d) GITHUB_OUTPUT=/dev/null \
-node internals/repo-tools/src/ci/generateTarballs.mjs
+node internals/repo-tools/src/ci/publish-dev-packages/generateTarballs.mjs
 git checkout -- libs/
 ```
 
 > `npm pack` must be given an **absolute** path. A bare `libs/foo` is read as a
 > GitHub `owner/repo` shorthand and npm tries to clone it.
-
-## Validators
-
-| Script | npm script | Runs in |
-| --- | --- | --- |
-| `agentDocsDrift.mjs` | `npm run check:agent-docs` | `pr.yml` job `agent-drift` |
-| `packageExports.mjs` | `npm run check:package-exports` | `pr.yml` job `static-analysis` |
-
-> **`agentDocsDrift.mjs` must stay dependency-free.** Its CI job runs with
-> `setup-node` only — no `npm ci`, no Nx — so it may import `node:` builtins and
-> sibling files in this project, nothing else. `packageExports.mjs` has no such
-> constraint; it uses `publint`.
 
 ## Typechecking
 

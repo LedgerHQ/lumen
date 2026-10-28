@@ -45,13 +45,34 @@ jobs:
 
       # Zero-dependency Node script (AGENTS.md ↔ .claude/skills ↔ codebase);
       # no npm install or Nx needed, so keep this job lean.
-      - name: Setup Node.js
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: ./.github/actions/setup
         with:
-          node-version: '22.23.4'
+          install: 'false'
+          cache-nx: 'false'
+          set-shas: 'false'
 
       - name: Check agent docs & structure for drift
         run: npm run check:agent-docs
+
+  dependency-alignment:
+    name: Dependency alignment
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-nx: 'false'
+          set-shas: 'false'
+
+      - name: One version per package across manifests (syncpack)
+        run: npm run check:deps
+
+      - name: Peer ranges accept the versions we test with
+        run: npm run check:peer-deps
 
   static-analysis:
     name: Static Analysis
@@ -126,7 +147,7 @@ jobs:
           fi
 
       - name: Fix lcov paths to be relative to workspace root
-        run: node internals/repo-tools/src/ci/fixLcovPaths.mjs
+        run: node internals/repo-tools/src/ci/fix-lcov-paths/fixLcovPaths.mjs
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
