@@ -102,9 +102,8 @@ export function ScrubberBeaconLabels({
     <PositionedLabel
       key={beacon.id}
       testID={`scrubber-beacon-label-${beacon.id}`}
-      pixelX={pixelX}
+      placeX={(width) => computeBeaconLabelX(pixelX, width, drawingArea)}
       y={ys[i]}
-      drawingArea={drawingArea}
     >
       {renderLabel ? (
         renderLabel({ series: beacon.series, value: beacon.value })
@@ -117,21 +116,19 @@ export function ScrubberBeaconLabels({
 
 type PositionedLabelProps = {
   testID: string;
-  pixelX: number;
+  placeX: (width: number) => number;
   y: number;
-  drawingArea: DrawingArea;
   children: ReactNode;
 };
 
-function PositionedLabel({
+export function PositionedLabel({
   testID,
-  pixelX,
+  placeX,
   y,
-  drawingArea,
   children,
 }: Readonly<PositionedLabelProps>) {
   const [width, onLayout] = useLayoutWidth();
-  const x = computeBeaconLabelX(pixelX, width, drawingArea);
+  const x = placeX(width);
 
   return (
     <G

@@ -64,6 +64,11 @@ export const chartConfig = {
     contentGap: 4,
   },
 
+  lineLabel: {
+    gap: 8,
+    height: 16,
+  },
+
   tooltip: {
     defaultOffset: 10,
     defaultMinWidth: 80,
