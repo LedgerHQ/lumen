@@ -27,7 +27,6 @@ const toConfig = (preset) => ({
 export {
   NO_ARBITRARY_VALUES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
-  NO_RESTYLE_OPTIONS,
 } from './rules.js';
 
 export const configs = {
