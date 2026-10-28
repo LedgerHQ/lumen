@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { Circle, Text as SvgText, TSpan } from 'react-native-svg';
 
 import { LineChart } from '../LineChart';
 import { Point } from '../Point';
+
+import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -85,6 +88,95 @@ export const HiddenOverlay: Story = {
     </LineChart>
   ),
   args: {},
+};
+
+export const WithBeaconLabels: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  ),
+};
+
+export const WithCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel
+            label={`${series.label}: $${value}`}
+            background={series.stroke}
+            color='#FFFFFF'
+          />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithSlottedBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel>
+            <Circle cx={3} cy={12} r={3} fill={series.stroke} />
+            <SvgText
+              x={12}
+              y={12}
+              alignmentBaseline='central'
+              fontSize={12}
+              fontWeight='600'
+            >
+              {`$${value}`}
+            </SvgText>
+          </DefaultBeaconLabel>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithFullyCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <SvgText y={12} alignmentBaseline='central'>
+            <TSpan fontSize={16} fontWeight='700' fill={series.stroke}>
+              {`$${value}`}
+            </TSpan>
+            <TSpan dx={6} fontSize={10} fontWeight='600' fill='#8C8C8C'>
+              {series.label?.toUpperCase()}
+            </TSpan>
+          </SvgText>
+        )}
+      />
+    </LineChart>
+  ),
 };
 
 const tooltipSampleSeries = [

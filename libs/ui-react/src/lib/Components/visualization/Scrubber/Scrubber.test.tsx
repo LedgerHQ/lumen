@@ -115,6 +115,74 @@ describe('Scrubber', () => {
     expect(getAllByTestId(/scrubber-beacon-/)).toHaveLength(2);
   });
 
+  it('does not render beacon labels by default', () => {
+    const { getByTestId, queryAllByTestId } = renderScrubber({
+      scrubberProps: { showBeacons: true },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(queryAllByTestId(/scrubber-beacon-label-/)).toHaveLength(0);
+  });
+
+  it('renders a label per series and implies beacons when showBeaconLabel is true', () => {
+    const { getByTestId, getAllByTestId } = renderScrubber({
+      scrubberProps: { showBeaconLabel: true },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getAllByTestId(/^scrubber-beacon-label-/)).toHaveLength(2);
+    expect(getAllByTestId(/^scrubber-beacon-(?!label)/)).toHaveLength(2);
+  });
+
+  it('renders the custom beaconLabel content with series and value', () => {
+    const { getByTestId, getByText } = renderScrubber({
+      scrubberProps: {
+        showBeaconLabel: true,
+        beaconLabel: ({ series, value }) => (
+          <text>{`${series.id}:${value}`}</text>
+        ),
+      },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getByText(/^s1:/)).toBeTruthy();
+    expect(getByText(/^s2:/)).toBeTruthy();
+  });
+
+  it('repositions a beacon label when its rendered size changes', () => {
+    let bboxWidth = 10;
+    const callbacks: ResizeObserverCallback[] = [];
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: ResizeObserverCallback) {
+          callbacks.push(callback);
+        }
+        observe(): void {}
+        unobserve(): void {}
+        disconnect(): void {}
+      },
+    );
+    Object.defineProperty(SVGElement.prototype, 'getBBox', {
+      configurable: true,
+      value: () => ({ x: 0, y: 0, width: bboxWidth, height: 24 }),
+    });
+
+    try {
+      const { getByTestId } = renderScrubber({
+        scrubberProps: { showBeaconLabel: true },
+      });
+      activateScrubber(getByTestId('chart-svg'), 300);
+      const label = getByTestId('scrubber-beacon-label-s1');
+      const before = label.getAttribute('transform');
+
+      bboxWidth = 300;
+      act(() => callbacks.forEach((cb) => cb([], {} as ResizeObserver)));
+
+      expect(label.getAttribute('transform')).not.toBe(before);
+    } finally {
+      vi.unstubAllGlobals();
+      delete (SVGElement.prototype as Partial<SVGGraphicsElement>).getBBox;
+    }
+  });
+
   it('rests beacons at the end of each line while idle', () => {
     const { getByTestId, queryByTestId } = renderScrubber({
       scrubberProps: { showBeacons: true },

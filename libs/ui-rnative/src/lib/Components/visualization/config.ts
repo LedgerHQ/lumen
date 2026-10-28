@@ -56,6 +56,14 @@ export const chartConfig = {
     defaultMagnetRadius: 6,
   },
 
+  beaconLabel: {
+    gap: 8,
+    rowGap: 4,
+    height: 24,
+    paddingX: 8,
+    contentGap: 4,
+  },
+
   tooltip: {
     defaultOffset: 10,
     defaultMinWidth: 80,
@@ -197,6 +205,7 @@ const resolveChartTokens = (t: Theme) =>
       bodyWeightSemiBold: t.typographies.body3SemiBold.fontWeight,
     },
     radius: {
+      xs: t.borderRadius.xs,
       sm: t.borderRadius.sm,
     },
   }) as const;

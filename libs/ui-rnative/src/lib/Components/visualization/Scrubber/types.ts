@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react';
+import type { ReactElement, ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
+import type { TSpanProps } from 'react-native-svg';
 
 import type { ScrubbingOptions } from '../CartesianChart/types';
-import type { DrawingArea } from '../utils/types';
+import type { DrawingArea, Series } from '../utils/types';
 
 export type ScrubberContextValue = Required<
   Pick<ScrubbingOptions, 'enableScrubbing' | 'onScrubberPositionChange'>
@@ -134,6 +135,46 @@ export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
   items: ChartTooltipItemData[];
 };
 
+export type BeaconLabelContext = {
+  /**
+   * The series the beacon belongs to.
+   */
+  series: Series;
+  /**
+   * The series value at the scrubbed index.
+   */
+  value: number;
+};
+
+export type DefaultBeaconLabelProps = {
+  /**
+   * Fill color of the pill.
+   * @default background-muted
+   */
+  background?: string;
+  /**
+   * Default fill of the content. Elements that set their own fill keep it.
+   * @default text-base
+   */
+  color?: string;
+} & (
+  | {
+      /**
+       * Text shown in the pill. Pass a `TSpan` to style parts of it.
+       */
+      label: string | number | ReactElement<TSpanProps>;
+      children?: never;
+    }
+  | {
+      label?: never;
+      /**
+       * Any SVG drawn inside the pill, for content a `label` can't hold
+       * (icons, shapes).
+       */
+      children: ReactNode;
+    }
+);
+
 export type ScrubberProps = {
   /**
    * Hides the vertical reference line.
@@ -151,6 +192,21 @@ export type ScrubberProps = {
    * @default false
    */
   showBeacons?: boolean;
+  /**
+   * Shows a label next to each beacon while scrubbing, rendering the series
+   * label and value
+   * unless {@link ScrubberProps.beaconLabel} is set. Implies `showBeacons`.
+   * @default false
+   */
+  showBeaconLabel?: boolean;
+  /**
+   * Custom label content for each beacon, rendered when `showBeaconLabel` is
+   * set. Draw `react-native-svg` elements with the top-left corner at the
+   * origin (like {@link DefaultBeaconLabel}); the scrubber measures and positions it.
+   * Keep the content within 24px of height: labels are stacked on that fixed
+   * row height, so taller content overlaps its neighbors.
+   */
+  beaconLabel?: (context: BeaconLabelContext) => ReactNode;
   /**
    * Pulses the beacons while idle. Requires `showBeacons`.
    * @default false

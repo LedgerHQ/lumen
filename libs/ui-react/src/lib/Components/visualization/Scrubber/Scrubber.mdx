@@ -47,6 +47,31 @@ the placeholder or the muted lines of a refetch.
 
 <Canvas of={ScrubberStories.WithLoading} />
 
+## Beacon labels
+
+`showBeaconLabel` adds a label next to each beacon while scrubbing, showing the series label and
+value. Labels sit to the right of the beacon and flip to the left when there is
+no room, and are spaced apart so they never overlap.
+
+<Canvas of={ScrubberStories.WithBeaconLabels} />
+
+Pass `beaconLabel` to render your own content. It receives the series and
+value as context. Return `DefaultBeaconLabel` with your own `label` to keep the
+default pill, and set `background` and `color` to recolor it.
+
+<Canvas of={ScrubberStories.WithCustomBeaconLabel} />
+
+To keep the pill but draw content a `label` can't hold, such as an icon or a
+shape, pass SVG as `children` instead. Draw it from the origin; the pill adds
+the padding and grows to fit it.
+
+<Canvas of={ScrubberStories.WithSlottedBeaconLabel} />
+
+For full control, skip `DefaultBeaconLabel` and draw any SVG from the origin,
+as long as it stays within 24px of height.
+
+<Canvas of={ScrubberStories.WithFullyCustomBeaconLabel} />
+
 ## Conditional tooltips
 
 Return `{ items: [] }` from the `tooltip` callback to hide the tooltip at a

@@ -1,6 +1,7 @@
 import { Box, Button, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
+  DefaultBeaconLabel,
   LineChart,
   Point,
   ReferenceLine,
@@ -9,7 +10,6 @@ import {
 } from '@ledgerhq/lumen-ui-rnative/visualization';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
-
 export default function LineCharts() {
   return (
     <Box
@@ -39,6 +39,8 @@ export default function LineCharts() {
       <PointWithAxes />
       <ScrubberBasic />
       <ScrubberMultiSeriesWithBeacons />
+      <ScrubberWithBeaconLabels />
+      <ScrubberWithCustomBeaconLabels />
       <ScrubberIdlePulse />
       <InfiniteLoading />
       <ScrubberWithAxes />
@@ -460,6 +462,37 @@ const ScrubberMultiSeriesWithBeacons = () => (
       }}
     >
       <Scrubber showBeacons />
+    </LineChart>
+  </Section>
+);
+
+const ScrubberWithBeaconLabels = () => (
+  <Section title='Scrubber - beacon labels'>
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  </Section>
+);
+
+const ScrubberWithCustomBeaconLabels = () => (
+  <Section title='Scrubber - custom beacon labels'>
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel label={`${series.label}: $${value}`} />
+        )}
+      />
     </LineChart>
   </Section>
 );

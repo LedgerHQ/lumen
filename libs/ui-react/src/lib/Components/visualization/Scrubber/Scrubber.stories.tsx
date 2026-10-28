@@ -11,12 +11,13 @@ import {
   denseData,
   denseSeries,
   monthLabels,
-  multiSeries,
+  multiSeries as stepMultiSeries,
   sampleSeries,
 } from '../LineChart/__stories__/chartStoryFixtures';
 
 import { Point } from '../Point/Point';
 import type { Series } from '../utils/types';
+import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -40,6 +41,11 @@ type Story = StoryObj<typeof Scrubber>;
 const annotatedIndices = new Set([4, 9]);
 
 const magneticIndices = [20, 60, 100, 140];
+
+const multiSeries = stepMultiSeries.map((s) => ({
+  ...s,
+  curve: 'bump' as const,
+}));
 
 const reversedMultiSeries = multiSeries.map((s) => ({
   ...s,
@@ -128,6 +134,104 @@ export const WithBeacons: Story = {
     </LineChart>
   ),
   args: {},
+};
+
+export const WithBeaconLabels: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  ),
+};
+
+export const WithCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel
+            label={`${series.label}: $${value}`}
+            background={series.stroke}
+            color={cssVar('var(--text-white)')}
+          />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithSlottedBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel>
+            <circle cx={3} cy={12} r={3} fill={series.stroke} />
+            <text
+              x={12}
+              y={12}
+              dominantBaseline='central'
+              fontSize={12}
+              fontWeight={600}
+            >
+              {`$${value}`}
+            </text>
+          </DefaultBeaconLabel>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithFullyCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <text y={12} dominantBaseline='central' paintOrder='stroke'>
+            <tspan fontSize={16} fontWeight={700} fill={series.stroke}>
+              {`$${value}`}
+            </tspan>
+            <tspan
+              dx={6}
+              fontSize={10}
+              fontWeight={600}
+              fill={cssVar('var(--text-muted)')}
+            >
+              {series.label?.toUpperCase()}
+            </tspan>
+          </text>
+        )}
+      />
+    </LineChart>
+  ),
 };
 
 export const WithIdlePulse: Story = {
