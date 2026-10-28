@@ -172,7 +172,6 @@ describe('every way of setting the presets up reports the same diagnostics', () 
       'better-tailwindcss/no-unknown-classes:12:error',
       'better-tailwindcss/no-unknown-classes:7:error',
       'no-restricted-imports:3:error',
-      'shadcn/no-restyle:14:warn',
     ]);
   });
 
@@ -204,7 +203,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
   it('a consumer overrides rules with plain config, on both engines', async () => {
     /** @type {Linter.RulesRecord} */
     const rules = {
-      'shadcn/no-restyle': 'off',
+      'better-tailwindcss/no-unknown-classes': 'off',
       'shadcn/no-inline-styles': 'error',
     };
     const [eslint, json] = await Promise.all([
@@ -217,7 +216,9 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
 
     expect(json).toEqual(eslint);
-    expect(ruleIds(eslint)).not.toContain('shadcn/no-restyle');
+    expect(ruleIds(eslint)).not.toContain(
+      'better-tailwindcss/no-unknown-classes',
+    );
     expect(eslint).toContain('shadcn/no-inline-styles:13:error');
   });
 

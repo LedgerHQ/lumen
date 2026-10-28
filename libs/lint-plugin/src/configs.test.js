@@ -33,7 +33,7 @@ describe('presets', () => {
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
-      'shadcn/no-restyle': 'warn',
+      'shadcn/no-restyle': 'off',
       'no-restricted-imports': 'error',
     });
   });
@@ -74,13 +74,12 @@ describe('presets', () => {
     },
   );
 
-  it('always allows layout classes on Lumen components', () => {
-    for (const rules of [RULES.recommended, RULES.strict]) {
-      expect(rules['shadcn/no-restyle']).toEqual([
-        expect.any(String),
-        NO_RESTYLE_OPTIONS,
-      ]);
-    }
+  it('keeps restyling off in recommended and on in strict, always allowing layout classes', () => {
+    expect(RULES.recommended['shadcn/no-restyle']).toBe('off');
+    expect(RULES.strict['shadcn/no-restyle']).toEqual([
+      expect.any(String),
+      NO_RESTYLE_OPTIONS,
+    ]);
     expect(NO_RESTYLE_OPTIONS.allow).toEqual(['layout']);
   });
 

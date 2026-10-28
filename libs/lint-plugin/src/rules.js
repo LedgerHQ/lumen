@@ -88,7 +88,8 @@ export const RULES = {
     'better-tailwindcss/no-concatenated-classes': 'error',
     // Never a valid choice, and `--fix` removes it.
     'better-tailwindcss/no-duplicate-classes': 'error',
-    'shadcn/no-restyle': ['warn', NO_RESTYLE_OPTIONS],
+    // Off in recommended; strict enables it. NO_RESTYLE_OPTIONS is exported for consumers.
+    'shadcn/no-restyle': 'off',
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs

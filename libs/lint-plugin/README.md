@@ -89,7 +89,7 @@ export default defineConfig({
 | [`no-arbitrary-values`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-arbitrary-values.md)       |             |   ⚠️   |     | `w-[13px]` (transitions, grid tracks and `calc()` allowed)       |
 | [`no-inline-styles`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-inline-styles.md)             |             |   ⚠️   |     | `style={{ ... }}`                                                |
 | [`no-raw-colors`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-raw-colors.md)                   |             |        |     | Raw palette colors (already unknown classes with Lumen's preset) |
-| [`no-restyle`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-restyle.md)                         |     ⚠️      |   ✅   |     | Anything but layout classes on a Lumen component                 |
+| [`no-restyle`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-restyle.md)                         |             |   ✅   |     | Anything but layout classes on a Lumen component                 |
 | [`no-unknown-classes`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-unknown-classes.md)         |             |        |     | Unknown classes (use better-tailwindcss' rule instead)           |
 | [`require-static-classes`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/require-static-classes.md) |             |        |     | Dynamic `className` on a component                               |
 
