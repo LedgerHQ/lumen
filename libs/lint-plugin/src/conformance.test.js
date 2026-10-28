@@ -175,7 +175,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
   });
 
-  it('strict: a few more rules, and restyling and class-merging imports raised', async () => {
+  it('strict: a few more rules, and class-merging imports raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
       lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
       lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
@@ -187,7 +187,6 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     expect(json).toEqual(strict);
     expect(strict).toEqual(
       expect.arrayContaining([
-        'shadcn/no-restyle:14:error',
         'better-tailwindcss/enforce-consistent-class-order:7:error',
         'shadcn/no-arbitrary-values:10:warn',
         'shadcn/no-inline-styles:13:warn',
@@ -259,7 +258,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
 
     expect(oxlint).toEqual(eslint);
-    expect(eslint).toContain('page.web.tsx|shadcn/no-restyle:14:error');
+    expect(eslint).toContain('page.web.tsx|shadcn/no-inline-styles:13:warn');
     // The unsuffixed file holds an unknown class and is left alone.
     expect(eslint.filter((line) => line.startsWith('helpers.ts|'))).toEqual([]);
   });

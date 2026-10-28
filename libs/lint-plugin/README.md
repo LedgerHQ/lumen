@@ -89,7 +89,7 @@ export default defineConfig({
 | [`no-arbitrary-values`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-arbitrary-values.md)       |             |   ⚠️   |     | `w-[13px]` (transitions, grid tracks and `calc()` allowed)       |
 | [`no-inline-styles`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-inline-styles.md)             |             |   ⚠️   |     | `style={{ ... }}`                                                |
 | [`no-raw-colors`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-raw-colors.md)                   |             |        |     | Raw palette colors (already unknown classes with Lumen's preset) |
-| [`no-restyle`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-restyle.md)                         |             |   ✅   |     | Anything but layout classes on a Lumen component                 |
+| [`no-restyle`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-restyle.md)                         |             |        |     | Anything but layout classes on a Lumen component                 |
 | [`no-unknown-classes`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/no-unknown-classes.md)         |             |        |     | Unknown classes (use better-tailwindcss' rule instead)           |
 | [`require-static-classes`](https://github.com/shadcn-ui/lint/blob/main/docs/rules/require-static-classes.md) |             |        |     | Dynamic `className` on a component                               |
 
@@ -126,10 +126,10 @@ The presets are plain config objects.
 - **Keep Lumen's options when changing one:**
 
   ```js
-  import { NO_RESTYLE_OPTIONS } from '@ledgerhq/lumen-lint-plugin/eslint';
+  import { NO_ARBITRARY_VALUES_OPTIONS } from '@ledgerhq/lumen-lint-plugin/eslint';
 
   const rules = {
-    'shadcn/no-restyle': ['warn', { ...NO_RESTYLE_OPTIONS, allow: ['layout', 'spacing'] }],
+    'shadcn/no-arbitrary-values': ['warn', { ...NO_ARBITRARY_VALUES_OPTIONS, allow: [...NO_ARBITRARY_VALUES_OPTIONS.allow, 'w-[13px]'] }],
   };
   ```
 
@@ -146,8 +146,6 @@ The presets are plain config objects.
 
 ## Notes
 
-- `@shadcn/lint` reads component files with `oxc-parser` or `@typescript-eslint/parser`.
-  If neither is installed, it warns once and `no-restyle` gives less precise hints.
 - Sort classes with `strict`'s class-order rule (`--fix`) rather than
   `prettier-plugin-tailwindcss`. If you keep the Prettier plugin, set its
   `tailwindStylesheet` to your `entryPoint` file, or the two orders will disagree.
