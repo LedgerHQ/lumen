@@ -91,10 +91,9 @@ export function ScrubberBeaconLabels({
     <PositionedLabel
       key={beacon.id}
       testId={`scrubber-beacon-label-${beacon.id}`}
-      value={beacon.value}
-      pixelX={pixelX}
+      measureKey={beacon.value}
+      placeX={(width) => computeBeaconLabelX(pixelX, width, drawingArea)}
       y={ys[i]}
-      drawingArea={drawingArea}
     >
       {renderLabel ? (
         renderLabel({ series: beacon.series, value: beacon.value })
@@ -107,19 +106,17 @@ export function ScrubberBeaconLabels({
 
 type PositionedLabelProps = {
   testId: string;
-  value: number;
-  pixelX: number;
+  measureKey: number;
+  placeX: (width: number) => number;
   y: number;
-  drawingArea: DrawingArea;
   children: ReactNode;
 };
 
-function PositionedLabel({
+export function PositionedLabel({
   testId,
-  value,
-  pixelX,
+  measureKey,
+  placeX,
   y,
-  drawingArea,
   children,
 }: Readonly<PositionedLabelProps>) {
   const ref = useRef<SVGGElement>(null);
@@ -127,7 +124,7 @@ function PositionedLabel({
 
   useLayoutEffect(() => {
     setWidth(safeGetBBoxWidth(ref.current));
-  }, [testId, value]);
+  }, [testId, measureKey]);
 
   useLayoutEffect(() => {
     const element = ref.current;
@@ -141,7 +138,7 @@ function PositionedLabel({
     return () => observer.disconnect();
   }, []);
 
-  const x = computeBeaconLabelX(pixelX, width, drawingArea);
+  const x = placeX(width);
 
   return (
     <g

@@ -5,6 +5,7 @@ import { chartConfig } from '../config';
 
 import { ScrubberBeaconLabels } from './BeaconLabel/BeaconLabel';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
+import { ScrubberLineLabel } from './LineLabel/LineLabel';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
 
@@ -112,6 +113,15 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
  * />
  * ```
  *
+ * @example Line label
+ * ```tsx
+ * <Scrubber showLineLabel />
+ * <Scrubber
+ *   showLineLabel
+ *   lineLabel={({ label }) => <DefaultLineLabel label={`Day ${label}`} />}
+ * />
+ * ```
+ *
  * @example Tooltip
  * ```tsx
  * <Scrubber
@@ -129,6 +139,8 @@ export function Scrubber({
   showBeacons = false,
   showBeaconLabel = false,
   beaconLabel,
+  showLineLabel = false,
+  lineLabel,
   idlePulse = false,
   tooltip,
 }: Readonly<ScrubberProps>) {
@@ -196,6 +208,14 @@ export function Scrubber({
           drawingArea={scrubbing.drawingArea}
           beacons={beacons}
           renderLabel={beaconLabel}
+        />
+      )}
+      {scrubbing && showLineLabel && (
+        <ScrubberLineLabel
+          dataIndex={scrubbing.dataIndex}
+          pixelX={scrubbing.pixelX}
+          drawingArea={scrubbing.drawingArea}
+          renderLabel={lineLabel}
         />
       )}
       {scrubbing?.tooltipPayload !== undefined && (
