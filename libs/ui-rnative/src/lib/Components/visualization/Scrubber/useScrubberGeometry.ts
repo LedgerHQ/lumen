@@ -97,7 +97,7 @@ export const useScrubberGeometry = ({
         }
         return {
           id: s.id,
-          stroke: s.stroke ?? tokens.color.stroke,
+          stroke: s.stroke || tokens.color.stroke,
           pixelX,
           pixelY,
           series: s,
