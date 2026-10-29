@@ -1,6 +1,7 @@
 import {
   computeLineLabelX,
   computeLineLabelY,
+  resolveLineLabelContext,
 } from '@ledgerhq/lumen-utils-shared';
 
 import { useCartesianChartContext } from '../../CartesianChart/context';
@@ -8,7 +9,6 @@ import { chartConfig } from '../../config';
 import type { DrawingArea } from '../../utils/types';
 import { PositionedLabel } from '../PositionedLabel/PositionedLabel';
 import type { DefaultLineLabelProps, ScrubberProps } from '../types';
-import { resolveLineLabelContext } from './utils';
 
 const { color, font, lineLabel } = chartConfig;
 

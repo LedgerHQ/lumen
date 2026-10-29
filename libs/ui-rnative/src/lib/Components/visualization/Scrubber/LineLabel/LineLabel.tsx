@@ -1,6 +1,7 @@
 import {
   computeLineLabelX,
   computeLineLabelY,
+  resolveLineLabelContext,
 } from '@ledgerhq/lumen-utils-shared';
 import { G, Text as SvgText } from 'react-native-svg';
 
@@ -9,7 +10,6 @@ import { chartConfig, useChartTokens } from '../../config';
 import type { DrawingArea } from '../../utils/types';
 import { PositionedLabel } from '../PositionedLabel/PositionedLabel';
 import type { DefaultLineLabelProps, ScrubberProps } from '../types';
-import { resolveLineLabelContext } from './utils';
 
 const { lineLabel } = chartConfig;
 

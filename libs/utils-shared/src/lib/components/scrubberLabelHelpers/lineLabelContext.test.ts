@@ -1,6 +1,6 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it } from 'vitest';
 
-import { resolveLineLabelContext } from './utils';
+import { resolveLineLabelContext } from './lineLabelContext';
 
 describe('resolveLineLabelContext', () => {
   it('falls back to the index when the axis has no data', () => {
@@ -23,5 +23,13 @@ describe('resolveLineLabelContext', () => {
       tickLabelFormatter: (value) => `${value}px`,
     });
     expect(context).toEqual({ dataIndex: 2, value: 300, label: '300px' });
+  });
+
+  it('passes string labels to the formatter', () => {
+    const context = resolveLineLabelContext(0, {
+      data: ['Jan', 'Feb'],
+      tickLabelFormatter: (value) => `${value} 2026`,
+    });
+    expect(context).toEqual({ dataIndex: 0, value: 'Jan', label: 'Jan 2026' });
   });
 });
