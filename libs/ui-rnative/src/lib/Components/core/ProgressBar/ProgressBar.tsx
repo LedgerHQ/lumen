@@ -1,21 +1,40 @@
-import type { ViewStyle } from 'react-native';
+import type { TextStyle, ViewStyle } from 'react-native';
 import { StyleSheet } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { useStyleSheet } from '../../../../styles';
-import {
-  clampProgress,
-  hasProgressLabel,
-  ProgressLabelLayout,
-  useAnimatedProgressWidth,
-} from '../../internal/ProgressBase';
-import { Box } from '../../primitives';
-import type { ProgressAppearance, ProgressBarProps } from './types';
+import { Box, Text } from '../../primitives';
+import type {
+  ProgressAppearance,
+  ProgressBarProps,
+  ProgressLabelPosition,
+} from './types';
+import { useAnimatedProgressWidth } from './useAnimatedProgressWidth';
+
+const labelLayouts: Record<
+  ProgressLabelPosition,
+  {
+    flexDirection: 'column' | 'column-reverse';
+    alignItems: 'flex-start' | 'flex-end';
+  }
+> = {
+  'start-top': { flexDirection: 'column', alignItems: 'flex-start' },
+  'start-bottom': { flexDirection: 'column-reverse', alignItems: 'flex-start' },
+  'end-top': { flexDirection: 'column', alignItems: 'flex-end' },
+  'end-bottom': { flexDirection: 'column-reverse', alignItems: 'flex-end' },
+};
 
 const useStyles = ({
   appearance,
+  labelPosition,
 }: {
   appearance: ProgressAppearance;
-}): { track: ViewStyle; fill: ViewStyle } => {
+  labelPosition: ProgressLabelPosition;
+}): {
+  layout: ViewStyle;
+  label: TextStyle;
+  track: ViewStyle;
+  fill: ViewStyle;
+} => {
   return useStyleSheet(
     (t) => {
       const fillColors: Record<ProgressAppearance, string> = {
@@ -35,6 +54,14 @@ const useStyles = ({
       };
 
       return {
+        layout: {
+          width: '100%',
+          gap: t.spacings.s8,
+          ...labelLayouts[labelPosition],
+        },
+        label: {
+          color: t.colors.text.muted,
+        },
         track: {
           width: '100%',
           height: t.sizes.s6,
@@ -49,7 +76,7 @@ const useStyles = ({
         },
       };
     },
-    [appearance],
+    [appearance, labelPosition],
   );
 };
 
@@ -71,39 +98,51 @@ export const ProgressBar = ({
   value,
   appearance = 'base',
   label,
-  labelPosition,
+  labelPosition = 'start-bottom',
   accessibilityLabel,
   lx,
   style,
   ref,
   ...props
 }: ProgressBarProps) => {
-  const hasLabel = hasProgressLabel(label);
-  const clampedValue = clampProgress(value);
-  const styles = useStyles({ appearance });
+  const hasLabel = label != null && typeof label !== 'boolean';
+  const clampedValue = Number.isNaN(value)
+    ? 0
+    : Math.min(100, Math.max(0, value));
+  const styles = useStyles({ appearance, labelPosition });
   const animatedFillStyle = useAnimatedProgressWidth(clampedValue);
 
-  return (
-    <ProgressLabelLayout
-      label={label}
-      labelPosition={labelPosition}
-      lx={lx}
-      style={style}
+  const bar = (
+    <Box
+      {...props}
+      ref={ref}
+      lx={hasLabel ? undefined : lx}
+      style={
+        hasLabel ? styles.track : StyleSheet.flatten([styles.track, style])
+      }
+      accessible
+      accessibilityRole='progressbar'
+      accessibilityLabel={accessibilityLabel}
+      accessibilityValue={{ min: 0, max: 100, now: clampedValue }}
     >
-      <Box
-        {...props}
-        ref={ref}
-        lx={hasLabel ? undefined : lx}
-        style={
-          hasLabel ? styles.track : StyleSheet.flatten([styles.track, style])
-        }
-        accessible
-        accessibilityRole='progressbar'
-        accessibilityLabel={accessibilityLabel}
-        accessibilityValue={{ min: 0, max: 100, now: clampedValue }}
+      <Animated.View style={[styles.fill, animatedFillStyle]} />
+    </Box>
+  );
+
+  if (!hasLabel) return bar;
+
+  // The label comes first in the tree and flex direction moves it below the bar.
+  return (
+    <Box lx={lx} style={StyleSheet.flatten([styles.layout, style])}>
+      <Text
+        typography='body4'
+        style={styles.label}
+        accessibilityElementsHidden
+        importantForAccessibility='no-hide-descendants'
       >
-        <Animated.View style={[styles.fill, animatedFillStyle]} />
-      </Box>
-    </ProgressLabelLayout>
+        {label}
+      </Text>
+      {bar}
+    </Box>
   );
 };

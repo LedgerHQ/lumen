@@ -43,13 +43,13 @@ Eight `decorative-*` appearances (`blue`, `pink`, `purple`, `green`, `turquoise`
 
 ### Label
 
-Pass `label` to show a label. It also names the bar for assistive technology.
+Pass `label` to show a label. It is visual only: the bar is always named by `aria-label`.
 
 <Canvas of={ProgressBarStories.WithLabel} />
 
 `labelPosition` places the label above or below the bar, aligned to the start or end edge. The default is `start-bottom`. `start` and `end` follow the text direction.
 
-With a label, `className` applies to the wrapper around the label and the bar. Without one, it applies to the bar.
+With a label, `className` and `style` apply to the wrapper around the label and the bar. Without one, they apply to the bar.
 
 <Canvas of={ProgressBarStories.LabelPositionShowcase} />
 
@@ -64,14 +64,8 @@ The track spans the full width of its container, so size the bar by sizing its c
 ## Accessibility
 
 - The bar has `role="progressbar"` with `aria-valuemin` 0, `aria-valuemax` 100 and `aria-valuenow` set to the clamped value.
-- Every bar needs an accessible name, and TypeScript requires either `label` or `aria-label`.
+- `aria-label` is required and names the bar. The visible `label` is not used as the name.
 - Pair the bar with visible text so color is never the only signal.
-
-### Accessible name
-
-- **With a `label`**: the label names the bar, and you don't need `aria-label`.
-- **Without a visible label**: pass `aria-label`, for example `aria-label='Upload progress'`.
-- **When the spoken name should differ from the visible text**: pass both. `aria-label` takes precedence over `label` for assistive technology, while the label stays visible.
 
 </Tab>
 <Tab label="Implementation">
@@ -90,13 +84,13 @@ npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core
 
 ### Basic Usage
 
-A bar without a visible label needs an `aria-label`:
+Every bar needs an `aria-label`:
 
 <Source of={ProgressBarStories.Base} />
 
 ### With a label
 
-`label` renders the visible label and wires it as the accessible name, so no `aria-label` is needed.
+`label` renders a visible label. The bar is still named by `aria-label`.
 
 <Source of={ProgressBarStories.WithLabel} />
 
@@ -107,16 +101,6 @@ A bar without a visible label needs an `aria-label`:
 ### Label position
 
 <Source of={ProgressBarStories.LabelPositionShowcase} />
-
-### Custom accessible name
-
-```tsx
-<ProgressBar
-  value={33}
-  label='4 of 12'
-  aria-label='Account sync progress'
-/>
-```
 
 </Tab>
 </CustomTabs>

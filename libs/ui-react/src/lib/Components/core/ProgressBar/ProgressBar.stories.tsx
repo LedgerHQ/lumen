@@ -34,7 +34,6 @@ export const Base: Story = {
     value: 40,
     appearance: 'base',
     'aria-label': 'Upload progress',
-    label: 'Upload progress',
   },
 };
 
@@ -105,20 +104,42 @@ export const AppearanceShowcase: Story = {
 };
 
 export const WithLabel: Story = {
-  render: () => <ProgressBar value={72} label='Syncing accounts' />,
+  render: () => (
+    <ProgressBar
+      value={72}
+      aria-label='Sync progress'
+      label='Syncing accounts'
+    />
+  ),
 };
 
 export const LabelPositionShowcase: Story = {
   render: () => (
     <div className='flex flex-col gap-32'>
-      <ProgressBar value={40} labelPosition='start-top' label='Start top' />
       <ProgressBar
         value={40}
+        aria-label='Start top'
+        labelPosition='start-top'
+        label='Start top'
+      />
+      <ProgressBar
+        value={40}
+        aria-label='Start bottom'
         labelPosition='start-bottom'
         label='Start bottom'
       />
-      <ProgressBar value={40} labelPosition='end-top' label='End top' />
-      <ProgressBar value={40} labelPosition='end-bottom' label='End bottom' />
+      <ProgressBar
+        value={40}
+        aria-label='End top'
+        labelPosition='end-top'
+        label='End top'
+      />
+      <ProgressBar
+        value={40}
+        aria-label='End bottom'
+        labelPosition='end-bottom'
+        label='End bottom'
+      />
     </div>
   ),
 };
@@ -128,6 +149,7 @@ export const WithRichLabel: Story = {
     <ProgressBar
       value={33}
       appearance='accent'
+      aria-label='Account sync progress'
       label={
         <>
           4 of <strong>12</strong> accounts

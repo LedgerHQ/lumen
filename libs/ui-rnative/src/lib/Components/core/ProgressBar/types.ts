@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react';
 import type { StyledViewProps } from '../../../../styles';
 
-import type { ProgressLabelPosition } from '../../internal/ProgressBase';
-
-export type { ProgressLabelPosition };
+export type ProgressLabelPosition =
+  | 'start-top'
+  | 'start-bottom'
+  | 'end-top'
+  | 'end-bottom';
 
 export type ProgressAppearance =
   | 'base'

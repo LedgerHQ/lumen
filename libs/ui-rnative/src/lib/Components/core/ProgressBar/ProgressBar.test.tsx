@@ -106,7 +106,9 @@ describe('ProgressBar', () => {
       />,
     );
 
-    expect(screen.getByText('Syncing accounts')).toBeTruthy();
+    expect(
+      screen.getByText('Syncing accounts', { includeHiddenElements: true }),
+    ).toBeTruthy();
   });
 
   it('should not render a label by default', () => {
@@ -175,5 +177,16 @@ describe('ProgressBar', () => {
     expect(screen.getByLabelText('Upload').props.accessibilityValue.now).toBe(
       0,
     );
+  });
+
+  it('should hide the label from the accessibility tree', () => {
+    renderWithProvider(
+      <ProgressBar value={50} accessibilityLabel='Upload' label='Syncing' />,
+    );
+
+    expect(
+      screen.getByText('Syncing', { includeHiddenElements: true }).props
+        .accessibilityElementsHidden,
+    ).toBe(true);
   });
 });

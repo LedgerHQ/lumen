@@ -76,30 +76,14 @@ describe('ProgressBar', () => {
     expect(container.firstElementChild).toBe(screen.getByRole('progressbar'));
   });
 
-  it('should name the bar from the rendered label', () => {
-    render(<ProgressBar value={50} label='Syncing accounts' />);
-
-    expect(
-      screen.getByRole('progressbar', { name: 'Syncing accounts' }),
-    ).toBeInTheDocument();
-  });
-
-  it('should prefer aria-label over the rendered label', () => {
-    render(
-      <ProgressBar
-        value={50}
-        aria-label='Sync progress'
-        label='Syncing accounts'
-      />,
-    );
-
-    const bar = screen.getByRole('progressbar', { name: 'Sync progress' });
-    expect(bar).not.toHaveAttribute('aria-labelledby');
-  });
-
   it('should place the label above the bar for a top position', () => {
     const { container } = render(
-      <ProgressBar value={50} label='Syncing' labelPosition='start-top' />,
+      <ProgressBar
+        value={50}
+        aria-label='X'
+        label='Syncing'
+        labelPosition='start-top'
+      />,
     );
 
     expect(container.firstElementChild).toHaveClass('flex-col');
@@ -107,7 +91,9 @@ describe('ProgressBar', () => {
   });
 
   it('should place the label below the bar by default', () => {
-    const { container } = render(<ProgressBar value={50} label='Syncing' />);
+    const { container } = render(
+      <ProgressBar value={50} aria-label='X' label='Syncing' />,
+    );
 
     expect(container.firstElementChild).toHaveClass('flex-col-reverse');
   });
@@ -122,13 +108,63 @@ describe('ProgressBar', () => {
     expect(ref.current).toHaveClass('mt-8');
   });
 
-  it('should apply className to the label wrapper rather than the bar', () => {
+  it('should apply className and style to the label wrapper rather than the bar', () => {
     const { container } = render(
-      <ProgressBar value={50} label='Syncing' className='hidden' />,
+      <ProgressBar
+        value={50}
+        aria-label='X'
+        label='Syncing'
+        className='hidden'
+        style={{ marginTop: 8 }}
+      />,
     );
 
     expect(container.firstElementChild).toHaveClass('hidden');
+    expect(container.firstElementChild).toHaveStyle({ marginTop: '8px' });
     expect(screen.getByRole('progressbar')).not.toHaveClass('hidden');
+    expect(screen.getByRole('progressbar')).not.toHaveAttribute('style');
+  });
+
+  it.each([
+    ['start-top', 'flex-col', 'items-start'],
+    ['start-bottom', 'flex-col-reverse', 'items-start'],
+    ['end-top', 'flex-col', 'items-end'],
+    ['end-bottom', 'flex-col-reverse', 'items-end'],
+  ] as const)(
+    'should lay out the %s position with %s and %s',
+    (labelPosition, direction, alignment) => {
+      const { container } = render(
+        <ProgressBar
+          value={50}
+          aria-label='X'
+          label='Syncing'
+          labelPosition={labelPosition}
+        />,
+      );
+
+      expect(container.firstElementChild).toHaveClass(direction, alignment);
+    },
+  );
+
+  it('should align the label text to the end edge for an end position', () => {
+    render(
+      <ProgressBar
+        value={50}
+        aria-label='X'
+        label='Syncing'
+        labelPosition='end-bottom'
+      />,
+    );
+
+    expect(screen.getByText('Syncing')).toHaveClass('text-end');
+  });
+
+  it('should not render a boolean label', () => {
+    const { container } = render(
+      <ProgressBar value={50} aria-label='X' label={false} />,
+    );
+
+    expect(container.children).toHaveLength(1);
   });
 
   it('should clamp NaN to zero', () => {
@@ -140,21 +176,8 @@ describe('ProgressBar', () => {
     );
   });
 
-  it('should not render a boolean label', () => {
-    const { container } = render(
-      <ProgressBar value={50} label={false} aria-label='X' />,
-    );
-
-    expect(container.children).toHaveLength(1);
-  });
-
-  it('should reject a boolean label without an aria-label', () => {
-    // @ts-expect-error a boolean label does not name the bar
-    render(<ProgressBar value={50} label={false} />);
-  });
-
-  it('should require a name through aria-label or label', () => {
-    // @ts-expect-error a bar needs either `aria-label` or `label`
+  it('should require an aria-label', () => {
+    // @ts-expect-error a bar needs an `aria-label`
     render(<ProgressBar value={50} />);
   });
 });

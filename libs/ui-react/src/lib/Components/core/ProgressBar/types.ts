@@ -1,8 +1,10 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-import type { ProgressLabelPosition } from '../../internal/ProgressBase';
-
-export type { ProgressLabelPosition };
+export type ProgressLabelPosition =
+  | 'start-top'
+  | 'start-bottom'
+  | 'end-top'
+  | 'end-bottom';
 
 export type ProgressAppearance =
   | 'base'
@@ -19,25 +21,6 @@ export type ProgressAppearance =
   | 'decorative-orange'
   | 'decorative-red';
 
-type ProgressBarName =
-  | {
-      /**
-       * A visible label that also names the bar for assistive technology.
-       */
-      label: Exclude<NonNullable<ReactNode>, boolean>;
-      /**
-       * Names the bar. Takes precedence over the rendered label.
-       */
-      'aria-label'?: string;
-    }
-  | {
-      label?: ReactNode;
-      /**
-       * Names the bar. Required when there is no rendered label.
-       */
-      'aria-label': string;
-    };
-
 export type ProgressBarProps = {
   /**
    * The current progress, from 0 to 100. Values outside the range are clamped.
@@ -53,5 +36,12 @@ export type ProgressBarProps = {
    * @default 'start-bottom'
    */
   labelPosition?: ProgressLabelPosition;
-} & ProgressBarName &
-  Omit<ComponentPropsWithRef<'div'>, 'children' | 'aria-label'>;
+  /**
+   * Renders a visible label. It is visual only: the bar is named by `aria-label`.
+   */
+  label?: ReactNode;
+  /**
+   * Names the bar for assistive technology.
+   */
+  'aria-label': string;
+} & Omit<ComponentPropsWithRef<'div'>, 'children' | 'aria-label'>;

@@ -1,12 +1,31 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
 import { cva } from 'class-variance-authority';
-import { useId } from 'react';
-import {
-  clampProgress,
-  hasProgressLabel,
-  ProgressLabelLayout,
-} from '../../internal/ProgressBase';
 import type { ProgressBarProps } from './types';
+
+const labelLayoutVariants = cva('flex w-full gap-8', {
+  variants: {
+    labelPosition: {
+      'start-top': 'flex-col items-start',
+      'start-bottom': 'flex-col-reverse items-start',
+      'end-top': 'flex-col items-end',
+      'end-bottom': 'flex-col-reverse items-end',
+    },
+  },
+  defaultVariants: {
+    labelPosition: 'start-bottom',
+  },
+});
+
+const labelVariants = cva('body-4 text-muted', {
+  variants: {
+    labelPosition: {
+      'start-top': '',
+      'start-bottom': '',
+      'end-top': 'text-end',
+      'end-bottom': 'text-end',
+    },
+  },
+});
 
 const progressTrackVariants = cva(
   'h-6 w-full overflow-hidden rounded-full bg-muted',
@@ -40,12 +59,17 @@ const progressFillVariants = cva(
 
 /**
  * A determinate progress bar showing how far along a task is. An optional label
- * can sit above or below the bar. `className` targets the outermost element:
- * the label wrapper when there is a label, otherwise the bar.
+ * can sit above or below the bar. `className` and `style` target the outermost
+ * element: the label wrapper when there is a label, otherwise the bar.
  *
  * @example
  * <ProgressBar value={40} aria-label='Upload progress' />
- * <ProgressBar value={72} label='Syncing accounts' labelPosition='start-top' />
+ * <ProgressBar
+ *   value={72}
+ *   aria-label='Sync progress'
+ *   label='Syncing accounts'
+ *   labelPosition='start-top'
+ * />
  */
 export const ProgressBar = ({
   value,
@@ -53,40 +77,43 @@ export const ProgressBar = ({
   label,
   labelPosition,
   className,
+  style,
   ref,
-  'aria-label': ariaLabel,
-  'aria-labelledby': ariaLabelledBy,
   ...props
 }: ProgressBarProps) => {
-  const labelId = useId();
-  const hasLabel = hasProgressLabel(label);
-  const clampedValue = clampProgress(value);
-  const labelledBy =
-    ariaLabelledBy ?? (hasLabel && !ariaLabel ? labelId : undefined);
+  const hasLabel = label != null && typeof label !== 'boolean';
+  const clampedValue = Number.isNaN(value)
+    ? 0
+    : Math.min(100, Math.max(0, value));
 
-  return (
-    <ProgressLabelLayout
-      label={label}
-      labelPosition={labelPosition}
-      labelId={labelId}
-      className={className}
+  const bar = (
+    <div
+      {...props}
+      ref={ref}
+      role='progressbar'
+      aria-valuemin={0}
+      aria-valuemax={100}
+      aria-valuenow={clampedValue}
+      className={cn(progressTrackVariants(), !hasLabel && className)}
+      style={hasLabel ? undefined : style}
     >
       <div
-        {...props}
-        ref={ref}
-        role='progressbar'
-        aria-valuemin={0}
-        aria-valuemax={100}
-        aria-valuenow={clampedValue}
-        aria-label={ariaLabel}
-        aria-labelledby={labelledBy}
-        className={cn(progressTrackVariants(), !hasLabel && className)}
-      >
-        <div
-          className={progressFillVariants({ appearance })}
-          style={{ width: `${clampedValue}%` }}
-        />
-      </div>
-    </ProgressLabelLayout>
+        className={progressFillVariants({ appearance })}
+        style={{ width: `${clampedValue}%` }}
+      />
+    </div>
+  );
+
+  if (!hasLabel) return bar;
+
+  // The label comes first in the DOM and flex direction moves it below the bar.
+  return (
+    <div
+      className={cn(labelLayoutVariants({ labelPosition }), className)}
+      style={style}
+    >
+      <span className={labelVariants({ labelPosition })}>{label}</span>
+      {bar}
+    </div>
   );
 };
