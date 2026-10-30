@@ -22,6 +22,7 @@ script or workflow that runs it. A `check-*` folder is a CI gate.
 | `ci/check-peer-deps/` | Lib peers accept the versions we test with | `peerDeps.mjs` | `npm run check:peer-deps`, `pr.yml` job `dependency-alignment` |
 | `ci/fix-lcov-paths/` | Coverage paths SonarCloud can resolve | `fixLcovPaths.mjs` | `pr.yml` job `unit-testing` |
 | `ci/publish-dev-packages/` | Per-PR dev tarballs and their PR comment | `getPublishableProjects.mjs`, `generateTarballs.mjs` | `publish-dev-packages.yml` |
+| `ci/rn-081-compat/` | ui-rnative still type-checks and passes its tests on Ledger Wallet Mobile's RN 0.81 stack (temporary, until LWM is on RN 0.86) | `pinRn081Stack.mjs` | `pr.yml` job `rn-081-compat` |
 | `shared/` | Which libs exist and publish; console output | `workspaceProjects.mjs`, `logging.mjs` | imported only |
 
 A new script goes in the folder of its use case, or in a new folder named after

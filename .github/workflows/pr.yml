@@ -156,6 +156,34 @@ jobs:
           path: libs/*/test-output/*/coverage/lcov.info
           if-no-files-found: warn
 
+  # The workspace develops against RN 0.86, but Ledger Wallet Mobile still ships
+  # RN 0.81. Re-run ui-rnative typecheck and tests on LWM's stack so code that
+  # only works on the newer versions can't land unnoticed. Remove this job (and
+  # the preset fallback in libs/ui-rnative/jest.config.ts) once LWM is on RN 0.86
+  # (LIVE-39331).
+  rn-081-compat:
+    name: RN 0.81 compatibility (ui-rnative)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          cache-nx: 'false'
+          set-shas: 'false'
+
+      - name: Install Ledger Wallet Mobile's RN 0.81 stack
+        run: |
+          node internals/repo-tools/src/ci/rn-081-compat/pinRn081Stack.mjs
+          npm install --legacy-peer-deps --no-audit --no-fund
+
+      - run: npx nx run @ledgerhq/lumen-ui-rnative:typecheck --skip-nx-cache
+      - run: npx nx run @ledgerhq/lumen-ui-rnative:test --skip-nx-cache
+
   sonar:
     name: Sonar scan
     needs: unit-testing
