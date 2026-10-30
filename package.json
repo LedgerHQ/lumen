@@ -7,12 +7,14 @@
     "postinstall": "patch-package",
     "check:agent-docs": "node internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs",
     "check:package-exports": "node internals/repo-tools/src/ci/check-package-exports/packageExports.mjs",
+    "check:package-types": "node internals/repo-tools/src/ci/check-package-types/packageTypes.mjs",
     "check:deps": "syncpack lint",
     "fix:deps": "syncpack fix && npm install",
     "check:peer-deps": "node internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs"
   },
   "private": true,
   "devDependencies": {
+    "@arethetypeswrong/core": "0.18.5",
     "@babel/core": "^7.25.2",
     "@babel/plugin-transform-react-jsx": "^7.25.9",
     "@babel/preset-react": "^7.14.5",

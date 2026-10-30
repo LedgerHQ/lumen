@@ -119,10 +119,17 @@ jobs:
 
       - run: npx nx affected -t test:bundle
 
-      - name: Verify advertised exports ship (publint)
-        run: |
-          npx nx run-many -t build --projects='libs/*'
-          npm run check:package-exports
+      - name: Build publishable libs
+        id: build
+        run: npx nx run-many -t build --projects='libs/*'
+
+      - name: Verify package exports (publint)
+        run: npm run check:package-exports
+
+      # Runs even when publint fails, so one CI run reports both.
+      - name: Verify package types (attw)
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: npm run check:package-types
 
   unit-testing:
     name: Unit Testing

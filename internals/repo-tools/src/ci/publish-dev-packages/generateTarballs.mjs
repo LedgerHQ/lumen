@@ -10,7 +10,6 @@
  * Env: PR_NUMBER, HEAD_SHA, REPO, AFFECTED_PROJECTS (newline-separated package
  * names), RUNNER_TEMP, GITHUB_OUTPUT.
  */
-import { execFileSync } from 'node:child_process';
 import {
   appendFileSync,
   mkdirSync,
@@ -19,6 +18,7 @@ import {
 } from 'node:fs';
 import { join } from 'node:path';
 import { fail, info, ok, step } from '../../shared/logging.mjs';
+import { pack } from '../../shared/pack.mjs';
 import {
   libByPackageName,
   workspaceRoot,
@@ -65,29 +65,6 @@ export function renderComment({ tag, repo, headSha, packed }) {
     `> **Commit:** \`${headSha}\``,
     '',
   ].join('\n');
-}
-
-/**
- * @param {string} dir lib directory, relative to the workspace root
- * @param {string} destination
- * @returns {string} tarball filename
- */
-function pack(dir, destination) {
-  // An absolute path, not `libs/foo`: npm reads a bare `owner/name` as a GitHub
-  // shorthand and tries to clone it. The bash this replaced got away with
-  // `libs/foo/` only because of the trailing slash.
-  const stdout = execFileSync(
-    'npm',
-    [
-      'pack',
-      join(workspaceRoot, dir),
-      '--pack-destination',
-      destination,
-      '--json',
-    ],
-    { cwd: workspaceRoot, encoding: 'utf8' },
-  );
-  return JSON.parse(stdout)[0].filename;
 }
 
 /** @param {string} dir @param {string} version */
