@@ -153,7 +153,6 @@ const globToRegex = (glob: string): RegExp => {
   return new RegExp('^' + re + '$');
 };
 
-// True if at least one file under `startRel` matches `regex`.
 const anyFileMatches = (regex: RegExp, startRel: string): boolean => {
   const startAbs = join(root, startRel || '.');
   if (!existsSync(startAbs)) return false;
