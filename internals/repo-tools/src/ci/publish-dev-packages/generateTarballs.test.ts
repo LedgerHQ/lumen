@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { devVersion, renderComment } from './generateTarballs.mjs';
+import { devVersion, renderComment } from './generateTarballs.ts';
 
 describe('devVersion', () => {
   it('matches the scheme the workflow published before', () => {

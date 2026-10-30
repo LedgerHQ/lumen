@@ -8,31 +8,28 @@
  * `sonar-project.properties`. The runner is now detected from whichever report
  * exists on disk.
  *
- * Run: node internals/repo-tools/src/ci/fix-lcov-paths/fixLcovPaths.mjs
+ * Run: node internals/repo-tools/src/ci/fix-lcov-paths/fixLcovPaths.ts
  */
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ok, skip, step } from '../../shared/logging.mjs';
-import { libs, workspaceRoot } from '../../shared/workspaceProjects.mjs';
+import { ok, skip, step } from '../../shared/logging.ts';
+import { libs, workspaceRoot } from '../../shared/workspaceProjects.ts';
 
-const RUNNERS = ['vitest', 'jest'];
+const RUNNERS = ['vitest', 'jest'] as const;
 
 /**
  * Prefix every `SF:` record with the lib's directory, once. Already-prefixed
  * reports are left alone so the script is safe to run twice.
- * @param {string} content
- * @param {string} dir
- * @returns {string}
  */
-export function prefixSourceFiles(content, dir) {
+export function prefixSourceFiles(content: string, dir: string): string {
   return content.replace(/^SF:(?!\/|[A-Za-z]:)(.*)$/gm, (line, rest) =>
     rest.startsWith(`${dir}/`) ? line : `SF:${dir}/${rest}`,
   );
 }
 
-/** @returns {string[]} the reports that were rewritten, root-relative */
-export function fixLcovPaths() {
-  const rewritten = [];
+/** @returns the reports that were rewritten, root-relative */
+export function fixLcovPaths(): string[] {
+  const rewritten: string[] = [];
 
   for (const lib of libs()) {
     const report = RUNNERS.map(

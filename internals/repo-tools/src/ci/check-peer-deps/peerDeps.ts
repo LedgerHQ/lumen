@@ -4,21 +4,23 @@
  * installed version satisfies the peer range, or we test against a version
  * consumers are told they cannot use. syncpack cannot relate the two.
  *
- * Run: node internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs
+ * Run: node internals/repo-tools/src/ci/check-peer-deps/peerDeps.ts
  */
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import semver from 'semver';
-import { fail, ok, step } from '../../shared/logging.mjs';
+import { fail, ok, step } from '../../shared/logging.ts';
 import {
   publishableLibs,
   workspaceRoot,
-} from '../../shared/workspaceProjects.mjs';
+} from '../../shared/workspaceProjects.ts';
 
 // Bounding a published peer narrows what consumers may install, so it waits
 // for a planned release.
-/** @type {Record<string, { name: string, reason: string }[]>} */
-export const unboundedPeerExceptions = {
+export const unboundedPeerExceptions: Record<
+  string,
+  { name: string; reason: string }[]
+> = {
   '@ledgerhq/lumen-ui-rnative': [
     {
       name: 'react-native-gesture-handler',
@@ -32,36 +34,25 @@ export const unboundedPeerExceptions = {
   ],
 };
 
-/**
- * @typedef {object} Workspace
- * @property {Record<string, string>} rootDevDependencies
- * @property {Record<string, { version?: string } | undefined>} lockedPackages
- *   the `packages` map of package-lock.json
- */
+type Workspace = {
+  rootDevDependencies: Record<string, string>;
+  /** the `packages` map of package-lock.json */
+  lockedPackages: Record<string, { version?: string } | undefined>;
+};
 
-/**
- * @typedef {{ ok: true, installed: string } | { ok: false, reason: string }} PeerResult
- */
+type PeerResult =
+  | { ok: true; installed: string }
+  | { ok: false; reason: string };
 
-/**
- * @param {string} range
- * @returns {boolean}
- */
-export const isUnbounded = (range) => semver.satisfies('99999.0.0', range);
+export const isUnbounded = (range: string): boolean =>
+  semver.satisfies('99999.0.0', range);
 
-/**
- * @param {string} name
- * @param {string} range
- * @param {Workspace} workspace
- * @param {{ allowUnbounded?: boolean }} [options]
- * @returns {PeerResult}
- */
 export function checkPeer(
-  name,
-  range,
-  { rootDevDependencies, lockedPackages },
-  { allowUnbounded = false } = {},
-) {
+  name: string,
+  range: string,
+  { rootDevDependencies, lockedPackages }: Workspace,
+  { allowUnbounded = false }: { allowUnbounded?: boolean } = {},
+): PeerResult {
   if (!rootDevDependencies[name]) {
     return {
       ok: false,
@@ -99,17 +90,12 @@ export function checkPeer(
   return { ok: true, installed };
 }
 
-/** @returns {number} how many peers failed */
-export function checkPeerDeps() {
-  /**
-   * @param {string} file
-   * @returns {any}
-   */
-  const readJson = (file) =>
+/** @returns how many peers failed */
+export function checkPeerDeps(): number {
+  const readJson = (file: string) =>
     JSON.parse(readFileSync(join(workspaceRoot, file), 'utf8'));
 
-  /** @type {Workspace} */
-  const workspace = {
+  const workspace: Workspace = {
     rootDevDependencies: readJson('package.json').devDependencies ?? {},
     lockedPackages: readJson('package-lock.json').packages,
   };
@@ -119,8 +105,7 @@ export function checkPeerDeps() {
   let failed = 0;
 
   for (const lib of libs) {
-    /** @type {Record<string, string>} */
-    const peers =
+    const peers: Record<string, string> =
       readJson(join(lib.dir, 'package.json')).peerDependencies ?? {};
     if (Object.keys(peers).length === 0) continue;
     step(lib.name);
