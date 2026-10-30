@@ -23,18 +23,31 @@ const labelLayouts: Record<
   'end-bottom': { flexDirection: 'column-reverse', alignItems: 'flex-end' },
 };
 
-const useStyles = ({
-  appearance,
+const useLayoutStyles = ({
   labelPosition,
 }: {
-  appearance: ProgressAppearance;
   labelPosition: ProgressLabelPosition;
-}): {
-  layout: ViewStyle;
-  label: TextStyle;
-  track: ViewStyle;
-  fill: ViewStyle;
-} => {
+}): { layout: ViewStyle; label: TextStyle } => {
+  return useStyleSheet(
+    (t) => ({
+      layout: {
+        width: '100%',
+        gap: t.spacings.s8,
+        ...labelLayouts[labelPosition],
+      },
+      label: {
+        color: t.colors.text.muted,
+      },
+    }),
+    [labelPosition],
+  );
+};
+
+const useTrackStyles = ({
+  appearance,
+}: {
+  appearance: ProgressAppearance;
+}): { track: ViewStyle; fill: ViewStyle } => {
   return useStyleSheet(
     (t) => {
       const fillColors: Record<ProgressAppearance, string> = {
@@ -54,14 +67,6 @@ const useStyles = ({
       };
 
       return {
-        layout: {
-          width: '100%',
-          gap: t.spacings.s8,
-          ...labelLayouts[labelPosition],
-        },
-        label: {
-          color: t.colors.text.muted,
-        },
         track: {
           width: '100%',
           height: t.sizes.s6,
@@ -76,7 +81,35 @@ const useStyles = ({
         },
       };
     },
-    [appearance, labelPosition],
+    [appearance],
+  );
+};
+
+type ProgressTrackProps = Omit<ProgressBarProps, 'label' | 'labelPosition'>;
+
+const ProgressTrack = ({
+  value,
+  appearance = 'base',
+  accessibilityLabel,
+  style,
+  ref,
+  ...props
+}: ProgressTrackProps) => {
+  const styles = useTrackStyles({ appearance });
+  const animatedFillStyle = useAnimatedProgressWidth(value);
+
+  return (
+    <Box
+      {...props}
+      ref={ref}
+      style={StyleSheet.flatten([styles.track, style])}
+      accessible
+      accessibilityRole='progressbar'
+      accessibilityLabel={accessibilityLabel}
+      accessibilityValue={{ min: 0, max: 100, now: value }}
+    >
+      <Animated.View style={[styles.fill, animatedFillStyle]} />
+    </Box>
   );
 };
 
@@ -96,40 +129,23 @@ const useStyles = ({
  */
 export const ProgressBar = ({
   value,
-  appearance = 'base',
   label,
   labelPosition = 'start-bottom',
-  accessibilityLabel,
   lx,
   style,
-  ref,
   ...props
 }: ProgressBarProps) => {
   const hasLabel = label != null && typeof label !== 'boolean';
   const clampedValue = Number.isNaN(value)
     ? 0
     : Math.min(100, Math.max(0, value));
-  const styles = useStyles({ appearance, labelPosition });
-  const animatedFillStyle = useAnimatedProgressWidth(clampedValue);
+  const styles = useLayoutStyles({ labelPosition });
 
-  const bar = (
-    <Box
-      {...props}
-      ref={ref}
-      lx={hasLabel ? undefined : lx}
-      style={
-        hasLabel ? styles.track : StyleSheet.flatten([styles.track, style])
-      }
-      accessible
-      accessibilityRole='progressbar'
-      accessibilityLabel={accessibilityLabel}
-      accessibilityValue={{ min: 0, max: 100, now: clampedValue }}
-    >
-      <Animated.View style={[styles.fill, animatedFillStyle]} />
-    </Box>
-  );
-
-  if (!hasLabel) return bar;
+  if (!hasLabel) {
+    return (
+      <ProgressTrack {...props} value={clampedValue} lx={lx} style={style} />
+    );
+  }
 
   // The label comes first in the tree and flex direction moves it below the bar.
   return (
@@ -142,7 +158,7 @@ export const ProgressBar = ({
       >
         {label}
       </Text>
-      {bar}
+      <ProgressTrack {...props} value={clampedValue} />
     </Box>
   );
 };
