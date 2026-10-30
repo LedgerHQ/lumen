@@ -28,7 +28,7 @@
     "prebuild": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx expo prebuild --clean",
+        "command": "npx expo prebuild",
         "cwd": "apps/app-sandbox-rnative"
       }
     },

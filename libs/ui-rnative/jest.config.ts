@@ -17,9 +17,16 @@ const transformIncludePatterns = [
   'internmap',
 ];
 
+// The rn-081-compat CI job also runs this suite on RN 0.81, where the preset
+// still ships inside react-native (it moved to its own package in 0.85).
+// Drop the fallback with that job once Ledger Wallet Mobile is on RN 0.86.
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { version: reactNativeVersion } = require('react-native/package.json');
+const reactNativeMinor = Number(reactNativeVersion.split('.')[1]);
+
 export default {
   displayName: '@ledgerhq/lumen-ui-rnative',
-  preset: 'react-native',
+  preset: reactNativeMinor >= 85 ? '@react-native/jest-preset' : 'react-native',
   setupFiles: ['<rootDir>/jest.setup.ts'],
   transformIgnorePatterns: [
     `node_modules/(?!(.pnpm|${transformIncludePatterns.join('|')})/)`,
