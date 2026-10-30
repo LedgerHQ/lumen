@@ -151,6 +151,7 @@ export const MediaImage = ({
           source={{ uri: src }}
           style={styles.image}
           accessible={false}
+          accessibilityIgnoresInvertColors
           onError={() => setError(true)}
           testID='media-image-img'
         />

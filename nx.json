@@ -151,6 +151,7 @@
             "@nx/eslint-plugin",
             "eslint-plugin-import",
             "eslint-plugin-jsx-a11y",
+            "eslint-plugin-react-native-a11y",
             "eslint-plugin-prettier",
             "eslint-config-prettier",
             "prettier",
