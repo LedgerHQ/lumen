@@ -19,10 +19,11 @@ script or workflow that runs it. A `check-*` folder is a CI gate.
 | --- | --- | --- | --- |
 | `ci/check-agent-docs/` | AGENTS.md, skills and the codebase stay in sync | `agentDocsDrift.mjs` | `npm run check:agent-docs`, `pr.yml` job `agent-drift` |
 | `ci/check-package-exports/` | Every advertised export ships in the tarball | `packageExports.mjs` | `npm run check:package-exports`, `pr.yml` job `bundle-checks` |
+| `ci/check-package-types/` | Shipped types resolve for bundler and node16 ESM consumers | `packageTypes.mjs` | `npm run check:package-types`, `pr.yml` job `bundle-checks` |
 | `ci/check-peer-deps/` | Lib peers accept the versions we test with | `peerDeps.mjs` | `npm run check:peer-deps`, `pr.yml` job `dependency-alignment` |
 | `ci/fix-lcov-paths/` | Coverage paths SonarCloud can resolve | `fixLcovPaths.mjs` | `pr.yml` job `unit-testing` |
 | `ci/publish-dev-packages/` | Per-PR dev tarballs and their PR comment | `getPublishableProjects.mjs`, `generateTarballs.mjs` | `publish-dev-packages.yml` |
-| `shared/` | Which libs exist and publish; console output | `workspaceProjects.mjs`, `logging.mjs` | imported only |
+| `shared/` | Which libs exist and publish; packing; console output | `workspaceProjects.mjs`, `pack.mjs`, `logging.mjs` | imported only |
 
 A new script goes in the folder of its use case, or in a new folder named after
 its npm script or workflow. Tests sit next to the code as `*.test.mjs`. A
@@ -31,6 +32,7 @@ use-case folder imports from `shared/` only, never from another use case.
 > **`ci/check-agent-docs/` must stay dependency-free.** Its CI job skips
 > `npm ci` and Nx, so it may import `node:` builtins and sibling files in this
 > project, nothing else. `ci/check-package-exports/` uses `publint`,
+> `ci/check-package-types/` uses `@arethetypeswrong/core`,
 > `ci/check-peer-deps/` uses `semver`.
 
 ## Dev tarballs dry run

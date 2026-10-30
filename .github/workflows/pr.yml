@@ -119,10 +119,11 @@ jobs:
 
       - run: npx nx affected -t test:bundle
 
-      - name: Verify advertised exports ship (publint)
+      - name: Verify package exports and types (publint, attw)
         run: |
           npx nx run-many -t build --projects='libs/*'
           npm run check:package-exports
+          npm run check:package-types
 
   unit-testing:
     name: Unit Testing
