@@ -94,6 +94,7 @@
     "eslint-plugin-storybook": "10.2.14",
     "expo": "~57.0.31",
     "expo-haptics": "~57.0.3",
+    "expo-router": "~57.0.29",
     "jest": "~29.7.0",
     "jest-react-native": "18.0.0",
     "jsdom": "~22.1.0",
