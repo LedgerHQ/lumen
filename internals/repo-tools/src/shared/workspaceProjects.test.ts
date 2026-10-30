@@ -3,7 +3,7 @@ import {
   libByPackageName,
   libs,
   publishableLibs,
-} from './workspaceProjects.mjs';
+} from './workspaceProjects.ts';
 
 describe('workspaceProjects', () => {
   it('finds the libs on disk with their package names', () => {

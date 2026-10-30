@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "postinstall": "patch-package",
-    "check:agent-docs": "node internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs",
-    "check:package-exports": "node internals/repo-tools/src/ci/check-package-exports/packageExports.mjs",
+    "check:agent-docs": "node internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.ts",
+    "check:package-exports": "node internals/repo-tools/src/ci/check-package-exports/packageExports.ts",
     "check:deps": "syncpack lint",
     "fix:deps": "syncpack fix && npm install",
-    "check:peer-deps": "node internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs"
+    "check:peer-deps": "node internals/repo-tools/src/ci/check-peer-deps/peerDeps.ts"
   },
   "private": true,
   "devDependencies": {

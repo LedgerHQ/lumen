@@ -24,7 +24,7 @@
 //      servers with the same url/command, except `CURSOR_ONLY_MCP` servers,
 //      which must stay out of `.mcp.json`.
 //
-// Deterministic, no dependencies. Run: node internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs
+// Deterministic, no dependencies. Run: node internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.ts
 
 import { readFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -32,10 +32,10 @@ import { fileURLToPath } from 'node:url';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../../../../..');
 const skillsDir = join(root, '.claude/skills');
-/** @type {string[]} */
-const errors = [];
-/** @param {string} msg */
-const err = (msg) => errors.push(msg);
+const errors: string[] = [];
+const err = (msg: string): void => {
+  errors.push(msg);
+};
 
 // --- Shared regexps ------------------------------------------------------
 const RE_H2 = /^## /m;
@@ -71,15 +71,11 @@ const PRUNE = new Set([
   'tmp',
 ]);
 
-/** @param {string} md @param {string} title */
-const h2Section = (md, title) =>
+const h2Section = (md: string, title: string): string =>
   md.split(new RegExp(`^## ${title}$`, 'm'))[1]?.split(RE_H2)[0] ?? '';
 
-/** @param {string} section */
-const tableRows = (section) =>
-  section
-    .split('\n')
-    .filter((/** @type {string} */ line) => line.trim().startsWith('|'));
+const tableRows = (section: string): string[] =>
+  section.split('\n').filter((line) => line.trim().startsWith('|'));
 
 // --- Inventory: skill folders that actually contain a SKILL.md ---
 const skillFolders = readdirSync(skillsDir, { withFileTypes: true })
@@ -92,9 +88,9 @@ const skillSet = new Set(skillFolders);
 
 // --- Parse the AGENTS.md "Skills index" table ---
 const agents = readFileSync(join(root, 'AGENTS.md'), 'utf8');
-const indexedSkills = new Set();
+const indexedSkills = new Set<string>();
 for (const line of tableRows(h2Section(agents, 'Skills index'))) {
-  const cols = line.split('|').map((/** @type {string} */ c) => c.trim());
+  const cols = line.split('|').map((c) => c.trim());
   const last = cols[cols.length - 2] ?? ''; // trailing '|' yields an empty final cell
   const m = last.match(RE_SKILL_SLUG);
   if (m) indexedSkills.add(m[1]);
@@ -112,9 +108,8 @@ for (const s of indexedSkills) {
 
 // --- Glob helpers (dependency-free) --------------------------------------
 // Keep the path up to (but excluding) the first segment containing a wildcard.
-/** @param {string} p */
-const staticPrefix = (p) => {
-  const out = [];
+const staticPrefix = (p: string): string => {
+  const out: string[] = [];
   for (const part of p.split('/')) {
     if (RE_GLOB_WILD.test(part)) break;
     out.push(part);
@@ -123,19 +118,15 @@ const staticPrefix = (p) => {
 };
 
 // Expand a single level of `{a,b}` alternations into concrete globs.
-/** @param {string} glob @returns {string[]} */
-const expandBraces = (glob) => {
+const expandBraces = (glob: string): string[] => {
   const m = glob.match(RE_BRACE_GROUP);
   if (!m) return [glob];
   return m[1]
     .split(',')
-    .flatMap((/** @type {string} */ opt) =>
-      expandBraces(glob.replace(m[0], opt)),
-    );
+    .flatMap((opt) => expandBraces(glob.replace(m[0], opt)));
 };
 
-/** @param {string} glob */
-const globToRegex = (glob) => {
+const globToRegex = (glob: string): RegExp => {
   let re = '';
   for (let i = 0; i < glob.length; i++) {
     const c = glob[i];
@@ -162,9 +153,7 @@ const globToRegex = (glob) => {
   return new RegExp('^' + re + '$');
 };
 
-// True if at least one file under `startRel` matches `regex`.
-/** @param {RegExp} regex @param {string} startRel */
-const anyFileMatches = (regex, startRel) => {
+const anyFileMatches = (regex: RegExp, startRel: string): boolean => {
   const startAbs = join(root, startRel || '.');
   if (!existsSync(startAbs)) return false;
   // A glob without wildcards is its own prefix: a file, not a folder to walk.
@@ -191,9 +180,8 @@ const anyFileMatches = (regex, startRel) => {
 };
 
 // Split a `paths:` value on top-level commas (commas inside `{}` are kept).
-/** @param {string} value */
-const splitPaths = (value) => {
-  const out = [];
+const splitPaths = (value: string): string[] => {
+  const out: string[] = [];
   let depth = 0,
     cur = '';
   for (const ch of value) {
@@ -259,7 +247,7 @@ for (const skill of skillFolders) {
   if (pathsLine) {
     for (const glob of splitPaths(pathsLine[1])) {
       if (SKIP_EXISTENCE.test(glob)) continue;
-      const live = expandBraces(glob).some((/** @type {string} */ g) =>
+      const live = expandBraces(glob).some((g) =>
         anyFileMatches(globToRegex(g), staticPrefix(g)),
       );
       if (!live) {
@@ -272,9 +260,9 @@ for (const skill of skillFolders) {
 }
 
 // --- 6. Libraries table ↔ filesystem -------------------------------------
-const tableLibs = new Map(); // libs/x -> package name
+const tableLibs = new Map<string, string | null>(); // libs/x -> package name
 for (const line of tableRows(h2Section(agents, 'Libraries'))) {
-  const cols = line.split('|').map((/** @type {string} */ c) => c.trim());
+  const cols = line.split('|').map((c) => c.trim());
   const libPath = cols[1]?.match(RE_LIB_PATH)?.[1];
   const pkgName = cols[2]?.match(RE_PKG_NAME)?.[1];
   if (libPath) tableLibs.set(libPath, pkgName ?? null);
@@ -316,7 +304,7 @@ for (const lib of libsOnDisk) {
 }
 
 // --- 7. Internals table ↔ filesystem ------------------------------------
-const tableInternals = new Set();
+const tableInternals = new Set<string>();
 for (const line of tableRows(h2Section(agents, 'Internals'))) {
   const path = line.split('|')[1]?.match(RE_INTERNAL_PATH)?.[1];
   if (path) tableInternals.add(path);
@@ -392,8 +380,9 @@ for (const path of internalsOnDisk) {
 }
 
 // --- 8. MCP config parity (.mcp.json ↔ .cursor/mcp.json) -----------------
-/** @param {string} rel */
-const readServers = (rel) => {
+type McpServers = Record<string, Record<string, unknown>>;
+
+const readServers = (rel: string): McpServers | null => {
   const p = join(root, rel);
   if (!existsSync(p)) {
     err(`Expected MCP config "${rel}" is missing.`);

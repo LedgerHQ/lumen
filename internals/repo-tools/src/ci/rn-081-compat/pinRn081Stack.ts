@@ -11,12 +11,12 @@
  *
  * Delete this script and the job once LWM is on RN 0.86 (LIVE-39331).
  *
- * Run: node internals/repo-tools/src/ci/rn-081-compat/pinRn081Stack.mjs
+ * Run: node internals/repo-tools/src/ci/rn-081-compat/pinRn081Stack.ts
  */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { ok, step } from '../../shared/logging.mjs';
-import { workspaceRoot } from '../../shared/workspaceProjects.mjs';
+import { ok, step } from '../../shared/logging.ts';
+import { workspaceRoot } from '../../shared/workspaceProjects.ts';
 
 // Mirrors the `catalog:` in ledger-live's pnpm-workspace.yaml.
 export const RN_081_STACK = {
@@ -35,11 +35,12 @@ export const RN_081_STACK = {
 
 const SANDBOX_WORKSPACES = ['apps/*'];
 
-/**
- * @param {{ devDependencies: Record<string, string>, workspaces: string[] }} manifest
- * @returns {{ devDependencies: Record<string, string>, workspaces: string[] }}
- */
-export function pinRn081Stack(manifest) {
+type RootManifest = {
+  devDependencies: Record<string, string>;
+  workspaces: string[];
+};
+
+export function pinRn081Stack<T extends RootManifest>(manifest: T): T {
   return {
     ...manifest,
     devDependencies: { ...manifest.devDependencies, ...RN_081_STACK },

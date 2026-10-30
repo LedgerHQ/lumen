@@ -147,7 +147,7 @@ jobs:
           fi
 
       - name: Fix lcov paths to be relative to workspace root
-        run: node internals/repo-tools/src/ci/fix-lcov-paths/fixLcovPaths.mjs
+        run: node internals/repo-tools/src/ci/fix-lcov-paths/fixLcovPaths.ts
 
       - name: Upload coverage reports
         uses: actions/upload-artifact@v4
@@ -178,7 +178,7 @@ jobs:
 
       - name: Install Ledger Wallet Mobile's RN 0.81 stack
         run: |
-          node internals/repo-tools/src/ci/rn-081-compat/pinRn081Stack.mjs
+          node internals/repo-tools/src/ci/rn-081-compat/pinRn081Stack.ts
           npm install --legacy-peer-deps --no-audit --no-fund
 
       - run: npx nx run @ledgerhq/lumen-ui-rnative:typecheck --skip-nx-cache
