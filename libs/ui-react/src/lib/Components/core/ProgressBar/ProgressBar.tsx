@@ -57,6 +57,31 @@ const progressFillVariants = cva(
   },
 );
 
+type ProgressTrackProps = Omit<ProgressBarProps, 'label' | 'labelPosition'>;
+
+const ProgressTrack = ({
+  value,
+  appearance = 'base',
+  className,
+  ref,
+  ...props
+}: ProgressTrackProps) => (
+  <div
+    {...props}
+    ref={ref}
+    role='progressbar'
+    aria-valuemin={0}
+    aria-valuemax={100}
+    aria-valuenow={value}
+    className={cn(progressTrackVariants(), className)}
+  >
+    <div
+      className={progressFillVariants({ appearance })}
+      style={{ width: `${value}%` }}
+    />
+  </div>
+);
+
 /**
  * A determinate progress bar showing how far along a task is. An optional label
  * can sit above or below the bar. `className` and `style` target the outermost
@@ -73,12 +98,10 @@ const progressFillVariants = cva(
  */
 export const ProgressBar = ({
   value,
-  appearance = 'base',
   label,
   labelPosition,
   className,
   style,
-  ref,
   ...props
 }: ProgressBarProps) => {
   const hasLabel = label != null && typeof label !== 'boolean';
@@ -86,25 +109,16 @@ export const ProgressBar = ({
     ? 0
     : Math.min(100, Math.max(0, value));
 
-  const bar = (
-    <div
-      {...props}
-      ref={ref}
-      role='progressbar'
-      aria-valuemin={0}
-      aria-valuemax={100}
-      aria-valuenow={clampedValue}
-      className={cn(progressTrackVariants(), !hasLabel && className)}
-      style={hasLabel ? undefined : style}
-    >
-      <div
-        className={progressFillVariants({ appearance })}
-        style={{ width: `${clampedValue}%` }}
+  if (!hasLabel) {
+    return (
+      <ProgressTrack
+        {...props}
+        value={clampedValue}
+        className={className}
+        style={style}
       />
-    </div>
-  );
-
-  if (!hasLabel) return bar;
+    );
+  }
 
   // The label comes first in the DOM and flex direction moves it below the bar.
   return (
@@ -113,7 +127,7 @@ export const ProgressBar = ({
       style={style}
     >
       <span className={labelVariants({ labelPosition })}>{label}</span>
-      {bar}
+      <ProgressTrack {...props} value={clampedValue} />
     </div>
   );
 };
