@@ -18,23 +18,24 @@ export const workspaceRoot = join(
   '../../../..',
 );
 
-/**
- * @typedef {object} Lib
- * @property {string} slug      folder name under `libs/`
- * @property {string} dir       path relative to the workspace root
- * @property {string} name      npm package name
- * @property {string} version
- * @property {boolean} isPrivate
- */
+export type Lib = {
+  /** folder name under `libs/` */
+  slug: string;
+  /** path relative to the workspace root */
+  dir: string;
+  /** npm package name */
+  name: string;
+  version: string;
+  isPrivate: boolean;
+};
 
-/** @returns {Lib[]} */
-export function libs() {
+export function libs(): Lib[] {
   const libsDir = join(workspaceRoot, 'libs');
   if (!existsSync(libsDir)) return [];
 
   return readdirSync(libsDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
-    .map((entry) => {
+    .map((entry): Lib | null => {
       const dir = `libs/${entry.name}`;
       const manifestPath = join(workspaceRoot, dir, 'package.json');
       if (!existsSync(manifestPath)) return null;
@@ -51,20 +52,15 @@ export function libs() {
     .sort((a, b) => a.slug.localeCompare(b.slug));
 }
 
-/**
- * Libs npm would actually accept. `private: true` is the guard, not the folder.
- * @returns {Lib[]}
- */
-export function publishableLibs() {
+/** Libs npm would actually accept. `private: true` is the guard, not the folder. */
+export function publishableLibs(): Lib[] {
   return libs().filter((lib) => !lib.isPrivate);
 }
 
 /**
  * Resolve a published package name back to its lib, for the many CI steps that
  * are handed `@ledgerhq/lumen-*` and need the directory.
- * @param {string} packageName
- * @returns {Lib | undefined}
  */
-export function libByPackageName(packageName) {
+export function libByPackageName(packageName: string): Lib | undefined {
   return libs().find((lib) => lib.name === packageName);
 }

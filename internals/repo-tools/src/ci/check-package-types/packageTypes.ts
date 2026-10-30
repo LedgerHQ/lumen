@@ -4,7 +4,7 @@
  * advertises must resolve for consumers. publint (`check-package-exports`)
  * proves the files ship; this proves TypeScript can follow them.
  *
- * Requires built libs. Run: node internals/repo-tools/src/ci/check-package-types/packageTypes.mjs
+ * Requires built libs. Run: node internals/repo-tools/src/ci/check-package-types/packageTypes.ts
  */
 import { mkdtempSync, readFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -12,36 +12,30 @@ import { join } from 'node:path';
 import {
   checkPackage,
   createPackageFromTarballData,
+  type Problem,
+  type ResolutionKind,
 } from '@arethetypeswrong/core';
 import {
   problemAffectsResolutionKind,
   problemKindInfo,
 } from '@arethetypeswrong/core/problems';
 import { allResolutionKinds } from '@arethetypeswrong/core/utils';
-import { fail, ok, step } from '../../shared/logging.mjs';
-import { pack } from '../../shared/pack.mjs';
-import { publishableLibs } from '../../shared/workspaceProjects.mjs';
-
-/**
- * @typedef {import('@arethetypeswrong/core').ResolutionKind} ResolutionKind
- * @typedef {import('@arethetypeswrong/core').Problem} Problem
- * @typedef {import('@arethetypeswrong/core').Analysis} Analysis
- */
+import { fail, ok, step } from '../../shared/logging.ts';
+import { pack } from '../../shared/pack.ts';
+import { publishableLibs, type Lib } from '../../shared/workspaceProjects.ts';
 
 /**
  * Skipped for every lib: no consumer resolves with node10 (all use `bundler`,
  * per the adoption registry), and the libs are ESM-only, so a CommonJS
  * `require` can only reach them through a dynamic import.
- * @type {ResolutionKind[]}
  */
-export const ignoredForAll = ['node10', 'node16-cjs'];
+export const ignoredForAll: ResolutionKind[] = ['node10', 'node16-cjs'];
 
-/**
- * @typedef {object} ResolutionException
- * @property {ResolutionKind[]} [ignoreResolutions]
- * @property {string[]} [excludeEntrypoints]
- * @property {string} reason
- */
+type ResolutionException = {
+  ignoreResolutions?: ResolutionKind[];
+  excludeEntrypoints?: string[];
+  reason: string;
+};
 
 const MAX_PRINTED_PROBLEMS = 20;
 
@@ -51,9 +45,8 @@ const extensionlessDeclarations =
 /**
  * Libs not yet held to node16 ESM. Anything unlisted, including a new lib, is
  * checked on both `bundler` and `node16-esm`.
- * @type {Record<string, ResolutionException>}
  */
-export const resolutionExceptions = {
+export const resolutionExceptions: Record<string, ResolutionException> = {
   '@ledgerhq/lumen-ui-react': {
     ignoreResolutions: ['node16-esm'],
     excludeEntrypoints: ['./tailwind.css'],
@@ -69,11 +62,10 @@ export const resolutionExceptions = {
   },
 };
 
-/**
- * @param {string} packageName
- * @returns {{ checkedResolutions: ResolutionKind[], excludeEntrypoints: string[] }}
- */
-export function policyFor(packageName) {
+export function policyFor(packageName: string): {
+  checkedResolutions: ResolutionKind[];
+  excludeEntrypoints: string[];
+} {
   const exception = resolutionExceptions[packageName];
   const ignored = [...ignoredForAll, ...(exception?.ignoreResolutions ?? [])];
   return {
@@ -84,11 +76,7 @@ export function policyFor(packageName) {
   };
 }
 
-/**
- * @param {Problem} problem
- * @returns {string}
- */
-export function describeProblem(problem) {
+export function describeProblem(problem: Problem): string {
   const { title } = problemKindInfo[problem.kind];
   if ('entrypoint' in problem) {
     return `${title}: ${problem.entrypoint} (${problem.resolutionKind})`;
@@ -100,12 +88,8 @@ export function describeProblem(problem) {
   return `${title}: ${problem.typesFileName}`;
 }
 
-/**
- * @param {import('../../shared/workspaceProjects.mjs').Lib} lib
- * @param {string} tarballDir
- * @returns {Promise<string[]>} one message per blocking problem
- */
-async function checkLib(lib, tarballDir) {
+/** @returns one message per blocking problem */
+async function checkLib(lib: Lib, tarballDir: string): Promise<string[]> {
   const { checkedResolutions, excludeEntrypoints } = policyFor(lib.name);
   const tarball = readFileSync(join(tarballDir, pack(lib.dir, tarballDir)));
   const result = await checkPackage(
@@ -123,7 +107,8 @@ async function checkLib(lib, tarballDir) {
     .map(describeProblem);
 }
 
-async function checkPackageTypes() {
+/** @returns how many packages failed */
+async function checkPackageTypes(): Promise<number> {
   const tarballDir = mkdtempSync(join(tmpdir(), 'package-types-'));
   let failed = 0;
 

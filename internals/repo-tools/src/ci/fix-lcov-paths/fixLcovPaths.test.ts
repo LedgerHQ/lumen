@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { prefixSourceFiles } from './fixLcovPaths.mjs';
+import { prefixSourceFiles } from './fixLcovPaths.ts';
 
 describe('prefixSourceFiles', () => {
   it('makes project-relative records root-relative', () => {
