@@ -14,6 +14,6 @@ export const resolveLineLabelContext = (
   return {
     dataIndex,
     value,
-    label: formatter ? String(formatter(value)) : String(value),
+    label: formatter ? formatter(value) : String(value),
   };
 };

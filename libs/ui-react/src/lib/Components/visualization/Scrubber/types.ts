@@ -1,3 +1,4 @@
+import type { LineLabelContext } from '@ledgerhq/lumen-utils-shared';
 import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
 import type { ScrubbingOptions } from '../CartesianChart/types';
@@ -160,22 +161,7 @@ export type DefaultBeaconLabelProps = {
     }
 );
 
-export type LineLabelContext = {
-  /**
-   * The scrubbed data index.
-   */
-  dataIndex: number;
-  /**
-   * The raw x-axis value at the scrubbed index: the axis `data` entry, or the
-   * index itself when the axis has no `data`.
-   */
-  value: number | string;
-  /**
-   * The x-axis value formatted like its tick labels, using the axis
-   * `tickLabelFormatter` when set.
-   */
-  label: string;
-};
+export type { LineLabelContext };
 
 export type DefaultLineLabelProps = {
   /**
