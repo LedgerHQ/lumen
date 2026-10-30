@@ -161,6 +161,7 @@ export const MediaCard = ({
                 imageLoadError && { opacity: 0 },
               ]}
               accessible={false}
+              accessibilityIgnoresInvertColors
               onError={() => setImageLoadError(true)}
               testID='media-card-image'
             />

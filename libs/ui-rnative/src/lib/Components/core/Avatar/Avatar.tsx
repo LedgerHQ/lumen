@@ -216,6 +216,7 @@ export const Avatar = ({
           source={{ uri: src }}
           style={styles.image}
           accessible={false}
+          accessibilityIgnoresInvertColors
           onError={() => setError(true)}
           testID='avatar-image'
         />
