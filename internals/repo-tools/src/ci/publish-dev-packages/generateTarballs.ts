@@ -67,10 +67,6 @@ export function renderComment({
   ].join('\n');
 }
 
-/**
- * @param dir lib directory, relative to the workspace root
- * @returns tarball filename
- */
 function pack(dir: string, destination: string): string {
   // An absolute path, not `libs/foo`: npm reads a bare `owner/name` as a GitHub
   // shorthand and tries to clone it. The bash this replaced got away with
