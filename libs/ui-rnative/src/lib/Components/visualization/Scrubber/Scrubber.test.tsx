@@ -148,6 +148,33 @@ describe('Scrubber', () => {
     expect(getByText('s2:30')).toBeTruthy();
   });
 
+  it('does not render the line label by default', () => {
+    const { queryByTestId } = renderScrubber();
+    expect(queryByTestId('scrubber-line-label')).toBeNull();
+  });
+
+  it('renders the x-axis value above the line when showLineLabel is true', () => {
+    const { getByTestId } = renderScrubber({
+      scrubberProps: { showLineLabel: true },
+    });
+    const [text] = getByTestId('scrubber-line-label').findAll(
+      (node: { type: unknown }) => node.type === 'Text',
+    );
+    expect(text.props.children).toBe('2');
+  });
+
+  it('renders the custom lineLabel content with the line label context', () => {
+    const { getByText } = renderScrubber({
+      scrubberProps: {
+        showLineLabel: true,
+        lineLabel: ({ dataIndex, label }) => (
+          <Text>{`${dataIndex}:${label}`}</Text>
+        ),
+      },
+    });
+    expect(getByText('2:2')).toBeTruthy();
+  });
+
   it('rests beacons at the end of each line while idle', () => {
     const { getByTestId, queryByTestId } = renderScrubber({
       scrubberProps: { showBeacons: true },

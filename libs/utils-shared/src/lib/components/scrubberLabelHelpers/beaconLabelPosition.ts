@@ -1,7 +1,4 @@
-import { chartConfig } from '../../config';
-import type { DrawingArea } from '../../utils/types';
-
-const { beaconLabel, scrubber } = chartConfig;
+import type { LabelDrawingArea } from './types';
 
 /**
  * Stacks labels top to bottom around their beacons, pushing them apart so they
@@ -10,9 +7,9 @@ const { beaconLabel, scrubber } = chartConfig;
  */
 export const computeBeaconLabelYs = (
   beaconYs: number[],
-  drawingArea: DrawingArea,
+  drawingArea: LabelDrawingArea,
+  { height, rowGap }: { height: number; rowGap: number },
 ): number[] => {
-  const { height, rowGap } = beaconLabel;
   const ys = beaconYs.map((y) => y - height / 2);
 
   for (let i = 1; i < ys.length; i++) {
@@ -38,15 +35,15 @@ export const computeBeaconLabelYs = (
 };
 
 /**
- * Places a label to the right of the beacon, flipping to the left when it
- * would overflow the drawing area.
+ * Places a label `offset` to the right of the beacon, flipping to the left
+ * when it would overflow the drawing area.
  */
 export const computeBeaconLabelX = (
   pixelX: number,
   width: number,
-  drawingArea: DrawingArea,
+  drawingArea: LabelDrawingArea,
+  offset: number,
 ): number => {
-  const offset = scrubber.beaconRadius + beaconLabel.gap;
   const fitsRight =
     pixelX + offset + width <= drawingArea.x + drawingArea.width;
 

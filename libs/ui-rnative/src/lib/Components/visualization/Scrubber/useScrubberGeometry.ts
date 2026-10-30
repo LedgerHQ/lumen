@@ -28,6 +28,7 @@ export type Beacon = {
 type ScrubberGeometry = {
   beacons: Beacon[];
   scrubbing?: {
+    dataIndex: number;
     pixelX: number;
     drawingArea: DrawingArea;
     overlay: OverlayRect;
@@ -96,7 +97,7 @@ export const useScrubberGeometry = ({
         }
         return {
           id: s.id,
-          stroke: s.stroke ?? tokens.color.stroke,
+          stroke: s.stroke || tokens.color.stroke,
           pixelX,
           pixelY,
           series: s,
@@ -128,6 +129,7 @@ export const useScrubberGeometry = ({
   return {
     beacons,
     scrubbing: {
+      dataIndex: scrubberPosition,
       pixelX,
       drawingArea,
       overlay: computeOverlayRect(pixelX, drawingArea),

@@ -18,6 +18,7 @@ import {
 import { Point } from '../Point/Point';
 import type { Series } from '../utils/types';
 import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
+import { DefaultLineLabel } from './LineLabel/LineLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -226,6 +227,77 @@ export const WithFullyCustomBeaconLabel: Story = {
               fill={cssVar('var(--text-muted)')}
             >
               {series.label?.toUpperCase()}
+            </tspan>
+          </text>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+const lineLabelXAxis = {
+  data: monthLabels.slice(0, multiSeries[0].data.length),
+};
+
+export const WithLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={lineLabelXAxis}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber showLineLabel showBeacons />
+    </LineChart>
+  ),
+};
+
+export const WithCustomLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={lineLabelXAxis}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label }) => (
+          <DefaultLineLabel
+            label={`${label} 2026`}
+            color={cssVar('var(--text-base)')}
+          />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithFullyCustomLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={lineLabelXAxis}
+      width={CHART_WIDTH}
+      height={CHART_HEIGHT}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label, dataIndex }) => (
+          <text y={8} dominantBaseline='central'>
+            <tspan fontSize={12} fontWeight={600}>
+              {label.toUpperCase()}
+            </tspan>
+            <tspan dx={6} fontSize={10} fill={cssVar('var(--text-muted)')}>
+              {`#${dataIndex + 1}`}
             </tspan>
           </text>
         )}

@@ -183,6 +183,33 @@ describe('Scrubber', () => {
     }
   });
 
+  it('does not render the line label by default', () => {
+    const { getByTestId, queryByTestId } = renderScrubber();
+    activateScrubber(getByTestId('chart-svg'));
+    expect(queryByTestId('scrubber-line-label')).toBeNull();
+  });
+
+  it('renders the x-axis value above the line when showLineLabel is true', () => {
+    const { getByTestId } = renderScrubber({
+      scrubberProps: { showLineLabel: true },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getByTestId('scrubber-line-label').textContent).toBe('2');
+  });
+
+  it('renders the custom lineLabel content with the line label context', () => {
+    const { getByTestId, getByText } = renderScrubber({
+      scrubberProps: {
+        showLineLabel: true,
+        lineLabel: ({ dataIndex, label }) => (
+          <text>{`${dataIndex}:${label}`}</text>
+        ),
+      },
+    });
+    activateScrubber(getByTestId('chart-svg'));
+    expect(getByText('2:2')).toBeTruthy();
+  });
+
   it('rests beacons at the end of each line while idle', () => {
     const { getByTestId, queryByTestId } = renderScrubber({
       scrubberProps: { showBeacons: true },

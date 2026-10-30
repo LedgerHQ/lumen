@@ -2,6 +2,7 @@ import { Box, Button, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
   DefaultBeaconLabel,
+  DefaultLineLabel,
   LineChart,
   Point,
   ReferenceLine,
@@ -41,6 +42,8 @@ export default function LineCharts() {
       <ScrubberMultiSeriesWithBeacons />
       <ScrubberWithBeaconLabels />
       <ScrubberWithCustomBeaconLabels />
+      <ScrubberWithLineLabel />
+      <ScrubberWithCustomLineLabel />
       <ScrubberIdlePulse />
       <InfiniteLoading />
       <ScrubberWithAxes />
@@ -492,6 +495,36 @@ const ScrubberWithCustomBeaconLabels = () => (
         beaconLabel={({ series, value }) => (
           <DefaultBeaconLabel label={`${series.label}: $${value}`} />
         )}
+      />
+    </LineChart>
+  </Section>
+);
+
+const ScrubberWithLineLabel = () => (
+  <Section title='Scrubber - line label'>
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber showLineLabel showBeacons />
+    </LineChart>
+  </Section>
+);
+
+const ScrubberWithCustomLineLabel = () => (
+  <Section title='Scrubber - custom line label'>
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label }) => <DefaultLineLabel label={`Day ${label}`} />}
       />
     </LineChart>
   </Section>

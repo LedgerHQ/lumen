@@ -1,3 +1,4 @@
+import type { LineLabelContext } from '@ledgerhq/lumen-utils-shared';
 import type { ReactElement, ReactNode } from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 import type { TSpanProps } from 'react-native-svg';
@@ -175,6 +176,32 @@ export type DefaultBeaconLabelProps = {
     }
 );
 
+export type { LineLabelContext };
+
+export type DefaultLineLabelProps = {
+  /**
+   * Default fill of the content. Elements that set their own fill keep it.
+   * @default text-muted
+   */
+  color?: string;
+} & (
+  | {
+      /**
+       * Text shown above the line. Pass a `TSpan` to style parts of it.
+       */
+      label: string | number | ReactElement<TSpanProps>;
+      children?: never;
+    }
+  | {
+      label?: never;
+      /**
+       * Any SVG drawn in place of the text, for content a `label` can't hold
+       * (icons, shapes).
+       */
+      children: ReactNode;
+    }
+);
+
 export type ScrubberProps = {
   /**
    * Hides the vertical reference line.
@@ -207,6 +234,23 @@ export type ScrubberProps = {
    * row height, so taller content overlaps its neighbors.
    */
   beaconLabel?: (context: BeaconLabelContext) => ReactNode;
+  /**
+   * Shows a label above the scrubber line while scrubbing, centered on it and
+   * rendering the x-axis value unless {@link ScrubberProps.lineLabel} is set.
+   * It sits above the drawing area, so reserve room with the chart `inset`
+   * (24px fits the default label).
+   * @default false
+   */
+  showLineLabel?: boolean;
+  /**
+   * Custom label content above the scrubber line, rendered when
+   * `showLineLabel` is set. Draw `react-native-svg` elements with the top-left
+   * corner at the origin (like {@link DefaultLineLabel}); the scrubber
+   * measures and centers it.
+   * Keep the content within 16px of height: it is placed on that fixed
+   * height, so taller content overlaps the line.
+   */
+  lineLabel?: (context: LineLabelContext) => ReactNode;
   /**
    * Pulses the beacons while idle. Requires `showBeacons`.
    * @default false

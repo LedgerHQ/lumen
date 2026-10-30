@@ -95,6 +95,11 @@ export const chartConfig = {
     valueColor: cssVar('var(--text-base)'),
   },
 
+  lineLabel: {
+    gap: 8,
+    height: 16,
+  },
+
   tooltip: {
     defaultOffset: 10,
     paddingX: 8,
