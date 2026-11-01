@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { pinRn081Stack, RN_081_STACK } from './pinRn081Stack.mjs';
+import { pinRn081Stack, RN_081_STACK } from './pinRn081Stack.ts';
 
 const manifest = {
   name: '@ledgerhq/lumen-source',

@@ -1,16 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import {
-  checkPeer,
-  isUnbounded,
-  unboundedPeerExceptions,
-} from './peerDeps.mjs';
+import { checkPeer, isUnbounded, unboundedPeerExceptions } from './peerDeps.ts';
 
-/**
- * @param {string} name
- * @param {string} declared
- * @param {string} [installed]
- */
-const workspaceWith = (name, declared, installed) => ({
+const workspaceWith = (name: string, declared: string, installed?: string) => ({
   rootDevDependencies: { [name]: declared },
   lockedPackages: installed
     ? { [`node_modules/${name}`]: { version: installed } }

@@ -60,7 +60,7 @@ Never loosen a rule for everyone. Each exception names its package and says why:
   `isBanned: true` and a `label`.
 - **A peer with no upper bound**: a `{ name, reason }` entry in
   `unboundedPeerExceptions` in
-  `internals/repo-tools/src/ci/check-peer-deps/peerDeps.mjs`. The check fails once
+  `internals/repo-tools/src/ci/check-peer-deps/peerDeps.ts`. The check fails once
   the range is bounded, so remove the entry then.
 
 ## When a check fails
@@ -83,6 +83,6 @@ Rules verifiable from a diff.
 | Tooling in a published lib's `dependencies` | libs | test, build or lint package under `dependencies` | — |
 | Peer without its root devDependency | libs | new `peerDependencies` key absent from root `devDependencies` | `@ledgerhq/lumen-*` |
 | Peer narrowed in a dependency chore | libs | peer floor raised or upper bound added, PR not framed as a release change | — |
-| Unexplained exception | `.syncpackrc.json`, `peerDeps.mjs` | new `versionGroups` entry without a `label`, or exception without a comment | — |
+| Unexplained exception | `.syncpackrc.json`, `peerDeps.ts` | new `versionGroups` entry without a `label`, or exception without a comment | — |
 | Lib manifest change without a version plan | libs | `libs/*/package.json` changed, no matching `.nx/version-plans/` file | — |
 | Lockfile not refreshed | all | `package.json` dependency changed, `package-lock.json` untouched | — |

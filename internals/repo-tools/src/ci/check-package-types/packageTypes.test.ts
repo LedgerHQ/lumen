@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { publishableLibs } from '../../shared/workspaceProjects.mjs';
+import { publishableLibs } from '../../shared/workspaceProjects.ts';
 import {
   describeProblem,
   policyFor,
   resolutionExceptions,
-} from './packageTypes.mjs';
+} from './packageTypes.ts';
 
 describe('policyFor', () => {
   it('holds an unlisted lib to bundler and node16 ESM', () => {
