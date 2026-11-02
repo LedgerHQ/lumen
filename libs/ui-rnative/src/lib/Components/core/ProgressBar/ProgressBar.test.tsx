@@ -23,6 +23,12 @@ const getFill = () => {
   return StyleSheet.flatten(fill.props.style);
 };
 
+const getRootStyle = (): ViewStyle => {
+  const tree = screen.toJSON();
+  if (!tree || Array.isArray(tree)) throw new Error('root not found');
+  return StyleSheet.flatten(tree.props.style);
+};
+
 const appearanceCases: [ProgressAppearance, string][] = [
   ['accent', colors.bg.accent],
   ['success', colors.bg.successStrong],
@@ -131,8 +137,7 @@ describe('ProgressBar', () => {
         />,
       );
 
-      const tree = screen.toJSON() as { props: { style: ViewStyle } };
-      const layout = StyleSheet.flatten(tree.props.style);
+      const layout = getRootStyle();
       expect(layout.flexDirection).toBe(direction);
       expect(layout.alignItems).toBe(alignment);
     },
@@ -143,10 +148,7 @@ describe('ProgressBar', () => {
       <ProgressBar value={50} accessibilityLabel='Upload' label='Syncing' />,
     );
 
-    const tree = screen.toJSON() as { props: { style: ViewStyle } };
-    expect(StyleSheet.flatten(tree.props.style).flexDirection).toBe(
-      'column-reverse',
-    );
+    expect(getRootStyle().flexDirection).toBe('column-reverse');
   });
 
   it('should apply style to the label wrapper rather than the bar', () => {
@@ -159,8 +161,7 @@ describe('ProgressBar', () => {
       />,
     );
 
-    const tree = screen.toJSON() as { props: { style: ViewStyle } };
-    expect(StyleSheet.flatten(tree.props.style).display).toBe('none');
+    expect(getRootStyle().display).toBe('none');
     expect(
       StyleSheet.flatten(
         screen.getByLabelText('Upload', { includeHiddenElements: true }).props
