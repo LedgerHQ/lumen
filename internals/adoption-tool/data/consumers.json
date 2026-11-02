@@ -2,11 +2,13 @@
   {
     "repo": "LedgerHQ/agent-intent-frontend",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/ledger-live",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "package.json",
     "packageJsonPaths": {
       "@ledgerhq/lumen-ui-react": ["apps/ledger-live-desktop/package.json"],
@@ -22,42 +24,50 @@
   {
     "repo": "LedgerHQ/app-openpgp",
     "status": "production",
+    "priority": "P3",
     "packageJsonPath": "clients/wui/package.json"
   },
   {
     "repo": "LedgerHQ/app-passwords",
     "status": "production",
+    "priority": "P3",
     "packageJsonPath": "clients/wui/package.json"
   },
   {
     "repo": "LedgerHQ/borrow-live-app",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "packages/ui/package.json"
   },
   {
     "repo": "LedgerHQ/earn-live-app",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/swap-live-app",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "apps/live-app/package.json",
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
   },
   {
     "repo": "LedgerHQ/perps-live-app",
     "status": "production",
+    "priority": "P2",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/ecommerce-shop-frontend",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/crypto-icons",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "lib/package.json"
   },
   {
@@ -68,6 +78,7 @@
   {
     "repo": "LedgerHQ/ledger-button",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "packages/ledger-button/package.json",
     "packageJsonPaths": {
       "@ledgerhq/lumen-ui-react": ["apps/test-dapp/package.json"]
@@ -77,31 +88,37 @@
   {
     "repo": "LedgerHQ/protect-frontend-lumen",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/revault",
     "status": "production",
+    "priority": "P2",
     "packageJsonPath": "packages/web/package.json"
   },
   {
     "repo": "LedgerHQ/is-privacy-request",
     "status": "production",
+    "priority": "P3",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/les-multisig",
     "status": "production",
+    "priority": "P2",
     "packageJsonPath": "packages/web/package.json"
   },
   {
     "repo": "LedgerHQ/predictions-live-app",
     "status": "production",
+    "priority": "P1",
     "packageJsonPath": "package.json"
   },
   {
     "repo": "LedgerHQ/connect-dashboard",
     "status": "production",
+    "priority": "P3",
     "packageJsonPath": "package.json"
   },
   {

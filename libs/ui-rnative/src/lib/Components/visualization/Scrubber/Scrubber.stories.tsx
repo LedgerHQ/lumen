@@ -1,7 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { Circle, Text as SvgText, TSpan } from 'react-native-svg';
 
 import { LineChart } from '../LineChart';
 import { Point } from '../Point';
+
+import { DefaultBeaconLabel } from './BeaconLabel/BeaconLabel';
+import { DefaultLineLabel } from './LineLabel/LineLabel';
 import { Scrubber } from './Scrubber';
 import type { ScrubberProps } from './types';
 
@@ -87,6 +91,95 @@ export const HiddenOverlay: Story = {
   args: {},
 };
 
+export const WithBeaconLabels: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber showBeaconLabel />
+    </LineChart>
+  ),
+};
+
+export const WithCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel
+            label={`${series.label}: $${value}`}
+            background={series.stroke}
+            color='#FFFFFF'
+          />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithSlottedBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <DefaultBeaconLabel>
+            <Circle cx={3} cy={12} r={3} fill={series.stroke} />
+            <SvgText
+              x={12}
+              y={12}
+              alignmentBaseline='central'
+              fontSize={12}
+              fontWeight='600'
+            >
+              {`$${value}`}
+            </SvgText>
+          </DefaultBeaconLabel>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithFullyCustomBeaconLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      height={200}
+      enableScrubbing
+      inset={{ top: 20 }}
+    >
+      <Scrubber
+        showBeaconLabel
+        beaconLabel={({ series, value }) => (
+          <SvgText y={12} alignmentBaseline='central'>
+            <TSpan fontSize={16} fontWeight='700' fill={series.stroke}>
+              {`$${value}`}
+            </TSpan>
+            <TSpan dx={6} fontSize={10} fontWeight='600' fill='#8C8C8C'>
+              {series.label?.toUpperCase()}
+            </TSpan>
+          </SvgText>
+        )}
+      />
+    </LineChart>
+  ),
+};
+
 const tooltipSampleSeries = [
   {
     id: 'prices',
@@ -113,6 +206,84 @@ const tooltipDates = [
 ];
 
 const tooltipAnnotatedIndices = new Set([4, 9]);
+
+const monthXAxis = {
+  data: [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ],
+};
+
+export const WithLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={monthXAxis}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber showLineLabel showBeacons />
+    </LineChart>
+  ),
+};
+
+export const WithCustomLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={monthXAxis}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label }) => (
+          <DefaultLineLabel label={`${label} 2026`} color='#7B61FF' />
+        )}
+      />
+    </LineChart>
+  ),
+};
+
+export const WithFullyCustomLineLabel: Story = {
+  render: () => (
+    <LineChart
+      series={multiSeries}
+      xAxis={monthXAxis}
+      height={200}
+      enableScrubbing
+      inset={{ top: 24 }}
+    >
+      <Scrubber
+        showLineLabel
+        showBeacons
+        lineLabel={({ label, dataIndex }) => (
+          <SvgText y={8} alignmentBaseline='central'>
+            <TSpan fontSize={12} fontWeight={600}>
+              {label.toUpperCase()}
+            </TSpan>
+            <TSpan dx={6} fontSize={10} fill='#999999'>
+              {`#${dataIndex + 1}`}
+            </TSpan>
+          </SvgText>
+        )}
+      />
+    </LineChart>
+  ),
+};
 
 export const WithBaseTooltip: Story = {
   render: () => (

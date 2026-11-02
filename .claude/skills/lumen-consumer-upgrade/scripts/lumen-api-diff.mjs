@@ -25,7 +25,8 @@ const ts = require('typescript');
 /** Downloads and unpacks a published version once, returns its folder. */
 function fetchVersion(version) {
   const dir = join(process.env.TMPDIR ?? tmpdir(), 'lumen-api-diff', `${pkg.replace('/', '__')}@${version}`);
-  if (!existsSync(join(dir, 'package'))) {
+  // An interrupted run can leave `package/` without its manifest: re-fetch then.
+  if (!existsSync(join(dir, 'package', 'package.json'))) {
     mkdirSync(dir, { recursive: true });
     const tarball = execFileSync('npm', ['pack', `${pkg}@${version}`, '--silent', '--pack-destination', dir], { encoding: 'utf8' }).trim().split('\n').pop();
     execFileSync('tar', ['-xzf', join(dir, tarball), '-C', dir]);

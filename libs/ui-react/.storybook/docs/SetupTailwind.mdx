@@ -131,7 +131,7 @@ For the best development experience, we recommend the following setup:
      }
      ```
    - The presets register `eslint-plugin-better-tailwindcss` and `@shadcn/lint`: do not register them yourself. The package README covers `oxlint.config.ts`.
-   - Presets: `recommended` is the core: unknown, conflicting or duplicate classes, restyling a Lumen component through `className` (a warning), and importing `tailwind-merge`, `clsx` or `classnames` instead of Lumen's `cn` (a warning). `strict` adds a few more rules (class order, arbitrary values, inline styles) and raises restyling and those imports to errors. Layout classes stay allowed on Lumen components in both, and any rule can be overridden like any other config.
+   - Presets: `recommended` is the core: unknown, conflicting or duplicate classes, and importing `tailwind-merge`, `clsx` or `classnames` instead of Lumen's `cn` (an error). `strict` adds a few more rules (class order, arbitrary values, inline styles). Any rule can be overridden like any other config.
    - Without `entryPoint`, Tailwind's default theme is used and every Lumen class looks unknown.
 
 3. **AI Assistant Rules** (Optional)

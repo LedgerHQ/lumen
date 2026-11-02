@@ -58,6 +58,7 @@ skill's `## Review checks` table — this skill does **not** restate them:
 | Stories | `component-stories` |
 | MDX docs | `component-mdx` |
 | Code Connect | `code-connect` |
+| Dependencies (any `package.json`, `.syncpackrc.json`) | `dependency-management` |
 | Version plan | `release-plan` (scored below) |
 
 Rules:
@@ -244,4 +245,3 @@ lib, marking each item pass/fail]
 - Compare against a similar existing component in the **same** library for
   pattern alignment.
 - Check the PR doesn't accidentally remove or break existing barrel exports.
-- Verify new dependencies land in the correct `package.json` (peer vs dev).

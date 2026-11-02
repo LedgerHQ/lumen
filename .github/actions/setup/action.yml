@@ -8,7 +8,6 @@ inputs:
   node-version:
     description: Node.js version to install. Defaults to the version pinned in `.mise.toml`.
     required: false
-    default: '22.23.4'
   install:
     description: Whether to run `npm ci --legacy-peer-deps`.
     required: false
@@ -29,10 +28,23 @@ inputs:
 runs:
   using: composite
   steps:
+    # `.mise.toml` is what developers run locally, so CI reads it rather than
+    # repeating the version (setup-node can't parse it).
+    - name: Read Node.js version from .mise.toml
+      id: mise
+      shell: bash
+      run: |
+        version=$(sed -n 's/^node *= *"\(.*\)"/\1/p' .mise.toml)
+        if [ -z "$version" ]; then
+          echo "::error file=.mise.toml::no node version found"
+          exit 1
+        fi
+        echo "node=$version" >> "$GITHUB_OUTPUT"
+
     - name: Setup Node.js
       uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
       with:
-        node-version: ${{ inputs.node-version }}
+        node-version: ${{ inputs.node-version || steps.mise.outputs.node }}
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
 

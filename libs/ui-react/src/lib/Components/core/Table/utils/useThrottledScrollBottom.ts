@@ -1,10 +1,7 @@
 import { throttle } from '@ledgerhq/lumen-utils-shared';
 import type { UIEvent } from 'react';
 import { useEffect, useMemo, useRef } from 'react';
-import {
-  TABLE_CELL_HEIGHT,
-  TABLE_SCROLL_BOTTOM_THRESHOLD_IN_ROW,
-} from '../constants';
+import { TABLE_SCROLL_BOTTOM_THRESHOLD } from '../constants';
 
 const SCROLL_THROTTLE_MS = 150;
 
@@ -33,10 +30,10 @@ type UseThrottledScrollBottomOptions = {
    */
   loading?: boolean;
   /**
-   * Distance from bottom (in pixels) to trigger the callback.
-   * @default 2
+   * Distance from the bottom, in pixels, at which the callback fires.
+   * @default 128 (2 rows)
    */
-  thresholdInRow?: number;
+  threshold?: number;
 };
 
 /**
@@ -54,14 +51,10 @@ type UseThrottledScrollBottomOptions = {
 export const useThrottledScrollBottom = ({
   onScrollBottom,
   loading = false,
-  thresholdInRow = TABLE_SCROLL_BOTTOM_THRESHOLD_IN_ROW,
+  threshold = TABLE_SCROLL_BOTTOM_THRESHOLD,
 }: UseThrottledScrollBottomOptions):
   | ((event: UIEvent<HTMLElement>) => void)
   | undefined => {
-  const threshold = useMemo(
-    () => thresholdInRow * TABLE_CELL_HEIGHT,
-    [thresholdInRow],
-  );
   const callbackRef = useRef(onScrollBottom);
   const loadingRef = useRef(loading);
 
@@ -83,7 +76,9 @@ export const useThrottledScrollBottom = ({
         return;
       }
 
-      if (isScrolledToBottom({ element, threshold })) {
+      // scrollTop can be fractional (browser zoom, high-DPI) while scrollHeight
+      // is rounded, so a 0 threshold could never match: keep 1px of tolerance.
+      if (isScrolledToBottom({ element, threshold: Math.max(threshold, 1) })) {
         callbackRef.current();
       }
     }, SCROLL_THROTTLE_MS);

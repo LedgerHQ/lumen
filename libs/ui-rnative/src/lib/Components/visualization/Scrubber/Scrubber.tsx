@@ -19,7 +19,9 @@ import {
 
 import { useRevealFadeProps } from '../CartesianChart/RevealAnimation';
 import { chartConfig, useChartTokens } from '../config';
+import { ScrubberBeaconLabels } from './BeaconLabel/BeaconLabel';
 import { DefaultScrubberTooltip } from './DefaultScrubberTooltip/DefaultScrubberTooltip';
+import { ScrubberLineLabel } from './LineLabel/LineLabel';
 import type { ScrubberProps } from './types';
 import { useScrubberGeometry } from './useScrubberGeometry';
 
@@ -129,8 +131,8 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
 
 /**
  * Renders the scrubber visuals: vertical reference line, future-data overlay
- * rect, per-series beacon dots, and an optional tooltip when
- * {@link ScrubberProps.tooltip} is set, using {@link DefaultScrubberTooltip}.
+ * rect, per-series beacon dots, optional beacon and line labels, and an optional tooltip
+ * when {@link ScrubberProps.tooltip} is set, using {@link DefaultScrubberTooltip}.
  *
  * Must be used as a child of `LineChart` (or `CartesianChart`) with
  * `enableScrubbing` enabled. Renders nothing when no scrubber position is active.
@@ -140,6 +142,24 @@ function BeaconPulse({ cx, cy, fill }: Readonly<BeaconPulseProps>) {
  * <LineChart series={data} enableScrubbing>
  *   <Scrubber showBeacons />
  * </LineChart>
+ * ```
+ *
+ * @example Beacon labels
+ * ```tsx
+ * <Scrubber showBeaconLabel />
+ * <Scrubber
+ *   showBeaconLabel
+ *   beaconLabel={({ series, value }) => <DefaultBeaconLabel label={`${series.label}: $${value}`} />}
+ * />
+ * ```
+ *
+ * @example Line label
+ * ```tsx
+ * <Scrubber showLineLabel />
+ * <Scrubber
+ *   showLineLabel
+ *   lineLabel={({ label }) => <DefaultLineLabel label={`Day ${label}`} />}
+ * />
  * ```
  *
  * @example Tooltip
@@ -157,11 +177,18 @@ export function Scrubber({
   hideLine = false,
   hideOverlay = false,
   showBeacons = false,
+  showBeaconLabel = false,
+  beaconLabel,
+  showLineLabel = false,
+  lineLabel,
   idlePulse = false,
   tooltip,
 }: Readonly<ScrubberProps>) {
   const tokens = useChartTokens();
-  const geometry = useScrubberGeometry({ showBeacons, tooltip });
+  const geometry = useScrubberGeometry({
+    showBeacons: showBeacons || showBeaconLabel,
+    tooltip,
+  });
   const fadeProps = useRevealFadeProps();
 
   if (!geometry) {
@@ -215,6 +242,24 @@ export function Scrubber({
             </Fragment>
           ))}
         </AnimatedG>
+      )}
+
+      {scrubbing && showBeaconLabel && (
+        <ScrubberBeaconLabels
+          pixelX={scrubbing.pixelX}
+          drawingArea={scrubbing.drawingArea}
+          beacons={beacons}
+          renderLabel={beaconLabel}
+        />
+      )}
+
+      {scrubbing && showLineLabel && (
+        <ScrubberLineLabel
+          dataIndex={scrubbing.dataIndex}
+          pixelX={scrubbing.pixelX}
+          drawingArea={scrubbing.drawingArea}
+          renderLabel={lineLabel}
+        />
       )}
 
       {scrubbing?.tooltipPayload !== undefined && (

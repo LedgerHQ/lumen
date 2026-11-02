@@ -46,6 +46,13 @@ describe('parseConsumers', () => {
     ).toHaveLength(1);
   });
 
+  it('accepts an optional known priority', () => {
+    expect(parseConsumers([{ ...valid, priority: 'P1' }])).toHaveLength(1);
+    expect(() => parseConsumers([{ ...valid, priority: 'P4' }])).toThrow(
+      '"priority" must be one of: P1, P2, P3',
+    );
+  });
+
   it('rejects a registry that is not an array', () => {
     expect(() => parseConsumers({})).toThrow('must be a JSON array');
   });

@@ -8,9 +8,13 @@ import {
 export const CONSUMER_STATUSES = ['production', 'internal-tool'] as const;
 export type ConsumerStatus = (typeof CONSUMER_STATUSES)[number];
 
+export const CONSUMER_PRIORITIES = ['P1', 'P2', 'P3'] as const;
+export type ConsumerPriority = (typeof CONSUMER_PRIORITIES)[number];
+
 export type ConsumerEntry = {
   repo: string;
   status: ConsumerStatus;
+  priority?: ConsumerPriority;
   /** Default package.json to read a dependency from. */
   packageJsonPath: string;
   /** Per-package override, for monorepos where a Lumen package is declared by
@@ -22,6 +26,7 @@ export type ConsumerEntry = {
 const ENTRY_KEYS = [
   'repo',
   'status',
+  'priority',
   'packageJsonPath',
   'packageJsonPaths',
   'notes',
@@ -70,6 +75,12 @@ function validateEntry(entry: unknown): string[] {
   }
   if (!(CONSUMER_STATUSES as readonly unknown[]).includes(entry.status)) {
     errors.push(`"status" must be one of: ${CONSUMER_STATUSES.join(', ')}`);
+  }
+  if (
+    entry.priority !== undefined &&
+    !(CONSUMER_PRIORITIES as readonly unknown[]).includes(entry.priority)
+  ) {
+    errors.push(`"priority" must be one of: ${CONSUMER_PRIORITIES.join(', ')}`);
   }
   if (!isFilePath(entry.packageJsonPath)) {
     errors.push('"packageJsonPath" must be a non-empty relative file path');

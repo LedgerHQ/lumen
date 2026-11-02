@@ -21,25 +21,6 @@ function deepFreeze(value) {
   return value;
 }
 
-// shadcn's default text for these categories points at the component's source
-// file, which means nothing to a consumer. Spacing keeps its built-in hint
-// ("use margin here or gap on the parent").
-const APPEARANCE_OWNED_MESSAGE =
-  '{{component}} owns its appearance. Use its props (such as appearance or size) and keep className for layout. If the design needs something else, ask the Lumen team for a variant.';
-
-/** className on a Lumen component is for layout; everything else is its job. */
-export const NO_RESTYLE_OPTIONS = deepFreeze({
-  allow: ['layout'],
-  message: {
-    color: APPEARANCE_OWNED_MESSAGE,
-    typography: APPEARANCE_OWNED_MESSAGE,
-    shape: APPEARANCE_OWNED_MESSAGE,
-    effects: APPEARANCE_OWNED_MESSAGE,
-    motion: APPEARANCE_OWNED_MESSAGE,
-  },
-  componentImports: LUMEN_COMPONENTS,
-});
-
 /**
  * Arbitrary utilities that describe mechanics, not values that belong on the
  * design scale. Everything else in brackets (`w-[13px]`) is reported.
@@ -81,14 +62,13 @@ export const NO_RESTRICTED_IMPORTS_OPTIONS = deepFreeze({
 /** @type {Record<PresetName, Record<string, unknown>>} */
 export const RULES = {
   // The core: classes Tailwind cannot generate or that cancel each other,
-  // duplicates, and restyling a Lumen component.
+  // and duplicates.
   recommended: {
     ...betterTailwindcss.configs.correctness.rules,
     // Explicit: stays even if better-tailwindcss moves it out of `correctness`.
     'better-tailwindcss/no-concatenated-classes': 'error',
     // Never a valid choice, and `--fix` removes it.
     'better-tailwindcss/no-duplicate-classes': 'error',
-    'shadcn/no-restyle': ['warn', NO_RESTYLE_OPTIONS],
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs
@@ -97,7 +77,6 @@ export const RULES = {
     ...betterTailwindcss.configs['recommended-error'].rules,
     // Conflicts with Prettier, which owns line breaks.
     'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-    'shadcn/no-restyle': ['error', NO_RESTYLE_OPTIONS],
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],

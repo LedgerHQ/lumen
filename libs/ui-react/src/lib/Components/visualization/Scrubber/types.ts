@@ -1,7 +1,8 @@
+import type { LineLabelContext } from '@ledgerhq/lumen-utils-shared';
 import type { ReactElement, ReactNode, Ref, RefObject, SVGProps } from 'react';
 
 import type { ScrubbingOptions } from '../CartesianChart/types';
-import type { DrawingArea } from '../utils/types';
+import type { DrawingArea, Series } from '../utils/types';
 
 export type ScrubberContextValue = Required<
   Pick<ScrubbingOptions, 'enableScrubbing' | 'onScrubberPositionChange'>
@@ -120,6 +121,72 @@ export type ScrubberTooltipContent = ScrubberTooltipLayoutProps & {
   items: ChartTooltipItemData[];
 };
 
+export type BeaconLabelContext = {
+  /**
+   * The series the beacon belongs to.
+   */
+  series: Series;
+  /**
+   * The series value at the scrubbed index.
+   */
+  value: number;
+};
+
+export type DefaultBeaconLabelProps = {
+  /**
+   * Fill color of the pill.
+   * @default background-muted
+   */
+  background?: string;
+  /**
+   * Default fill of the content. Elements that set their own fill keep it.
+   * @default text-base
+   */
+  color?: string;
+} & (
+  | {
+      /**
+       * Text shown in the pill. Pass a `<tspan>` to style parts of it.
+       */
+      label: SvgTextContent;
+      children?: never;
+    }
+  | {
+      label?: never;
+      /**
+       * Any SVG drawn inside the pill, for content a `label` can't hold
+       * (icons, shapes).
+       */
+      children: ReactNode;
+    }
+);
+
+export type { LineLabelContext };
+
+export type DefaultLineLabelProps = {
+  /**
+   * Default fill of the content. Elements that set their own fill keep it.
+   * @default text-muted
+   */
+  color?: string;
+} & (
+  | {
+      /**
+       * Text shown above the line. Pass a `<tspan>` to style parts of it.
+       */
+      label: SvgTextContent;
+      children?: never;
+    }
+  | {
+      label?: never;
+      /**
+       * Any SVG drawn in place of the text, for content a `label` can't hold
+       * (icons, shapes).
+       */
+      children: ReactNode;
+    }
+);
+
 export type ScrubberProps = {
   /**
    * Hides the vertical reference line.
@@ -138,6 +205,37 @@ export type ScrubberProps = {
    * @default false
    */
   showBeacons?: boolean;
+  /**
+   * Shows a label next to each beacon while scrubbing, rendering the series
+   * label and value
+   * unless {@link ScrubberProps.beaconLabel} is set. Implies `showBeacons`.
+   * @default false
+   */
+  showBeaconLabel?: boolean;
+  /**
+   * Custom label content for each beacon, rendered when `showBeaconLabel` is
+   * set. Draw with its top-left corner at the origin (like {@link DefaultBeaconLabel});
+   * the scrubber measures and positions it.
+   * Keep the content within 24px of height: labels are stacked on that fixed
+   * row height, so taller content overlaps its neighbors.
+   */
+  beaconLabel?: (context: BeaconLabelContext) => ReactNode;
+  /**
+   * Shows a label above the scrubber line while scrubbing, centered on it and
+   * rendering the x-axis value unless {@link ScrubberProps.lineLabel} is set.
+   * It sits above the drawing area, so reserve room with the chart `inset`
+   * (24px fits the default label).
+   * @default false
+   */
+  showLineLabel?: boolean;
+  /**
+   * Custom label content above the scrubber line, rendered when
+   * `showLineLabel` is set. Draw with its top-left corner at the origin (like
+   * {@link DefaultLineLabel}); the scrubber measures and centers it.
+   * Keep the content within 16px of height: it is placed on that fixed
+   * height, so taller content overlaps the line.
+   */
+  lineLabel?: (context: LineLabelContext) => ReactNode;
   /**
    * Pulses the beacons while idle. Requires `showBeacons`.
    * @default false

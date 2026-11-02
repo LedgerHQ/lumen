@@ -13,7 +13,6 @@ import oxlint from './oxlint.js';
 import {
   NO_ARBITRARY_VALUES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
-  NO_RESTYLE_OPTIONS,
   RULES,
 } from './rules.js';
 
@@ -27,18 +26,17 @@ const levels = (rules) =>
   );
 
 describe('presets', () => {
-  it('recommended is better-tailwindcss’ correctness config plus duplicates, and restyling and class-merging imports as warnings', () => {
+  it('recommended is better-tailwindcss’ correctness config plus duplicates, and class-merging imports as errors', () => {
     expect(levels(RULES.recommended)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
-      'shadcn/no-restyle': 'warn',
       'no-restricted-imports': 'error',
     });
   });
 
-  it('strict adds the stylistic rules and the shadcn signals, and raises restyling and class-merging imports', () => {
+  it('strict adds the stylistic rules and the shadcn signals, and raises class-merging imports', () => {
     expect(levels(RULES.strict)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
@@ -49,7 +47,6 @@ describe('presets', () => {
       'better-tailwindcss/no-duplicate-classes': 'error',
       'better-tailwindcss/no-unnecessary-whitespace': 'error',
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-      'shadcn/no-restyle': 'error',
       'shadcn/no-arbitrary-values': 'warn',
       'shadcn/no-inline-styles': 'warn',
       'no-restricted-imports': 'error',
@@ -74,16 +71,6 @@ describe('presets', () => {
     },
   );
 
-  it('always allows layout classes on Lumen components', () => {
-    for (const rules of [RULES.recommended, RULES.strict]) {
-      expect(rules['shadcn/no-restyle']).toEqual([
-        expect.any(String),
-        NO_RESTYLE_OPTIONS,
-      ]);
-    }
-    expect(NO_RESTYLE_OPTIONS.allow).toEqual(['layout']);
-  });
-
   it('points every class-merging import at Lumen’s cn', () => {
     expect(RULES.recommended['no-restricted-imports']).toEqual([
       'error',
@@ -102,12 +89,11 @@ describe('presets', () => {
   });
 
   it('exports Lumen’s options frozen, so no consumer changes them for everyone', () => {
-    for (const options of [NO_RESTYLE_OPTIONS, NO_ARBITRARY_VALUES_OPTIONS]) {
+    for (const options of [NO_ARBITRARY_VALUES_OPTIONS]) {
       expect(Object.isFrozen(options)).toBe(true);
       expect(Object.isFrozen(options.allow)).toBe(true);
       expect(Object.isFrozen(options.componentImports)).toBe(true);
     }
-    expect(Object.isFrozen(NO_RESTYLE_OPTIONS.message)).toBe(true);
     expect(Object.isFrozen(NO_RESTRICTED_IMPORTS_OPTIONS.paths)).toBe(true);
   });
 

@@ -19,7 +19,6 @@ const resolvePluginFile = (name) =>
 export {
   NO_ARBITRARY_VALUES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
-  NO_RESTYLE_OPTIONS,
 } from './rules.js';
 
 // No `settings`: oxlint ignores those of an extended config, so each app sets

@@ -49,7 +49,7 @@
       "previousPageAriaLabel": "上一页",
       "nextPageAriaLabel": "下一页",
       "pageAriaLabel": "第 {{page}} 页",
-      "pageOfTotal": "{{current}} / {{total}}"
+      "pageOfTotal": "第 {{current}}，共 {{total}}"
     },
     "trend": {
       "positiveAriaLabel": "Trend up {{value}}",

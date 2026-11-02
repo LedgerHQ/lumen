@@ -1,6 +1,7 @@
 import { describe, it, expect } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import { render, waitFor } from '@testing-library/react-native';
+import type { ReactTestRendererJSON } from 'react-test-renderer';
 import { DotIndicator, getDotIndicatorProps } from '../DotIndicator';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Avatar } from './Avatar';
@@ -280,10 +281,11 @@ describe('Avatar Component', () => {
       </TestWrapper>,
     );
 
-    const tree = toJSON();
-    expect(tree.children).toHaveLength(2);
-    expect(tree.children[0].props.accessibilityRole).toBe('image');
-    expect(tree.children[0].props.pointerEvents).toBe('none');
+    const tree = toJSON() as ReactTestRendererJSON;
+    const children = tree.children as ReactTestRendererJSON[];
+    expect(children).toHaveLength(2);
+    expect(children[0].props.accessibilityRole).toBe('image');
+    expect(children[0].props.pointerEvents).toBe('none');
     expect(getByTestId('avatar-id')).toBeTruthy();
   });
 

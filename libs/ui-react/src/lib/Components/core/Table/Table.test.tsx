@@ -213,6 +213,61 @@ describe('TableRoot', () => {
     expect(onScroll).toHaveBeenCalledTimes(1);
   });
 
+  describe('Scroll bottom', () => {
+    // 1000px of content in a 400px viewport: the bottom is at scrollTop 600.
+    const scrollContainerTo = (root: HTMLElement, scrollTop: number): void => {
+      Object.defineProperties(root, {
+        scrollHeight: { configurable: true, value: 1000 },
+        clientHeight: { configurable: true, value: 400 },
+        scrollTop: { configurable: true, value: scrollTop },
+      });
+      fireEvent.scroll(root);
+    };
+
+    it('should call onScrollBottom within two rows of the bottom by default', () => {
+      const onScrollBottom = vi.fn();
+      render(
+        <TableRoot data-testid='root' onScrollBottom={onScrollBottom}>
+          <span />
+        </TableRoot>,
+      );
+
+      scrollContainerTo(screen.getByTestId('root'), 500);
+
+      expect(onScrollBottom).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not call onScrollBottom further than two rows from the bottom by default', () => {
+      const onScrollBottom = vi.fn();
+      render(
+        <TableRoot data-testid='root' onScrollBottom={onScrollBottom}>
+          <span />
+        </TableRoot>,
+      );
+
+      scrollContainerTo(screen.getByTestId('root'), 300);
+
+      expect(onScrollBottom).not.toHaveBeenCalled();
+    });
+
+    it('should call onScrollBottom within scrollBottomThreshold of the bottom', () => {
+      const onScrollBottom = vi.fn();
+      render(
+        <TableRoot
+          data-testid='root'
+          onScrollBottom={onScrollBottom}
+          scrollBottomThreshold={400}
+        >
+          <span />
+        </TableRoot>,
+      );
+
+      scrollContainerTo(screen.getByTestId('root'), 300);
+
+      expect(onScrollBottom).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('Horizontal overflow', () => {
     const overflowHorizontally = (root: HTMLElement): void => {
       Object.defineProperty(root, 'scrollWidth', {

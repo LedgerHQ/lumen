@@ -51,6 +51,7 @@ in a PR.
 | ------------------ | ----------------------------------------------------------------------------------------- |
 | `repo`             | `LedgerHQ/name`                                                                           |
 | `status`           | `production` (shipped to users or partners) or `internal-tool` (used inside Ledger)       |
+| `priority`         | optional, `P1` (highest) to `P3`, for ordering migration and rollout work                 |
 | `packageJsonPath`  | package.json that declares the Lumen dependencies                                         |
 | `packageJsonPaths` | optional, per package, for monorepos where several workspaces declare it (worst one wins) |
 | `notes`            | optional                                                                                  |

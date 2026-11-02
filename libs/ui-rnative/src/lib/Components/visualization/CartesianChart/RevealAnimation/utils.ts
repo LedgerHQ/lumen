@@ -1,4 +1,4 @@
-import { useEffect, useId, useMemo, useRef } from 'react';
+import { useEffect, useId, useMemo } from 'react';
 import {
   useAnimatedProps,
   useSharedValue,
@@ -19,7 +19,6 @@ const POINT_FADE_IN_AFTER_CLIP_IN_MS = chartConfig.reveal.pointFadeInAfterClip;
 type RevealAnimationConfig = {
   durationMs: number;
   drawingArea: DrawingArea;
-  dataFingerprint: string;
 };
 
 type RevealAnimationResult = {
@@ -33,27 +32,14 @@ type RevealAnimationResult = {
  * - the left-to-right clip-path wipe (animated `Rect` width, including the
  *   {@link OVERFLOW_BUFFER} so edge content is revealed too), and
  * - the point fade-in, delayed so points appear as the wipe finishes.
- *
- * On a data change the shared values are reset to `0` (hidden) *synchronously
- * during render* — before the new line/points are committed and painted — so
- * they never paint once at the previous cycle's end values (a visible flash).
- * The effect then animates them back in.
  */
 export const useRevealAnimation = ({
   durationMs,
   drawingArea,
-  dataFingerprint,
 }: RevealAnimationConfig): RevealAnimationResult => {
   const clipId = useId();
   const clipWidth = useSharedValue(0);
   const pointOpacity = useSharedValue(0);
-
-  const previousFingerprint = useRef<string | null>(null);
-  if (previousFingerprint.current !== dataFingerprint) {
-    previousFingerprint.current = dataFingerprint;
-    clipWidth.value = 0;
-    pointOpacity.value = 0;
-  }
 
   useEffect(() => {
     clipWidth.value = withTiming(
@@ -65,7 +51,7 @@ export const useRevealAnimation = ({
       Math.max(durationMs + POINT_FADE_IN_AFTER_CLIP_IN_MS, 0),
       withTiming(1, { duration: POINT_FADE_DURATION_IN_MS }),
     );
-  }, [drawingArea.width, durationMs, clipWidth, pointOpacity, dataFingerprint]);
+  }, [drawingArea.width, durationMs, clipWidth, pointOpacity]);
 
   const animatedRectProps = useAnimatedProps(() => ({
     width: clipWidth.value,

@@ -172,11 +172,10 @@ describe('every way of setting the presets up reports the same diagnostics', () 
       'better-tailwindcss/no-unknown-classes:12:error',
       'better-tailwindcss/no-unknown-classes:7:error',
       'no-restricted-imports:3:error',
-      'shadcn/no-restyle:14:warn',
     ]);
   });
 
-  it('strict: a few more rules, and restyling and class-merging imports raised', async () => {
+  it('strict: a few more rules, and class-merging imports raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
       lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
       lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
@@ -188,7 +187,6 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     expect(json).toEqual(strict);
     expect(strict).toEqual(
       expect.arrayContaining([
-        'shadcn/no-restyle:14:error',
         'better-tailwindcss/enforce-consistent-class-order:7:error',
         'shadcn/no-arbitrary-values:10:warn',
         'shadcn/no-inline-styles:13:warn',
@@ -204,7 +202,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
   it('a consumer overrides rules with plain config, on both engines', async () => {
     /** @type {Linter.RulesRecord} */
     const rules = {
-      'shadcn/no-restyle': 'off',
+      'better-tailwindcss/no-unknown-classes': 'off',
       'shadcn/no-inline-styles': 'error',
     };
     const [eslint, json] = await Promise.all([
@@ -217,7 +215,9 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
 
     expect(json).toEqual(eslint);
-    expect(ruleIds(eslint)).not.toContain('shadcn/no-restyle');
+    expect(ruleIds(eslint)).not.toContain(
+      'better-tailwindcss/no-unknown-classes',
+    );
     expect(eslint).toContain('shadcn/no-inline-styles:13:error');
   });
 
@@ -258,7 +258,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     ]);
 
     expect(oxlint).toEqual(eslint);
-    expect(eslint).toContain('page.web.tsx|shadcn/no-restyle:14:error');
+    expect(eslint).toContain('page.web.tsx|shadcn/no-inline-styles:13:warn');
     // The unsuffixed file holds an unknown class and is left alone.
     expect(eslint.filter((line) => line.startsWith('helpers.ts|'))).toEqual([]);
   });

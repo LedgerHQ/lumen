@@ -53,8 +53,8 @@ Rules for adding one:
   Filesystem _writes_ into libs are expected; only imports are governed.
 - Run `npx nx sync` after adding one.
 
-`internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` enforces the table
-and the first four rules.
+`internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs` enforces
+the table and the first four rules.
 
 ## Commands
 
@@ -64,6 +64,9 @@ and the first four rules.
 - Typecheck all: `npx nx run-many --target=typecheck --all`
 - Build all: `npx nx run-many --target=build --all`
 - Storybook: `npx nx run @ledgerhq/lumen-ui-react:serve:storybook`
+- Dependency versions: `npm run check:deps` (fix with `npm run fix:deps`) — one
+  version per package across every manifest. A second version is allowed only
+  through a labeled `versionGroups` entry in `.syncpackrc.json`.
 
 Prefer the Nx MCP server (`nx_workspace`, `nx_generators`, …) for workspace
 questions and generators instead of guessing.
@@ -122,6 +125,7 @@ frontmatter controls auto-attach.
 | implementing a component from a Figma link                                | `figma-to-code`          |
 | creating/updating Figma Code Connect (`*.figma.tsx`)                      | `code-connect`           |
 | syncing design tokens to React Native JS themes after a Figma sync        | `figma-token-sync`       |
+| adding, upgrading or moving a dependency, or a failing `check:deps`       | `dependency-management`  |
 | running Nx tasks/generators, or asking workspace questions                | `nx`                     |
 
 ### Process
@@ -166,8 +170,8 @@ One source, no duplication:
   consumer-facing names (e.g. `lumen-code`) free for the published tree.
 - Per-tool files (`CLAUDE.md`, `.github/copilot-instructions.md`,
   `.github/instructions/*`) are thin pointers/wrappers — they must not restate
-  content. The `internals/repo-tools/src/ci/validators/agentDocsDrift.mjs` drift
-  check (run in CI as the
+  content. The `internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.mjs`
+  drift check (run in CI as the
   `agent-drift` job via `npm run check:agent-docs`) enforces the mechanical
   invariants: the AGENTS.md index and the skill folders stay in bijection,
   inter-skill references resolve, cited repo paths exist, no skill hardcodes a

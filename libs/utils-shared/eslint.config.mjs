@@ -1,22 +1,4 @@
 import { prodConfig } from '../../eslint.config.mjs';
+import { defineDependencyChecks } from '../../eslint.shared.mjs';
 
-export default [
-  ...prodConfig,
-  {
-    files: ['**/*.json'],
-    rules: {
-      '@nx/dependency-checks': [
-        'error',
-        {
-          ignoredFiles: [
-            '{projectRoot}/eslint.config.{js,cjs,mjs}',
-            '{projectRoot}/vite.config.{js,ts,mjs,mts}',
-          ],
-        },
-      ],
-    },
-    languageOptions: {
-      parser: await import('jsonc-eslint-parser'),
-    },
-  },
-];
+export default [...prodConfig, defineDependencyChecks()];

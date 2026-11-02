@@ -97,6 +97,7 @@ export const TableRoot = ({
   role,
   onScroll,
   onScrollBottom,
+  scrollBottomThreshold,
   loading,
   ref,
   ...props
@@ -107,6 +108,7 @@ export const TableRoot = ({
   const handleScrollBottom = useThrottledScrollBottom({
     onScrollBottom,
     loading,
+    threshold: scrollBottomThreshold,
   });
 
   const overflowing = canScrollLeft || canScrollRight;

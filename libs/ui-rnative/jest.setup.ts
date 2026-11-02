@@ -57,6 +57,7 @@ jest.mock('react-native-svg', () => {
     Polygon: createMockComponent('Polygon'),
     G: createMockComponent('G'),
     Text: createMockComponent('Text'),
+    TSpan: createMockComponent('TSpan'),
     ClipPath: createMockComponent('ClipPath'),
     Defs: createMockComponent('Defs'),
     Mask: createMockComponent('Mask'),
