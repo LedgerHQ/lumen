@@ -1,0 +1,106 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ProgressBarStories from './ProgressBar.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/ProgressBar' of={ProgressBarStories} />
+
+# ProgressBar
+
+<CustomTabs>
+  <Tab label="Overview">
+
+The ProgressBar shows how far along a task is, such as an upload, a sync or an onboarding checklist. It fills a track from 0 to 100 and can show an optional label above or below the bar.
+
+- 🔗 **[Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=21807-57957&m=dev)**
+
+<Canvas of={ProgressBarStories.Base} />
+
+## Properties
+
+<Controls of={ProgressBarStories.Base} />
+
+### Value
+
+`value` is a number from 0 to 100. Values outside the range are clamped.
+
+The fill animates to its new width in 200ms with an ease-out curve.
+
+<Canvas of={ProgressBarStories.ValueShowcase} />
+
+### Appearance
+
+Five appearances carry meaning and are driven by the state of the task: `base` (default), `accent`, `success`, `error` and `warning`.
+
+Eight `decorative-*` appearances (`blue`, `pink`, `purple`, `green`, `turquoise`, `yellow`, `orange`, `red`) are available for identity or categorization.
+
+> ⚠️ Decorative appearances are not for status. Use `success`, `error` or `warning` to communicate the state of a task.
+  
+<Canvas of={ProgressBarStories.AppearanceShowcase} />
+
+### Label
+
+Pass `label` to show a label. It is visual only: the bar is always named by `aria-label`.
+
+<Canvas of={ProgressBarStories.WithLabel} />
+
+`labelPosition` places the label above or below the bar, aligned to the start or end edge. The default is `start-bottom`. `start` and `end` follow the text direction.
+
+With a label, `className` and `style` apply to the wrapper around the label and the bar. Without one, they apply to the bar.
+
+<Canvas of={ProgressBarStories.LabelPositionShowcase} />
+
+The label can contain more than text:
+
+<Canvas of={ProgressBarStories.WithRichLabel} />
+
+## Responsive behavior
+
+The track spans the full width of its container, so size the bar by sizing its container. Its height is fixed at 6px.
+
+## Accessibility
+
+- The bar has `role="progressbar"` with `aria-valuemin` 0, `aria-valuemax` 100 and `aria-valuenow` set to the clamped value.
+- `aria-label` is required and names the bar. The visible `label` is not used as the name.
+- Pair the bar with visible text so color is never the only signal.
+
+</Tab>
+<Tab label="Implementation">
+
+## Installation
+
+Install the packages and their peer dependencies:
+
+```bash
+# Install the UI Kit
+npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core
+
+```
+
+<SetupNote />
+
+### Basic Usage
+
+Every bar needs an `aria-label`:
+
+<Source of={ProgressBarStories.Base} />
+
+### With a label
+
+`label` renders a visible label. The bar is still named by `aria-label`.
+
+<Source of={ProgressBarStories.WithLabel} />
+
+### Appearance
+
+<Source of={ProgressBarStories.AppearanceShowcase} />
+
+### Label position
+
+<Source of={ProgressBarStories.LabelPositionShowcase} />
+
+</Tab>
+</CustomTabs>
