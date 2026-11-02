@@ -1,14 +1,18 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "allowJs": true,
-    "checkJs": true,
     "composite": false,
     "declaration": false,
     "declarationMap": false,
     "emitDeclarationOnly": false,
     "noEmit": true,
+    "allowImportingTsExtensions": true,
+    "erasableSyntaxOnly": true,
+    "verbatimModuleSyntax": true,
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "lib": ["es2022"],
     "types": ["node"]
   },
-  "include": ["src/**/*.mjs"]
+  "include": ["src/**/*.ts"]
 }

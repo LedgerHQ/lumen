@@ -10,7 +10,6 @@
  * Env: PR_NUMBER, HEAD_SHA, REPO, AFFECTED_PROJECTS (newline-separated package
  * names), RUNNER_TEMP, GITHUB_OUTPUT.
  */
-import { execFileSync } from 'node:child_process';
 import {
   appendFileSync,
   mkdirSync,
@@ -18,35 +17,36 @@ import {
   writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
-import { fail, info, ok, step } from '../../shared/logging.mjs';
+import { fail, info, ok, step } from '../../shared/logging.ts';
+import { pack } from '../../shared/pack.ts';
 import {
   libByPackageName,
   workspaceRoot,
-} from '../../shared/workspaceProjects.mjs';
+} from '../../shared/workspaceProjects.ts';
 
-/**
- * @param {string} version
- * @param {string} prNumber
- * @param {string} shortSha
- */
-export const devVersion = (version, prNumber, shortSha) =>
-  `${version}-pr.${prNumber}.${shortSha}`;
+export const devVersion = (
+  version: string,
+  prNumber: string,
+  shortSha: string,
+): string => `${version}-pr.${prNumber}.${shortSha}`;
 
-/**
- * @typedef {object} PackedTarball
- * @property {string} name
- * @property {string} version
- * @property {string} filename
- */
+type PackedTarball = {
+  name: string;
+  version: string;
+  filename: string;
+};
 
-/**
- * @param {object} args
- * @param {string} args.tag
- * @param {string} args.repo
- * @param {string} args.headSha
- * @param {PackedTarball[]} args.packed
- */
-export function renderComment({ tag, repo, headSha, packed }) {
+export function renderComment({
+  tag,
+  repo,
+  headSha,
+  packed,
+}: {
+  tag: string;
+  repo: string;
+  headSha: string;
+  packed: PackedTarball[];
+}): string {
   const rows = packed.map(
     ({ name, version, filename }) =>
       `| \`${name}\` | \`${version}\` | \`npm i https://github.com/${repo}/releases/download/${tag}/${filename}\` |`,
@@ -67,38 +67,14 @@ export function renderComment({ tag, repo, headSha, packed }) {
   ].join('\n');
 }
 
-/**
- * @param {string} dir lib directory, relative to the workspace root
- * @param {string} destination
- * @returns {string} tarball filename
- */
-function pack(dir, destination) {
-  // An absolute path, not `libs/foo`: npm reads a bare `owner/name` as a GitHub
-  // shorthand and tries to clone it. The bash this replaced got away with
-  // `libs/foo/` only because of the trailing slash.
-  const stdout = execFileSync(
-    'npm',
-    [
-      'pack',
-      join(workspaceRoot, dir),
-      '--pack-destination',
-      destination,
-      '--json',
-    ],
-    { cwd: workspaceRoot, encoding: 'utf8' },
-  );
-  return JSON.parse(stdout)[0].filename;
-}
-
-/** @param {string} dir @param {string} version */
-function patchVersion(dir, version) {
+function patchVersion(dir: string, version: string): void {
   const manifestPath = join(workspaceRoot, dir, 'package.json');
   const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
   manifest.version = version;
   writeFileSync(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
 }
 
-function main() {
+function main(): void {
   const {
     PR_NUMBER = '',
     HEAD_SHA = '',
@@ -127,8 +103,7 @@ function main() {
     .filter(Boolean);
 
   step(`Packing ${projects.length} affected project(s)`);
-  /** @type {PackedTarball[]} */
-  const packed = [];
+  const packed: PackedTarball[] = [];
 
   for (const project of projects) {
     const lib = libByPackageName(project);
