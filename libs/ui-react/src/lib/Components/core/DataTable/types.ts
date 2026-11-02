@@ -98,7 +98,7 @@ export type DataTableRootProps<TData extends RowData = RowData> = {
   /**
    * When true, applies sticky positioning to the header so it stays
    * visible while scrolling. Sticks to the table scroll container, not the
-   * page: constrain the `DataTable` height (e.g. `max-h-480`) for the header
+   * page: constrain the `DataTable` height (e.g. `max-h-lg`) for the header
    * to stick while scrolling vertically.
    * @default true
    */

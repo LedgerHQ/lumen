@@ -139,7 +139,7 @@ Pass `onScrollBottom` to `DataTableRoot` to load the next page when the user scr
 `onScrollBottom` fires within `128` pixels (about two rows) of the bottom. Set `scrollBottomThreshold` on `DataTableRoot` to load earlier, e.g. `scrollBottomThreshold={800}`.  
 While `loading` is true, the loading row is shown and `onScrollBottom` is paused to prevent duplicate fetches.  
 Set `loadingIndicator='none'` to hide the loading row, or pass an element to render it as-is below the rows instead.  
-The table must scroll itself, so constrain its height (e.g. `max-h-320`).
+The table must scroll itself, so constrain its height (e.g. `max-h-xs`).
 
 ```tsx
 const query = useInfiniteQuery({ queryKey, queryFn, initialPageParam: null, getNextPageParam });
@@ -153,7 +153,7 @@ const table = useLumenDataTable({ data, columns });
     if (query.hasNextPage) query.fetchNextPage();
   }}
 >
-  <DataTable className='max-h-320' />
+  <DataTable className='max-h-xs' />
 </DataTableRoot>
 ```
 

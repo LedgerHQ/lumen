@@ -399,7 +399,7 @@ it lets the table grow past its container, up to the larger of `minWidth` and th
 #### Things to know
 
 - **Flex and grid parents**: the container must be allowed to shrink. Add `min-w-0` to the flex item wrapping the table (or use `minmax(0, 1fr)` in a grid), otherwise the page scrolls instead of the table.
-- **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-480`) to scroll both ways with a sticky header.
+- **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-lg`) to scroll both ways with a sticky header.
 - **Scrollbar position**: the horizontal scrollbar sits at the bottom of `TableRoot`. For long tables, constrain the `TableRoot` height so it stays in view.
 - **Overlays in cells**: `TableRoot` clips its content, so menus, tooltips or popovers opened from a cell must be rendered in a portal.
 
