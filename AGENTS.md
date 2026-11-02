@@ -25,6 +25,14 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 | `libs/utils-shared` | `@ledgerhq/lumen-utils-shared` | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
 | `libs/lint-plugin`  | `@ledgerhq/lumen-lint-plugin`  | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
 
+## Module boundaries
+
+Import rules are enforced in CI at two levels: Nx tags between projects
+(`eslint.config.mjs`) and dependency-cruiser for layers inside `ui-react` /
+`ui-rnative` (`.dependency-cruiser.cjs`, `npm run check:layers`). Don't import
+across a boundary; see [docs/module-boundaries.md](docs/module-boundaries.md)
+for the tags, the layer order and the exceptions.
+
 ## Internals
 
 `internals/*` holds Nx projects that are **local/dev-only and never published**.

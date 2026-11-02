@@ -5,7 +5,7 @@
   "projectType": "library",
   "tags": [
     "scope:shared",
-    "type:util"
+    "type:tokens"
   ],
   "targets": {
     "build": {

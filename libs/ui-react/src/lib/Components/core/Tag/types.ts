@@ -1,38 +1,10 @@
-import type { ComponentPropsWithRef, ComponentType } from 'react';
+import type { ComponentType } from 'react';
+import type { BaseTagSharedProps } from '../../internal/BaseTag';
 import type { IconSize } from '../../symbols/Icon';
 
-export type TagProps = {
-  /**
-   * The appearance of the tag.
-   * @default accent
-   */
-  appearance?:
-    | 'base'
-    | 'gray'
-    | 'accent'
-    | 'accent-subtle'
-    | 'success'
-    | 'error'
-    | 'warning'
-    | 'white';
-  /**
-   * The size of the tag.
-   * @default md
-   */
-  size?: 'sm' | 'md';
+export type TagProps = BaseTagSharedProps & {
   /**
    * Icon component to render.
    */
   icon?: ComponentType<{ size?: IconSize; className?: string }>;
-  /**
-   * Label text to display.
-   * @required
-   */
-  label: string;
-  /**
-   * When `true`, prevents the user from interacting with the tag.
-   *
-   * @default false
-   */
-  disabled?: boolean;
-} & ComponentPropsWithRef<'div'>;
+};

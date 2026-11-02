@@ -1,9 +1,43 @@
-import type { ReactNode } from 'react';
-import type { TagProps } from '../../core/Tag/types';
+import type { ComponentPropsWithRef, ReactNode } from 'react';
+
+/**
+ * Props shared by every tag flavor. Lives here so `core` tags build on `internal`.
+ */
+export type BaseTagSharedProps = {
+  /**
+   * The appearance of the tag.
+   * @default accent
+   */
+  appearance?:
+    | 'base'
+    | 'gray'
+    | 'accent'
+    | 'accent-subtle'
+    | 'success'
+    | 'error'
+    | 'warning'
+    | 'white';
+  /**
+   * The size of the tag.
+   * @default md
+   */
+  size?: 'sm' | 'md';
+  /**
+   * Label text to display.
+   * @required
+   */
+  label: string;
+  /**
+   * When `true`, prevents the user from interacting with the tag.
+   *
+   * @default false
+   */
+  disabled?: boolean;
+} & ComponentPropsWithRef<'div'>;
 
 export type BaseTagVariant = 'tag' | 'media';
 
-export type BaseTagProps = Omit<TagProps, 'icon'> & {
+export type BaseTagProps = BaseTagSharedProps & {
   variant: BaseTagVariant;
   consumerName: string;
   /**
