@@ -4,7 +4,7 @@ import { createScreensPlugin } from './createScreensPlugin';
 
 describe('createScreensPlugin', () => {
   it('derives the Tailwind screens from the breakpoint primitives', () => {
-    expect(createScreensPlugin().config?.theme?.screens).toEqual({
+    expect(createScreensPlugin().config?.theme?.extend?.screens).toEqual({
       xs: '360px',
       sm: '640px',
       md: '768px',
