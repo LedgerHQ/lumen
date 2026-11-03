@@ -25,7 +25,7 @@ const mediaImageGroupVariants = {
           48: '-ml-8 rounded-md ring-2',
           56: '-ml-10 rounded-lg ring-2',
           64: '-ml-12 rounded-lg ring-2',
-          72: '-ml-12 rounded-lg ring-2',
+          72: '-ml-12 rounded-xl ring-2',
         },
         shape: {
           square: '',
@@ -48,7 +48,7 @@ const mediaImageGroupVariants = {
           48: 'h-48 w-auto min-w-48 rounded-md px-2 body-1-semi-bold',
           56: 'h-56 w-auto min-w-56 rounded-lg px-2 heading-4-semi-bold',
           64: 'h-64 w-auto min-w-64 rounded-lg px-2 heading-3-semi-bold',
-          72: 'h-72 w-auto min-w-72 rounded-lg px-2 heading-2-semi-bold',
+          72: 'h-72 w-auto min-w-72 rounded-xl px-2 heading-2-semi-bold',
         },
         shape: {
           square: '',
