@@ -211,6 +211,8 @@
         "**/.storybook/**",
         "**/jest.config.js",
         "**/jest.config.ts",
+        "**/vitest.config.mjs",
+        "**/vitest.config.ts",
         "**/*.md",
         "**/*.mdx",
         "**/*.figma.ts",
