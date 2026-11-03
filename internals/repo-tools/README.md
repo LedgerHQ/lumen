@@ -25,7 +25,7 @@ script or workflow that runs it. A `check-*` folder is a CI gate.
 | `ci/pr-report/` | One sticky PR comment gathering every report section | `coverageSection.ts`, `postPrReport.ts` | `pr.yml` jobs `unit-testing` and `pr-report` |
 | `ci/publish-dev-packages/` | Per-PR dev tarballs and their PR comment | `getPublishableProjects.ts`, `generateTarballs.ts` | `publish-dev-packages.yml` |
 | `ci/rn-081-compat/` | ui-rnative still type-checks and passes its tests on Ledger Wallet Mobile's RN 0.81 stack (temporary, until LWM is on RN 0.86) | `pinRn081Stack.ts` | `pr.yml` job `rn-081-compat` |
-| `shared/` | Which libs and internals exist and publish; reading coverage summaries; packing; console output | `workspaceProjects.ts`, `coverage.ts`, `pack.ts`, `logging.ts` | imported only |
+| `shared/` | Which libs and internals exist and publish; the coverage bar; packing; console output | `workspaceProjects.ts`, `coverage.ts`, `pack.ts`, `logging.ts` | imported only |
 
 A new script goes in the folder of its use case, or in a new folder named after
 its npm script or workflow. Tests sit next to the code as `*.test.ts`. A

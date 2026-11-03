@@ -9,6 +9,8 @@ import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { dirname } from 'node:path';
 import {
   COVERAGE_METRICS,
+  COVERAGE_THRESHOLD,
+  meetsThreshold,
   readCoverageSummary,
 } from '../../shared/coverage.ts';
 import type { CoverageSummary } from '../../shared/coverage.ts';
@@ -58,18 +60,30 @@ function metricCells(row: CoverageRow): string[] {
   );
 }
 
+function gateCell(row: CoverageRow, threshold: number): string {
+  if (!row.current) return 'not run';
+  return meetsThreshold(row.current, threshold) ? '✅' : '❌';
+}
+
 const tableRow = (cells: string[]): string => `| ${cells.join(' | ')} |`;
 
-export function renderCoverageSection(report: CoverageReport): string {
+export function renderCoverageSection(
+  report: CoverageReport,
+  threshold: number = COVERAGE_THRESHOLD,
+): string {
   const lines = [
     '### Test coverage',
     '',
-    `A lib below its coverage thresholds fails \`Unit Testing\`. Δ is against the latest green \`main\`; _italic_ rows did not run in this PR and show \`main\`'s numbers.`,
+    `Libs must reach **${threshold}%** on every metric. Δ is against the latest green \`main\`; _italic_ rows did not run in this PR and show \`main\`'s numbers.`,
     '',
-    tableRow(['Lib', ...HEADER_METRICS]),
-    tableRow(['---', ...HEADER_METRICS.map(() => '---:')]),
+    tableRow(['Lib', ...HEADER_METRICS, 'Gate']),
+    tableRow(['---', ...HEADER_METRICS.map(() => '---:'), ':---:']),
     ...report.libs.map((row) =>
-      tableRow([`\`${row.slug}\``, ...metricCells(row)]),
+      tableRow([
+        `\`${row.slug}\``,
+        ...metricCells(row),
+        gateCell(row, threshold),
+      ]),
     ),
   ];
 
