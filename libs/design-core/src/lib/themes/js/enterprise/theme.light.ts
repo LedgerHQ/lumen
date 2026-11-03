@@ -253,6 +253,15 @@ export const enterpriseLightColorTokens = {
     decorativeYellow: primitiveColorTokens.light.decorative.yellow['300'],
     decorativeOrange: primitiveColorTokens.light.decorative.orange['300'],
     decorativeRed: primitiveColorTokens.light.decorative.red['300'],
+    decorativeStrongOrange: primitiveColorTokens.light.decorative.orange['500'],
+    decorativeStrongGreen: primitiveColorTokens.light.decorative.green['500'],
+    decorativeStrongBlue: primitiveColorTokens.light.decorative.blue['500'],
+    decorativeStrongPurple: primitiveColorTokens.light.decorative.purple['500'],
+    decorativeStrongRed: primitiveColorTokens.light.decorative.red['500'],
+    decorativeStrongYellow: primitiveColorTokens.light.decorative.yellow['600'],
+    decorativeStrongTurquoise:
+      primitiveColorTokens.light.decorative.turquoise['500'],
+    decorativeStrongPink: primitiveColorTokens.light.decorative.pink['500'],
   },
   text: {
     native: '#007aff',

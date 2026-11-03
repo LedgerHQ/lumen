@@ -141,6 +141,22 @@ export const tokens = {
       'var(--color-dark-decorative-green-200)',
     '--color-background-decorative-purple':
       'var(--color-dark-decorative-purple-200)',
+    '--color-background-decorative-strong-orange':
+      'var(--color-dark-decorative-orange-500)',
+    '--color-background-decorative-strong-green':
+      'var(--color-dark-decorative-green-500)',
+    '--color-background-decorative-strong-blue':
+      'var(--color-dark-decorative-blue-500)',
+    '--color-background-decorative-strong-purple':
+      'var(--color-dark-decorative-purple-500)',
+    '--color-background-decorative-strong-red':
+      'var(--color-dark-decorative-red-400)',
+    '--color-background-decorative-strong-yellow':
+      'var(--color-dark-decorative-yellow-500)',
+    '--color-background-decorative-strong-turquoise':
+      'var(--color-dark-decorative-turquoise-500)',
+    '--color-background-decorative-strong-pink':
+      'var(--color-dark-decorative-pink-500)',
     '--color-text-black': 'var(--color-dark-constant-950)',
     '--color-text-white': 'var(--color-dark-constant-050)',
     '--color-text-white-hover': 'var(--color-dark-constant-200)',
@@ -535,6 +551,22 @@ export const tokens = {
     '--background-decorative-orange':
       'var(--color-background-decorative-orange)',
     '--background-decorative-red': 'var(--color-background-decorative-red)',
+    '--background-decorative-strong-blue':
+      'var(--color-background-decorative-strong-blue)',
+    '--background-decorative-strong-pink':
+      'var(--color-background-decorative-strong-pink)',
+    '--background-decorative-strong-purple':
+      'var(--color-background-decorative-strong-purple)',
+    '--background-decorative-strong-green':
+      'var(--color-background-decorative-strong-green)',
+    '--background-decorative-strong-turquoise':
+      'var(--color-background-decorative-strong-turquoise)',
+    '--background-decorative-strong-yellow':
+      'var(--color-background-decorative-strong-yellow)',
+    '--background-decorative-strong-orange':
+      'var(--color-background-decorative-strong-orange)',
+    '--background-decorative-strong-red':
+      'var(--color-background-decorative-strong-red)',
     '--text-black': 'var(--color-text-black)',
     '--text-white': 'var(--color-text-white)',
     '--text-white-hover': 'var(--color-text-white-hover)',

@@ -34,8 +34,8 @@ const appearanceCases: [ProgressAppearance, string][] = [
   ['success', colors.bg.successStrong],
   ['error', colors.bg.errorStrong],
   ['warning', colors.bg.warningStrong],
-  ['decorative-purple', colors.bg.decorativePurple],
-  ['decorative-turquoise', colors.bg.decorativeTurquoise],
+  ['decorative-purple', colors.bg.decorativeStrongPurple],
+  ['decorative-turquoise', colors.bg.decorativeStrongTurquoise],
 ];
 
 const positionCases: [

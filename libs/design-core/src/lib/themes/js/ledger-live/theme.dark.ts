@@ -253,6 +253,15 @@ export const ledgerLiveDarkColorTokens = {
     decorativeYellow: primitiveColorTokens.dark.decorative.yellow['200'],
     decorativeOrange: primitiveColorTokens.dark.decorative.orange['200'],
     decorativeRed: primitiveColorTokens.dark.decorative.red['200'],
+    decorativeStrongOrange: primitiveColorTokens.dark.decorative.orange['500'],
+    decorativeStrongGreen: primitiveColorTokens.dark.decorative.green['500'],
+    decorativeStrongBlue: primitiveColorTokens.dark.decorative.blue['500'],
+    decorativeStrongPurple: primitiveColorTokens.dark.decorative.purple['500'],
+    decorativeStrongRed: primitiveColorTokens.dark.decorative.red['400'],
+    decorativeStrongYellow: primitiveColorTokens.dark.decorative.yellow['500'],
+    decorativeStrongTurquoise:
+      primitiveColorTokens.dark.decorative.turquoise['500'],
+    decorativeStrongPink: primitiveColorTokens.dark.decorative.pink['500'],
   },
   text: {
     native: '#007aff',
