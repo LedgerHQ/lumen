@@ -47,16 +47,14 @@ const layerRules = UI_LIBS.flatMap((lib) => {
       upper('core', 'internal', 'visualization'),
       'symbols, primitives and animations are the lowest component layers.',
     ),
-    forbid(
-      'visualization-subpath-only',
-      [
-        upper('core', 'internal', 'symbols', 'primitives', 'animations'),
-        `^libs/${lib}/src/index\\.ts$`,
-        `${components(lib)}/index\\.ts$`,
-      ].join('|'),
-      layer(lib, 'visualization'),
-      'visualization is imported only via its own /visualization subpath.',
-    ),
+    {
+      name: `${lib}-visualization-subpath-only`,
+      severity: 'error',
+      comment:
+        'visualization is imported only via its own /visualization subpath.',
+      from: { path: `^libs/${lib}/src/`, pathNot: layer(lib, 'visualization') },
+      to: { path: layer(lib, 'visualization') },
+    },
     forbid(
       'utils-not-to-components',
       `^libs/${lib}/src/(lib/)?utils/`,
