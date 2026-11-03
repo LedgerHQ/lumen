@@ -9,6 +9,7 @@ import * as path from 'path';
 import { automationConfig } from '../../config.js';
 import { figmaApi } from './api.js';
 import { getEnvironmentVariables } from './getEnvironmentVariables.js';
+import { pruneStaleTokenFiles } from './pruneStaleTokenFiles.js';
 import { tokenFileNameRenamer } from './tokenFileNameRenamer.js';
 import { tokenFilesFromLocalVariables } from './tokenFilesFromLocalVariables.js';
 
@@ -40,6 +41,14 @@ async function exportDesignTokens() {
   );
 
   writeFilesSync(outputDir, tokensFiles);
+
+  const deletedFileNames = pruneStaleTokenFiles(
+    outputDir,
+    Object.keys(tokensFiles),
+  );
+  deletedFileNames.forEach((fileName) =>
+    console.log(`Deleted stale token file: ${fileName}`),
+  );
 }
 
 async function main() {
