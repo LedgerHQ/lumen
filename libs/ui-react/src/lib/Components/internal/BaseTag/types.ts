@@ -1,8 +1,5 @@
 import type { ComponentPropsWithRef, ReactNode } from 'react';
 
-/**
- * Props shared by every tag flavor. Lives here so `core` tags build on `internal`.
- */
 export type BaseTagSharedProps = {
   /**
    * The appearance of the tag.

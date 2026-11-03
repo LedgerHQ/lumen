@@ -2,9 +2,6 @@ import type { ReactNode } from 'react';
 import type { StyleProp, TextStyle } from 'react-native';
 import type { StyledViewProps } from '../../../../styles';
 
-/**
- * Props shared by every tag flavor. Lives here so `core` tags build on `internal`.
- */
 export type BaseTagSharedProps = {
   /**
    * The appearance of the tag.
