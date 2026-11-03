@@ -111,6 +111,7 @@ export const BaseInput = ({
             ref={composedRef}
             value={value}
             placeholder={inputPlaceholder}
+            accessibilityLabel={label}
             style={StyleSheet.flatten([styles.input, inputStyle])}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
