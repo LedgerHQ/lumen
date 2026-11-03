@@ -1,11 +1,26 @@
+import reactNativeA11y from 'eslint-plugin-react-native-a11y';
 import { prodConfig } from '../../eslint.config.mjs';
-import { defineDependencyChecks } from '../../eslint.shared.mjs';
+import {
+  defineDependencyChecks,
+  defineProdRules,
+} from '../../eslint.shared.mjs';
 
 export default [
   ...prodConfig,
   {
     ignores: ['public', '.cache', 'node_modules'],
   },
+  // `jsx-a11y` only knows DOM elements; this covers the RN primitives.
+  defineProdRules({
+    name: 'react-native-a11y-rules',
+    plugins: { 'react-native-a11y': reactNativeA11y },
+    rules: {
+      ...reactNativeA11y.configs.all.rules,
+      // Demands a hint wherever there is a label; hints are for non-obvious
+      // outcomes only, so a blanket requirement adds screen-reader noise.
+      'react-native-a11y/has-accessibility-hint': 'off',
+    },
+  }),
   defineDependencyChecks({
     ignoredFiles: [
       // SVGR template read by `internals/sync-figma` codegen, never imported.

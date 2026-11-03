@@ -87,6 +87,7 @@ export function MediaBanner({
                   resizeMode='cover'
                   onError={() => setImageLoadError(true)}
                   accessible={false}
+                  accessibilityIgnoresInvertColors
                 />
               )}
               <LinearGradient

@@ -133,6 +133,7 @@ export const BaseInputLabel = ({
     <Animated.Text
       style={[styles.label, styles.animatedStyle, style]}
       numberOfLines={1}
+      aria-hidden
     >
       {children}
     </Animated.Text>
