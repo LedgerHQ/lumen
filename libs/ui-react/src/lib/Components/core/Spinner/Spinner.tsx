@@ -31,7 +31,7 @@ export const Spinner = ({
       <path
         d='M8 1.5C11.5899 1.5 14.5 4.41015 14.5 8C14.5 11.5899 11.5899 14.5 8 14.5C4.41015 14.5 1.5 11.5899 1.5 8'
         stroke='currentColor'
-        strokeWidth={1.5}
+        strokeWidth={1.2}
         strokeLinecap='round'
         fill='none'
       />
