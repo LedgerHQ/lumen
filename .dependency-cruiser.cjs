@@ -5,33 +5,41 @@
  *
  * Layer order inside `src/lib/Components` (a layer may import the ones below):
  *   visualization, core -> internal -> primitives / animations (RN) / symbols -> utils
+ * `internal` Bases only stay clear of the core components built on them.
  * Tests, stories, Code Connect and docs are not cruised: they legitimately
  * reach across layers (e.g. a `ThemeProvider` wrapper).
  */
 
 const UI_LIBS = ['ui-react', 'ui-rnative'];
+
+// Core components built on each internal Base; a Base may not import them back.
+const BASE_FAMILIES = {
+  BaseButton: ['Button', 'IconButton', 'MediaButton'],
+  BaseInput: ['AddressInput', 'SearchInput', 'TextInput'],
+  BaseTag: ['MediaTag', 'Tag'],
+};
 const components = (lib) => `^libs/${lib}/src/lib/Components`;
 const layer = (lib, name) => `${components(lib)}/${name}/`;
 
 /** @type {import('dependency-cruiser').IForbiddenRuleType[]} */
 const layerRules = UI_LIBS.flatMap((lib) => {
-  const forbid = (name, from, to, comment, allowedTo) => ({
+  const forbid = (name, from, to, comment) => ({
     name: `${lib}-${name}`,
     severity: 'error',
     comment,
     from: { path: from },
-    to: { path: to, ...(allowedTo && { pathNot: allowedTo }) },
+    to: { path: to },
   });
   const upper = (...names) => names.map((n) => layer(lib, n)).join('|');
 
   return [
-    forbid(
-      'internal-not-to-core',
-      layer(lib, 'internal'),
-      upper('core', 'visualization'),
-      'internal builds on primitives/symbols/utils only; it must not depend on core or visualization.',
-      // Self-contained leaf components that BaseButton/BaseInput render directly.
-      `${components(lib)}/core/(Spinner|InteractiveIcon)/`,
+    ...Object.entries(BASE_FAMILIES).map(([base, derived]) =>
+      forbid(
+        `${base}-not-to-derived`,
+        `${layer(lib, 'internal')}${base}/`,
+        `${components(lib)}/core/(${derived.join('|')})/`,
+        `${base} must not import the components built on it (${derived.join(', ')}).`,
+      ),
     ),
     forbid(
       'foundations-not-to-upper-layers',
@@ -40,14 +48,14 @@ const layerRules = UI_LIBS.flatMap((lib) => {
       'symbols, primitives and animations are the lowest component layers.',
     ),
     forbid(
-      'visualization-is-a-leaf',
+      'visualization-subpath-only',
       [
         upper('core', 'internal', 'symbols', 'primitives', 'animations'),
         `^libs/${lib}/src/index\\.ts$`,
         `${components(lib)}/index\\.ts$`,
       ].join('|'),
       layer(lib, 'visualization'),
-      'visualization ships as a subpath only and never enters the main barrel or other layers.',
+      'visualization is imported only via its own /visualization subpath.',
     ),
     forbid(
       'utils-not-to-components',

@@ -52,8 +52,17 @@ never import a UI lib (`utils-shared` never imports `design-core`).
 
 Tests, stories, Code Connect and MDX files are not checked.
 
-## Exceptions
+## Bases and the components built on them
 
-`internal` may import `core/Spinner` and `core/InteractiveIcon`: they are
-self-contained leaves that `BaseButton` and `BaseInput` render directly. The
-exception lives in the `internal-not-to-core` rule in `.dependency-cruiser.cjs`.
+`internal` is not blocked from `core` as a whole. A Base may not import the
+core components built on it, which would point the dependency back up:
+
+| Base         | Must not import                            |
+| ------------ | ------------------------------------------ |
+| `BaseButton` | `Button`, `IconButton`, `MediaButton`      |
+| `BaseInput`  | `AddressInput`, `SearchInput`, `TextInput` |
+| `BaseTag`    | `MediaTag`, `Tag`                          |
+
+Other `core` components (for example `Spinner` in `BaseButton`) are fine. When a
+new core component is built on a Base, add it to `BASE_FAMILIES` in
+`.dependency-cruiser.cjs`.
