@@ -33,7 +33,7 @@ const mediaImageVariants = {
           48: 'size-48 rounded-md',
           56: 'size-56 rounded-lg',
           64: 'size-64 rounded-lg',
-          72: 'size-72 rounded-lg',
+          72: 'size-72 rounded-xl',
         },
         shape: {
           square: '',
