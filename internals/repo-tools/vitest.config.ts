@@ -6,5 +6,11 @@ export default defineConfig({
     include: ['src/**/*.test.ts'],
     passWithNoTests: true,
     reporters: ['default'],
+    coverage: {
+      reportsDirectory: './test-output/vitest/coverage',
+      provider: 'v8',
+      reporter: ['json-summary'],
+      include: ['src/**/*.ts'],
+    },
   },
 });

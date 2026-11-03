@@ -19,7 +19,7 @@ export const workspaceRoot = join(
 );
 
 export type Lib = {
-  /** folder name under `libs/` */
+  /** folder name under `libs/` (or `internals/`) */
   slug: string;
   /** path relative to the workspace root */
   dir: string;
@@ -30,13 +30,22 @@ export type Lib = {
 };
 
 export function libs(): Lib[] {
-  const libsDir = join(workspaceRoot, 'libs');
-  if (!existsSync(libsDir)) return [];
+  return projectsIn('libs');
+}
 
-  return readdirSync(libsDir, { withFileTypes: true })
+/** Dev-only projects under `internals/` — never published, never gated. */
+export function internals(): Lib[] {
+  return projectsIn('internals');
+}
+
+function projectsIn(folder: 'libs' | 'internals'): Lib[] {
+  const parentDir = join(workspaceRoot, folder);
+  if (!existsSync(parentDir)) return [];
+
+  return readdirSync(parentDir, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry): Lib | null => {
-      const dir = `libs/${entry.name}`;
+      const dir = `${folder}/${entry.name}`;
       const manifestPath = join(workspaceRoot, dir, 'package.json');
       if (!existsSync(manifestPath)) return null;
       const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));

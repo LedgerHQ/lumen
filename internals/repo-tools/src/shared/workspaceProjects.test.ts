@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  internals,
   libByPackageName,
   libs,
   publishableLibs,
@@ -26,5 +27,11 @@ describe('workspaceProjects', () => {
       'libs/ui-react',
     );
     expect(libByPackageName('@lumen/not-a-lib')).toBeUndefined();
+  });
+
+  it('lists internals separately from libs', () => {
+    const dirs = internals().map((project) => project.dir);
+    expect(dirs).toContain('internals/repo-tools');
+    expect(dirs.every((dir) => dir.startsWith('internals/'))).toBe(true);
   });
 });
