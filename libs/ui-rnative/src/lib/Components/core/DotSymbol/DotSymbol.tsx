@@ -15,7 +15,7 @@ const dotSquareRadiusMap: Record<DotSymbolSize, number> = {
   16: 5,
   20: 6,
   24: 8,
-  32: 10,
+  32: 12,
 };
 
 const offsetBySize: Record<DotSymbolSize, number> = {
