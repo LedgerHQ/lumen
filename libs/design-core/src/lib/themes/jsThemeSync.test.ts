@@ -21,117 +21,6 @@ type ThemeGroup = keyof Pick<
   'bg' | 'text' | 'border' | 'crypto' | 'discover'
 >;
 
-type SyncException = {
-  brand: string;
-  theme: 'light' | 'dark';
-  group: ThemeGroup;
-  key: string;
-  reason: string;
-};
-
-const BRANDS = ['enterprise', 'websites', 'ledger-live'] as const;
-
-const forAllBrands = (
-  themes: ('light' | 'dark')[],
-  group: ThemeGroup,
-  key: string,
-  reason: string,
-): SyncException[] =>
-  BRANDS.flatMap((brand) =>
-    themes.map((theme) => ({ brand, theme, group, key, reason })),
-  );
-
-/**
- * Pre-existing intentional diffs between CSS consumable tokens and JS themes.
- * Only add entries for quirks that predate this check — not for missing sync work.
- */
-const KNOWN_EXCEPTIONS: SyncException[] = [
-  ...forAllBrands(
-    ['dark', 'light'],
-    'border',
-    'activeHover',
-    'CSS --border-active-hover aliases to -pressed for enterprise only',
-  ).filter(({ brand }) => brand === 'enterprise'),
-  ...forAllBrands(
-    ['dark', 'light'],
-    'bg',
-    'errorTransparent',
-    'JS-only legacy alias; CSS consumable layer has errorTransparent0 only',
-  ),
-  ...forAllBrands(
-    ['dark', 'light'],
-    'bg',
-    'successTransparent',
-    'JS-only legacy alias; CSS consumable layer has successTransparent0 only',
-  ),
-  ...forAllBrands(
-    ['dark', 'light'],
-    'border',
-    'whiteHover',
-    'JS-only token; not exposed in CSS consumable layer',
-  ),
-  ...forAllBrands(
-    ['dark', 'light'],
-    'border',
-    'whitePressed',
-    'JS-only token; not exposed in CSS consumable layer',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'surfaceTransparentHover',
-    'JS references grey 950-10; CSS consumable resolves to grey 950-5',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'surfaceTransparentPressed',
-    'JS references grey 950-20; CSS consumable resolves to grey 950-10',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'warningStrong',
-    'JS primitive yellow-700 differs from CSS primitive (#ae731a vs #9b6109)',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'text',
-    'warning',
-    'JS primitive yellow-700 differs from CSS primitive (#ae731a vs #9b6109)',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'border',
-    'warning',
-    'JS primitive yellow-700 differs from CSS primitive (#ae731a vs #9b6109)',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'gradient100',
-    'JS uses grey-950; CSS light consumable resolves gradient-100 to grey-050',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'gradient80',
-    'JS uses grey-950-80; CSS light consumable resolves gradient-80 to grey-050-80',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'gradient70',
-    'JS uses grey-950-70; CSS light consumable resolves gradient-70 to grey-050-70',
-  ),
-  ...forAllBrands(
-    ['light'],
-    'bg',
-    'gradient0',
-    'JS uses grey-950-0; CSS light consumable resolves gradient-0 to grey-050-0',
-  ),
-];
-
 const CSS_PREFIX_TO_GROUP: Record<string, ThemeGroup> = {
   '--background-': 'bg',
   '--text-': 'text',
@@ -139,22 +28,6 @@ const CSS_PREFIX_TO_GROUP: Record<string, ThemeGroup> = {
   '--color-crypto-': 'crypto',
   '--color-discover-': 'discover',
 };
-
-const isKnownException = (
-  brand: string,
-  theme: 'light' | 'dark',
-  group: ThemeGroup,
-  key: string,
-  kind: 'missing' | 'extra' | 'mismatch',
-): boolean =>
-  KNOWN_EXCEPTIONS.some(
-    (exception) =>
-      exception.brand === brand &&
-      exception.theme === theme &&
-      exception.group === group &&
-      exception.key === key &&
-      (kind === 'mismatch' || kind === 'extra'),
-  );
 
 const kebabToCamel = (rest: string): string => {
   const parts = rest.split('-');
@@ -317,12 +190,6 @@ const compareThemeSync = (fixture: ThemeFixture): string[] => {
 
     for (const key of actualKeys) {
       if (!expectedKeys.has(key)) {
-        if (
-          isKnownException(fixture.brand, fixture.theme, group, key, 'extra')
-        ) {
-          continue;
-        }
-
         issues.push(
           `[${fixture.brand}/${fixture.theme}] ${group}.${key}: extra in JS (not in CSS consumable layer)`,
         );
@@ -338,12 +205,6 @@ const compareThemeSync = (fixture: ThemeFixture): string[] => {
       const actualValue = actual[key].toLowerCase();
 
       if (expectedValue === actualValue) {
-        continue;
-      }
-
-      if (
-        isKnownException(fixture.brand, fixture.theme, group, key, 'mismatch')
-      ) {
         continue;
       }
 
