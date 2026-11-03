@@ -27,11 +27,19 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 
 ## Module boundaries
 
-Import rules are enforced in CI at two levels: Nx tags between projects
-(`eslint.config.mjs`) and dependency-cruiser for layers inside `ui-react` /
-`ui-rnative` (`.dependency-cruiser.cjs`, `npm run check:layers`). Don't import
-across a boundary; see [docs/module-boundaries.md](docs/module-boundaries.md)
-for the tags, the layer order and the exceptions.
+Import rules are enforced in CI at two levels. Don't import across a boundary.
+
+- **Between projects** — Nx tags (`scope:*`, `type:*` in each `project.json`),
+  rules in `eslint.config.mjs`. `utils-shared` imports no Lumen lib;
+  `design-core` imports `utils-shared` only; `ui-react` / `ui-rnative` import
+  `utils-shared` and `design-core` only, never each other.
+- **Inside `ui-react` / `ui-rnative`** — dependency-cruiser,
+  `.dependency-cruiser.cjs`, `npm run check:layers`. Under
+  `src/lib/Components`, a layer imports only the ones below:
+  `visualization`, `core` → `internal` → `primitives` / `animations` /
+  `symbols` → `utils`. An `internal` Base never imports the `core` components
+  built on it (`BASE_FAMILIES` in the config), and `visualization` is reached
+  only through its own subpath.
 
 ## Internals
 
