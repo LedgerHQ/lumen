@@ -105,6 +105,9 @@ export const MenuListItem = ({
     mergeWith: { disabled: disabledProp },
   });
 
+  // Not inlined: `has-valid-accessibility-state` throws on spread entries in a JSX object literal.
+  const mergedAccessibilityState = { ...accessibilityState, disabled };
+
   return (
     <Pressable
       ref={ref}
@@ -113,7 +116,7 @@ export const MenuListItem = ({
       onPress={onPress}
       disabled={disabled}
       accessibilityRole='button'
-      accessibilityState={{ ...accessibilityState, disabled }}
+      accessibilityState={mergedAccessibilityState}
       {...props}
     >
       {({ pressed }) => (
@@ -188,6 +191,13 @@ export const MenuListSwitchItem = ({
     defaultProp: defaultChecked,
   });
 
+  // Not inlined: `has-valid-accessibility-state` throws on spread entries in a JSX object literal.
+  const mergedAccessibilityState = {
+    ...accessibilityState,
+    disabled,
+    checked,
+  };
+
   return (
     <Pressable
       ref={ref}
@@ -196,7 +206,7 @@ export const MenuListSwitchItem = ({
       onPress={() => onCheckedChange(!checked)}
       disabled={disabled}
       accessibilityRole='switch'
-      accessibilityState={{ ...accessibilityState, disabled, checked }}
+      accessibilityState={mergedAccessibilityState}
       {...props}
     >
       {({ pressed }) => (

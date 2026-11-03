@@ -67,6 +67,30 @@ describe('TextInput', () => {
     });
   });
 
+  describe('Accessibility', () => {
+    it('names the field after its label', async () => {
+      await renderWithProvider(
+        <TextInput label='Email' value='' onChangeText={() => {}} />,
+      );
+
+      expect(screen.getByLabelText('Email')).toBeTruthy();
+    });
+
+    it('lets an explicit accessibilityLabel override the label', async () => {
+      await renderWithProvider(
+        <TextInput
+          label='Email'
+          accessibilityLabel='Work email'
+          value=''
+          onChangeText={() => {}}
+        />,
+      );
+
+      expect(screen.getByLabelText('Work email')).toBeTruthy();
+      expect(screen.queryByLabelText('Email')).toBeNull();
+    });
+  });
+
   describe('Helper text', () => {
     it('renders neutral helper text with an info icon', () => {
       renderWithProvider(

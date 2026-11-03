@@ -144,6 +144,7 @@ export const DotSymbol = ({
                 source={{ uri: src }}
                 style={styles.image}
                 accessible={false}
+                accessibilityIgnoresInvertColors
                 onError={() => setError(true)}
                 testID='dot-symbol-img'
               />

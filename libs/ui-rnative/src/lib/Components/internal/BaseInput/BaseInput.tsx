@@ -102,6 +102,8 @@ export const BaseInput = ({
           style={StyleSheet.flatten([styles.container, containerStyle])}
           onPress={() => inputRef.current?.focus()}
           disabled={disabled}
+          // Only forwards taps to the input; the TextInput is the semantic target.
+          accessible={false}
         >
           {prefix ? <View style={styles.prefixContainer}>{prefix}</View> : null}
 
@@ -109,6 +111,7 @@ export const BaseInput = ({
             ref={composedRef}
             value={value}
             placeholder={inputPlaceholder}
+            accessibilityLabel={label}
             style={StyleSheet.flatten([styles.input, inputStyle])}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}

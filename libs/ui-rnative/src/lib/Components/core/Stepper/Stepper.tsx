@@ -120,12 +120,7 @@ export const Stepper = ({
     <Box
       ref={ref}
       accessibilityRole='progressbar'
-      accessibilityValue={{
-        now: currentStep,
-        min: 1,
-        max: totalSteps,
-        text: displayLabel,
-      }}
+      accessibilityValue={{ text: displayLabel }}
       accessibilityLabel={
         label ??
         t('components.stepper.progressAriaLabel', {

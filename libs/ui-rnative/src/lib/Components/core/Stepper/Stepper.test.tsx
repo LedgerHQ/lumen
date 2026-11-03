@@ -20,14 +20,7 @@ describe('Stepper Component', () => {
     const stepper = await findByLabelText('Step 2 of 4');
     expect(stepper).toBeTruthy();
     expect(stepper.props.accessibilityRole).toBe('progressbar');
-    expect(stepper.props.accessibilityValue).toEqual(
-      expect.objectContaining({
-        now: 2,
-        min: 1,
-        max: 4,
-        text: '2/4',
-      }),
-    );
+    expect(stepper.props.accessibilityValue).toEqual({ text: '2/4' });
   });
 
   it('should render with custom label', () => {
@@ -98,14 +91,7 @@ describe('Stepper Component', () => {
     );
     const stepper = await findByLabelText('Step 0 of 4');
     expect(stepper).toBeTruthy();
-    expect(stepper.props.accessibilityValue).toEqual(
-      expect.objectContaining({
-        now: -3,
-        min: 1,
-        max: 4,
-        text: '0/4',
-      }),
-    );
+    expect(stepper.props.accessibilityValue).toEqual({ text: '0/4' });
     expect(getByText('0')).toBeTruthy();
     expect(getByText('/4')).toBeTruthy();
   });
