@@ -1,6 +1,7 @@
 import plugin from 'tailwindcss/plugin.js';
 import { primitivesTheme } from '../themes/css/index.js';
 import { createIconUtilities } from './createIconUtilities.js';
+import { createSpinnerUtilities } from './createSpinnerUtilities.js';
 import { createSpotUtilities } from './createSpotUtilities.js';
 import { getThemeUtilsByPrefix } from './getThemeUtilsByPrefix.js';
 
@@ -26,6 +27,10 @@ export function createPrimitivesPlugin(): TailwindPlugin {
     primitivesTheme,
     '--icon-border-width-',
   );
+  const spinnerStrokeWidth = getThemeUtilsByPrefix(
+    primitivesTheme,
+    '--spinner-border-width-',
+  );
 
   const zIndex = {
     'table-header': '20',
@@ -41,6 +46,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
     function ({ addBase, theme, addUtilities }) {
       addBase(primitivesTheme);
       addUtilities(createIconUtilities(theme));
+      addUtilities(createSpinnerUtilities(theme));
       addUtilities(createSpotUtilities(theme));
     },
     {
@@ -53,6 +59,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
         spotWidth,
         spotHeight,
         iconStrokeWidth,
+        spinnerStrokeWidth,
         extend: {
           zIndex,
           height: size,
