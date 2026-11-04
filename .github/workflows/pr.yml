@@ -87,7 +87,7 @@ jobs:
       - uses: ./.github/actions/setup
 
       - run: npx nx run-many --targets=build-deps --all
-      - run: npx nx affected -t lint typecheck
+      - run: npx nx affected -t lint typecheck validate
 
   build:
     name: Build

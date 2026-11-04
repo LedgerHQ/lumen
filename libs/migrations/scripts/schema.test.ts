@@ -122,6 +122,11 @@ describe('migrationFrontmatter', () => {
       'requires.not a package',
     ],
     [
+      'a requires range that is not semver',
+      { ...valid, requires: { tailwindcss: 'latest-ish' } },
+      'requires.tailwindcss',
+    ],
+    [
       'a codemod that is not kebab-case',
       { ...valid, codemod: 'renameProp' },
       'codemod',

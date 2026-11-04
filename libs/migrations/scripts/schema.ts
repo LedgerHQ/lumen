@@ -1,3 +1,4 @@
+import semver from 'semver';
 import { z } from 'zod';
 
 const kebabCase = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
@@ -81,7 +82,15 @@ const change = z
 export const migrationFrontmatter = z.strictObject({
   changes: z.array(change).nonempty(),
   requires: z
-    .record(z.string().regex(refShapes.dependency), z.string().min(1))
+    .record(
+      z.string().regex(refShapes.dependency),
+      z
+        .string()
+        .refine(
+          (range) => semver.validRange(range) !== null,
+          'must be a semver range',
+        ),
+    )
     .optional(),
   codemod: z.string().regex(kebabCase, 'must be kebab-case').optional(),
 });

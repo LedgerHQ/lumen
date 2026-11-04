@@ -9,7 +9,7 @@ UI libs don't depend on this package.
 
 The YAML frontmatter is read by tools, the body by agents.
 
-```md
+````md
 ---
 changes: # applied in order
   - change: required # renamed | removed | required | changed
@@ -34,10 +34,18 @@ codemod: menu-base-ui # optional, once a script exists
 
 ## Before → after
 
+```tsx before
+<MenuItem onSelect={close}>Close</MenuItem>
+```
+
+```tsx after
+<MenuItem onClick={close}>Close</MenuItem>
+```
+
 ## Decide
 
 ## Verify
-```
+````
 
 A `ref` is an address: `module#Export.member=value`, cut at the surface's
 depth. A token is `module#token`, a dependency its package name.
@@ -49,9 +57,18 @@ requiring zero.
 The file name is the id. Packages, title, PR and introduced version come from
 the commit and its version plans, never written by hand.
 
+## Examples
+
+`## Before → after` holds code blocks tagged `before` and `after` (at least one
+of each). Agents follow them, and CI checks that each source `detect` pattern
+matches a `before` block and, unless `expect: review`, no `after` block.
+
 ## Rules
 
 - A PR that breaks something adds its migration in the same PR.
 - Say what broke and how to fix it, nothing the version plan already says.
+- `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above, and
+  that a new migration lands with version plans for this package and the one
+  that breaks.
 - A replacement with no 1:1 mapping is a `removed` change; the body explains
   what to use instead.
