@@ -20,7 +20,7 @@ export const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   48: 'md',
   56: 'lg',
   64: 'lg',
-  72: 'xl',
+  72: 'lg',
 };
 
 export const fontSizeMap: Record<MediaImageSize, number> = {
