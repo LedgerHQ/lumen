@@ -92,6 +92,20 @@ describe('useScrollOverflow', () => {
     expectOverflow(false, true);
   });
 
+  it('should report nothing hidden at start when LTR overshoots past the edge', () => {
+    render(<Harness />);
+    const scroller = screen.getByTestId('scroller');
+
+    setScrollMetrics(scroller, {
+      scrollWidth: 500,
+      clientWidth: 300,
+      scrollLeft: -56,
+    });
+    fireEvent.scroll(scroller);
+
+    expectOverflow(false, true);
+  });
+
   it('should map RTL overflow to physical sides, even after a direction change', () => {
     render(<Harness />);
     const scroller = screen.getByTestId('scroller');

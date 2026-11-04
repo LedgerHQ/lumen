@@ -72,16 +72,34 @@ If `gh pr view --json url` finds a PR, print its URL and stop.
 Fill `.github/pull_request_template.md` from `git diff origin/main...HEAD`, then strip
 every HTML comment:
 
-- **Context**: the why, readable by someone who won't open the code. Set the
-  ticket link, or remove that line without a ticket.
-- **Technical details**: what changed and where to start reviewing, about 5
-  bullets at most, never a file-by-file list. A fix states the root cause, a
-  feature shows a short usage snippet, an architectural change links its ADR in
-  `docs/adr/`.
-- **How to test**: concrete steps or story names, and a reminder to add
-  before/after screenshots for UI changes. Remove it when CI covers the change.
+Keep it short: a reviewer should get the high-level change and anything
+important in under a minute. Every line must earn its place. No narration of
+how you found the fix, no restating the diff, no numbers or logs the reviewer
+doesn't need.
+
+- **Context**: the why in 1–2 sentences, readable by someone who won't open the
+  code. Set the ticket link, or remove that line without a ticket.
+- **Technical details**: 2–4 one-line bullets on what changed and where to start
+  reviewing, never a file-by-file list. A fix states the root cause in one
+  bullet, a feature shows a short usage snippet, an architectural change links
+  its ADR in `docs/adr/`.
+- **How to test**: 1–3 steps or story names, and a reminder to add before/after
+  screenshots for UI changes. Remove it when CI covers the change.
 - **Breaking change**: uncomment and fill (before → after, migration) for
   `BREAKING_CHANGE`; remove it otherwise.
+
+Put deeper detail in a collapsible block, and only when it helps the reviewer
+(a tricky root cause, a rejected alternative, repro measurements). Leave it out
+otherwise:
+
+```markdown
+<details>
+<summary>Root cause in detail</summary>
+
+…
+
+</details>
+```
 
 ## 7. Create
 

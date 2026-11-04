@@ -20,9 +20,15 @@ export function useScrollArrows(scrollRef: RefObject<HTMLDivElement | null>): {
       if (!el) {
         return;
       }
+      // Clamped scrollTo, not scrollBy: iOS WebKit does not clamp a smooth
+      // scrollBy after a touch scroll, so it overshoots past the edge.
       const amount = el.clientWidth / 2;
-      el.scrollBy({
-        left: direction === 'left' ? -amount : amount,
+      const maxScroll = el.scrollWidth - el.clientWidth;
+      const isRtl = getComputedStyle(el).direction === 'rtl';
+      const [min, max] = isRtl ? [-maxScroll, 0] : [0, maxScroll];
+      const target = el.scrollLeft + (direction === 'left' ? -amount : amount);
+      el.scrollTo({
+        left: Math.min(max, Math.max(min, target)),
         behavior: 'smooth',
       });
     },
