@@ -1,12 +1,24 @@
 import { Box } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
-import { Slot } from 'expo-router';
-import { ScrollView } from 'react-native';
+import { Slot, useSegments } from 'expo-router';
+import { ScrollView, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const FULL_SCREEN_BLOCKS = new Set(['TabBars']);
 
 export default function BlocksLayout() {
   const { theme } = useTheme();
   const insets = useSafeAreaInsets();
+  const segments = useSegments();
+  const slug = segments[segments.length - 1] ?? '';
+
+  if (FULL_SCREEN_BLOCKS.has(slug)) {
+    return (
+      <View style={{ flex: 1, backgroundColor: theme.colors.bg.canvas }}>
+        <Slot />
+      </View>
+    );
+  }
 
   return (
     <ScrollView
