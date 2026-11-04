@@ -62,6 +62,9 @@ export const resolutionExceptions: Record<string, ResolutionException> = {
   },
 };
 
+/** Libs that ship data files (Markdown, JSON) and no JavaScript to type. */
+export const untypedLibs = new Set(['@ledgerhq/lumen-migrations']);
+
 export function policyFor(packageName: string): {
   checkedResolutions: ResolutionKind[];
   excludeEntrypoints: string[];
@@ -97,7 +100,9 @@ async function checkLib(lib: Lib, tarballDir: string): Promise<string[]> {
     { excludeEntrypoints },
   );
 
-  if (!result.types) return ['ships no type declarations'];
+  if (!result.types) {
+    return untypedLibs.has(lib.name) ? [] : ['ships no type declarations'];
+  }
   return result.problems
     .filter((problem) =>
       checkedResolutions.some((kind) =>

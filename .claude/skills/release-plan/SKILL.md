@@ -66,6 +66,7 @@ single source for the mapping; other skills link here rather than restating it.
 | `libs/design-core/` | `@ledgerhq/lumen-design-core` |
 | `libs/utils-shared/` | `@ledgerhq/lumen-utils-shared` |
 | `libs/lint-plugin/` | `@ledgerhq/lumen-lint-plugin` |
+| `libs/migrations/` | `@ledgerhq/lumen-migrations` |
 
 Filename convention: `version-plan-<timestamp>-<pkg-slug>.md`, where the slug is
 the short name (`ui-react`, `ui-rnative`, `utils-shared`, …).

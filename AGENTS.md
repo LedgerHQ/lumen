@@ -24,6 +24,7 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 | `libs/design-core`  | `@ledgerhq/lumen-design-core`  | Cross-platform tokens   | CSS/Tailwind tokens + JS theme objects (source of truth) | —                                    | —                                                 |
 | `libs/utils-shared` | `@ledgerhq/lumen-utils-shared` | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
 | `libs/lint-plugin`  | `@ledgerhq/lumen-lint-plugin`  | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
+| `libs/migrations`   | `@ledgerhq/lumen-migrations`   | Upgrade tooling         | — (Markdown migration files, no build)                   | Vitest                               | `README.md` (file format)                         |
 
 ## Internals
 
