@@ -130,6 +130,30 @@
   --color-background-decorative-purple: var(
     --color-light-decorative-purple-300
   );
+  --color-background-decorative-strong-orange: var(
+    --color-light-decorative-orange-500
+  );
+  --color-background-decorative-strong-green: var(
+    --color-light-decorative-green-500
+  );
+  --color-background-decorative-strong-blue: var(
+    --color-light-decorative-blue-500
+  );
+  --color-background-decorative-strong-purple: var(
+    --color-light-decorative-purple-500
+  );
+  --color-background-decorative-strong-red: var(
+    --color-light-decorative-red-500
+  );
+  --color-background-decorative-strong-yellow: var(
+    --color-light-decorative-yellow-600
+  );
+  --color-background-decorative-strong-turquoise: var(
+    --color-light-decorative-turquoise-500
+  );
+  --color-background-decorative-strong-pink: var(
+    --color-light-decorative-pink-500
+  );
   --color-text-black: var(--color-light-constant-950);
   --color-text-white: var(--color-light-constant-050);
   --color-text-white-hover: var(--color-light-constant-200);
@@ -543,6 +567,30 @@
   --background-decorative-yellow: var(--color-background-decorative-yellow);
   --background-decorative-orange: var(--color-background-decorative-orange);
   --background-decorative-red: var(--color-background-decorative-red);
+  --background-decorative-strong-blue: var(
+    --color-background-decorative-strong-blue
+  );
+  --background-decorative-strong-pink: var(
+    --color-background-decorative-strong-pink
+  );
+  --background-decorative-strong-purple: var(
+    --color-background-decorative-strong-purple
+  );
+  --background-decorative-strong-green: var(
+    --color-background-decorative-strong-green
+  );
+  --background-decorative-strong-turquoise: var(
+    --color-background-decorative-strong-turquoise
+  );
+  --background-decorative-strong-yellow: var(
+    --color-background-decorative-strong-yellow
+  );
+  --background-decorative-strong-orange: var(
+    --color-background-decorative-strong-orange
+  );
+  --background-decorative-strong-red: var(
+    --color-background-decorative-strong-red
+  );
   --text-black: var(--color-text-black-default);
   --text-white: var(--color-text-white-default);
   --text-white-hover: var(--color-text-white-hover);

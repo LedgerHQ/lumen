@@ -56,14 +56,14 @@ const useTrackStyles = ({
         success: t.colors.bg.successStrong,
         error: t.colors.bg.errorStrong,
         warning: t.colors.bg.warningStrong,
-        'decorative-blue': t.colors.bg.decorativeBlue,
-        'decorative-pink': t.colors.bg.decorativePink,
-        'decorative-purple': t.colors.bg.decorativePurple,
-        'decorative-green': t.colors.bg.decorativeGreen,
-        'decorative-turquoise': t.colors.bg.decorativeTurquoise,
-        'decorative-yellow': t.colors.bg.decorativeYellow,
-        'decorative-orange': t.colors.bg.decorativeOrange,
-        'decorative-red': t.colors.bg.decorativeRed,
+        'decorative-blue': t.colors.bg.decorativeStrongBlue,
+        'decorative-pink': t.colors.bg.decorativeStrongPink,
+        'decorative-purple': t.colors.bg.decorativeStrongPurple,
+        'decorative-green': t.colors.bg.decorativeStrongGreen,
+        'decorative-turquoise': t.colors.bg.decorativeStrongTurquoise,
+        'decorative-yellow': t.colors.bg.decorativeStrongYellow,
+        'decorative-orange': t.colors.bg.decorativeStrongOrange,
+        'decorative-red': t.colors.bg.decorativeStrongRed,
       };
 
       return {

@@ -41,8 +41,8 @@ describe('ProgressBar', () => {
     ['success', 'bg-success-strong'],
     ['error', 'bg-error-strong'],
     ['warning', 'bg-warning-strong'],
-    ['decorative-purple', 'bg-decorative-purple'],
-    ['decorative-turquoise', 'bg-decorative-turquoise'],
+    ['decorative-purple', 'bg-decorative-strong-purple'],
+    ['decorative-turquoise', 'bg-decorative-strong-turquoise'],
   ] as const)('should apply the %s appearance', (appearance, expectedClass) => {
     render(<ProgressBar value={50} appearance={appearance} aria-label='X' />);
 
