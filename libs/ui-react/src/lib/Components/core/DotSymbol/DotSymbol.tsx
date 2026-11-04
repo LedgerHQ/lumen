@@ -50,7 +50,7 @@ const dotVariants = cva(
       { size: 16, shape: 'square', className: 'rounded-[5px]' },
       { size: 20, shape: 'square', className: 'rounded-[6px]' },
       { size: 24, shape: 'square', className: 'rounded-[8px]' },
-      { size: 32, shape: 'square', className: 'rounded-[10px]' },
+      { size: 32, shape: 'square', className: 'rounded-[12px]' },
       { shape: 'circle', className: 'rounded-full' },
     ],
   },

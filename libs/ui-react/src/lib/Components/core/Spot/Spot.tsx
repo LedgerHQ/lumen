@@ -5,7 +5,7 @@ import { contentVariants, spotVariants } from './styles';
 import type { SpotProps, SpotSize } from './types';
 
 const iconSizeMap: Record<SpotSize, IconSize> = {
-  32: 12,
+  32: 16,
   40: 16,
   48: 20,
   56: 24,

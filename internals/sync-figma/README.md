@@ -23,6 +23,10 @@ coupling to `libs/*` is declared, so add new ones there.
   `FIGMA_API_TOKEN` plus the file keys in the repo-root `.env`; see the `env:`
   blocks in `sync-figma.yml` for which target needs which.
 - **`figma-download-svgs` clears** `libs/design-core/symbols/icons/` first.
+- **`figma-export` mirrors the library.** It deletes any `tokens/*.json` that
+  no collection or mode produced, such as a removed brand. A collection whose
+  variables are all of an unsupported type (EASING, TIMING) produces no file,
+  so its old file is deleted too.
 - **Only the ETL formats its own output.** It runs prettier, so it must produce
   an empty `git diff`. The `generate-symbols-*` targets emit raw svgr output, so
   run `nx run-many --target=lint --fix` before diffing or you will see ~590
