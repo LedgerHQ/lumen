@@ -3,5 +3,21 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libs/migrations/src",
   "projectType": "library",
-  "tags": ["scope:shared", "type:tooling"]
+  "tags": ["scope:shared", "type:tooling"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "libs/migrations"
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p tsconfig.json",
+        "cwd": "libs/migrations"
+      }
+    }
+  }
 }
