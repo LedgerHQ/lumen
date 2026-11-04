@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, it, expect, vi } from 'vitest';
 import { Button } from '../Button/Button';
@@ -118,6 +118,73 @@ describe('Dialog', () => {
     expect(content).toBeInTheDocument();
     expect(content).toHaveClass('h-560');
     expect(content).not.toHaveClass('max-h-560');
+  });
+
+  it('transitions the body height to the measured size when animated', async () => {
+    const observers: (() => void)[] = [];
+    vi.stubGlobal(
+      'ResizeObserver',
+      class {
+        constructor(callback: () => void) {
+          observers.push(callback);
+        }
+        observe = vi.fn();
+        disconnect = vi.fn();
+      },
+    );
+    const offsetHeight = vi
+      .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+      .mockReturnValue(200);
+
+    const user = userEvent.setup();
+    render(
+      <Dialog animated>
+        <DialogTrigger asChild>
+          <Button>Open Dialog</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogBody>
+            <p>Animated Content</p>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    await user.click(screen.getByText('Open Dialog'));
+
+    const animator = document.querySelector<HTMLElement>(
+      '[data-slot="dialog-body"] > .transition-\\[height\\]',
+    );
+    expect(animator).toBeInTheDocument();
+    expect(animator?.style.height).toBe('200px');
+
+    offsetHeight.mockReturnValue(320);
+    act(() => observers.forEach((notify) => notify()));
+    expect(animator?.style.height).toBe('320px');
+
+    offsetHeight.mockRestore();
+    vi.unstubAllGlobals();
+  });
+
+  it('does not animate by default or with fixed height', async () => {
+    const user = userEvent.setup();
+    render(
+      <Dialog height='fixed' animated>
+        <DialogTrigger asChild>
+          <Button>Open Dialog</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogBody>
+            <p>Fixed Content</p>
+          </DialogBody>
+        </DialogContent>
+      </Dialog>,
+    );
+
+    await user.click(screen.getByText('Open Dialog'));
+
+    const body = document.querySelector('[data-slot="dialog-body"]');
+    expect(body?.querySelector('.transition-\\[height\\]')).toBeNull();
   });
 
   it('applies basis-auto to DialogBody in fit mode', async () => {

@@ -91,6 +91,12 @@ For multi-step dialogs:
 
 <Canvas of={DialogStories.WithMultiSteps} />
 
+### Animated height
+
+When steps differ in height and a fixed height is not wanted, set `animated` on `Dialog` so the height transitions smoothly instead of jumping. It only applies to `height="fit"` and respects reduced motion.
+
+<Canvas of={DialogStories.WithAnimatedHeight} />
+
 ### With Lists Content
 
 When displaying lists (`ListItem`, `Tile`) inside a dialog, use **negative margins** to align content edge-to-edge with the dialog padding:

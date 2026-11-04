@@ -14,9 +14,11 @@ import type {
   DialogProps,
   DialogTriggerProps,
 } from './types';
+import { useAnimatedHeight } from './useAnimatedHeight';
 
 const [DialogContextProvider, useDialogContext] = createSafeContext<{
   height: DialogHeight;
+  animated: boolean;
 }>('Dialog');
 
 const dialogContentVariants = cva(
@@ -70,9 +72,13 @@ const dialogContentVariants = cva(
  *   );
  * }
  */
-export function Dialog({ height = 'fit', ...props }: DialogProps) {
+export function Dialog({
+  height = 'fit',
+  animated = false,
+  ...props
+}: DialogProps) {
   return (
-    <DialogContextProvider value={{ height }}>
+    <DialogContextProvider value={{ height, animated }}>
       <DialogPrimitive.Root data-slot='dialog' {...props} />
     </DialogContextProvider>
   );
@@ -228,10 +234,13 @@ export const DialogBody = ({
   style,
   ...props
 }: DialogBodyProps) => {
-  const { height } = useDialogContext({
+  const { height, animated } = useDialogContext({
     consumerName: 'DialogBody',
     contextRequired: true,
   });
+  const isAnimated = animated && height === 'fit';
+  const [contentRef, contentHeight] = useAnimatedHeight(isAnimated);
+
   return (
     <div
       ref={ref}
@@ -245,7 +254,18 @@ export const DialogBody = ({
       )}
       {...props}
     >
-      {children}
+      {isAnimated ? (
+        <div
+          className='overflow-clip transition-[height] duration-300 ease-out'
+          style={{ height: contentHeight }}
+        >
+          <div ref={contentRef} className='flex flex-col'>
+            {children}
+          </div>
+        </div>
+      ) : (
+        children
+      )}
     </div>
   );
 };
