@@ -42,6 +42,12 @@ Tab bar with five items, demonstrating scalability with multiple tabs:
 
 <Canvas of={TabBarStories.Complex} />
 
+### Density
+
+Use `density='compact'` to hide the labels, shrink the bar's height and inset it by `24px` on each side within its container, typically while the user scrolls down a list, and switch back to `expanded` when they scroll up. Changes between densities are animated.
+
+<Canvas of={TabBarStories.Density} />
+
 ### Fallback Behavior
 
 When icons are not provided, the component gracefully falls back to placeholder icons. If a label isn't provided, the icon is vertically centered.

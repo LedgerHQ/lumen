@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useEffect, useState } from 'react';
+import { Box } from '../../primitives';
 import {
   BasketPutIn,
   HomeFill,
@@ -37,6 +38,15 @@ const meta = {
         type: { summary: 'string' },
       },
     },
+    density: {
+      control: 'radio',
+      options: ['expanded', 'compact'],
+      description: 'The density of the tab bar',
+      table: {
+        type: { summary: "'compact' | 'expanded'" },
+        defaultValue: { summary: 'expanded' },
+      },
+    },
     onTabPress: {
       action: 'tab pressed',
       description: 'Callback function when a tab is pressed',
@@ -58,7 +68,9 @@ export default meta;
 type Story = StoryObj<typeof TabBar>;
 
 export const Base: Story = {
-  args: { active: 'home' } as React.ComponentProps<typeof TabBar>,
+  args: { active: 'home', density: 'expanded' } as React.ComponentProps<
+    typeof TabBar
+  >,
   render: (args) => {
     const [active, setActive] = useState(args.active);
     useEffect(() => setActive(args.active), [args.active]);
@@ -112,6 +124,45 @@ export const Complex: Story = {
         <TabBarItem value='notifications' label='Alerts' icon={Bell} />
         <TabBarItem value='settings' label='Settings' icon={Settings} />
       </TabBar>
+    );
+  },
+};
+
+export const Density: Story = {
+  args: {} as React.ComponentProps<typeof TabBar>,
+  render: () => {
+    const [active, setActive] = useState('home');
+    return (
+      <Box lx={{ gap: 's16' }}>
+        {(['expanded', 'compact'] as const).map((density) => (
+          <TabBar
+            key={density}
+            density={density}
+            active={active}
+            onTabPress={setActive}
+            lx={{ width: 's320' }}
+          >
+            <TabBarItem
+              value='home'
+              label='Home'
+              icon={Home}
+              activeIcon={HomeFill}
+            />
+            <TabBarItem
+              value='pay'
+              label='Pay'
+              icon={CreditCard}
+              activeIcon={CreditCardFill}
+            />
+            <TabBarItem
+              value='help'
+              label='Help'
+              icon={LifeRing}
+              activeIcon={LifeRingFill}
+            />
+          </TabBar>
+        ))}
+      </Box>
     );
   },
 };
