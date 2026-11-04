@@ -31,7 +31,6 @@ type Route = 'home' | 'swap' | 'card' | 'help';
 
 const { TabBar, TabBarItem } = createTabBar<Route>();
 
-// Ignores tiny jitters so the bar doesn't flicker between densities.
 const SCROLL_DIRECTION_THRESHOLD = 8;
 
 const ITEMS = Array.from({ length: 30 }, (_, i) => i + 1);
