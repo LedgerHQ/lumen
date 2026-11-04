@@ -143,6 +143,19 @@ jobs:
 
       - uses: ./.github/actions/setup
 
+      # Best-effort: without a baseline the report just has no deltas.
+      - name: Download main's coverage baseline
+        if: ${{ github.event_name == 'pull_request' }}
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          run_id=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow pr.yml \
+            --branch main --event push --status success --limit 1 \
+            --json databaseId --jq '.[0].databaseId')
+          gh run download "$run_id" --repo "$GITHUB_REPOSITORY" \
+            --name coverage-summary --dir "${RUNNER_TEMP}/coverage-baseline"
+
       - name: Run unit tests
         run: |
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
@@ -162,6 +175,62 @@ jobs:
           name: coverage
           path: libs/*/test-output/*/coverage/lcov.info
           if-no-files-found: warn
+
+      - name: Upload coverage summaries
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: coverage-summary
+          path: |
+            libs/*/test-output/*/coverage/coverage-summary.json
+            internals/*/test-output/*/coverage/coverage-summary.json
+          if-no-files-found: warn
+
+      - name: Build the coverage section of the PR report
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        run: |
+          node internals/repo-tools/src/ci/pr-report/coverageSection.ts \
+            "${RUNNER_TEMP}/coverage-baseline" "${RUNNER_TEMP}/pr-report/coverage.md"
+
+      - name: Upload the coverage section
+        if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: pr-report-coverage
+          path: ${{ runner.temp }}/pr-report/coverage.md
+
+  # Adding a report section: see "PR report" in internals/repo-tools/README.md.
+  pr-report:
+    name: PR report
+    needs: [unit-testing]
+    if: ${{ !cancelled() && github.event_name == 'pull_request' }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write # Post and update the report comment
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          install: 'false'
+          cache-nx: 'false'
+          set-shas: 'false'
+
+      - name: Download report sections
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          pattern: pr-report-*
+          merge-multiple: true
+          path: ${{ runner.temp }}/pr-report
+
+      - name: Post the PR report
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: node internals/repo-tools/src/ci/pr-report/postPrReport.ts "${RUNNER_TEMP}/pr-report"
 
   # The workspace develops against RN 0.86, but Ledger Wallet Mobile still ships
   # RN 0.81. Re-run ui-rnative typecheck and tests on LWM's stack so code that

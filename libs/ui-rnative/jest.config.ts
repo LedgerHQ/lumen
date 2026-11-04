@@ -38,5 +38,17 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   modulePathIgnorePatterns: ['<rootDir>/dist/'],
   coverageDirectory: 'test-output/jest/coverage',
-  coverageReporters: ['lcov'],
+  coverageReporters: ['lcov', 'json-summary'],
+  // Count every file, not only the ones a test imports.
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!**/*.test.{ts,tsx}',
+    '!**/*.stories.tsx',
+    '!**/*.figma.tsx',
+    '!**/__stories__/**',
+    '!src/lib/Components/symbols/icons/**',
+  ],
+  coverageThreshold: {
+    global: { lines: 80, statements: 80, functions: 80, branches: 80 },
+  },
 } as Config;

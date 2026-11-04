@@ -10,7 +10,11 @@ export default defineConfig({
     coverage: {
       reportsDirectory: './test-output/vitest/coverage',
       provider: 'v8',
-      reporter: ['lcov'],
+      reporter: ['lcov', 'json-summary'],
+      // Count every file, not only the ones a test imports.
+      include: ['src/**/*.js'],
+      exclude: ['**/*.test.js'],
+      thresholds: { lines: 80, statements: 80, functions: 80, branches: 80 },
     },
   },
 });

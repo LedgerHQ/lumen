@@ -22,19 +22,33 @@ script or workflow that runs it. A `check-*` folder is a CI gate.
 | `ci/check-package-types/` | Shipped types resolve for bundler and node16 ESM consumers | `packageTypes.ts` | `npm run check:package-types`, `pr.yml` job `bundle-checks` |
 | `ci/check-peer-deps/` | Lib peers accept the versions we test with | `peerDeps.ts` | `npm run check:peer-deps`, `pr.yml` job `dependency-alignment` |
 | `ci/fix-lcov-paths/` | Coverage paths SonarCloud can resolve | `fixLcovPaths.ts` | `pr.yml` job `unit-testing` |
+| `ci/pr-report/` | One sticky PR comment gathering every report section | `coverageSection.ts`, `postPrReport.ts` | `pr.yml` jobs `unit-testing` and `pr-report` |
 | `ci/publish-dev-packages/` | Per-PR dev tarballs and their PR comment | `getPublishableProjects.ts`, `generateTarballs.ts` | `publish-dev-packages.yml` |
 | `ci/rn-081-compat/` | ui-rnative still type-checks and passes its tests on Ledger Wallet Mobile's RN 0.81 stack (temporary, until LWM is on RN 0.86) | `pinRn081Stack.ts` | `pr.yml` job `rn-081-compat` |
-| `shared/` | Which libs exist and publish; packing; console output | `workspaceProjects.ts`, `pack.ts`, `logging.ts` | imported only |
+| `shared/` | Which libs and internals exist and publish; the coverage bar; packing; console output | `workspaceProjects.ts`, `coverage.ts`, `pack.ts`, `logging.ts` | imported only |
 
 A new script goes in the folder of its use case, or in a new folder named after
 its npm script or workflow. Tests sit next to the code as `*.test.ts`. A
 use-case folder imports from `shared/` only, never from another use case.
 
-> **`ci/check-agent-docs/` must stay dependency-free.** Its CI job skips
-> `npm ci` and Nx, so it may import `node:` builtins and sibling files in this
-> project, nothing else. `ci/check-package-exports/` uses `publint`,
-> `ci/check-package-types/` uses `@arethetypeswrong/core`,
+> **`ci/check-agent-docs/` and `ci/pr-report/` must stay dependency-free.**
+> Their CI jobs skip `npm ci` and Nx, so they may import `node:` builtins and
+> sibling files in this project, nothing else. `ci/check-package-exports/` uses
+> `publint`, `ci/check-package-types/` uses `@arethetypeswrong/core`,
 > `ci/check-peer-deps/` uses `semver`.
+
+## PR report
+
+`pr.yml` posts a single sticky comment per PR, made of sections. To add a
+report (bundle size, …), in the job that measures it:
+
+1. Write `<id>.md` — one `###` heading and its content.
+2. Upload it as the artifact `pr-report-<id>`, with `if: ${{ !cancelled() }}`
+   so a failing check still reports.
+3. Add that job to the `pr-report` job's `needs`.
+
+`postPrReport.ts` orders sections by id. The coverage section reads each project's `coverage-summary.json`, so a new lib or
+internal project appears in it without any change here.
 
 ## Dev tarballs dry run
 

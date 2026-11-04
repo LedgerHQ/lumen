@@ -17,6 +17,22 @@ const theme = ((key: string) => themeValues[key]) as Parameters<
 >[0];
 
 describe('createIconUtilities', () => {
+  it('should create width and height utilities from the icon tokens', () => {
+    const utilities = createIconUtilities(theme);
+
+    expect(utilities['.icon-w-24']).toEqual({ width: 'var(--icon-width-24)' });
+    expect(utilities['.icon-h-24']).toEqual({
+      height: 'var(--icon-height-24)',
+    });
+  });
+
+  it('should ignore inherited keys', () => {
+    const inheritedTheme = ((key: string) =>
+      Object.create(themeValues[key])) as typeof theme;
+
+    expect(createIconUtilities(inheritedTheme)).toEqual({});
+  });
+
   it.each([
     { size: 12, renderScale: 0.75 },
     { size: 16, renderScale: 1 },

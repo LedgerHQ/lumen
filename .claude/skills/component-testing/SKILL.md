@@ -26,6 +26,10 @@ differ. Read the shared conventions, then the section for the lib you're in
   (`Rendering`, `Appearances`, `Sizes`, `Interactions`, `States`, `Styling`) for
   richer components, and `it.each([...])` for variant/size matrices.
 - **No snapshot tests** unless there's a clear reason.
+- **Coverage gate**: every lib under `libs/` fails CI below 80% on lines,
+  statements, functions and branches, with every source file counted. Check
+  locally with `npx nx test <project> --coverage`. The threshold lives in each
+  lib's runner config — a new lib copies the `coverage` block from a sibling.
 
 ## React web (`libs/ui-react`)
 
