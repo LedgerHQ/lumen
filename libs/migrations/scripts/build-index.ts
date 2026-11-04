@@ -6,7 +6,8 @@
  * tag containing it.
  *
  * Run: node libs/migrations/scripts/build-index.ts [--strict]
- * `--strict` fails on anything unresolved; the release runs it after tagging.
+ * `--strict` fails on anything unresolved. The release publish runs it after
+ * tagging (`build-release` target); `build` only warns, for dev tarballs.
  */
 import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
@@ -146,7 +147,6 @@ export function buildIndex(repoRoot: string): {
     });
   }
 
-  // Older changes first: migrations apply in the order they landed.
   entries.sort(
     (a, b) =>
       position(a.commit) - position(b.commit) || a.id.localeCompare(b.id),
@@ -155,7 +155,8 @@ export function buildIndex(repoRoot: string): {
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  const strict = process.argv.includes('--strict');
+  const strict =
+    process.argv.includes('--strict') && process.env.NX_DRY_RUN !== 'true';
   const libDir = new URL('..', import.meta.url).pathname;
   const { index, issues } = buildIndex(join(libDir, '../..'));
 

@@ -65,10 +65,15 @@ matches a `before` block and, unless `expect: review`, no `after` block.
 
 ## Index
 
-`index.json` is built at release from git (`nx run @ledgerhq/lumen-migrations:build-index`)
-and published, never committed. Each entry adds `id`, `title`, `pr`, `commit` and
-`introduced` (package → first release with the change) to the frontmatter,
-oldest first.
+`index.json` lists every migration with what git knows about it: `id`,
+`title`, `pr`, `commit` and `introduced` (package → first release with the
+change), oldest first. It's generated, never committed, and exported as
+`@ledgerhq/lumen-migrations/index.json`.
+
+- `nx run @ledgerhq/lumen-migrations:build` builds it and warns on anything
+  unresolved (dev tarballs, local runs).
+- The release publish runs `build-release` after tagging, which fails on
+  anything unresolved. A dry run only warns, since it creates no tags.
 
 ## Rules
 

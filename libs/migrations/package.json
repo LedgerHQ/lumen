@@ -9,6 +9,7 @@
     "index.json"
   ],
   "exports": {
+    "./index.json": "./index.json",
     "./package.json": "./package.json"
   },
   "nx": {

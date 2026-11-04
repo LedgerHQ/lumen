@@ -19,12 +19,26 @@
         "cwd": "libs/migrations"
       }
     },
-    "build-index": {
+    "build": {
       "executor": "nx:run-commands",
+      "cache": false,
+      "outputs": ["{projectRoot}/index.json"],
       "options": {
         "command": "node scripts/build-index.ts",
         "cwd": "libs/migrations"
       }
+    },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "outputs": ["{projectRoot}/index.json"],
+      "options": {
+        "command": "node scripts/build-index.ts --strict",
+        "cwd": "libs/migrations"
+      }
+    },
+    "nx-release-publish": {
+      "dependsOn": ["^nx-release-publish", "build-release"]
     },
     "typecheck": {
       "executor": "nx:run-commands",
