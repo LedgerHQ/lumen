@@ -9,17 +9,15 @@
 import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { parse } from 'yaml';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
+import { migrationsPackage, planPackages, splitFrontmatter } from './shared.ts';
 
 const libDir = new URL('..', import.meta.url).pathname;
 const repoRoot = join(libDir, '../..');
 const srcDir = join(libDir, 'src');
 
-const migrationsPackage = '@ledgerhq/lumen-migrations';
 const bodyHeadings = ['Before → after', 'Decide', 'Verify'];
 const kebabCaseFile = /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/;
-const frontmatterBlock = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/;
 const taggedExample = /^```\S*[ \t]+(before|after)[ \t]*\n([\s\S]*?)^```/gm;
 
 export function checkMigration(fileName: string, content: string): string[] {
@@ -28,12 +26,13 @@ export function checkMigration(fileName: string, content: string): string[] {
     issues.push('file name must be kebab-case `.md`');
   }
 
-  const [, yaml, body] = content.match(frontmatterBlock) ?? [];
-  if (yaml === undefined || body === undefined) {
+  const parsed = splitFrontmatter(content);
+  if (parsed === undefined) {
     return [...issues, 'must start with a `---` frontmatter block'];
   }
+  const { data, body } = parsed;
 
-  const result = migrationFrontmatter.safeParse(parse(yaml));
+  const result = migrationFrontmatter.safeParse(data);
   if (!result.success) {
     issues.push(
       ...result.error.issues.map(
@@ -99,13 +98,6 @@ function checkExamples(
         return issues;
       }),
   );
-}
-
-/** Package names listed in a version plan's frontmatter. */
-export function planPackages(content: string): string[] {
-  const [, yaml] = content.match(frontmatterBlock) ?? [];
-  const bumps: unknown = yaml === undefined ? undefined : parse(yaml);
-  return bumps !== null && typeof bumps === 'object' ? Object.keys(bumps) : [];
 }
 
 /**

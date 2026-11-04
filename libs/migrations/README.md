@@ -63,6 +63,13 @@ the commit and its version plans, never written by hand.
 of each). Agents follow them, and CI checks that each source `detect` pattern
 matches a `before` block and, unless `expect: review`, no `after` block.
 
+## Index
+
+`index.json` is built at release from git (`nx run @ledgerhq/lumen-migrations:build-index`)
+and published, never committed. Each entry adds `id`, `title`, `pr`, `commit` and
+`introduced` (package → first release with the change) to the frontmatter,
+oldest first.
+
 ## Rules
 
 - A PR that breaks something adds its migration in the same PR.

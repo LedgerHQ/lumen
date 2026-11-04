@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { checkMigration, checkVersionPlans, planPackages } from './validate.ts';
+import { planPackages } from './shared.ts';
+import { checkMigration, checkVersionPlans } from './validate.ts';
 
 const frontmatter = `---
 changes:
