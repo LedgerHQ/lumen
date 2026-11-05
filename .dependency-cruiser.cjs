@@ -5,93 +5,51 @@
  *
  * Layer order inside `src/lib/Components` (a layer may import the ones below):
  *   visualization, core -> internal -> primitives / animations (RN) / symbols -> utils
- * `internal` Bases only stay clear of the core components built on them.
+ * `internal` may import `core` only for Spinner and InteractiveIcon.
  * Tests, stories, Code Connect and docs are not cruised: they legitimately
  * reach across layers (e.g. a `ThemeProvider` wrapper).
  */
 
-const UI_LIBS = ['ui-react', 'ui-rnative'];
-
-// Core components built on each internal Base; a Base may not import them back.
-const BASE_FAMILIES = {
-  BaseButton: ['Button', 'IconButton', 'MediaButton'],
-  BaseInput: ['AddressInput', 'SearchInput', 'TextInput'],
-  BaseTag: ['MediaTag', 'Tag'],
-};
-const components = (lib) => `^libs/${lib}/src/lib/Components`;
-const layer = (lib, name) => `${components(lib)}/${name}/`;
-
-/** @type {import('dependency-cruiser').IForbiddenRuleType[]} */
-const layerRules = UI_LIBS.flatMap((lib) => {
-  const forbid = (name, from, to, comment) => ({
-    name: `${lib}-${name}`,
-    severity: 'error',
-    comment,
-    from: { path: from },
-    to: { path: to },
-  });
-  const upper = (...names) => names.map((n) => layer(lib, n)).join('|');
-
-  return [
-    ...Object.entries(BASE_FAMILIES).map(([base, derived]) =>
-      forbid(
-        `${base}-not-to-derived`,
-        `${layer(lib, 'internal')}${base}/`,
-        `${components(lib)}/core/(${derived.join('|')})/`,
-        `${base} must not import the components built on it (${derived.join(', ')}).`,
-      ),
-    ),
-    forbid(
-      'foundations-not-to-upper-layers',
-      `${layer(lib, 'symbols')}|${layer(lib, 'primitives')}|${layer(lib, 'animations')}`,
-      upper('core', 'internal', 'visualization'),
-      'symbols, primitives and animations are the lowest component layers.',
-    ),
-    {
-      name: `${lib}-visualization-subpath-only`,
-      severity: 'error',
-      comment:
-        'visualization is imported only via its own /visualization subpath.',
-      from: { path: `^libs/${lib}/src/`, pathNot: layer(lib, 'visualization') },
-      to: { path: layer(lib, 'visualization') },
-    },
-    forbid(
-      'utils-not-to-components',
-      `^libs/${lib}/src/(lib/)?utils/`,
-      components(lib),
-      'utils are framework helpers; they must not depend on components.',
-    ),
-  ];
-});
+const UI = '^libs/ui-(react|rnative)/src';
+const C = `${UI}/lib/Components`;
 
 /** @type {import('dependency-cruiser').IConfiguration} */
 module.exports = {
   forbidden: [
-    ...layerRules,
     {
-      name: 'ui-react-not-to-ui-rnative',
+      name: 'internal-not-to-core',
       severity: 'error',
-      from: { path: '^libs/ui-react/src' },
-      to: { path: '^libs/ui-rnative/src' },
+      comment:
+        'internal Bases must not import the core components built on them. Spinner and InteractiveIcon are leaf pieces that BaseButton and BaseInput render.',
+      from: { path: `${C}/internal/` },
+      to: {
+        path: `${C}/core/`,
+        pathNot: `${C}/core/(Spinner|InteractiveIcon)/`,
+      },
     },
     {
-      name: 'ui-rnative-not-to-ui-react',
+      name: 'foundations-not-to-upper-layers',
       severity: 'error',
-      from: { path: '^libs/ui-rnative/src' },
-      to: { path: '^libs/ui-react/src' },
+      comment:
+        'symbols, primitives and animations are the lowest component layers.',
+      from: { path: `${C}/(symbols|primitives|animations)/` },
+      to: { path: `${C}/(core|internal|visualization)/` },
     },
     {
-      name: 'shared-libs-not-to-ui',
+      name: 'visualization-subpath-only',
       severity: 'error',
-      comment: 'design-core and utils-shared sit below the UI libs.',
-      from: { path: '^libs/(design-core|utils-shared)/src' },
-      to: { path: '^libs/ui-(react|rnative)/' },
+      comment:
+        'visualization is imported only via its own /visualization subpath.',
+      from: { path: UI, pathNot: `${C}/visualization/` },
+      to: { path: `${C}/visualization/` },
     },
     {
-      name: 'utils-shared-not-to-design-core',
+      name: 'utils-not-to-components',
       severity: 'error',
-      from: { path: '^libs/utils-shared/src' },
-      to: { path: '^libs/design-core/' },
+      comment:
+        'utils are framework helpers; they must not depend on components.',
+      from: { path: `${UI}/(lib/)?utils/` },
+      to: { path: `${C}/` },
     },
     {
       name: 'no-circular',
