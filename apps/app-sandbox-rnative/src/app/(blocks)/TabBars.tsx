@@ -8,7 +8,7 @@ import {
   ListItemLeading,
   ListItemTitle,
   Spot,
-  TAB_BAR_HEIGHT,
+  TAB_BAR_EXPANDED_HEIGHT,
 } from '@ledgerhq/lumen-ui-rnative';
 import { useTheme } from '@ledgerhq/lumen-ui-rnative/styles';
 import {
@@ -76,7 +76,8 @@ export default function ExampleTabBar() {
           gap: theme.spacings.s8,
           paddingHorizontal: theme.spacings.s16,
           paddingTop: theme.spacings.s16,
-          paddingBottom: insets.bottom + TAB_BAR_HEIGHT + theme.spacings.s32,
+          paddingBottom:
+            insets.bottom + TAB_BAR_EXPANDED_HEIGHT + theme.spacings.s32,
         }}
       >
         {ITEMS.map((item) => (

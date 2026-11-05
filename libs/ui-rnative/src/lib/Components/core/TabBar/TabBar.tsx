@@ -1,6 +1,6 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
 import type { ReactElement, ReactNode } from 'react';
-import { Children, isValidElement, useEffect, useMemo } from 'react';
+import { Children, isValidElement, useEffect } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   cancelAnimation,
@@ -21,7 +21,7 @@ import { Placeholder } from '../../symbols';
 import { TabBarContextProvider, useTabBarContext } from './TabBarContext';
 import type { TabBarItemProps, TabBarProps, TabBarValue } from './types';
 
-export const TAB_BAR_HEIGHT = 60;
+export const TAB_BAR_EXPANDED_HEIGHT = 60;
 export const TAB_BAR_COMPACT_HEIGHT = 44;
 const PILL_INSET = 4;
 const ICON_SIZE = 20;
@@ -144,16 +144,11 @@ const useTabBarAnimations = ({
   children: ReactNode;
 }) => {
   const { theme } = useTheme();
-  const count = Children.count(children);
-
-  const activeIndex = useMemo(() => {
-    return Children.toArray(children).findIndex((child) => {
-      if (isValidElement<TabBarItemProps>(child)) {
-        return child.props.value === active;
-      }
-      return false;
-    });
-  }, [active, children]);
+  const items = Children.toArray(children).filter(
+    isValidElement<TabBarItemProps>,
+  );
+  const count = items.length;
+  const activeIndex = items.findIndex((item) => item.props.value === active);
 
   const isExpanded = density === 'expanded';
   const pillIndex = useSharedValue(Math.max(activeIndex, 0));
@@ -180,7 +175,8 @@ const useTabBarAnimations = ({
   const compactInset = theme.spacings.s32;
   const labelLineHeight = useLabelLineHeight();
   const expandedHeight =
-    TAB_BAR_HEIGHT + Math.max(labelLineHeight.scaled - labelLineHeight.base, 0);
+    TAB_BAR_EXPANDED_HEIGHT +
+    Math.max(labelLineHeight.scaled - labelLineHeight.base, 0);
 
   useEffect(() => {
     if (activeIndex >= 0) {
