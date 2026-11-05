@@ -72,6 +72,12 @@ export function parseSubject(
   return { title, pr: pr === undefined ? null : Number(pr) };
 }
 
+type Migration = {
+  id: string;
+  path: string;
+  frontmatter: MigrationFrontmatter;
+};
+
 /** The oldest first-parent commit that added the file, surviving later edits. */
 function addingCommit(repoRoot: string, path: string): Commit | undefined {
   const [oldest] = lines(
@@ -85,11 +91,13 @@ function addingCommit(repoRoot: string, path: string): Commit | undefined {
     ]),
   ).reverse();
   if (oldest === undefined) return undefined;
-  return {
-    sha: oldest,
-    subject: git(repoRoot, ['log', '-1', '--format=%s', oldest]),
-    body: git(repoRoot, ['log', '-1', '--format=%b', oldest]),
-  };
+  const [subject, body] = git(repoRoot, [
+    'log',
+    '-1',
+    '--format=%s%x00%b',
+    oldest,
+  ]).split('\0');
+  return { sha: oldest, subject, body };
 }
 
 function introducedVersions(
@@ -112,20 +120,104 @@ function introducedVersions(
     .filter((name) => name !== migrationsPackage);
 
   return Object.fromEntries(
-    [...new Set(packages)].map((name) => {
-      const [first] = lines(
-        git(repoRoot, [
-          'tag',
-          '--contains',
-          sha,
-          '--list',
-          `${name}@*`,
-          '--sort=version:refname',
-        ]),
-      );
-      return [name, first === undefined ? null : first.slice(name.length + 1)];
-    }),
+    [...new Set(packages)].map((name) => [
+      name,
+      firstRelease(repoRoot, sha, name),
+    ]),
   );
+}
+
+/** The lowest `<name>@<version>` tag that contains the commit. */
+function firstRelease(
+  repoRoot: string,
+  sha: string,
+  name: string,
+): string | null {
+  const [first] = lines(
+    git(repoRoot, [
+      'tag',
+      '--contains',
+      sha,
+      '--list',
+      `${name}@*`,
+      '--sort=version:refname',
+    ]),
+  );
+  return first === undefined ? null : first.slice(name.length + 1);
+}
+
+/** Valid migrations, and an issue for each file that isn't one. */
+function readMigrations(repoRoot: string): {
+  migrations: Migration[];
+  issues: string[];
+} {
+  const migrations: Migration[] = [];
+  const issues: string[] = [];
+  for (const fileName of readdirSync(join(repoRoot, srcPath))) {
+    if (!fileName.endsWith('.md')) continue;
+    const id = fileName.replace(/\.md$/, '');
+    const path = `${srcPath}/${fileName}`;
+    const frontmatter = migrationFrontmatter.safeParse(
+      frontmatterData(readFileSync(join(repoRoot, path), 'utf8')),
+    );
+    if (frontmatter.success) {
+      migrations.push({ id, path, frontmatter: frontmatter.data });
+    } else {
+      issues.push(`${id}: invalid frontmatter, run the validate target`);
+    }
+  }
+  return { migrations, issues };
+}
+
+/** Adds what git knows about the migration to its frontmatter. */
+function resolveEntry(
+  repoRoot: string,
+  { id, path, frontmatter }: Migration,
+): IndexEntry {
+  const commit = addingCommit(repoRoot, path);
+  if (commit === undefined) {
+    return {
+      id,
+      title: null,
+      pr: null,
+      commit: null,
+      introduced: {},
+      ...frontmatter,
+    };
+  }
+  return {
+    id,
+    ...parseSubject(commit.subject, commit.body),
+    commit: commit.sha,
+    introduced: introducedVersions(repoRoot, commit.sha),
+    ...frontmatter,
+  };
+}
+
+/** What `--strict` rejects: anything a consumer couldn't place in a range. */
+function unresolvedIssues({ id, commit, introduced }: IndexEntry): string[] {
+  if (commit === null) return [`${id}: not committed`];
+  const versions = Object.entries(introduced);
+  if (versions.length === 0) {
+    return [`${id}: its commit has no version plan for a broken package`];
+  }
+  return versions
+    .filter(([, version]) => version === null)
+    .map(([name]) => `${id}: ${name} not released yet`);
+}
+
+/** Oldest landed first, uncommitted last: migrations apply in that order. */
+function byLandingOrder(
+  repoRoot: string,
+): (a: IndexEntry, b: IndexEntry) => number {
+  const history = lines(
+    git(repoRoot, ['rev-list', '--first-parent', '--reverse', 'HEAD']),
+  );
+  const positions = new Map(history.map((sha, index) => [sha, index]));
+  const position = (sha: string | null): number =>
+    (sha === null ? undefined : positions.get(sha)) ?? Infinity;
+  return (a, b) =>
+    position(a.commit) - position(b.commit) || a.id.localeCompare(b.id);
 }
 
 /** @returns the index, and why an entry could not be fully resolved */
@@ -133,53 +225,14 @@ export function buildIndex(repoRoot: string): {
   index: MigrationIndex;
   issues: string[];
 } {
-  const issues: string[] = [];
-  const history = lines(
-    git(repoRoot, ['rev-list', '--first-parent', '--reverse', 'HEAD']),
-  );
-  const position = (sha: string | null): number =>
-    sha === null ? Infinity : history.indexOf(sha);
-
-  const entries: IndexEntry[] = [];
-  for (const fileName of readdirSync(join(repoRoot, srcPath))) {
-    if (!fileName.endsWith('.md')) continue;
-    const id = fileName.replace(/\.md$/, '');
-    const content = readFileSync(join(repoRoot, srcPath, fileName), 'utf8');
-    const frontmatter = migrationFrontmatter.safeParse(
-      frontmatterData(content),
-    );
-    if (!frontmatter.success) {
-      issues.push(`${id}: invalid frontmatter, run the validate target`);
-      continue;
-    }
-
-    const commit = addingCommit(repoRoot, `${srcPath}/${fileName}`);
-    if (commit === undefined) issues.push(`${id}: not committed`);
-    const introduced =
-      commit === undefined ? {} : introducedVersions(repoRoot, commit.sha);
-    if (commit !== undefined && Object.keys(introduced).length === 0) {
-      issues.push(`${id}: its commit has no version plan for a broken package`);
-    }
-    for (const [name, version] of Object.entries(introduced)) {
-      if (version === null) issues.push(`${id}: ${name} not released yet`);
-    }
-
-    entries.push({
-      id,
-      ...(commit === undefined
-        ? { title: null, pr: null }
-        : parseSubject(commit.subject, commit.body)),
-      commit: commit?.sha ?? null,
-      introduced,
-      ...frontmatter.data,
-    });
-  }
-
-  entries.sort(
-    (a, b) =>
-      position(a.commit) - position(b.commit) || a.id.localeCompare(b.id),
-  );
-  return { index: { formatVersion, migrations: entries }, issues };
+  const { migrations, issues } = readMigrations(repoRoot);
+  const entries = migrations
+    .map((migration) => resolveEntry(repoRoot, migration))
+    .sort(byLandingOrder(repoRoot));
+  return {
+    index: { formatVersion, migrations: entries },
+    issues: [...issues, ...entries.flatMap(unresolvedIssues)],
+  };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
