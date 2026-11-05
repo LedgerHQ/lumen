@@ -1,9 +1,10 @@
 #!/usr/bin/env node
 /**
  * Builds `index.json` from git, so nothing in it is written by hand: title and
- * PR come from the PR that added the migration, packages from the version
- * plans that PR added, and each introduced version from the first release tag
- * containing it.
+ * PR come from the PR that shipped the break, packages from the version plans
+ * that PR added, and each introduced version from the first release tag
+ * containing it. That PR is the one that added the migration, unless the
+ * migration names an earlier one in `pr` because it was written late.
  *
  * A PR is one commit on main's first-parent history: the squash commit, or the
  * merge commit compared with its first parent. That is the same set of changes
@@ -16,15 +17,23 @@
 import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import semver from 'semver';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
-import { frontmatterData, migrationsPackage, planPackages } from './shared.ts';
+import {
+  currentName,
+  formerNames,
+  frontmatterData,
+  migrationsPackage,
+  planPackages,
+} from './shared.ts';
 
 export const formatVersion = 1;
 
 const srcPath = 'libs/migrations/src';
 const plansPath = '.nx/version-plans';
 const conventionalSubject =
-  /^(?:\[[^\]]*\]\s*)*(?:[A-Z]+-\d+\s+)?\w+(?:\([^)]*\))?!?: (.+)$/;
+  /^(?:\[[^\]]*\]\s*)*(?:[A-Z]+-\d+[\s-]+)?\w+(?:\([^)]*\))?!?: (.+)$/;
 const prSuffix = /^(.*) \(#(\d+)\)$/;
 const mergeSubject = /^Merge pull request #(\d+) from /;
 
@@ -35,7 +44,7 @@ export type IndexEntry = {
   commit: string | null;
   /** Package → first version that ships the change, `null` until released. */
   introduced: Record<string, string | null>;
-} & MigrationFrontmatter;
+} & Omit<MigrationFrontmatter, 'pr'>;
 
 export type MigrationIndex = {
   formatVersion: number;
@@ -78,6 +87,16 @@ type Migration = {
   frontmatter: MigrationFrontmatter;
 };
 
+function readCommit(repoRoot: string, sha: string): Commit {
+  const [subject, body] = git(repoRoot, [
+    'log',
+    '-1',
+    '--format=%s%x00%b',
+    sha,
+  ]).split('\0');
+  return { sha, subject, body };
+}
+
 /** The oldest first-parent commit that added the file, surviving later edits. */
 function addingCommit(repoRoot: string, path: string): Commit | undefined {
   const [oldest] = lines(
@@ -90,20 +109,27 @@ function addingCommit(repoRoot: string, path: string): Commit | undefined {
       path,
     ]),
   ).reverse();
-  if (oldest === undefined) return undefined;
-  const [subject, body] = git(repoRoot, [
-    'log',
-    '-1',
-    '--format=%s%x00%b',
-    oldest,
-  ]).split('\0');
-  return { sha: oldest, subject, body };
+  return oldest === undefined ? undefined : readCommit(repoRoot, oldest);
 }
 
-function introducedVersions(
-  repoRoot: string,
-  sha: string,
-): Record<string, string | null> {
+/** The first-parent commit that merged the PR, squashed or not. */
+export function prCommit(repoRoot: string, pr: number): Commit | undefined {
+  return lines(
+    git(repoRoot, [
+      'log',
+      '--first-parent',
+      '-E',
+      `--grep=\\(#${pr}\\)$|^Merge pull request #${pr} from `,
+      '--format=%H',
+      'HEAD',
+    ]),
+  )
+    .map((sha) => readCommit(repoRoot, sha))
+    .find(({ subject, body }) => parseSubject(subject, body).pr === pr);
+}
+
+/** Packages bumped by the commit's version plans, under their current names. */
+export function brokenPackages(repoRoot: string, sha: string): string[] {
   const plans = lines(
     git(repoRoot, [
       'diff',
@@ -117,33 +143,36 @@ function introducedVersions(
   );
   const packages = plans
     .flatMap((plan) => planPackages(git(repoRoot, ['show', `${sha}:${plan}`])))
+    .map(currentName)
     .filter((name) => name !== migrationsPackage);
+  return [...new Set(packages)];
+}
 
+function introducedVersions(
+  repoRoot: string,
+  sha: string,
+): Record<string, string | null> {
   return Object.fromEntries(
-    [...new Set(packages)].map((name) => [
+    brokenPackages(repoRoot, sha).map((name) => [
       name,
       firstRelease(repoRoot, sha, name),
     ]),
   );
 }
 
-/** The lowest `<name>@<version>` tag that contains the commit. */
+/** The lowest version tagged under the package's current or former names. */
 function firstRelease(
   repoRoot: string,
   sha: string,
   name: string,
 ): string | null {
-  const [first] = lines(
-    git(repoRoot, [
-      'tag',
-      '--contains',
-      sha,
-      '--list',
-      `${name}@*`,
-      '--sort=version:refname',
-    ]),
+  const versions = [name, ...(formerNames[name] ?? [])].flatMap((tagName) =>
+    lines(
+      git(repoRoot, ['tag', '--contains', sha, '--list', `${tagName}@*`]),
+    ).map((tag) => tag.slice(tagName.length + 1)),
   );
-  return first === undefined ? null : first.slice(name.length + 1);
+  const [first] = semver.sort(versions.filter((v) => semver.valid(v)));
+  return first ?? null;
 }
 
 /** Valid migrations, and an issue for each file that isn't one. */
@@ -172,14 +201,15 @@ function readMigrations(repoRoot: string): {
 /** Adds what git knows about the migration to its frontmatter. */
 function resolveEntry(
   repoRoot: string,
-  { id, path, frontmatter }: Migration,
+  { id, path, frontmatter: { pr, ...frontmatter } }: Migration,
 ): IndexEntry {
-  const commit = addingCommit(repoRoot, path);
+  const commit =
+    pr === undefined ? addingCommit(repoRoot, path) : prCommit(repoRoot, pr);
   if (commit === undefined) {
     return {
       id,
       title: null,
-      pr: null,
+      pr: pr ?? null,
       commit: null,
       introduced: {},
       ...frontmatter,
@@ -195,8 +225,17 @@ function resolveEntry(
 }
 
 /** What `--strict` rejects: anything a consumer couldn't place in a range. */
-function unresolvedIssues({ id, commit, introduced }: IndexEntry): string[] {
-  if (commit === null) return [`${id}: not committed`];
+function unresolvedIssues({
+  id,
+  pr,
+  commit,
+  introduced,
+}: IndexEntry): string[] {
+  if (commit === null) {
+    return [
+      pr === null ? `${id}: not committed` : `${id}: PR #${pr} not found`,
+    ];
+  }
   const versions = Object.entries(introduced);
   if (versions.length === 0) {
     return [`${id}: its commit has no version plan for a broken package`];
@@ -235,10 +274,10 @@ export function buildIndex(repoRoot: string): {
   };
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   const strict =
     process.argv.includes('--strict') && process.env.NX_DRY_RUN !== 'true';
-  const libDir = new URL('..', import.meta.url).pathname;
+  const libDir = fileURLToPath(new URL('..', import.meta.url));
   const { index, issues } = buildIndex(join(libDir, '../..'));
 
   writeFileSync(

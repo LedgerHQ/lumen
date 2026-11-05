@@ -30,6 +30,7 @@ changes: # applied in order
 requires: # optional: stop the upgrade until these are met
   react: '>=18'
 codemod: menu-base-ui # optional, once a script exists
+pr: 716 # optional: the PR that shipped the break, when this file lands later
 ---
 
 ## Before → after
@@ -55,7 +56,10 @@ instead of source. `expect: review` lists hits for a human instead of
 requiring zero.
 
 The file name is the id. Packages, title, PR and introduced version come from
-the commit and its version plans, never written by hand.
+the PR that shipped the break and its version plans, never written by hand.
+That PR is the one adding the file, unless `pr` names an earlier one. Plans
+and tags under the former `@ldls/*` and `@ledgerhq/ldls-*` names count as the
+current package.
 
 ## Examples
 
@@ -79,9 +83,10 @@ change), oldest first. It's generated, never committed, and exported as
 
 - A PR that breaks something adds its migration in the same PR.
 - Say what broke and how to fix it, nothing the version plan already says.
-- The file name is permanent: never rename a migration.
+- The file name is permanent: never rename or delete a migration.
 - Any change to a migration needs a version plan for this package. A new one
-  also needs the plan of the package that breaks.
+  also needs the plan of each Lumen package its refs point into (any package
+  for an external dependency change), or a `pr` whose plans have them.
 - `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above.
 - A replacement with no 1:1 mapping is a `removed` change; the body explains
   what to use instead.

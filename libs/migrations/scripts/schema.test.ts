@@ -131,6 +131,7 @@ describe('migrationFrontmatter', () => {
       { ...valid, codemod: 'renameProp' },
       'codemod',
     ],
+    ['a PR that is not a number', { ...valid, pr: '#401' }, 'pr'],
     ['a hand-written id', { ...valid, id: 'menu-base-ui' }, ''],
     ['a hand-written version', { ...valid, version: '0.1.36' }, ''],
   ])('rejects %s', (_, frontmatter, path) => {

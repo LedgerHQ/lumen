@@ -93,6 +93,7 @@ export const migrationFrontmatter = z.strictObject({
     )
     .optional(),
   codemod: z.string().regex(kebabCase, 'must be kebab-case').optional(),
+  pr: z.number().int().positive().optional(),
 });
 
 export type MigrationFrontmatter = z.infer<typeof migrationFrontmatter>;

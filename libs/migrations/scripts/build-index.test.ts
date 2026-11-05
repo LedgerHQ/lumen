@@ -88,6 +88,11 @@ describe('parseSubject', () => {
       951,
     ],
     [
+      '[D]DLS-736-feat(AmountDisplay): Add size variant support (#716)',
+      'Add size variant support',
+      716,
+    ],
+    [
       '[M][D] DLS-393 fix: align components and the token sync with Figma (#956)',
       'align components and the token sync with Figma',
       956,
@@ -180,6 +185,71 @@ describe('buildIndex', () => {
       'zeta',
       'alpha',
     ]);
+  });
+
+  describe('a migration that names its PR', () => {
+    function shipBreak(): string {
+      write('libs/ui-react/src/index.ts', 'export {};\n');
+      write('.nx/version-plans/401.md', plan('@ledgerhq/ldls-ui-react'));
+      const sha = commit('feat!: upgrade Tailwind to v4 (#401)');
+      git('tag', '@ledgerhq/ldls-ui-react@0.0.31');
+      return sha;
+    }
+
+    function addLate(id: string, pr: number): void {
+      write(
+        `libs/migrations/src/${id}.md`,
+        migration.replace('---\n\n', `pr: ${pr}\n---\n\n`),
+      );
+      write(
+        `.nx/version-plans/${id}-migrations.md`,
+        plan('@ledgerhq/lumen-migrations'),
+      );
+      commit(`docs(migrations): add ${id} (#900)`);
+    }
+
+    it('takes everything from that PR, under the current package name', () => {
+      const sha = shipBreak();
+      commit('chore: rename to lumen (#500)');
+      git('tag', '@ledgerhq/lumen-ui-react@0.0.53');
+      addLate('tailwind-v4', 401);
+
+      const { index, issues } = buildIndex(root);
+
+      expect(issues).toEqual([]);
+      expect(index.migrations[0]).toMatchObject({
+        id: 'tailwind-v4',
+        title: 'upgrade Tailwind to v4',
+        pr: 401,
+        commit: sha,
+        introduced: { '@ledgerhq/lumen-ui-react': '0.0.31' },
+      });
+    });
+
+    it('is ordered by that PR', () => {
+      addMigration(
+        'menu-base-ui',
+        'feat: menu (#300)',
+        '@ledgerhq/lumen-ui-react',
+      );
+      shipBreak();
+      addLate('tailwind-v4', 401);
+      addMigration('zeta', 'feat: z (#100)', '@ledgerhq/lumen-ui-react');
+
+      expect(buildIndex(root).index.migrations.map(({ id }) => id)).toEqual([
+        'menu-base-ui',
+        'tailwind-v4',
+        'zeta',
+      ]);
+    });
+
+    it('reports a PR that is not on main', () => {
+      addLate('tailwind-v4', 401);
+
+      expect(buildIndex(root).issues).toEqual([
+        'tailwind-v4: PR #401 not found',
+      ]);
+    });
   });
 
   it('reports a migration that is not released yet', () => {

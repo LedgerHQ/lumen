@@ -1,9 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import type { MigrationFrontmatter } from './schema.ts';
 import { planPackages } from './shared.ts';
 import {
   checkMigration,
   checkMigrationChanges,
   parseNameStatus,
+  type FileChange,
 } from './validate.ts';
 
 const frontmatter = `---
@@ -164,58 +166,105 @@ describe('checkMigrationChanges', () => {
   const path = 'libs/migrations/src/menu-base-ui.md';
   const migrationsPlan = plan('@ledgerhq/lumen-migrations');
   const brokenPlan = plan('@ledgerhq/lumen-ui-react');
+  const breaking: MigrationFrontmatter = {
+    changes: [
+      {
+        change: 'removed',
+        surface: 'export',
+        ref: '@ledgerhq/lumen-ui-react#MenuPortal',
+        signal: 'loud',
+      },
+    ],
+  };
+  const check = (
+    changes: FileChange[],
+    plans: string[],
+    frontmatter: MigrationFrontmatter = breaking,
+  ): string[] => checkMigrationChanges(changes, plans, () => frontmatter);
 
   it('passes when no migration changed', () => {
-    expect(
-      checkMigrationChanges([{ status: 'M', path: 'libs/ui-react/x.ts' }], []),
-    ).toEqual([]);
+    expect(check([{ status: 'M', path: 'libs/ui-react/x.ts' }], [])).toEqual(
+      [],
+    );
   });
 
   it('accepts a new migration with both plans', () => {
     expect(
-      checkMigrationChanges(
-        [{ status: 'A', path }],
-        [migrationsPlan, brokenPlan],
-      ),
+      check([{ status: 'A', path }], [migrationsPlan, brokenPlan]),
     ).toEqual([]);
   });
 
   it('accepts an edit with the migrations plan only', () => {
-    expect(
-      checkMigrationChanges([{ status: 'M', path }], [migrationsPlan]),
-    ).toEqual([]);
+    expect(check([{ status: 'M', path }], [migrationsPlan])).toEqual([]);
   });
 
   it.each([
     ['a new migration', 'A'],
     ['an edit', 'M'],
-    ['a deletion', 'D'],
   ])('requires the migrations plan for %s', (_, status) => {
-    expect(checkMigrationChanges([{ status, path }], [brokenPlan])).toEqual([
+    expect(check([{ status, path }], [brokenPlan])).toEqual([
       expect.stringContaining('@ledgerhq/lumen-migrations'),
     ]);
   });
 
-  it('requires the plan of the package that breaks for a new migration', () => {
+  it('requires the plan of each Lumen package its refs break', () => {
     expect(
-      checkMigrationChanges([{ status: 'A', path }], [migrationsPlan]),
-    ).toEqual([expect.stringContaining('the package that breaks')]);
+      check(
+        [{ status: 'A', path }],
+        [migrationsPlan, plan('@ledgerhq/lumen-utils-shared')],
+      ),
+    ).toEqual([`${path}: needs a version plan for @ledgerhq/lumen-ui-react`]);
+  });
+
+  it('accepts any package plan for an external dependency change', () => {
+    const external: MigrationFrontmatter = {
+      changes: [
+        {
+          change: 'required',
+          surface: 'dependency',
+          ref: '@base-ui/react',
+          signal: 'loud',
+        },
+      ],
+    };
+
+    expect(
+      check([{ status: 'A', path }], [migrationsPlan, brokenPlan], external),
+    ).toEqual([]);
+    expect(check([{ status: 'A', path }], [migrationsPlan], external)).toEqual([
+      `${path}: needs a version plan for the package that breaks`,
+    ]);
+  });
+
+  it('takes the plan of the PR a new migration names', () => {
+    expect(
+      check([{ status: 'A', path }], [migrationsPlan], {
+        ...breaking,
+        pr: 401,
+      }),
+    ).toEqual([]);
   });
 
   it('rejects a rename', () => {
     expect(
-      checkMigrationChanges(
-        [
-          {
-            status: 'R',
-            path: 'libs/migrations/src/menu.md',
-            from: path,
-          },
-        ],
+      check(
+        [{ status: 'R', path: 'libs/migrations/src/menu.md', from: path }],
         [migrationsPlan],
       ),
     ).toEqual([
       `${path} → libs/migrations/src/menu.md: a migration's file name is its id and can't change`,
     ]);
+  });
+
+  it('rejects a deletion, even next to an addition', () => {
+    expect(
+      check(
+        [
+          { status: 'D', path },
+          { status: 'A', path: 'libs/migrations/src/menu.md' },
+        ],
+        [migrationsPlan, brokenPlan],
+      ),
+    ).toEqual([`${path}: a migration can't be deleted, its id is permanent`]);
   });
 });
