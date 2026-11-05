@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
-import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
+import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
 import type { ComponentProps } from 'react';
@@ -239,11 +239,12 @@ export const DialogBody = ({
     contextRequired: true,
   });
   const isAnimated = animated && height === 'fit';
-  const [contentRef, contentHeight] = useAnimatedHeight(isAnimated);
+  const animatedRef = useAnimatedHeight(isAnimated);
+  const mergedRef = useMergedRef(ref, animatedRef);
 
   return (
     <div
-      ref={ref}
+      ref={mergedRef}
       data-slot='dialog-body'
       style={style}
       className={cn(
@@ -254,18 +255,7 @@ export const DialogBody = ({
       )}
       {...props}
     >
-      {isAnimated ? (
-        <div
-          className='overflow-clip transition-[height] duration-300 ease-out'
-          style={{ height: contentHeight }}
-        >
-          <div ref={contentRef} className='flex flex-col'>
-            {children}
-          </div>
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </div>
   );
 };
