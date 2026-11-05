@@ -1,7 +1,7 @@
 import { BlurView } from '@sbaiahmed1/react-native-blur';
 import type { ReactElement, ReactNode } from 'react';
 import { Children, isValidElement, useEffect, useMemo } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import Animated, {
   cancelAnimation,
   interpolate,
@@ -26,6 +26,13 @@ export const TAB_BAR_COMPACT_HEIGHT = 44;
 const PILL_INSET = 4;
 const ICON_SIZE = 20;
 const ICON_LABEL_GAP = 4;
+
+const useLabelLineHeight = (): { base: number; scaled: number } => {
+  const { theme } = useTheme();
+  const { fontScale } = useWindowDimensions();
+  const base = theme.typographies.body4.lineHeight ?? 0;
+  return { base, scaled: base * fontScale };
+};
 
 const useTabBarItemAnimations = ({
   isActive,
@@ -171,6 +178,9 @@ const useTabBarAnimations = ({
   });
   const labelInDelay = theme.motion.delays[75];
   const compactInset = theme.spacings.s32;
+  const labelLineHeight = useLabelLineHeight();
+  const expandedHeight =
+    TAB_BAR_HEIGHT + Math.max(labelLineHeight.scaled - labelLineHeight.base, 0);
 
   useEffect(() => {
     if (activeIndex >= 0) {
@@ -209,7 +219,7 @@ const useTabBarAnimations = ({
       height: interpolate(
         densityProgress.value,
         [0, 1],
-        [TAB_BAR_COMPACT_HEIGHT, TAB_BAR_HEIGHT],
+        [TAB_BAR_COMPACT_HEIGHT, expandedHeight],
       ),
       marginHorizontal: interpolate(
         densityProgress.value,
@@ -217,7 +227,7 @@ const useTabBarAnimations = ({
         [compactInset, 0],
       ),
     }),
-    [densityProgress, compactInset],
+    [densityProgress, compactInset, expandedHeight],
   );
 
   const pillStyle = useAnimatedStyle(
@@ -240,7 +250,7 @@ export function TabBarItem({
   ...props
 }: TabBarItemProps) {
   const styles = useStyles();
-  const { theme } = useTheme();
+  const labelLineHeight = useLabelLineHeight();
   const { active, onTabPress, densityProgress, labelOpacity } =
     useTabBarContext();
 
@@ -260,9 +270,7 @@ export function TabBarItem({
     isActive,
     densityProgress,
     labelOpacity,
-    iconShift: label
-      ? (ICON_LABEL_GAP + (theme.typographies.body4.lineHeight ?? 0)) / 2
-      : 0,
+    iconShift: label ? (ICON_LABEL_GAP + labelLineHeight.scaled) / 2 : 0,
   });
 
   function onPress() {
@@ -411,6 +419,7 @@ const useStyles = () =>
       item: {
         flex: 1,
         alignSelf: 'stretch',
+        marginVertical: -t.spacings.s4,
         justifyContent: 'center',
       },
       itemContent: {

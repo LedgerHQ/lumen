@@ -53,6 +53,7 @@ export default function ExampleTabBar() {
       return;
     }
     if (offsetY >= maxOffsetY) {
+      lastOffsetY.current = maxOffsetY;
       return;
     }
 

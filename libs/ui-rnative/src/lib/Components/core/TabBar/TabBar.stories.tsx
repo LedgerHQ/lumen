@@ -128,7 +128,7 @@ export const Complex: Story = {
   },
 };
 
-export const Density: Story = {
+export const DensityShowcase: Story = {
   args: {} as React.ComponentProps<typeof TabBar>,
   render: () => {
     const [active, setActive] = useState('home');
