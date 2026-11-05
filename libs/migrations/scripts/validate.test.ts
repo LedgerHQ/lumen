@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { planPackages } from './shared.ts';
-import { checkMigration, checkVersionPlans } from './validate.ts';
+import {
+  checkMigration,
+  checkMigrationChanges,
+  parseNameStatus,
+} from './validate.ts';
 
 const frontmatter = `---
 changes:
@@ -138,35 +142,74 @@ describe('planPackages', () => {
   });
 });
 
-describe('checkVersionPlans', () => {
-  it('passes when no migration was added', () => {
-    expect(checkVersionPlans([], [])).toEqual([]);
+describe('parseNameStatus', () => {
+  it('reads plain changes and renames', () => {
+    expect(
+      parseNameStatus('A\tnew.md\nM\tedited.md\nR100\told.md\trenamed.md\n'),
+    ).toEqual([
+      { status: 'A', path: 'new.md' },
+      { status: 'M', path: 'edited.md' },
+      { status: 'R', path: 'renamed.md', from: 'old.md' },
+    ]);
+  });
+});
+
+describe('checkMigrationChanges', () => {
+  const path = 'libs/migrations/src/menu-base-ui.md';
+  const migrationsPlan = plan('@ledgerhq/lumen-migrations');
+  const brokenPlan = plan('@ledgerhq/lumen-ui-react');
+
+  it('passes when no migration changed', () => {
+    expect(
+      checkMigrationChanges([{ status: 'M', path: 'libs/ui-react/x.ts' }], []),
+    ).toEqual([]);
   });
 
-  it('accepts plans for the migrations package and the broken one', () => {
+  it('accepts a new migration with both plans', () => {
     expect(
-      checkVersionPlans(
-        ['libs/migrations/src/menu-base-ui.md'],
-        [plan('@ledgerhq/lumen-migrations'), plan('@ledgerhq/lumen-ui-react')],
+      checkMigrationChanges(
+        [{ status: 'A', path }],
+        [migrationsPlan, brokenPlan],
       ),
     ).toEqual([]);
   });
 
-  it('requires a plan for the migrations package', () => {
+  it('accepts an edit with the migrations plan only', () => {
     expect(
-      checkVersionPlans(
-        ['libs/migrations/src/menu-base-ui.md'],
-        [plan('@ledgerhq/lumen-ui-react')],
-      ),
-    ).toEqual([expect.stringContaining('@ledgerhq/lumen-migrations')]);
+      checkMigrationChanges([{ status: 'M', path }], [migrationsPlan]),
+    ).toEqual([]);
   });
 
-  it('requires a plan for the package that breaks', () => {
+  it.each([
+    ['a new migration', 'A'],
+    ['an edit', 'M'],
+    ['a deletion', 'D'],
+  ])('requires the migrations plan for %s', (_, status) => {
+    expect(checkMigrationChanges([{ status, path }], [brokenPlan])).toEqual([
+      expect.stringContaining('@ledgerhq/lumen-migrations'),
+    ]);
+  });
+
+  it('requires the plan of the package that breaks for a new migration', () => {
     expect(
-      checkVersionPlans(
-        ['libs/migrations/src/menu-base-ui.md'],
-        [plan('@ledgerhq/lumen-migrations')],
-      ),
+      checkMigrationChanges([{ status: 'A', path }], [migrationsPlan]),
     ).toEqual([expect.stringContaining('the package that breaks')]);
+  });
+
+  it('rejects a rename', () => {
+    expect(
+      checkMigrationChanges(
+        [
+          {
+            status: 'R',
+            path: 'libs/migrations/src/menu.md',
+            from: path,
+          },
+        ],
+        [migrationsPlan],
+      ),
+    ).toEqual([
+      `${path} → libs/migrations/src/menu.md: a migration's file name is its id and can't change`,
+    ]);
   });
 });

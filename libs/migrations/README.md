@@ -79,8 +79,9 @@ change), oldest first. It's generated, never committed, and exported as
 
 - A PR that breaks something adds its migration in the same PR.
 - Say what broke and how to fix it, nothing the version plan already says.
-- `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above, and
-  that a new migration lands with version plans for this package and the one
-  that breaks.
+- The file name is permanent: never rename a migration.
+- Any change to a migration needs a version plan for this package. A new one
+  also needs the plan of the package that breaks.
+- `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above.
 - A replacement with no 1:1 mapping is a `removed` change; the body explains
   what to use instead.

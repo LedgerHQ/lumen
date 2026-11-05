@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * CI gate for migration files: valid name, frontmatter and body, examples that
- * prove the `detect` patterns, and version plans for every new migration (the
- * release index derives its packages from them).
+ * prove the `detect` patterns, stable ids, and the version plans that get a
+ * change published (the release index also derives packages from them).
  *
  * Run: node libs/migrations/scripts/validate.ts
  */
@@ -19,6 +19,10 @@ const srcDir = join(libDir, 'src');
 const bodyHeadings = ['Before → after', 'Decide', 'Verify'];
 const kebabCaseFile = /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/;
 const taggedExample = /^```\S*[ \t]+(before|after)[ \t]*\n([\s\S]*?)^```/gm;
+const migrationPath = /^libs\/migrations\/src\/[^/]+\.md$/;
+
+/** One line of `git diff --name-status`; `from` is set on renames and copies. */
+export type FileChange = { status: string; path: string; from?: string };
 
 export function checkMigration(fileName: string, content: string): string[] {
   const issues: string[] = [];
@@ -100,21 +104,53 @@ function checkExamples(
   );
 }
 
+export function parseNameStatus(output: string): FileChange[] {
+  return output
+    .split('\n')
+    .filter(Boolean)
+    .map((line) => {
+      const [status, ...paths] = line.split('\t');
+      const path = paths[paths.length - 1];
+      return paths.length > 1
+        ? { status: status[0], path, from: paths[0] }
+        : { status: status[0], path };
+    });
+}
+
 /**
- * The release index takes a migration's packages from the version plans of
- * the commit that added it, so both must land in the same PR.
+ * Any change to a migration ships only when this package is released, so it
+ * needs its plan. A new migration also needs the plan of the package that
+ * breaks: the release index takes its packages from the commit that added it.
+ * That commit is found by file name, which is also the id consumers rely on,
+ * so a migration can never be renamed.
  */
-export function checkVersionPlans(
-  addedMigrations: string[],
+export function checkMigrationChanges(
+  changes: FileChange[],
   addedPlans: string[],
 ): string[] {
-  if (addedMigrations.length === 0) return [];
+  const migrations = changes.filter(
+    ({ path, from }) =>
+      migrationPath.test(path) ||
+      (from !== undefined && migrationPath.test(from)),
+  );
+  if (migrations.length === 0) return [];
+
+  const issues = migrations
+    .filter(({ status }) => status === 'R')
+    .map(
+      ({ from, path }) =>
+        `${from} → ${path}: a migration's file name is its id and can't change`,
+    );
   const packages = new Set(addedPlans.flatMap(planPackages));
-  const issues: string[] = [];
   if (!packages.has(migrationsPackage)) {
-    issues.push(`new migrations need a version plan for ${migrationsPackage}`);
+    issues.push(
+      `changed migrations need a version plan for ${migrationsPackage}`,
+    );
   }
-  if ([...packages].every((name) => name === migrationsPackage)) {
+  if (
+    migrations.some(({ status }) => status === 'A') &&
+    [...packages].every((name) => name === migrationsPackage)
+  ) {
     issues.push(
       'new migrations need a version plan for the package that breaks',
     );
@@ -122,16 +158,16 @@ export function checkVersionPlans(
   return issues;
 }
 
-/** Files added since the base Nx affected compares against. */
-function addedFiles(): string[] {
+/** Changes since the base Nx affected compares against. */
+function changedFiles(): FileChange[] {
   const base = process.env.NX_BASE ?? 'origin/main';
-  return execFileSync(
-    'git',
-    ['diff', '--name-only', '--diff-filter=A', `${base}...HEAD`],
-    { cwd: repoRoot, encoding: 'utf8' },
-  )
-    .split('\n')
-    .filter(Boolean);
+  return parseNameStatus(
+    execFileSync(
+      'git',
+      ['diff', '--name-status', '--find-renames', `${base}...HEAD`],
+      { cwd: repoRoot, encoding: 'utf8' },
+    ),
+  );
 }
 
 /** @returns how many checks failed */
@@ -156,15 +192,18 @@ function validate(): number {
     );
   }
 
-  console.log('\nVersion plans');
-  const added = addedFiles();
+  console.log('\nChanges since the base');
+  const changes = changedFiles();
   report(
-    'new migrations have version plans',
-    checkVersionPlans(
-      added.filter((path) => /^libs\/migrations\/src\/[^/]+\.md$/.test(path)),
-      added
-        .filter((path) => path.startsWith('.nx/version-plans/'))
-        .map((path) => readFileSync(join(repoRoot, path), 'utf8')),
+    'ids kept, version plans present',
+    checkMigrationChanges(
+      changes,
+      changes
+        .filter(
+          ({ status, path }) =>
+            status === 'A' && path.startsWith('.nx/version-plans/'),
+        )
+        .map(({ path }) => readFileSync(join(repoRoot, path), 'utf8')),
     ),
   );
 
