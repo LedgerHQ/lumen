@@ -5,6 +5,7 @@ export type TabBarContextValue = {
   active?: string;
   onTabPress: (value: string) => void;
   densityProgress: SharedValue<number>;
+  labelOpacity: SharedValue<number>;
 };
 
 const [TabBarContextProvider, _useTabBarSafeContext] =

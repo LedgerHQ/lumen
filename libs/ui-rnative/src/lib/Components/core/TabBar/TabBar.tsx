@@ -25,15 +25,17 @@ export const TAB_BAR_HEIGHT = 60;
 export const TAB_BAR_COMPACT_HEIGHT = 44;
 const PILL_INSET = 4;
 const ICON_SIZE = 20;
-const ICON_LABEL_GAP = 2;
+const ICON_LABEL_GAP = 4;
 
 const useTabBarItemAnimations = ({
   isActive,
   densityProgress,
+  labelOpacity,
   iconShift,
 }: {
   isActive: boolean;
   densityProgress: SharedValue<number>;
+  labelOpacity: SharedValue<number>;
   iconShift: number;
 }) => {
   const activeProgress = useSharedValue(isActive ? 1 : 0);
@@ -105,9 +107,13 @@ const useTabBarItemAnimations = ({
 
   const labelStyle = useAnimatedStyle(
     () => ({
-      opacity: interpolate(densityProgress.value, [0.5, 1], [0, 1], 'clamp'),
+      opacity: labelOpacity.value,
+      // Closes the icon/label gap as the bar collapses.
+      transform: [
+        { translateY: -ICON_LABEL_GAP * (1 - densityProgress.value) },
+      ],
     }),
-    [densityProgress],
+    [labelOpacity, densityProgress],
   );
 
   return {
@@ -142,33 +148,60 @@ const useTabBarAnimations = ({
     });
   }, [active, children]);
 
+  const isExpanded = density === 'expanded';
   const pillIndex = useSharedValue(Math.max(activeIndex, 0));
-  const densityProgress = useSharedValue(density === 'expanded' ? 1 : 0);
+  const densityProgress = useSharedValue(isExpanded ? 1 : 0);
+  const labelOpacity = useSharedValue(isExpanded ? 1 : 0);
 
-  const timingConfig = useTimingConfig({
+  const pillTimingConfig = useTimingConfig({
     duration: 300,
     easing: 'easeInOut',
   });
+  const densityTimingConfig = useTimingConfig({
+    duration: 300,
+    easing: 'easeOut',
+  });
+  const labelOutTimingConfig = useTimingConfig({
+    duration: 150,
+    easing: 'easeOut',
+  });
+  const labelInTimingConfig = useTimingConfig({
+    duration: 200,
+    easing: 'easeOut',
+  });
+  const labelInDelay = theme.motion.delays[75];
+  const compactInset = theme.spacings.s32;
 
   useEffect(() => {
     if (activeIndex >= 0) {
-      pillIndex.value = withTiming(activeIndex, timingConfig);
+      pillIndex.value = withTiming(activeIndex, pillTimingConfig);
     }
-  }, [activeIndex, pillIndex, timingConfig]);
+  }, [activeIndex, pillIndex, pillTimingConfig]);
 
   useEffect(() => {
-    densityProgress.value = withTiming(
-      density === 'expanded' ? 1 : 0,
-      timingConfig,
-    );
-  }, [density, densityProgress, timingConfig]);
+    densityProgress.value = withTiming(isExpanded ? 1 : 0, densityTimingConfig);
+    // Labels leave quickly, but only come back once the bar has started
+    // making room for them.
+    labelOpacity.value = isExpanded
+      ? withDelay(labelInDelay, withTiming(1, labelInTimingConfig))
+      : withTiming(0, labelOutTimingConfig);
+  }, [
+    isExpanded,
+    densityProgress,
+    labelOpacity,
+    densityTimingConfig,
+    labelInTimingConfig,
+    labelOutTimingConfig,
+    labelInDelay,
+  ]);
 
   useEffect(
     () => () => {
       cancelAnimation(pillIndex);
       cancelAnimation(densityProgress);
+      cancelAnimation(labelOpacity);
     },
-    [pillIndex, densityProgress],
+    [pillIndex, densityProgress, labelOpacity],
   );
 
   const barStyle = useAnimatedStyle(
@@ -181,10 +214,10 @@ const useTabBarAnimations = ({
       marginHorizontal: interpolate(
         densityProgress.value,
         [0, 1],
-        [theme.spacings.s24, 0],
+        [compactInset, 0],
       ),
     }),
-    [densityProgress, theme],
+    [densityProgress, compactInset],
   );
 
   const pillStyle = useAnimatedStyle(
@@ -195,7 +228,7 @@ const useTabBarAnimations = ({
     [pillIndex, count],
   );
 
-  return { densityProgress, barStyle, pillStyle };
+  return { densityProgress, labelOpacity, barStyle, pillStyle };
 };
 
 export function TabBarItem({
@@ -208,7 +241,8 @@ export function TabBarItem({
 }: TabBarItemProps) {
   const styles = useStyles();
   const { theme } = useTheme();
-  const { active, onTabPress, densityProgress } = useTabBarContext();
+  const { active, onTabPress, densityProgress, labelOpacity } =
+    useTabBarContext();
 
   const isActive = active === value;
   const Icon = icon ?? Placeholder;
@@ -225,6 +259,7 @@ export function TabBarItem({
   } = useTabBarItemAnimations({
     isActive,
     densityProgress,
+    labelOpacity,
     iconShift: label
       ? (ICON_LABEL_GAP + (theme.typographies.body4.lineHeight ?? 0)) / 2
       : 0,
@@ -299,11 +334,12 @@ export function TabBar<T extends TabBarValue = TabBarValue>({
   const styles = useStyles();
   const { theme, colorScheme } = useTheme();
 
-  const { densityProgress, barStyle, pillStyle } = useTabBarAnimations({
-    active,
-    density,
-    children,
-  });
+  const { densityProgress, labelOpacity, barStyle, pillStyle } =
+    useTabBarAnimations({
+      active,
+      density,
+      children,
+    });
 
   return (
     <TabBarContextProvider
@@ -311,6 +347,7 @@ export function TabBar<T extends TabBarValue = TabBarValue>({
         active,
         onTabPress: (value) => onTabPress(value as T),
         densityProgress,
+        labelOpacity,
       }}
     >
       <Box accessibilityRole='tablist' {...props}>
