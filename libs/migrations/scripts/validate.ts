@@ -34,6 +34,9 @@ export function checkMigration(fileName: string, content: string): string[] {
   if (parsed === undefined) {
     return [...issues, 'must start with a `---` frontmatter block'];
   }
+  if ('error' in parsed) {
+    return [...issues, `frontmatter: invalid YAML (${parsed.error})`];
+  }
   const { data, body } = parsed;
 
   const result = migrationFrontmatter.safeParse(data);

@@ -82,6 +82,12 @@ describe('checkMigration', () => {
     ],
     ['no frontmatter', 'menu-base-ui.md', body, 'frontmatter block'],
     [
+      'frontmatter that is not YAML',
+      'menu-base-ui.md',
+      `---\nchanges: [\n---\n${body}`,
+      'frontmatter: invalid YAML',
+    ],
+    [
       'invalid frontmatter',
       'menu-base-ui.md',
       valid.replace('signal: silent', 'signal: loudish'),

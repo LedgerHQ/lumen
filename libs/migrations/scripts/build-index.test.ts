@@ -82,8 +82,27 @@ describe('parseSubject', () => {
     ],
     ['feat!: drop Tailwind v3 (#401)', 'drop Tailwind v3', 401],
     ['Move Menu to Base UI', 'Move Menu to Base UI', null],
+    [
+      'DLS-1116 chore(ci): gate test coverage at 80% and report it on PRs (#951)',
+      'gate test coverage at 80% and report it on PRs',
+      951,
+    ],
+    [
+      '[M][D] DLS-393 fix: align components and the token sync with Figma (#956)',
+      'align components and the token sync with Figma',
+      956,
+    ],
   ])('reads %s', (subject, title, pr) => {
     expect(parseSubject(subject)).toEqual({ title, pr });
+  });
+
+  it('reads a merge commit from its body', () => {
+    expect(
+      parseSubject(
+        'Merge pull request #716 from LedgerHQ/menu',
+        '\nDLS-12 feat(ui-react): move Menu to Base UI\n',
+      ),
+    ).toEqual({ title: 'move Menu to Base UI', pr: 716 });
   });
 });
 
@@ -198,13 +217,52 @@ describe('buildIndex', () => {
     expect(issues).toEqual(['menu-base-ui: not committed']);
   });
 
-  it('reports invalid frontmatter', () => {
-    write('libs/migrations/src/broken.md', '---\nchanges: []\n---\n');
+  it.each([
+    ['frontmatter', '---\nchanges: []\n---\n'],
+    ['YAML', '---\nchanges: [\n---\n'],
+  ])('reports invalid %s', (_, content) => {
+    write('libs/migrations/src/broken.md', content);
     commit('feat: broken (#1)');
 
     expect(buildIndex(root)).toEqual({
       index: { formatVersion: 1, migrations: [] },
       issues: ['broken: invalid frontmatter, run the validate target'],
+    });
+  });
+
+  it('reads a merged PR as a whole, plans from any of its commits', () => {
+    const main = git('rev-parse', '--abbrev-ref', 'HEAD');
+    git('checkout', '--quiet', '-b', 'menu');
+    write('libs/migrations/src/menu-base-ui.md', migration);
+    commit('feat: add the migration');
+    write(
+      '.nx/version-plans/migrations.md',
+      plan('@ledgerhq/lumen-migrations'),
+    );
+    write('.nx/version-plans/ui-react.md', plan('@ledgerhq/lumen-ui-react'));
+    commit('chore: add the version plans');
+    git('checkout', '--quiet', main);
+    git(
+      'merge',
+      '--no-ff',
+      '--quiet',
+      '-m',
+      'Merge pull request #716 from LedgerHQ/menu',
+      '-m',
+      'feat(ui-react): move Menu to Base UI',
+      'menu',
+    );
+    const merge = git('rev-parse', 'HEAD');
+    git('tag', '@ledgerhq/lumen-ui-react@0.1.36');
+
+    const { index, issues } = buildIndex(root);
+
+    expect(issues).toEqual([]);
+    expect(index.migrations[0]).toMatchObject({
+      title: 'move Menu to Base UI',
+      pr: 716,
+      commit: merge,
+      introduced: { '@ledgerhq/lumen-ui-react': '0.1.36' },
     });
   });
 });
