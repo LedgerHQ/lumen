@@ -18,7 +18,7 @@ mobile theme is copied by hand, so the two platforms slowly drift apart.
 This ADR proposes one pipeline that reads everything from Figma, checks it,
 stores it in a standard format, and generates every output from that single
 source: web CSS, Tailwind, the React Native theme, icons, and later any other
-platform. The work is split into 7 tickets that change nothing for consumers
+platform. The work is split into 8 tickets that change nothing for consumers
 until a release says so.
 
 ## Glossary
@@ -351,6 +351,7 @@ flowchart LR
   T3 --> T6["6 Symbols"]
   T4 --> T7["7 Governance"]
   T6 --> T7
+  T5 --> T8["8 Tailwind v4 CSS"]
 ```
 
 ### 1. Safety net for generated outputs — can start now
@@ -525,6 +526,30 @@ Make drift impossible to merge, and token or symbol changes easy to review.
 the code for every token.
 
 **Depends on:** 4 and 6.
+
+### 8. Tailwind v4 CSS output
+
+Lumen is on Tailwind v4 but ships its theme as a JS preset loaded with
+`@config`. Generate a pure CSS file instead, so consumers `@import` it.
+
+- New target writing a Tailwind v4 CSS file: `@theme` variables in Tailwind's
+  namespaces (`--color-*`, `--spacing-*`, `--radius-*`, `--shadow-*`,
+  `--text-*`, `--ease-*`, `--breakpoint-*`), `@theme inline` mapping them to the
+  runtime variables, `:root` / `.dark` / per-brand value blocks, `@utility` for
+  the custom classes (typography, icon and spot sizes, gradients) and
+  `@custom-variant dark`.
+- One file per brand, or one file with a brand selector (to decide).
+- First release: generated alongside the current preset, with no consumer
+  change. Removing the preset and migrating consumers (`@config` → `@import`)
+  is a later breaking release, coordinated with DLS-919.
+
+**Done when:** a test page compiled with the CSS file produces exactly the same
+classes and values as the current preset for every brand (checked against the
+ticket 1 snapshot); dark mode and brand switching work without JS config; the
+consumer migration steps are written down; version plan for
+`@ledgerhq/lumen-design-core`.
+
+**Depends on:** 5.
 
 ---
 
