@@ -322,7 +322,7 @@ separate change.
 
 ```mermaid
 sequenceDiagram
-  participant WF as sync-figma.yml
+  participant WF as sync-figma-all.yml (or -tokens / -symbols)
   participant S1 as ① sync-figma
   participant S3 as ③ design-build (reads ②)
   participant PR as Pull request
@@ -394,11 +394,27 @@ variable as valid DTCG.
   and today it only adds units to bare numbers. Add a small adapter in the ETL
   that turns the new types back into today's CSS values (`dimension` objects to
   `16px`, and so on); ticket 3 deletes it with the ETL.
+- Split the GitHub workflow into three, so tokens and symbols can be synced
+  separately:
+  - `sync-figma-tokens.yml`: export tokens, build, open a tokens PR.
+  - `sync-figma-symbols.yml`: download symbols, generate the React and React
+    Native components, open a symbols PR.
+  - `sync-figma-all.yml` (today's `sync-figma.yml`, renamed): runs both and
+    opens one combined PR.
+
+  The tokens and symbols workflows are reusable (`workflow_call` +
+  `workflow_dispatch`), so `all` calls them instead of duplicating steps. Each
+  takes only the inputs it needs and uses its own bot branch and concurrency
+  group. Update the `AGENTS.md` Internals example (`sync-figma` ↔
+  `sync-figma.yml`): the project now serves several workflows, so it's named
+  after its role.
 
 **Done when:** the export reproduces today's token files with corrected types,
 plus the motion collection; running the ETL on them leaves `generated/css`
-byte-identical (empty `git diff`); `7.motion.Mode1.json` is pruned; the
-workflow and README use the new targets. No version plan (internals only).
+byte-identical (empty `git diff`); `7.motion.Mode1.json` is pruned; the three
+workflows each run from the Actions tab and open the expected PR, and
+`sync-figma.yml` is gone; the README and `AGENTS.md` describe them. No version
+plan (internals only).
 
 **Depends on:** 1.
 
