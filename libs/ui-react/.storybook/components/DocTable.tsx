@@ -37,7 +37,7 @@ export const DocTable: React.FC<DocTableProps> = ({
   className,
 }) => {
   return (
-    <table className={cn('my-16 w-full border-collapse text-left', className)}>
+    <table className={cn('my-16 w-full border-collapse text-start', className)}>
       <thead>
         <tr>
           {headers.map((header, index) => (

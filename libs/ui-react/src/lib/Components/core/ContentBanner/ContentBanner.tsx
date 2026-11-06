@@ -99,7 +99,7 @@ export const ContentBanner = ({
       ref={ref}
       className={cn(
         'relative flex w-full items-center gap-12 rounded-md bg-surface p-12',
-        onClose && 'pr-48',
+        onClose && 'pe-48',
         className,
       )}
       {...props}

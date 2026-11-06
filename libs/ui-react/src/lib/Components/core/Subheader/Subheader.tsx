@@ -81,7 +81,7 @@ export const SubheaderCount = ({
   const formatted = format ? format(value) : `(${value})`;
   return (
     <span
-      className={cn('shrink-0 pl-2 body-2 text-muted', className)}
+      className={cn('shrink-0 ps-2 body-2 text-muted', className)}
       {...props}
     >
       {formatted}
@@ -126,7 +126,7 @@ export const SubheaderShowMore = ({
     <span
       className={cn(
         'inline-flex size-fit items-center justify-center rounded-full bg-base-transparent text-muted transition-colors group-hover/row:bg-base-transparent-hover group-hover/row:text-muted-hover',
-        '-ml-2',
+        '-ms-2',
         className,
       )}
       {...props}

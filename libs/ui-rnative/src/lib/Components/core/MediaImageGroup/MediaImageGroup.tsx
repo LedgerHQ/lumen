@@ -96,7 +96,7 @@ const useStyles = ({
           backgroundColor: t.colors.bg.base,
         },
         slotOverlap: {
-          marginLeft: -t.spacings[overlapMap[size]],
+          marginStart: -t.spacings[overlapMap[size]],
         },
         overflow: {
           minWidth: sizeValue,

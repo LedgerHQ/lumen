@@ -17,7 +17,7 @@ export const CoinCapsule = ({
     <div
       ref={ref}
       className={cn(
-        'flex items-center gap-8 rounded-full bg-muted-transparent p-8 pr-12',
+        'flex items-center gap-8 rounded-full bg-muted-transparent p-8 pe-12',
         className,
       )}
       data-slot='coin-capsule'

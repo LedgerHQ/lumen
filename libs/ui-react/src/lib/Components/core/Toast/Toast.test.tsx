@@ -22,7 +22,7 @@ describe('Toast', () => {
     it('should not render a leading icon for the info appearance', () => {
       const { container } = render(<Toast title='Info' appearance='info' />);
       expect(container.querySelector('svg')).not.toBeInTheDocument();
-      expect(container.firstChild).toHaveClass('pl-16');
+      expect(container.firstChild).toHaveClass('ps-16');
     });
 
     it('should render a status icon for non-info appearances', () => {
@@ -30,7 +30,7 @@ describe('Toast', () => {
         <Toast title='Saved' appearance='success' />,
       );
       expect(container.querySelector('svg')).toBeInTheDocument();
-      expect(container.firstChild).toHaveClass('pl-12');
+      expect(container.firstChild).toHaveClass('ps-12');
     });
 
     it('should render a spinner while loading', () => {
@@ -43,7 +43,7 @@ describe('Toast', () => {
     it('should give the title right breathing room', () => {
       render(<Toast title='Report ready' />);
       expect(screen.getByText('Report ready').parentElement).toHaveClass(
-        'pr-16',
+        'pe-16',
         'pt-10',
         'last:pb-10',
       );
@@ -58,7 +58,7 @@ describe('Toast', () => {
         />,
       );
       expect(screen.getByRole('button', { name: 'Open' })).not.toHaveClass(
-        '-ml-16',
+        '-ms-16',
       );
     });
 
@@ -71,7 +71,7 @@ describe('Toast', () => {
         />,
       );
       expect(screen.getByRole('button', { name: 'Open' })).toHaveClass(
-        '-ml-16',
+        '-ms-16',
       );
     });
 
@@ -84,7 +84,7 @@ describe('Toast', () => {
         />,
       );
       expect(screen.getByRole('button', { name: 'Cancel' })).toHaveClass(
-        '-ml-16',
+        '-ms-16',
       );
     });
   });

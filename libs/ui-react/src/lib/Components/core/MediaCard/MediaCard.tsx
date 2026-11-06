@@ -12,7 +12,7 @@ const mediaCardVariants = {
     [
       'group relative overflow-hidden rounded-md',
       'flex h-[164px] w-full flex-col items-start justify-end p-12',
-      'bg-muted text-left',
+      'bg-muted text-start',
     ],
     {
       variants: {
