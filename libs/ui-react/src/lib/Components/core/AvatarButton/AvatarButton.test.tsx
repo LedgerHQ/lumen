@@ -46,8 +46,8 @@ describe('AvatarButton Component', () => {
   });
 
   it('should apply custom className to the button', () => {
-    render(<AvatarButton src={validSrc} className='mr-8' />);
+    render(<AvatarButton src={validSrc} className='me-8' />);
 
-    expect(screen.getByRole('button')).toHaveClass('mr-8');
+    expect(screen.getByRole('button')).toHaveClass('me-8');
   });
 });

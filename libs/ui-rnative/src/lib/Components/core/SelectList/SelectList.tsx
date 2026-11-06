@@ -536,7 +536,7 @@ const useTriggerStyles = ({
         {
           flexShrink: 0,
           color: t.colors.text.muted,
-          marginLeft: t.spacings.s8,
+          marginStart: t.spacings.s8,
         },
         disabled && { color: t.colors.text.disabled },
       ]),

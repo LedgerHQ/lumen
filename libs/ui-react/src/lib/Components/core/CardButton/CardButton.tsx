@@ -80,7 +80,7 @@ export const CardButton = ({
       {...props}
     >
       {IconComponent && <IconComponent size={24} />}
-      <div className='flex min-w-0 flex-1 flex-col gap-4 text-left'>
+      <div className='flex min-w-0 flex-1 flex-col gap-4 text-start'>
         <div className='min-w-0 truncate body-2-semi-bold'>{title}</div>
         {description && (
           <div className='line-clamp-2 min-w-0 body-3 text-muted group-disabled:text-disabled'>

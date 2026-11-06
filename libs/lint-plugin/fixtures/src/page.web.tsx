@@ -12,5 +12,6 @@ export const Fixture = ({ size }: { size: string }) => (
     <div className={cn('flex', 'foo-bar-baz')} />
     <div style={{ color: 'red' }} />
     <Button className='p-4' />
+    <div className='-translate-x-1/2 left-1/2 mt-4 ml-4 w-4' />
   </div>
 );

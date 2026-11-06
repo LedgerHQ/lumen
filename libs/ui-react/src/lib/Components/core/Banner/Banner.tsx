@@ -86,7 +86,7 @@ export const Banner = ({
       {...props}
     >
       <div className='flex shrink-0 items-start py-4'>{icon}</div>
-      <div className='mr-8 flex flex-1 flex-col gap-8 py-4'>
+      <div className='me-8 flex flex-1 flex-col gap-8 py-4'>
         <div className='flex flex-col gap-4'>
           {title && <h3 className='line-clamp-2 body-1-semi-bold'>{title}</h3>}
           {description && (

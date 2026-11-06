@@ -58,7 +58,7 @@ const useStyles = ({ appearance }: { appearance: Appearance }) => {
           overflow: 'hidden',
         },
         contentWrapper: {
-          marginRight: t.spacings.s8,
+          marginEnd: t.spacings.s8,
           flex: 1,
           flexDirection: 'column',
           gap: t.spacings.s8,

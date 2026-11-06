@@ -11,6 +11,7 @@ import { buildOxlintPresets } from '../scripts/generate-oxlint-json.js';
 import eslint from './eslint.js';
 import oxlint from './oxlint.js';
 import {
+  LOGICAL_PROPERTIES_OPTIONS,
   NO_ARBITRARY_VALUES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
   RULES,
@@ -47,6 +48,7 @@ describe('presets', () => {
       'better-tailwindcss/no-duplicate-classes': 'error',
       'better-tailwindcss/no-unnecessary-whitespace': 'error',
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/enforce-logical-properties': 'error',
       'shadcn/no-arbitrary-values': 'warn',
       'shadcn/no-inline-styles': 'warn',
       'no-restricted-imports': 'error',
@@ -95,6 +97,7 @@ describe('presets', () => {
       expect(Object.isFrozen(options.componentImports)).toBe(true);
     }
     expect(Object.isFrozen(NO_RESTRICTED_IMPORTS_OPTIONS.paths)).toBe(true);
+    expect(Object.isFrozen(LOGICAL_PROPERTIES_OPTIONS.ignore)).toBe(true);
   });
 
   it('leave the selectors to better-tailwindcss’ defaults', () => {

@@ -176,7 +176,7 @@ export const ContentBanner = ({
         backgroundColor: t.colors.bg.surface,
       },
       rootWithClose: {
-        paddingRight: t.spacings.s48,
+        paddingEnd: t.spacings.s48,
       },
       closeButton: {
         position: 'absolute',

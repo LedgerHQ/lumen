@@ -42,8 +42,8 @@ const useStyles = ({
 
       type PaddingStyle = {
         paddingVertical: number;
-        paddingLeft: number;
-        paddingRight: number;
+        paddingStart: number;
+        paddingEnd: number;
       };
 
       const paddingMap: Record<
@@ -53,35 +53,35 @@ const useStyles = ({
         md: {
           flat: {
             paddingVertical: t.spacings.s12,
-            paddingLeft: t.spacings.s16,
-            paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
+            paddingStart: t.spacings.s16,
+            paddingEnd: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
           rounded: {
             paddingVertical: t.spacings.s8,
-            paddingLeft: t.spacings.s8,
-            paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
+            paddingStart: t.spacings.s8,
+            paddingEnd: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
           none: {
             paddingVertical: t.spacings.s14,
-            paddingLeft: t.spacings.s16,
-            paddingRight: hideChevron ? t.spacings.s16 : t.spacings.s12,
+            paddingStart: t.spacings.s16,
+            paddingEnd: hideChevron ? t.spacings.s16 : t.spacings.s12,
           },
         },
         sm: {
           flat: {
             paddingVertical: t.spacings.s10,
-            paddingLeft: t.spacings.s12,
-            paddingRight: hideChevron ? t.spacings.s12 : t.spacings.s8,
+            paddingStart: t.spacings.s12,
+            paddingEnd: hideChevron ? t.spacings.s12 : t.spacings.s8,
           },
           rounded: {
             paddingVertical: t.spacings.s8,
-            paddingLeft: t.spacings.s8,
-            paddingRight: hideChevron ? t.spacings.s10 : t.spacings.s8,
+            paddingStart: t.spacings.s8,
+            paddingEnd: hideChevron ? t.spacings.s10 : t.spacings.s8,
           },
           none: {
             paddingVertical: t.spacings.s10,
-            paddingLeft: t.spacings.s12,
-            paddingRight: hideChevron ? t.spacings.s12 : t.spacings.s8,
+            paddingStart: t.spacings.s12,
+            paddingEnd: hideChevron ? t.spacings.s12 : t.spacings.s8,
           },
         },
       };

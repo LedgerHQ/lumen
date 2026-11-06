@@ -283,7 +283,7 @@ const useStyles = ({ density }: StyleParams) => {
           },
           {
             ...(density === 'expanded' && {
-              marginLeft: 'auto',
+              marginStart: 'auto',
             }),
           },
         ]),
