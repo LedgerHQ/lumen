@@ -26,6 +26,22 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 | `libs/lint-plugin`  | `@ledgerhq/lumen-lint-plugin`  | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
 | `libs/migrations`   | `@ledgerhq/lumen-migrations`   | Upgrade tooling         | — (Markdown files; `build` generates `index.json`)       | Vitest                               | `README.md` (file format)                         |
 
+## Module boundaries
+
+Import rules are enforced in CI at two levels. Don't import across a boundary.
+
+- **Between projects** — Nx tags (`scope:*`, `type:*` in each `project.json`),
+  rules in `eslint.config.mjs`. `utils-shared` imports no Lumen lib;
+  `design-core` imports `utils-shared` only; `ui-react` / `ui-rnative` import
+  `utils-shared` and `design-core` only, never each other.
+- **Inside `ui-react` / `ui-rnative`** — dependency-cruiser,
+  `.dependency-cruiser.cjs`, `npm run check:layers`. Under
+  `src/lib/Components`, a layer imports only the ones below:
+  `visualization`, `core` → `internal` → `primitives` / `animations` /
+  `symbols` → `utils`. An `internal` Base never imports the `core` components
+  built on it (`BASE_FAMILIES` in the config), and `visualization` is reached
+  only through its own subpath.
+
 ## Internals
 
 `internals/*` holds Nx projects that are **local/dev-only and never published**.

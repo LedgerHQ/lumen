@@ -91,6 +91,8 @@ jobs:
 
       - run: npx nx run-many --targets=build-deps --all
       - run: npx nx affected -t lint typecheck
+      - name: Intra-lib layer rules (dependency-cruiser)
+        run: npm run check:layers
 
   build:
     name: Build
