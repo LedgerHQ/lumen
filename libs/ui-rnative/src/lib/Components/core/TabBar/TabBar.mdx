@@ -19,7 +19,6 @@ TabBar is an animated navigation component that allows users to switch between d
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10804-1045&m=dev).
 
-
 ## Anatomy
 
 <Canvas of={TabBarStories.Base} />
@@ -41,6 +40,12 @@ TabBar is an animated navigation component that allows users to switch between d
 Tab bar with five items, demonstrating scalability with multiple tabs:
 
 <Canvas of={TabBarStories.Complex} />
+
+### Density
+
+Use `density='compact'` to hide the labels, shrink the bar's height and inset it, typically while the user scrolls down a list, and switch back to `expanded` when they scroll up. Changes between densities are animated.
+
+<Canvas of={TabBarStories.DensityShowcase} />
 
 ### Fallback Behavior
 
@@ -119,22 +124,22 @@ Provide different icons for active and inactive states:
 
 ```tsx
 import { TabBar, TabBarItem } from '@ledgerhq/lumen-ui-rnative';
-import { Home, HomeFill, Settings, SettingsFill } from '@ledgerhq/lumen-ui-rnative/symbols';
+import {
+  Home,
+  HomeFill,
+  Settings,
+  SettingsFill,
+} from '@ledgerhq/lumen-ui-rnative/symbols';
 
 function MyComponent() {
   const [active, setActive] = useState('home');
 
   return (
     <TabBar active={active} onTabPress={setActive}>
-      <TabBarItem 
-        value='home' 
-        label='Home' 
-        icon={Home} 
-        activeIcon={HomeFill} 
-      />
-      <TabBarItem 
-        value='settings' 
-        label='Settings' 
+      <TabBarItem value='home' label='Home' icon={Home} activeIcon={HomeFill} />
+      <TabBarItem
+        value='settings'
+        label='Settings'
         icon={Settings}
         activeIcon={SettingsFill}
       />
@@ -203,7 +208,6 @@ export default function TabLayout() {
   );
 }
 ```
-
 
 </Tab>
 </CustomTabs>

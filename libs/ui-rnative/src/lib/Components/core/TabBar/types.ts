@@ -9,11 +9,20 @@ type IconComponent = ComponentType<{
 
 export type TabBarValue = string;
 
+export type TabBarDensity = 'compact' | 'expanded';
+
 export type TabBarProps<T extends TabBarValue = TabBarValue> = {
   /**
    * The value of the currently active tab.
    */
   active: T;
+  /**
+   * The density of the tab bar. `compact` hides the labels, shrinks the bar's
+   * size and insets it horizontally within its container.
+   * The transition is animated.
+   * @default 'expanded'
+   */
+  density?: TabBarDensity;
   /**
    * The callback function called when a tab is pressed.
    */
