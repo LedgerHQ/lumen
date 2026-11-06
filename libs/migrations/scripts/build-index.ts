@@ -21,13 +21,7 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import semver from 'semver';
 import type { IndexEntry, MigrationIndex } from '../index.d.ts';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
-import {
-  currentName,
-  formerNames,
-  frontmatterData,
-  migrationsPackage,
-  planPackages,
-} from './shared.ts';
+import { frontmatterData, migrationsPackage, planPackages } from './shared.ts';
 
 export const formatVersion = 1;
 
@@ -130,7 +124,6 @@ export function brokenPackages(repoRoot: string, sha: string): string[] {
   );
   const packages = plans
     .flatMap((plan) => planPackages(git(repoRoot, ['show', `${sha}:${plan}`])))
-    .map(currentName)
     .filter((name) => name !== migrationsPackage);
   return [...new Set(packages)];
 }
@@ -147,17 +140,15 @@ function introducedVersions(
   );
 }
 
-/** The lowest version tagged under the package's current or former names. */
+/** The lowest version tagged for the package after the commit. */
 function firstRelease(
   repoRoot: string,
   sha: string,
   name: string,
 ): string | null {
-  const versions = [name, ...(formerNames[name] ?? [])].flatMap((tagName) =>
-    lines(
-      git(repoRoot, ['tag', '--contains', sha, '--list', `${tagName}@*`]),
-    ).map((tag) => tag.slice(tagName.length + 1)),
-  );
+  const versions = lines(
+    git(repoRoot, ['tag', '--contains', sha, '--list', `${name}@*`]),
+  ).map((tag) => tag.slice(name.length + 1));
   const [first] = semver.sort(versions.filter((v) => semver.valid(v)));
   return first ?? null;
 }

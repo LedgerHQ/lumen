@@ -190,9 +190,9 @@ describe('buildIndex', () => {
   describe('a migration that names its PR', () => {
     function shipBreak(): string {
       write('libs/ui-react/src/index.ts', 'export {};\n');
-      write('.nx/version-plans/401.md', plan('@ledgerhq/ldls-ui-react'));
+      write('.nx/version-plans/401.md', plan('@ledgerhq/lumen-ui-react'));
       const sha = commit('feat!: upgrade Tailwind to v4 (#401)');
-      git('tag', '@ledgerhq/ldls-ui-react@0.0.31');
+      git('tag', '@ledgerhq/lumen-ui-react@0.0.64');
       return sha;
     }
 
@@ -208,10 +208,10 @@ describe('buildIndex', () => {
       commit(`docs(migrations): add ${id} (#900)`);
     }
 
-    it('takes everything from that PR, under the current package name', () => {
+    it('takes everything from that PR', () => {
       const sha = shipBreak();
-      commit('chore: rename to lumen (#500)');
-      git('tag', '@ledgerhq/lumen-ui-react@0.0.53');
+      commit('chore: something else (#500)');
+      git('tag', '@ledgerhq/lumen-ui-react@0.0.65');
       addLate('tailwind-v4', 401);
 
       const { index, issues } = buildIndex(root);
@@ -222,7 +222,7 @@ describe('buildIndex', () => {
         title: 'upgrade Tailwind to v4',
         pr: 401,
         commit: sha,
-        introduced: { '@ledgerhq/lumen-ui-react': '0.0.31' },
+        introduced: { '@ledgerhq/lumen-ui-react': '0.0.64' },
       });
     });
 

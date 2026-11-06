@@ -57,9 +57,8 @@ requiring zero.
 
 The file name is the id. Packages, title, PR and introduced version come from
 the PR that shipped the update and its version plans, never written by hand.
-That PR is the one adding the file, unless `pr` names an earlier one. Plans
-and tags under the former `@ldls/*` and `@ledgerhq/ldls-*` names count as the
-current package.
+That PR is the one adding the file, unless `pr` names an earlier one, released
+under the `@ledgerhq/lumen-*` names.
 
 ## Examples
 

@@ -2,31 +2,6 @@ import { parse } from 'yaml';
 
 export const migrationsPackage = '@ledgerhq/lumen-migrations';
 
-/** Earlier names of each package. Versions continued across the renames. */
-export const formerNames: Record<string, string[]> = {
-  '@ledgerhq/lumen-design-core': [
-    '@ledgerhq/ldls-design-core',
-    '@ldls/design-core',
-  ],
-  '@ledgerhq/lumen-ui-react': ['@ledgerhq/ldls-ui-react', '@ldls/ui-react'],
-  '@ledgerhq/lumen-ui-rnative': [
-    '@ledgerhq/ldls-ui-rnative',
-    '@ldls/ui-rnative',
-  ],
-  '@ledgerhq/lumen-utils-shared': [
-    '@ledgerhq/ldls-utils-shared',
-    '@ldls/utils-shared',
-  ],
-};
-
-export function currentName(name: string): string {
-  return (
-    Object.keys(formerNames).find((current) =>
-      formerNames[current].includes(name),
-    ) ?? name
-  );
-}
-
 const frontmatterBlock = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/;
 
 type Frontmatter =
