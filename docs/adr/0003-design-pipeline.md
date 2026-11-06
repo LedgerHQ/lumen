@@ -19,13 +19,13 @@ Lumen takes two kinds of assets from Figma: **design tokens** (variables) and
 
 ```mermaid
 flowchart TD
-  F[Figma variables] -->|figma-export| T["internals/sync-figma/tokens/*.json<br/>(committed)"]
-  T -->|design-tokens-etl<br/>Style Dictionary| C["design-core/src/lib/themes/css/<br/>*.css + *-css.ts (committed)"]
+  F["Figma variables"] -->|"figma-export"| T["internals/sync-figma/tokens/*.json<br/>(committed)"]
+  T -->|"design-tokens-etl<br/>Style Dictionary"| C["design-core/src/lib/themes/css/<br/>*.css + *-css.ts (committed)"]
   C --> P["presets/*.ts + utils/create*Plugin.ts<br/>(hand-written Tailwind)"]
-  P --> W[ui-react]
-  J["design-core/src/lib/themes/js/<br/>~4,000 hand-written lines"] --> RN[ui-rnative]
-  J -. breakpoints .-> P
-  C -. jsThemeSync.test.ts<br/>colors only .- J
+  P --> W["ui-react"]
+  J["design-core/src/lib/themes/js/<br/>~4,000 hand-written lines"] --> RN["ui-rnative"]
+  J -.->|"breakpoints"| P
+  C -.-|"jsThemeSync.test.ts<br/>colors only"| J
 ```
 
 - **The ETL** (`src/automations/designTokensEtl.ts`, 347 lines) runs Style
@@ -96,31 +96,31 @@ Colors are hex strings. Whether to move to the DTCG 2025.10 color object
 
 ```mermaid
 flowchart TD
-  subgraph Figma
-    FV[Foundations file<br/>variables]
-    FS[Symbols file<br/>icon canvas]
+  subgraph FIG["Figma"]
+    FV["Foundations file<br/>variables"]
+    FS["Symbols file<br/>icon canvas"]
   end
   subgraph S1["① internals/sync-figma — only code that knows Figma"]
-    XT[extract/tokens<br/>variables → DTCG]
-    XI[extract/icons<br/>canvas → SVG + icons.json]
-    WB[write-back/codeSyntax]
+    XT["extract/tokens<br/>variables → DTCG"]
+    XI["extract/icons<br/>canvas → SVG + icons.json"]
+    WB["write-back/codeSyntax"]
   end
   subgraph SRC["Source files (committed)"]
-    TF[design-sources/tokens/figma/*.tokens.json]
-    TC[design-sources/tokens/code/*.tokens.json<br/>hand-written]
-    IS[design-sources/icons/*.svg + icons.json]
+    TF["design-sources/tokens/figma/*.tokens.json"]
+    TC["design-sources/tokens/code/*.tokens.json<br/>hand-written"]
+    IS["design-sources/icons/*.svg + icons.json"]
   end
   subgraph S2["② internals/design-sources — normalize + validate, in memory"]
-    TM[TokenModel]
-    IM[IconModel]
+    TM["TokenModel"]
+    IM["IconModel"]
   end
   subgraph S3["③ internals/design-build — one pure function per output"]
-    OT[tokens: css · tailwind · js · codeSyntax]
-    OI[icons: svg · react · rnative]
+    OT["tokens: css · tailwind · js · codeSyntax"]
+    OI["icons: svg · react · rnative"]
   end
   subgraph OUT["Outputs (committed)"]
     G["design-core/src/lib/generated/{css,tailwind,js}"]
-    SY[design-core/symbols/icons + ui-* symbols]
+    SY["design-core/symbols/icons + ui-* symbols"]
   end
   FV --> XT --> TF
   FS --> XI --> IS
@@ -129,7 +129,7 @@ flowchart TD
   IS --> IM
   TM --> OT --> G
   IM --> OI --> SY
-  OT -. code-syntax file .-> WB --> FV
+  OT -.->|"code-syntax file"| WB --> FV
 ```
 
 | Stage | Project                    | Job                                                                                                                         | May import                  | Writes to                                          | Nx targets                                    |
@@ -291,9 +291,9 @@ ticket. All tickets are tech tasks (no platform prefix), labeled `tech_DLS`.
 
 ```mermaid
 flowchart LR
-  T1[1 Safety net] --> T2[2 Figma boundary] --> T3[3 Token model + CSS] --> T4[4 Generated JS theme] --> T5[5 Tailwind + motion]
-  T3 --> T6[6 Symbols]
-  T4 --> T7[7 Governance]
+  T1["1 Safety net"] --> T2["2 Figma boundary"] --> T3["3 Token model + CSS"] --> T4["4 Generated JS theme"] --> T5["5 Tailwind + motion"]
+  T3 --> T6["6 Symbols"]
+  T4 --> T7["7 Governance"]
   T6 --> T7
 ```
 
