@@ -10,7 +10,8 @@ const getScrollOverflow = (el: HTMLElement): ScrollOverflow => {
   const isRtl = getComputedStyle(el).direction === 'rtl';
   const maxScroll = el.scrollWidth - el.clientWidth;
   // RTL containers start at scrollLeft 0 on the right edge and go negative.
-  const offset = Math.abs(el.scrollLeft);
+  // Signed, not Math.abs: iOS WebKit can overshoot past the start edge.
+  const offset = isRtl ? -el.scrollLeft : el.scrollLeft;
   const hiddenAtStart = offset > 0;
   const hiddenAtEnd = offset < maxScroll - 1;
 
