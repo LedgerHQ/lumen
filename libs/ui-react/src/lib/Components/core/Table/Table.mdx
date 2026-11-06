@@ -109,7 +109,7 @@ Pass `loading=true` as a `TableRoot` property while fetching to prevent duplicat
 `onScrollBottom` fires within `128` pixels (about two rows) of the bottom. Set `scrollBottomThreshold` to load earlier, e.g. `scrollBottomThreshold={800}`.  
 
 Place `TableLoadingRow` inside `TableRoot`, it only renders when `loading` is true.  
-A fixed height on `TableRoot` (e.g. `className="h-480"`) is required to enable scrolling.
+A fixed height on `TableRoot` (e.g. `className="h-lg"`) is required to enable scrolling.
 
 <Canvas of={TableStories.WithInfiniteLoading} />
 
@@ -321,7 +321,7 @@ Use `onScrollBottom` and `loading` on `TableRoot`, with `TableLoadingRow` at the
 
 ```tsx
 <TableRoot
-  className='h-480'
+  className='h-lg'
   loading={loading}
   onScrollBottom={loadMore}
 >
@@ -346,7 +346,7 @@ Set `horizontalLayout` on `TableRoot` (or `DataTableRoot`). Pass an `aria-label`
 <TableRoot horizontalLayout={{ type: 'scroll' }} aria-label='Assets'>
   <Table>
     <TableColGroup>
-      <TableCol className='w-256' />
+      <TableCol className='w-3xs' />
       <TableCol className='w-176' />
       <TableCol className='w-176' />
     </TableColGroup>
@@ -399,7 +399,7 @@ it lets the table grow past its container, up to the larger of `minWidth` and th
 #### Things to know
 
 - **Flex and grid parents**: the container must be allowed to shrink. Add `min-w-0` to the flex item wrapping the table (or use `minmax(0, 1fr)` in a grid), otherwise the page scrolls instead of the table.
-- **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-480`) to scroll both ways with a sticky header.
+- **Sticky header**: the header sticks to `TableRoot`, not to the page. Constrain the `TableRoot` height (e.g. `max-h-lg`) to scroll both ways with a sticky header.
 - **Scrollbar position**: the horizontal scrollbar sits at the bottom of `TableRoot`. For long tables, constrain the `TableRoot` height so it stays in view.
 - **Overlays in cells**: `TableRoot` clips its content, so menus, tooltips or popovers opened from a cell must be rendered in a portal.
 

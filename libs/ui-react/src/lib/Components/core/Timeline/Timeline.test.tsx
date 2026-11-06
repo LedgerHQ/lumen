@@ -54,13 +54,13 @@ describe('Timeline', () => {
       const ref = { current: null as HTMLDivElement | null };
 
       render(
-        <Timeline ref={ref} className='max-w-320'>
+        <Timeline ref={ref} className='max-w-xs'>
           <Item title='Payment confirmed' />
         </Timeline>,
       );
 
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
-      expect(ref.current).toHaveClass('max-w-320');
+      expect(ref.current).toHaveClass('max-w-xs');
     });
   });
 

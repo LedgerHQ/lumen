@@ -230,7 +230,7 @@ export const ResponsiveLayout: Story = {
   render: () => (
     <Box
       lx={{
-        width: 's256',
+        width: 's3Xs',
         flexDirection: 'column',
         gap: 's8',
         borderRadius: 'sm',

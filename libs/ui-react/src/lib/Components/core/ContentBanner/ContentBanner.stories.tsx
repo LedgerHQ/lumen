@@ -49,7 +49,7 @@ export const Base: Story = {
     closeAriaLabel: 'Close content banner',
   },
   render: (args) => (
-    <div className='w-320'>
+    <div className='w-xs'>
       <ContentBanner {...args}>
         <Spot icon={Settings} size={48} />
         <ContentBannerContent>
@@ -80,7 +80,7 @@ export const WithClose: Story = {
     }
 
     return (
-      <div className='w-320'>
+      <div className='w-xs'>
         <ContentBanner
           onClose={() => setVisible(false)}
           closeAriaLabel='Close content banner'
@@ -101,7 +101,7 @@ export const WithClose: Story = {
 export const WithStepper: Story = {
   parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
-    <div className='w-320'>
+    <div className='w-xs'>
       <ContentBanner onClose={() => console.log('close')}>
         <Stepper currentStep={5} totalSteps={5} label='🎉' />
         <ContentBannerContent>
@@ -117,7 +117,7 @@ export const WithStepper: Story = {
 
 export const ContentVariationsShowcase: Story = {
   render: () => (
-    <div className='flex w-320 flex-col gap-16'>
+    <div className='flex w-xs flex-col gap-16'>
       <ContentBanner>
         <Spot icon={Settings} size={48} />
         <ContentBannerContent>

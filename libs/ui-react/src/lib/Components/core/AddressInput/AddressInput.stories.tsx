@@ -31,7 +31,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='w-400'>
+      <div className='w-md'>
         <Story />
       </div>
     ),

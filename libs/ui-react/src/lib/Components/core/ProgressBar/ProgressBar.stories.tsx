@@ -18,7 +18,7 @@ const meta = {
   },
   decorators: [
     (Story) => (
-      <div className='w-320'>
+      <div className='w-xs'>
         <Story />
       </div>
     ),

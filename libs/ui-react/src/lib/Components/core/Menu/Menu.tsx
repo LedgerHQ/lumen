@@ -29,7 +29,7 @@ import type {
 } from './types';
 
 const contentStyles = cn(
-  'min-w-160 overflow-hidden rounded-sm bg-muted p-8',
+  'min-w-176 overflow-hidden rounded-sm bg-muted p-8',
   'shadow-sm outline-none',
   'data-open:data-[side=top]:animate-slide-in-from-bottom',
   'data-closed:data-[side=top]:animate-slide-out-to-bottom',

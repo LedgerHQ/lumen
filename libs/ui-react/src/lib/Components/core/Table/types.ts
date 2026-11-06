@@ -219,7 +219,7 @@ export type TableHeaderRowProps = {
   /**
    * When true, applies sticky positioning to the header row so it stays
    * visible while scrolling. Sticks to the `TableRoot` scroll container, not
-   * the page: constrain the `TableRoot` height (e.g. `max-h-480`) for the
+   * the page: constrain the `TableRoot` height (e.g. `max-h-lg`) for the
    * header to stick while scrolling vertically.
    * @default true
    */

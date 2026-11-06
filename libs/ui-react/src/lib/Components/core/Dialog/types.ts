@@ -25,8 +25,8 @@ export type DialogProps = {
   defaultOpen?: boolean;
   /**
    * The height behavior of the dialog.
-   * - `fit`: Content-fit height up to max 560px (default)
-   * - `fixed`: Always exactly 560px height
+   * - `fit`: Content-fit height up to max 576px (default)
+   * - `fixed`: Always exactly 576px height
    * @default 'fit'
    */
   height?: DialogHeight;

@@ -37,6 +37,10 @@ const twMerge = extendTailwindMerge<'typography'>({
           body: withSemiBold(range(1, 4)),
         },
       ],
+      size: [{ size: [validators.isTshirtSize] }],
+      h: [{ h: [validators.isTshirtSize] }],
+      'min-h': [{ 'min-h': [validators.isTshirtSize] }],
+      'max-h': [{ 'max-h': [validators.isTshirtSize] }],
       'bg-image': [
         {
           bg: [{ gradient: [(value: string) => !isGradientColorToken(value)] }],

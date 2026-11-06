@@ -16,7 +16,7 @@ import { createStyledPressable } from '../../../../styles';
  *
  * // Basic usage with token props
  * <Pressable
- *   lx={{ width: 's400', marginTop: 's4', gap: 's12', alignItems: 'center' }}
+ *   lx={{ width: 'sMd', marginTop: 's4', gap: 's12', alignItems: 'center' }}
  *   onPress={handlePress}
  * >
  *   <Text>Content</Text>

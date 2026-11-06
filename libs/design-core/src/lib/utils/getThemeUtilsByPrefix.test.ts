@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { getThemeUtilsByPrefix } from './getThemeUtilsByPrefix.js';
+import {
+  getThemeUtilsByPrefix,
+  getThemeValuesByPrefix,
+} from './getThemeUtilsByPrefix.js';
 
 describe('getThemeUtilsByPrefix', () => {
   const realWorldTheme = {
@@ -62,5 +65,22 @@ describe('getThemeUtilsByPrefix', () => {
   it('should return an empty object if no matches are found', () => {
     const result = getThemeUtilsByPrefix(realWorldTheme, '--non-existent-');
     expect(result).toEqual({});
+  });
+});
+
+describe('getThemeValuesByPrefix', () => {
+  it('should return the literal values of the matching tokens only', () => {
+    const sizes = getThemeValuesByPrefix(
+      {
+        ':root': {
+          '--size-224': '224px',
+          '--size-md': '448px',
+          '--spacing-224': '224px',
+        },
+      },
+      '--size-',
+    );
+
+    expect(sizes).toEqual({ 224: '224px', md: '448px' });
   });
 });

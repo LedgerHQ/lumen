@@ -100,11 +100,11 @@ const componentsMap = {
  * A skeleton component that displays a pulsing placeholder for loading content.
  *
  * @example
- * <Skeleton lx={{ height: 's16', width: 's256' }} />
+ * <Skeleton lx={{ height: 's16', width: 's3Xs' }} />
  *
  * @example
  * // List item variant
- * <Skeleton component='list-item' lx={{ width: 's320' }} />
+ * <Skeleton component='list-item' lx={{ width: 'sXs' }} />
  *
  * @example
  * // Tile variant

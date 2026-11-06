@@ -283,7 +283,7 @@ export const ResponsiveLayout: Story = {
 };
 
 const horizontalScrollColumns = [
-  { header: 'Asset', align: 'start', width: 'w-256' },
+  { header: 'Asset', align: 'start', width: 'w-3xs' },
   { header: 'Price', align: 'end', width: 'w-176' },
   { header: '24h change', align: 'end', width: 'w-176' },
   { header: 'Market cap', align: 'end', width: 'w-176' },
@@ -297,7 +297,7 @@ export const WithHorizontalScroll: Story = {
       <TableRoot
         horizontalLayout={{ type: 'scroll', minWidth: 960 }}
         aria-label='Assets'
-        className='max-h-320'
+        className='max-h-xs'
       >
         <Table>
           <TableHeader>
@@ -343,7 +343,7 @@ export const WithHorizontalScrollFromColumnWidths: Story = {
       <TableRoot
         horizontalLayout={{ type: 'scroll' }}
         aria-label='Assets'
-        className='max-h-320'
+        className='max-h-xs'
       >
         <Table>
           <TableColGroup>
@@ -397,7 +397,7 @@ export const WithResponsiveHorizontalScroll: Story = {
           lg: { type: 'shrink' },
         }}
         aria-label='Assets'
-        className='max-h-320'
+        className='max-h-xs'
       >
         <Table>
           <TableHeader>
@@ -438,7 +438,7 @@ export const WithResponsiveHorizontalScroll: Story = {
 
 export const WithClickableRow: Story = {
   render: (args) => (
-    <div className='w-480 text-base'>
+    <div className='w-lg text-base'>
       <TableRoot {...args}>
         <Table>
           <TableHeader>
@@ -482,7 +482,7 @@ export const WithActiveRow: Story = {
     const [activeSymbol, setActiveSymbol] = useState(smallData[1].symbol);
 
     return (
-      <div className='w-480 text-base'>
+      <div className='w-lg text-base'>
         <TableRoot {...args}>
           <Table>
             <TableHeader>
@@ -550,7 +550,7 @@ export const WithInfiniteLoading: Story = {
       <div className='w-3xl text-base'>
         <TableRoot
           {...args}
-          className='h-480'
+          className='h-lg'
           loading={loading}
           onScrollBottom={loadMore}
         >
@@ -711,7 +711,7 @@ export const WithoutStickyHeader: Story = {
   },
   render: (args) => (
     <div className='w-3xl text-base'>
-      <TableRoot {...args} className='h-320'>
+      <TableRoot {...args} className='h-xs'>
         <Table tabIndex={0}>
           <TableHeader>
             <TableHeaderRow stickyHeader={false}>
@@ -849,7 +849,7 @@ export const WithGroupHeader: Story = {
     <div className='w-3xl text-base'>
       <TableActionBar>
         <TableActionBarLeading>
-          <SearchInput className='w-320' placeholder='Search assets...' />
+          <SearchInput className='w-xs' placeholder='Search assets...' />
         </TableActionBarLeading>
         <TableActionBarTrailing>
           <Button appearance='base' size='md'>
@@ -1010,7 +1010,7 @@ export const WithNetworkIconsAndActionBar: Story = {
       <div className='w-3xl text-base'>
         <TableActionBar>
           <TableActionBarLeading>
-            <SearchInput className='w-320' placeholder='Search assets...' />
+            <SearchInput className='w-xs' placeholder='Search assets...' />
           </TableActionBarLeading>
           <TableActionBarTrailing>
             <Select
