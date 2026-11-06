@@ -95,6 +95,8 @@ For multi-step dialogs:
 
 When steps differ in height and a fixed height is not wanted, set `animated` on `Dialog` so the height transitions smoothly instead of jumping. It only applies to `height="fit"`.
 
+> **Limitation**: content that changes while a transition is still running (about 200ms), for example async content that loads right after a step change, is not picked up until the transition ends. The height finishes the running transition, then jumps to the new height.
+
 <Canvas of={DialogStories.WithAnimatedHeight} />
 
 ### With Lists Content

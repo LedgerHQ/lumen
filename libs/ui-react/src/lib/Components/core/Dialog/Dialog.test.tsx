@@ -220,6 +220,24 @@ describe('Dialog', () => {
       });
     });
 
+    it('animates from the settled height when content changed mid-animation', async () => {
+      await renderDialog({ animated: true });
+      act(() => notifyResize());
+
+      offsetHeight.mockReturnValue(320);
+      act(() => notifyResize());
+      offsetHeight.mockReturnValue(260);
+      act(() => notifyResize());
+      act(() => animations[0].onfinish?.());
+      offsetHeight.mockReturnValue(100);
+      act(() => notifyResize());
+
+      expect(animate).toHaveBeenCalledTimes(2);
+      expect(animate.mock.calls[1][0]).toMatchObject({
+        height: ['260px', '100px'],
+      });
+    });
+
     it('keeps the children and className directly on the body', async () => {
       const body = await renderDialog({ animated: true }, 'gap-32 pb-0');
 

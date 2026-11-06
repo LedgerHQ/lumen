@@ -43,6 +43,8 @@ export const useAnimatedHeight = (
       );
       const done = () => {
         animation = undefined;
+        // Resizes during the animation were ignored, so resync with the settled size.
+        lastHeight = element.offsetHeight;
       };
       running.onfinish = done;
       running.oncancel = done;
