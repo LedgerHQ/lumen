@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, expectTypeOf, it } from 'vitest';
 import { parse } from 'yaml';
-import type { IndexEntry } from '../index.d.ts';
+import type { IndexEntry } from '../index.d.cts';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
 
 const rename = {

@@ -7,11 +7,11 @@
   "files": [
     "src/*.md",
     "index.json",
-    "index.d.ts"
+    "index.d.cts"
   ],
   "exports": {
     "./index.json": {
-      "types": "./index.d.ts",
+      "types": "./index.d.cts",
       "default": "./index.json"
     },
     "./package.json": "./package.json"

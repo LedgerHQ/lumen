@@ -19,7 +19,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import semver from 'semver';
-import type { IndexEntry, MigrationIndex } from '../index.d.ts';
+import type { IndexEntry, MigrationIndex } from '../index.d.cts';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
 import { frontmatterData, migrationsPackage, planPackages } from './shared.ts';
 

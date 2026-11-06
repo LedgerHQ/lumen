@@ -71,7 +71,7 @@ matches a `before` block and, unless `expect: review`, no `after` block.
 `index.json` lists every migration with what git knows about it: `id`,
 `title`, `pr`, `commit` and `introduced` (package → first release with the
 change), oldest first. It's generated, never committed, and exported as
-`@ledgerhq/lumen-migrations/index.json`, typed by `index.d.ts` (a test keeps
+`@ledgerhq/lumen-migrations/index.json`, typed by `index.d.cts` (a test keeps
 it in line with the schema).
 
 - `nx run @ledgerhq/lumen-migrations:build` builds it and warns on anything
