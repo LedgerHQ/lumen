@@ -6,7 +6,7 @@ import type { TransformedToken } from 'style-dictionary';
 import { automationConfig } from '../config.js';
 
 const brands = ['enterprise', 'websites', 'ledger-live'];
-const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
+const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'];
 const themes = ['light', 'dark'];
 const tokensFolder = automationConfig.figmaTokensPath;
 const defaultSuffix = '-default';

@@ -8,6 +8,7 @@ import { tokens as enterpriseLightTokens } from './enterprise/theme.light-css.js
 import { tokens as llDarkTokens } from './ledger-live/theme.dark-css.js';
 import { tokens as llLightTokens } from './ledger-live/theme.light-css.js';
 import { tokens as primitivesTokens } from './primitives-css.js';
+import { tokens as typography2xlTokens } from './typographies/typography.2xl-css.js';
 import { tokens as typographyLgTokens } from './typographies/typography.lg-css.js';
 import { tokens as typographyMdTokens } from './typographies/typography.md-css.js';
 import { tokens as typographySmTokens } from './typographies/typography.sm-css.js';
@@ -48,6 +49,7 @@ const cssFiles = [
   'typographies/typography.md.css',
   'typographies/typography.lg.css',
   'typographies/typography.xl.css',
+  'typographies/typography.2xl.css',
 ] as const;
 
 describe('CSS files parse without errors', () => {
@@ -75,6 +77,7 @@ const tsTokenFiles = [
   { name: 'typographies/typography.md-css', tokens: typographyMdTokens },
   { name: 'typographies/typography.lg-css', tokens: typographyLgTokens },
   { name: 'typographies/typography.xl-css', tokens: typographyXlTokens },
+  { name: 'typographies/typography.2xl-css', tokens: typography2xlTokens },
 ] as const;
 
 describe.each(tsTokenFiles)('$name — TS token integrity', ({ tokens }) => {
