@@ -2,142 +2,110 @@
 
 - **Status:** Proposed
 - **Date:** 2026-11-06
-- **Ticket:** DLS-393 (discovery). The epic and its tickets are listed in
-  [Plan](#plan).
+- **Epic:** [DLS-1177](https://ledgerhq.atlassian.net/browse/DLS-1177), with
+  DLS-393 as the discovery ticket. Tickets are listed in [Plan](#plan).
 - **Reference:** the DLS-393 discovery benchmark (Coinbase CDS, Primer,
   Spectrum, MetaMask), and the [DTCG format](https://www.designtokens.org/tr/drafts/format/).
 
 ---
 
-## Context
+## Summary
 
-Lumen takes two kinds of assets from Figma: **design tokens** (variables) and
-**symbols** (icons). Both go through `internals/sync-figma`, driven by
-`.github/workflows/sync-figma.yml`, which opens a PR with the result.
+Designers define Lumen's colors, spacing, typography and icons in Figma. Today
+only part of that reaches the code automatically, and only for the web: the
+mobile theme is copied by hand, so the two platforms slowly drift apart.
 
-### Problem
+This ADR proposes one pipeline that reads everything from Figma, checks it,
+stores it in a standard format, and generates every output from that single
+source: web CSS, Tailwind, the React Native theme, icons, and later any other
+platform. The work is split into 7 tickets that change nothing for consumers
+until a release says so.
 
-Only part of what Figma holds reaches the code automatically, and only for the
-web:
+## Glossary
 
-- **Web and mobile drift.** The CSS is generated, but the React Native theme is
-  typed by hand after every sync, and only colors are compared. They already
-  disagree (`shadow-2xl`: 25% on web, 20% on mobile).
-- **The build ignores what it doesn't know.** A new breakpoint (`2xl`), a new
-  variable type (motion) or a new brand in Figma is exported, then silently
-  skipped.
-- **Some design values never leave code.** Shadows, gradients, durations and
-  breakpoints are written twice by hand, once per platform.
-- **Symbols run on a separate toolchain** with no validation, and need a
-  repo-wide lint pass to produce a readable diff.
-
-Each sync therefore needs manual follow-up from a maintainer, and nothing
-fails when that follow-up is forgotten.
-
-### Tokens today
-
-```mermaid
-flowchart TD
-  F["Figma variables"] -->|"figma-export"| T["internals/sync-figma/tokens/*.json<br/>(committed)"]
-  T -->|"design-tokens-etl<br/>Style Dictionary"| C["design-core/src/lib/themes/css/<br/>*.css + *-css.ts (committed)"]
-  C --> P["presets/*.ts + utils/create*Plugin.ts<br/>(hand-written Tailwind)"]
-  P --> W["ui-react"]
-  J["design-core/src/lib/themes/js/<br/>~4,000 hand-written lines"] --> RN["ui-rnative"]
-  J -.->|"breakpoints"| P
-  C -.-|"jsThemeSync.test.ts<br/>colors only"| J
-```
-
-- **The ETL** (`src/automations/designTokensEtl.ts`, 347 lines) runs Style
-  Dictionary 22 times: once for primitives, once per brand × theme (6), and once
-  per breakpoint inside the brand loop (15, so the same 5 typography files are
-  written 3 times). Transforms, filters, formats and actions are registered
-  globally, and the actions are registered after the first builds start.
-- **Hard-coded lists.** Brands (`enterprise`, `websites`, `ledger-live`),
-  themes and breakpoints (`xs`…`xl`) are constants. The ETL reads only files
-  `1.`–`4.`, so `4.breakpoint.2xl.json`, `5.icon.*`, `6.spot.*` and
-  `7.motion.Mode1.json` are exported and never built. A new brand or mode in
-  Figma is silently ignored.
-- **Each output is written twice.** Every `-css.ts` map has a `.css` twin. Only
-  the `-css.ts` maps are imported (by the presets, `createPrimitivesPlugin` and
-  tests).
-- **React Native gets nothing generated.** `themes/js/**` (4,018 lines across
-  brands, primitives and typographies) is typed by hand after every Figma sync.
-  `jsThemeSync.test.ts` compares only the `bg`, `text`, `border`, `crypto` and
-  `discover` color groups; spacing, sizes, radius, typography, shadows and
-  motion can drift unnoticed.
-- **Motion is not exported.** `tokenFilesFromLocalVariables.ts` supports
-  `BOOLEAN`, `COLOR`, `FLOAT` and `STRING`; Figma's motion collection uses
-  `TIMING` and `EASING` and is skipped. `7.motion.Mode1.json` is a stale file
-  that the prune added in #956 will delete on the next export.
-
-### Values written directly in Tailwind
-
-Some design values never pass through the token files. They are typed into the
-Tailwind plugins, and typed again for React Native:
-
-| Value                                                                | Tailwind (web)                                                           | React Native copy                                           | Drift known                         |
-| -------------------------------------------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------- | ----------------------------------- |
-| Shadows (offsets, blur, `rgba(0,0,0,0.10)` / `0.25`)                 | `createShadowPlugin` in `utils/createCustomPlugin.ts`                    | `themes/js/primitives/primitives.shadows.ts`                | `shadow-2xl`: 25% web vs 20% mobile |
-| Gradients (angles, stops, radial geometry)                           | `createGradientPlugin` in `utils/createCustomPlugin.ts`                  | `themes/js/primitives/primitive.gradients.ts`               | not checked                         |
-| Durations and easings (`300ms ease-in`, `cubic-bezier(0.4,0,0.2,1)`) | `utils/createAnimationsPlugin.ts`, and components                        | `themes/js/primitives/primitives.motion.ts`, and components | 4 components (see ticket 5)         |
-| Breakpoints                                                          | `createScreensPlugin` reads them **from the hand-written JS primitives** | `themes/js/primitives/primitives.others.ts`                 | —                                   |
-
-### Symbols today
-
-- `figmaDownloadSvgs.ts` downloads the icon canvas into
-  `libs/design-core/symbols/icons/` (clearing it first), then
-  `generate-symbols.mts` runs svgr into `ui-react` and `ui-rnative`.
-- It shares nothing with the token flow: no shared Figma client, prune, check
-  or diff report.
-- svgr output is unformatted, so the workflow runs a repo-wide
-  `lint --fix`, or about 590 files show formatting noise.
-- Nothing validates names, `viewBox` or hard-coded fills.
-
-### DTCG status of the token files
-
-The exported files are **partly** DTCG:
-
-| Compliant                                    | Not compliant                                                                                                                               |
-| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| `$value`, `$type`, `$description`            | Dimensions are `$type: "number"` with no unit (about 700 entries); the ETL adds `px` (`addPxUnitToNumber`)                                  |
-| `{a.b.c}` aliases                            | Font weights and families are `$type: "string"`                                                                                             |
-| Figma metadata under `$extensions.com.figma` | `boolean` is not a DTCG type (2 tokens)                                                                                                     |
-| One file per mode                            | No `duration`, `cubicBezier`, `shadow`, `gradient` or `typography` composites (typography is flattened, shadows and gradients live in code) |
-
-Colors are hex strings. Whether to move to the DTCG 2025.10 color object
-(`{ colorSpace, components, hex }`) is an open question for ticket 2.
+| Term                   | Meaning                                                                                                                                              |
+| ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Design token**       | A named design value, such as `background-surface = #ffffff` or `spacing-16 = 16px`. Components use the name, never the raw value.                   |
+| **Symbol**             | An icon drawn in Figma and shipped as SVG and as React / React Native components.                                                                    |
+| **Mode**               | A variant of the same token set: a **brand** (`enterprise`, `websites`, `ledger-live`), a **theme** (light, dark) or a **breakpoint** (screen size). |
+| **Figma variables**    | Where designers store tokens in Figma. Our sync reads them through the Figma API.                                                                    |
+| **DTCG**               | The W3C community standard JSON format for design tokens, readable by many tools.                                                                    |
+| **Style Dictionary**   | The open-source tool that turns today's token files into CSS. Our script around it is called the "ETL".                                              |
+| **Tailwind preset**    | The configuration that turns tokens into Tailwind classes such as `bg-surface`, used by `ui-react`.                                                  |
+| **JS theme**           | The JavaScript object `ui-rnative` reads its values from (`t.colors.bg.surface`).                                                                    |
+| **Output** (or target) | One generated format, such as CSS, the Tailwind preset or the JS theme.                                                                              |
 
 ---
 
-## Decision drivers
+## Context
 
-What any solution must achieve, in priority order. The options in
-[Alternatives considered](#alternatives-considered) are judged against them.
+Lumen ships two UI libraries from one design: `ui-react` for the web and
+`ui-rnative` for React Native. Both must look the same, so both must read the
+same design values.
 
-1. **One source, no drift.** Every platform reads values generated from the
-   same source; no design value is typed twice.
-2. **No manual step after a sync.** A Figma sync PR is complete as opened by
-   the bot.
-3. **Figma's structure drives the build.** A new brand, theme, breakpoint or
-   variable type is built without a code change, and anything the build can't
-   handle fails loudly instead of being skipped.
-4. **Safe migration.** Consumers see no change until a PR with a version plan
-   says so; every refactor step proves its outputs are unchanged.
-5. **Reviewable changes.** A token or symbol change is readable in the PR, and
-   removals or renames are explicit.
-6. **Open to new asset kinds and platforms.** Symbols now, Lottie and native
-   platforms later, without new infrastructure each time.
-7. **Small and testable.** The team can read the whole pipeline, and test it
-   without network or Figma access.
-8. **Standard source format.** Sources follow DTCG, so other tools or teams can
-   read them later without our code.
+Today the values travel like this:
+
+```mermaid
+flowchart LR
+  F["Figma<br/>(designers)"] -->|"automatic sync"| CSS["Web CSS variables"]
+  CSS --> W["ui-react (web)"]
+  F -.->|"copied by hand"| JS["Mobile JS theme"]
+  JS --> M["ui-rnative (mobile)"]
+  F -->|"separate download"| I["Icons"]
+  I --> W
+  I --> M
+```
+
+The web side is generated; the mobile side is typed by a developer after each
+Figma change. Icons use a third, unrelated tool.
+
+### Problem
+
+- **Web and mobile drift apart.** Each Figma change must be copied by hand into
+  about 4,000 lines of mobile theme, and only colors are checked. They already
+  disagree: the largest shadow is 25% opaque on web and 20% on mobile, and four
+  components animate at different speeds.
+- **Designers' changes get lost.** The build only knows a fixed list of brands
+  and screen sizes, and only some value types. A new screen size (`2xl`) and all
+  animation values exist in Figma but never reach the code, and nothing warns
+  anyone.
+- **Some values only exist in code.** Shadows, gradients, animation timings and
+  screen sizes are typed twice by hand, once per platform.
+- **The tooling is costly to maintain.** The build script is hard to follow,
+  every output is written twice, and icons need a repo-wide lint pass to give a
+  readable diff.
+- **The format is custom.** The token files are only partly standard, so no
+  other tool or team can use them without our code.
+
+The result: every Figma sync needs manual follow-up, mistakes reach consumers
+silently, and adding a platform means another hand-written copy.
+
+The detailed analysis of today's pipeline is in the
+[appendix](#appendix-todays-pipeline-in-detail).
+
+---
+
+## Desired outcomes (decision drivers)
+
+What any solution must deliver, in priority order. The
+[alternatives](#alternatives-considered) are judged against them.
+
+| #   | Outcome                                | What it means                                                                                                            | How we'll know                                                                                                    |
+| --- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| 1   | **Fewer drift bugs between platforms** | Web and mobile read values generated from the same source. No design value is typed twice.                               | No hand-written design value left in the libraries; CI fails when web and mobile values differ.                   |
+| 2   | **Lower maintenance cost**             | A Figma sync needs no hand work. The pipeline is small enough for anyone on the team to read, change and test.           | Sync PRs merge without follow-up commits; the ~4,000 hand-written lines and the Style Dictionary script are gone. |
+| 3   | **Designers' intent reaches the code** | Whatever Figma holds (a new brand, theme, screen size or value type) is built without a code change.                     | `2xl` and animation values are built; an unsupported value fails the sync instead of being skipped.               |
+| 4   | **A standard format**                  | The source of truth follows DTCG, the industry format, instead of a format of our own.                                   | The source files pass a DTCG validator.                                                                           |
+| 5   | **Any output from one source**         | CSS, Tailwind and React Native today; Android, iOS, slide themes or docs later, each as one more generated output.       | Adding an output needs no change to how sources are read or checked.                                              |
+| 6   | **One pipeline for every asset type**  | Tokens and icons use the same steps and tools; illustrations or animations can join later.                               | Icons run on the same three steps as tokens.                                                                      |
+| 7   | **Safe, reviewable changes**           | Consumers see nothing until a versioned release. Every sync PR shows what changed, and removals or renames are explicit. | Snapshot tests guard each migration step; the sync PR lists added, changed, removed and renamed tokens.           |
 
 ### Constraints
 
-- Package exports stay `.`, `./cn` and `./symbols/*`; the `dist/` restructure
-  (DLS-919) is a separate change.
+- Package entry points stay `.`, `./cn` and `./symbols/*`, so consumers change
+  nothing. The `dist/` restructure (DLS-919) is a separate change.
 - `ui-rnative` keeps reading the theme in its current shape, and the Tailwind
-  preset stays v3-style (`@config`).
+  preset stays in its current (v3-style) form.
 - Pipeline code is dev-only and follows the `## Internals` rules in
   `AGENTS.md`: never published, never imported by `libs/*`.
 
@@ -145,7 +113,40 @@ What any solution must achieve, in priority order. The options in
 
 ## Decision
 
-### Three internal projects, by stage, with folders by asset kind
+### In plain words
+
+We replace today's three separate flows with **one pipeline in three steps**,
+each owned by one small internal project:
+
+1. **Fetch** — `sync-figma` is the only code that talks to Figma. It saves
+   tokens and icons as files in the standard format.
+2. **Check** — `design-sources` holds those files (plus the few values that
+   only exist in code), checks them, and combines brands, themes and screen
+   sizes into one complete model.
+3. **Build** — `design-build` turns that model into every output: CSS,
+   Tailwind, the React Native theme, icons. Each output is one small function,
+   so a new platform is one more function.
+
+Generated files stay committed in the repo, so every change is visible in
+review, and CI fails if anyone edits them by hand or if they fall out of date.
+
+### How the decision delivers each outcome
+
+| Outcome                   | Delivered by                                                                                                                                        |
+| ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1. Fewer drift bugs       | One model; CSS, Tailwind and JS are all generated from it (tickets 3–5), plus a test that compares web and mobile values                            |
+| 2. Lower maintenance cost | The sync runs Fetch then Build with no hand step; the generated JS theme replaces the hand-written one (ticket 4); Style Dictionary goes (ticket 3) |
+| 3. Designers' intent      | Brands, modes and value types are read from the files; anything unknown fails the check (tickets 2–3)                                               |
+| 4. A standard format      | `design-sources` holds valid DTCG (ticket 2)                                                                                                        |
+| 5. Any output             | Every output implements the same small `Target` contract; Android, iOS or slides are one more target                                                |
+| 6. One pipeline           | The three steps carry shared tools (Figma client, write + prune, check, diff report); icons join in ticket 6                                        |
+| 7. Safe, reviewable       | Snapshots first (ticket 1), byte-identical refactors, diff report and rename/removal gate in the sync PR (ticket 7)                                 |
+
+### Design details
+
+The rest of this section is for the engineers doing the work.
+
+#### Three internal projects, by stage, with folders by asset kind
 
 ```mermaid
 flowchart TD
@@ -194,7 +195,7 @@ flowchart TD
 Nothing imports ①. The import rules are enforced by Nx tags and
 `depConstraints`, like the existing `scope:internal` rule.
 
-### Principles
+#### Principles
 
 1. **One direction.** Figma → source files → model → outputs. Only ① talks to
    Figma, ② never writes to disk, ③ never reads raw Figma data.
@@ -217,20 +218,7 @@ Nothing imports ①. The import rules are enforced by Nx tags and
    class, `t.*` path), using the same naming function as the outputs; ① uploads
    the file. Figma and code can't disagree on a name.
 
-### How the decision meets the drivers
-
-| Driver                         | Met by                                                                                                        |
-| ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
-| 1. One source, no drift        | One model in ②; CSS, Tailwind and JS are all emitted from it (tickets 3–5), with a CSS/JS parity test         |
-| 2. No manual step after a sync | The workflow runs ① then ③; the generated JS theme replaces the hand-written one (ticket 4)                   |
-| 3. Figma's structure drives    | Brands, modes and types are read from the files; validation fails on anything unknown (tickets 2–3)           |
-| 4. Safe migration              | Snapshots first (ticket 1); each refactor ticket keeps outputs byte-identical                                 |
-| 5. Reviewable changes          | Outputs stay committed; diff report and rename/removal gate in the sync PR (ticket 7)                         |
-| 6. Open to new kinds           | Stages carry the shared infrastructure; a kind is one folder per stage, a platform is one `Target` (ticket 6) |
-| 7. Small and testable          | Pure `emit(model)` functions, recorded Figma fixtures, Nx-enforced boundaries                                 |
-| 8. Standard source format      | `design-sources` holds valid DTCG after ticket 2                                                              |
-
-### The output contract
+#### The output contract
 
 ```ts
 // internals/design-build/src/core/target.ts
@@ -247,7 +235,7 @@ The writer formats with prettier, writes, and prunes files a target no longer
 emits. `--check` runs the same targets and fails on any difference with the
 working tree.
 
-### Where each kind of value lives
+#### Where each kind of value lives
 
 | Kind                                                                              | Examples                                                                                       | Lives in                                                                |
 | --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
@@ -261,7 +249,7 @@ platform needs it. Code that only wires tokens into Tailwind stays in the
 plugins. If designers later move shadows or gradients into Figma, only their
 source file changes.
 
-### DTCG type mapping (ticket 2)
+#### DTCG type mapping (ticket 2)
 
 | Figma                                              | DTCG `$type`                                                          |
 | -------------------------------------------------- | --------------------------------------------------------------------- |
@@ -276,7 +264,7 @@ source file changes.
 Scopes come from the Figma variable's `scopes` field; the exact mapping is
 settled against the recorded API fixture.
 
-### Folder structure
+#### Folder structure
 
 ```text
 internals/
@@ -330,7 +318,7 @@ Package exports stay `.`, `./cn` and `./symbols/*`, so moving folders under
 `src/` is invisible to consumers. The `dist/` restructure (DLS-919) is a
 separate change.
 
-### How a sync runs
+#### How a sync runs
 
 ```mermaid
 sequenceDiagram
@@ -548,14 +536,14 @@ the code for every token.
 
 ## Alternatives considered
 
-| Option                                                    | Why not                                                                                                                                                                                                                                                                                    |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Keep Style Dictionary v4 and add a JS format              | Drivers 3, 7: its globally registered transform chain is what makes today's ETL hard to follow; it has no built-in modes, so the brand × theme × breakpoint loop stays ours anyway.                                                                                                        |
-| Terrazzo                                                  | Constraints, driver 1: DTCG-only with good lint rules, but its Tailwind plugin targets Tailwind v4 `@theme` (we ship a v3-style preset), and its JS output doesn't match the `ui-rnative` shape. Its parser could later sit inside ②. Either tool can back a future Android or iOS target. |
-| Two projects (boundary by folder only)                    | Driver 7: the stage rules would be conventions, not lint errors.                                                                                                                                                                                                                           |
-| Four projects (separate Figma client)                     | Driver 7: the client has a single caller.                                                                                                                                                                                                                                                  |
-| Generate outputs at build time instead of committing them | Drivers 5, 7: token changes become invisible in review, and every build depends on the pipeline.                                                                                                                                                                                           |
-| Publish the DTCG files                                    | Not needed for driver 8 yet: no consumer has asked; every rename would become a breaking change. Adding it later is one more target.                                                                                                                                                       |
+| Option                                                    | Why not                                                                                                                                                                                                                                                                                            |
+| --------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Keep Style Dictionary v4 and add a JS format              | Designers' intent, maintenance cost: its globally registered transform chain is what makes today's ETL hard to follow; it has no built-in modes, so the brand × theme × breakpoint loop stays ours anyway.                                                                                         |
+| Terrazzo                                                  | Constraints, fewer drift bugs: DTCG-only with good lint rules, but its Tailwind plugin targets Tailwind v4 `@theme` (we ship a v3-style preset), and its JS output doesn't match the `ui-rnative` shape. Its parser could later sit inside ②. Either tool can back a future Android or iOS target. |
+| Two projects (boundary by folder only)                    | Maintenance cost: the step rules would be conventions, not lint errors.                                                                                                                                                                                                                            |
+| Four projects (separate Figma client)                     | Maintenance cost: the client has a single caller.                                                                                                                                                                                                                                                  |
+| Generate outputs at build time instead of committing them | Reviewable changes, maintenance cost: token changes become invisible in review, and every build depends on the pipeline.                                                                                                                                                                           |
+| Publish the DTCG files                                    | Not needed yet (outcome 4 only needs DTCG sources): no consumer has asked; every rename would become a breaking change. Adding it later is one more target.                                                                                                                                        |
 
 ## Out of scope
 
@@ -571,3 +559,80 @@ the code for every token.
 - **Design:** the four motion mismatches blocking ticket 5.
 - **Engineering:** DTCG color format (hex string or 2025.10 color object);
   whether `boolean` variables have any consumer.
+
+---
+
+## Appendix: today's pipeline in detail
+
+### Tokens today
+
+```mermaid
+flowchart TD
+  F["Figma variables"] -->|"figma-export"| T["internals/sync-figma/tokens/*.json<br/>(committed)"]
+  T -->|"design-tokens-etl<br/>Style Dictionary"| C["design-core/src/lib/themes/css/<br/>*.css + *-css.ts (committed)"]
+  C --> P["presets/*.ts + utils/create*Plugin.ts<br/>(hand-written Tailwind)"]
+  P --> W["ui-react"]
+  J["design-core/src/lib/themes/js/<br/>~4,000 hand-written lines"] --> RN["ui-rnative"]
+  J -.->|"breakpoints"| P
+  C -.-|"jsThemeSync.test.ts<br/>colors only"| J
+```
+
+- **The ETL** (`src/automations/designTokensEtl.ts`, 347 lines) runs Style
+  Dictionary 22 times: once for primitives, once per brand × theme (6), and once
+  per breakpoint inside the brand loop (15, so the same 5 typography files are
+  written 3 times). Transforms, filters, formats and actions are registered
+  globally, and the actions are registered after the first builds start.
+- **Hard-coded lists.** Brands (`enterprise`, `websites`, `ledger-live`),
+  themes and breakpoints (`xs`…`xl`) are constants. The ETL reads only files
+  `1.`–`4.`, so `4.breakpoint.2xl.json`, `5.icon.*`, `6.spot.*` and
+  `7.motion.Mode1.json` are exported and never built. A new brand or mode in
+  Figma is silently ignored.
+- **Each output is written twice.** Every `-css.ts` map has a `.css` twin. Only
+  the `-css.ts` maps are imported (by the presets, `createPrimitivesPlugin` and
+  tests).
+- **React Native gets nothing generated.** `themes/js/**` (4,018 lines across
+  brands, primitives and typographies) is typed by hand after every Figma sync.
+  `jsThemeSync.test.ts` compares only the `bg`, `text`, `border`, `crypto` and
+  `discover` color groups; spacing, sizes, radius, typography, shadows and
+  motion can drift unnoticed.
+- **Motion is not exported.** `tokenFilesFromLocalVariables.ts` supports
+  `BOOLEAN`, `COLOR`, `FLOAT` and `STRING`; Figma's motion collection uses
+  `TIMING` and `EASING` and is skipped. `7.motion.Mode1.json` is a stale file
+  that the prune added in #956 will delete on the next export.
+
+### Values written directly in Tailwind
+
+Some design values never pass through the token files. They are typed into the
+Tailwind plugins, and typed again for React Native:
+
+| Value                                                                | Tailwind (web)                                                           | React Native copy                                           | Drift known                         |
+| -------------------------------------------------------------------- | ------------------------------------------------------------------------ | ----------------------------------------------------------- | ----------------------------------- |
+| Shadows (offsets, blur, `rgba(0,0,0,0.10)` / `0.25`)                 | `createShadowPlugin` in `utils/createCustomPlugin.ts`                    | `themes/js/primitives/primitives.shadows.ts`                | `shadow-2xl`: 25% web vs 20% mobile |
+| Gradients (angles, stops, radial geometry)                           | `createGradientPlugin` in `utils/createCustomPlugin.ts`                  | `themes/js/primitives/primitive.gradients.ts`               | not checked                         |
+| Durations and easings (`300ms ease-in`, `cubic-bezier(0.4,0,0.2,1)`) | `utils/createAnimationsPlugin.ts`, and components                        | `themes/js/primitives/primitives.motion.ts`, and components | 4 components (see ticket 5)         |
+| Breakpoints                                                          | `createScreensPlugin` reads them **from the hand-written JS primitives** | `themes/js/primitives/primitives.others.ts`                 | —                                   |
+
+### Symbols today
+
+- `figmaDownloadSvgs.ts` downloads the icon canvas into
+  `libs/design-core/symbols/icons/` (clearing it first), then
+  `generate-symbols.mts` runs svgr into `ui-react` and `ui-rnative`.
+- It shares nothing with the token flow: no shared Figma client, prune, check
+  or diff report.
+- svgr output is unformatted, so the workflow runs a repo-wide
+  `lint --fix`, or about 590 files show formatting noise.
+- Nothing validates names, `viewBox` or hard-coded fills.
+
+### DTCG status of the token files
+
+The exported files are **partly** DTCG:
+
+| Compliant                                    | Not compliant                                                                                                                               |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| `$value`, `$type`, `$description`            | Dimensions are `$type: "number"` with no unit (about 700 entries); the ETL adds `px` (`addPxUnitToNumber`)                                  |
+| `{a.b.c}` aliases                            | Font weights and families are `$type: "string"`                                                                                             |
+| Figma metadata under `$extensions.com.figma` | `boolean` is not a DTCG type (2 tokens)                                                                                                     |
+| One file per mode                            | No `duration`, `cubicBezier`, `shadow`, `gradient` or `typography` composites (typography is flattened, shadows and gradients live in code) |
+
+Colors are hex strings. Whether to move to the DTCG 2025.10 color object
+(`{ colorSpace, components, hex }`) is an open question for ticket 2.
