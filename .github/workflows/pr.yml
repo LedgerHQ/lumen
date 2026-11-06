@@ -34,6 +34,9 @@ jobs:
       - name: Check that affected publishable libs have a version plan
         run: npx nx release plan:check --base=origin/main --verbose
 
+      - name: Check migration files and their version plans
+        run: npx nx affected -t validate
+
   agent-drift:
     name: Agent docs & structure drift
     runs-on: ubuntu-latest

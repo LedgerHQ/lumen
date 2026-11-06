@@ -1,0 +1,51 @@
+{
+  "name": "@ledgerhq/lumen-migrations",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/migrations/src",
+  "projectType": "library",
+  "tags": ["scope:shared", "type:tooling"],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "libs/migrations"
+      }
+    },
+    "validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "node scripts/validate.ts",
+        "cwd": "libs/migrations"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "outputs": ["{projectRoot}/index.json"],
+      "options": {
+        "command": "node scripts/build-index.ts",
+        "cwd": "libs/migrations"
+      }
+    },
+    "build-release": {
+      "executor": "nx:run-commands",
+      "cache": false,
+      "outputs": ["{projectRoot}/index.json"],
+      "options": {
+        "command": "node scripts/build-index.ts --strict",
+        "cwd": "libs/migrations"
+      }
+    },
+    "nx-release-publish": {
+      "dependsOn": ["^nx-release-publish", "build-release"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p tsconfig.json",
+        "cwd": "libs/migrations"
+      }
+    }
+  }
+}
