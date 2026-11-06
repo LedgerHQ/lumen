@@ -57,6 +57,20 @@ export const NO_RESTRICTED_IMPORTS_OPTIONS = deepFreeze({
   })),
 });
 
+/**
+ * Keeps `enforce-logical-properties` on the inline axis, the one RTL flips.
+ * The block axis only moves in vertical writing modes, and sizes (`w-*`,
+ * `size-*`) do not change with direction, so on Tailwind 4.2+ rewriting them
+ * to `inline-*`/`block-*` is churn. `left-1/2` centers with
+ * `-translate-x-1/2`, which a logical start would push off-center in RTL.
+ */
+export const LOGICAL_PROPERTIES_OPTIONS = deepFreeze({
+  ignore: [
+    '^(?:.*:)?!?-?(?:(?:scroll-)?[mp][tb]|top|bottom|border-[tb]|(?:min-|max-)?[wh]|size)(?:-|$)',
+    '^(?:.*:)?!?-?left-(?:1/2|\\[50%\\])$',
+  ],
+});
+
 /** @typedef {'recommended' | 'strict'} PresetName */
 
 /** @type {Record<PresetName, Record<string, unknown>>} */
@@ -77,6 +91,11 @@ export const RULES = {
     ...betterTailwindcss.configs['recommended-error'].rules,
     // Conflicts with Prettier, which owns line breaks.
     'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+    // `ms-*` over `ml-*`: the layout mirrors itself in right-to-left locales.
+    'better-tailwindcss/enforce-logical-properties': [
+      'error',
+      LOGICAL_PROPERTIES_OPTIONS,
+    ],
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],

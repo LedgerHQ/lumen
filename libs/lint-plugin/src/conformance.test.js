@@ -193,6 +193,11 @@ describe('every way of setting the presets up reports the same diagnostics', () 
         'no-restricted-imports:3:error',
       ]),
     );
+    expect(
+      strict.filter((e) =>
+        e.startsWith('better-tailwindcss/enforce-logical-properties'),
+      ),
+    ).toEqual(['better-tailwindcss/enforce-logical-properties:15:error']);
     // Every core rule still reports; strict only adds rules.
     expect(ruleIds(strict)).toEqual(
       expect.arrayContaining(ruleIds(recommended)),

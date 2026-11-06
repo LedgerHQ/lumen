@@ -21,6 +21,24 @@ export default [
       'react-native-a11y/has-accessibility-hint': 'off',
     },
   }),
+  // The RN twin of better-tailwindcss' `enforce-logical-properties`: start/end
+  // keys mirror in RTL whatever `I18nManager.swapLeftAndRightInRTL` says.
+  // `src/styles` is the `lx` API, which keeps the physical keys for consumers.
+  defineProdRules({
+    name: 'react-native-logical-properties',
+    ignores: ['src/styles/**'],
+    rules: {
+      'no-restricted-syntax': [
+        'error',
+        {
+          selector:
+            'Property > Identifier.key[name=/^(margin|padding)(Left|Right)$|^border(Left|Right)(Width|Color)$|^border(Top|Bottom)(Left|Right)Radius$/]',
+          message:
+            'Use the logical key (marginStart, paddingEnd, borderStartWidth, borderTopStartRadius…) so the layout mirrors in right-to-left locales.',
+        },
+      ],
+    },
+  }),
   defineDependencyChecks({
     ignoredFiles: [
       // SVGR template read by `internals/sync-figma` codegen, never imported.

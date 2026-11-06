@@ -72,7 +72,7 @@ export default defineConfig({
 | [`enforce-consistent-line-wrapping`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md)           |             |        | 🔧  | Long class strings (conflicts with Prettier)        |
 | [`enforce-consistent-variable-syntax`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-variable-syntax.md)       |             |        | 🔧  | Mixed CSS variable syntax                           |
 | [`enforce-consistent-variant-order`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-variant-order.md)           |             |        | 🔧  | Variants out of order                               |
-| [`enforce-logical-properties`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-logical-properties.md)                       |             |        | 🔧  | `ml-*` instead of `ms-*`                            |
+| [`enforce-logical-properties`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-logical-properties.md)                       |             |   ✅   | 🔧  | `ml-*` instead of `ms-*` (left/right only)          |
 | [`enforce-shorthand-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-shorthand-classes.md)                         |             |        | 🔧  | `px-2 py-2` instead of `p-2`                        |
 | [`no-concatenated-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-concatenated-classes.md)                             |     ✅      |   ✅   |     | Classes built at runtime, like `` `text-${size}` `` |
 | [`no-conflicting-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-conflicting-classes.md)                               |     ✅      |   ✅   | 🔧  | Classes that cancel each other                      |
@@ -130,6 +130,17 @@ The presets are plain config objects.
 
   const rules = {
     'shadcn/no-arbitrary-values': ['warn', { ...NO_ARBITRARY_VALUES_OPTIONS, allow: [...NO_ARBITRARY_VALUES_OPTIONS.allow, 'w-[13px]'] }],
+  };
+  ```
+
+- **Allow a physical class on purpose:** `enforce-logical-properties` takes an `ignore` list of
+  regexes, and Lumen's already skips the block axis, sizes and `left-1/2` centering.
+
+  ```js
+  import { LOGICAL_PROPERTIES_OPTIONS } from '@ledgerhq/lumen-lint-plugin/eslint';
+
+  const rules = {
+    'better-tailwindcss/enforce-logical-properties': ['error', { ignore: [...LOGICAL_PROPERTIES_OPTIONS.ignore, '^rounded-r-'] }],
   };
   ```
 

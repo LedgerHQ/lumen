@@ -43,6 +43,14 @@ These hold regardless of mechanism — the references show how each realises the
 - **Compose variants declaratively.** Appearance / size / state maps are declared
   once at the top of the styling layer (`cva` on web, `Record<Variant, value>`
   inside `useStyleSheet` on RN), never assembled ad hoc in the render body.
+- **Logical directions, never left/right.** Components must mirror in
+  right-to-left locales, so horizontal spacing, borders, radii and text
+  alignment use start/end: `ms-*`, `pe-*`, `border-s`, `rounded-e-*`,
+  `text-start` on web; `marginStart`, `paddingEnd`, `borderStartWidth`,
+  `borderTopEndRadius` on RN (the `lx` props too). Lint enforces both (see
+  `pr-review`'s "already enforced" list). Keep a physical side only when the
+  direction is truly fixed (e.g. `left-1/2` centering, chart axes), and
+  mirror directional icons (chevrons, arrows) with `rtl:` / `I18nManager.isRTL`.
 - **Never build a style value by concatenation.** ``text-${color}`` and its RN
   equivalents are wrong — use complete token strings and a merge helper (`cn` on
   web, `StyleSheet.flatten` on RN).

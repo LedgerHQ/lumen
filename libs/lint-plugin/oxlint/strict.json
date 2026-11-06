@@ -16,6 +16,15 @@
     "better-tailwindcss/no-concatenated-classes": "error",
     "better-tailwindcss/no-conflicting-classes": "error",
     "better-tailwindcss/no-unknown-classes": "error",
+    "better-tailwindcss/enforce-logical-properties": [
+      "error",
+      {
+        "ignore": [
+          "^(?:.*:)?!?-?(?:(?:scroll-)?[mp][tb]|top|bottom|border-[tb]|(?:min-|max-)?[wh]|size)(?:-|$)",
+          "^(?:.*:)?!?-?left-(?:1/2|\\[50%\\])$"
+        ]
+      }
+    ],
     "shadcn/no-arbitrary-values": [
       "warn",
       {
