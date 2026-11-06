@@ -37,5 +37,4 @@ export type MigrationIndex = {
 
 declare const index: MigrationIndex;
 // A JSON module's value is its default export.
-// eslint-disable-next-line import/no-default-export
 export default index;
