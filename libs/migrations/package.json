@@ -1,15 +1,19 @@
 {
   "name": "@ledgerhq/lumen-migrations",
   "version": "0.0.0",
-  "description": "Migration guides for Lumen breaking changes, read by the automated upgrade pipeline in consumer repos.",
+  "description": "Migration guides for Lumen updates, read by the automated upgrade pipeline in consumer repos.",
   "license": "Apache-2.0",
   "type": "module",
   "files": [
     "src/*.md",
-    "index.json"
+    "index.json",
+    "index.d.ts"
   ],
   "exports": {
-    "./index.json": "./index.json",
+    "./index.json": {
+      "types": "./index.d.ts",
+      "default": "./index.json"
+    },
     "./package.json": "./package.json"
   },
   "nx": {

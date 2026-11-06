@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Builds `index.json` from git, so nothing in it is written by hand: title and
- * PR come from the PR that shipped the break, packages from the version plans
+ * PR come from the PR that shipped the update, packages from the version plans
  * that PR added, and each introduced version from the first release tag
  * containing it. That PR is the one that added the migration, unless the
  * migration names an earlier one in `pr` because it was written late.
@@ -19,6 +19,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import semver from 'semver';
+import type { IndexEntry, MigrationIndex } from '../index.d.ts';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
 import {
   currentName,
@@ -36,20 +37,6 @@ const conventionalSubject =
   /^(?:\[[^\]]*\]\s*)*(?:[A-Z]+-\d+[\s-]+)?\w+(?:\([^)]*\))?!?: (.+)$/;
 const prSuffix = /^(.*) \(#(\d+)\)$/;
 const mergeSubject = /^Merge pull request #(\d+) from /;
-
-export type IndexEntry = {
-  id: string;
-  title: string | null;
-  pr: number | null;
-  commit: string | null;
-  /** Package → first version that ships the change, `null` until released. */
-  introduced: Record<string, string | null>;
-} & Omit<MigrationFrontmatter, 'pr'>;
-
-export type MigrationIndex = {
-  formatVersion: number;
-  migrations: IndexEntry[];
-};
 
 type Commit = { sha: string; subject: string; body: string };
 

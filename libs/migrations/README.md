@@ -1,7 +1,7 @@
 # @ledgerhq/lumen-migrations
 
-One Markdown file per Lumen breaking change, at `src/<id>.md`. The automated
-upgrade pipeline applies them in consumer repos
+One Markdown file per Lumen update consumers must act on, at `src/<id>.md`.
+The automated upgrade pipeline applies them in consumer repos
 ([ADR 027](https://ledgerhq.atlassian.net/wiki/spaces/DLS/pages/7689666642)).
 UI libs don't depend on this package.
 
@@ -30,7 +30,7 @@ changes: # applied in order
 requires: # optional: stop the upgrade until these are met
   react: '>=18'
 codemod: menu-base-ui # optional, once a script exists
-pr: 716 # optional: the PR that shipped the break, when this file lands later
+pr: 716 # optional: the PR that shipped the update, when this file lands later
 ---
 
 ## Before → after
@@ -56,7 +56,7 @@ instead of source. `expect: review` lists hits for a human instead of
 requiring zero.
 
 The file name is the id. Packages, title, PR and introduced version come from
-the PR that shipped the break and its version plans, never written by hand.
+the PR that shipped the update and its version plans, never written by hand.
 That PR is the one adding the file, unless `pr` names an earlier one. Plans
 and tags under the former `@ldls/*` and `@ledgerhq/ldls-*` names count as the
 current package.
@@ -72,7 +72,8 @@ matches a `before` block and, unless `expect: review`, no `after` block.
 `index.json` lists every migration with what git knows about it: `id`,
 `title`, `pr`, `commit` and `introduced` (package → first release with the
 change), oldest first. It's generated, never committed, and exported as
-`@ledgerhq/lumen-migrations/index.json`.
+`@ledgerhq/lumen-migrations/index.json`, typed by `index.d.ts` (a test keeps
+it in line with the schema).
 
 - `nx run @ledgerhq/lumen-migrations:build` builds it and warns on anything
   unresolved (dev tarballs, local runs).
@@ -81,8 +82,8 @@ change), oldest first. It's generated, never committed, and exported as
 
 ## Rules
 
-- A PR that breaks something adds its migration in the same PR.
-- Say what broke and how to fix it, nothing the version plan already says.
+- A PR that makes consumers change their code adds its migration in the same PR.
+- Say what changed and how to update, nothing the version plan already says.
 - The file name is permanent: never rename or delete a migration.
 - Any change to a migration needs a version plan for this package. A new one
   also needs the plan of each Lumen package its refs point into (any package

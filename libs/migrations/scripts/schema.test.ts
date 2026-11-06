@@ -1,7 +1,8 @@
 import { readFileSync } from 'node:fs';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 import { parse } from 'yaml';
-import { migrationFrontmatter } from './schema.ts';
+import type { IndexEntry } from '../index.d.ts';
+import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
 
 const rename = {
   change: 'renamed',
@@ -139,5 +140,17 @@ describe('migrationFrontmatter', () => {
 
     expect(issues).not.toEqual([]);
     expect(issues.some((issue) => issue.startsWith(`${path}:`))).toBe(true);
+  });
+});
+
+describe('published index types', () => {
+  it('match the frontmatter the schema parses', () => {
+    type PublishedFrontmatter = Omit<
+      IndexEntry,
+      'id' | 'title' | 'pr' | 'commit' | 'introduced'
+    >;
+    expectTypeOf<PublishedFrontmatter>().toEqualTypeOf<
+      Omit<MigrationFrontmatter, 'pr'>
+    >();
   });
 });

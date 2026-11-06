@@ -3,7 +3,7 @@
  * CI gate for migration files: valid name, frontmatter and body, examples that
  * prove the `detect` patterns, stable ids, and the version plans that get a
  * change published (the release index also derives packages from them). A
- * migration written late names the PR that shipped the break, whose plans
+ * migration written late names the PR that shipped the update, whose plans
  * are already on main.
  *
  * Run: node libs/migrations/scripts/validate.ts
@@ -161,7 +161,7 @@ function missingPlans(
 /**
  * Any change to a migration ships only when this package is released, so it
  * needs its plan. A new migration also needs the plans of the packages it
- * breaks, unless it names the earlier PR that shipped the break: the release
+ * breaks, unless it names the earlier PR that shipped the update: the release
  * index takes its packages from that PR. Consumers rely on the file name as
  * the id, so a migration is never renamed or deleted.
  */
