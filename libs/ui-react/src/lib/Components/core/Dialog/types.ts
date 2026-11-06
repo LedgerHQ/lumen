@@ -31,6 +31,12 @@ export type DialogProps = {
    */
   height?: DialogHeight;
   /**
+   * Smoothly transitions the dialog height when its content changes, e.g.
+   * between steps of a multi-step flow. Has no effect with `height='fixed'`.
+   * @default false
+   */
+  animated?: boolean;
+  /**
    * Whether to render the dialog in modal mode.
    * When true, interaction with outside elements is disabled.
    * @default true
