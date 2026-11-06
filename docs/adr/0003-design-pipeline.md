@@ -15,6 +15,25 @@ Lumen takes two kinds of assets from Figma: **design tokens** (variables) and
 **symbols** (icons). Both go through `internals/sync-figma`, driven by
 `.github/workflows/sync-figma.yml`, which opens a PR with the result.
 
+### Problem
+
+Only part of what Figma holds reaches the code automatically, and only for the
+web:
+
+- **Web and mobile drift.** The CSS is generated, but the React Native theme is
+  typed by hand after every sync, and only colors are compared. They already
+  disagree (`shadow-2xl`: 25% on web, 20% on mobile).
+- **The build ignores what it doesn't know.** A new breakpoint (`2xl`), a new
+  variable type (motion) or a new brand in Figma is exported, then silently
+  skipped.
+- **Some design values never leave code.** Shadows, gradients, durations and
+  breakpoints are written twice by hand, once per platform.
+- **Symbols run on a separate toolchain** with no validation, and need a
+  repo-wide lint pass to produce a readable diff.
+
+Each sync therefore needs manual follow-up from a maintainer, and nothing
+fails when that follow-up is forgotten.
+
 ### Tokens today
 
 ```mermaid
@@ -87,6 +106,40 @@ The exported files are **partly** DTCG:
 
 Colors are hex strings. Whether to move to the DTCG 2025.10 color object
 (`{ colorSpace, components, hex }`) is an open question for ticket 2.
+
+---
+
+## Decision drivers
+
+What any solution must achieve, in priority order. The options in
+[Alternatives considered](#alternatives-considered) are judged against them.
+
+1. **One source, no drift.** Every platform reads values generated from the
+   same source; no design value is typed twice.
+2. **No manual step after a sync.** A Figma sync PR is complete as opened by
+   the bot.
+3. **Figma's structure drives the build.** A new brand, theme, breakpoint or
+   variable type is built without a code change, and anything the build can't
+   handle fails loudly instead of being skipped.
+4. **Safe migration.** Consumers see no change until a PR with a version plan
+   says so; every refactor step proves its outputs are unchanged.
+5. **Reviewable changes.** A token or symbol change is readable in the PR, and
+   removals or renames are explicit.
+6. **Open to new asset kinds and platforms.** Symbols now, Lottie and native
+   platforms later, without new infrastructure each time.
+7. **Small and testable.** The team can read the whole pipeline, and test it
+   without network or Figma access.
+8. **Standard source format.** Sources follow DTCG, so other tools or teams can
+   read them later without our code.
+
+### Constraints
+
+- Package exports stay `.`, `./cn` and `./symbols/*`; the `dist/` restructure
+  (DLS-919) is a separate change.
+- `ui-rnative` keeps reading the theme in its current shape, and the Tailwind
+  preset stays v3-style (`@config`).
+- Pipeline code is dev-only and follows the `## Internals` rules in
+  `AGENTS.md`: never published, never imported by `libs/*`.
 
 ---
 
@@ -163,6 +216,19 @@ Nothing imports ①. The import rules are enforced by Nx tags and
 6. **Code syntax is an output.** ③ emits the names Figma Dev Mode shows (Tailwind
    class, `t.*` path), using the same naming function as the outputs; ① uploads
    the file. Figma and code can't disagree on a name.
+
+### How the decision meets the drivers
+
+| Driver                         | Met by                                                                                                        |
+| ------------------------------ | ------------------------------------------------------------------------------------------------------------- |
+| 1. One source, no drift        | One model in ②; CSS, Tailwind and JS are all emitted from it (tickets 3–5), with a CSS/JS parity test         |
+| 2. No manual step after a sync | The workflow runs ① then ③; the generated JS theme replaces the hand-written one (ticket 4)                   |
+| 3. Figma's structure drives    | Brands, modes and types are read from the files; validation fails on anything unknown (tickets 2–3)           |
+| 4. Safe migration              | Snapshots first (ticket 1); each refactor ticket keeps outputs byte-identical                                 |
+| 5. Reviewable changes          | Outputs stay committed; diff report and rename/removal gate in the sync PR (ticket 7)                         |
+| 6. Open to new kinds           | Stages carry the shared infrastructure; a kind is one folder per stage, a platform is one `Target` (ticket 6) |
+| 7. Small and testable          | Pure `emit(model)` functions, recorded Figma fixtures, Nx-enforced boundaries                                 |
+| 8. Standard source format      | `design-sources` holds valid DTCG after ticket 2                                                              |
 
 ### The output contract
 
@@ -482,14 +548,14 @@ the code for every token.
 
 ## Alternatives considered
 
-| Option                                                    | Why not                                                                                                                                                                                                                                                             |
-| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Keep Style Dictionary v4 and add a JS format              | Its globally registered transform chain is what makes today's ETL hard to follow; it has no built-in modes, so the brand × theme × breakpoint loop stays ours anyway.                                                                                               |
-| Terrazzo                                                  | DTCG-only with good lint rules, but its Tailwind plugin targets Tailwind v4 `@theme` (we ship a v3-style preset), and its JS output doesn't match the `ui-rnative` shape. Its parser could later sit inside ②. Either tool can back a future Android or iOS target. |
-| Two projects (boundary by folder only)                    | The stage rules would be conventions, not lint errors.                                                                                                                                                                                                              |
-| Four projects (separate Figma client)                     | The client has a single caller.                                                                                                                                                                                                                                     |
-| Generate outputs at build time instead of committing them | Token changes become invisible in review, and every build depends on the pipeline.                                                                                                                                                                                  |
-| Publish the DTCG files                                    | No consumer has asked; every rename would become a breaking change. Adding it later is one more target.                                                                                                                                                             |
+| Option                                                    | Why not                                                                                                                                                                                                                                                                                    |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Keep Style Dictionary v4 and add a JS format              | Drivers 3, 7: its globally registered transform chain is what makes today's ETL hard to follow; it has no built-in modes, so the brand × theme × breakpoint loop stays ours anyway.                                                                                                        |
+| Terrazzo                                                  | Constraints, driver 1: DTCG-only with good lint rules, but its Tailwind plugin targets Tailwind v4 `@theme` (we ship a v3-style preset), and its JS output doesn't match the `ui-rnative` shape. Its parser could later sit inside ②. Either tool can back a future Android or iOS target. |
+| Two projects (boundary by folder only)                    | Driver 7: the stage rules would be conventions, not lint errors.                                                                                                                                                                                                                           |
+| Four projects (separate Figma client)                     | Driver 7: the client has a single caller.                                                                                                                                                                                                                                                  |
+| Generate outputs at build time instead of committing them | Drivers 5, 7: token changes become invisible in review, and every build depends on the pipeline.                                                                                                                                                                                           |
+| Publish the DTCG files                                    | Not needed for driver 8 yet: no consumer has asked; every rename would become a breaking change. Adding it later is one more target.                                                                                                                                                       |
 
 ## Out of scope
 
