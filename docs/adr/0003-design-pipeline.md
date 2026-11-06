@@ -154,7 +154,9 @@ Nothing imports ①. The import rules are enforced by Nx tags and
    stale.
 4. **Every output is a pure function of the model.** Outputs are tested without
    a file system or network; `--check` is "run every output and compare with
-   git", which replaces the hand-maintained sync test.
+   git", so a committed file can't fall behind its generator. It does not prove
+   two targets agree, so a parity test keeps comparing the values the CSS and
+   JS targets emit for each token.
 5. **Parity before change.** Each refactor ticket keeps outputs byte-identical,
    guarded by the snapshots from ticket 1. A visible change always lands in its
    own PR with a version plan.
@@ -303,8 +305,10 @@ Freeze today's outputs so every later ticket can prove it changed nothing, and
 give generated code its own folder.
 
 - Snapshot tests: the resolved Tailwind preset (theme and generated utilities)
-  per brand, the JS theme per brand and mode, and the list of generated symbol
-  files.
+  per brand, the JS theme per brand and mode, and the generated symbols — path
+  and content hash of every published SVG and of the React and React Native
+  components and barrels, so a changed path, fill, prop or export fails even
+  when no file is renamed.
 - Extend `jsThemeSync.test.ts` to spacing, sizes, radius, border width,
   typography, shadows and motion. Fix each drift it finds or file a ticket
   (`shadow-2xl` is known).
@@ -332,10 +336,15 @@ variable as valid DTCG.
 - Generalize `pruneStaleTokenFiles` (from #956) into `writeSourceFiles`
   (write + prune) for every kind.
 - Output location unchanged; ticket 3 moves the files.
+- The Style Dictionary ETL still reads these files until ticket 3 replaces it,
+  and today it only adds units to bare numbers. Add a small adapter in the ETL
+  that turns the new types back into today's CSS values (`dimension` objects to
+  `16px`, and so on); ticket 3 deletes it with the ETL.
 
 **Done when:** the export reproduces today's token files with corrected types,
-plus the motion collection; `7.motion.Mode1.json` is pruned; the workflow and
-README use the new targets. No version plan (internals only).
+plus the motion collection; running the ETL on them leaves `generated/css`
+byte-identical (empty `git diff`); `7.motion.Mode1.json` is pruned; the
+workflow and README use the new targets. No version plan (internals only).
 
 **Depends on:** 1.
 
@@ -377,12 +386,16 @@ copy.
   types.
 - `createScreensPlugin` reads the generated breakpoints instead of the
   hand-written JS primitives.
-- Delete the hand-written files (about 4,000 lines) and `jsThemeSync.test.ts`,
-  now redundant with `--check`.
+- Delete the hand-written files (about 4,000 lines). Replace
+  `jsThemeSync.test.ts` with a parity test in `design-build` that, for every
+  token in every brand × theme, compares the value the CSS target emits
+  (resolved through its `var()` chain) with the value the JS target emits.
+  `--check` alone wouldn't catch two emitters that disagree.
 - Retire the `figma-token-sync` skill and its `AGENTS.md` row.
 
 **Done when:** the JS theme snapshot is unchanged (apart from drifts fixed in
-ticket 1); `ui-rnative` typecheck and tests pass; version plan for
+ticket 1); the CSS/JS parity test passes for every brand and theme;
+`ui-rnative` typecheck and tests pass; version plan for
 `@ledgerhq/lumen-design-core`.
 
 **Depends on:** 3.
