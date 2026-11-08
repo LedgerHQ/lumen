@@ -3,6 +3,7 @@ import { tokens as enterpriseLightThemeTokens } from './enterprise/theme.light-c
 import { tokens as ledgerLiveDarkThemeTokens } from './ledger-live/theme.dark-css.js';
 import { tokens as ledgerLiveLightThemeTokens } from './ledger-live/theme.light-css.js';
 import { tokens as primitivesTokens } from './primitives-css.js';
+import { tokens as typography2xlTokens } from './typographies/typography.2xl-css.js';
 import { tokens as typographyLgTokens } from './typographies/typography.lg-css.js';
 import { tokens as typographyMdTokens } from './typographies/typography.md-css.js';
 import { tokens as typographySmTokens } from './typographies/typography.sm-css.js';
@@ -19,6 +20,7 @@ export const primitivesTheme = {
     ...typographyMdTokens,
     ...typographyLgTokens,
     ...typographyXlTokens,
+    ...typography2xlTokens,
   },
 };
 

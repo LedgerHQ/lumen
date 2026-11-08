@@ -19,7 +19,7 @@ describe('cssValue', () => {
 });
 
 describe('cssTarget', () => {
-  it('emits the primitives, every brand × theme, every built breakpoint and the barrel', async () => {
+  it('emits the primitives, every brand × theme, every breakpoint and the barrel', async () => {
     const files = await cssTarget('out').emit(createTokenModel());
 
     expect(files.map(({ path }) => path).sort()).toEqual([
@@ -29,6 +29,7 @@ describe('cssTarget', () => {
       'ledger-live/theme.dark-css.ts',
       'ledger-live/theme.light-css.ts',
       'primitives-css.ts',
+      'typographies/typography.2xl-css.ts',
       'typographies/typography.lg-css.ts',
       'typographies/typography.md-css.ts',
       'typographies/typography.sm-css.ts',
