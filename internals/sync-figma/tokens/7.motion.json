@@ -1,8 +1,11 @@
 {
   "duration": {
     "0": {
-      "$type": "number",
-      "$value": 0,
+      "$type": "duration",
+      "$value": {
+        "value": 0,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -13,8 +16,11 @@
       }
     },
     "150": {
-      "$type": "number",
-      "$value": 150,
+      "$type": "duration",
+      "$value": {
+        "value": 150,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -25,8 +31,11 @@
       }
     },
     "200": {
-      "$type": "number",
-      "$value": 200,
+      "$type": "duration",
+      "$value": {
+        "value": 200,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -37,8 +46,11 @@
       }
     },
     "250": {
-      "$type": "number",
-      "$value": 250,
+      "$type": "duration",
+      "$value": {
+        "value": 250,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -49,8 +61,11 @@
       }
     },
     "300": {
-      "$type": "number",
-      "$value": 300,
+      "$type": "duration",
+      "$value": {
+        "value": 300,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -61,8 +76,11 @@
       }
     },
     "500": {
-      "$type": "number",
-      "$value": 500,
+      "$type": "duration",
+      "$value": {
+        "value": 500,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -73,8 +91,11 @@
       }
     },
     "1000": {
-      "$type": "number",
-      "$value": 1000,
+      "$type": "duration",
+      "$value": {
+        "value": 1000,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -85,8 +106,11 @@
       }
     },
     "2000": {
-      "$type": "number",
-      "$value": 2000,
+      "$type": "duration",
+      "$value": {
+        "value": 2000,
+        "unit": "ms"
+      },
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -99,8 +123,13 @@
   },
   "easing": {
     "linear": {
-      "$type": "string",
-      "$value": "cubic-bezier(0, 0, 1, 1)",
+      "$type": "cubicBezier",
+      "$value": [
+        0,
+        0,
+        1,
+        1
+      ],
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -111,8 +140,13 @@
       }
     },
     "ease-in": {
-      "$type": "string",
-      "$value": "cubic-bezier(0.4, 0, 1, 1)",
+      "$type": "cubicBezier",
+      "$value": [
+        0.4,
+        0,
+        1,
+        1
+      ],
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -123,8 +157,13 @@
       }
     },
     "ease-out": {
-      "$type": "string",
-      "$value": "cubic-bezier(0, 0, 0.2, 1)",
+      "$type": "cubicBezier",
+      "$value": [
+        0,
+        0,
+        0.2,
+        1
+      ],
       "$description": "",
       "$extensions": {
         "com.figma": {
@@ -135,8 +174,13 @@
       }
     },
     "ease-in-out": {
-      "$type": "string",
-      "$value": "cubic-bezier(0.4, 0, 0.2, 1)",
+      "$type": "cubicBezier",
+      "$value": [
+        0.4,
+        0,
+        0.2,
+        1
+      ],
       "$description": "",
       "$extensions": {
         "com.figma": {

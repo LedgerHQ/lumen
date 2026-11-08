@@ -1,17 +1,15 @@
-import { describe } from 'node:test';
-import { it, expect } from 'vitest';
-import { figmaApiMock } from './apiMock.js';
+import { describe, expect, it } from 'vitest';
+import { loadFixture } from '../testing/fixtures.js';
 import {
   findVariablesEndingByDefault,
   codeSyntaxFromVariableNameEndingByDefault,
-} from './localVariablesCodeSyntax.js';
+} from './codeSyntaxBody.js';
 
 describe('transform code syntax', () => {
   it('find variables ending with default', async () => {
-    const localVariablesMockResponse =
-      await figmaApiMock.getMocksFromFileSystem(
-        'get-local-variables-response.json',
-      );
+    const localVariablesMockResponse = loadFixture(
+      'get-local-variables-response.json',
+    );
     const filteredVariables = findVariablesEndingByDefault(
       Object.values(localVariablesMockResponse.meta.variables),
     );

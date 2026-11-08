@@ -2841,7 +2841,7 @@
   },
   "border-width": {
     "default": {
-      "$type": "number",
+      "$type": "dimension",
       "$value": "{stroke.1}",
       "$description": "",
       "$extensions": {
@@ -2857,7 +2857,7 @@
       }
     },
     "active": {
-      "$type": "number",
+      "$type": "dimension",
       "$value": "{stroke.2}",
       "$description": "",
       "$extensions": {
@@ -2873,7 +2873,7 @@
       }
     },
     "focus": {
-      "$type": "number",
+      "$type": "dimension",
       "$value": "{stroke.2}",
       "$description": "",
       "$extensions": {
@@ -2889,7 +2889,7 @@
       }
     },
     "stepper": {
-      "$type": "number",
+      "$type": "dimension",
       "$value": "{stroke.4}",
       "$description": "",
       "$extensions": {

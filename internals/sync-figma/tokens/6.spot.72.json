@@ -1,6 +1,6 @@
 {
   "spot-width": {
-    "$type": "number",
+    "$type": "dimension",
     "$value": "{spot-width.72}",
     "$description": "",
     "$extensions": {
@@ -14,7 +14,7 @@
     }
   },
   "spot-height": {
-    "$type": "number",
+    "$type": "dimension",
     "$value": "{spot-height.72}",
     "$description": "",
     "$extensions": {
@@ -28,7 +28,7 @@
     }
   },
   "spot-icon-width": {
-    "$type": "number",
+    "$type": "dimension",
     "$value": "{icon-width.40}",
     "$description": "",
     "$extensions": {
@@ -42,7 +42,7 @@
     }
   },
   "spot-icon-height": {
-    "$type": "number",
+    "$type": "dimension",
     "$value": "{icon-height.40}",
     "$description": "",
     "$extensions": {
@@ -56,7 +56,7 @@
     }
   },
   "icon-border-width": {
-    "$type": "number",
+    "$type": "dimension",
     "$value": "{icon-border-width.40}",
     "$description": "",
     "$extensions": {
@@ -70,7 +70,7 @@
     }
   },
   "number-size": {
-    "$type": "number",
+    "$type": "dimension",
     "$value": "{font-style.heading.2.size}",
     "$description": "",
     "$extensions": {
@@ -84,7 +84,7 @@
     }
   },
   "number-weight": {
-    "$type": "string",
+    "$type": "fontWeight",
     "$value": "{font-style.heading.2.weight-medium}",
     "$description": "",
     "$extensions": {

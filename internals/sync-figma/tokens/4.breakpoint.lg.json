@@ -3,7 +3,7 @@
     "responsive-display": {
       "1": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.112}",
           "$description": "",
           "$extensions": {
@@ -17,7 +17,7 @@
           }
         },
         "weight": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.bold}",
           "$description": "",
           "$extensions": {
@@ -31,7 +31,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.112}",
           "$description": "",
           "$extensions": {
@@ -45,7 +45,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.112}",
           "$description": "",
           "$extensions": {
@@ -61,7 +61,7 @@
       },
       "2": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.80}",
           "$description": "",
           "$extensions": {
@@ -75,7 +75,7 @@
           }
         },
         "weight": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -89,7 +89,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.80}",
           "$description": "",
           "$extensions": {
@@ -103,7 +103,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.80}",
           "$description": "",
           "$extensions": {
@@ -119,7 +119,7 @@
       },
       "3": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.64}",
           "$description": "",
           "$extensions": {
@@ -133,7 +133,7 @@
           }
         },
         "weight": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -147,7 +147,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.64}",
           "$description": "",
           "$extensions": {
@@ -161,7 +161,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.64}",
           "$description": "",
           "$extensions": {
@@ -177,7 +177,7 @@
       },
       "4": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.52}",
           "$description": "",
           "$extensions": {
@@ -191,7 +191,7 @@
           }
         },
         "weight": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -205,7 +205,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.52}",
           "$description": "",
           "$extensions": {
@@ -219,7 +219,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.52}",
           "$description": "",
           "$extensions": {
@@ -237,7 +237,7 @@
     "heading": {
       "0": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.48}",
           "$description": "",
           "$extensions": {
@@ -251,7 +251,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -265,7 +265,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -279,7 +279,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.48}",
           "$description": "",
           "$extensions": {
@@ -293,7 +293,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.48}",
           "$description": "",
           "$extensions": {
@@ -309,7 +309,7 @@
       },
       "1": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.40}",
           "$description": "",
           "$extensions": {
@@ -323,7 +323,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -337,7 +337,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -351,7 +351,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.40}",
           "$description": "",
           "$extensions": {
@@ -365,7 +365,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.40}",
           "$description": "",
           "$extensions": {
@@ -381,7 +381,7 @@
       },
       "2": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.28}",
           "$description": "",
           "$extensions": {
@@ -395,7 +395,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -409,7 +409,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -423,7 +423,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.28}",
           "$description": "",
           "$extensions": {
@@ -437,7 +437,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.28}",
           "$description": "",
           "$extensions": {
@@ -453,7 +453,7 @@
       },
       "3": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.24}",
           "$description": "",
           "$extensions": {
@@ -467,7 +467,7 @@
           }
         },
         "size 2": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.32}",
           "$description": "",
           "$extensions": {
@@ -481,7 +481,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -495,7 +495,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -509,7 +509,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.24}",
           "$description": "",
           "$extensions": {
@@ -523,7 +523,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.24}",
           "$description": "",
           "$extensions": {
@@ -539,7 +539,7 @@
       },
       "4": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.20}",
           "$description": "",
           "$extensions": {
@@ -553,7 +553,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -567,7 +567,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -581,7 +581,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.20}",
           "$description": "",
           "$extensions": {
@@ -595,7 +595,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.20}",
           "$description": "",
           "$extensions": {
@@ -611,7 +611,7 @@
       },
       "5": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.18}",
           "$description": "",
           "$extensions": {
@@ -625,7 +625,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -639,7 +639,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -653,7 +653,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.18}",
           "$description": "",
           "$extensions": {
@@ -667,7 +667,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.18}",
           "$description": "",
           "$extensions": {
@@ -685,7 +685,7 @@
     "body": {
       "1": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.16}",
           "$description": "",
           "$extensions": {
@@ -699,7 +699,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -713,7 +713,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -727,7 +727,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.16}",
           "$description": "",
           "$extensions": {
@@ -741,7 +741,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.16}",
           "$description": "",
           "$extensions": {
@@ -757,7 +757,7 @@
       },
       "2": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.14}",
           "$description": "",
           "$extensions": {
@@ -771,7 +771,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -785,7 +785,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -799,7 +799,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.14}",
           "$description": "",
           "$extensions": {
@@ -813,7 +813,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.14}",
           "$description": "",
           "$extensions": {
@@ -829,7 +829,7 @@
       },
       "3": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.12}",
           "$description": "",
           "$extensions": {
@@ -843,7 +843,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -857,7 +857,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -871,7 +871,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.12}",
           "$description": "",
           "$extensions": {
@@ -885,7 +885,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.12}",
           "$description": "",
           "$extensions": {
@@ -901,7 +901,7 @@
       },
       "4": {
         "size": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.size.10}",
           "$description": "",
           "$extensions": {
@@ -915,7 +915,7 @@
           }
         },
         "weight-semi-bold": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.semi-bold}",
           "$description": "",
           "$extensions": {
@@ -929,7 +929,7 @@
           }
         },
         "weight-medium": {
-          "$type": "string",
+          "$type": "fontWeight",
           "$value": "{font.weight.medium}",
           "$description": "",
           "$extensions": {
@@ -943,7 +943,7 @@
           }
         },
         "line-height": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.line-height.10}",
           "$description": "",
           "$extensions": {
@@ -957,7 +957,7 @@
           }
         },
         "letter-spacing": {
-          "$type": "number",
+          "$type": "dimension",
           "$value": "{font.letter-spacing.10}",
           "$description": "",
           "$extensions": {
