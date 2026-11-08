@@ -5,6 +5,7 @@ import { cssTarget } from './css.js';
 import { type JsTheme, jsTheme } from './js.js';
 import { semanticKey } from './naming.js';
 import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
+import { hexToRgba, shadowUtilities } from './tailwind.js';
 
 /**
  * `check` proves each output matches its generator; it can't prove two
@@ -182,6 +183,47 @@ describe('CSS and JS targets agree', () => {
           }
         }
       }
+    }
+
+    expect(issues).toEqual([]);
+  });
+
+  it('web shadow utilities, apart from the pending design decisions', () => {
+    const files = model.select([
+      'primitives',
+      ...model.collections
+        .filter(({ name }) =>
+          model.sources.some(
+            (s) => s.collection === name && s.origin === 'code',
+          ),
+        )
+        .map(({ name }) => name),
+    ]);
+    const web = shadowUtilities(model.tokens(files), (token) =>
+      model.resolve(token, files),
+    );
+    const issues: string[] = [];
+
+    for (const [size, layers] of Object.entries(
+      js.core.shadows as Record<string, Json[]>,
+    )) {
+      const expected = layers.map((layer, index) => {
+        const pending = PENDING.has(`shadows.${size}.${index}.color`);
+        const length = (value: unknown): string =>
+          value === 0 ? '0' : `${String(value)}px`;
+        return pending
+          ? null
+          : `${length(layer.offsetX)} ${length(layer.offsetY)} ${length(layer.blurRadius)} ${length(layer.spreadDistance)} var(--tw-shadow-color, ${hexToRgba(String(layer.color))})`;
+      });
+      const actual =
+        web[`.shadow-${size}`]?.['--tw-shadow']?.split(/(?<=\)\)),\s/);
+      expected.forEach((layer, index) => {
+        if (layer !== null && actual?.[index] !== layer) {
+          issues.push(
+            `shadows.${size}.${index}: web=${actual?.[index]}, JS=${layer}`,
+          );
+        }
+      });
     }
 
     expect(issues).toEqual([]);

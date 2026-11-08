@@ -1,4 +1,5 @@
 import plugin from 'tailwindcss/plugin.js';
+import { durations, easings } from '../../generated/tailwind/index.js';
 
 type TailwindPlugin = ReturnType<typeof plugin>;
 
@@ -8,6 +9,9 @@ export function createAnimationsPlugin(): TailwindPlugin {
     {
       theme: {
         extend: {
+          // `duration-<token>` classes are the motion tokens; other numbers
+          // still work as Tailwind arbitrary durations.
+          transitionDuration: durations,
           keyframes: {
             'content-show': {
               from: {
@@ -97,23 +101,25 @@ export function createAnimationsPlugin(): TailwindPlugin {
               },
             },
           },
+          // `ease-in` / `ease-out` are the CSS keywords, not the Lumen easing
+          // tokens (different curves): switching is a visible change waiting for
+          // the motion decision (DLS-1182).
           animation: {
-            'content-show': 'content-show 300ms ease-in',
-            'content-hide': 'content-hide 300ms ease-out',
-            'fade-in': 'fade-in 300ms ease-in',
-            'fade-out': 'fade-out 300ms ease-out',
+            'content-show': `content-show ${durations[300]} ease-in`,
+            'content-hide': `content-hide ${durations[300]} ease-out`,
+            'fade-in': `fade-in ${durations[300]} ease-in`,
+            'fade-out': `fade-out ${durations[300]} ease-out`,
 
-            'slide-in-from-top': 'slide-in-from-top 200ms ease-in',
-            'slide-in-from-bottom': 'slide-in-from-bottom 200ms ease-in',
-            'slide-in-from-left': 'slide-in-from-left 200ms ease-in',
-            'slide-in-from-right': 'slide-in-from-right 200ms ease-in',
-            'slide-out-to-top': 'slide-out-to-top 200ms ease-out',
-            'slide-out-to-bottom': 'slide-out-to-bottom 200ms ease-out',
-            'slide-out-to-left': 'slide-out-to-left 200ms ease-out',
-            'slide-out-to-right': 'slide-out-to-right 200ms ease-out',
+            'slide-in-from-top': `slide-in-from-top ${durations[200]} ease-in`,
+            'slide-in-from-bottom': `slide-in-from-bottom ${durations[200]} ease-in`,
+            'slide-in-from-left': `slide-in-from-left ${durations[200]} ease-in`,
+            'slide-in-from-right': `slide-in-from-right ${durations[200]} ease-in`,
+            'slide-out-to-top': `slide-out-to-top ${durations[200]} ease-out`,
+            'slide-out-to-bottom': `slide-out-to-bottom ${durations[200]} ease-out`,
+            'slide-out-to-left': `slide-out-to-left ${durations[200]} ease-out`,
+            'slide-out-to-right': `slide-out-to-right ${durations[200]} ease-out`,
 
-            'translate-from-right':
-              'translate-from-right 250ms cubic-bezier(0.4, 0, 0.2, 1)',
+            'translate-from-right': `translate-from-right ${durations[250]} ${easings['ease-in-out']}`,
           },
         },
       },
