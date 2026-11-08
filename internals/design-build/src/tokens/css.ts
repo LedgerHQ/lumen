@@ -3,12 +3,6 @@ import type { OutputFile, Target } from '../core/target.js';
 import { cssLayers, type Declarations } from './cssLayers.js';
 import { orderedBreakpoints } from './selections.js';
 
-/**
- * Breakpoint modes built today. `2xl` exists in Figma but was never built;
- * building it is a visible change, shipped on its own.
- */
-const BUILT_BREAKPOINTS = new Set(['xs', 'sm', 'md', 'lg', 'xl']);
-
 /** One selector → custom properties map, the shape the Tailwind plugins pass to `addBase`. */
 const cssMap = (
   selector: string,
@@ -81,9 +75,7 @@ export const cssTarget = (outDir: string): Target<TokenModel> => ({
   name: 'css',
   outDir,
   emit: (model) => {
-    const breakpoints = orderedBreakpoints(model).filter((breakpoint) =>
-      BUILT_BREAKPOINTS.has(breakpoint),
-    );
+    const breakpoints = orderedBreakpoints(model);
     const layers = cssLayers(model, breakpoints);
     const valueType = 'Record<string, Record<string, string | number>>';
 
