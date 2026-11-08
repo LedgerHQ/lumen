@@ -1,0 +1,54 @@
+{
+  "delay": {
+    "75": {
+      "$value": {
+        "value": 75,
+        "unit": "ms"
+      }
+    },
+    "100": {
+      "$value": {
+        "value": 100,
+        "unit": "ms"
+      }
+    },
+    "150": {
+      "$value": {
+        "value": 150,
+        "unit": "ms"
+      }
+    },
+    "200": {
+      "$value": {
+        "value": 200,
+        "unit": "ms"
+      }
+    },
+    "300": {
+      "$value": {
+        "value": 300,
+        "unit": "ms"
+      }
+    },
+    "500": {
+      "$value": {
+        "value": 500,
+        "unit": "ms"
+      }
+    },
+    "1000": {
+      "$value": {
+        "value": 1000,
+        "unit": "ms"
+      }
+    },
+    "2000": {
+      "$value": {
+        "value": 2000,
+        "unit": "ms"
+      }
+    },
+    "$type": "duration",
+    "$description": "Animation delays. Not in Figma yet."
+  }
+}

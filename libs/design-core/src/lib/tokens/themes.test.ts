@@ -1,17 +1,15 @@
 import { describe, expect, it } from 'vitest';
-import { enterpriseLightColorTokens } from '../generated/js/enterprise/theme.light.js';
 import {
+  enterpriseLightColorTokens,
   enterpriseThemes,
+  ledgerLiveDarkColorTokens,
   ledgerLiveThemes,
   websitesThemes,
 } from '../generated/js/index.js';
-import { ledgerLiveDarkColorTokens } from '../generated/js/ledger-live/theme.dark.js';
-import { primitiveColorTokens } from '../generated/js/primitives/primitive.colors.js';
-import { primitiveTypographyTokens } from '../generated/js/primitives/primitive.typographies.js';
-import { primitiveMotionTokens } from '../generated/js/primitives/primitives.motion.js';
-import { primitiveLayoutTokens } from '../generated/js/primitives/primitives.others.js';
-import { primitiveShadowTokens } from '../generated/js/primitives/primitives.shadows.js';
-import { typographyTokens } from '../generated/js/typographies/index.js';
+import {
+  coreTokens,
+  primitiveColorTokens,
+} from '../generated/js/primitives.js';
 
 describe('JS themes', () => {
   describe.each([
@@ -22,13 +20,7 @@ describe('JS themes', () => {
     it.each(['dark', 'light'] as const)(
       'should build the %s theme from the shared core tokens',
       (scheme) => {
-        expect(themes[scheme]).toMatchObject({
-          ...primitiveLayoutTokens,
-          fontFamilies: primitiveTypographyTokens.fontFamily,
-          shadows: primitiveShadowTokens,
-          typographies: typographyTokens,
-          motion: primitiveMotionTokens,
-        });
+        expect(themes[scheme]).toMatchObject(coreTokens);
       },
     );
 
@@ -49,16 +41,12 @@ describe('JS themes', () => {
     expect(enterpriseThemes.light.colors).toBe(enterpriseLightColorTokens);
   });
 
-  it('should define every shadow from the dark grey primitives', () => {
-    const shadowColors = Object.values(primitiveShadowTokens).flatMap(
-      (layers) => layers.map(({ color }) => color),
-    );
+  it('should fade every crypto gradient to its transparent twin', () => {
+    const { bitcoin } = enterpriseLightColorTokens.gradients.crypto;
 
-    expect(new Set(shadowColors)).toEqual(
-      new Set([
-        primitiveColorTokens.dark.grey['050-10'],
-        primitiveColorTokens.dark.grey['050-20'],
-      ]),
-    );
+    expect(bitcoin).toEqual([
+      { color: primitiveColorTokens.light.crypto.bitcoin },
+      { color: primitiveColorTokens.light.cryptoTransparent.bitcoin },
+    ]);
   });
 });
