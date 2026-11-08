@@ -1,0 +1,911 @@
+{
+  "bg": {
+    "accent": "#445ee1",
+    "accentHover": "#677ce7",
+    "accentPressed": "#8b9bec",
+    "active": "#445ee1",
+    "activeHover": "#677ce7",
+    "activePressed": "#8b9bec",
+    "activeSubtle": "#060d2c",
+    "activeSubtleHover": "#0f1d66",
+    "activeSubtlePressed": "#182ea1",
+    "base": "#000000",
+    "baseHover": "#151515",
+    "basePressed": "#1f1f1f",
+    "baseTransparent": "#ffffff00",
+    "baseTransparentHover": "#ffffff1a",
+    "baseTransparentPressed": "#ffffff33",
+    "black": "#000000",
+    "canvas": "#000000",
+    "canvasMuted": "#000000",
+    "canvasOverlay": "#00000099",
+    "canvasOverlayChart": "#00000099",
+    "canvasOverlaySubtle": "#0000004d",
+    "canvasSheet": "#0d0d0d",
+    "canvasSheetTransparent": "#0d0d0d00",
+    "decorativeBlue": "#2d498c",
+    "decorativeGreen": "#3f5832",
+    "decorativeOrange": "#724e2b",
+    "decorativePink": "#76355d",
+    "decorativePurple": "#653d6e",
+    "decorativeRed": "#882b2d",
+    "decorativeStrongBlue": "#5583f4",
+    "decorativeStrongGreen": "#66954d",
+    "decorativeStrongOrange": "#cb7118",
+    "decorativeStrongPink": "#dc57a9",
+    "decorativeStrongPurple": "#bb68cd",
+    "decorativeStrongRed": "#d05d60",
+    "decorativeStrongTurquoise": "#2b95a7",
+    "decorativeStrongYellow": "#ceae2c",
+    "decorativeTurquoise": "#2b5258",
+    "decorativeYellow": "#5e5820",
+    "disabled": "#1f1f1f",
+    "disabledStrong": "#3c3c3c",
+    "error": "#852e2f",
+    "errorStrong": "#ff8486",
+    "errorTransparent": "#ff848626",
+    "errorTransparent0": "#ff848600",
+    "errorTransparentHover": "#ff84864d",
+    "errorTransparentPressed": "#ff848666",
+    "gradient0": "#00000000",
+    "gradient10": "#0000001a",
+    "gradient100": "#000000",
+    "gradient30": "#0000004d",
+    "gradient40": "#00000066",
+    "gradient70": "#000000b2",
+    "gradient80": "#000000cc",
+    "gradientOverlay0": "#00000000",
+    "gradientOverlay80": "#000000cc",
+    "grey": "#f1f1f1",
+    "interactive": "#ffffff",
+    "interactiveHover": "#e1e1e1",
+    "interactivePressed": "#c3c3c3",
+    "muted": "#1f1f1f",
+    "mutedHover": "#3c3c3c",
+    "mutedPressed": "#565656",
+    "mutedStrong": "#848484",
+    "mutedStrongHover": "#9c9c9c",
+    "mutedStrongPressed": "#c3c3c3",
+    "mutedTransparent": "#ffffff1f",
+    "mutedTransparent0": "#1f1f1f00",
+    "mutedTransparentDisabled": "#ffffff1f",
+    "mutedTransparentHover": "#ffffff33",
+    "mutedTransparentPressed": "#ffffff4d",
+    "native": "#c3c3c3",
+    "section": "#0d0d0d",
+    "success": "#33572e",
+    "successStrong": "#70cb5d",
+    "successTransparent": "#70cb5d26",
+    "successTransparent0": "#70cb5d00",
+    "successTransparentHover": "#70cb5d4d",
+    "successTransparentPressed": "#70cb5d66",
+    "surface": "#151515",
+    "surfaceDisabled": "#151515",
+    "surfaceHover": "#1f1f1f",
+    "surfacePressed": "#3c3c3c",
+    "surfaceTransparent": "#ffffff14",
+    "surfaceTransparent0": "#15151500",
+    "surfaceTransparentDisabled": "#ffffff14",
+    "surfaceTransparentHover": "#ffffff1a",
+    "surfaceTransparentPressed": "#ffffff33",
+    "warning": "#885a14",
+    "warningStrong": "#ffbd42",
+    "warningTransparent": "#ffbd4226",
+    "white": "#ffffff"
+  },
+  "border": {
+    "active": "#445ee1",
+    "activeHover": "#8b9bec",
+    "activePressed": "#8b9bec",
+    "base": "#ffffff",
+    "baseHover": "#e1e1e1",
+    "baseInverted": "#000000",
+    "basePressed": "#c3c3c3",
+    "baseTransparent0": "#ffffff00",
+    "black": "#000000",
+    "disabled": "#3c3c3c",
+    "error": "#ff8486",
+    "errorHover": "#fca6a7",
+    "errorPressed": "#fec8c9",
+    "errorTransparent": "#ff848680",
+    "focus": "#d2d9f8",
+    "icon": "#ffffff1a",
+    "muted": "#717070",
+    "mutedHover": "#848484",
+    "mutedPressed": "#9c9c9c",
+    "mutedSubtle": "#3c3c3c",
+    "mutedSubtleHover": "#565656",
+    "mutedSubtlePressed": "#717070",
+    "mutedSubtleTransparent": "#3c3c3c80",
+    "success": "#70cb5d",
+    "successTransparent": "#70cb5d80",
+    "warning": "#ffbd42",
+    "white": "#ffffff"
+  },
+  "crypto": {
+    "aion": "#212529",
+    "aion0": "#21252900",
+    "algorand": "#000000",
+    "algorand0": "#00000000",
+    "avax": "#e84142",
+    "avax0": "#e8414200",
+    "bat": "#ff5000",
+    "bat0": "#ff500000",
+    "bgb": "#00e0ff",
+    "bgb0": "#00e0ff00",
+    "binance": "#f5bc00",
+    "binance0": "#f5bc0000",
+    "bitcoin": "#f7931a",
+    "bitcoin0": "#f7931a00",
+    "bitcoinCash": "#0ac18e",
+    "bitcoinCash0": "#0ac18e00",
+    "bitcoinGold": "#152569",
+    "bitcoinGold0": "#15256900",
+    "bitcoinSv": "#eab300",
+    "bitcoinSv0": "#eab30000",
+    "bytecoin": "#f04086",
+    "bytecoin0": "#f0408600",
+    "cardano": "#0033ad",
+    "cardano0": "#0033ad00",
+    "celo": "#fcff52",
+    "celo0": "#fcff5200",
+    "celo2": "#4cdd91",
+    "celo20": "#4cdd9100",
+    "chainlink": "#2a5ada",
+    "chainlink0": "#2a5ada00",
+    "compound": "#00d395",
+    "compound0": "#00d39500",
+    "cosmos": "#2e3148",
+    "cosmos0": "#2e314800",
+    "cro": "#002d74",
+    "cro0": "#002d7400",
+    "dai": "#f5ac37",
+    "dai0": "#f5ac3700",
+    "dash": "#008ce7",
+    "dash0": "#008ce700",
+    "decred": "#2970ff",
+    "decred0": "#2970ff00",
+    "digibyte": "#0066cc",
+    "digibyte0": "#0066cc00",
+    "dogecoin": "#c3a634",
+    "dogecoin0": "#c3a63400",
+    "dydx": "#6966ff",
+    "dydx0": "#6966ff00",
+    "dym": "#f1e1d4",
+    "dym0": "#f1e1d400",
+    "elrond": "#000000",
+    "elrond0": "#00000000",
+    "eng": "#2f2f2f",
+    "eng0": "#2f2f2f00",
+    "eos": "#000000",
+    "eos0": "#00000000",
+    "ethereum": "#454a75",
+    "ethereum0": "#454a7500",
+    "ethereumClassic": "#0b8311",
+    "ethereumClassic0": "#0b831100",
+    "ethergem": "#4a4ab6",
+    "ethergem0": "#4a4ab600",
+    "flr": "#e62058",
+    "flr0": "#e6205800",
+    "ftm": "#1969ff",
+    "ftm0": "#1969ff00",
+    "hedera": "#000000",
+    "hedera0": "#00000000",
+    "hnt": "#474dff",
+    "hnt0": "#474dff00",
+    "huobi": "#357ce1",
+    "huobi0": "#357ce100",
+    "iota": "#000000",
+    "iota0": "#00000000",
+    "komodo": "#41ead4",
+    "komodo0": "#41ead400",
+    "leo": "#000000",
+    "leo0": "#00000000",
+    "litecoin": "#345d9d",
+    "litecoin0": "#345d9d00",
+    "monero": "#f26822",
+    "monero0": "#f2682200",
+    "multiverseX": "#23f7dd",
+    "multiverseX0": "#23f7dd00",
+    "nano": "#5d8eb2",
+    "nano0": "#5d8eb200",
+    "near": "#1c1d1f",
+    "near0": "#1c1d1f00",
+    "neo": "#7dd224",
+    "neo0": "#7dd22400",
+    "nimiq": "#f8b425",
+    "nimiq0": "#f8b42500",
+    "okb": "#2d60e0",
+    "okb0": "#2d60e000",
+    "omgNetwork": "#000000",
+    "omgNetwork0": "#00000000",
+    "osmo": "#302dbb",
+    "osmo0": "#302dbb00",
+    "peercoin": "#3cb054",
+    "peercoin0": "#3cb05400",
+    "pirl": "#357ce1",
+    "pirl0": "#357ce100",
+    "pivx": "#5c4c7c",
+    "pivx0": "#5c4c7c00",
+    "polkadot": "#e6007a",
+    "polkadot0": "#e6007a00",
+    "polygon": "#8247e5",
+    "polygon0": "#8247e500",
+    "qnt": "#ef4f1f",
+    "qnt0": "#ef4f1f00",
+    "sats": "#ff8b00",
+    "sats0": "#ff8b0000",
+    "sol": "#9945ff",
+    "sol0": "#9945ff00",
+    "stellar": "#000000",
+    "stellar0": "#00000000",
+    "tetherUsdt": "#00a478",
+    "tetherUsdt0": "#00a47800",
+    "tezos": "#2c7df7",
+    "tezos0": "#2c7df700",
+    "tkx": "#fd6a1f",
+    "tkx0": "#fd6a1f00",
+    "tron": "#ff060a",
+    "tron0": "#ff060a00",
+    "tusd": "#1a5aff",
+    "tusd0": "#1a5aff00",
+    "uni": "#f04086",
+    "uni0": "#f0408600",
+    "uniswap": "#ff007a",
+    "uniswap0": "#ff007a00",
+    "usdc": "#2775ca",
+    "usdc0": "#2775ca00",
+    "waves": "#0055ff",
+    "waves0": "#0055ff00",
+    "xin": "#1eb5fa",
+    "xin0": "#1eb5fa00",
+    "xrp": "#333333",
+    "xrp0": "#33333300",
+    "yieldly": "#f3b732",
+    "yieldly0": "#f3b73200",
+    "zcash": "#f4b728",
+    "zcash0": "#f4b72800"
+  },
+  "discover": {
+    "1inch": "#212529",
+    "baanx": "#003edd",
+    "bitrefill": "#449bf7",
+    "changelly": "#10d078",
+    "compound": "#00d395",
+    "deversifi": "#6436ff",
+    "juno": "#4643ee",
+    "lido": "#47a1f8",
+    "loopipayBlack": "#0e0d13",
+    "loopipayBlue": "#0050ff",
+    "loopipayLime": "#e1fb61",
+    "mercuryo": "#212529",
+    "opensea": "#2081e2",
+    "paraswap": "#266ef0",
+    "rarible": "#feda03",
+    "sardine": "#2d29d7",
+    "simplex": "#2ea836",
+    "zerion": "#2962ef"
+  },
+  "gradients": {
+    "crypto": {
+      "aion": [
+        {
+          "color": "#212529"
+        },
+        {
+          "color": "#21252900"
+        }
+      ],
+      "algorand": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "avax": [
+        {
+          "color": "#e84142"
+        },
+        {
+          "color": "#e8414200"
+        }
+      ],
+      "bat": [
+        {
+          "color": "#ff5000"
+        },
+        {
+          "color": "#ff500000"
+        }
+      ],
+      "bgb": [
+        {
+          "color": "#00e0ff"
+        },
+        {
+          "color": "#00e0ff00"
+        }
+      ],
+      "binance": [
+        {
+          "color": "#f5bc00"
+        },
+        {
+          "color": "#f5bc0000"
+        }
+      ],
+      "bitcoin": [
+        {
+          "color": "#f7931a"
+        },
+        {
+          "color": "#f7931a00"
+        }
+      ],
+      "bitcoinCash": [
+        {
+          "color": "#0ac18e"
+        },
+        {
+          "color": "#0ac18e00"
+        }
+      ],
+      "bitcoinGold": [
+        {
+          "color": "#152569"
+        },
+        {
+          "color": "#15256900"
+        }
+      ],
+      "bitcoinSv": [
+        {
+          "color": "#eab300"
+        },
+        {
+          "color": "#eab30000"
+        }
+      ],
+      "bytecoin": [
+        {
+          "color": "#f04086"
+        },
+        {
+          "color": "#f0408600"
+        }
+      ],
+      "cardano": [
+        {
+          "color": "#0033ad"
+        },
+        {
+          "color": "#0033ad00"
+        }
+      ],
+      "celo": [
+        {
+          "color": "#fcff52"
+        },
+        {
+          "color": "#fcff5200"
+        }
+      ],
+      "celo2": [
+        {
+          "color": "#4cdd91"
+        },
+        {
+          "color": "#4cdd9100"
+        }
+      ],
+      "chainlink": [
+        {
+          "color": "#2a5ada"
+        },
+        {
+          "color": "#2a5ada00"
+        }
+      ],
+      "compound": [
+        {
+          "color": "#00d395"
+        },
+        {
+          "color": "#00d39500"
+        }
+      ],
+      "cosmos": [
+        {
+          "color": "#2e3148"
+        },
+        {
+          "color": "#2e314800"
+        }
+      ],
+      "cro": [
+        {
+          "color": "#002d74"
+        },
+        {
+          "color": "#002d7400"
+        }
+      ],
+      "dai": [
+        {
+          "color": "#f5ac37"
+        },
+        {
+          "color": "#f5ac3700"
+        }
+      ],
+      "dash": [
+        {
+          "color": "#008ce7"
+        },
+        {
+          "color": "#008ce700"
+        }
+      ],
+      "decred": [
+        {
+          "color": "#2970ff"
+        },
+        {
+          "color": "#2970ff00"
+        }
+      ],
+      "digibyte": [
+        {
+          "color": "#0066cc"
+        },
+        {
+          "color": "#0066cc00"
+        }
+      ],
+      "dogecoin": [
+        {
+          "color": "#c3a634"
+        },
+        {
+          "color": "#c3a63400"
+        }
+      ],
+      "dydx": [
+        {
+          "color": "#6966ff"
+        },
+        {
+          "color": "#6966ff00"
+        }
+      ],
+      "dym": [
+        {
+          "color": "#f1e1d4"
+        },
+        {
+          "color": "#f1e1d400"
+        }
+      ],
+      "elrond": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "eng": [
+        {
+          "color": "#2f2f2f"
+        },
+        {
+          "color": "#2f2f2f00"
+        }
+      ],
+      "eos": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "ethereum": [
+        {
+          "color": "#454a75"
+        },
+        {
+          "color": "#454a7500"
+        }
+      ],
+      "ethereumClassic": [
+        {
+          "color": "#0b8311"
+        },
+        {
+          "color": "#0b831100"
+        }
+      ],
+      "ethergem": [
+        {
+          "color": "#4a4ab6"
+        },
+        {
+          "color": "#4a4ab600"
+        }
+      ],
+      "flr": [
+        {
+          "color": "#e62058"
+        },
+        {
+          "color": "#e6205800"
+        }
+      ],
+      "ftm": [
+        {
+          "color": "#1969ff"
+        },
+        {
+          "color": "#1969ff00"
+        }
+      ],
+      "hedera": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "hnt": [
+        {
+          "color": "#474dff"
+        },
+        {
+          "color": "#474dff00"
+        }
+      ],
+      "huobi": [
+        {
+          "color": "#357ce1"
+        },
+        {
+          "color": "#357ce100"
+        }
+      ],
+      "iota": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "komodo": [
+        {
+          "color": "#41ead4"
+        },
+        {
+          "color": "#41ead400"
+        }
+      ],
+      "leo": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "litecoin": [
+        {
+          "color": "#345d9d"
+        },
+        {
+          "color": "#345d9d00"
+        }
+      ],
+      "monero": [
+        {
+          "color": "#f26822"
+        },
+        {
+          "color": "#f2682200"
+        }
+      ],
+      "multiverseX": [
+        {
+          "color": "#23f7dd"
+        },
+        {
+          "color": "#23f7dd00"
+        }
+      ],
+      "nano": [
+        {
+          "color": "#5d8eb2"
+        },
+        {
+          "color": "#5d8eb200"
+        }
+      ],
+      "near": [
+        {
+          "color": "#1c1d1f"
+        },
+        {
+          "color": "#1c1d1f00"
+        }
+      ],
+      "neo": [
+        {
+          "color": "#7dd224"
+        },
+        {
+          "color": "#7dd22400"
+        }
+      ],
+      "nimiq": [
+        {
+          "color": "#f8b425"
+        },
+        {
+          "color": "#f8b42500"
+        }
+      ],
+      "okb": [
+        {
+          "color": "#2d60e0"
+        },
+        {
+          "color": "#2d60e000"
+        }
+      ],
+      "omgNetwork": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "osmo": [
+        {
+          "color": "#302dbb"
+        },
+        {
+          "color": "#302dbb00"
+        }
+      ],
+      "peercoin": [
+        {
+          "color": "#3cb054"
+        },
+        {
+          "color": "#3cb05400"
+        }
+      ],
+      "pirl": [
+        {
+          "color": "#357ce1"
+        },
+        {
+          "color": "#357ce100"
+        }
+      ],
+      "pivx": [
+        {
+          "color": "#5c4c7c"
+        },
+        {
+          "color": "#5c4c7c00"
+        }
+      ],
+      "polkadot": [
+        {
+          "color": "#e6007a"
+        },
+        {
+          "color": "#e6007a00"
+        }
+      ],
+      "polygon": [
+        {
+          "color": "#8247e5"
+        },
+        {
+          "color": "#8247e500"
+        }
+      ],
+      "qnt": [
+        {
+          "color": "#ef4f1f"
+        },
+        {
+          "color": "#ef4f1f00"
+        }
+      ],
+      "sats": [
+        {
+          "color": "#ff8b00"
+        },
+        {
+          "color": "#ff8b0000"
+        }
+      ],
+      "sol": [
+        {
+          "color": "#9945ff"
+        },
+        {
+          "color": "#9945ff00"
+        }
+      ],
+      "stellar": [
+        {
+          "color": "#000000"
+        },
+        {
+          "color": "#00000000"
+        }
+      ],
+      "tetherUsdt": [
+        {
+          "color": "#00a478"
+        },
+        {
+          "color": "#00a47800"
+        }
+      ],
+      "tezos": [
+        {
+          "color": "#2c7df7"
+        },
+        {
+          "color": "#2c7df700"
+        }
+      ],
+      "tkx": [
+        {
+          "color": "#fd6a1f"
+        },
+        {
+          "color": "#fd6a1f00"
+        }
+      ],
+      "tron": [
+        {
+          "color": "#ff060a"
+        },
+        {
+          "color": "#ff060a00"
+        }
+      ],
+      "tusd": [
+        {
+          "color": "#1a5aff"
+        },
+        {
+          "color": "#1a5aff00"
+        }
+      ],
+      "uni": [
+        {
+          "color": "#f04086"
+        },
+        {
+          "color": "#f0408600"
+        }
+      ],
+      "uniswap": [
+        {
+          "color": "#ff007a"
+        },
+        {
+          "color": "#ff007a00"
+        }
+      ],
+      "usdc": [
+        {
+          "color": "#2775ca"
+        },
+        {
+          "color": "#2775ca00"
+        }
+      ],
+      "waves": [
+        {
+          "color": "#0055ff"
+        },
+        {
+          "color": "#0055ff00"
+        }
+      ],
+      "xin": [
+        {
+          "color": "#1eb5fa"
+        },
+        {
+          "color": "#1eb5fa00"
+        }
+      ],
+      "xrp": [
+        {
+          "color": "#333333"
+        },
+        {
+          "color": "#33333300"
+        }
+      ],
+      "yieldly": [
+        {
+          "color": "#f3b732"
+        },
+        {
+          "color": "#f3b73200"
+        }
+      ],
+      "zcash": [
+        {
+          "color": "#f4b728"
+        },
+        {
+          "color": "#f4b72800"
+        }
+      ]
+    }
+  },
+  "text": {
+    "active": "#677ce7",
+    "base": "#ffffff",
+    "baseHover": "#e1e1e1",
+    "basePressed": "#c3c3c3",
+    "black": "#000000",
+    "decorativeBlue": "#5583f4",
+    "decorativeGreen": "#66954d",
+    "decorativeOrange": "#cb7118",
+    "decorativePink": "#dc57a9",
+    "decorativePurple": "#bb68cd",
+    "decorativeRed": "#d05d60",
+    "decorativeStrongBlue": "#c3d5ff",
+    "decorativeStrongGreen": "#cce2c0",
+    "decorativeStrongOrange": "#fbd7b4",
+    "decorativeStrongPink": "#f7c7e5",
+    "decorativeStrongPurple": "#eacaf1",
+    "decorativeStrongRed": "#ffdcdd",
+    "decorativeStrongTurquoise": "#b6e8f1",
+    "decorativeStrongYellow": "#fcf6c0",
+    "decorativeTurquoise": "#2b95a7",
+    "decorativeYellow": "#ceae2c",
+    "disabled": "#565656",
+    "error": "#ff8486",
+    "errorOnInteractive": "#9a2b2d",
+    "errorStrong": "#fca6a7",
+    "grey": "#e1e1e1",
+    "interactive": "#677ce7",
+    "interactiveHover": "#8b9bec",
+    "interactivePressed": "#afbaf2",
+    "muted": "#9c9c9c",
+    "mutedHover": "#c3c3c3",
+    "mutedPressed": "#e1e1e1",
+    "mutedSubtle": "#565656",
+    "native": "#007aff",
+    "onAccent": "#ffffff",
+    "onErrorStrong": "#000000",
+    "onInteractive": "#000000",
+    "onSuccessStrong": "#000000",
+    "onWarningStrong": "#000000",
+    "success": "#70cb5d",
+    "successOnInteractive": "#32632a",
+    "successStrong": "#a2e095",
+    "warning": "#ffbd42",
+    "warningOnInteractive": "#ae731a",
+    "warningStrong": "#ffe7ac",
+    "white": "#ffffff",
+    "whiteHover": "#f1f1f1",
+    "whitePressed": "#e1e1e1"
+  }
+}

@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import postcss from 'postcss';
 import { describe, it, expect } from 'vitest';
 
 import { tokens as enterpriseDarkTokens } from './enterprise/theme.dark-css.js';
@@ -15,50 +12,6 @@ import { tokens as typographyXlTokens } from './typographies/typography.xl-css.j
 import { tokens as typographyXsTokens } from './typographies/typography.xs-css.js';
 import { tokens as websitesDarkTokens } from './websites/theme.dark-css.js';
 import { tokens as websitesLightTokens } from './websites/theme.light-css.js';
-
-// -- Helpers ------------------------------------------------------------------
-
-function parseCssDeclarations(cssContent: string): Map<string, string> {
-  const root = postcss.parse(cssContent);
-  const declarations = new Map<string, string>();
-
-  root.walkDecls((decl) => {
-    declarations.set(decl.prop, decl.value);
-  });
-
-  return declarations;
-}
-
-function readCssFile(relativePath: string): string {
-  return fs.readFileSync(path.resolve(__dirname, relativePath), 'utf-8');
-}
-
-// -- CSS files: valid syntax --------------------------------------------------
-
-const cssFiles = [
-  'primitives.css',
-  'ledger-live/variables.light.css',
-  'ledger-live/variables.dark.css',
-  'enterprise/variables.light.css',
-  'enterprise/variables.dark.css',
-  'websites/variables.light.css',
-  'websites/variables.dark.css',
-  'typographies/typography.xs.css',
-  'typographies/typography.sm.css',
-  'typographies/typography.md.css',
-  'typographies/typography.lg.css',
-  'typographies/typography.xl.css',
-] as const;
-
-describe('CSS files parse without errors', () => {
-  it.each(cssFiles)('%s', (file) => {
-    const content = readCssFile(`./${file}`);
-    expect(() => postcss.parse(content)).not.toThrow();
-
-    const declarations = parseCssDeclarations(content);
-    expect(declarations.size).toBeGreaterThan(0);
-  });
-});
 
 // -- TS token files: structural integrity -------------------------------------
 

@@ -1,0 +1,49 @@
+.dark\:bg-base {
+  &:is(.dark *) {
+    background-color: var(--background-base);
+  }
+}
+.sm\:p-16 {
+  @media (width >= 640px) {
+    padding: var(--spacing-16);
+  }
+}
+.md\:p-16 {
+  @media (width >= 768px) {
+    padding: var(--spacing-16);
+  }
+}
+.lg\:p-16 {
+  @media (width >= 1024px) {
+    padding: var(--spacing-16);
+  }
+}
+.xl\:p-16 {
+  @media (width >= 1280px) {
+    padding: var(--spacing-16);
+  }
+}
+.\32 xl\:p-16 {
+  @media (width >= 1536px) {
+    padding: var(--spacing-16);
+  }
+}
+.max-md\:p-16 {
+  @media (width < 768px) {
+    padding: var(--spacing-16);
+  }
+}
+.hover\:bg-base-hover {
+  &:hover {
+    @media (hover: hover) {
+      background-color: var(--background-base-hover);
+    }
+  }
+}
+.group-hover\:text-base {
+  &:is(:where(.group):hover *) {
+    @media (hover: hover) {
+      color: var(--text-base);
+    }
+  }
+}
