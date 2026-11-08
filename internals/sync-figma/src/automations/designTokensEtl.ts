@@ -115,33 +115,6 @@ export const tokens = ${JSON.stringify(output, null, 2)} as const satisfies ${to
   },
 });
 
-StyleDictionary.registerFormat({
-  name: 'css/custom-variables',
-  format: function ({ dictionary }) {
-    const variables = dictionary.allTokens
-      .map((token) => {
-        const name = sanitizeTokenName(token.name).replace(/ /g, '-');
-        let value = token.$value;
-
-        if (typeof value === 'number') {
-          value = value === 0 ? '0' : `${value}px`;
-        }
-
-        return `--${name}: ${value};`;
-      })
-      .join('\n');
-
-    return `/**
- * Do not edit directly, this file was auto-generated.
- */
-
-:root {
-${variables}
-}
-`;
-  },
-});
-
 function getSDTypographyConfigForBreakpoint(breakpoint: string) {
   const sources = [
     `${tokensFolder}1.primitives.value.json`,
@@ -151,24 +124,6 @@ function getSDTypographyConfigForBreakpoint(breakpoint: string) {
   return {
     source: sources,
     platforms: {
-      CSS: {
-        buildPath: automationConfig.cssOutputPath,
-        transformGroup: 'css',
-        files: [
-          {
-            destination: `typographies/typography.${breakpoint}.css`,
-            format: 'css/variables',
-            filter: filterTokens,
-            options: {
-              outputReferences: true,
-            },
-          },
-        ],
-        options: {
-          currentBreakpoint: breakpoint,
-        },
-        actions: ['remove-default-suffix', 'prettier'],
-      },
       JavaScriptThemeObject: {
         buildPath: automationConfig.cssOutputPath,
         transformGroup: 'js',
@@ -199,21 +154,6 @@ function getSDThemeConfig(brand: string, theme: string) {
   return {
     source: themeSpecificSources,
     platforms: {
-      CSS: {
-        buildPath: `${automationConfig.cssOutputPath}${brand.toLowerCase()}/`,
-        transformGroup: 'css',
-        files: [
-          {
-            destination: `variables.${theme.toLowerCase()}.css`,
-            format: 'css/variables',
-            options: {
-              outputReferences: true,
-            },
-            filter: filterTokens,
-          },
-        ],
-        actions: ['remove-default-suffix', 'prettier'],
-      },
       JavaScriptThemeObject: {
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],
         buildPath: `${automationConfig.cssOutputPath}${brand.toLowerCase()}/`,
@@ -240,17 +180,6 @@ function getSDPrimitivesConfig() {
   return {
     source: sources,
     platforms: {
-      CSS: {
-        buildPath: automationConfig.cssOutputPath,
-        transformGroup: 'css',
-        files: [
-          {
-            destination: 'primitives.css',
-            format: 'css/custom-variables',
-          },
-        ],
-        actions: ['remove-default-suffix', 'prettier'],
-      },
       JavaScriptThemeObject: {
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],
         buildPath: automationConfig.cssOutputPath,
