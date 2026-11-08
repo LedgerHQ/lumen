@@ -11,6 +11,10 @@ import {
   ledgerLivePreset,
   websitesPreset,
 } from './presets/index.js';
+import {
+  customProperties,
+  normalizeCss as normalize,
+} from './testing/cssFingerprint.js';
 
 /**
  * Freezes what Lumen adds to Tailwind: every class whose CSS differs from
@@ -57,40 +61,6 @@ const VARIANT_SAMPLES = [
 
 const sha = (value: string): string =>
   createHash('sha256').update(value).digest('hex').slice(0, 16);
-
-/** Whitespace-insensitive CSS, so formatting never changes a hash. */
-const normalize = (css: string): string =>
-  css
-    .replace(/\s+/g, ' ')
-    .replace(/\(\s+/g, '(')
-    .replace(/\s+\)/g, ')')
-    .replace(/;\s*}/g, ' }')
-    .trim();
-
-/** `--name: value` declarations with their selector and at-rule chain, sorted. */
-const customProperties = (css: string): string[] => {
-  const context: string[] = [];
-  const found: string[] = [];
-  let buffer = '';
-  for (const char of css) {
-    if (char === '{') {
-      context.push(normalize(buffer));
-      buffer = '';
-    } else if (char === '}' || char === ';') {
-      const declaration = /^\s*(--[\w-]+)\s*:\s*([\s\S]+)$/.exec(buffer);
-      if (declaration) {
-        found.push(
-          `${context.join(' > ')} | ${declaration[1]}: ${normalize(declaration[2])}`,
-        );
-      }
-      buffer = '';
-      if (char === '}') context.pop();
-    } else {
-      buffer += char;
-    }
-  }
-  return found.sort();
-};
 
 const utilityRoot = (className: string): string =>
   className

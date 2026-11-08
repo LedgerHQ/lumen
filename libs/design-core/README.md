@@ -39,6 +39,33 @@ Tailwind source so their utilities are emitted:
 @config '../tailwind.config.ts';
 ```
 
+### Tailwind v4 CSS (opt-in)
+
+The same theme also ships as plain CSS, so you can drop the JS config. One
+file per preset: `enterprise.css`, `ledger-live.css`, `websites.css` and
+`all-brands.css` (brand classes on a parent, like `allBrandsPreset`). They
+share a generated `theme.css`: import a brand file, not that one.
+
+```css
+@import 'tailwindcss';
+@import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+```
+
+It generates exactly the classes and token values of the matching preset
+(checked in CI), so switching changes nothing on screen. To migrate:
+
+1. Replace `@config '…/tailwind.config.ts'` with the `@import` of the
+   matching file.
+2. Keep `@ledgerhq/lumen-ui-react/tailwind.css` (or your own `@source` globs):
+   the CSS file holds the theme, not your content paths.
+3. Delete the Lumen preset from `tailwind.config.ts`, and the file itself if
+   nothing else is in it.
+4. Load only one of them: the preset and the CSS file together emit every rule
+   twice.
+
+Dark mode stays class-based (`.dark` on a parent). The JS presets stay
+supported; removing them will be a separate, announced breaking release.
 
 ## 🎨 Design Tokens
 

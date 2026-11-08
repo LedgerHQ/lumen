@@ -1,6 +1,6 @@
 {
   "enterprise": {
-    "base": "6944f50d1e3d6bc2",
+    "base": "8cc95aeaf5f83c59",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -350,7 +350,7 @@
     }
   },
   "ledgerLive": {
-    "base": "d02526ad6d1b7183",
+    "base": "b45623b87c5d2e7f",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -700,7 +700,7 @@
     }
   },
   "websites": {
-    "base": "5f63be4604928c8a",
+    "base": "fc1aad1d11879caa",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -1050,7 +1050,7 @@
     }
   },
   "allBrands": {
-    "base": "f3a524c23feeaa36",
+    "base": "34f0689c20443a00",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {

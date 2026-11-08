@@ -6,6 +6,7 @@ import { codeSyntaxTarget } from './tokens/codeSyntax.js';
 import { cssTarget } from './tokens/css.js';
 import { jsTarget } from './tokens/js.js';
 import { tailwindTarget } from './tokens/tailwind.js';
+import { tailwindV4Target } from './tokens/tailwindV4.js';
 
 /**
  * Every output folder, workspace-relative. This file is the only place the
@@ -15,6 +16,8 @@ export const outputPaths = {
   css: 'libs/design-core/src/lib/generated/css',
   js: 'libs/design-core/src/lib/generated/js',
   tailwind: 'libs/design-core/src/lib/generated/tailwind',
+  /** Published as `@ledgerhq/lumen-design-core/tailwind/*.css`, next to the hand-written `lumen.css`. */
+  tailwindV4: 'libs/design-core/tailwind',
   /** Read by sync-figma `code-syntax`, which uploads it to Figma. */
   codeSyntax: 'internals/design-build/generated',
   svgSymbols: 'libs/design-core/symbols/icons',
@@ -27,6 +30,7 @@ export const tokenTargets: Target<TokenModel>[] = [
   jsTarget(outputPaths.js),
   tailwindTarget(outputPaths.tailwind),
   codeSyntaxTarget(outputPaths.codeSyntax),
+  tailwindV4Target(outputPaths.tailwindV4),
 ];
 
 export const iconTargets: Target<IconModel>[] = [

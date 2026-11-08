@@ -1,7 +1,8 @@
 import type { TokenModel } from '@lumen/design-sources';
 import type { OutputFile, Target } from '../core/target.js';
 import { cssLayers, type Declarations } from './cssLayers.js';
-import { orderedBreakpoints } from './selections.js';
+import { camelKey } from './naming.js';
+import { breakpointMinWidths, orderedBreakpoints } from './selections.js';
 
 /** One selector → custom properties map, the shape the Tailwind plugins pass to `addBase`. */
 const cssMap = (
@@ -14,15 +15,12 @@ const cssMap = (
 
 export const tokens = ${JSON.stringify(Object.keys(declarations).length ? { [selector]: declarations } : {}, null, 2)} as const satisfies ${valueType};`;
 
-const camelCase = (value: string): string =>
-  value.replace(/-([a-z0-9])/g, (_, letter: string) => letter.toUpperCase());
-
 const indexFile = (brands: string[], breakpoints: string[]): string => {
   const [base, ...rest] = breakpoints;
   const themeImport = (brand: string, theme: string): string =>
-    `import { tokens as ${camelCase(brand)}${theme === 'dark' ? 'Dark' : 'Light'}ThemeTokens } from './${brand}/theme.${theme}-css.js';`;
+    `import { tokens as ${camelKey(brand)}${theme === 'dark' ? 'Dark' : 'Light'}ThemeTokens } from './${brand}/theme.${theme}-css.js';`;
   const typographyName = (breakpoint: string): string =>
-    `typography${breakpoint[0].toUpperCase()}${camelCase(breakpoint.slice(1))}Tokens`;
+    `typography${breakpoint[0].toUpperCase()}${camelKey(breakpoint.slice(1))}Tokens`;
 
   // Sorted by path, as the repo's import/order rule wants.
   const imports = [
@@ -49,17 +47,17 @@ const indexFile = (brands: string[], breakpoints: string[]): string => {
     `};`,
     '',
     ...brands.flatMap((brand) => [
-      `export const ${camelCase(brand)}CSSTheme = {`,
-      `  ...${camelCase(brand)}LightThemeTokens,`,
-      `  ...${camelCase(brand)}DarkThemeTokens,`,
+      `export const ${camelKey(brand)}CSSTheme = {`,
+      `  ...${camelKey(brand)}LightThemeTokens,`,
+      `  ...${camelKey(brand)}DarkThemeTokens,`,
       `};`,
       '',
     ]),
     `export const allBrandsCSSTheme = {`,
     ...brands.flatMap((brand, index) => [
       ...(index ? [''] : []),
-      `  '.${brand}': ${camelCase(brand)}LightThemeTokens[':root'],`,
-      `  '.${brand}.dark': ${camelCase(brand)}DarkThemeTokens['.dark'],`,
+      `  '.${brand}': ${camelKey(brand)}LightThemeTokens[':root'],`,
+      `  '.${brand}.dark': ${camelKey(brand)}DarkThemeTokens['.dark'],`,
     ]),
     `};`,
     '',
@@ -76,6 +74,7 @@ export const cssTarget = (outDir: string): Target<TokenModel> => ({
   outDir,
   emit: (model) => {
     const breakpoints = orderedBreakpoints(model);
+    const minWidths = breakpointMinWidths(model);
     const layers = cssLayers(model, breakpoints);
     const valueType = 'Record<string, Record<string, string | number>>';
 
@@ -97,7 +96,9 @@ export const cssTarget = (outDir: string): Target<TokenModel> => ({
         contents: cssMap(
           index === 0
             ? ':root'
-            : `@media (min-width: theme("screens.${breakpoint}"))`,
+            : // Lumen's own min-width: `theme("screens.*")` resolved to
+              // Tailwind's default rem screens, which drift from Lumen's px ones.
+              `@media (min-width: ${minWidths.get(breakpoint)}px)`,
           declarations,
           valueType,
         ),

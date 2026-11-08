@@ -1,12 +1,8 @@
 import type { SourceFile, TokenModel } from '@lumen/design-sources';
 
-/**
- * The breakpoint modes, base first, ordered by their `screen.*` min-width.
- * Every target reads breakpoints from here, so a new Figma breakpoint either
- * builds everywhere or fails everywhere (until its min-width exists).
- */
-export const orderedBreakpoints = (model: TokenModel): string[] => {
-  const widths = new Map(
+/** Breakpoint → its `screen.*` min-width in px. */
+export const breakpointMinWidths = (model: TokenModel): Map<string, number> =>
+  new Map(
     model
       .tokens(model.sources.filter(({ collection }) => collection === 'screen'))
       .map((token) => [
@@ -14,6 +10,14 @@ export const orderedBreakpoints = (model: TokenModel): string[] => {
         (model.resolve(token, model.sources) as { value: number }).value,
       ]),
   );
+
+/**
+ * The breakpoint modes, base first, ordered by their `screen.*` min-width.
+ * Every target reads breakpoints from here, so a new Figma breakpoint either
+ * builds everywhere or fails everywhere (until its min-width exists).
+ */
+export const orderedBreakpoints = (model: TokenModel): string[] => {
+  const widths = breakpointMinWidths(model);
   const modes = model.modesOf('breakpoint');
   const missing = modes.filter((mode) => !widths.has(mode));
   if (missing.length) {

@@ -1,0 +1,149 @@
+/*
+ * Lumen's Tailwind v4 wiring: CSS behavior with no design value (dark mode,
+ * keyframe shapes, z-index layers, scrollbar, mask and gradient geometry).
+ * Imported by every generated entry (`enterprise.css`, `all-brands.css`…),
+ * which add the token values, theme namespaces and token utilities.
+ *
+ * Mirrors the JS preset plugins until the preset is removed; the v4 parity test
+ * in design-core fails if the two drift.
+ */
+
+@custom-variant dark (&:is(.dark *));
+
+/* Inlined, as the preset does: `z-toast` is `z-index: 150`, no variable. */
+@theme inline reference {
+  --z-index-table-header: 20;
+  --z-index-dialog-overlay: 90;
+  --z-index-dialog-content: 100;
+  --z-index-select: 120;
+  --z-index-menu: 120;
+  --z-index-toast: 150;
+  --z-index-tooltip: 200;
+}
+
+@theme {
+  @keyframes content-show {
+    from { opacity: 0; scale: 0.96; }
+    to { opacity: 1; scale: 1; }
+  }
+  @keyframes content-hide {
+    from { opacity: 1; scale: 1; }
+    to { opacity: 0; scale: 0.96; }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  @keyframes slide-in-from-top {
+    from { transform: translateY(calc(var(--spacing-10) * -1)); opacity: 0; }
+    to { transform: translateY(0px); opacity: 1; }
+  }
+  @keyframes slide-in-from-bottom {
+    from { transform: translateY(var(--spacing-10)); opacity: 0; }
+    to { transform: translateY(0px); opacity: 1; }
+  }
+  @keyframes slide-in-from-left {
+    from { transform: translateX(calc(var(--spacing-10) * -1)); opacity: 0; }
+    to { transform: translateX(0px); opacity: 1; }
+  }
+  @keyframes slide-in-from-right {
+    from { transform: translateX(var(--spacing-10)); opacity: 0; }
+    to { transform: translateX(0px); opacity: 1; }
+  }
+  @keyframes slide-out-to-top {
+    from { transform: translateY(0px); opacity: 1; }
+    to { transform: translateY(calc(var(--spacing-10) * -1)); opacity: 0; }
+  }
+  @keyframes slide-out-to-bottom {
+    from { transform: translateY(0px); opacity: 1; }
+    to { transform: translateY(var(--spacing-10)); opacity: 0; }
+  }
+  @keyframes slide-out-to-left {
+    from { transform: translateX(0px); opacity: 1; }
+    to { transform: translateX(calc(var(--spacing-10) * -1)); opacity: 0; }
+  }
+  @keyframes slide-out-to-right {
+    from { transform: translateX(0px); opacity: 1; }
+    to { transform: translateX(var(--spacing-10)); opacity: 0; }
+  }
+  @keyframes translate-from-right {
+    from { transform: translateX(4px); }
+    to { transform: translateX(0px); }
+  }
+}
+
+@utility bg-gradient-top {
+  background-image: linear-gradient(180deg, var(--background-gradient-80) 0%, var(--background-gradient-70) 60%, var(--background-gradient-0) 100%);
+}
+@utility bg-gradient-bottom {
+  background-image: linear-gradient(180deg, var(--background-gradient-0) 0%, var(--background-gradient-70) 40%, var(--background-gradient-80) 100%);
+}
+@utility bg-gradient-error {
+  background: radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-error-strong) 0%, var(--background-error-transparent-0) 100%);
+  opacity: 0.3;
+}
+@utility bg-gradient-success {
+  background: radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-success-strong) 0%, var(--background-success-transparent-0) 100%);
+  opacity: 0.3;
+}
+@utility bg-gradient-muted {
+  background: radial-gradient(43.56% 33.06% at 50.47% 0.14%, var(--background-muted-strong) 0%, var(--background-muted-transparent-0) 100%);
+  opacity: 0.3;
+}
+
+@utility scrollbar-gutter-auto {
+  scrollbar-gutter: auto;
+}
+@utility scrollbar-gutter-stable {
+  scrollbar-gutter: stable;
+}
+@utility scrollbar-gutter-stable-both-edges {
+  scrollbar-gutter: stable both-edges;
+}
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+@utility scrollbar-custom {
+  scrollbar-width: thin;
+  scrollbar-color: var(--background-muted-strong) transparent;
+  &::-webkit-scrollbar {
+    width: var(--size-10);
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--background-muted-strong);
+    border-radius: var(--border-radius-full);
+    border: var(--size-2) solid transparent;
+    background-clip: padding-box;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: var(--background-muted-strong-hover);
+    border: var(--size-2) solid transparent;
+  }
+  &::-webkit-scrollbar-thumb:active {
+    background-color: var(--background-muted-strong-hover);
+    border: var(--size-2) solid transparent;
+  }
+}
+
+@utility mask-fade-y {
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+@utility mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+}
+@utility mask-fade-none {
+  -webkit-mask-image: none;
+  mask-image: none;
+}

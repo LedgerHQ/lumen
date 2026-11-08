@@ -23,11 +23,13 @@
       "import": "./dist/cn.js",
       "default": "./dist/cn.js"
     },
-    "./symbols/*": "./symbols/icons/*"
+    "./symbols/*": "./symbols/icons/*",
+    "./tailwind/*": "./tailwind/*"
   },
   "files": [
     "dist",
     "symbols",
+    "tailwind",
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {

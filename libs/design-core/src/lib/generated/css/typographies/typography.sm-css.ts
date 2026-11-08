@@ -3,7 +3,7 @@
  */
 
 export const tokens = {
-  '@media (min-width: theme("screens.sm"))': {
+  '@media (min-width: 640px)': {
     '--font-style-responsive-display-1-size': 'var(--font-size-80)',
     '--font-style-responsive-display-1-weight': 'var(--font-weight-bold)',
     '--font-style-responsive-display-1-line-height':
