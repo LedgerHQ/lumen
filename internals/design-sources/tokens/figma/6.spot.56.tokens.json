@@ -8,8 +8,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "WIDTH_HEIGHT"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   },
@@ -22,8 +21,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "WIDTH_HEIGHT"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   },
@@ -36,8 +34,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "WIDTH_HEIGHT"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   },
@@ -50,8 +47,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "WIDTH_HEIGHT"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   },
@@ -64,8 +60,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "STROKE_FLOAT"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   },
@@ -78,8 +73,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "FONT_SIZE"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   },
@@ -92,8 +86,7 @@
         "hiddenFromPublishing": false,
         "scopes": [
           "FONT_STYLE"
-        ],
-        "codeSyntax": {}
+        ]
       }
     }
   }

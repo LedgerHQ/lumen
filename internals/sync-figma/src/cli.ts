@@ -1,4 +1,4 @@
-import { writeFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { createFigmaClient } from './client/figmaClient.js';
 import { automationConfig } from './config.js';
@@ -7,6 +7,7 @@ import { extractTokenFiles } from './extract/tokens.js';
 import { parseCliArgs } from './shared/parseCliArgs.js';
 import { toJsonFile, writeSourceFiles } from './shared/writeSourceFiles.js';
 import { uploadCodeSyntax } from './write-back/codeSyntax.js';
+import type { CodeSyntaxFile } from './write-back/codeSyntaxBody.js';
 
 /**
  * `extract --kind=tokens|icons` and `code-syntax`: the only entry points that
@@ -87,7 +88,10 @@ const extractIconFiles = async (): Promise<void> => {
 const codeSyntax = async (): Promise<void> => {
   const env = requireEnv('FIGMA_API_TOKEN', 'FIGMA_FOUNDATIONS_FILE_KEY');
   const client = createFigmaClient({ token: env.FIGMA_API_TOKEN });
-  await uploadCodeSyntax(client, env.FIGMA_FOUNDATIONS_FILE_KEY);
+  const codeSyntax = JSON.parse(
+    readFileSync(automationConfig.codeSyntaxPath, 'utf8'),
+  ) as CodeSyntaxFile;
+  await uploadCodeSyntax(client, env.FIGMA_FOUNDATIONS_FILE_KEY, codeSyntax);
 };
 
 const [command, ...rest] = process.argv.slice(2);

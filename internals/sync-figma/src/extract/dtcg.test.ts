@@ -1,4 +1,3 @@
-import { colorToHex } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
 import {
   dtcgColor,
@@ -106,11 +105,18 @@ describe('dtcgColor', () => {
   });
 });
 
-describe('colorToHex', () => {
+describe('dtcgColor alpha', () => {
   it.each(['#f4b728', '#f4b72800', '#0000001a', '#ffffff33'])(
-    'round-trips %s',
+    'keeps every byte of %s',
     (hex) => {
-      expect(colorToHex(dtcgColor(hex))).toBe(hex);
+      const { hex: rgb, alpha } = dtcgColor(hex);
+      const alphaByte =
+        alpha === undefined
+          ? ''
+          : Math.round(alpha * 255)
+              .toString(16)
+              .padStart(2, '0');
+      expect(`${rgb}${alphaByte}`).toBe(hex);
     },
   );
 });

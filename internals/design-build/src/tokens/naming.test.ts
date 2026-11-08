@@ -34,6 +34,7 @@ describe('React Native keys', () => {
     [camelKey, '050-10', '050-10'],
     [stepKey, '16', 's16'],
     [stepKey, 'md', 'md'],
+    [stepKey, '2xl', '2xl'],
     [semanticKey, 'canvas-muted', 'canvasMuted'],
     [semanticKey, 'aion-0', 'aion0'],
   ])('%o(%s) → %s', (rule, key, expected) => {

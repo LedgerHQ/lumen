@@ -1,0 +1,74 @@
+name: Design sources gate
+
+# A removed or renamed token, icon or public name (CSS variable, Tailwind
+# utility, React Native theme path) breaks consumers, so it needs an explicit
+# approval: the `design-sources: approve removals` label. Separate from pr.yml
+# so adding the label re-runs this check alone.
+#
+# It runs on every PR, with no `paths` filter, so it can be a required check:
+# GitHub leaves a required check that a filter skipped pending forever. A PR
+# that touches none of the pipeline passes in the first step.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+
+concurrency:
+  group: design-sources-gate-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NX_NO_CLOUD: true
+
+jobs:
+  removals:
+    name: Removed or renamed tokens and icons
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Find what the design pipeline would compare
+        id: scope
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          if ! git cat-file -e "$BASE_SHA:internals/design-sources"; then
+            echo "No design sources on the base branch yet; nothing to compare."
+            echo "compare=false" >> "$GITHUB_OUTPUT"
+          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources internals/design-build libs/design-core/tailwind libs/design-core/src/lib/generated; then
+            echo "This PR doesn't touch the design pipeline; nothing to compare."
+            echo "compare=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "compare=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: ./.github/actions/setup
+        if: steps.scope.outputs.compare == 'true'
+        with:
+          set-shas: 'false'
+
+      - name: Compare the sources and public names with the base branch
+        if: steps.scope.outputs.compare == 'true'
+        # bash, not the default `sh -e`: pipefail keeps the report's exit code
+        # through `tee`.
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          APPROVED: "${{ contains(github.event.pull_request.labels.*.name, 'design-sources: approve removals') }}"
+        run: |
+          mkdir -p "$RUNNER_TEMP/base"
+          # The outputs' public names only exist on bases that already build them.
+          paths=""
+          for path in internals/design-sources internals/design-build/generated libs/design-core/tailwind; do
+            if git cat-file -e "$BASE_SHA:$path" 2>/dev/null; then paths="$paths $path"; fi
+          done
+          git archive "$BASE_SHA" $paths | tar -x -C "$RUNNER_TEMP/base"
+          FLAG=$([ "$APPROVED" = "true" ] && echo "" || echo "--fail-on-removal")
+          npx tsx internals/design-build/src/cli.ts report --before "$RUNNER_TEMP/base/internals/design-sources" --before-root "$RUNNER_TEMP/base" $FLAG | tee -a "$GITHUB_STEP_SUMMARY"

@@ -1,9 +1,4 @@
-import {
-  type DtcgGroup,
-  type DtcgToken,
-  type DtcgValue,
-  referenceOf,
-} from './dtcg.js';
+import { type DtcgValue, referenceOf } from './dtcg.js';
 import {
   flattenTokens,
   loadTokenSources,
@@ -31,14 +26,6 @@ export class TokenValidationError extends Error {
   }
 }
 
-/** The extension every token in a merged tree carries, so outputs can filter by collection. */
-export const LUMEN_EXTENSION = 'com.ledger.lumen';
-export type LumenExtension = {
-  collection: string;
-  mode: string | null;
-  file: string;
-};
-
 export type TokenModel = {
   sources: SourceFile[];
   collections: Collection[];
@@ -57,55 +44,6 @@ export type TokenModel = {
    * nested in shadow layers and gradient stops included.
    */
   resolve(token: Token, files: SourceFile[]): DtcgValue;
-  /** `files` deep-merged into one DTCG tree, each token tagged with `LUMEN_EXTENSION`. */
-  tree(files: SourceFile[]): DtcgGroup;
-};
-
-const tagTokens = (node: DtcgGroup, source: SourceFile): DtcgGroup =>
-  Object.fromEntries(
-    Object.entries(node).map(([key, child]) => {
-      if (typeof child !== 'object' || child === null) return [key, child];
-      if ('$value' in child) {
-        const token = child as DtcgToken;
-        return [
-          key,
-          {
-            ...token,
-            $extensions: {
-              ...token.$extensions,
-              [LUMEN_EXTENSION]: {
-                collection: source.collection,
-                mode: source.mode,
-                file: source.file,
-              } satisfies LumenExtension,
-            },
-          },
-        ];
-      }
-      return [key, tagTokens(child as DtcgGroup, source)];
-    }),
-  );
-
-const deepMerge = (target: DtcgGroup, source: DtcgGroup): DtcgGroup => {
-  for (const [key, value] of Object.entries(source)) {
-    const existing = target[key];
-    if (
-      typeof value === 'object' &&
-      value !== null &&
-      !('$value' in value) &&
-      typeof existing === 'object' &&
-      existing !== null &&
-      !('$value' in existing)
-    ) {
-      target[key] = deepMerge(
-        { ...(existing as DtcgGroup) },
-        value as DtcgGroup,
-      );
-    } else {
-      target[key] = value;
-    }
-  }
-  return target;
 };
 
 /**
@@ -196,10 +134,5 @@ export const createTokenModel = (
       };
       return follow(token.$value) as DtcgValue;
     },
-    tree: (files) =>
-      files.reduce<DtcgGroup>(
-        (merged, file) => deepMerge(merged, tagTokens(file.tokens, file)),
-        {},
-      ),
   };
 };

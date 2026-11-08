@@ -3,7 +3,7 @@ import { beforeAll, describe, expect, it } from 'vitest';
 import type { OutputFile } from '../core/target.js';
 import { cssTarget } from './css.js';
 import { type JsTheme, jsTheme } from './js.js';
-import { semanticKey } from './naming.js';
+import { semanticKey, stepKey } from './naming.js';
 import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
 import { hexToRgba, shadowUtilities } from './tailwind.js';
 
@@ -134,8 +134,7 @@ describe('CSS and JS targets agree', () => {
       for (const variable of Object.keys(primitives)) {
         if (!variable.startsWith(prefix)) continue;
         const suffix = variable.slice(prefix.length);
-        const key =
-          /^\d/.test(suffix) && path !== 'borderRadius' ? `s${suffix}` : suffix;
+        const key = stepKey(suffix);
         if (!(key in group)) issues.push(`${path}.${key}: missing in JS`);
       }
     }

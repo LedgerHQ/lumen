@@ -1,5 +1,4 @@
 import {
-  colorToHex,
   type DtcgDimension,
   type DtcgShadowLayer,
   referenceOf,
@@ -7,6 +6,7 @@ import {
   type TokenModel,
 } from '@lumen/design-sources';
 import type { OutputFile, Target } from '../core/target.js';
+import { colorToHex } from './cssLayers.js';
 import { cssVariableName } from './naming.js';
 import { coreFiles, orderedBreakpoints } from './selections.js';
 

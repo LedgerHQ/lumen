@@ -4,7 +4,9 @@ import { jsTarget } from './js.js';
 
 describe('jsTarget', () => {
   it('emits the shared primitives, one module per brand and the barrel', async () => {
-    const files = await jsTarget('out').emit(createTokenModel());
+    const files = await jsTarget('out', '../../tokens/types.js').emit(
+      createTokenModel(),
+    );
 
     expect(files.map(({ path }) => path)).toEqual([
       'primitives.ts',
@@ -19,7 +21,9 @@ describe('jsTarget', () => {
   });
 
   it('writes the crypto gradients once and points every brand at them', async () => {
-    const files = await jsTarget('out').emit(createTokenModel());
+    const files = await jsTarget('out', '../../tokens/types.js').emit(
+      createTokenModel(),
+    );
 
     expect(files[0].contents).toContain(
       'export const primitiveGradientTokens = {',
@@ -30,7 +34,9 @@ describe('jsTarget', () => {
   });
 
   it('keeps React Native values that wait for a design decision', async () => {
-    const files = await jsTarget('out').emit(createTokenModel());
+    const files = await jsTarget('out', '../../tokens/types.js').emit(
+      createTokenModel(),
+    );
     const primitives = files[0].contents;
 
     expect(primitives).toMatch(/"blur": \{[^}]*"lg": 64/);

@@ -1,10 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { loadTokenSources, type SourceFile } from './load.js';
-import {
-  createTokenModel,
-  LUMEN_EXTENSION,
-  TokenValidationError,
-} from './model.js';
+import { createTokenModel, TokenValidationError } from './model.js';
 
 describe('createTokenModel', () => {
   const model = createTokenModel();
@@ -109,24 +105,6 @@ describe('createTokenModel', () => {
         spread: px(0),
       },
     ]);
-  });
-
-  it('merges files into one tree, tagging each token with its collection', () => {
-    const tree = model.tree(
-      model.select(['primitives', 'breakpoint'], { breakpoint: 'xs' }),
-    ) as never as {
-      'font-style': {
-        body: { 1: { size: { $extensions: Record<string, unknown> } } };
-      };
-    };
-
-    expect(
-      tree['font-style'].body[1].size.$extensions[LUMEN_EXTENSION],
-    ).toEqual({
-      collection: 'breakpoint',
-      mode: 'xs',
-      file: 'figma/4.breakpoint.xs.tokens.json',
-    });
   });
 
   it('refuses invalid sources and lists every problem', () => {

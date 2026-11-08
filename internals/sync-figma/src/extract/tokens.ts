@@ -136,7 +136,6 @@ export const extractTokenFiles = (
           'com.figma': {
             hiddenFromPublishing: variable.hiddenFromPublishing,
             scopes: variable.scopes,
-            codeSyntax: variable.codeSyntax,
           },
         },
       });

@@ -9,8 +9,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -23,8 +22,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -37,8 +35,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "STROKE_FLOAT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -51,8 +48,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -65,8 +61,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -79,8 +74,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "FONT_SIZE"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -93,8 +87,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "ALL_SCOPES"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     }
@@ -112,8 +105,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "GAP"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -129,8 +121,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "GAP"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -146,8 +137,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     }
@@ -165,8 +155,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     }
@@ -181,8 +170,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -195,8 +183,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -209,8 +196,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -223,8 +209,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "CORNER_RADIUS"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -237,8 +222,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "STROKE_FLOAT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -254,8 +238,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "STROKE_FLOAT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -271,8 +254,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -288,8 +270,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "WIDTH_HEIGHT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     },
@@ -305,8 +286,7 @@
           "hiddenFromPublishing": false,
           "scopes": [
             "STROKE_FLOAT"
-          ],
-          "codeSyntax": {}
+          ]
         }
       }
     }

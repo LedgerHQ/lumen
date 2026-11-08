@@ -49,10 +49,14 @@ export type DtcgValue =
   | DtcgShadowLayer[]
   | DtcgGradientStop[];
 
+/**
+ * What the export keeps from Figma. Not the code syntax: design-build writes it
+ * and sync-figma uploads it, so copying it back would change the sources on
+ * every sync.
+ */
 export type FigmaExtensions = {
   hiddenFromPublishing?: boolean;
   scopes?: string[];
-  codeSyntax?: Record<string, string>;
 };
 
 export type DtcgToken = {
@@ -88,12 +92,3 @@ export const referenceOf = (value: unknown): string | null =>
   typeof value === 'string' && /^\{[^{}]+\}$/.test(value)
     ? value.slice(1, -1)
     : null;
-
-/** `#rrggbb`, or `#rrggbbaa` when translucent: the form every output writes. */
-export const colorToHex = (color: unknown): string => {
-  const { hex, alpha } = color as DtcgColor;
-  if (alpha === undefined) return hex;
-  return `${hex}${Math.round(alpha * 255)
-    .toString(16)
-    .padStart(2, '0')}`;
-};

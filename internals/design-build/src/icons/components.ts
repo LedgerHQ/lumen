@@ -52,7 +52,9 @@ export const symbolComponentsTarget = ({
   outDir,
   owns: (file) => file === 'index.ts' || file.startsWith('icons/'),
   emit: async ({ icons }) => {
-    // The template lives in the lib it renders for, so it is loaded by path.
+    // The template lives in the lib it renders for, which design-build may not
+    // import (internals never import libs), so it is loaded by path. It is repo
+    // code, like the target itself: emit still reads no data from disk.
     const module = (await import(path.join(WORKSPACE_ROOT, templatePath))) as {
       default: Config['template'];
     };
