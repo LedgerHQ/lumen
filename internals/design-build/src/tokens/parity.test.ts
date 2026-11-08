@@ -1,37 +1,20 @@
 import { createTokenModel } from '@lumen/design-sources';
 import { beforeAll, describe, expect, it } from 'vitest';
-import type { OutputFile } from '../core/target.js';
-import { cssTarget } from './css.js';
+import { type CssLayers, cssLayers } from './cssLayers.js';
 import { type JsTheme, jsTheme } from './js.js';
 import { semanticKey, stepKey } from './naming.js';
 import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
-import { hexToRgba, shadowUtilities } from './tailwind.js';
+import { orderedBreakpoints } from './selections.js';
 
 /**
  * `check` proves each output matches its generator; it can't prove two
  * generators agree. This compares, for every brand × theme and breakpoint,
- * the value the CSS target emits (resolved through its `var()` chain) with the
- * value the JS target emits for the same token.
+ * the value of the CSS layers every CSS output serializes (resolved through
+ * its `var()` chain) with the value the JS target emits for the same token.
  */
 
 type CssMap = Record<string, string>;
 type Json = Record<string, unknown>;
-
-const parseConst = (file: OutputFile | undefined, name: string): Json => {
-  const match = new RegExp(
-    `export const ${name} = (\\{[\\s\\S]*?\\n\\}) as const`,
-  ).exec(file?.contents ?? '');
-  if (!match) throw new Error(`No ${name} in ${file?.path}`);
-  return JSON.parse(match[1]) as Json;
-};
-
-const cssMap = (files: OutputFile[], path: string): CssMap =>
-  Object.values(
-    parseConst(
-      files.find((f) => f.path === path),
-      'tokens',
-    ),
-  )[0] as CssMap;
 
 const resolve = (name: string, map: CssMap): string => {
   let value = map[name];
@@ -52,11 +35,11 @@ const PENDING = new Set(
 
 describe('CSS and JS targets agree', () => {
   const model = createTokenModel();
-  let css: OutputFile[];
+  let css: CssLayers;
   let js: JsTheme;
 
-  beforeAll(async () => {
-    css = await cssTarget('css').emit(model);
+  beforeAll(() => {
+    css = cssLayers(model, orderedBreakpoints(model));
     js = jsTheme(model);
   });
 
@@ -75,8 +58,10 @@ describe('CSS and JS targets agree', () => {
         model.modesOf('theme').map((theme) => [brand, theme]),
       ),
   )('%s %s colors', (brand, theme) => {
-    const primitives = cssMap(css, 'primitives-css.ts');
-    const semantic = cssMap(css, `${brand}/theme.${theme}-css.ts`);
+    const primitives = css.primitives;
+    const semantic =
+      css.themes.find((layer) => layer.brand === brand && layer.theme === theme)
+        ?.declarations ?? {};
     const merged = { ...primitives, ...semantic };
     const colors = js.colors[brand][theme] as Record<
       string,
@@ -101,7 +86,7 @@ describe('CSS and JS targets agree', () => {
   });
 
   it('layout primitives, apart from the pending design decisions', () => {
-    const primitives = cssMap(css, 'primitives-css.ts');
+    const primitives = css.primitives;
     const core = js.core;
     const groups: [string, string][] = [
       ['spacings', '--spacing-'],
@@ -144,8 +129,9 @@ describe('CSS and JS targets agree', () => {
 
   it.each(model.modesOf('breakpoint'))('%s typography', (breakpoint) => {
     const merged = {
-      ...cssMap(css, 'primitives-css.ts'),
-      ...cssMap(css, `typographies/typography.${breakpoint}-css.ts`),
+      ...css.primitives,
+      ...css.breakpoints.find((layer) => layer.breakpoint === breakpoint)
+        ?.declarations,
     };
     const core = js.core;
     const groups = (core.typographies as Record<string, Record<string, Json>>)[
@@ -187,39 +173,35 @@ describe('CSS and JS targets agree', () => {
     expect(issues).toEqual([]);
   });
 
-  it('web shadow utilities, apart from the pending design decisions', () => {
-    const files = model.select([
-      'primitives',
-      ...model.collections
-        .filter(({ name }) =>
-          model.sources.some(
-            (s) => s.collection === name && s.origin === 'code',
-          ),
-        )
-        .map(({ name }) => name),
-    ]);
-    const web = shadowUtilities(model.tokens(files), (token) =>
-      model.resolve(token, files),
-    );
+  it('shadows, apart from the pending design decisions', () => {
+    const variables = css.primitives;
     const issues: string[] = [];
 
     for (const [size, layers] of Object.entries(
       js.core.shadows as Record<string, Json[]>,
     )) {
-      const expected = layers.map((layer, index) => {
-        const pending = PENDING.has(`shadows.${size}.${index}.color`);
-        const length = (value: unknown): string =>
-          value === 0 ? '0' : `${String(value)}px`;
-        return pending
-          ? null
-          : `${length(layer.offsetX)} ${length(layer.offsetY)} ${length(layer.blurRadius)} ${length(layer.spreadDistance)} var(--tw-shadow-color, ${hexToRgba(String(layer.color))})`;
-      });
-      const actual =
-        web[`.shadow-${size}`]?.['--tw-shadow']?.split(/(?<=\)\)),\s/);
-      expected.forEach((layer, index) => {
-        if (layer !== null && actual?.[index] !== layer) {
+      // Each layer of the CSS variable, with its color variable resolved.
+      const web = (variables[`--shadow-${size}`] ?? '')
+        .split(', ')
+        .map((layer) =>
+          layer.replace(/var\((--[^)]+)\)/g, (_, name: string) =>
+            resolve(name, variables),
+          ),
+        );
+      layers.forEach((layer, index) => {
+        if (PENDING.has(`shadows.${size}.${index}.color`)) return;
+        const expected = [
+          layer.offsetX,
+          layer.offsetY,
+          layer.blurRadius,
+          layer.spreadDistance,
+        ]
+          .map((length) => `${String(length)}px`)
+          .concat(String(layer.color).toLowerCase())
+          .join(' ');
+        if (web[index] !== expected) {
           issues.push(
-            `shadows.${size}.${index}: web=${actual?.[index]}, JS=${layer}`,
+            `shadows.${size}.${index}: web=${web[index]}, JS=${expected}`,
           );
         }
       });

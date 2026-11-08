@@ -943,6 +943,19 @@
   --backdrop-blur-md: 12px;
   --backdrop-blur-lg: 16px;
   --backdrop-blur-xl: 24px;
+  --shadow-sm:
+    0px 1px 2px -1px var(--color-dark-grey-050-10),
+    0px 1px 3px 0px var(--color-dark-grey-050-10);
+  --shadow-md:
+    0px 2px 4px -2px var(--color-dark-grey-050-10),
+    0px 4px 6px -1px var(--color-dark-grey-050-10);
+  --shadow-lg:
+    0px 4px 6px -4px var(--color-dark-grey-050-10),
+    0px 10px 15px -3px var(--color-dark-grey-050-10);
+  --shadow-xl:
+    0px 8px 10px -6px var(--color-dark-grey-050-10),
+    0px 20px 25px -5px var(--color-dark-grey-050-10);
+  --shadow-2xl: 0px 25px 50px -12px #00000040;
   --font-style-responsive-display-1-size: var(--font-size-64);
   --font-style-responsive-display-1-weight: var(--font-weight-bold);
   --font-style-responsive-display-1-line-height: var(--font-line-height-64);

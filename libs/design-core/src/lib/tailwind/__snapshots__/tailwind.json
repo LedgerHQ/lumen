@@ -1,6 +1,6 @@
 {
   "enterprise": {
-    "base": "6944f50d1e3d6bc2",
+    "base": "b29d2a2404ec1c8e",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -297,7 +297,7 @@
       },
       "shadow": {
         "count": 5,
-        "hash": "caa402da8859a59c"
+        "hash": "e60822267b3fff72"
       },
       "size": {
         "count": 37,
@@ -350,7 +350,7 @@
     }
   },
   "ledgerLive": {
-    "base": "d02526ad6d1b7183",
+    "base": "c2197b743deaa5d1",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -647,7 +647,7 @@
       },
       "shadow": {
         "count": 5,
-        "hash": "caa402da8859a59c"
+        "hash": "e60822267b3fff72"
       },
       "size": {
         "count": 37,
@@ -700,7 +700,7 @@
     }
   },
   "websites": {
-    "base": "5f63be4604928c8a",
+    "base": "a0de2efa2bf48d5c",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -997,7 +997,7 @@
       },
       "shadow": {
         "count": 5,
-        "hash": "caa402da8859a59c"
+        "hash": "e60822267b3fff72"
       },
       "size": {
         "count": 37,
@@ -1050,7 +1050,7 @@
     }
   },
   "allBrands": {
-    "base": "f3a524c23feeaa36",
+    "base": "29117f66d8be584c",
     "variants": "35d15db4fa387277",
     "utilities": {
       "accent": {
@@ -1347,7 +1347,7 @@
       },
       "shadow": {
         "count": 5,
-        "hash": "caa402da8859a59c"
+        "hash": "e60822267b3fff72"
       },
       "size": {
         "count": 37,

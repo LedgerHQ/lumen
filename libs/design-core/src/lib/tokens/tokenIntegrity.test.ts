@@ -1,45 +1,21 @@
 import { describe, it, expect } from 'vitest';
+import { themeCss } from './testing/themeCss.js';
 
-import { tokens as enterpriseDarkTokens } from '../generated/css/enterprise/theme.dark-css.js';
-import { tokens as enterpriseLightTokens } from '../generated/css/enterprise/theme.light-css.js';
-import { tokens as llDarkTokens } from '../generated/css/ledger-live/theme.dark-css.js';
-import { tokens as llLightTokens } from '../generated/css/ledger-live/theme.light-css.js';
-import { tokens as primitivesTokens } from '../generated/css/primitives-css.js';
-import { tokens as typographyLgTokens } from '../generated/css/typographies/typography.lg-css.js';
-import { tokens as typographyMdTokens } from '../generated/css/typographies/typography.md-css.js';
-import { tokens as typographySmTokens } from '../generated/css/typographies/typography.sm-css.js';
-import { tokens as typographyXlTokens } from '../generated/css/typographies/typography.xl-css.js';
-import { tokens as typographyXsTokens } from '../generated/css/typographies/typography.xs-css.js';
-import { tokens as websitesDarkTokens } from '../generated/css/websites/theme.dark-css.js';
-import { tokens as websitesLightTokens } from '../generated/css/websites/theme.light-css.js';
+// -- Plain CSS theme files: structural integrity -------------------------------
 
-// -- TS token files: structural integrity -------------------------------------
+const themeFiles = [
+  'ledger-live.css',
+  'enterprise.css',
+  'websites.css',
+  'all-brands.css',
+].flatMap((file) =>
+  Object.entries(themeCss(file)).map(([selector, tokenMap]) => ({
+    name: `${file} ${selector}`,
+    tokenMap,
+  })),
+);
 
-const tsTokenFiles = [
-  { name: 'primitives-css', tokens: primitivesTokens },
-  { name: 'ledger-live/theme.light-css', tokens: llLightTokens },
-  { name: 'ledger-live/theme.dark-css', tokens: llDarkTokens },
-  { name: 'enterprise/theme.light-css', tokens: enterpriseLightTokens },
-  { name: 'enterprise/theme.dark-css', tokens: enterpriseDarkTokens },
-  { name: 'websites/theme.light-css', tokens: websitesLightTokens },
-  { name: 'websites/theme.dark-css', tokens: websitesDarkTokens },
-  { name: 'typographies/typography.xs-css', tokens: typographyXsTokens },
-  { name: 'typographies/typography.sm-css', tokens: typographySmTokens },
-  { name: 'typographies/typography.md-css', tokens: typographyMdTokens },
-  { name: 'typographies/typography.lg-css', tokens: typographyLgTokens },
-  { name: 'typographies/typography.xl-css', tokens: typographyXlTokens },
-] as const;
-
-describe.each(tsTokenFiles)('$name — TS token integrity', ({ tokens }) => {
-  const topKey = Object.keys(tokens)[0];
-  const tokenMap = (tokens as Record<string, Record<string, string | number>>)[
-    topKey
-  ];
-
-  it('has exactly one top-level selector key', () => {
-    expect(Object.keys(tokens)).toHaveLength(1);
-  });
-
+describe.each(themeFiles)('$name — CSS token integrity', ({ tokenMap }) => {
   it('token map is not empty', () => {
     expect(Object.keys(tokenMap).length).toBeGreaterThan(0);
   });
@@ -52,18 +28,19 @@ describe.each(tsTokenFiles)('$name — TS token integrity', ({ tokens }) => {
     }
   });
 
-  it('no value is empty, undefined, or null', () => {
+  it('no value is empty', () => {
     for (const [key, value] of Object.entries(tokenMap)) {
-      expect(value, `${key} is undefined/null`).toBeDefined();
-      expect(String(value), `${key} is empty`).not.toBe('');
+      expect(value, `${key} is empty`).not.toBe('');
     }
   });
 });
 
+const ledgerLive = themeCss('ledger-live.css');
+
 // -- Sanity checks on well-known primitive values -----------------------------
 
 describe('primitives — core value sanity checks', () => {
-  const root = primitivesTokens[':root'];
+  const root = ledgerLive[':root'];
 
   it('light white is #ffffff', () => {
     expect(root['--color-light-constant-050']).toBe('#ffffff');
@@ -97,7 +74,7 @@ describe('primitives — core value sanity checks', () => {
 // -- Sanity checks on well-known semantic theme values ------------------------
 
 describe('ledger-live light theme — core value sanity checks', () => {
-  const root = llLightTokens[':root'];
+  const root = ledgerLive[':root'];
 
   it('canvas background references a light primitive', () => {
     expect(root['--color-background-canvas']).toMatch(
@@ -115,7 +92,7 @@ describe('ledger-live light theme — core value sanity checks', () => {
 });
 
 describe('ledger-live dark theme — core value sanity checks', () => {
-  const dark = llDarkTokens['.dark'];
+  const dark = ledgerLive['.dark'];
 
   it('canvas background references a dark primitive', () => {
     expect(dark['--color-background-canvas']).toMatch(
