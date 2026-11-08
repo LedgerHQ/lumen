@@ -3,8 +3,8 @@ import type { Target } from './core/target.js';
 import { symbolComponentsTarget } from './icons/components.js';
 import { svgTarget } from './icons/svg.js';
 import { codeSyntaxTarget } from './tokens/codeSyntax.js';
-import { cssTarget } from './tokens/css.js';
 import { cssThemesTarget } from './tokens/cssThemes.js';
+import { cssVarNamesTarget } from './tokens/cssVarNames.js';
 import { jsTarget } from './tokens/js.js';
 import { tailwindTarget } from './tokens/tailwind.js';
 
@@ -13,11 +13,13 @@ import { tailwindTarget } from './tokens/tailwind.js';
  * build's coupling to `libs/*` (and to sync-figma's input) is declared.
  */
 export const outputPaths = {
-  css: 'libs/design-core/src/lib/generated/css',
+  /** The `CSSVarName` type `cssVar` checks names against. */
+  cssVarNames: 'libs/design-core/src/lib/generated/css',
   js: 'libs/design-core/src/lib/generated/js',
   /** Published as `@ledgerhq/lumen-design-core/themes/css/*.css`. */
   cssThemes: 'libs/design-core/themes/css',
-  tailwind: 'libs/design-core/src/lib/generated/tailwind',
+  /** Published as `@ledgerhq/lumen-design-core/themes/tailwind/*.css`, next to the hand-written `lumen.css`. */
+  tailwind: 'libs/design-core/themes/tailwind',
   /** Read by sync-figma `code-syntax`, which uploads it to Figma. */
   codeSyntax: 'internals/design-build/generated',
   svgSymbols: 'libs/design-core/symbols/icons',
@@ -26,11 +28,11 @@ export const outputPaths = {
 };
 
 export const tokenTargets: Target<TokenModel>[] = [
-  cssTarget(outputPaths.css),
+  cssVarNamesTarget(outputPaths.cssVarNames),
   cssThemesTarget(outputPaths.cssThemes),
   jsTarget(outputPaths.js, '../../tokens/types.js'),
-  tailwindTarget(outputPaths.tailwind),
   codeSyntaxTarget(outputPaths.codeSyntax),
+  tailwindTarget(outputPaths.tailwind),
 ];
 
 export const iconTargets: Target<IconModel>[] = [

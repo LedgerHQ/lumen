@@ -16,10 +16,6 @@ design-sources (model) ──► Target.emit(model) ──► writer (prettier, 
 - `npx nx run design-build:check` — fail if a committed output differs from
   what the sources build: a hand edit, or a source change without a rebuild.
   CI runs it on every PR (`pr.yml`).
-- After a token change, also run
-  `npx nx run @ledgerhq/lumen-design-core:test -- -u tailwind.snapshot`: the
-  Tailwind snapshot hashes token values, so it needs re-recording. The sync
-  workflows do it for you.
 - `cli.ts report --before <copy of design-sources> [--before-root <checkout>] [--fail-on-removal]`
   — the Markdown diff (added, changed, removed, renamed, per mode) the sync PRs
   carry. With `--before-root`, it also compares the public names the outputs
@@ -60,5 +56,8 @@ proves the CSS names and the Dev Mode names are the same set.
 ## Rules
 
 - **Generated files are never edited by hand**: fix the source or the target.
+- **The CSS variables hold every web value**: the Tailwind theme only maps its
+  namespaces onto them (`--shadow-md: var(--shadow-md)`), so Tailwind and the
+  plain CSS themes can't drift apart.
 - **A refactor keeps outputs byte-identical**: run `check` before and after. A
   visible change lands in its own commit with a version plan.

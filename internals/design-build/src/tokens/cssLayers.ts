@@ -1,6 +1,7 @@
 import {
   type DtcgColor,
   type DtcgDimension,
+  type DtcgShadowLayer,
   referenceOf,
   type SourceFile,
   type Token,
@@ -28,8 +29,26 @@ export const colorToHex = (color: unknown): string => {
     .padStart(2, '0')}`;
 };
 
+/** A value inside a composite token: a reference stays a variable, so the composite follows it. */
+const cssPart = (type: string, value: unknown): string => {
+  const reference = referenceOf(value);
+  return reference ? cssReference(reference) : cssValue(type, value);
+};
+
 export const cssValue = (type: string, value: unknown): string => {
   if (type === 'color') return colorToHex(value);
+  if (type === 'shadow') {
+    return (value as DtcgShadowLayer[])
+      .map((layer) =>
+        [
+          ...[layer.offsetX, layer.offsetY, layer.blur, layer.spread].map(
+            (length) => cssPart('dimension', length),
+          ),
+          cssPart('color', layer.color),
+        ].join(' '),
+      )
+      .join(', ');
+  }
   if (type === 'dimension') {
     const { value: amount, unit } = value as DtcgDimension;
     return `${amount}${unit}`;
@@ -104,13 +123,17 @@ export const cssDeclarations = (
   return declarations;
 };
 
-/** Every CSS layer: primitives, one per brand × theme, one per breakpoint. */
+/**
+ * Every CSS layer: primitives (with the hand-written shadows, which Figma
+ * variables can't hold), one per brand × theme, one per breakpoint.
+ */
 export const cssLayers = (
   model: TokenModel,
   breakpoints: string[],
 ): CssLayers => ({
-  primitives: cssDeclarations(model, model.select(['primitives']), [
+  primitives: cssDeclarations(model, model.select(['primitives', 'shadow']), [
     'primitives',
+    'shadow',
   ]),
   themes: themeLayers(model).map(({ brand, theme, files, own }) => ({
     brand,
