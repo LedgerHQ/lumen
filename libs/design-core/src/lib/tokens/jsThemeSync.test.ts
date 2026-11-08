@@ -1,26 +1,26 @@
 import { describe, expect, it } from 'vitest';
 
-import { tokens as enterpriseDarkCssTokens } from './css/enterprise/theme.dark-css.js';
-import { tokens as enterpriseLightCssTokens } from './css/enterprise/theme.light-css.js';
-import { tokens as ledgerLiveDarkCssTokens } from './css/ledger-live/theme.dark-css.js';
-import { tokens as ledgerLiveLightCssTokens } from './css/ledger-live/theme.light-css.js';
-import { tokens as primitivesCssTokens } from './css/primitives-css.js';
-import { tokens as typographyLgCssTokens } from './css/typographies/typography.lg-css.js';
-import { tokens as typographyMdCssTokens } from './css/typographies/typography.md-css.js';
-import { tokens as typographySmCssTokens } from './css/typographies/typography.sm-css.js';
-import { tokens as typographyXlCssTokens } from './css/typographies/typography.xl-css.js';
-import { tokens as typographyXsCssTokens } from './css/typographies/typography.xs-css.js';
-import { tokens as websitesDarkCssTokens } from './css/websites/theme.dark-css.js';
-import { tokens as websitesLightCssTokens } from './css/websites/theme.light-css.js';
-import { enterpriseDarkColorTokens } from './js/enterprise/theme.dark.js';
-import { enterpriseLightColorTokens } from './js/enterprise/theme.light.js';
-import { ledgerLiveDarkColorTokens } from './js/ledger-live/theme.dark.js';
-import { ledgerLiveLightColorTokens } from './js/ledger-live/theme.light.js';
-import { createShadowPlugin } from '../utils/createCustomPlugin.js';
-import { enterpriseThemes } from './js/enterprise/theme.js';
-import type { ThemeColorTokens } from './js/types.js';
-import { websitesDarkColorTokens } from './js/websites/theme.dark.js';
-import { websitesLightColorTokens } from './js/websites/theme.light.js';
+import { tokens as enterpriseDarkCssTokens } from '../generated/css/enterprise/theme.dark-css.js';
+import { tokens as enterpriseLightCssTokens } from '../generated/css/enterprise/theme.light-css.js';
+import { tokens as ledgerLiveDarkCssTokens } from '../generated/css/ledger-live/theme.dark-css.js';
+import { tokens as ledgerLiveLightCssTokens } from '../generated/css/ledger-live/theme.light-css.js';
+import { tokens as primitivesCssTokens } from '../generated/css/primitives-css.js';
+import { tokens as typographyLgCssTokens } from '../generated/css/typographies/typography.lg-css.js';
+import { tokens as typographyMdCssTokens } from '../generated/css/typographies/typography.md-css.js';
+import { tokens as typographySmCssTokens } from '../generated/css/typographies/typography.sm-css.js';
+import { tokens as typographyXlCssTokens } from '../generated/css/typographies/typography.xl-css.js';
+import { tokens as typographyXsCssTokens } from '../generated/css/typographies/typography.xs-css.js';
+import { tokens as websitesDarkCssTokens } from '../generated/css/websites/theme.dark-css.js';
+import { tokens as websitesLightCssTokens } from '../generated/css/websites/theme.light-css.js';
+import { enterpriseDarkColorTokens } from '../generated/js/enterprise/theme.dark.js';
+import { enterpriseThemes } from '../generated/js/enterprise/theme.js';
+import { enterpriseLightColorTokens } from '../generated/js/enterprise/theme.light.js';
+import { ledgerLiveDarkColorTokens } from '../generated/js/ledger-live/theme.dark.js';
+import { ledgerLiveLightColorTokens } from '../generated/js/ledger-live/theme.light.js';
+import type { ThemeColorTokens } from '../generated/js/types.js';
+import { websitesDarkColorTokens } from '../generated/js/websites/theme.dark.js';
+import { websitesLightColorTokens } from '../generated/js/websites/theme.light.js';
+import { createShadowPlugin } from '../tailwind/plugins/createCustomPlugin.js';
 
 type CssTokenMap = Record<string, string>;
 type ThemeGroup = keyof Pick<
@@ -233,7 +233,7 @@ describe('jsThemeSync — CSS consumable tokens vs JS theme objects', () => {
       expect(
         issues,
         issues.length > 0
-          ? `JS theme drift detected — sync libs/design-core/src/lib/themes/js/:\n${issues.join('\n')}`
+          ? `JS theme drift detected — sync libs/design-core/src/lib/generated/js/:\n${issues.join('\n')}`
           : undefined,
       ).toEqual([]);
     },
@@ -288,10 +288,9 @@ const KNOWN_MISSING_IN_JS = [
 const getPath = (object: object, path: string): Record<string, unknown> =>
   path
     .split('.')
-    .reduce<Record<string, unknown>>(
-      (node, key) => node[key] as Record<string, unknown>,
-      object as Record<string, unknown>,
-    );
+    .reduce<
+      Record<string, unknown>
+    >((node, key) => node[key] as Record<string, unknown>, object as Record<string, unknown>);
 
 /** `s16` ↔ `16`, `md` ↔ `md`, `s05` ↔ `05`. */
 const toCssSuffix = (jsKey: string): string => jsKey.replace(/^s(?=\d)/, '');
@@ -355,7 +354,9 @@ const BREAKPOINT_CSS = {
   xl: typographyXlCssTokens,
 } as const;
 
-const typographyCssName = (jsName: string): { base: string; weight: string } => {
+const typographyCssName = (
+  jsName: string,
+): { base: string; weight: string } => {
   const semiBold = jsName.endsWith('SemiBold');
   const base = jsName
     .replace(/SemiBold$/, '')
@@ -373,7 +374,9 @@ describe('jsThemeSync — typography per breakpoint', () => {
   it.each(Object.keys(BREAKPOINT_CSS) as (keyof typeof BREAKPOINT_CSS)[])(
     '%s typography matches the CSS tokens',
     (breakpoint) => {
-      const cssBlock = Object.values(BREAKPOINT_CSS[breakpoint])[0] as CssTokenMap;
+      const cssBlock = Object.values(
+        BREAKPOINT_CSS[breakpoint],
+      )[0] as CssTokenMap;
       const merged = { ...primitiveCss, ...cssBlock };
       const resolve = (name: string): number | string => {
         const value = resolveCssVar(name, merged);
@@ -392,12 +395,17 @@ describe('jsThemeSync — typography per breakpoint', () => {
             lineHeight: resolve(`${base}-line-height`),
             letterSpacing: resolve(`${base}-letter-spacing`),
           };
-          const actual = { ...style, fontFamily: style.fontFamily.toLowerCase() };
+          const actual = {
+            ...style,
+            fontFamily: style.fontFamily.toLowerCase(),
+          };
 
           for (const [property, value] of Object.entries(expected)) {
             const actualValue = actual[property as keyof typeof actual];
             if (String(actualValue) !== String(value)) {
-              issues.push(`${name}.${property}: CSS=${value}, JS=${actualValue}`);
+              issues.push(
+                `${name}.${property}: CSS=${value}, JS=${actualValue}`,
+              );
             }
           }
         }
@@ -442,8 +450,16 @@ const webShadows = (): Record<string, ShadowLayer[]> => {
           .split(' ')
           .slice(0, 4)
           .map((part) => Number.parseFloat(part));
-        const color = /var\(--tw-shadow-color, (rgba\([^)]+\))\)/.exec(layer)?.[1];
-        return { offsetX, offsetY, blurRadius, spreadDistance, color: color ?? '' };
+        const color = /var\(--tw-shadow-color, (rgba\([^)]+\))\)/.exec(
+          layer,
+        )?.[1];
+        return {
+          offsetX,
+          offsetY,
+          blurRadius,
+          spreadDistance,
+          color: color ?? '',
+        };
       }),
     ]),
   );
@@ -457,15 +473,22 @@ describe('jsThemeSync — shadows', () => {
     const web = webShadows();
     const issues: string[] = [];
 
-    for (const [size, layers] of Object.entries(enterpriseThemes.light.shadows)) {
+    for (const [size, layers] of Object.entries(
+      enterpriseThemes.light.shadows,
+    )) {
       // The JS theme lists layers innermost first; Tailwind writes them in the same order.
       layers.forEach((layer: ShadowLayer, index: number) => {
         const expected = { ...layer, color: hex8ToRgba(layer.color) };
         const actual = web[size]?.[index];
         for (const property of Object.keys(expected) as (keyof ShadowLayer)[]) {
           const path = `${size}.${index}.${property}`;
-          if (actual?.[property] !== expected[property] && !KNOWN_SHADOW_DRIFT.has(path)) {
-            issues.push(`${path}: web=${actual?.[property]}, JS=${expected[property]}`);
+          if (
+            actual?.[property] !== expected[property] &&
+            !KNOWN_SHADOW_DRIFT.has(path)
+          ) {
+            issues.push(
+              `${path}: web=${actual?.[property]}, JS=${expected[property]}`,
+            );
           }
         }
       });

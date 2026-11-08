@@ -1,17 +1,17 @@
 import { describe, it, expect } from 'vitest';
 
-import { tokens as enterpriseDarkTokens } from './enterprise/theme.dark-css.js';
-import { tokens as enterpriseLightTokens } from './enterprise/theme.light-css.js';
-import { tokens as llDarkTokens } from './ledger-live/theme.dark-css.js';
-import { tokens as llLightTokens } from './ledger-live/theme.light-css.js';
-import { tokens as primitivesTokens } from './primitives-css.js';
-import { tokens as typographyLgTokens } from './typographies/typography.lg-css.js';
-import { tokens as typographyMdTokens } from './typographies/typography.md-css.js';
-import { tokens as typographySmTokens } from './typographies/typography.sm-css.js';
-import { tokens as typographyXlTokens } from './typographies/typography.xl-css.js';
-import { tokens as typographyXsTokens } from './typographies/typography.xs-css.js';
-import { tokens as websitesDarkTokens } from './websites/theme.dark-css.js';
-import { tokens as websitesLightTokens } from './websites/theme.light-css.js';
+import { tokens as enterpriseDarkTokens } from '../generated/css/enterprise/theme.dark-css.js';
+import { tokens as enterpriseLightTokens } from '../generated/css/enterprise/theme.light-css.js';
+import { tokens as llDarkTokens } from '../generated/css/ledger-live/theme.dark-css.js';
+import { tokens as llLightTokens } from '../generated/css/ledger-live/theme.light-css.js';
+import { tokens as primitivesTokens } from '../generated/css/primitives-css.js';
+import { tokens as typographyLgTokens } from '../generated/css/typographies/typography.lg-css.js';
+import { tokens as typographyMdTokens } from '../generated/css/typographies/typography.md-css.js';
+import { tokens as typographySmTokens } from '../generated/css/typographies/typography.sm-css.js';
+import { tokens as typographyXlTokens } from '../generated/css/typographies/typography.xl-css.js';
+import { tokens as typographyXsTokens } from '../generated/css/typographies/typography.xs-css.js';
+import { tokens as websitesDarkTokens } from '../generated/css/websites/theme.dark-css.js';
+import { tokens as websitesLightTokens } from '../generated/css/websites/theme.light-css.js';
 
 // -- TS token files: structural integrity -------------------------------------
 

@@ -29,7 +29,8 @@ const tailwindDir = path.dirname(require.resolve('tailwindcss/package.json'));
 const loadStylesheet = async (
   id: string,
 ): Promise<{ path: string; base: string; content: string }> => {
-  const file = id === 'tailwindcss' ? 'index.css' : id.replace('tailwindcss/', '');
+  const file =
+    id === 'tailwindcss' ? 'index.css' : id.replace('tailwindcss/', '');
   return {
     path: file,
     base: tailwindDir,
@@ -165,9 +166,9 @@ describe('preset snapshots', () => {
       }),
     );
 
-    await expect(
-      `${JSON.stringify(perPreset, null, 2)}\n`,
-    ).toMatchFileSnapshot('__snapshots__/tailwind-presets.json');
+    await expect(`${JSON.stringify(perPreset, null, 2)}\n`).toMatchFileSnapshot(
+      '__snapshots__/tailwind-presets.json',
+    );
     await expect(results.enterprise.variants).toMatchFileSnapshot(
       '__snapshots__/tailwind-variants.css',
     );

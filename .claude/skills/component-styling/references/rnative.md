@@ -7,7 +7,7 @@ is the RN mechanism.
 ## Theme tokens (themeJS)
 
 - Component visuals come from the **JS theme objects** in
-  `libs/design-core/src/lib/themes/js/` (per brand × `dark`/`light`), consumed
+  `libs/design-core/src/lib/generated/js/` (per brand × `dark`/`light`), consumed
   through `useStyleSheet`. Same token vocabulary as the web Tailwind tokens, JS
   object shape.
 - `useStyleSheet` lives at `libs/ui-rnative/src/styles/hooks/useStyleSheet.ts`.
