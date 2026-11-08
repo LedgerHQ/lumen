@@ -39,14 +39,14 @@ A new class helper must be registered in both configs above.
 
 ## Design-system tokens
 
-Custom plugins live in `libs/design-core/src/lib/presets/allBrands.ts`. All
+Custom plugins live in `libs/design-core/src/lib/tailwind/presets/allBrands.ts`. All
 `-default` suffixes are stripped by the plugin, so omit them from utilities.
 
 ### Typography
 
 - Do **not** use Tailwind typography utilities (`font-bold`, `text-sm`, …).
 - Use the custom typography utilities. Source of truth:
-  `libs/design-core/src/lib/utils/createCustomPlugin.ts` (`createTypographyPlugin`).
+  `libs/design-core/src/lib/tailwind/plugins/createCustomPlugin.ts` (`createTypographyPlugin`).
 - Classes include: `.responsive-display-1`–`4`; `.heading-0`,
   `.heading-0-semi-bold` … `.heading-4`, `.heading-4-semi-bold`; `.body-1`,
   `.body-1-semi-bold` … `.body-4`, `.body-4-semi-bold`.
@@ -71,7 +71,7 @@ Custom plugins live in `libs/design-core/src/lib/presets/allBrands.ts`. All
 
 - Do **not** use arbitrary sizes (`w-[108px]`, `h-[90px]`).
 - Only use `--size-*` tokens from
-  `libs/design-core/src/lib/themes/css/primitives.css`.
+  `libs/design-core/src/lib/generated/css/primitives-css.ts`.
   - Small: 0, 1, 2, 4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 44, 48, 56,
     64, 72, 80, 96
   - Large: 112, 128, 144, 176, 192, 208, 224, 256, 288, 320, 400, 480, 560

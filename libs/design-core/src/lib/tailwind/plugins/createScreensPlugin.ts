@@ -1,5 +1,5 @@
 import plugin from 'tailwindcss/plugin.js';
-import { breakpoints } from '../responsive/breakpoints.js';
+import { breakpoints } from '../../responsive/breakpoints.js';
 
 type TailwindPlugin = ReturnType<typeof plugin>;
 

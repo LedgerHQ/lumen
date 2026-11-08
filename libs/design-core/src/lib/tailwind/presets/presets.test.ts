@@ -6,7 +6,7 @@ import {
   ledgerLiveCSSTheme,
   primitivesTheme,
   websitesCSSTheme,
-} from '../themes/css/index.js';
+} from '../../generated/css/index.js';
 import {
   allBrandsPreset,
   enterprisePreset,

@@ -1,6 +1,6 @@
 import type plugin from 'tailwindcss/plugin.js';
 import { describe, expect, it, vi } from 'vitest';
-import { primitivesTheme } from '../themes/css/index.js';
+import { primitivesTheme } from '../../generated/css/index.js';
 import { createPrimitivesPlugin } from './createPrimitivesPlugin.js';
 
 type PluginAPI = Parameters<ReturnType<typeof plugin>['handler']>[0];

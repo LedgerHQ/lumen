@@ -9,7 +9,7 @@ which runs these targets and opens a PR with the result.
 
 | Pipeline | Targets | Writes to |
 | --- | --- | --- |
-| Design tokens | `figma-export` → `design-tokens-etl` | `tokens/` → `libs/design-core/src/lib/themes/css/` |
+| Design tokens | `figma-export` → `design-tokens-etl` | `tokens/` → `libs/design-core/src/lib/generated/css/` |
 | SVG symbols | `figma-download-svgs` → `generate-symbols-react` / `-react-native` | `libs/design-core/symbols/icons/` → `libs/ui-{react,rnative}/src/lib/Components/symbols/` |
 | Write-back | `code-syntax` | Figma itself — **mutates the file**, not a dry run |
 
@@ -33,7 +33,7 @@ coupling to `libs/*` is declared, so add new ones there.
   files of formatting noise — that is why the workflow does the same.
 - **Regenerated symbols are ordinary lib source** and do need a version plan for
   `@ledgerhq/lumen-ui-react` / `-ui-rnative`; see the `release-plan` skill.
-- **The CSS under `libs/design-core/src/lib/themes/css/` is generated** — fix the
+- **The CSS under `libs/design-core/src/lib/generated/css/` is generated** — fix the
   tokens or the ETL, never the output.
 
 Icon usage is documented for consumers in Storybook, not here.

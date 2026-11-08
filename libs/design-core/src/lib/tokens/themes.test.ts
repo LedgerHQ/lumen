@@ -1,13 +1,17 @@
 import { describe, expect, it } from 'vitest';
-import { enterpriseLightColorTokens } from './enterprise/theme.light.js';
-import { ledgerLiveDarkColorTokens } from './ledger-live/theme.dark.js';
-import { primitiveColorTokens } from './primitives/primitive.colors.js';
-import { primitiveTypographyTokens } from './primitives/primitive.typographies.js';
-import { primitiveMotionTokens } from './primitives/primitives.motion.js';
-import { primitiveLayoutTokens } from './primitives/primitives.others.js';
-import { primitiveShadowTokens } from './primitives/primitives.shadows.js';
-import { typographyTokens } from './typographies/index.js';
-import { enterpriseThemes, ledgerLiveThemes, websitesThemes } from './index.js';
+import { enterpriseLightColorTokens } from '../generated/js/enterprise/theme.light.js';
+import {
+  enterpriseThemes,
+  ledgerLiveThemes,
+  websitesThemes,
+} from '../generated/js/index.js';
+import { ledgerLiveDarkColorTokens } from '../generated/js/ledger-live/theme.dark.js';
+import { primitiveColorTokens } from '../generated/js/primitives/primitive.colors.js';
+import { primitiveTypographyTokens } from '../generated/js/primitives/primitive.typographies.js';
+import { primitiveMotionTokens } from '../generated/js/primitives/primitives.motion.js';
+import { primitiveLayoutTokens } from '../generated/js/primitives/primitives.others.js';
+import { primitiveShadowTokens } from '../generated/js/primitives/primitives.shadows.js';
+import { typographyTokens } from '../generated/js/typographies/index.js';
 
 describe('JS themes', () => {
   describe.each([

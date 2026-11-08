@@ -1,5 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { enterpriseThemes, ledgerLiveThemes, websitesThemes } from './index.js';
+import {
+  enterpriseThemes,
+  ledgerLiveThemes,
+  websitesThemes,
+} from '../generated/js/index.js';
 
 /**
  * Freezes the resolved React Native theme, so generating it (DLS-1177) can
@@ -38,9 +42,7 @@ describe('JS theme snapshots', () => {
       }
     }
 
-    await expect(toJson(core)).toMatchFileSnapshot(
-      '__snapshots__/core.json',
-    );
+    await expect(toJson(core)).toMatchFileSnapshot('__snapshots__/core.json');
   });
 
   it.each(
