@@ -2,13 +2,19 @@ import {
   colorToHex,
   type DtcgDimension,
   type DtcgShadowLayer,
-  referenceOf,
   type SourceFile,
   type Token,
   type TokenModel,
 } from '@lumen/design-sources';
 import type { OutputFile, Target } from '../core/target.js';
-import { camelKey, cssVariableName, semanticKey, stepKey } from './naming.js';
+import { breakpointLayers, layerTokens, themeLayers } from './layers.js';
+import {
+  camelKey,
+  cssVariableName,
+  outputSegment,
+  semanticKey,
+  stepKey,
+} from './naming.js';
 import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
 import { coreFiles, orderedBreakpoints } from './selections.js';
 
@@ -65,8 +71,6 @@ const WEB_ONLY: { matches: (name: string) => boolean; reason: string }[] = [
   },
 ];
 
-const stripPercent = (key: string): string => key.replace(/%$/, '');
-
 const px = (value: unknown): number | string => {
   const { value: amount, unit } = value as DtcgDimension;
   return unit === '%' ? `${amount}%` : amount;
@@ -102,26 +106,20 @@ const applyPendingDecisions = (theme: JsonObject): JsonObject => {
 
 type Resolver = (token: Token) => unknown;
 
-/** Records every source token the theme reads, for the completeness check. */
-type Used = Set<Token>;
+/**
+ * Every source token the theme reads, with its `t.*` path in `ui-rnative` when
+ * it has one: for the completeness check and for Dev Mode code syntax.
+ */
+type Used = Map<Token, string | null>;
+
+/** `['icon', 'width', 's16']` → `t.icon.width.s16`, `['borderRadius', '2xl']` → `t.borderRadius['2xl']`. */
+const themePath = (path: string[]): string =>
+  `t${path.map((key) => (/^[a-z_$][\w$]*$/i.test(key) ? `.${key}` : `['${key}']`)).join('')}`;
 
 const resolverFor =
   (model: TokenModel, files: SourceFile[]): Resolver =>
   (token) =>
     model.resolve(token, files);
-
-/** Resolves a color nested in a composite value (shadow layers). */
-const nestedColor = (
-  value: unknown,
-  byId: Map<string, Token>,
-  resolve: Resolver,
-): string => {
-  const reference = referenceOf(value);
-  if (!reference) return colorToHex(value);
-  const target = byId.get(reference);
-  if (!target) throw new Error(`Unresolved reference {${reference}}`);
-  return colorToHex(resolve(target));
-};
 
 const primitiveColors = (
   tokens: Token[],
@@ -132,9 +130,10 @@ const primitiveColors = (
   for (const token of tokens) {
     const [root, mode, group, ...rest] = token.path;
     if (root !== 'color' || rest.length === 0) continue;
-    used.add(token);
+    // Primitive colors aren't on `t`: components read the semantic ones.
+    used.set(token, null);
     const value = colorToHex(resolve(token));
-    const leaf = stripPercent(rest[rest.length - 1].toLowerCase());
+    const leaf = outputSegment(rest[rest.length - 1]);
 
     if (group === 'crypto' && leaf.endsWith('-0')) {
       setPath(
@@ -163,11 +162,11 @@ const layoutTokens = (
     setPath(layout, jsPath, {});
     for (const token of tokens) {
       if (token.path[0] !== figmaGroup || token.path.length !== 2) continue;
-      used.add(token);
       const key =
         figmaGroup === 'border-radius' || figmaGroup === 'screen'
           ? token.path[1]
           : stepKey(token.path[1]);
+      used.set(token, themePath([...jsPath, key]));
       setPath(layout, [...jsPath, key], px(resolve(token)));
     }
   }
@@ -191,7 +190,6 @@ const motionTokens = (tokens: Token[], resolve: Resolver): JsonObject => {
 };
 
 const shadowTokens = (tokens: Token[], resolve: Resolver): JsonObject => {
-  const byId = new Map(tokens.map((token) => [token.id, token]));
   const shadows: JsonObject = {};
   for (const token of tokens) {
     if (token.path[0] !== 'shadow' || token.$type !== 'shadow') continue;
@@ -201,7 +199,7 @@ const shadowTokens = (tokens: Token[], resolve: Resolver): JsonObject => {
       offsetY: px(layer.offsetY),
       blurRadius: px(layer.blur),
       spreadDistance: px(layer.spread),
-      color: nestedColor(layer.color, byId, resolve),
+      color: colorToHex(layer.color),
     }));
   }
   return shadows;
@@ -216,10 +214,11 @@ const typographyTokens = (
 ): JsonObject => {
   const styles: JsonObject = {};
   const byId = new Map(tokens.map((token) => [token.id, token]));
-  const value = (id: string): unknown => {
+  // `ui-rnative` flattens heading and body styles onto `t.typographies`.
+  const value = (id: string, path: string[] | null): unknown => {
     const token = byId.get(id);
     if (!token) throw new Error(`Missing typography token ${id}`);
-    used.add(token);
+    if (!used.get(token)) used.set(token, path ? themePath(path) : null);
     return resolve(token);
   };
 
@@ -238,12 +237,14 @@ const typographyTokens = (
           ];
 
     for (const [key, weight] of variants) {
+      const at = (property: string): string[] | null =>
+        jsGroup === 'responsive' ? null : ['typographies', key, property];
       setPath(styles, [jsGroup, key], {
         fontFamily,
-        fontSize: px(value(`${base}.size`)),
-        fontWeight: String(value(weight)),
-        lineHeight: px(value(`${base}.line-height`)),
-        letterSpacing: px(value(`${base}.letter-spacing`)),
+        fontSize: px(value(`${base}.size`, at('fontSize'))),
+        fontWeight: String(value(weight, at('fontWeight'))),
+        lineHeight: px(value(`${base}.line-height`, at('lineHeight'))),
+        letterSpacing: px(value(`${base}.letter-spacing`, at('letterSpacing'))),
       });
     }
   }
@@ -267,13 +268,10 @@ const semanticColors = (
     const name = cssVariableName(token.path);
     const match = COLOR_GROUPS.find(([prefix]) => name.startsWith(prefix));
     if (!match) continue;
-    used.add(token);
     const [prefix, group] = match;
-    setPath(
-      colors,
-      [group, semanticKey(name.slice(prefix.length))],
-      colorToHex(resolve(token)),
-    );
+    const key = semanticKey(name.slice(prefix.length));
+    used.set(token, themePath(['colors', group, key]));
+    setPath(colors, [group, key], colorToHex(resolve(token)));
   }
   return colors;
 };
@@ -310,26 +308,12 @@ const assertEveryTokenMapped = (
   used: Used,
 ): void => {
   const usedIds = new Set(
-    [...used].map((token) => `${token.source.collection}:${token.id}`),
+    [...used.keys()].map((token) => `${token.source.collection}:${token.id}`),
   );
   const built = [
     ...model.tokens(model.select(['primitives'])),
-    ...model.modesOf('brand').flatMap((brand) =>
-      model.modesOf('theme').flatMap((theme) =>
-        model
-          .tokens(
-            model.select(['primitives', 'theme', 'brand'], {
-              theme,
-              brand,
-            }),
-          )
-          .filter(({ source }) => source.collection !== 'primitives'),
-      ),
-    ),
-    ...breakpoints.flatMap((breakpoint) =>
-      model
-        .tokens(model.select(['primitives', 'breakpoint'], { breakpoint }))
-        .filter(({ source }) => source.collection === 'breakpoint'),
+    ...[...themeLayers(model), ...breakpointLayers(model, breakpoints)].flatMap(
+      (layer) => layerTokens(model, layer),
     ),
   ];
   // Typography primitives (`font.*`) reach React Native through the
@@ -392,6 +376,8 @@ export type JsTheme = {
   core: JsonObject;
   /** Brand → color mode → color tokens. */
   colors: Record<string, Record<string, JsonObject>>;
+  /** `collection:token.id` → the token's `t.*` path in `ui-rnative`. */
+  themePaths: Map<string, string>;
 };
 
 /**
@@ -403,24 +389,19 @@ export const jsTheme = (model: TokenModel): JsTheme => {
   const files = coreFiles(model);
   const tokens = model.tokens(files);
   const resolveCore = resolverFor(model, files);
-  const used: Used = new Set();
+  const used: Used = new Map();
 
   const primitiveColorTokens = primitiveColors(tokens, resolveCore, used);
   const fontFamilyToken = tokens.find(({ id }) => id === 'font-family.font');
   if (!fontFamilyToken) throw new Error('Missing font-family.font');
-  used.add(fontFamilyToken);
+  used.set(fontFamilyToken, themePath(['fontFamilies', 'sans']));
   const fontFamily = String(resolveCore(fontFamilyToken));
 
   const typographies: JsonObject = {};
-  for (const breakpoint of breakpoints) {
-    const breakpointFiles = model.select(['primitives', 'breakpoint'], {
-      breakpoint,
-    });
-    typographies[breakpoint] = typographyTokens(
-      model
-        .tokens(breakpointFiles)
-        .filter(({ source }) => source.collection === 'breakpoint'),
-      resolverFor(model, breakpointFiles),
+  for (const layer of breakpointLayers(model, breakpoints)) {
+    typographies[layer.breakpoint] = typographyTokens(
+      layerTokens(model, layer),
+      resolverFor(model, layer.files),
       fontFamily,
       used,
     );
@@ -436,28 +417,32 @@ export const jsTheme = (model: TokenModel): JsTheme => {
 
   const gradients = cryptoGradients(primitiveColorTokens);
   const colors: JsTheme['colors'] = {};
-  for (const brand of model.modesOf('brand')) {
-    colors[brand] = {};
-    for (const theme of model.modesOf('theme')) {
-      const themeFiles = model.select(['primitives', 'theme', 'brand'], {
-        theme,
-        brand,
-      });
-      colors[brand][theme] = {
-        ...semanticColors(
-          model
-            .tokens(themeFiles)
-            .filter(({ source }) => source.collection !== 'primitives'),
-          resolverFor(model, themeFiles),
-          used,
-        ),
-        gradients: (gradients[theme] as JsonObject) ?? {},
-      };
-    }
+  for (const layer of themeLayers(model)) {
+    const { brand, theme } = layer;
+    colors[brand] ??= {};
+    colors[brand][theme] = {
+      ...semanticColors(
+        layerTokens(model, layer),
+        resolverFor(model, layer.files),
+        used,
+      ),
+      gradients: (gradients[theme] as JsonObject) ?? {},
+    };
   }
 
   assertEveryTokenMapped(model, breakpoints, used);
-  return { primitiveColors: primitiveColorTokens, gradients, core, colors };
+  const themePaths = new Map(
+    [...used]
+      .filter((entry): entry is [Token, string] => entry[1] !== null)
+      .map(([token, path]) => [`${token.source.collection}:${token.id}`, path]),
+  );
+  return {
+    primitiveColors: primitiveColorTokens,
+    gradients,
+    core,
+    colors,
+    themePaths,
+  };
 };
 
 /**

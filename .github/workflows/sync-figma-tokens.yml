@@ -24,6 +24,16 @@ on:
     secrets:
       FIGMA_API_TOKEN:
         required: true
+      # Only the pull-request job reads them, which a caller that opens its own
+      # PR skips (open-pull-request: false).
+      LUMEN_RELEASE_APP_ID:
+        required: false
+      LUMEN_RELEASE_APP_KEY:
+        required: false
+    outputs:
+      changed:
+        description: 'Whether the export changed any committed file'
+        value: ${{ jobs.tokens.outputs.changed }}
 
 concurrency:
   # `github.workflow` is the caller's name when called, so a standalone run and
@@ -41,6 +51,8 @@ jobs:
   tokens:
     name: Export and build tokens
     runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.patch.outputs.changed }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
@@ -52,6 +64,9 @@ jobs:
         with:
           set-shas: 'false'
 
+      - name: Keep the sources before the export, for the diff report
+        run: mkdir -p "$RUNNER_TEMP/before" && cp -R internals/design-sources/tokens "$RUNNER_TEMP/before/"
+
       - name: Export tokens from Figma
         run: npx nx run sync-figma:extract --kind=tokens
         env:
@@ -61,33 +76,84 @@ jobs:
       - name: Build token outputs
         run: npx nx run design-build:tokens
 
-      - name: Upload tokens
+      # The snapshot hashes token values, so every value change from Figma
+      # moves it. The diff report and the removal gate review those changes;
+      # the snapshot is there for hand edits to the Tailwind theme.
+      - name: Refresh the Tailwind snapshot
+        run: npx nx run @ledgerhq/lumen-design-core:test -- -u tailwind.snapshot
+
+      - name: Write the diff report
+        run: |
+          mkdir -p "$RUNNER_TEMP/report"
+          npx tsx internals/design-build/src/cli.ts report --before "$RUNNER_TEMP/before" > "$RUNNER_TEMP/report/tokens.md"
+          cat "$RUNNER_TEMP/report/tokens.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the diff report
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: figma-tokens-report
+          path: ${{ runner.temp }}/report/tokens.md
+
+      # A patch carries deletions too (a pruned icon, a removed mode), which
+      # copying folders over a fresh checkout would bring back.
+      # An unchanged export gives an empty patch, which `git apply` rejects, so
+      # the pull-request jobs only run when `changed` is true.
+      - name: Record the changes as a patch
+        id: patch
+        shell: bash
+        run: |
+          git add -A
+          git diff --cached --binary > "$RUNNER_TEMP/tokens.patch"
+          echo "changed=$([ -s "$RUNNER_TEMP/tokens.patch" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the changes
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: figma-tokens
-          path: |
-            internals/design-sources/tokens/figma/
-            libs/design-core/src/lib/generated/
+          path: ${{ runner.temp }}/tokens.patch
 
   pull-request:
     name: Open the tokens pull request
     needs: tokens
-    if: ${{ inputs.open-pull-request }}
+    if: ${{ inputs.open-pull-request && needs.tokens.outputs.changed == 'true' }}
     runs-on: ubuntu-latest
+    # The push and the PR use the app token, so GITHUB_TOKEN stays read-only.
     permissions:
-      contents: write # Required to commit changes to branch
-      pull-requests: write # Required to create and update pull requests
+      contents: read
     steps:
+      # Opened as the Lumen release app: GITHUB_TOKEN events trigger no workflow,
+      # so the PR checks (output check, removal gate) would not run on the bot PR.
+      - name: Get a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.LUMEN_RELEASE_APP_ID }}
+          private-key: ${{ secrets.LUMEN_RELEASE_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-          persist-credentials: true # required to create the pull request
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: true # create-pull-request pushes with it
 
-      - name: Download tokens
+      - name: Download the changes
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
           name: figma-tokens
+          path: ${{ runner.temp }}/changes
+
+      - name: Apply the changes
+        run: git apply --index "$RUNNER_TEMP/changes/tokens.patch"
+
+      - name: Download the diff report
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: figma-tokens-report
+          # Outside the checkout, so the pull request doesn't commit it.
+          path: ${{ runner.temp }}/report
 
       - name: Add release plan
         run: |
@@ -106,9 +172,6 @@ jobs:
         with:
           commit-message: '💄 (figma): Sync Figma Design Tokens'
           title: '💄 (figma): Sync Figma Design Tokens'
-          body: |
-            Automatically sync design tokens from Figma:
-
-            - ✅ Export the Figma variables as DTCG
-            - ✅ Rebuild every token output
+          body-path: ${{ runner.temp }}/report/tokens.md
+          token: ${{ steps.app-token.outputs.token }}
           branch: sync-figma-tokens

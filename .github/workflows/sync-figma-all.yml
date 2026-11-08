@@ -25,10 +25,9 @@ jobs:
     name: Tokens
     uses: ./.github/workflows/sync-figma-tokens.yml
     # A called workflow can't request more than its caller grants, even for a
-    # job it skips (its own pull-request job).
+    # job it skips (its own pull-request job, read-only too).
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     with:
       figma_foundations_file_key: ${{ inputs.figma_foundations_file_key }}
       open-pull-request: false
@@ -39,8 +38,7 @@ jobs:
     name: Symbols
     uses: ./.github/workflows/sync-figma-symbols.yml
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
     with:
       figma_symbols_file_key: ${{ inputs.figma_symbols_file_key }}
       figma_icons_canvas: ${{ inputs.figma_icons_canvas }}
@@ -51,49 +49,76 @@ jobs:
   create-pull-request:
     name: Create Pull Request
     needs: [tokens, symbols]
+    if: ${{ needs.tokens.outputs.changed == 'true' || needs.symbols.outputs.changed == 'true' }}
     runs-on: ubuntu-latest
+    # The push and the PR use the app token, so GITHUB_TOKEN stays read-only.
     permissions:
-      contents: write # Required to commit changes to branch
-      pull-requests: write # Required to create and update pull requests
+      contents: read
     steps:
+      # Opened as the Lumen release app: GITHUB_TOKEN events trigger no workflow,
+      # so the PR checks (output check, removal gate) would not run on the bot PR.
+      - name: Get a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.LUMEN_RELEASE_APP_ID }}
+          private-key: ${{ secrets.LUMEN_RELEASE_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
       - name: Checkout repository
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
-          persist-credentials: true # required to create the pull request
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: true # create-pull-request pushes with it
 
-      - name: Download tokens
+      - name: Download the changes
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
-          name: figma-tokens
+          pattern: figma-{tokens,symbols}
+          path: ${{ runner.temp }}/changes
+          merge-multiple: true
 
-      - name: Download symbols
+      # The two patches touch disjoint folders, so they apply in any order. One
+      # of them is empty when only tokens or only icons changed.
+      - name: Apply the changes
+        run: |
+          if [ -s "$RUNNER_TEMP/changes/tokens.patch" ]; then git apply --index "$RUNNER_TEMP/changes/tokens.patch"; fi
+          if [ -s "$RUNNER_TEMP/changes/symbols.patch" ]; then git apply --index "$RUNNER_TEMP/changes/symbols.patch"; fi
+
+      - name: Download the diff reports
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
         with:
-          name: figma-symbols
+          pattern: figma-*-report
+          # Outside the checkout, so the pull request doesn't commit it.
+          path: ${{ runner.temp }}/report
+          merge-multiple: true
 
-      - name: Add release plan
+      - name: Combine the diff reports
+        run: cat "$RUNNER_TEMP/report/tokens.md" "$RUNNER_TEMP/report/symbols.md" > "$RUNNER_TEMP/report/all.md"
+
+      # One plan per package, and only for the packages this sync changed: a
+      # tokens-only sync doesn't touch the UI libs.
+      - name: Add release plans
+        env:
+          TOKENS_CHANGED: ${{ needs.tokens.outputs.changed }}
+          SYMBOLS_CHANGED: ${{ needs.symbols.outputs.changed }}
         run: |
           mkdir -p .nx/version-plans
           TIMESTAMP=$(node -e "console.log(Date.now())")
-          cat << EOF > .nx/version-plans/version-plan-$TIMESTAMP.md
-          ---
-          '@ledgerhq/lumen-design-core': patch
-          '@ledgerhq/lumen-ui-rnative': patch
-          '@ledgerhq/lumen-ui-react': patch
-          ---
-
-          Sync Figma Design Tokens & Symbols
-          EOF
+          packages="design-core"
+          if [ "$SYMBOLS_CHANGED" = true ]; then packages="$packages ui-react ui-rnative"; fi
+          for package in $packages; do
+            printf "%s\n" "---" "'@ledgerhq/lumen-$package': patch" "---" "" "Sync Figma Design Tokens & Symbols" \
+              > ".nx/version-plans/version-plan-$TIMESTAMP-figma-$package.md"
+          done
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
         with:
           commit-message: '💄 (figma): Sync Figma Design Tokens & Symbols'
           title: '💄 (figma): Sync Figma Design Tokens & Symbols'
-          body: |
-            Automatically sync design tokens and symbol components from Figma:
-
-            - ✅ Export the Figma variables as DTCG and rebuild every token output
-            - ✅ Export the icons and generate the React and React Native symbol components
+          body-path: ${{ runner.temp }}/report/all.md
+          token: ${{ steps.app-token.outputs.token }}
           branch: sync-figma

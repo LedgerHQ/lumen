@@ -15,7 +15,14 @@ design-sources (model) ──► Target.emit(model) ──► writer (prettier, 
   and React Native symbol components.
 - `npx nx run design-build:check` — fail if a committed output differs from
   what the sources build: a hand edit, or a source change without a rebuild.
-- `npx nx run design-build:test` — includes the same check.
+  CI runs it on every PR (`pr.yml`).
+- `cli.ts report --before <copy of design-sources> [--before-root <checkout>] [--fail-on-removal]`
+  — the Markdown diff (added, changed, removed, renamed, per mode) the sync PRs
+  carry. With `--before-root`, it also compares the public names the outputs
+  define: CSS variables, Tailwind utilities and React Native theme paths.
+  `design-sources-gate.yml` runs it on every PR that touches the pipeline,
+  against the PR base, and fails on removals and renames unless the PR has
+  the `design-sources: approve removals` label; adding the label re-runs it.
 
 ## Layout
 
@@ -36,6 +43,15 @@ design-sources (model) ──► Target.emit(model) ──► writer (prettier, 
 Write a `Target` in `src/tokens/` (`emit(model)` returns files, touches no
 disk), add it to `tokenTargets` in `src/config.ts`, and run `tokens`. Nothing
 in `src/core/` or `design-sources` changes.
+
+## Code syntax
+
+The `code-syntax` target writes `generated/code-syntax.json`: every Figma
+variable that builds to CSS, with the `var(--…)` name the CSS target gives it
+(Dev Mode's web syntax) and, when the token is on the React Native theme, its
+`t.*` path (iOS and Android). `sync-figma code-syntax` uploads it, so Dev Mode
+and the code use the same naming functions (`src/tokens/naming.ts`). A test
+proves the CSS names and the Dev Mode names are the same set.
 
 ## Rules
 

@@ -137,6 +137,7 @@
     "ts-jest": "29.4.6",
     "ts-node": "10.9.1",
     "tslib": "^2.3.0",
+    "tsx": "^4.23.15",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.53.1",
     "verdaccio": "^6.2.9",

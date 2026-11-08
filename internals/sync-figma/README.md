@@ -17,7 +17,7 @@ Driven in CI by three workflows, each runnable from the Actions tab:
 | ----------------------- | ------------------------------------------------------- | -------------------------------------------------- |
 | `extract --kind=tokens` | Figma variables → DTCG, one file per collection × mode  | `internals/design-sources/tokens/figma/`           |
 | `extract --kind=icons`  | Icons canvas → one SVG per component, plus `icons.json` | `internals/design-sources/icons/`                  |
-| `code-syntax`           | Sets Dev Mode code syntax on variables                  | Figma itself — **mutates the file**, not a dry run |
+| `code-syntax`           | Uploads `design-build`'s `code-syntax.json` to Dev Mode | Figma itself — **mutates the file**, not a dry run |
 
 Run any of them with `npx nx run sync-figma:<target>` from the workspace root.
 Paths live in [`src/config.ts`](src/config.ts). This project only writes
@@ -29,7 +29,8 @@ Paths live in [`src/config.ts`](src/config.ts). This project only writes
   call to Figma goes through it.
 - `src/extract/` — `tokens.ts` (variables → DTCG, with the type mapping in
   `dtcg.ts`) and `icons.ts` (canvas → SVG).
-- `src/write-back/` — code syntax upload.
+- `src/write-back/` — uploads the code syntax `design-build` generated (read by
+  path, never imported).
 - `src/shared/writeSourceFiles.ts` — write + prune, shared by every kind.
 - `src/testing/` — recorded API responses. Tests never call the network.
 

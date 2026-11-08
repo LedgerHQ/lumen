@@ -22,6 +22,10 @@ export const camelKey = (key: string): string => {
   return lower.replace(/-([a-z0-9])/g, (_, char: string) => char.toUpperCase());
 };
 
+/** One Figma path segment as outputs write it, like `cssVariableName` does: `Zcash-0%` → `zcash-0`. */
+export const outputSegment = (segment: string): string =>
+  segment.toLowerCase().replace(/ /g, '-').replace(/%$/, '');
+
 /** `16` → `s16`, `05` → `s05`; named steps (`md`, `full`) stay as they are. */
 export const stepKey = (key: string): string =>
   /^\d/.test(key) ? `s${key}` : key;

@@ -1,52 +1,47 @@
 import type {
-  LocalVariable,
   GetLocalVariablesResponse,
   PostVariablesRequestBody,
   VariableUpdate,
 } from '@figma/rest-api-spec';
 
-export function findVariablesEndingByDefault(
-  variables: LocalVariable[],
-): LocalVariable[] {
-  return variables.filter((variable) =>
-    variable.name.toLowerCase().endsWith('/default'),
-  );
-}
+type Platform = 'WEB' | 'iOS' | 'ANDROID';
 
-export function codeSyntaxFromVariableNameEndingByDefault(
-  name: string,
-): string {
-  let cssVariableName = name.toLowerCase();
-  while (cssVariableName.endsWith('/default')) {
-    cssVariableName = cssVariableName.replace(/\/default$/, '');
-  }
-  cssVariableName = cssVariableName.replace(/\//g, '-').replace(/\s/g, '-');
+/**
+ * The file design-build writes: Figma collection → variable name → code
+ * syntax per platform. Read by path, so this project never imports the build.
+ */
+export type CodeSyntaxFile = Record<
+  string,
+  Record<string, Partial<Record<Platform, string>>>
+>;
 
-  return `var(--${cssVariableName});`;
-}
-
-export function codeSyntaxUpdateBody(
+/**
+ * The variables whose Dev Mode code syntax differs from what the build names
+ * them, on any platform. Variables the file doesn't list (icon sizes, motion)
+ * are left alone.
+ */
+export const codeSyntaxUpdateBody = (
   localVariables: GetLocalVariablesResponse,
-): PostVariablesRequestBody {
-  const variablesChange: VariableUpdate[] = findVariablesEndingByDefault(
-    Object.values(localVariables.meta.variables),
-  )
-    .filter(
-      (variable) =>
-        variable.codeSyntax?.WEB !==
-        codeSyntaxFromVariableNameEndingByDefault(variable.name),
-    )
-    .map((variable) => {
-      return {
-        id: variable.id,
-        name: variable.name,
-        codeSyntax: {
-          WEB: codeSyntaxFromVariableNameEndingByDefault(variable.name),
-        },
-        action: 'UPDATE',
-      };
+  codeSyntax: CodeSyntaxFile,
+): PostVariablesRequestBody => {
+  const { variables, variableCollections } = localVariables.meta;
+  const updates: VariableUpdate[] = [];
+
+  for (const variable of Object.values(variables)) {
+    if (variable.remote || variable.deletedButReferenced) continue;
+    const collection = variableCollections[variable.variableCollectionId]?.name;
+    const wanted = codeSyntax[collection]?.[variable.name];
+    if (!wanted) continue;
+    const changed = (Object.keys(wanted) as Platform[]).some(
+      (platform) => variable.codeSyntax?.[platform] !== wanted[platform],
+    );
+    if (!changed) continue;
+    updates.push({
+      id: variable.id,
+      action: 'UPDATE',
+      codeSyntax: { ...variable.codeSyntax, ...wanted },
     });
-  return {
-    variables: variablesChange,
-  };
-}
+  }
+
+  return { variables: updates };
+};
