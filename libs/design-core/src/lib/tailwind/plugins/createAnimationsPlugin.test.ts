@@ -1,5 +1,6 @@
 import type plugin from 'tailwindcss/plugin.js';
 import { describe, expect, it, vi } from 'vitest';
+import { durations } from '../../generated/tailwind/index.js';
 import { createAnimationsPlugin } from './createAnimationsPlugin.js';
 
 type PluginAPI = Parameters<ReturnType<typeof plugin>['handler']>[0];
@@ -40,7 +41,15 @@ describe('createAnimationsPlugin', () => {
 
   it('should extend the theme rather than replace it', () => {
     expect(config?.theme).toEqual({
-      extend: { keyframes, animation },
+      extend: { transitionDuration: durations, keyframes, animation },
     });
+  });
+
+  it('should time every animation with a duration token', () => {
+    const tokens = new Set(Object.values(durations));
+
+    for (const value of Object.values(animation)) {
+      expect(tokens.has(value.split(' ')[1])).toBe(true);
+    }
   });
 });
