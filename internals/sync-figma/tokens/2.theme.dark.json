@@ -1164,7 +1164,15 @@
       "native": {
         "default": {
           "$type": "color",
-          "$value": "#c3c3c3",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7647,
+              0.7647,
+              0.7647
+            ],
+            "hex": "#c3c3c3"
+          },
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -2122,7 +2130,15 @@
       "native": {
         "default": {
           "$type": "color",
-          "$value": "#007aff",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0.4784,
+              1
+            ],
+            "hex": "#007aff"
+          },
           "$description": "",
           "$extensions": {
             "com.figma": {
@@ -5163,22 +5179,6 @@
             ],
             "codeSyntax": {}
           }
-        }
-      }
-    }
-  },
-  "utility": {
-    "is-dark": {
-      "$type": "boolean",
-      "$value": true,
-      "$description": "Theme toggle for illustrations (design utility)",
-      "$extensions": {
-        "com.figma": {
-          "hiddenFromPublishing": false,
-          "scopes": [
-            "ALL_SCOPES"
-          ],
-          "codeSyntax": {}
         }
       }
     }

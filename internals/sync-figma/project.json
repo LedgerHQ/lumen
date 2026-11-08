@@ -3,7 +3,10 @@
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "internals/sync-figma/src",
   "projectType": "library",
-  "tags": ["scope:internal", "type:tooling"],
+  "tags": [
+    "scope:internal",
+    "type:tooling"
+  ],
   "targets": {
     "test": {
       "executor": "nx:run-commands",
@@ -12,28 +15,22 @@
         "cwd": "internals/sync-figma"
       }
     },
-    "figma-export": {
+    "extract": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx internals/sync-figma/src/tools/figma/exportDesignTokens.ts"
+        "command": "npx tsx internals/sync-figma/src/cli.ts extract"
       }
     },
     "code-syntax": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx tsx internals/sync-figma/src/tools/figma/updateCodeSyntax.ts"
+        "command": "npx tsx internals/sync-figma/src/cli.ts code-syntax"
       }
     },
     "design-tokens-etl": {
       "executor": "nx:run-commands",
       "options": {
         "command": "npx tsx internals/sync-figma/src/automations/designTokensEtl.ts"
-      }
-    },
-    "figma-download-svgs": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx tsx internals/sync-figma/src/automations/figmaDownloadSvgs.ts"
       }
     },
     "generate-symbols-react": {

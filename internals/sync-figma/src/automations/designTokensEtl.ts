@@ -4,6 +4,7 @@ import prettier from 'prettier';
 import StyleDictionary from 'style-dictionary';
 import type { TransformedToken } from 'style-dictionary';
 import { automationConfig } from '../config.js';
+import { colorToHex, type DtcgColor } from '../extract/dtcg.js';
 
 const brands = ['enterprise', 'websites', 'ledger-live'];
 const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl'];
@@ -17,6 +18,52 @@ StyleDictionary.registerTransform({
   transform: (token: TransformedToken) => {
     return token.path.join('-').toLowerCase();
   },
+});
+
+/**
+ * Temporary adapter (DLS-1179): the export now writes DTCG color and dimension
+ * objects and numeric font weights; this turns them back into the bare numbers and
+ * strings the formats below expect, so the generated CSS maps don't change.
+ * Deleted with this ETL in DLS-1180.
+ */
+type RawToken = { $type?: string; $value?: unknown; [key: string]: unknown };
+
+const toLegacyValues = (node: RawToken): RawToken => {
+  if (node.$value === undefined) {
+    return Object.fromEntries(
+      Object.entries(node).map(([key, child]) => [
+        key,
+        child && typeof child === 'object'
+          ? toLegacyValues(child as RawToken)
+          : child,
+      ]),
+    );
+  }
+  const { $type, $value } = node;
+  if (typeof $value === 'string' && $value.startsWith('{')) return node;
+  if ($type === 'color' && typeof $value === 'object') {
+    return { ...node, $value: colorToHex($value as DtcgColor) };
+  }
+  if (
+    ($type === 'dimension' || $type === 'duration') &&
+    typeof $value === 'object'
+  ) {
+    return {
+      ...node,
+      $type: 'number',
+      $value: ($value as { value: number }).value,
+    };
+  }
+  if ($type === 'fontWeight' || $type === 'fontFamily') {
+    return { ...node, $type: 'string', $value: String($value) };
+  }
+  return node;
+};
+
+StyleDictionary.registerPreprocessor({
+  name: 'lumen/legacy-values',
+  preprocessor: (dictionary) =>
+    toLegacyValues(dictionary as RawToken) as typeof dictionary,
 });
 
 function sanitizeTokenName(tokenName: string): string {
@@ -123,6 +170,7 @@ function getSDTypographyConfigForBreakpoint(breakpoint: string) {
 
   return {
     source: sources,
+    preprocessors: ['lumen/legacy-values'],
     platforms: {
       JavaScriptThemeObject: {
         buildPath: automationConfig.cssOutputPath,
@@ -153,6 +201,7 @@ function getSDThemeConfig(brand: string, theme: string) {
 
   return {
     source: themeSpecificSources,
+    preprocessors: ['lumen/legacy-values'],
     platforms: {
       JavaScriptThemeObject: {
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],
@@ -179,6 +228,7 @@ function getSDPrimitivesConfig() {
 
   return {
     source: sources,
+    preprocessors: ['lumen/legacy-values'],
     platforms: {
       JavaScriptThemeObject: {
         transforms: ['attribute/cti', 'name/custom/direct-css-var'],

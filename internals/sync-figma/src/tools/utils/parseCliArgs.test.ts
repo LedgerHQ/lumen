@@ -124,4 +124,11 @@ describe('parseCliArgs', () => {
       format: 'css',
     });
   });
+
+  it('should parse --key=value pairs', () => {
+    expect(parseCliArgs(['extract', '--kind=tokens', '--url=a=b'])).toEqual({
+      kind: 'tokens',
+      url: 'a=b',
+    });
+  });
 });
