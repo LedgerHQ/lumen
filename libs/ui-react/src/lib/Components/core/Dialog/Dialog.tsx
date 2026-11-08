@@ -14,7 +14,7 @@ import type {
   DialogProps,
   DialogTriggerProps,
 } from './types';
-import { useAnimatedHeight } from './useAnimatedHeight';
+import { useAnimatedHeight } from './useAnimatedHeight/useAnimatedHeight';
 
 const [DialogContextProvider, useDialogContext] = createSafeContext<{
   height: DialogHeight;

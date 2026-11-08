@@ -121,29 +121,26 @@ describe('Dialog', () => {
   });
 
   describe('animated', () => {
+    let observersCreated: number;
     let notifyResize: () => void;
     let animate: ReturnType<typeof vi.fn>;
     let offsetHeight: ReturnType<typeof vi.spyOn>;
-    let animations: { onfinish?: () => void; cancel: () => void }[];
 
     beforeEach(() => {
-      animations = [];
+      observersCreated = 0;
       notifyResize = () => undefined;
       vi.stubGlobal(
         'ResizeObserver',
         class {
           constructor(callback: () => void) {
+            observersCreated += 1;
             notifyResize = callback;
           }
           observe = vi.fn();
           disconnect = vi.fn();
         },
       );
-      animate = vi.fn(() => {
-        const animation = { cancel: vi.fn() };
-        animations.push(animation);
-        return animation;
-      });
+      animate = vi.fn(() => ({ cancel: vi.fn() }));
       HTMLElement.prototype.animate = animate as never;
       offsetHeight = vi
         .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
@@ -178,63 +175,15 @@ describe('Dialog', () => {
       return document.querySelector<HTMLElement>('[data-slot="dialog-body"]');
     };
 
-    it('animates the body height from the previous to the new size', async () => {
+    it('animates the body height when animated', async () => {
       await renderDialog({ animated: true });
       act(() => notifyResize());
-      expect(animate).not.toHaveBeenCalled();
-
       offsetHeight.mockReturnValue(320);
       act(() => notifyResize());
 
       expect(animate).toHaveBeenCalledTimes(1);
       expect(animate.mock.calls[0][0]).toMatchObject({
         height: ['200px', '320px'],
-      });
-    });
-
-    it('ignores resizes caused by its own animation', async () => {
-      await renderDialog({ animated: true });
-      act(() => notifyResize());
-
-      offsetHeight.mockReturnValue(320);
-      act(() => notifyResize());
-      offsetHeight.mockReturnValue(260);
-      act(() => notifyResize());
-
-      expect(animate).toHaveBeenCalledTimes(1);
-    });
-
-    it('animates again once the previous animation has finished', async () => {
-      await renderDialog({ animated: true });
-      act(() => notifyResize());
-
-      offsetHeight.mockReturnValue(320);
-      act(() => notifyResize());
-      act(() => animations[0].onfinish?.());
-      offsetHeight.mockReturnValue(100);
-      act(() => notifyResize());
-
-      expect(animate).toHaveBeenCalledTimes(2);
-      expect(animate.mock.calls[1][0]).toMatchObject({
-        height: ['320px', '100px'],
-      });
-    });
-
-    it('animates from the settled height when content changed mid-animation', async () => {
-      await renderDialog({ animated: true });
-      act(() => notifyResize());
-
-      offsetHeight.mockReturnValue(320);
-      act(() => notifyResize());
-      offsetHeight.mockReturnValue(260);
-      act(() => notifyResize());
-      act(() => animations[0].onfinish?.());
-      offsetHeight.mockReturnValue(100);
-      act(() => notifyResize());
-
-      expect(animate).toHaveBeenCalledTimes(2);
-      expect(animate.mock.calls[1][0]).toMatchObject({
-        height: ['260px', '100px'],
       });
     });
 
@@ -245,24 +194,16 @@ describe('Dialog', () => {
       expect(body?.firstElementChild?.tagName).toBe('P');
     });
 
-    it('does not animate by default', async () => {
+    it('does not observe the body by default', async () => {
       await renderDialog();
-      offsetHeight.mockReturnValue(320);
-      act(() => notifyResize());
-      expect(animate).not.toHaveBeenCalled();
+
+      expect(observersCreated).toBe(0);
     });
 
-    it('does not animate with fixed height', async () => {
+    it('does not observe the body with fixed height', async () => {
       await renderDialog({ animated: true, height: 'fixed' });
-      offsetHeight.mockReturnValue(320);
-      act(() => notifyResize());
-      expect(animate).not.toHaveBeenCalled();
-    });
 
-    it('does nothing when ResizeObserver is unavailable', async () => {
-      vi.stubGlobal('ResizeObserver', undefined);
-      await renderDialog({ animated: true });
-      expect(animate).not.toHaveBeenCalled();
+      expect(observersCreated).toBe(0);
     });
   });
 
