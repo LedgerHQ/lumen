@@ -1,6 +1,6 @@
 {
   "enterprise": {
-    "base": "2d1e3a533e201287",
+    "base": "6dadc65e4c53536e",
     "variants": "8b6b664f2135f671",
     "differsFromEnterprise": {},
     "missingFromPreset": [],
@@ -152,7 +152,7 @@
     }
   },
   "ledgerLive": {
-    "base": "690c7ea49d5e19fd",
+    "base": "6395341ef5d1728e",
     "variants": "8b6b664f2135f671",
     "differsFromEnterprise": {},
     "missingFromPreset": [],
@@ -304,7 +304,7 @@
     }
   },
   "websites": {
-    "base": "e899412bc14f1a74",
+    "base": "2ae8436e550d2c3c",
     "variants": "8b6b664f2135f671",
     "differsFromEnterprise": {},
     "missingFromPreset": [],
@@ -456,7 +456,7 @@
     }
   },
   "allBrands": {
-    "base": "4881aa1434b13e4d",
+    "base": "dc391522f06d90b0",
     "variants": "8b6b664f2135f671",
     "differsFromEnterprise": {},
     "missingFromPreset": [],

@@ -17,8 +17,8 @@ export const primitivesTheme = {
     ...primitivesTokens[':root'],
     ...typographyXsTokens[':root'],
     ...typographySmTokens,
-    ...typographyLgTokens,
     ...typographyMdTokens,
+    ...typographyLgTokens,
     ...typographyXlTokens,
   },
 };
@@ -39,11 +39,11 @@ export const websitesCSSTheme = {
 };
 
 export const allBrandsCSSTheme = {
-  '.ledger-live': ledgerLiveLightThemeTokens[':root'],
-  '.ledger-live.dark': ledgerLiveDarkThemeTokens['.dark'],
-
   '.enterprise': enterpriseLightThemeTokens[':root'],
   '.enterprise.dark': enterpriseDarkThemeTokens['.dark'],
+
+  '.ledger-live': ledgerLiveLightThemeTokens[':root'],
+  '.ledger-live.dark': ledgerLiveDarkThemeTokens['.dark'],
 
   '.websites': websitesLightThemeTokens[':root'],
   '.websites.dark': websitesDarkThemeTokens['.dark'],
