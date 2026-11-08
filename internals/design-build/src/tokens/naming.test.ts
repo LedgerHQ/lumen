@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { cssReference, cssVariableName } from './naming.js';
+import {
+  camelKey,
+  cssReference,
+  cssVariableName,
+  semanticKey,
+  stepKey,
+} from './naming.js';
 
 describe('cssVariableName', () => {
   it.each([
@@ -18,5 +24,19 @@ describe('cssVariableName', () => {
 describe('cssReference', () => {
   it('points at the referenced variable', () => {
     expect(cssReference('font.size.64')).toBe('var(--font-size-64)');
+  });
+});
+
+describe('React Native keys', () => {
+  it.each([
+    [camelKey, 'bitcoin-cash', 'bitcoinCash'],
+    [camelKey, 'celo-2', 'celo2'],
+    [camelKey, '050-10', '050-10'],
+    [stepKey, '16', 's16'],
+    [stepKey, 'md', 'md'],
+    [semanticKey, 'canvas-muted', 'canvasMuted'],
+    [semanticKey, 'aion-0', 'aion0'],
+  ])('%o(%s) → %s', (rule, key, expected) => {
+    expect(rule(key)).toBe(expected);
   });
 });

@@ -1,7 +1,9 @@
 {
   "blur": {
     "lg": 64,
-    "md": 12
+    "md": 12,
+    "sm": 8,
+    "xl": 24
   },
   "borderRadius": {
     "2xl": 32,
@@ -11,7 +13,8 @@
     "none": 0,
     "sm": 8,
     "xl": 24,
-    "xs": 4
+    "xs": 4,
+    "xxs": 2
   },
   "borderWidth": {
     "s1": 1,
@@ -38,6 +41,7 @@
       "s40": 2.200000047683716,
       "s48": 2.5,
       "s56": 2.799999952316284,
+      "s64": 3,
       "s72": 3.200000047683716
     },
     "height": {
@@ -49,6 +53,7 @@
       "s40": 40,
       "s48": 48,
       "s56": 56,
+      "s64": 64,
       "s72": 72
     },
     "width": {
@@ -60,6 +65,7 @@
       "s40": 40,
       "s48": 48,
       "s56": 56,
+      "s64": 64,
       "s72": 72
     }
   },
@@ -75,10 +81,12 @@
       "2000": 2000
     },
     "durations": {
+      "0": 0,
       "75": 75,
       "100": 100,
       "150": 150,
       "200": 200,
+      "250": 250,
       "300": 300,
       "500": 500,
       "700": 700,
@@ -262,28 +270,209 @@
       "s40": 3.200000047683716,
       "s48": 3.5999999046325684,
       "s56": 3.799999952316284,
+      "s64": 4,
       "s72": 4.199999809265137
     }
   },
   "spot": {
     "height": {
       "s32": 32,
+      "s40": 40,
       "s48": 48,
       "s56": 56,
       "s72": 72
     },
     "width": {
       "s32": 32,
+      "s40": 40,
       "s48": 48,
       "s56": 56,
       "s72": 72
     }
   },
   "stroke": {
+    "s05": 0.5,
     "s1": 1,
-    "s2": 2
+    "s2": 2,
+    "s4": 4
   },
   "typographies": {
+    "2xl": {
+      "body": {
+        "body1": {
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "500",
+          "letterSpacing": 0,
+          "lineHeight": 24
+        },
+        "body1SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 16,
+          "fontWeight": "600",
+          "letterSpacing": 0,
+          "lineHeight": 24
+        },
+        "body2": {
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontWeight": "500",
+          "letterSpacing": 0,
+          "lineHeight": 20
+        },
+        "body2SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 14,
+          "fontWeight": "600",
+          "letterSpacing": 0,
+          "lineHeight": 20
+        },
+        "body3": {
+          "fontFamily": "Inter",
+          "fontSize": 12,
+          "fontWeight": "500",
+          "letterSpacing": 0,
+          "lineHeight": 16
+        },
+        "body3SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 12,
+          "fontWeight": "600",
+          "letterSpacing": 0,
+          "lineHeight": 16
+        },
+        "body4": {
+          "fontFamily": "Inter",
+          "fontSize": 10,
+          "fontWeight": "500",
+          "letterSpacing": 0,
+          "lineHeight": 16
+        },
+        "body4SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 10,
+          "fontWeight": "600",
+          "letterSpacing": 0,
+          "lineHeight": 16
+        }
+      },
+      "heading": {
+        "heading0": {
+          "fontFamily": "Inter",
+          "fontSize": 48,
+          "fontWeight": "500",
+          "letterSpacing": -2.5,
+          "lineHeight": 56
+        },
+        "heading0SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 48,
+          "fontWeight": "600",
+          "letterSpacing": -2.5,
+          "lineHeight": 56
+        },
+        "heading1": {
+          "fontFamily": "Inter",
+          "fontSize": 40,
+          "fontWeight": "500",
+          "letterSpacing": -2,
+          "lineHeight": 48
+        },
+        "heading1SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 40,
+          "fontWeight": "600",
+          "letterSpacing": -2,
+          "lineHeight": 48
+        },
+        "heading2": {
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "500",
+          "letterSpacing": -1.5,
+          "lineHeight": 36
+        },
+        "heading2SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 28,
+          "fontWeight": "600",
+          "letterSpacing": -1.5,
+          "lineHeight": 36
+        },
+        "heading3": {
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "500",
+          "letterSpacing": -1,
+          "lineHeight": 32
+        },
+        "heading3SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 24,
+          "fontWeight": "600",
+          "letterSpacing": -1,
+          "lineHeight": 32
+        },
+        "heading4": {
+          "fontFamily": "Inter",
+          "fontSize": 20,
+          "fontWeight": "500",
+          "letterSpacing": -1,
+          "lineHeight": 28
+        },
+        "heading4SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 20,
+          "fontWeight": "600",
+          "letterSpacing": -1,
+          "lineHeight": 28
+        },
+        "heading5": {
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "500",
+          "letterSpacing": -0.5,
+          "lineHeight": 26
+        },
+        "heading5SemiBold": {
+          "fontFamily": "Inter",
+          "fontSize": 18,
+          "fontWeight": "600",
+          "letterSpacing": -0.5,
+          "lineHeight": 26
+        }
+      },
+      "responsive": {
+        "responsiveDisplay1": {
+          "fontFamily": "Inter",
+          "fontSize": 112,
+          "fontWeight": "700",
+          "letterSpacing": -4,
+          "lineHeight": 120
+        },
+        "responsiveDisplay2": {
+          "fontFamily": "Inter",
+          "fontSize": 80,
+          "fontWeight": "600",
+          "letterSpacing": -3,
+          "lineHeight": 88
+        },
+        "responsiveDisplay3": {
+          "fontFamily": "Inter",
+          "fontSize": 64,
+          "fontWeight": "600",
+          "letterSpacing": -2.5,
+          "lineHeight": 72
+        },
+        "responsiveDisplay4": {
+          "fontFamily": "Inter",
+          "fontSize": 52,
+          "fontWeight": "600",
+          "letterSpacing": -2.5,
+          "lineHeight": 60
+        }
+      }
+    },
     "lg": {
       "body": {
         "body1": {

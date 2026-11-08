@@ -1,0 +1,12 @@
+{
+  "size": {
+    "full": {
+      "$type": "dimension",
+      "$value": {
+        "value": 100,
+        "unit": "%"
+      },
+      "$description": "Fills the parent. No Figma variable holds a percentage."
+    }
+  }
+}

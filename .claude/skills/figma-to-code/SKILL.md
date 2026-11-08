@@ -62,7 +62,7 @@ object shape — see `component-styling/references/rnative.md`).
 - **Typography keys are camelCase**: `body/3` → `t.typographies.body3`,
   `body/2-semi-bold` → `t.typographies.body2SemiBold`.
 - Source of truth for the key sets:
-  `libs/design-core/src/lib/generated/js/primitives/primitives.others.ts` (spacings,
+  `libs/design-core/src/lib/generated/js/primitives.ts` (spacings,
   sizes, borderRadius) and the per-brand `theme.*.ts` colour objects. Confirm a
   key there rather than inventing one.
 

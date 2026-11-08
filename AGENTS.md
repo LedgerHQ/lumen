@@ -143,7 +143,6 @@ frontmatter controls auto-attach.
 | a component has or owns a `disabled` state                                | `disabled-context`       |
 | implementing a component from a Figma link                                | `figma-to-code`          |
 | creating/updating Figma Code Connect (`*.figma.tsx`)                      | `code-connect`           |
-| syncing design tokens to React Native JS themes after a Figma sync        | `figma-token-sync`       |
 | adding, upgrading or moving a dependency, or a failing `check:deps`       | `dependency-management`  |
 | running Nx tasks/generators, or asking workspace questions                | `nx`                     |
 

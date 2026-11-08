@@ -1,6 +1,7 @@
 import type { TokenModel } from '@lumen/design-sources';
 import type { Target } from './core/target.js';
 import { cssTarget } from './tokens/css.js';
+import { jsTarget } from './tokens/js.js';
 
 /**
  * Every output folder, workspace-relative. This file is the only place the
@@ -8,6 +9,10 @@ import { cssTarget } from './tokens/css.js';
  */
 export const outputPaths = {
   css: 'libs/design-core/src/lib/generated/css',
+  js: 'libs/design-core/src/lib/generated/js',
 };
 
-export const tokenTargets: Target<TokenModel>[] = [cssTarget(outputPaths.css)];
+export const tokenTargets: Target<TokenModel>[] = [
+  cssTarget(outputPaths.css),
+  jsTarget(outputPaths.js),
+];

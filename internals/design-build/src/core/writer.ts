@@ -3,6 +3,7 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  rmdirSync,
   unlinkSync,
   writeFileSync,
 } from 'node:fs';
@@ -60,6 +61,17 @@ export const listFiles = (
   });
 };
 
+/** Deletes folders a prune left empty, deepest first; keeps `dir` itself. */
+const removeEmptyFolders = (dir: string): void => {
+  if (!existsSync(dir)) return;
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    const child = path.join(dir, entry.name);
+    removeEmptyFolders(child);
+    if (readdirSync(child).length === 0) rmdirSync(child);
+  }
+};
+
 export type WriteReport = { written: string[]; deleted: string[] };
 
 /** Writes a target's files and deletes the ones it no longer emits. */
@@ -82,6 +94,7 @@ export const writeRendered = (
 
   const deleted = listFiles(outDir, root).filter((file) => !rendered.has(file));
   for (const file of deleted) unlinkSync(path.join(root, file));
+  removeEmptyFolders(path.join(root, outDir));
 
   return { written, deleted };
 };

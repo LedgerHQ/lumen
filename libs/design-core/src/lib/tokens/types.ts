@@ -165,6 +165,7 @@ export type TypographyTokensByBreakpoint = {
   md?: TypographyTokens;
   lg?: TypographyTokens;
   xl?: TypographyTokens;
+  '2xl'?: TypographyTokens;
 };
 
 export type ThemeColorTokens = {
