@@ -1,6 +1,6 @@
+import { colorToHex } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
 import {
-  colorToHex,
   dtcgColor,
   dtcgTypeOf,
   dtcgValueOf,

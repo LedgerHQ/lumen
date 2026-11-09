@@ -26,6 +26,12 @@
     },
     {
       "path": "./internals/adoption-tool"
+    },
+    {
+      "path": "./internals/design-sources"
+    },
+    {
+      "path": "./internals/design-build"
     }
   ],
   "ts-node": {

@@ -1,5 +1,5 @@
 {
-  "1.primitives.value.json": {
+  "1.primitives.value.tokens.json": {
     "Radius": {
       "4": {
         "$type": "dimension",
@@ -230,7 +230,7 @@
       }
     }
   },
-  "2.theme.light.json": {
+  "2.theme.light.tokens.json": {
     "Background": {
       "Constant": {
         "White": {
@@ -306,7 +306,7 @@
       }
     }
   },
-  "2.theme.dark.json": {
+  "2.theme.dark.tokens.json": {
     "Background": {
       "Constant": {
         "White": {
@@ -382,7 +382,7 @@
       }
     }
   },
-  "4.breakpoint.sm.json": {
+  "4.breakpoint.sm.tokens.json": {
     "Breakpoint": {
       "Width": {
         "$type": "dimension",
@@ -423,7 +423,7 @@
       }
     }
   },
-  "4.breakpoint.md.json": {
+  "4.breakpoint.md.tokens.json": {
     "Breakpoint": {
       "Width": {
         "$type": "dimension",
@@ -464,7 +464,7 @@
       }
     }
   },
-  "4.breakpoint.lg.json": {
+  "4.breakpoint.lg.tokens.json": {
     "Breakpoint": {
       "Width": {
         "$type": "dimension",
@@ -505,7 +505,7 @@
       }
     }
   },
-  "4.breakpoint.xl.json": {
+  "4.breakpoint.xl.tokens.json": {
     "Breakpoint": {
       "Width": {
         "$type": "dimension",
@@ -546,7 +546,7 @@
       }
     }
   },
-  "3.brand.ledger-live.json": {
+  "3.brand.ledger-live.tokens.json": {
     "Font Family": {
       "Font Family": {
         "$type": "fontFamily",
@@ -580,7 +580,7 @@
       }
     }
   },
-  "3.brand.entreprise.json": {
+  "3.brand.entreprise.tokens.json": {
     "Font Family": {
       "Font Family": {
         "$type": "fontFamily",
@@ -614,7 +614,7 @@
       }
     }
   },
-  "3.brand.websites.json": {
+  "3.brand.websites.tokens.json": {
     "Font Family": {
       "Font Family": {
         "$type": "fontFamily",

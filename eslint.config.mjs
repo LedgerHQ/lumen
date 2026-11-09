@@ -53,6 +53,21 @@ export const sharedConfig = defineConfig(
               sourceTag: 'scope:internal',
               onlyDependOnLibsWithTags: ['scope:internal', 'scope:shared'],
             },
+            // The design pipeline runs one way: Figma (extract) → sources →
+            // build. Nothing imports the Figma boundary, and the sources
+            // import no other stage.
+            {
+              sourceTag: 'stage:sources',
+              notDependOnLibsWithTags: ['stage:extract', 'stage:build'],
+            },
+            {
+              sourceTag: 'stage:build',
+              notDependOnLibsWithTags: ['stage:extract'],
+            },
+            {
+              sourceTag: 'stage:extract',
+              notDependOnLibsWithTags: ['stage:build'],
+            },
             {
               sourceTag: 'scope:shared',
               onlyDependOnLibsWithTags: ['scope:shared'],

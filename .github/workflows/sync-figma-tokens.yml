@@ -59,14 +59,14 @@ jobs:
           FIGMA_FOUNDATIONS_FILE_KEY: ${{ inputs.figma_foundations_file_key || vars.FIGMA_FOUNDATIONS_FILE_KEY }}
 
       - name: Build token outputs
-        run: npx nx run sync-figma:design-tokens-etl
+        run: npx nx run design-build:tokens
 
       - name: Upload tokens
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: figma-tokens
           path: |
-            internals/sync-figma/tokens/
+            internals/design-sources/tokens/figma/
             libs/design-core/src/lib/generated/
 
   pull-request:

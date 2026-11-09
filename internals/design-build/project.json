@@ -1,0 +1,32 @@
+{
+  "name": "design-build",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "internals/design-build/src",
+  "projectType": "library",
+  "tags": [
+    "scope:internal",
+    "type:tooling",
+    "stage:build"
+  ],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "internals/design-build"
+      }
+    },
+    "tokens": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/design-build/src/cli.ts tokens"
+      }
+    },
+    "check": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/design-build/src/cli.ts check"
+      }
+    }
+  }
+}

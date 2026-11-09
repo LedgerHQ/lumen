@@ -5,7 +5,8 @@
   "projectType": "library",
   "tags": [
     "scope:internal",
-    "type:tooling"
+    "type:tooling",
+    "stage:extract"
   ],
   "targets": {
     "test": {
@@ -25,12 +26,6 @@
       "executor": "nx:run-commands",
       "options": {
         "command": "npx tsx internals/sync-figma/src/cli.ts code-syntax"
-      }
-    },
-    "design-tokens-etl": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx tsx internals/sync-figma/src/automations/designTokensEtl.ts"
       }
     },
     "generate-symbols-react": {

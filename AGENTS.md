@@ -48,11 +48,13 @@ Import rules are enforced in CI at two levels. Don't import across a boundary.
 Litmus test: _would a consumer of `@ledgerhq/lumen-_` ever load this code?\* If
 no, it belongs here — codegen, ETL, external-API sync and their input data.
 
-| Path                      | Purpose                                                                                                                    |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `internals/sync-figma`    | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
-| `internals/repo-tools`    | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                           |
-| `internals/adoption-tool` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                       |
+| Path                       | Purpose                                                                                                                            |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `internals/sync-figma`     | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md`         |
+| `internals/design-sources` | The committed DTCG token sources and the model every output is built from (load, validate, resolve modes). See its own `README.md` |
+| `internals/design-build`   | Builds every token output from the sources into `libs/*`, and checks they are up to date. See its own `README.md`                  |
+| `internals/repo-tools`     | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                                   |
+| `internals/adoption-tool`  | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                               |
 
 Rules for adding one:
 
