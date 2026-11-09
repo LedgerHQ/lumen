@@ -18,7 +18,7 @@ script or workflow that runs it. A `check-*` folder is a CI gate.
 | Folder                       | Intent                                                                                                                         | Entry point                                                    | Run by                                                         |
 | ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------- | -------------------------------------------------------------- |
 | `ci/check-agent-docs/`       | AGENTS.md, skills and the codebase stay in sync                                                                                | `agentDocsDrift.ts`                                            | `npm run check:agent-docs`, `pr.yml` job `agent-drift`         |
-| `ci/check-breaking-changes/` | What a package's public API lost between two builds, as migration refs (the base of the breaking-change check, ADR 027)        | `apiSurface.ts`, `apiDiff.ts`                                  | nothing yet: the check isn't wired into CI                     |
+| `ci/check-breaking-changes/` | Every breaking change since the last release has a migration (ADR 027)                                                         | `breakingChanges.ts`                                           | `npm run check:breaking-changes`, `pr.yml` job `bundle-checks` |
 | `ci/check-package-exports/`  | Every advertised export ships in the tarball                                                                                   | `packageExports.ts`                                            | `npm run check:package-exports`, `pr.yml` job `bundle-checks`  |
 | `ci/check-package-types/`    | Shipped types resolve for bundler and node16 ESM consumers                                                                     | `packageTypes.ts`                                              | `npm run check:package-types`, `pr.yml` job `bundle-checks`    |
 | `ci/check-peer-deps/`        | Lib peers accept the versions we test with                                                                                     | `peerDeps.ts`                                                  | `npm run check:peer-deps`, `pr.yml` job `dependency-alignment` |
@@ -37,7 +37,7 @@ use-case folder imports from `shared/` only, never from another use case.
 > sibling files in this project, nothing else. `ci/check-package-exports/` uses
 > `publint`, `ci/check-package-types/` uses `@arethetypeswrong/core`,
 > `ci/check-peer-deps/` uses `semver`, `ci/check-breaking-changes/` uses
-> `typescript` and `semver`.
+> `typescript`, `semver` and `yaml`.
 
 ## PR report
 

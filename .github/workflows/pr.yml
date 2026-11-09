@@ -136,6 +136,11 @@ jobs:
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: npm run check:package-types
 
+      # Diffs each built lib against its latest npm release (ADR 027).
+      - name: Require a migration for every breaking change
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: npm run check:breaking-changes
+
   unit-testing:
     name: Unit Testing
     runs-on: ubuntu-latest

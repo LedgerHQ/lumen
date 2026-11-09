@@ -6,6 +6,7 @@
   "scripts": {
     "postinstall": "patch-package",
     "check:agent-docs": "node internals/repo-tools/src/ci/check-agent-docs/agentDocsDrift.ts",
+    "check:breaking-changes": "node internals/repo-tools/src/ci/check-breaking-changes/breakingChanges.ts",
     "check:package-exports": "node internals/repo-tools/src/ci/check-package-exports/packageExports.ts",
     "check:package-types": "node internals/repo-tools/src/ci/check-package-types/packageTypes.ts",
     "check:layers": "depcruise libs/ui-react/src libs/ui-rnative/src libs/design-core/src libs/utils-shared/src --config .dependency-cruiser.cjs",
