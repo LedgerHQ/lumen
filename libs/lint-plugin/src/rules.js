@@ -67,7 +67,7 @@ export const NO_RESTRICTED_IMPORTS_OPTIONS = deepFreeze({
 export const LOGICAL_PROPERTIES_OPTIONS = deepFreeze({
   ignore: [
     '^(?:.*:)?!?-?(?:(?:scroll-)?[mp][tb]|top|bottom|border-[tb]|(?:min-|max-)?[wh]|size)(?:-|$)',
-    '^(?:.*:)?!?-?left-(?:1/2|\\[50%\\])$',
+    String.raw`^(?:.*:)?!?-?left-(?:1/2|\[50%\])$`,
   ],
 });
 
