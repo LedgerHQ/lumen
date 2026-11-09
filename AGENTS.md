@@ -7,7 +7,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 ## Stack
 
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
-Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`, `lint-plugin`. Tailwind (design-core preset),
+Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`, `lint-plugin`. Tailwind v4 (design-core CSS theme),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
 Dev-only tooling lives outside `libs/` in `internals/` — see `## Internals`.
 

@@ -39,14 +39,16 @@ A new class helper must be registered in both configs above.
 
 ## Design-system tokens
 
-Custom plugins live in `libs/design-core/src/lib/tailwind/presets/allBrands.ts`. All
-`-default` suffixes are stripped by the plugin, so omit them from utilities.
+The theme is Tailwind v4 CSS in `libs/design-core/tailwind/`: `theme.css` is
+generated from the design tokens (never edit it), `lumen.css` holds the
+hand-written utilities and variants. The utility sections below are all in
+`theme.css`.
 
 ### Typography
 
 - Do **not** use Tailwind typography utilities (`font-bold`, `text-sm`, …).
-- Use the custom typography utilities. Source of truth:
-  `libs/design-core/src/lib/tailwind/plugins/createCustomPlugin.ts` (`createTypographyPlugin`).
+- Use the custom typography utilities (`@utility heading-*`, `body-*`, … in
+  `theme.css`).
 - Classes include: `.responsive-display-1`–`4`; `.heading-0`,
   `.heading-0-semi-bold` … `.heading-4`, `.heading-4-semi-bold`; `.body-1`,
   `.body-1-semi-bold` … `.body-4`, `.body-4-semi-bold`.
@@ -54,7 +56,7 @@ Custom plugins live in `libs/design-core/src/lib/tailwind/presets/allBrands.ts`.
 ### Colours & background
 
 - Do **not** use the Tailwind default palette (`text-gray-500`, `bg-blue-600`).
-- Use the design tokens from `createThemePlugin`:
+- Use the semantic color tokens:
   - Text: `text-base`, `text-on-accent`, `text-muted`, …
   - Background: `bg-base`, `bg-muted`, `bg-accent`, …
   - Border: `border-base`, `border-muted`, `border-accent`, …
@@ -80,15 +82,13 @@ Custom plugins live in `libs/design-core/src/lib/tailwind/presets/allBrands.ts`.
 
 ### Borders & shadows
 
-- Border radius (`createThemePlugin`): `rounded-sm`, `rounded-md`, `rounded-lg`, …
+- Border radius: `rounded-sm`, `rounded-md`, `rounded-lg`, …
 - Border width: `border` (default), `border-2` (active/emphasised).
-- Shadow (`createShadowPlugin`): `shadow-sm`, `shadow-md`, `shadow-lg`,
-  `shadow-xl`, `shadow-2xl`.
+- Shadow: `shadow-sm`, `shadow-md`, `shadow-lg`, `shadow-xl`, `shadow-2xl`.
 
 ### Gradients
 
-- `createGradientPlugin`: `bg-gradient-top`, `bg-gradient-bottom`,
-  `bg-gradient-{crypto}`.
+- `bg-gradient-top`, `bg-gradient-bottom`, `bg-gradient-{crypto}`.
 
 ## Base UI vs Radix (data attributes)
 

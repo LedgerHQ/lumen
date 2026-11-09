@@ -4,13 +4,13 @@
  * Imported by every generated entry (`enterprise.css`, `all-brands.css`…),
  * which add the token values, theme namespaces and token utilities.
  *
- * Mirrors the JS preset plugins until the preset is removed; the v4 parity test
- * in design-core fails if the two drift.
+ * Hand-written, so the Tailwind snapshot test in design-core is what catches an
+ * unintended change here.
  */
 
 @custom-variant dark (&:is(.dark *));
 
-/* Inlined, as the preset does: `z-toast` is `z-index: 150`, no variable. */
+/* Inlined: `z-toast` is `z-index: 150`, no variable. */
 @theme inline reference {
   --z-index-table-header: 20;
   --z-index-dialog-overlay: 90;

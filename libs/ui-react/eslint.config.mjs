@@ -8,13 +8,10 @@ import {
 export default [
   ...prodConfig,
   defineStorybookAddons({ packageJsonLocation: '../../package.json' }),
-  ...defineLumenReactRules({
-    entryPoint: './src/styles.css',
-    tailwindConfig: './tailwind.config.ts',
-  }),
+  ...defineLumenReactRules({ entryPoint: './src/styles.css' }),
   defineDependencyChecks({
     ignoredFiles: [
-      // SVGR template read by `internals/sync-figma` codegen, never imported.
+      // SVGR template read by `internals/design-build` codegen, never imported.
       '{projectRoot}/src/lib/Components/symbols/utils/icon-template.ts',
     ],
     // Types only: the public `NumericScale` / `CategoricalScale` in the

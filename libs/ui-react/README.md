@@ -18,6 +18,9 @@ npm install @radix-ui/react-dialog @radix-ui/react-slot @radix-ui/react-tooltip 
 
 # React (if not already installed)
 npm install react react-dom
+
+# Tailwind CSS v4 (if not already installed), set up for your bundler
+npm install tailwindcss@4
 ```
 
 → [View @ledgerhq/lumen-design-core on npm](https://www.npmjs.com/package/@ledgerhq/lumen-design-core?activeTab=readme)
@@ -26,29 +29,19 @@ npm install react react-dom
 
 ### 1. Configure Tailwind CSS
 
-Create or update your `tailwind.config.js`:
-
-```typescript
-import type { Config } from 'tailwindcss';
-import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
-
-const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  presets: [ledgerLivePreset],
-} satisfies Config;
-
-export default config;
-```
-
-Then import Lumen's stylesheet next to Tailwind in your main CSS file. It
-registers our compiled components as a Tailwind source, so you never have to
-reference our build layout yourself:
+Import Tailwind, the Lumen theme for your brand and Lumen's stylesheet in your
+main CSS file. The stylesheet registers our compiled components as a Tailwind
+source, so you never have to reference our build layout yourself. No
+`tailwind.config` is needed:
 
 ```css
 @import 'tailwindcss';
+@import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
 @import '@ledgerhq/lumen-ui-react/tailwind.css';
-@config '../tailwind.config.ts';
 ```
+
+The brand themes are `ledger-live.css`, `enterprise.css` and `websites.css`
+(`all-brands.css` switches brand with a class on a parent).
 
 ### 2. Start Using Components
 

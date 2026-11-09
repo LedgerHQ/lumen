@@ -10,8 +10,8 @@ The Ledger Design System uses [Tailwind CSS v4](https://tailwindcss.com/) as its
 
 Our Tailwind implementation includes:
 
-- **Custom Preset**: A comprehensive configuration that implements our design tokens and styling rules. [See custom utilities →](#-custom-utilities)
-- **Plugin System**: Custom plugins for [typography](#3-typography), [colors](#2-colors--backgrounds), [shadows](#5-shadows), and [more](#-custom-utilities)
+- **Theme CSS**: Tailwind v4 CSS that implements our design tokens and styling rules. [See custom utilities →](#-custom-utilities)
+- **Custom Utilities**: Generated utilities for [typography](#3-typography), [colors](#2-colors--backgrounds), [shadows](#5-shadows), and [more](#-custom-utilities)
 - **Theme System**: Dynamic theming with support for [light/dark modes](#-dark-mode-support) and [different brand themes](/docs/react-colors--docs)
 - **Design Token Integration**: Direct mapping of design tokens to Tailwind utilities. [Explore foundations →](/docs/react-colors--docs)
 - **Component Patterns**: Common patterns and best practices for component styling. [View components →](/docs/react-button--docs)
@@ -27,7 +27,7 @@ Our Tailwind implementation includes:
 Install `lumen-design-core` and `lumen-ui-react` packages:
 
 ```bash
-# Install the Design Core package where the tailwind preset lives
+# Install the Design Core package where the Tailwind theme lives
 npm install @ledgerhq/lumen-design-core
 
 # Install the React UI Kit package where the components lives
@@ -41,43 +41,30 @@ npm install tailwindcss@^4.1.17 @tailwindcss/postcss @tailwindcss/vite react@^18
 
 ## ⚙️ Configuration
 
-### 1. Tailwind Config
+### 1. Import the Lumen theme and stylesheet
 
-Create or update your `tailwind.config.ts` (or `tailwind.config.js`) to use our preset.
-
-Available presets are: `ledgerLivePreset`, `websitesPreset`, `enterprisePreset`.
-
-```typescript
-import type { Config } from 'tailwindcss';
-import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
-
-const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Your project's files
-  presets: [ledgerLivePreset], // the installed tailwind preset
-} satisfies Config;
-
-export default config;
-```
-
-### 2. Register Lumen as a Tailwind source
-
-Tailwind only emits a utility if it has seen the class name in a file it scans,
-and it skips `node_modules` by default. Our components ship with their class
-names compiled into the published JS, so your Tailwind build has to scan them.
-
-Import our stylesheet next to Tailwind in your main CSS file — that's all:
+Lumen ships its theme as Tailwind v4 CSS: every token, utility and variant is
+defined in CSS, so no `tailwind.config` is needed. Import Tailwind, the theme
+for your brand, then our stylesheet, in your main CSS file:
 
 ```css
 @import 'tailwindcss';
+@import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
 @import '@ledgerhq/lumen-ui-react/tailwind.css';
-@config '../tailwind.config.ts';
 ```
 
-That single import covers charts as well — they ship inside
-`@ledgerhq/lumen-ui-react` at the `/visualization` subpath, so there is no
-second stylesheet to add.
+The brand themes are `ledger-live.css`, `enterprise.css` and `websites.css`.
+`all-brands.css` defines all three, switched by a `.ledger-live`,
+`.enterprise` or `.websites` class on a parent.
 
-### 3. VSCode Extensions and Setup
+Tailwind only emits a utility if it has seen the class name in a file it scans,
+and it skips `node_modules` by default. Our components ship with their class
+names compiled into the published JS, and `@ledgerhq/lumen-ui-react/tailwind.css`
+registers them as a source for you. That single import covers charts as well —
+they ship inside `@ledgerhq/lumen-ui-react` at the `/visualization` subpath, so
+there is no second stylesheet to add.
+
+### 2. VSCode Extensions and Setup
 
 For the best development experience, we recommend the following setup:
 
@@ -142,7 +129,7 @@ For the best development experience, we recommend the following setup:
      ```
    - [View documentation →](https://www.npmjs.com/package/@ledgerhq/lumen-ui-react#-ai-assistant-setup)
 
-### 4. Utility Functions
+### 3. Utility Functions
 
 **Merging class names with `cn`**
 
@@ -175,7 +162,7 @@ For type-safe component variants, we use class-variance-authority. [class-varian
 
 ## 🧩 Custom Utilities
 
-The Ledger Design System builds on Tailwind CSS's utility-first methodology while ensuring design consistency through a shared preset. Instead of customizing Tailwind's configuration in every project, **we provide a common preset that all teams can use out of the box.**
+The Ledger Design System builds on Tailwind CSS's utility-first methodology while ensuring design consistency through a shared theme. Instead of customizing Tailwind in every project, **we ship one theme per brand that all teams import as is.**
 
 ### 1. Spacing & Sizing
 
@@ -225,13 +212,13 @@ Our color system uses semantic tokens. [Explore our color system](/docs/react-co
 
 ### 3. Typography
 
-Our preset carefully **overrides** specific Tailwind core plugins to ensure design consistency.
+Our theme **resets** Tailwind's font size, font weight and line height scales to ensure design consistency:
 
-```typescript
-corePlugins: {
-  fontSize: false,    // Controlled by our typography system
-  fontWeight: false,  // Controlled by our typography system
-  lineHeight: false,  // Controlled by our typography system
+```css
+@theme {
+  --text-*: initial; /* Controlled by our typography system */
+  --font-weight-*: initial; /* Controlled by our typography system */
+  --leading-*: initial; /* Controlled by our typography system */
 }
 ```
 
@@ -305,11 +292,11 @@ All design tokens automatically support dark mode:
 
 ### Key Principles
 
-- Use our preset's semantic utilities instead of raw Tailwind classes
+- Use our semantic utilities instead of raw Tailwind classes
 - Follow our color system and spacing scale
 - Leverage the typography system for consistent text styling
 - Use the theme system for dark mode support
-- Avoid overriding preset configurations unless absolutely necessary
+- Avoid overriding the theme unless absolutely necessary
 
 ---
 

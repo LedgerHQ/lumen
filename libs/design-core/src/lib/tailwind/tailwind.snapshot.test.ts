@@ -1,51 +1,23 @@
 import { createHash } from 'node:crypto';
-import { readFileSync } from 'node:fs';
-import { createRequire } from 'node:module';
-import path from 'node:path';
-import type { Config } from 'tailwindcss';
-import { __unstable__loadDesignSystem, compile } from 'tailwindcss';
 import { describe, expect, it } from 'vitest';
-import {
-  allBrandsPreset,
-  enterprisePreset,
-  ledgerLivePreset,
-  websitesPreset,
-} from './presets/index.js';
 import {
   customProperties,
   normalizeCss as normalize,
 } from './testing/cssFingerprint.js';
+import {
+  compileCss,
+  loadDesignSystem,
+  lumenCss,
+} from './testing/loadTailwind.js';
 
 /**
  * Freezes what Lumen adds to Tailwind: every class whose CSS differs from
  * vanilla Tailwind (hashed per utility family), the base layer (each custom
  * property with its selector and media condition) and a few variants. Hashes
- * are over normalized CSS, so the same classes from another source (the v4
- * CSS files) give the same snapshot.
+ * are over normalized CSS, so formatting never changes them. The JS presets
+ * gave the same snapshot before they were replaced by these CSS files.
  */
 
-const require = createRequire(import.meta.url);
-const tailwindDir = path.dirname(require.resolve('tailwindcss/package.json'));
-
-const loadStylesheet = async (
-  id: string,
-): Promise<{ path: string; base: string; content: string }> => {
-  const file =
-    id === 'tailwindcss' ? 'index.css' : id.replace('tailwindcss/', '');
-  return {
-    path: file,
-    base: tailwindDir,
-    content: readFileSync(path.join(tailwindDir, file), 'utf8'),
-  };
-};
-
-const compileOptions = (preset?: Config) => ({
-  base: '/',
-  loadStylesheet,
-  loadModule: async () => ({ path: 'preset', base: '/', module: preset ?? {} }),
-});
-
-const VANILLA = '@import "tailwindcss";';
 const VARIANT_SAMPLES = [
   'dark:bg-base',
   'dark:text-muted',
@@ -75,16 +47,10 @@ type Footprint = {
   utilities: Record<string, { count: number; hash: string }>;
 };
 
-const footprint = async (
-  input: string,
-  preset?: Config,
-): Promise<Footprint> => {
-  const lumen = await __unstable__loadDesignSystem(
-    input,
-    compileOptions(preset),
-  );
-  const vanilla = await __unstable__loadDesignSystem(VANILLA, compileOptions());
-  const compiler = await compile(input, compileOptions(preset));
+const footprint = async (entry: string): Promise<Footprint> => {
+  const lumen = await loadDesignSystem(lumenCss(entry));
+  const vanilla = await loadDesignSystem(lumenCss());
+  const compiler = await compileCss(lumenCss(entry));
 
   const byRoot = new Map<string, string[]>();
   for (const [className] of lumen.getClassList()) {
@@ -115,20 +81,21 @@ const footprint = async (
   };
 };
 
-const presets = {
-  enterprise: enterprisePreset,
-  ledgerLive: ledgerLivePreset,
-  websites: websitesPreset,
-  allBrands: allBrandsPreset,
+/** Snapshot key → entry, keyed as the presets they replace were. */
+const entries = {
+  enterprise: 'enterprise.css',
+  ledgerLive: 'ledger-live.css',
+  websites: 'websites.css',
+  allBrands: 'all-brands.css',
 };
 
 describe('Tailwind snapshot', () => {
   it('freezes every class and token value Lumen adds to Tailwind', async () => {
     const results = Object.fromEntries(
       await Promise.all(
-        Object.entries(presets).map(async ([name, preset]) => [
+        Object.entries(entries).map(async ([name, entry]) => [
           name,
-          await footprint('@import "tailwindcss"; @config "./preset";', preset),
+          await footprint(entry),
         ]),
       ),
     );

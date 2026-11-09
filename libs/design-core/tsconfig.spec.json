@@ -2,7 +2,12 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./out-tsc/vitest",
-    "types": ["vitest/globals", "vitest/importMeta", "node", "vitest"],
+    "types": [
+      "vitest/globals",
+      "vitest/importMeta",
+      "node",
+      "vitest"
+    ],
     "module": "esnext",
     "moduleResolution": "bundler",
     "forceConsistentCasingInFileNames": true
@@ -12,6 +17,7 @@
     "vitest.config.mts",
     "src/**/*.test.ts",
     "src/**/*.spec.ts",
+    "src/**/testing/**/*.ts",
     "src/**/*.d.ts"
   ],
   "references": [
