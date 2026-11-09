@@ -12,12 +12,13 @@ import { execFileSync } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { brokenPackages, prCommit } from './build-index.ts';
+import { firstRelease, latePackages, prCommit } from './build-index.ts';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
 import {
   frontmatterData,
   migrationsPackage,
   planPackages,
+  refPackages,
   splitFrontmatter,
 } from './shared.ts';
 
@@ -29,7 +30,6 @@ const bodyHeadings = ['Before → after', 'Decide', 'Verify'];
 const kebabCaseFile = /^[a-z0-9]+(?:-[a-z0-9]+)*\.md$/;
 const taggedExample = /^```\S*[ \t]+(before|after)[ \t]*\n([\s\S]*?)^```/gm;
 const migrationPath = /^libs\/migrations\/src\/[^/]+\.md$/;
-const lumenPackage = /^@ledgerhq\/lumen-[^/#]+/;
 
 /** One line of `git diff --name-status`; `from` is set on renames and copies. */
 export type FileChange = { status: string; path: string; from?: string };
@@ -131,19 +131,6 @@ export function parseNameStatus(output: string): FileChange[] {
 }
 
 /**
- * The Lumen packages a migration's refs point into: their release is when the
- * break reaches consumers. A `dependency` ref names what consumers must
- * install, not what broke, so it doesn't count.
- */
-function brokenRefPackages(frontmatter: MigrationFrontmatter): string[] {
-  const names = frontmatter.changes
-    .filter(({ surface }) => surface !== 'dependency')
-    .map(({ ref }) => ref.match(lumenPackage)?.[0])
-    .filter((name) => name !== undefined);
-  return [...new Set(names)];
-}
-
-/**
  * The plans a new migration lacks: one per Lumen package its refs break, or
  * any package at all when it only touches external dependencies.
  */
@@ -151,7 +138,7 @@ function missingPlans(
   frontmatter: MigrationFrontmatter,
   planned: string[],
 ): string[] {
-  const broken = brokenRefPackages(frontmatter);
+  const broken = refPackages(frontmatter);
   if (broken.length === 0) {
     return planned.length > 0 ? [] : ['the package that breaks'];
   }
@@ -161,9 +148,9 @@ function missingPlans(
 /**
  * Any change to a migration ships only when this package is released, so it
  * needs its plan. A new migration also needs the plans of the packages it
- * breaks, unless it names the earlier PR that shipped the update: the release
- * index takes its packages from that PR. Consumers rely on the file name as
- * the id, so a migration is never renamed or deleted.
+ * breaks, unless it names the earlier PR that shipped the update: that PR is
+ * already released, so the index dates it from its tags. Consumers rely on the
+ * file name as the id, so a migration is never renamed or deleted.
  */
 export function checkMigrationChanges(
   changes: FileChange[],
@@ -208,7 +195,10 @@ export function checkMigrationChanges(
   return issues;
 }
 
-/** A named PR must be on main and bump the broken packages, like a new PR. */
+/**
+ * A named PR must be on main and already released in each package it updated,
+ * so a new update can't use `pr` to skip its version plans.
+ */
 export function checkBreakingPr(
   repoRoot: string,
   pr: number,
@@ -216,9 +206,11 @@ export function checkBreakingPr(
 ): string[] {
   const commit = prCommit(repoRoot, pr);
   if (commit === undefined) return [`pr: #${pr} is not on main`];
-  return missingPlans(frontmatter, brokenPackages(repoRoot, commit.sha)).map(
-    (name) => `pr: #${pr} has no version plan for ${name}`,
-  );
+  const packages = latePackages(repoRoot, commit.sha, frontmatter);
+  if (packages.length === 0) return [`pr: #${pr} changed no Lumen package`];
+  return packages
+    .filter((name) => firstRelease(repoRoot, commit.sha, name) === null)
+    .map((name) => `pr: #${pr} is not released in ${name} yet`);
 }
 
 function parsedFrontmatter(content: string): MigrationFrontmatter | undefined {

@@ -4,7 +4,8 @@
  * PR come from the PR that shipped the update, packages from the version plans
  * that PR added, and each introduced version from the first release tag
  * containing it. That PR is the one that added the migration, unless the
- * migration names an earlier one in `pr` because it was written late.
+ * migration names an earlier one in `pr` because it was written late: its
+ * packages then come from its refs (see `latePackages`).
  *
  * A PR is one commit on main's first-parent history: the squash commit, or the
  * merge commit compared with its first parent. That is the same set of changes
@@ -21,7 +22,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 import semver from 'semver';
 import type { IndexEntry, MigrationIndex } from '../index.d.cts';
 import { migrationFrontmatter, type MigrationFrontmatter } from './schema.ts';
-import { frontmatterData, migrationsPackage, planPackages } from './shared.ts';
+import {
+  frontmatterData,
+  migrationsPackage,
+  planPackages,
+  refPackages,
+} from './shared.ts';
 
 export const formatVersion = 1;
 
@@ -128,20 +134,57 @@ export function brokenPackages(repoRoot: string, sha: string): string[] {
   return [...new Set(packages)];
 }
 
+/** Lumen packages whose `libs/` folder the commit changed. */
+function changedPackages(repoRoot: string, sha: string): string[] {
+  const folders = new Set(
+    lines(
+      git(repoRoot, ['diff', '--name-only', `${sha}^1`, sha, '--', 'libs']),
+    ).map((path) => path.split('/')[1]),
+  );
+  return [...folders].flatMap((folder) => {
+    const manifest = `libs/${folder}/package.json`;
+    // A lib the commit deleted still names its package in the parent.
+    const [revision] = [sha, `${sha}^1`].filter(
+      (candidate) =>
+        git(repoRoot, ['ls-tree', '--name-only', candidate, manifest]) !== '',
+    );
+    if (revision === undefined) return [];
+    const { name } = JSON.parse(
+      git(repoRoot, ['show', `${revision}:${manifest}`]),
+    );
+    return name.startsWith('@ledgerhq/lumen-') && name !== migrationsPackage
+      ? [name]
+      : [];
+  });
+}
+
+/**
+ * Packages a late migration's PR shipped the update in: the ones its refs
+ * point into, or the libs that PR changed for a dependency-only update. Its
+ * own plans don't count: some PRs had none, and a later PR's plan released
+ * their change.
+ */
+export function latePackages(
+  repoRoot: string,
+  sha: string,
+  frontmatter: MigrationFrontmatter,
+): string[] {
+  const named = refPackages(frontmatter);
+  return named.length > 0 ? named : changedPackages(repoRoot, sha);
+}
+
 function introducedVersions(
   repoRoot: string,
   sha: string,
+  packages: string[],
 ): Record<string, string | null> {
   return Object.fromEntries(
-    brokenPackages(repoRoot, sha).map((name) => [
-      name,
-      firstRelease(repoRoot, sha, name),
-    ]),
+    packages.map((name) => [name, firstRelease(repoRoot, sha, name)]),
   );
 }
 
 /** The lowest version tagged for the package after the commit. */
-function firstRelease(
+export function firstRelease(
   repoRoot: string,
   sha: string,
   name: string,
@@ -193,11 +236,15 @@ function resolveEntry(
       ...frontmatter,
     };
   }
+  const packages =
+    pr === undefined
+      ? brokenPackages(repoRoot, commit.sha)
+      : latePackages(repoRoot, commit.sha, { ...frontmatter, pr });
   return {
     id,
     ...parseSubject(commit.subject, commit.body),
     commit: commit.sha,
-    introduced: introducedVersions(repoRoot, commit.sha),
+    introduced: introducedVersions(repoRoot, commit.sha, packages),
     ...frontmatter,
   };
 }

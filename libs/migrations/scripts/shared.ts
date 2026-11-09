@@ -1,6 +1,22 @@
 import { parse } from 'yaml';
+import type { MigrationFrontmatter } from './schema.ts';
 
 export const migrationsPackage = '@ledgerhq/lumen-migrations';
+
+const lumenPackage = /^@ledgerhq\/lumen-[^/#]+/;
+
+/**
+ * The Lumen packages a migration's refs point into: their release is when the
+ * update reaches consumers. A `dependency` ref names what consumers must
+ * install, not what changed, so it doesn't count.
+ */
+export function refPackages(frontmatter: MigrationFrontmatter): string[] {
+  const names = frontmatter.changes
+    .filter(({ surface }) => surface !== 'dependency')
+    .map(({ ref }) => ref.match(lumenPackage)?.[0])
+    .filter((name) => name !== undefined);
+  return [...new Set(names)];
+}
 
 const frontmatterBlock = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/;
 
