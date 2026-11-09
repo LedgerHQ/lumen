@@ -183,6 +183,9 @@ describe('Dialog', () => {
       expect(animate.mock.calls[0][0]).toMatchObject({
         height: ['200px', '320px'],
       });
+      expect(animate.mock.contexts[0]).toBe(
+        document.querySelector('[data-slot="dialog-content"]'),
+      );
     });
 
     it('does not observe the dialog by default', async () => {
