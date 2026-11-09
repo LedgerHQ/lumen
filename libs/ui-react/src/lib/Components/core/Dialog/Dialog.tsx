@@ -1,5 +1,5 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
-import { createSafeContext, useMergedRef } from '@ledgerhq/lumen-utils-shared';
+import { createSafeContext } from '@ledgerhq/lumen-utils-shared';
 import * as DialogPrimitive from '@radix-ui/react-dialog';
 import { cva } from 'class-variance-authority';
 import type { ComponentProps } from 'react';
@@ -187,15 +187,18 @@ export function DialogContent({
   children,
   ...props
 }: DialogContentProps) {
-  const { height } = useDialogContext({
+  const { height, animated } = useDialogContext({
     consumerName: 'DialogContent',
     contextRequired: true,
   });
+  const isAnimated = animated && height === 'fit';
+  const animatedRef = useAnimatedHeight(isAnimated);
 
   return (
     <DialogPortal data-slot='dialog-portal'>
       <DialogOverlay />
       <DialogPrimitive.Content
+        ref={animatedRef}
         data-slot='dialog-content'
         className={cn(dialogContentVariants({ height }), className)}
         {...props}
@@ -234,17 +237,13 @@ export const DialogBody = ({
   style,
   ...props
 }: DialogBodyProps) => {
-  const { height, animated } = useDialogContext({
+  const { height } = useDialogContext({
     consumerName: 'DialogBody',
     contextRequired: true,
   });
-  const isAnimated = animated && height === 'fit';
-  const animatedRef = useAnimatedHeight(isAnimated);
-  const mergedRef = useMergedRef(ref, animatedRef);
-
   return (
     <div
-      ref={mergedRef}
+      ref={ref}
       data-slot='dialog-body'
       style={style}
       className={cn(
