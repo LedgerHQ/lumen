@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-migrations",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Migration guides for Lumen updates, read by the automated upgrade pipeline in consumer repos.",
   "license": "Apache-2.0",
   "type": "module",
