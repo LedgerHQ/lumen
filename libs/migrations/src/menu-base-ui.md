@@ -30,6 +30,18 @@ changes:
     signal: silent # checkbox items now keep the menu open
     detect:
       - { pattern: '<MenuCheckboxItem\b', expect: review }
+  - change: changed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-react#MenuRadioItem.closeOnClick'
+    signal: silent # radio items now keep the menu open
+    detect:
+      - { pattern: '<MenuRadioItem\b', expect: review }
+  - change: changed
+    surface: export
+    ref: '@ledgerhq/lumen-ui-react#MenuLabel'
+    signal: silent # throws at runtime outside a MenuGroup
+    detect:
+      - { pattern: '<MenuLabel\b', expect: review }
   - change: removed
     surface: value
     ref: '@ledgerhq/lumen-ui-react#MenuCheckboxItem.checked=indeterminate'
@@ -95,6 +107,20 @@ changes:
   - change: removed
     surface: member
     ref: '@ledgerhq/lumen-ui-react#MenuRadioGroup.asChild'
+    signal: loud
+  - change: changed
+    surface: export
+    ref: '@ledgerhq/lumen-ui-react#MenuContent'
+    signal: silent # data-* and aria-* still typecheck but are dropped
+    detect:
+      - { pattern: '<Menu(Sub)?Content\b[^>]*\b(data|aria)-', expect: review }
+  - change: removed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-react#MenuContent.ref'
+    signal: loud
+  - change: removed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-react#MenuSubContent.ref'
     signal: loud
   - change: removed
     surface: member
@@ -186,12 +212,12 @@ pr: 702
 ## Before → after
 
 ```tsx before
-<Menu modal={false}>
+<Menu>
   <MenuTrigger asChild>
     <IconButton icon={MoreVertical} aria-label='Actions' />
   </MenuTrigger>
   <MenuPortal>
-    <MenuContent collisionPadding={8} onCloseAutoFocus={(e) => e.preventDefault()}>
+    <MenuContent collisionPadding={8} data-testid='actions-menu'>
       <MenuItem onSelect={rename}>Rename</MenuItem>
       <MenuItem
         textValue='Export'
@@ -205,6 +231,11 @@ pr: 702
       <MenuCheckboxItem checked={pinned} onCheckedChange={setPinned}>
         Pin
       </MenuCheckboxItem>
+      <MenuLabel>Sort</MenuLabel>
+      <MenuRadioGroup value={sort} onValueChange={setSort}>
+        <MenuRadioItem value='name'>By name</MenuRadioItem>
+        <MenuRadioItem value='date'>By date</MenuRadioItem>
+      </MenuRadioGroup>
     </MenuContent>
   </MenuPortal>
 </Menu>
@@ -214,13 +245,26 @@ pr: 702
 <Menu>
   <MenuTrigger render={<IconButton icon={MoreVertical} aria-label='Actions' />} />
   <MenuContent>
-    <MenuItem onClick={rename}>Rename</MenuItem>
-    <MenuItem label='Export' closeOnClick={false} onClick={exportFile}>
-      Export <Tag label='New' />
-    </MenuItem>
-    <MenuCheckboxItem checked={pinned} onCheckedChange={setPinned}>
-      Pin
-    </MenuCheckboxItem>
+    <MenuGroup data-testid='actions-menu'>
+      <MenuItem onClick={rename}>Rename</MenuItem>
+      <MenuItem label='Export' closeOnClick={false} onClick={exportFile}>
+        Export <Tag label='New' />
+      </MenuItem>
+      <MenuCheckboxItem checked={pinned} onCheckedChange={setPinned} closeOnClick>
+        Pin
+      </MenuCheckboxItem>
+      <MenuGroup>
+        <MenuLabel>Sort</MenuLabel>
+        <MenuRadioGroup value={sort} onValueChange={setSort}>
+          <MenuRadioItem value='name' closeOnClick>
+            By name
+          </MenuRadioItem>
+          <MenuRadioItem value='date' closeOnClick>
+            By date
+          </MenuRadioItem>
+        </MenuRadioGroup>
+      </MenuGroup>
+    </MenuGroup>
   </MenuContent>
 </Menu>
 ```
@@ -234,24 +278,40 @@ pr: 702
 - Menu items: rename every `onSelect` to `onClick`. An `onSelect` that called
   `e.preventDefault()` to keep the menu open becomes `closeOnClick={false}`
   with the `preventDefault` call removed. `textValue` → `label`.
-- `MenuCheckboxItem` now keeps the menu open on click. Pass `closeOnClick`
-  where the menu must close after toggling; otherwise keep the new behavior
-  (the default).
+- `MenuCheckboxItem` and `MenuRadioItem` now keep the menu open on click. Pass
+  `closeOnClick` where the menu must close after a choice; otherwise keep the
+  new behavior (the default).
 - `checked='indeterminate'` is gone: pass a boolean.
-- Drop `MenuPortal` (content portals itself), `modal`, `inset`, `asChild` and
-  the Radix positioning and event props on `MenuContent` / `MenuSubContent`.
-  `MenuSubContent` takes only `className` and `children`. If a removed handler
-  held needed behavior (e.g. `onEscapeKeyDown`), use `onOpenChange` on `Menu`.
+- `MenuLabel` now throws outside a `MenuGroup`: wrap it with the items it
+  labels in a `MenuGroup`.
+- Drop `MenuPortal` (content portals itself), `inset`, `asChild` and the Radix
+  positioning and event props on `MenuContent` / `MenuSubContent`.
+- `MenuContent` accepts only `className`, `children`, `side`, `sideOffset`,
+  `align`, `alignOffset` and `sticky`; `MenuSubContent` only `className` and
+  `children`. Neither takes `ref`, `style`, `id` or handlers, and `data-*` /
+  `aria-*` still compile but are dropped. Move test ids and labels to a
+  `MenuGroup` around the items, an item, or the trigger.
+- `Menu` is always modal now. `modal={false}` has no replacement: drop it and
+  flag the call site for review.
+- `onEscapeKeyDown` / `onInteractOutside` logic moves to `onOpenChange` on
+  `Menu`: check `eventDetails.reason`, and call `eventDetails.cancel()` to keep
+  it open. Preventing focus return on close (`onCloseAutoFocus`) has no
+  replacement.
 - `MenuContent` `sticky='partial' | 'always'` → `sticky` (boolean, default
   `true`).
-- Styles keyed on Radix `data-state` attributes (e.g. `data-[state=open]:` on
-  the trigger element) no longer match. Use `data-popup-open` instead.
-- `PopoverTrigger` must always get `render`.
+- Styles keyed on Radix `data-state` no longer match: `data-[state=open]` on
+  the trigger or sub-trigger → `data-popup-open`, on content →
+  `data-open` / `data-closed`; `data-[state=checked]` on items → `data-checked`.
+- A `z-*` class on `MenuContent` no longer lifts the menu: `z-menu` now sits on
+  the positioning wrapper.
+- `PopoverTrigger` must always get `render`. One without it becomes
+  `render={<button type='button' />}`.
 - `@radix-ui/react-dropdown-menu` is no longer used by Lumen: remove it if
   nothing else imports it.
 
 ## Verify
 
-Zero `detect` hits, and every `MenuCheckboxItem` hit reviewed. Typecheck
-passes. Open each menu: it opens from its trigger, items run their action,
-items meant to keep the menu open do, and keyboard navigation works.
+Zero `detect` hits, and every `MenuCheckboxItem`, `MenuRadioItem`,
+`MenuLabel` and `MenuContent` / `MenuSubContent` hit reviewed. Typecheck passes. Open each
+menu: it opens from its trigger, items run their action, items meant to keep
+the menu open do, and keyboard navigation works.

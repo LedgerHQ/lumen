@@ -12,6 +12,18 @@ changes:
     signal: loud
     detect:
       - { pattern: '\bspotDotSizeMap\b' }
+  - change: removed
+    surface: export
+    ref: '@ledgerhq/lumen-ui-rnative#spotDotIconSizeMap'
+    signal: loud
+    detect:
+      - { pattern: '\bspotDotIconSizeMap\b' }
+  - change: removed
+    surface: export
+    ref: '@ledgerhq/lumen-ui-rnative#spotDotSizeMap'
+    signal: loud
+    detect:
+      - { pattern: '\bspotDotSizeMap\b' }
 pr: 860
 ---
 
@@ -37,7 +49,9 @@ Replace each map lookup with the resolver for the same context and size,
 spread on the dot. The second argument must be a size the resolver knows:
 type a variable size as `SpotSize` for `getDotSymbolProps`.
 `getDotIconProps('spot', …)` has no entry for 32, like the old map: exclude
-32 from the size type and keep the dot off 32px spots.
+32 from the size type and keep the dot off 32px spots. React Native
+imports the same resolvers from `@ledgerhq/lumen-ui-rnative`, with the same
+arguments.
 
 ## Verify
 

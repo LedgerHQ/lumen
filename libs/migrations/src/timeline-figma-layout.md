@@ -5,31 +5,35 @@ changes:
     ref: '@ledgerhq/lumen-ui-react#TimelineItem'
     signal: visual # smaller indicator, hugging header, body aligned with the title
     detect:
-      - { pattern: '<TimelineItem(?:Header|Body)\b[^>]*\bclassName=', expect: review }
+      - { pattern: '<TimelineItem(?:Header|Body)?\b[^>]*\bclassName=', expect: review }
   - change: changed
     surface: export
     ref: '@ledgerhq/lumen-ui-rnative#TimelineItem'
     signal: visual
     detect:
-      - { pattern: '<TimelineItem(?:Header|Body)\b[^>]*\bstyle=', expect: review }
+      - { pattern: '<TimelineItem(?:Header|Body)?\b[^>]*\b(?:style|lx)=', expect: review }
 pr: 915
 ---
 
 ## Before → after
 
 ```tsx before
-<TimelineItem>
-  <TimelineItemHeader status='success' className='min-h-64'>
-    <TimelineItemTitle>Sent</TimelineItemTitle>
+<TimelineItem status='success'>
+  <TimelineItemHeader className='min-h-48'>
+    <TimelineItemLeading>
+      <TimelineItemTitle>Sent</TimelineItemTitle>
+    </TimelineItemLeading>
   </TimelineItemHeader>
-  <TimelineItemBody className='ms-40'>Details</TimelineItemBody>
+  <TimelineItemBody className='ms-48'>Details</TimelineItemBody>
 </TimelineItem>
 ```
 
 ```tsx after
-<TimelineItem>
-  <TimelineItemHeader status='success'>
-    <TimelineItemTitle>Sent</TimelineItemTitle>
+<TimelineItem status='success'>
+  <TimelineItemHeader>
+    <TimelineItemLeading>
+      <TimelineItemTitle>Sent</TimelineItemTitle>
+    </TimelineItemLeading>
   </TimelineItemHeader>
   <TimelineItemBody>Details</TimelineItemBody>
 </TimelineItem>
@@ -37,7 +41,7 @@ pr: 915
 
 ```tsx before
 // React Native
-<TimelineItemBody style={{ marginStart: 40 }}>Details</TimelineItemBody>
+<TimelineItemBody lx={{ marginStart: 's48' }}>Details</TimelineItemBody>
 ```
 
 ```tsx after
@@ -48,11 +52,21 @@ pr: 915
 ## Decide
 
 The status indicator shrinks from 24 to 20, the header hugs its content
-(`py-8`, top-aligned) instead of a 64 minimum height, and the body sits in
-line with the title next to the rail. No API change. Remove `className` or
-`style` overrides that rebuilt the old spacing (header height, body
-indent); keep the rest. Tests querying `timeline-indicator-*` still find it,
-now on the rail.
+(8px vertical padding, top-aligned) instead of a 64 minimum height, and the
+body sits in line with the title. No API change.
+
+The rail no longer spans the whole `TimelineItem`: the header draws it, and
+the body draws its own connector column. Body `className`, `style` or `lx`
+now apply to the row holding that column, so a start margin or padding moves
+the line off the rail. The body also lost its top padding. The header rail
+bleeds 8px into the header padding, so overriding that padding breaks it.
+Padding or gap on `TimelineItem`, or children other than Header and Body, also
+break the line: move that content into `TimelineItemBody`. Remove overrides
+that rebuilt the old spacing (header height, body indent); keep the rest.
+
+Tests querying `timeline-indicator-*` still find it. On React Native,
+`timeline-line-out` now always renders (opacity 0 on the last item), so
+update tests expecting it to be absent.
 
 ## Verify
 

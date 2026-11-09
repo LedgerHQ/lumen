@@ -5,7 +5,7 @@ changes:
     ref: '@ledgerhq/lumen-ui-react#Link.size=inherit'
     signal: visual # a 4px gap now separates the icon, text and external-link icon
     detect:
-      - pattern: '<Link\b(?![^>]*\bsize=[''"](?:sm|md)[''"])[^>]*\b(?:icon=|isExternal|asChild)'
+      - pattern: '<Link\b(?!(?:[^>]|=>)*\bsize=\{?[''"](?:sm|md)[''"])(?:[^>]|=>)*\b(?:icon=|isExternal|asChild)'
         expect: review
 pr: 897
 ---

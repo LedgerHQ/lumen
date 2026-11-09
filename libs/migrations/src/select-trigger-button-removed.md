@@ -43,8 +43,9 @@ import { SelectTrigger, MediaButton } from '@ledgerhq/lumen-ui-react';
   `label`: the selected content when `selectedValue` is set, the old `label`
   otherwise. Keep the other props (`size`, `appearance`, `icon`, `iconType`…)
   on `MediaButton`. Don't spread the render props into it.
-- Where `SelectTriggerButtonProps` typed a wrapper, use `MediaButtonProps`
-  for the button props and `SelectTriggerRenderProps` for `selectedValue` and
+- Where `SelectTriggerButtonProps` typed a wrapper that keeps `label`, use
+  `Omit<MediaButtonProps, 'children'> & { label: string }`, plus
+  `SelectTriggerRenderProps` if it takes `selectedValue` and
   `selectedContent`.
 
 ## Verify

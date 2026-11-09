@@ -24,6 +24,11 @@ changes:
     ref: '@ledgerhq/lumen-ui-react#SelectButtonTriggerProps'
     to: '@ledgerhq/lumen-ui-react#SelectTriggerButtonProps'
     signal: loud
+  - change: renamed
+    surface: module
+    ref: '@ledgerhq/lumen-ui-react/ButtonTrigger'
+    to: '@ledgerhq/lumen-ui-react/TriggerButton'
+    signal: loud
 pr: 570
 ---
 
@@ -46,7 +51,9 @@ import { TriggerButton, SelectTriggerButton } from '@ledgerhq/lumen-ui-react';
 ## Decide
 
 Pure rename, props unchanged. Rename the components and their `…Props` types
-everywhere, including imports and type references.
+everywhere, including imports and type references. Deep imports from
+`@ledgerhq/lumen-ui-react/ButtonTrigger` move to `/TriggerButton`;
+`SelectTriggerButton` stays in `/Select`.
 
 ## Verify
 

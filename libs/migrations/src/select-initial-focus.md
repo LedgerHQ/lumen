@@ -25,50 +25,51 @@ pr: 648
 ## Before → after
 
 ```tsx before
+<SelectContent autoFocusSearch>
+  <SelectSearch />
+  <SelectList renderItem={renderNetwork} />
+</SelectContent>
+```
+
+```tsx after
+<SelectContent>
+  <SelectSearch />
+  <SelectList renderItem={renderNetwork} />
+</SelectContent>
+```
+
+```tsx before
 interface NetworkMeta {
   chainId: number;
 }
-const items: SelectItemData<NetworkMeta>[] = networks;
-
-<Select items={items}>
-  <SelectTrigger label='Network' />
-  <SelectContent autoFocusSearch>
-    <SelectSearch />
-    <SelectList renderItem={renderNetwork} />
-  </SelectContent>
-</Select>
+type NetworkItem = SelectItemData<NetworkMeta>;
 ```
 
 ```tsx after
 type NetworkMeta = {
   chainId: number;
 };
-const items: SelectItemData<NetworkMeta>[] = networks;
-
-<Select items={items}>
-  <SelectTrigger label='Network' />
-  <SelectContent>
-    <SelectSearch />
-    <SelectList renderItem={renderNetwork} />
-  </SelectContent>
-</Select>
+type NetworkItem = SelectItemData<NetworkMeta>;
 ```
 
 ## Decide
 
-- `autoFocusSearch` → `initialFocus`. Since `true` is now the default, drop
-  `autoFocusSearch` / `autoFocusSearch={true}`, and turn
-  `autoFocusSearch={false}` into `initialFocus={false}`.
+- `autoFocusSearch` → `initialFocus`. Since `true` is now the default, drop `autoFocusSearch` /
+  `autoFocusSearch={true}`, and turn `autoFocusSearch={false}` into
+  `initialFocus={false}`. One difference: on touch, the old prop focused the
+  popup to keep the virtual keyboard closed, while `true` focuses the search
+  input. Where that matters, pass `initialFocus={false}`.
 - Every `SelectContent` without the prop now moves focus on open, to the
-  search input or the first item. Keep that (the default). Pass
+  first tabbable element in the content (normally `SelectSearch`), or to the
+  popup itself when there is none. Keep that (the default). Pass
   `initialFocus={false}` only where focus must stay on the trigger, for
   example a test that asserts it.
-- The type passed to `SelectItemData<…>` (and `Select`, `SelectList`) must
-  extend `Record<string, unknown>`. An `interface` doesn't: turn it into a
-  `type` alias. Only interfaces used as a `SelectItemData` meta type need it.
+- The meta type passed to `SelectItemData<…>` must extend
+  `Record<string, unknown>`. Turn an `interface` into a `type` alias, and
+  wrap a primitive or `unknown` meta in an object type.
 
 ## Verify
 
-Zero `autoFocusSearch` hits. Typecheck passes. Open each select with the
-keyboard: focus lands in the search or list, and arrow keys and Enter select
-an item.
+Zero `autoFocusSearch` hits. Typecheck passes. Open each select with a
+`SelectSearch` from the keyboard: focus lands in the search, and arrow keys
+and Enter select an item.

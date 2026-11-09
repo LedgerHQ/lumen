@@ -4,8 +4,6 @@ changes:
     surface: member
     ref: '@ledgerhq/lumen-ui-react#TextInput.errorMessage'
     signal: loud
-    detect:
-      - { pattern: '\berrorMessage=' }
   - change: removed
     surface: member
     ref: '@ledgerhq/lumen-ui-react#SearchInput.errorMessage'
@@ -27,7 +25,19 @@ changes:
     ref: '@ledgerhq/lumen-ui-react#BaseInput.aria-invalid'
     signal: visual # aria-invalid alone no longer draws the error ring
     detect:
-      - { pattern: '<(TextInput|SearchInput|AddressInput|BaseInput|SelectSearch)\b[^>]*\baria-invalid', expect: review }
+      - { pattern: '<(TextInput|SearchInput|AddressInput|BaseInput|SelectSearch)\b(?:[^>]|=>)*?\baria-invalid\b', expect: review }
+  - change: removed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-rnative#TextInput.errorMessage'
+    signal: loud
+  - change: removed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-rnative#SearchInput.errorMessage'
+    signal: loud
+  - change: removed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-rnative#AddressInput.errorMessage'
+    signal: loud
 pr: 653
 ---
 
@@ -50,16 +60,19 @@ pr: 653
 ## Decide
 
 - `errorMessage={x}` → `helperText={x}` plus `status='error'` when `x` is set.
-  Keep a conditional `status` when the message is optional.
-- The error ring now comes only from `status='error'`, which also sets
+  Keep a conditional `status` when the message is optional. Same props on
+  React and React Native.
+- Web: the error ring now comes only from `status='error'`, which also sets
   `aria-invalid`. Where `aria-invalid` (or native `:invalid` validation) was
-  meant to show the error state, pass `status='error'` and drop
-  `aria-invalid` if it only mirrored that state. Keep it only to decouple
-  accessibility from the visual state.
+  meant to show the error state, pass `status='error'` instead. An explicit
+  `aria-invalid` now wins over `status`, so `aria-invalid={false}` next to
+  `status='error'` reports a red input as valid: drop it unless it must
+  differ from the visual state.
 - Without `status`, `helperText` renders as a neutral hint.
 
 ## Verify
 
-Zero `errorMessage=` hits on Lumen inputs and every `aria-invalid` hit
-reviewed. Typecheck passes. Open forms in their error state: the red ring and
-error text show under each invalid input.
+Typecheck passes and every `aria-invalid` hit is reviewed. Open forms in their
+error state: the red ring and error text show under each invalid input. An
+input with both `label` and `placeholder` now keeps its label floated and shows
+the placeholder.
