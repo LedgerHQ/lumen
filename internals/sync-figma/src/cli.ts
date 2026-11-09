@@ -52,7 +52,7 @@ const extractTokens = async (): Promise<void> => {
           toJsonFile(tokens),
         ]),
       ),
-      { extension: '.json' },
+      { extension: '.tokens.json' },
     ),
   );
 };

@@ -17,7 +17,10 @@ import { enterpriseThemes } from '../generated/js/enterprise/theme.js';
 import { enterpriseLightColorTokens } from '../generated/js/enterprise/theme.light.js';
 import { ledgerLiveDarkColorTokens } from '../generated/js/ledger-live/theme.dark.js';
 import { ledgerLiveLightColorTokens } from '../generated/js/ledger-live/theme.light.js';
-import type { ThemeColorTokens } from '../generated/js/types.js';
+import type {
+  ThemeColorTokens,
+  TypographyDefinition,
+} from '../generated/js/types.js';
 import { websitesDarkColorTokens } from '../generated/js/websites/theme.dark.js';
 import { websitesLightColorTokens } from '../generated/js/websites/theme.light.js';
 import { createShadowPlugin } from '../tailwind/plugins/createCustomPlugin.js';
@@ -385,7 +388,10 @@ describe('jsThemeSync — typography per breakpoint', () => {
       const issues: string[] = [];
       const groups = enterpriseThemes.light.typographies[breakpoint];
 
-      for (const styles of Object.values(groups)) {
+      for (const styles of Object.values(groups) as Record<
+        string,
+        TypographyDefinition
+      >[]) {
         for (const [name, style] of Object.entries(styles)) {
           const { base, weight } = typographyCssName(name);
           const expected = {

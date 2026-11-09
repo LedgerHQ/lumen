@@ -1,3 +1,4 @@
+import { parseFileName } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
 import { loadFixture } from '../testing/fixtures.js';
 import { UnsupportedVariableError } from './dtcg.js';
@@ -10,17 +11,28 @@ describe('extractTokenFiles', () => {
     );
 
     expect(Object.keys(files).sort()).toEqual([
-      '1.primitives.value.json',
-      '2.theme.dark.json',
-      '2.theme.light.json',
-      '3.brand.entreprise.json',
-      '3.brand.ledger-live.json',
-      '3.brand.websites.json',
-      '4.breakpoint.lg.json',
-      '4.breakpoint.md.json',
-      '4.breakpoint.sm.json',
-      '4.breakpoint.xl.json',
+      '1.primitives.value.tokens.json',
+      '2.theme.dark.tokens.json',
+      '2.theme.light.tokens.json',
+      '3.brand.entreprise.tokens.json',
+      '3.brand.ledger-live.tokens.json',
+      '3.brand.websites.tokens.json',
+      '4.breakpoint.lg.tokens.json',
+      '4.breakpoint.md.tokens.json',
+      '4.breakpoint.sm.tokens.json',
+      '4.breakpoint.xl.tokens.json',
     ]);
+  });
+
+  // The export feeds design-sources directly: a name it can't parse would
+  // fail the next stage, so check every recorded collection and mode.
+  it.each([
+    'get-local-variables-response.json',
+    'motion-variables-response.json',
+  ])('names every file so design-sources can read it: %s', (fixture) => {
+    for (const name of Object.keys(extractTokenFiles(loadFixture(fixture)))) {
+      expect(() => parseFileName(name), name).not.toThrow();
+    }
   });
 
   it('exports the recorded library as DTCG', async () => {
@@ -38,10 +50,10 @@ describe('extractTokenFiles', () => {
       loadFixture('get-local-variables-response.json'),
     );
 
-    expect(files['1.primitives.value.json'].Radius).toMatchObject({
+    expect(files['1.primitives.value.tokens.json'].Radius).toMatchObject({
       4: { $type: 'dimension', $value: { value: 4, unit: 'px' } },
     });
-    expect(files['4.breakpoint.md.json']).toMatchObject({
+    expect(files['4.breakpoint.md.tokens.json']).toMatchObject({
       'Font Style': {
         Display: {
           'Display 1': {
@@ -57,8 +69,8 @@ describe('extractTokenFiles', () => {
       loadFixture('motion-variables-response.json'),
     );
 
-    expect(Object.keys(files)).toEqual(['7.motion.json']);
-    expect(files['7.motion.json']).toMatchObject({
+    expect(Object.keys(files)).toEqual(['7.motion.tokens.json']);
+    expect(files['7.motion.tokens.json']).toMatchObject({
       duration: {
         150: { $type: 'duration', $value: { value: 150, unit: 'ms' } },
       },
@@ -74,7 +86,7 @@ describe('extractTokenFiles', () => {
       },
       transition: { fast: { $type: 'duration', $value: '{duration.150}' } },
     });
-    expect(files['7.motion.json']).not.toHaveProperty('utility');
+    expect(files['7.motion.tokens.json']).not.toHaveProperty('utility');
   });
 
   it('writes colors as DTCG 2025.10 sRGB objects, keeping the 8-bit hex', () => {
@@ -82,7 +94,7 @@ describe('extractTokenFiles', () => {
       loadFixture('get-local-variables-response.json'),
     );
 
-    expect(files['1.primitives.value.json']).toMatchObject({
+    expect(files['1.primitives.value.tokens.json']).toMatchObject({
       Colors: {
         Dark: {
           Grey: {
@@ -132,19 +144,19 @@ describe('tokenFileName', () => {
   it('keeps the first word of a described mode name', () => {
     const breakpoints = collection(['XL - 1024 & more']);
     expect(tokenFileName(breakpoints, breakpoints.modes[0])).toBe(
-      '4.breakpoint.xl.json',
+      '4.breakpoint.xl.tokens.json',
     );
   });
 
   it('lowercases and hyphenates collection and mode names', () => {
     const brands = { ...collection(['Ledger Live']), name: '3.Brand' };
     expect(tokenFileName(brands, brands.modes[0])).toBe(
-      '3.brand.ledger-live.json',
+      '3.brand.ledger-live.tokens.json',
     );
   });
 
   it('drops Figma’s default mode name for single-mode collections', () => {
     const motion = { ...collection(['Mode 1']), name: '7.motion' };
-    expect(tokenFileName(motion, motion.modes[0])).toBe('7.motion.json');
+    expect(tokenFileName(motion, motion.modes[0])).toBe('7.motion.tokens.json');
   });
 });

@@ -1,56 +1,10 @@
+import type { RGB, RGBA } from '@figma/rest-api-spec';
 import type {
-  RGB,
-  RGBA,
-  VariableCodeSyntax,
-  VariableScope,
-} from '@figma/rest-api-spec';
-
-/**
- * The DTCG 2025.10 subset the Figma export writes: colors as sRGB objects,
- * dimensions and durations as objects with an explicit unit.
- */
-export type DtcgType =
-  | 'color'
-  | 'dimension'
-  | 'number'
-  | 'duration'
-  | 'cubicBezier'
-  | 'fontFamily'
-  | 'fontWeight';
-
-export type DtcgDimension = { value: number; unit: 'px' };
-export type DtcgDuration = { value: number; unit: 'ms' };
-export type DtcgCubicBezier = [number, number, number, number];
-export type DtcgColor = {
-  colorSpace: 'srgb';
-  components: [number, number, number];
-  alpha?: number;
-  /** 6-digit fallback for tools without color-space support. */
-  hex: string;
-};
-
-export type DtcgValue =
-  | string
-  | number
-  | DtcgColor
-  | DtcgDimension
-  | DtcgDuration
-  | DtcgCubicBezier;
-
-export type FigmaExtensions = {
-  hiddenFromPublishing?: boolean;
-  scopes?: VariableScope[];
-  codeSyntax?: VariableCodeSyntax;
-};
-
-export type DtcgToken = {
-  $type: DtcgType;
-  $value: DtcgValue;
-  $description?: string;
-  $extensions?: { 'com.figma'?: FigmaExtensions };
-};
-
-export type DtcgGroup = { [key: string]: DtcgToken | DtcgGroup };
+  DtcgColor,
+  DtcgCubicBezier,
+  DtcgType,
+  DtcgValue,
+} from '@lumen/design-sources';
 
 /** What the type mapping needs to know about a concrete (non-alias) variable. */
 export type VariableShape = {
@@ -227,10 +181,6 @@ export const dtcgColor = (value: RGB | RGBA | string): DtcgColor => {
     hex: `#${[r, g, b].map(toHexByte).join('')}`,
   };
 };
-
-/** `#rrggbb`, or `#rrggbbaa` when the color is translucent: what CSS and JS outputs write. */
-export const colorToHex = ({ hex, alpha }: DtcgColor): string =>
-  alpha === undefined ? hex : `${hex}${toHexByte(byte(alpha))}`;
 
 const parseCubicBezier = (value: string): DtcgCubicBezier => {
   const numbers = value

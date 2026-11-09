@@ -1,0 +1,26 @@
+{
+  "name": "design-sources",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "internals/design-sources/src",
+  "projectType": "library",
+  "tags": [
+    "scope:internal",
+    "type:tooling",
+    "stage:sources"
+  ],
+  "targets": {
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "vitest --run",
+        "cwd": "internals/design-sources"
+      }
+    },
+    "validate": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/design-sources/src/cli.ts validate"
+      }
+    }
+  }
+}

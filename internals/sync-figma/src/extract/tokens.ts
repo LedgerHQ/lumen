@@ -3,11 +3,9 @@ import type {
   LocalVariable,
   LocalVariableCollection,
 } from '@figma/rest-api-spec';
+import type { DtcgGroup, DtcgToken, DtcgType } from '@lumen/design-sources';
 import {
   aliasReference,
-  type DtcgGroup,
-  type DtcgToken,
-  type DtcgType,
   dtcgTypeOf,
   dtcgValueOf,
   UnsupportedVariableError,
@@ -15,12 +13,12 @@ import {
 
 type Mode = { modeId: string; name: string };
 
-/** `Ledger Live` → `ledger-live`: the lowercase, hyphenated form source file names use. */
+/** `Ledger Live` → `ledger-live`: the form design-sources reads file names in. */
 const fileNamePart = (name: string): string =>
   name.trim().toLowerCase().replace(/\s+/g, '-');
 
 /**
- * `4.Breakpoint` × `XL - 1024 & more` → `4.breakpoint.xl.json`. A
+ * `4.Breakpoint` × `XL - 1024 & more` → `4.breakpoint.xl.tokens.json`. A
  * collection with a single mode left at Figma's default name (`Mode 1`) has no
  * mode in its file name.
  */
@@ -30,9 +28,9 @@ export const tokenFileName = (
 ): string => {
   const collectionName = fileNamePart(collection.name);
   if (collection.modes.length === 1 && /^mode\s*1$/i.test(mode.name.trim())) {
-    return `${collectionName}.json`;
+    return `${collectionName}.tokens.json`;
   }
-  return `${collectionName}.${fileNamePart(mode.name.split(' - ')[0])}.json`;
+  return `${collectionName}.${fileNamePart(mode.name.split(' - ')[0])}.tokens.json`;
 };
 
 type AliasValue = { type: 'VARIABLE_ALIAS'; id: string };

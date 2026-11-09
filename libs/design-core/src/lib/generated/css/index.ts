@@ -2,7 +2,6 @@ import { tokens as enterpriseDarkThemeTokens } from './enterprise/theme.dark-css
 import { tokens as enterpriseLightThemeTokens } from './enterprise/theme.light-css.js';
 import { tokens as ledgerLiveDarkThemeTokens } from './ledger-live/theme.dark-css.js';
 import { tokens as ledgerLiveLightThemeTokens } from './ledger-live/theme.light-css.js';
-
 import { tokens as primitivesTokens } from './primitives-css.js';
 import { tokens as typographyLgTokens } from './typographies/typography.lg-css.js';
 import { tokens as typographyMdTokens } from './typographies/typography.md-css.js';

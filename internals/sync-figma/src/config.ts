@@ -4,8 +4,7 @@
  * it that way.
  */
 export const automationConfig = {
-  figmaTokensPath: 'internals/sync-figma/tokens/',
-  cssOutputPath: 'libs/design-core/src/lib/generated/css/',
+  figmaTokensPath: 'internals/design-sources/tokens/figma/',
   symbolsOutputPath: 'libs/design-core/symbols/icons/',
   symbolsInputPath: 'libs/design-core/symbols/',
 };
