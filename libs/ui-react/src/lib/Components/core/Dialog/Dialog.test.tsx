@@ -156,7 +156,6 @@ describe('Dialog', () => {
 
     const renderDialog = async (
       props: { animated?: boolean; height?: 'fit' | 'fixed' } = {},
-      bodyClassName?: string,
     ) => {
       const user = userEvent.setup();
       render(
@@ -165,17 +164,16 @@ describe('Dialog', () => {
             <Button>Open Dialog</Button>
           </DialogTrigger>
           <DialogContent>
-            <DialogBody className={bodyClassName}>
+            <DialogBody>
               <p>Animated Content</p>
             </DialogBody>
           </DialogContent>
         </Dialog>,
       );
       await user.click(screen.getByText('Open Dialog'));
-      return document.querySelector<HTMLElement>('[data-slot="dialog-body"]');
     };
 
-    it('animates the body height when animated', async () => {
+    it('animates the dialog height when animated', async () => {
       await renderDialog({ animated: true });
       act(() => notifyResize());
       offsetHeight.mockReturnValue(320);
@@ -185,22 +183,18 @@ describe('Dialog', () => {
       expect(animate.mock.calls[0][0]).toMatchObject({
         height: ['200px', '320px'],
       });
+      expect(animate.mock.contexts[0]).toBe(
+        document.querySelector('[data-slot="dialog-content"]'),
+      );
     });
 
-    it('keeps the children and className directly on the body', async () => {
-      const body = await renderDialog({ animated: true }, 'gap-32 pb-0');
-
-      expect(body).toHaveClass('gap-32', 'pb-0');
-      expect(body?.firstElementChild?.tagName).toBe('P');
-    });
-
-    it('does not observe the body by default', async () => {
+    it('does not observe the dialog by default', async () => {
       await renderDialog();
 
       expect(observersCreated).toBe(0);
     });
 
-    it('does not observe the body with fixed height', async () => {
+    it('does not observe the dialog with fixed height', async () => {
       await renderDialog({ animated: true, height: 'fixed' });
 
       expect(observersCreated).toBe(0);

@@ -484,6 +484,7 @@ export const WithAnimatedHeight: Story = {
         </DialogTrigger>
         <DialogContent>
           <DialogHeader
+            className='py-8'
             density='expanded'
             title={steps[step].title}
             description={`Step ${step + 1} of ${steps.length}`}
@@ -499,7 +500,7 @@ export const WithAnimatedHeight: Story = {
               ))}
             </div>
           </DialogBody>
-          <DialogFooter>
+          <DialogFooter className='pt-32 pb-8'>
             <Button
               appearance='base'
               size='lg'
