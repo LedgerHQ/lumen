@@ -1,56 +1,73 @@
-import { createTokenModel } from '@lumen/design-sources';
-import { tokenTargets } from './config.js';
+import { createIconModel, createTokenModel } from '@lumen/design-sources';
+import { iconTargets, tokenTargets } from './config.js';
 import { checkRendered, isClean } from './core/check.js';
+import type { Target } from './core/target.js';
 import { renderTarget, writeRendered } from './core/writer.js';
 
 /**
- * `tokens`: rebuild every token output from the committed sources.
+ * `tokens` / `icons`: rebuild that kind's outputs from the committed sources.
  * `check`: fail if any committed output differs from what the sources build
- * (a hand edit, or a source change without a rebuild).
+ * (a hand edit, or a source change without a rebuild). Writes nothing.
  */
-const command = process.argv[2];
 
-const run = async (): Promise<number> => {
-  const model = createTokenModel();
+type Kind = {
+  load(): { warnings: string[] };
+  targets: Target<never>[];
+};
+
+const KINDS: Record<string, Kind> = {
+  tokens: { load: createTokenModel, targets: tokenTargets as Target<never>[] },
+  icons: { load: createIconModel, targets: iconTargets as Target<never>[] },
+};
+
+const build = async (kind: Kind, check: boolean): Promise<boolean> => {
+  const model = kind.load();
   model.warnings.forEach((warning) => console.warn(`⚠️ ${warning}`));
 
-  let failed = false;
-  for (const target of tokenTargets) {
-    const rendered = await renderTarget(target, model);
+  let clean = true;
+  for (const target of kind.targets) {
+    const rendered = await renderTarget(target, model as never);
 
-    if (command === 'check') {
-      const report = checkRendered(target.outDir, rendered);
-      if (isClean(report)) {
-        console.log(`✅ ${target.name}: ${rendered.size} files up to date`);
-        continue;
-      }
-      failed = true;
-      console.error(
-        `❌ ${target.name} is out of date with the design sources:`,
-      );
-      report.changed.forEach((file) => console.error(`  changed  ${file}`));
-      report.missing.forEach((file) => console.error(`  missing  ${file}`));
-      report.extra.forEach((file) => console.error(`  extra    ${file}`));
-    } else {
-      const { written, deleted } = writeRendered(target.outDir, rendered);
+    if (!check) {
+      const { written, deleted } = writeRendered(target, rendered);
       console.log(
         `✅ ${target.name}: ${written.length} written, ${deleted.length} deleted, ${rendered.size - written.length} unchanged`,
       );
+      continue;
     }
-  }
 
-  if (failed) {
-    console.error(
-      '\nRun `npx nx run design-build:tokens` and commit the result; never edit generated files by hand.',
-    );
-    return 1;
+    const report = checkRendered(target, rendered);
+    if (isClean(report)) {
+      console.log(`✅ ${target.name}: ${rendered.size} files up to date`);
+      continue;
+    }
+    clean = false;
+    console.error(`❌ ${target.name} is out of date with the design sources:`);
+    report.changed.forEach((file) => console.error(`  changed  ${file}`));
+    report.missing.forEach((file) => console.error(`  missing  ${file}`));
+    report.extra.forEach((file) => console.error(`  extra    ${file}`));
   }
-  return 0;
+  return clean;
 };
 
-if (command !== 'tokens' && command !== 'check') {
-  console.error('Usage: cli.ts tokens | check');
-  process.exit(1);
+const command = process.argv[2];
+
+if (command === 'check') {
+  let clean = true;
+  for (const kind of Object.values(KINDS)) {
+    clean = (await build(kind, true)) && clean;
+  }
+  if (!clean) {
+    console.error(
+      '\nRun `npx nx run design-build:tokens` / `:icons` and commit the result; never edit generated files by hand.',
+    );
+  }
+  process.exit(clean ? 0 : 1);
 }
 
-process.exit(await run());
+const kind = KINDS[command];
+if (!kind) {
+  console.error('Usage: cli.ts tokens | icons | check');
+  process.exit(1);
+}
+await build(kind, false);

@@ -22,6 +22,12 @@
         "command": "npx tsx internals/design-build/src/cli.ts tokens"
       }
     },
+    "icons": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/design-build/src/cli.ts icons"
+      }
+    },
     "check": {
       "executor": "nx:run-commands",
       "options": {

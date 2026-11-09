@@ -13,8 +13,17 @@ import type { Target } from './target.js';
 
 export const WORKSPACE_ROOT = path.resolve(import.meta.dirname, '../../../..');
 
-/** A target's file after formatting, keyed by workspace-relative path. */
+/** A target's files after formatting, keyed by workspace-relative path. */
 export type RenderedFiles = Map<string, string>;
+
+/** The files under `outDir` a target owns, workspace-relative. */
+export const ownedFiles = <Model>(
+  target: Pick<Target<Model>, 'outDir' | 'owns'>,
+  root: string = WORKSPACE_ROOT,
+): string[] =>
+  listFiles(target.outDir, root).filter(
+    (file) => target.owns?.(path.posix.relative(target.outDir, file)) ?? true,
+  );
 
 const FORMATTED = /\.(ts|tsx|js|mjs|json|css)$/;
 
@@ -42,7 +51,9 @@ export const renderTarget = async <Model>(
     }
     rendered.set(
       file,
-      root === WORKSPACE_ROOT ? await format(file, contents) : contents,
+      root === WORKSPACE_ROOT && target.format !== false
+        ? await format(file, contents)
+        : contents,
     );
   }
   return rendered;
@@ -75,8 +86,8 @@ const removeEmptyFolders = (dir: string): void => {
 export type WriteReport = { written: string[]; deleted: string[] };
 
 /** Writes a target's files and deletes the ones it no longer emits. */
-export const writeRendered = (
-  outDir: string,
+export const writeRendered = <Model>(
+  target: Pick<Target<Model>, 'outDir' | 'owns'>,
   rendered: RenderedFiles,
   root: string = WORKSPACE_ROOT,
 ): WriteReport => {
@@ -92,9 +103,11 @@ export const writeRendered = (
     written.push(file);
   }
 
-  const deleted = listFiles(outDir, root).filter((file) => !rendered.has(file));
+  const deleted = ownedFiles(target, root).filter(
+    (file) => !rendered.has(file),
+  );
   for (const file of deleted) unlinkSync(path.join(root, file));
-  removeEmptyFolders(path.join(root, outDir));
+  removeEmptyFolders(path.join(root, target.outDir));
 
   return { written, deleted };
 };

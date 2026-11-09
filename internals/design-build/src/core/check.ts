@@ -1,6 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { listFiles, type RenderedFiles, WORKSPACE_ROOT } from './writer.js';
+import type { Target } from './target.js';
+import { ownedFiles, type RenderedFiles, WORKSPACE_ROOT } from './writer.js';
 
 export type CheckReport = {
   /** Committed, but different from what the target emits (hand edit or stale). */
@@ -12,8 +13,8 @@ export type CheckReport = {
 };
 
 /** Compares a target's output with the working tree, without writing anything. */
-export const checkRendered = (
-  outDir: string,
+export const checkRendered = <Model>(
+  target: Pick<Target<Model>, 'outDir' | 'owns'>,
   rendered: RenderedFiles,
   root: string = WORKSPACE_ROOT,
 ): CheckReport => {
@@ -24,7 +25,7 @@ export const checkRendered = (
     if (!existsSync(absolute)) missing.push(file);
     else if (readFileSync(absolute, 'utf8') !== contents) changed.push(file);
   }
-  const extra = listFiles(outDir, root).filter((file) => !rendered.has(file));
+  const extra = ownedFiles(target, root).filter((file) => !rendered.has(file));
   return { changed, missing, extra };
 };
 

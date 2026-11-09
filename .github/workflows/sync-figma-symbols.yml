@@ -1,7 +1,7 @@
 name: Sync Figma Symbols
 
-# Exports the icons from Figma, regenerates the React and React Native symbol
-# components, and opens a symbols PR. `sync-figma-all.yml` calls it with
+# Exports the icons from Figma, rebuilds the published SVGs and the React and
+# React Native symbol components, and opens a symbols PR. `sync-figma-all.yml` calls it with
 # `open-pull-request: false` and opens one combined PR instead.
 
 on:
@@ -64,18 +64,15 @@ jobs:
           FIGMA_SYMBOLS_FILE_KEY: ${{ inputs.figma_symbols_file_key || vars.FIGMA_SYMBOLS_FILE_KEY }}
           FIGMA_ICONS_CANVAS: ${{ inputs.figma_icons_canvas || vars.FIGMA_ICONS_CANVAS }}
 
-      - name: Generate symbol components
-        run: |
-          npx nx run sync-figma:generate-symbols-react
-          npx nx run sync-figma:generate-symbols-react-native
-          npx nx run-many --targets=build-deps --all
-          npx nx run-many --target=lint --fix
+      - name: Build symbol outputs
+        run: npx nx run design-build:icons
 
       - name: Upload symbols
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
         with:
           name: figma-symbols
           path: |
+            internals/design-sources/icons/
             libs/design-core/symbols/
             libs/ui-react/src/lib/Components/symbols/
             libs/ui-rnative/src/lib/Components/symbols/
