@@ -478,11 +478,11 @@ export const WithAnimatedHeight: Story = {
     };
 
     return (
-      <Dialog animated open={open} onOpenChange={handleOpenChange}>
+      <Dialog open={open} onOpenChange={handleOpenChange}>
         <DialogTrigger asChild>
           <Button appearance='base'>Open Dialog</Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent animated>
           <DialogHeader
             className='py-8'
             density='expanded'

@@ -157,13 +157,14 @@ describe('Dialog', () => {
     const renderDialog = async (
       props: { animated?: boolean; height?: 'fit' | 'fixed' } = {},
     ) => {
+      const { animated, ...dialogProps } = props;
       const user = userEvent.setup();
       render(
-        <Dialog {...props}>
+        <Dialog {...dialogProps}>
           <DialogTrigger asChild>
             <Button>Open Dialog</Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent animated={animated}>
             <DialogBody>
               <p>Animated Content</p>
             </DialogBody>

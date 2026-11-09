@@ -31,12 +31,6 @@ export type DialogProps = {
    */
   height?: DialogHeight;
   /**
-   * Smoothly transitions the dialog height when its content changes, e.g.
-   * between steps of a multi-step flow. Has no effect with `height='fixed'`.
-   * @default false
-   */
-  animated?: boolean;
-  /**
    * Whether to render the dialog in modal mode.
    * When true, interaction with outside elements is disabled.
    * @default true
@@ -75,6 +69,12 @@ export type DialogContentProps = {
    * Change the default rendered element for the one passed as a child, merging their props and behavior.
    */
   asChild?: boolean;
+  /**
+   * Smoothly transitions the dialog height when its content changes, e.g.
+   * between steps of a multi-step flow. Has no effect with `height='fixed'`.
+   * @default false
+   */
+  animated?: boolean;
   /**
    * Additional custom CSS classes to apply. Do not use this prop to modify the component's core appearance.
    */
