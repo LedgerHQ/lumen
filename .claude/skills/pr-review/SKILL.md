@@ -105,9 +105,11 @@ spend findings on things a linter can't catch. Do **not** raise:
   a diff is already visible.
 - Physical left/right instead of logical start/end: `ml-*`, `pr-*`,
   `border-l`, `text-left` on web (`better-tailwindcss/enforce-logical-properties`),
-  `marginLeft`, `paddingRight`, `borderTopLeftRadius` in RN style objects
-  (`no-restricted-syntax` in `libs/ui-rnative`). Not linted: `left`/`right`
-  positioning keys in RN, and directional icons that should mirror.
+  `left-*`/`right-*` on web (`better-tailwindcss/no-restricted-classes`),
+  `marginLeft`, `paddingRight`, `borderTopLeftRadius` and a lone `left`/`right`
+  in RN style objects (`no-restricted-syntax` in `libs/ui-rnative`). Not linted:
+  physical anchors paired with measured `x`/`translateX` (keep them physical,
+  as SegmentedControl and Switch do), and directional icons that should mirror.
 
 Caveat: a **valid** token class that is the wrong one for the design lints
 clean, and hardcoded colors in style objects or SVG props are not linted at all —

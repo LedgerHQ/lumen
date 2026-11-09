@@ -62,6 +62,7 @@ const useSwitchStyles = ({
         thumbWrapper: {
           position: 'absolute',
           top: t.spacings.s2,
+          // eslint-disable-next-line no-restricted-syntax
           left: t.spacings.s2,
         },
         thumb: StyleSheet.flatten([

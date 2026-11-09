@@ -229,7 +229,7 @@ const useTabBarAnimations = ({
   const pillStyle = useAnimatedStyle(
     () => ({
       width: `${100 / count}%`,
-      left: `${(pillIndex.value * 100) / count}%`,
+      start: `${(pillIndex.value * 100) / count}%`,
     }),
     [pillIndex, count],
   );

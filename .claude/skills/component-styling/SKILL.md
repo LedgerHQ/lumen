@@ -49,7 +49,8 @@ These hold regardless of mechanism — the references show how each realises the
   `text-start` on web; `marginStart`, `paddingEnd`, `borderStartWidth`,
   `borderTopEndRadius` on RN (the `lx` props too). Lint enforces both (see
   `pr-review`'s "already enforced" list). Keep a physical side only when the
-  direction is truly fixed (e.g. `left-1/2` centering, chart axes), and
+  direction is truly fixed (e.g. `left-1/2` centering, chart axes, or a pill
+  that slides by a measured `x`/`translateX`, which is always physical), and
   mirror directional icons (chevrons, arrows) with `rtl:` / `I18nManager.isRTL`.
 - **Never build a style value by concatenation.** ``text-${color}`` and its RN
   equivalents are wrong — use complete token strings and a merge helper (`cn` on

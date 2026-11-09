@@ -24,9 +24,10 @@ export default [
   // The RN twin of better-tailwindcss' `enforce-logical-properties`: start/end
   // keys mirror in RTL whatever `I18nManager.swapLeftAndRightInRTL` says.
   // `src/styles` is the `lx` API, which keeps the physical keys for consumers.
+  // Charts plot on physical x coordinates, so their insets stay left/right.
   defineProdRules({
     name: 'react-native-logical-properties',
-    ignores: ['src/styles/**'],
+    ignores: ['src/styles/**', 'src/lib/Components/visualization/**'],
     rules: {
       'no-restricted-syntax': [
         'error',
@@ -35,6 +36,18 @@ export default [
             'Property > Identifier.key[name=/^(margin|padding)(Left|Right)$|^border(Left|Right)(Width|Color)$|^border(Top|Bottom)(Left|Right)Radius$/]',
           message:
             'Use the logical key (marginStart, paddingEnd, borderStartWidth, borderTopStartRadius…) so the layout mirrors in right-to-left locales.',
+        },
+        {
+          selector:
+            "ObjectExpression:not(:has(> Property[key.name='right'])) > Property > Identifier.key[name='left']",
+          message:
+            'Use `start` so the element sits on the leading side in right-to-left locales.',
+        },
+        {
+          selector:
+            "ObjectExpression:not(:has(> Property[key.name='left'])) > Property > Identifier.key[name='right']",
+          message:
+            'Use `end` so the element sits on the trailing side in right-to-left locales.',
         },
       ],
     },

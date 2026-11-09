@@ -78,7 +78,7 @@ export default defineConfig({
 | [`no-conflicting-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-conflicting-classes.md)                               |     ✅      |   ✅   | 🔧  | Classes that cancel each other                      |
 | [`no-deprecated-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-deprecated-classes.md)                                 |             |   ✅   | 🔧  | Deprecated Tailwind classes                         |
 | [`no-duplicate-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-duplicate-classes.md)                                   |     ✅      |   ✅   | 🔧  | The same class twice                                |
-| [`no-restricted-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md)                                 |             |        | 🔧  | Classes you ban yourself                            |
+| [`no-restricted-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md)                                 |             |   ✅   | 🔧  | `left-*` instead of `start-*`, until Tailwind 4.2   |
 | [`no-unknown-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-unknown-classes.md)                                       |     ✅      |   ✅   | 🔧  | Classes your Tailwind setup cannot generate         |
 | [`no-unnecessary-whitespace`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-unnecessary-whitespace.md)                         |             |   ✅   | 🔧  | Extra spaces between classes                        |
 
@@ -141,6 +141,17 @@ The presets are plain config objects.
 
   const rules = {
     'better-tailwindcss/enforce-logical-properties': ['error', { ignore: [...LOGICAL_PROPERTIES_OPTIONS.ignore, '^rounded-r-'] }],
+  };
+  ```
+
+- **Restrict your own classes:** your `no-restricted-classes` entry replaces Lumen's
+  `left-*`/`right-*` one, so spread its options to keep both.
+
+  ```js
+  import { NO_RESTRICTED_CLASSES_OPTIONS } from '@ledgerhq/lumen-lint-plugin/eslint';
+
+  const rules = {
+    'better-tailwindcss/no-restricted-classes': ['error', { restrict: [...NO_RESTRICTED_CLASSES_OPTIONS.restrict, '^float-'] }],
   };
   ```
 

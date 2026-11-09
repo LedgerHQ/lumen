@@ -13,6 +13,7 @@ import oxlint from './oxlint.js';
 import {
   LOGICAL_PROPERTIES_OPTIONS,
   NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTRICTED_CLASSES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
   RULES,
 } from './rules.js';
@@ -49,6 +50,7 @@ describe('presets', () => {
       'better-tailwindcss/no-unnecessary-whitespace': 'error',
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
       'better-tailwindcss/enforce-logical-properties': 'error',
+      'better-tailwindcss/no-restricted-classes': 'error',
       'shadcn/no-arbitrary-values': 'warn',
       'shadcn/no-inline-styles': 'warn',
       'no-restricted-imports': 'error',
@@ -98,6 +100,7 @@ describe('presets', () => {
     }
     expect(Object.isFrozen(NO_RESTRICTED_IMPORTS_OPTIONS.paths)).toBe(true);
     expect(Object.isFrozen(LOGICAL_PROPERTIES_OPTIONS.ignore)).toBe(true);
+    expect(Object.isFrozen(NO_RESTRICTED_CLASSES_OPTIONS.restrict)).toBe(true);
   });
 
   it('leave the selectors to better-tailwindcss’ defaults', () => {

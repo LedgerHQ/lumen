@@ -71,6 +71,29 @@ export const LOGICAL_PROPERTIES_OPTIONS = deepFreeze({
   ],
 });
 
+/**
+ * `left-*`/`right-*` until Tailwind 4.2: `enforce-logical-properties` fixes
+ * them to `inset-s-*`/`inset-e-*`, which 4.1 cannot generate, so it skips them
+ * silently. `start-*`/`end-*` exist on every Tailwind 4. `left-1/2` centering
+ * stays, as in {@link LOGICAL_PROPERTIES_OPTIONS}.
+ */
+export const NO_RESTRICTED_CLASSES_OPTIONS = deepFreeze({
+  restrict: [
+    {
+      pattern: String.raw`^((?:.*:)?!?-?)left-(?!(?:1/2|\[50%\])$)(.+)$`,
+      fix: '$1start-$2',
+      message:
+        '"$0" stays on the left in right-to-left locales: use "$1start-$2".',
+    },
+    {
+      pattern: String.raw`^((?:.*:)?!?-?)right-(.+)$`,
+      fix: '$1end-$2',
+      message:
+        '"$0" stays on the right in right-to-left locales: use "$1end-$2".',
+    },
+  ],
+});
+
 /** @typedef {'recommended' | 'strict'} PresetName */
 
 /** @type {Record<PresetName, Record<string, unknown>>} */
@@ -95,6 +118,10 @@ export const RULES = {
     'better-tailwindcss/enforce-logical-properties': [
       'error',
       LOGICAL_PROPERTIES_OPTIONS,
+    ],
+    'better-tailwindcss/no-restricted-classes': [
+      'error',
+      NO_RESTRICTED_CLASSES_OPTIONS,
     ],
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',

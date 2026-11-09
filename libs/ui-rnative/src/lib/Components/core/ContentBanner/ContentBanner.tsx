@@ -181,7 +181,7 @@ export const ContentBanner = ({
       closeButton: {
         position: 'absolute',
         top: t.spacings.s8,
-        right: t.spacings.s8,
+        end: t.spacings.s8,
       },
     }),
     [],

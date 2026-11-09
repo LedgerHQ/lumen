@@ -19,6 +19,7 @@ const resolvePluginFile = (name) =>
 export {
   LOGICAL_PROPERTIES_OPTIONS,
   NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTRICTED_CLASSES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
 } from './rules.js';
 

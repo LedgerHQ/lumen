@@ -93,8 +93,12 @@ const segmentedControlStyles = {
           false: 'pointer-events-none opacity-0',
         },
         side: {
-          left: 'left-0 ps-8 pe-16',
-          right: 'right-0 ps-16 pe-8',
+          // Physical like the pill: each arrow sits on, and scrolls toward, a
+          // fixed side, with its smaller padding on the outer edge.
+          // eslint-disable-next-line better-tailwindcss/enforce-logical-properties
+          left: 'left-0 pr-16 pl-8',
+          // eslint-disable-next-line better-tailwindcss/enforce-logical-properties
+          right: 'right-0 pr-8 pl-16',
         },
       },
     },

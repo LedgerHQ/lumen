@@ -119,7 +119,7 @@ const triggerStyles = cn(
 );
 
 const labelStyles = cn(
-  'pointer-events-none absolute left-16 origin-left text-muted transition-all duration-300',
+  'pointer-events-none absolute start-16 origin-left text-muted transition-all duration-300 rtl:origin-right',
   'top-10 -translate-y-4 body-4',
   'group-data-placeholder:top-14 group-data-placeholder:translate-y-0 group-data-placeholder:body-2',
   'group-data-disabled:text-disabled',

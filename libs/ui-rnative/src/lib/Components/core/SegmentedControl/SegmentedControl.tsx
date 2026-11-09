@@ -218,6 +218,7 @@ function useRootStyles({
       pill: {
         position: 'absolute',
         top: 0,
+        // eslint-disable-next-line no-restricted-syntax
         left: 0,
         borderRadius: t.borderRadius.sm,
         backgroundColor: disabled

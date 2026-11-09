@@ -514,7 +514,7 @@ const useTriggerStyles = ({
         t.typographies.body2,
         {
           position: 'absolute',
-          left: t.spacings.s16,
+          start: t.spacings.s16,
           color: t.colors.text.muted,
           width: '100%',
         },
