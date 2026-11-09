@@ -4,8 +4,8 @@ import { createFigmaClient } from './client/figmaClient.js';
 import { automationConfig } from './config.js';
 import { extractIcons } from './extract/icons.js';
 import { extractTokenFiles } from './extract/tokens.js';
+import { parseCliArgs } from './shared/parseCliArgs.js';
 import { toJsonFile, writeSourceFiles } from './shared/writeSourceFiles.js';
-import { parseCliArgs } from './tools/utils/parseCliArgs.js';
 import { uploadCodeSyntax } from './write-back/codeSyntax.js';
 
 /**
@@ -71,13 +71,13 @@ const extractIconFiles = async (): Promise<void> => {
 
   logResult(
     'icons',
-    writeSourceFiles(automationConfig.symbolsOutputPath, icons.svgs, {
+    writeSourceFiles(automationConfig.iconsPath, icons.svgs, {
       extension: '.svg',
     }),
   );
   writeFileSync(
-    path.join(automationConfig.symbolsOutputPath, 'downloadData.json'),
-    JSON.stringify({
+    path.join(automationConfig.iconsPath, 'icons.json'),
+    toJsonFile({
       lastModified: icons.lastModified,
       componentIds: icons.components.map(({ id }) => id),
     }),

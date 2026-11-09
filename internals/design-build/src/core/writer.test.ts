@@ -32,7 +32,7 @@ describe('writer and check', () => {
     writeFileSync(path.join(root, 'out/old/stale.ts'), 'stale');
 
     const rendered = await renderTarget(target, ['a.ts', 'nested/b.ts'], root);
-    const report = writeRendered('out', rendered, root);
+    const report = writeRendered(target, rendered, root);
 
     expect(report).toEqual({
       written: ['out/a.ts', 'out/nested/b.ts'],
@@ -45,21 +45,41 @@ describe('writer and check', () => {
     expect(readFileSync(path.join(root, 'out/a.ts'), 'utf8')).toBe('a.ts\n');
   });
 
+  it('never prunes or flags the files a target does not own', async () => {
+    const partial: Target<string[]> = {
+      ...target,
+      owns: (file) => file !== 'lumen.css',
+    };
+    mkdirSync(path.join(root, 'out'), { recursive: true });
+    writeFileSync(path.join(root, 'out/lumen.css'), 'hand-written');
+    writeFileSync(path.join(root, 'out/removed-brand.css'), 'stale');
+
+    const rendered = await renderTarget(partial, ['theme.css'], root);
+    const { deleted } = writeRendered(partial, rendered, root);
+
+    expect(deleted).toEqual(['out/removed-brand.css']);
+    expect(readdirSync(path.join(root, 'out')).sort()).toEqual([
+      'lumen.css',
+      'theme.css',
+    ]);
+    expect(isClean(checkRendered(partial, rendered, root))).toBe(true);
+  });
+
   it('only rewrites files whose contents changed', async () => {
     const rendered = await renderTarget(target, ['a.ts'], root);
-    writeRendered('out', rendered, root);
+    writeRendered(target, rendered, root);
 
-    expect(writeRendered('out', rendered, root).written).toEqual([]);
+    expect(writeRendered(target, rendered, root).written).toEqual([]);
   });
 
   it('flags hand edits, missing files and leftovers', async () => {
     const rendered = await renderTarget(target, ['a.ts', 'b.ts'], root);
-    writeRendered('out', rendered, root);
+    writeRendered(target, rendered, root);
     writeFileSync(path.join(root, 'out/a.ts'), 'edited by hand');
     rmSync(path.join(root, 'out/b.ts'));
     writeFileSync(path.join(root, 'out/c.ts'), 'leftover');
 
-    const report = checkRendered('out', rendered, root);
+    const report = checkRendered(target, rendered, root);
 
     expect(report).toEqual({
       changed: ['out/a.ts'],

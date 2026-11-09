@@ -39,3 +39,11 @@ export const semanticKey = (rest: string): string =>
             : `${key}${part[0].toUpperCase()}${part.slice(1)}`,
       '',
     );
+
+/** Icon file name → component name: `arrow-up` → `ArrowUp`, `auto-Lock` → `AutoLock`, `ai bubble` → `AiBubble`. */
+export const toPascalCase = (name: string): string =>
+  name
+    .split(/[-_ ]+/)
+    .filter(Boolean)
+    .map((word) => word[0].toUpperCase() + word.slice(1).toLowerCase())
+    .join('');

@@ -19,3 +19,12 @@ export {
   type TokenModel,
   TokenValidationError,
 } from './tokens/model.js';
+export {
+  createIconModel,
+  type IconManifest,
+  type IconModel,
+  ICONS_DIR,
+  type IconSource,
+  IconValidationError,
+  validateIcons,
+} from './icons/model.js';
