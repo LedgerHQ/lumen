@@ -1,6 +1,6 @@
 export default {
   singleQuote: true,
   jsxSingleQuote: true,
-  tailwindConfig: './libs/ui-react/tailwind.config.ts',
+  tailwindStylesheet: './libs/ui-react/src/styles.css',
   tailwindFunctions: ['cva'],
 };

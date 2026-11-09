@@ -4,7 +4,7 @@ import { cssLayers, type Declarations } from './cssLayers.js';
 import { camelKey } from './naming.js';
 import { breakpointMinWidths, orderedBreakpoints } from './selections.js';
 
-/** One selector → custom properties map, the shape the Tailwind plugins pass to `addBase`. */
+/** One selector → custom properties map: the token maps `@ledgerhq/lumen-design-core` exports, and `cssVar` types its names from. */
 const cssMap = (
   selector: string,
   declarations: Declarations,

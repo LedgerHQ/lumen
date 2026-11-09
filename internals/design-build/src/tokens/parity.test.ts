@@ -5,7 +5,7 @@ import { cssTarget } from './css.js';
 import { type JsTheme, jsTheme } from './js.js';
 import { semanticKey } from './naming.js';
 import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
-import { hexToRgba, shadowUtilities } from './tailwind.js';
+import { hexToRgba, shadowUtilities } from './tailwindBlocks.js';
 
 /**
  * `check` proves each output matches its generator; it can't prove two

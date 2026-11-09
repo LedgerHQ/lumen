@@ -1,2 +1,6 @@
 @import 'tailwindcss';
-@config '../tailwind.config.ts';
+@import '@ledgerhq/lumen-design-core/tailwind/all-brands.css';
+
+/* The component sources, Storybook and the docs: where Lumen uses classes. */
+@source './';
+@source '../.storybook';

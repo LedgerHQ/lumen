@@ -69,27 +69,14 @@ npm install tailwindcss@^4.1.17 react@^19.0.0 class-variance-authority
 
 ### Tailwind Configuration
 
-To use Spinner components with our custom Tailwind preset, you need to configure your `tailwind.config.ts`:
-
-```typescript
-import type { Config } from 'tailwindcss';
-import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
-
-const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Your project's files
-  presets: [ledgerLivePreset], // the installed tailwind preset
-} satisfies Config;
-
-export default config;
-```
-
-And import our stylesheet next to Tailwind in your main CSS file, so the
-utilities compiled into our components are emitted:
+To use Spinner components, import the Lumen theme and our stylesheet next to
+Tailwind in your main CSS file, so the utilities compiled into our components
+are emitted:
 
 ```css
 @import 'tailwindcss';
+@import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
 @import '@ledgerhq/lumen-ui-react/tailwind.css';
-@config '../tailwind.config.ts';
 ```
 
 ### Basic Usage
