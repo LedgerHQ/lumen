@@ -35,6 +35,7 @@ const segmentedControlStyles = {
       },
     },
   }),
+
   pill: cva('pointer-events-none absolute top-0 left-0 z-0 rounded-sm', {
     variants: {
       disabled: {
