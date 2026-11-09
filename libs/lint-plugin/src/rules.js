@@ -86,7 +86,7 @@ export const NO_RESTRICTED_CLASSES_OPTIONS = deepFreeze({
         '"$0" stays on the left in right-to-left locales: use "$1start-$2".',
     },
     {
-      pattern: String.raw`^((?:.*:)?!?-?)right-(.+)$`,
+      pattern: '^((?:.*:)?!?-?)right-(.+)$',
       fix: '$1end-$2',
       message:
         '"$0" stays on the right in right-to-left locales: use "$1end-$2".',

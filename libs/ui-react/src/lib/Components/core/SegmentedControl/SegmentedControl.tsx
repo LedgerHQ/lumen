@@ -36,7 +36,7 @@ const segmentedControlStyles = {
     },
   }),
 
-  pill: cva('pointer-events-none absolute top-0 left-0 z-0 rounded-sm', {
+  pill: cva('pointer-events-none absolute start-0 top-0 z-0 rounded-sm', {
     variants: {
       disabled: {
         true: 'bg-base-transparent-pressed',
@@ -97,9 +97,9 @@ const segmentedControlStyles = {
           // Physical like the pill: each arrow sits on, and scrolls toward, a
           // fixed side, with its smaller padding on the outer edge.
           // eslint-disable-next-line better-tailwindcss/enforce-logical-properties
-          left: 'left-0 pr-16 pl-8',
+          left: 'start-0 pr-16 pl-8',
           // eslint-disable-next-line better-tailwindcss/enforce-logical-properties
-          right: 'right-0 pr-8 pl-16',
+          right: 'end-0 pr-8 pl-16',
         },
       },
     },
