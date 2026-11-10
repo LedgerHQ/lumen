@@ -187,4 +187,35 @@ describe('diffSurfaces', () => {
       },
     ]);
   });
+
+  it('reports a peer range that drops its newest major', () => {
+    const before = surface({
+      peers: { 'react-native-safe-area-context': '^4.0.0 || ^5.0.0' },
+    });
+    const after = surface({
+      peers: { 'react-native-safe-area-context': '^4.0.0' },
+    });
+
+    expect(diffSurfaces(name, before, after)).toEqual([
+      {
+        change: 'changed',
+        surface: 'dependency',
+        ref: 'react-native-safe-area-context',
+        detail: '^4.0.0 || ^5.0.0 → ^4.0.0',
+      },
+    ]);
+  });
+
+  it('reports a removed file export as a removed module', () => {
+    const before = surface({ files: ['./symbols/apex.svg', './tailwind.css'] });
+    const after = surface({ files: ['./symbols/apex.svg'] });
+
+    expect(diffSurfaces(name, before, after)).toEqual([
+      {
+        change: 'removed',
+        surface: 'module',
+        ref: '@ledgerhq/lumen-ui-react/tailwind.css',
+      },
+    ]);
+  });
 });

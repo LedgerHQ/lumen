@@ -7,7 +7,7 @@ import {
   optionalPeers,
   readManifest,
   typeEntries,
-  wildcardFiles,
+  servedFiles,
 } from './utils/manifest.ts';
 import { isPlainObject, objectPaths } from './utils/typeShapes.ts';
 
@@ -20,7 +20,7 @@ export type ApiSurface = {
   props: Record<string, Props>;
   /** `<entry>#<export>` → leaf paths of an exported object. */
   paths: Record<string, string[]>;
-  /** Subpaths served by wildcard exports (`./symbols/apex.svg`). */
+  /** Subpaths imported as files (`./symbols/apex.svg`, `./tailwind.css`). */
   files: string[];
   /** CSS custom properties declared in the shipped files. */
   tokens: string[];
@@ -131,7 +131,7 @@ export function readSurface(root: string): ApiSurface {
     ),
     props: byKey(exports, (shape) => shape.props),
     paths: byKey(exports, (shape) => shape.paths),
-    files: wildcardFiles(root),
+    files: servedFiles(root),
     tokens: cssTokens(root),
     peers: readManifest(root).peerDependencies ?? {},
     optionalPeers: optionalPeers(root),

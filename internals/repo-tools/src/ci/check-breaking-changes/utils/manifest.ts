@@ -59,10 +59,25 @@ function wildcardSubpaths(root: string, key: string, target: string): string[] {
 }
 
 /** Subpaths served by wildcard exports (`./symbols/apex.svg`). */
-export function wildcardFiles(root: string): string[] {
-  const { exports = {} } = readManifest(root);
+function wildcardFiles(
+  exports: Record<string, unknown>,
+  root: string,
+): string[] {
   return Object.entries(exports)
     .filter(([key, target]) => key.includes('*') && typeof target === 'string')
-    .flatMap(([key, target]) => wildcardSubpaths(root, key, target as string))
-    .sort();
+    .flatMap(([key, target]) => wildcardSubpaths(root, key, target as string));
+}
+
+/** Plain export paths without types (`./tailwind.css`), `./package.json` excluded. */
+function untypedEntries(exports: Record<string, unknown>): string[] {
+  return Object.entries(exports)
+    .filter(([key, target]) => !key.includes('*') && !typesPath(target))
+    .map(([key]) => key)
+    .filter((key) => key !== './package.json');
+}
+
+/** Subpaths consumers import as files: wildcard matches and untyped entries. */
+export function servedFiles(root: string): string[] {
+  const { exports = {} } = readManifest(root);
+  return [...wildcardFiles(exports, root), ...untypedEntries(exports)].sort();
 }

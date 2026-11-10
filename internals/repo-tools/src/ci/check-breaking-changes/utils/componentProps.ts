@@ -38,7 +38,10 @@ function memberProps(
 }
 
 /** Union of two value lists; `null` (any value) wins. */
-function mergeValues(a: PropInfo['values'], b: PropInfo['values']) {
+function mergeValues(
+  a: PropInfo['values'],
+  b: PropInfo['values'],
+): PropInfo['values'] {
   return a && b ? [...new Set([...a, ...b])].sort() : null;
 }
 

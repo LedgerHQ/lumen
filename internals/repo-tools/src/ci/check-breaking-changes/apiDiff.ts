@@ -145,11 +145,12 @@ function removedTokens(
   );
 }
 
-/** Whether `range` drops the oldest version `previous` allowed. */
+/** Whether `range` drops any version `previous` allowed. */
 function narrows(previous: string, range: string): boolean {
-  const oldest = semver.validRange(previous) && semver.minVersion(previous);
   return Boolean(
-    oldest && semver.validRange(range) && !semver.satisfies(oldest, range),
+    semver.validRange(previous) &&
+    semver.validRange(range) &&
+    !semver.subset(previous, range),
   );
 }
 

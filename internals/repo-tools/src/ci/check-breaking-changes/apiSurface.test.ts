@@ -26,6 +26,8 @@ beforeEach(() => {
       exports: {
         '.': { types: './dist/index.d.ts' },
         './symbols/*': './icons/*',
+        './tailwind.css': './tailwind.css',
+        './package.json': './package.json',
       },
       peerDependencies: { react: '^19.0.0', clsx: '^2.0.0' },
       peerDependenciesMeta: { clsx: { optional: true } },
@@ -111,10 +113,10 @@ describe('readSurface', () => {
     expect(paths).toEqual({ '.#sizeMap': ['md.icon', 'sm.icon'] });
   });
 
-  it('reads wildcard files, CSS tokens and peers', () => {
+  it('reads served files, CSS tokens and peers', () => {
     const { files, tokens, peers, optionalPeers } = readSurface(root);
 
-    expect(files).toEqual(['./symbols/apex.svg']);
+    expect(files).toEqual(['./symbols/apex.svg', './tailwind.css']);
     expect(tokens).toEqual(['--color-error']);
     expect(peers).toEqual({ react: '^19.0.0', clsx: '^2.0.0' });
     expect(optionalPeers).toEqual(['clsx']);
