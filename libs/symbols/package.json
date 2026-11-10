@@ -6,10 +6,10 @@
   "type": "module",
   "sideEffects": false,
   "files": [
-    "lottie/**/*.json"
+    "lotties/**/*.json"
   ],
   "exports": {
-    "./lottie/*.json": "./lottie/*.json",
+    "./lotties/*.json": "./lotties/*.json",
     "./package.json": "./package.json"
   },
   "nx": {
