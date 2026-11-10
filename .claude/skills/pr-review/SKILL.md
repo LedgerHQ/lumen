@@ -193,6 +193,19 @@ git diff origin/main...HEAD --name-only -- .nx/version-plans/
 - Plan names the **wrong package** for the changed paths (see the mapping in
   `release-plan`) → **Moderate (6/10)**, `Release`.
 
+## Migration check
+
+CI fails on structural breaks without a migration; it cannot see behavior or
+visual changes. For every change under `libs/*/src/`, ask: **would a consumer
+see or feel a difference after upgrading?** (new default, different DOM, focus
+or event behavior, spacing, density, colors.)
+
+- Yes, and no migration in `libs/migrations/src/` covers it → **Major (8/10)**,
+  category `Release`. Recommend a migration with `signal: silent` (behavior)
+  or `signal: visual` (appearance).
+- A migration exists but its `signal` is `loud` for a change no code search can
+  find → **Moderate (6/10)**, `Release`.
+
 ## Output
 
 If the review is short (fewer than ~15 findings), return it directly. If long,

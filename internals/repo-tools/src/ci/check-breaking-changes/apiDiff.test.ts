@@ -17,6 +17,7 @@ function surface(overrides: Partial<ApiSurface> = {}): ApiSurface {
     files: [],
     tokens: [],
     peers: {},
+    optionalPeers: [],
     ...overrides,
   };
 }
@@ -160,6 +161,29 @@ describe('diffSurfaces', () => {
         surface: 'dependency',
         ref: '@base-ui/react',
         detail: '^1.3.0',
+      },
+    ]);
+  });
+
+  it('ignores new optional peers, and reports one that becomes required', () => {
+    const before = surface({
+      peers: { 'react-native-worklets': '>=0.5.0' },
+      optionalPeers: ['react-native-worklets'],
+    });
+    const after = surface({
+      peers: {
+        'react-native-worklets': '>=0.5.0',
+        'react-native-svg': '^15.0.0',
+      },
+      optionalPeers: ['react-native-svg'],
+    });
+
+    expect(diffSurfaces(name, before, after)).toEqual([
+      {
+        change: 'required',
+        surface: 'dependency',
+        ref: 'react-native-worklets',
+        detail: '>=0.5.0',
       },
     ]);
   });

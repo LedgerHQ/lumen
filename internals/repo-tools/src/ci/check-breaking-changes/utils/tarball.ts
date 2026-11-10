@@ -10,6 +10,12 @@ function unpack(tarball: string, into: string): string {
   return join(into, 'package');
 }
 
+/** Whether `npm pack --json` failed because the package isn't on the registry. */
+function isNotFound(error: unknown): boolean {
+  const stdout = (error as { stdout?: unknown }).stdout;
+  return typeof stdout === 'string' && stdout.includes('"E404"');
+}
+
 /** The tarball of a package's `latest` release, or `undefined` when it was never published. */
 function packPublished(name: string, into: string): string | undefined {
   try {
@@ -19,8 +25,9 @@ function packPublished(name: string, into: string): string | undefined {
       { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] },
     );
     return join(into, JSON.parse(stdout)[0].filename);
-  } catch {
-    return undefined;
+  } catch (error) {
+    if (isNotFound(error)) return undefined;
+    throw error;
   }
 }
 

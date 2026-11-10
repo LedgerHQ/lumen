@@ -3,7 +3,12 @@ import { resolve, sep } from 'node:path';
 import ts from 'typescript';
 import { componentProps, type Props } from './utils/componentProps.ts';
 import { cssTokens } from './utils/cssTokens.ts';
-import { readManifest, typeEntries, wildcardFiles } from './utils/manifest.ts';
+import {
+  optionalPeers,
+  readManifest,
+  typeEntries,
+  wildcardFiles,
+} from './utils/manifest.ts';
 import { isPlainObject, objectPaths } from './utils/typeShapes.ts';
 
 export type { PropInfo } from './utils/componentProps.ts';
@@ -20,6 +25,8 @@ export type ApiSurface = {
   /** CSS custom properties declared in the shipped files. */
   tokens: string[];
   peers: Record<string, string>;
+  /** Peers marked optional in `peerDependenciesMeta`. */
+  optionalPeers: string[];
 };
 
 type Shape = { props?: Props; paths?: string[] };
@@ -127,5 +134,6 @@ export function readSurface(root: string): ApiSurface {
     files: wildcardFiles(root),
     tokens: cssTokens(root),
     peers: readManifest(root).peerDependencies ?? {},
+    optionalPeers: optionalPeers(root),
   };
 }

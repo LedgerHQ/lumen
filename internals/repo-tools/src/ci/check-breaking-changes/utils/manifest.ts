@@ -5,11 +5,20 @@ import { filesUnder } from './files.ts';
 type Manifest = {
   exports?: Record<string, unknown>;
   peerDependencies?: Record<string, string>;
+  peerDependenciesMeta?: Record<string, { optional?: boolean }>;
 };
 
 /** The parsed `package.json` of an unpacked package. */
 export function readManifest(root: string): Manifest {
   return JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+}
+
+/** Peers a consumer may leave uninstalled. */
+export function optionalPeers(root: string): string[] {
+  const meta = readManifest(root).peerDependenciesMeta ?? {};
+  return Object.keys(meta)
+    .filter((peer) => meta[peer]?.optional === true)
+    .sort();
 }
 
 /** The `types` path of an `exports` target, if it has one. */

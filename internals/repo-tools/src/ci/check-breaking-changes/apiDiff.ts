@@ -153,19 +153,32 @@ function narrows(previous: string, range: string): boolean {
   );
 }
 
-/** New peers, and peers whose range drops versions, Lumen's own excluded. */
+/** Whether consumers must install `peer`: listed and not optional. */
+function isRequiredPeer(surface: ApiSurface, peer: string): boolean {
+  return peer in surface.peers && !surface.optionalPeers.includes(peer);
+}
+
+/** How one peer of `after` changed: newly required, or its range dropped versions. */
+function peerChange(
+  before: ApiSurface,
+  after: ApiSurface,
+  peer: string,
+  range: string,
+): ApiChange[] {
+  const previous = before.peers[peer];
+  if (isRequiredPeer(after, peer) && !isRequiredPeer(before, peer)) {
+    return [toChange('required', 'dependency', peer, range)];
+  }
+  return previous !== undefined && narrows(previous, range)
+    ? [toChange('changed', 'dependency', peer, `${previous} → ${range}`)]
+    : [];
+}
+
+/** Peer changes, Lumen's own excluded. */
 function peerChanges(before: ApiSurface, after: ApiSurface): ApiChange[] {
   return Object.entries(after.peers)
     .filter(([peer]) => !lumenPeer.test(peer))
-    .flatMap(([peer, range]) => {
-      const previous = before.peers[peer];
-      if (previous === undefined) {
-        return [toChange('required', 'dependency', peer, range)];
-      }
-      return narrows(previous, range)
-        ? [toChange('changed', 'dependency', peer, `${previous} → ${range}`)]
-        : [];
-    });
+    .flatMap(([peer, range]) => peerChange(before, after, peer, range));
 }
 
 /**

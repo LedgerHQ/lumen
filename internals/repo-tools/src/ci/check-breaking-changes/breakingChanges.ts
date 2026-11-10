@@ -1,5 +1,4 @@
-import { mkdtempSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { fail, info, ok, skip, step } from '../../shared/logging.ts';
 import {
@@ -9,6 +8,7 @@ import {
 } from '../../shared/workspaceProjects.ts';
 import { type ApiChange, diffSurfaces } from './apiDiff.ts';
 import { readSurface } from './apiSurface.ts';
+import { workspaceTempDir } from './utils/files.ts';
 import { migrationRefs, uncovered } from './utils/migrationRefs.ts';
 import { builtRoot, releasedRoot } from './utils/tarball.ts';
 
@@ -57,11 +57,15 @@ function report(lib: Lib, changes: ApiChange[] | undefined): boolean {
 /** Checks every built lib and returns how many break without a migration. */
 function checkBreakingChanges(): number {
   const refs = migrationRefs(migrationsDir);
-  const tmp = mkdtempSync(join(tmpdir(), 'breaking-changes-'));
+  const tmp = workspaceTempDir('breaking-changes-');
   step('Checking breaking changes since the last release have a migration');
-  return publishableLibs().filter((lib) =>
-    report(lib, unmigrated(lib, refs, tmp)),
-  ).length;
+  try {
+    return publishableLibs().filter((lib) =>
+      report(lib, unmigrated(lib, refs, tmp)),
+    ).length;
+  } finally {
+    rmSync(tmp, { recursive: true, force: true });
+  }
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

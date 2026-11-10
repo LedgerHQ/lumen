@@ -1,8 +1,8 @@
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { readSurface } from './apiSurface.ts';
+import { workspaceTempDir } from './utils/files.ts';
 
 let tmp: string;
 let root: string;
@@ -13,7 +13,7 @@ function write(path: string, content: string): void {
 }
 
 beforeEach(() => {
-  tmp = mkdtempSync(join(tmpdir(), 'api-surface-'));
+  tmp = workspaceTempDir('api-surface-');
   root = join(tmp, 'pkg');
   write(
     'pkg-dom/index.d.ts',
@@ -27,12 +27,14 @@ beforeEach(() => {
         '.': { types: './dist/index.d.ts' },
         './symbols/*': './icons/*',
       },
-      peerDependencies: { react: '^19.0.0' },
+      peerDependencies: { react: '^19.0.0', clsx: '^2.0.0' },
+      peerDependenciesMeta: { clsx: { optional: true } },
     }),
   );
   write(
     'pkg/dist/index.d.ts',
     `
+import type { ComponentPropsWithRef } from 'react';
 import type { DomProps } from '../../pkg-dom/index';
 type Base = { className?: string };
 export type ButtonProps = Base & DomProps & {
@@ -45,6 +47,9 @@ export type SpotProps =
   | { appearance: 'icon'; icon: string }
   | { appearance: 'number'; number: number };
 export declare function Spot(props: SpotProps): unknown;
+export declare function Link(
+  props: ComponentPropsWithRef<'a'> & { size?: 'sm' | 'md' },
+): unknown;
 export declare const sizeMap: { sm: { icon: 16 }; md: { icon: 20 } };
 export declare function cn(...inputs: string[]): string;
 export type OnlyAType = string;
@@ -65,6 +70,7 @@ describe('readSurface', () => {
       '.': [
         'Button',
         'ButtonProps',
+        'Link',
         'OnlyAType',
         'Spot',
         'SpotProps',
@@ -84,6 +90,13 @@ describe('readSurface', () => {
     });
   });
 
+  it('reads props of components built on React types', () => {
+    const props = readSurface(root).props['.#Link'];
+
+    expect(props.size).toEqual({ optional: true, values: ['md', 'sm'] });
+    expect(props.href).toEqual({ optional: true, values: null });
+  });
+
   it('merges discriminated props: optional unless every member has them', () => {
     expect(readSurface(root).props['.#Spot']).toEqual({
       appearance: { optional: false, values: ['icon', 'number'] },
@@ -99,10 +112,11 @@ describe('readSurface', () => {
   });
 
   it('reads wildcard files, CSS tokens and peers', () => {
-    const { files, tokens, peers } = readSurface(root);
+    const { files, tokens, peers, optionalPeers } = readSurface(root);
 
     expect(files).toEqual(['./symbols/apex.svg']);
     expect(tokens).toEqual(['--color-error']);
-    expect(peers).toEqual({ react: '^19.0.0' });
+    expect(peers).toEqual({ react: '^19.0.0', clsx: '^2.0.0' });
+    expect(optionalPeers).toEqual(['clsx']);
   });
 });
