@@ -1,0 +1,21 @@
+{
+  "name": "@ledgerhq/lumen-lottie-files",
+  "version": "0.0.1",
+  "description": "Lottie animation files for the Lumen design system, shared by web and React Native.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "src/**/*.json"
+  ],
+  "exports": {
+    "./*.json": "./src/*.json",
+    "./package.json": "./package.json"
+  },
+  "nx": {
+    "tags": [
+      "scope:shared",
+      "type:assets"
+    ]
+  }
+}
