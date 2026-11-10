@@ -10,6 +10,8 @@ const Host = ({ enabled = true }: { enabled?: boolean }) => {
 describe('useAnimatedHeight', () => {
   let notifyResize: () => void;
   let disconnect: ReturnType<typeof vi.fn>;
+  let observe: ReturnType<typeof vi.fn>;
+  let unobserve: ReturnType<typeof vi.fn>;
   let animate: ReturnType<typeof vi.fn>;
   let offsetHeight: ReturnType<typeof vi.spyOn>;
   let animations: {
@@ -21,13 +23,16 @@ describe('useAnimatedHeight', () => {
     animations = [];
     notifyResize = () => undefined;
     disconnect = vi.fn();
+    observe = vi.fn();
+    unobserve = vi.fn();
     vi.stubGlobal(
       'ResizeObserver',
       class {
         constructor(callback: () => void) {
           notifyResize = callback;
         }
-        observe = vi.fn();
+        observe = observe;
+        unobserve = unobserve;
         disconnect = disconnect;
       },
     );
@@ -107,6 +112,25 @@ describe('useAnimatedHeight', () => {
     expect(animate.mock.calls[1][0]).toMatchObject({
       height: ['260px', '100px'],
     });
+  });
+
+  it('stops observing while the animation starts, then observes again', () => {
+    const frames: (() => void)[] = [];
+    vi.stubGlobal('requestAnimationFrame', (callback: () => void) => {
+      frames.push(callback);
+      return frames.length;
+    });
+    render(<Host />);
+    act(() => notifyResize());
+    observe.mockClear();
+
+    offsetHeight.mockReturnValue(320);
+    act(() => notifyResize());
+    expect(unobserve).toHaveBeenCalledTimes(1);
+    expect(observe).not.toHaveBeenCalled();
+
+    act(() => frames.forEach((frame) => frame()));
+    expect(observe).toHaveBeenCalledTimes(1);
   });
 
   it('does not animate when disabled', () => {
