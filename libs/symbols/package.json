@@ -1,15 +1,15 @@
 {
-  "name": "@ledgerhq/lumen-lottie-files",
+  "name": "@ledgerhq/lumen-symbols",
   "version": "0.0.1",
-  "description": "Lottie animation files for the Lumen design system, shared by web and React Native.",
+  "description": "Symbol assets for the Lumen design system (Lottie animations, …), shared by web and React Native.",
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
   "files": [
-    "src/**/*.json"
+    "lottie/**/*.json"
   ],
   "exports": {
-    "./*.json": "./src/*.json",
+    "./lottie/*.json": "./lottie/*.json",
     "./package.json": "./package.json"
   },
   "nx": {
