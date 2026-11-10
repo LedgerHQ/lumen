@@ -24,6 +24,21 @@ changes:
     signal: loud
     detect:
       - { pattern: '<Menu(Item|CheckboxItem|RadioItem|SubTrigger)\b[^>]*\btextValue=' }
+  - change: renamed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-react#MenuCheckboxItem.textValue'
+    to: '@ledgerhq/lumen-ui-react#MenuCheckboxItem.label'
+    signal: loud
+  - change: renamed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-react#MenuRadioItem.textValue'
+    to: '@ledgerhq/lumen-ui-react#MenuRadioItem.label'
+    signal: loud
+  - change: renamed
+    surface: member
+    ref: '@ledgerhq/lumen-ui-react#MenuSubTrigger.textValue'
+    to: '@ledgerhq/lumen-ui-react#MenuSubTrigger.label'
+    signal: loud
   - change: changed
     surface: member
     ref: '@ledgerhq/lumen-ui-react#MenuCheckboxItem.closeOnClick'
