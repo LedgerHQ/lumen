@@ -1,7 +1,7 @@
 {
   "name": "@ledgerhq/lumen-symbols",
   "version": "0.0.1",
-  "description": "Symbol assets for the Lumen design system (Lottie animations, …), shared by web and React Native.",
+  "description": "Asset files for the Lumen design system, one import path per file.",
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
