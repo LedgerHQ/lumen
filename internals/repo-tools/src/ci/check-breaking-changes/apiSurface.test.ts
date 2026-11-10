@@ -71,6 +71,10 @@ export {};
   );
   write('pkg/icons/apex.svg', '<svg/>');
   write('pkg/dist/tokens.css', ':root { --color-error: red; --text-: 0; }');
+  write(
+    'pkg/dist/reveal.js',
+    "const css = '@property --reveal { syntax: ...; } .a { --reveal: 0%; }';",
+  );
 });
 
 afterEach(() => {
@@ -143,5 +147,14 @@ describe('readSurface', () => {
     expect(tokens).toEqual(['--color-error']);
     expect(peers).toEqual({ react: '^19.0.0', clsx: '^2.0.0' });
     expect(optionalPeers).toEqual(['clsx']);
+  });
+
+  it('reads tokens from JS only in design-core', () => {
+    write(
+      'pkg/package.json',
+      JSON.stringify({ name: '@ledgerhq/lumen-design-core', exports: {} }),
+    );
+
+    expect(readSurface(root).tokens).toEqual(['--color-error', '--reveal']);
   });
 });

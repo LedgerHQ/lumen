@@ -3,6 +3,7 @@ import { join, resolve } from 'node:path';
 import { filesUnder } from './files.ts';
 
 type Manifest = {
+  name?: string;
   exports?: Record<string, unknown>;
   peerDependencies?: Record<string, string>;
   peerDependenciesMeta?: Record<string, { optional?: boolean }>;

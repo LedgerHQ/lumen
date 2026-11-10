@@ -1,8 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { filesUnder } from './files.ts';
+import { readManifest } from './manifest.ts';
 
 const declaration = /['"\s{;](--[a-z][a-z0-9-]*)['"]?\s*:/g;
-const shippedCode = /\.(css|js)$/;
 const testCode = /\.(test|spec)\.js$/;
 
 /**
@@ -15,12 +15,24 @@ function declaredTokens(content: string): string[] {
     .filter((token) => !token.endsWith('-'));
 }
 
-/** CSS custom properties declared anywhere in the package's shipped code. */
-export function cssTokens(root: string): string[] {
-  const files = filesUnder(root).filter(
-    (path) => shippedCode.test(path) && !testCode.test(path),
+/**
+ * The package whose shipped JS declares the public tokens. Elsewhere, a
+ * variable in JS is a component internal (`--donut-reveal`).
+ */
+const tokenPackage = '@ledgerhq/lumen-design-core';
+
+/** Shipped files that declare public tokens: CSS, plus JS in the token package. */
+function tokenFiles(root: string): string[] {
+  const scanned =
+    readManifest(root).name === tokenPackage ? /\.(css|js)$/ : /\.css$/;
+  return filesUnder(root).filter(
+    (path) => scanned.test(path) && !testCode.test(path),
   );
-  const tokens = files.flatMap((path) =>
+}
+
+/** CSS custom properties the package publishes as tokens. */
+export function cssTokens(root: string): string[] {
+  const tokens = tokenFiles(root).flatMap((path) =>
     declaredTokens(readFileSync(path, 'utf8')),
   );
   return [...new Set(tokens)].sort();

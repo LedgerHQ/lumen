@@ -77,9 +77,10 @@ function checkBreakingChanges(): number {
   step('Checking breaking changes since the last release have a migration');
   try {
     const roots = installAll(publishableLibs(), tmp);
-    return [...roots].filter(([lib, libRoots]) =>
+    const failed = [...roots].map(([lib, libRoots]) =>
       report(lib, unmigrated(lib, libRoots, refs)),
-    ).length;
+    );
+    return failed.filter(Boolean).length;
   } finally {
     rmSync(tmp, { recursive: true, force: true });
   }
