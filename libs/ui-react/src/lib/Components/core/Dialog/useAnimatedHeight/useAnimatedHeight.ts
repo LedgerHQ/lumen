@@ -22,6 +22,7 @@ export const useAnimatedHeight = (
     }
     let lastHeight: number | undefined;
     let animation: Animation | undefined;
+    let frame: number | undefined;
 
     const observer = new ResizeObserver(() => {
       // The animation resizes the element on every frame.
@@ -34,6 +35,10 @@ export const useAnimatedHeight = (
         lastHeight = nextHeight;
         return;
       }
+      // Animating resizes the observed element; stepping out for a frame avoids
+      // the undelivered-notifications loop.
+      observer.unobserve(element);
+      frame = requestAnimationFrame(() => observer.observe(element));
       const running = element.animate(
         {
           height: [`${lastHeight}px`, `${nextHeight}px`],
@@ -54,6 +59,9 @@ export const useAnimatedHeight = (
     observer.observe(element);
 
     return () => {
+      if (frame !== undefined) {
+        cancelAnimationFrame(frame);
+      }
       observer.disconnect();
       animation?.cancel();
     };
