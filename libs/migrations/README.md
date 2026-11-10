@@ -58,7 +58,9 @@ requiring zero.
 The file name is the id. Packages, title, PR and introduced version come from
 the PR that shipped the update and its version plans, never written by hand.
 That PR is the one adding the file, unless `pr` names an earlier one, released
-under the `@ledgerhq/lumen-*` names.
+under the `@ledgerhq/lumen-*` names. A late migration takes its packages from
+its refs (the libs that PR changed, for a dependency-only update), not from
+that PR's plans: some PRs had none, and a later plan released their change.
 
 ## Examples
 
@@ -86,7 +88,7 @@ it in line with the schema).
 - The file name is permanent: never rename or delete a migration.
 - Any change to a migration needs a version plan for this package. A new one
   also needs the plan of each Lumen package its refs point into (any package
-  for an external dependency change), or a `pr` whose plans have them.
+  for an external dependency change), or a `pr` already released in them.
 - `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above.
 - A replacement with no 1:1 mapping is a `removed` change; the body explains
   what to use instead.

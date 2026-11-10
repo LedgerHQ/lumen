@@ -4,6 +4,8 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { buildIndex, parseSubject } from './build-index.ts';
+import { migrationFrontmatter } from './schema.ts';
+import { checkBreakingPr } from './validate.ts';
 
 const migration = `---
 changes:
@@ -248,6 +250,91 @@ describe('buildIndex', () => {
 
       expect(buildIndex(root).issues).toEqual([
         'tailwind-v4: PR #401 not found',
+      ]);
+    });
+
+    /** A PR with no plan, released later by another PR's plan. */
+    function shipWithoutPlan(): string {
+      write(
+        'libs/ui-react/package.json',
+        '{ "name": "@ledgerhq/lumen-ui-react" }\n',
+      );
+      write('libs/ui-react/src/index.ts', 'export {};\n');
+      const sha = commit('feat: add Popover (#587)');
+      write('.nx/version-plans/589.md', plan('@ledgerhq/lumen-ui-react'));
+      commit('feat: something else (#589)');
+      git('tag', '@ledgerhq/lumen-ui-react@0.1.15');
+      return sha;
+    }
+
+    it('dates a PR without a plan from the packages its refs name', () => {
+      const sha = shipWithoutPlan();
+      addLate('menu-portal', 587);
+
+      const { index, issues } = buildIndex(root);
+
+      expect(issues).toEqual([]);
+      expect(index.migrations[0]).toMatchObject({
+        pr: 587,
+        commit: sha,
+        introduced: { '@ledgerhq/lumen-ui-react': '0.1.15' },
+      });
+    });
+
+    it('takes the libs the PR changed for a dependency-only update', () => {
+      shipWithoutPlan();
+      write(
+        'libs/migrations/src/base-ui.md',
+        `---
+changes:
+  - change: required
+    surface: dependency
+    ref: '@base-ui/react'
+    signal: loud
+pr: 587
+---
+
+## Before → after
+`,
+      );
+      commit('docs(migrations): add base-ui (#900)');
+
+      expect(buildIndex(root).index.migrations[0].introduced).toEqual({
+        '@ledgerhq/lumen-ui-react': '0.1.15',
+      });
+    });
+  });
+
+  describe('checkBreakingPr', () => {
+    const frontmatter = migrationFrontmatter.parse({
+      changes: [
+        {
+          change: 'removed',
+          surface: 'export',
+          ref: '@ledgerhq/lumen-ui-react#MenuPortal',
+          signal: 'loud',
+        },
+      ],
+    });
+
+    it('accepts a released PR, plan or not', () => {
+      commit('feat: remove MenuPortal (#716)');
+      git('tag', '@ledgerhq/lumen-ui-react@0.1.36');
+
+      expect(checkBreakingPr(root, 716, frontmatter)).toEqual([]);
+    });
+
+    it('rejects a PR that is not released yet', () => {
+      commit('feat: remove MenuPortal (#716)');
+
+      expect(checkBreakingPr(root, 716, frontmatter)).toEqual([
+        'pr: #716 is not released in @ledgerhq/lumen-ui-react yet',
+      ]);
+    });
+
+    it('rejects a PR that is not on main', () => {
+      expect(checkBreakingPr(root, 716, frontmatter)).toEqual([
+        'pr: #716 is not on main',
       ]);
     });
   });

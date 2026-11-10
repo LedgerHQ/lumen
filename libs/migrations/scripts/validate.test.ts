@@ -236,7 +236,7 @@ describe('checkMigrationChanges', () => {
     ]);
   });
 
-  it('takes the plan of the PR a new migration names', () => {
+  it('needs no package plan when a new migration names its PR', () => {
     expect(
       check([{ status: 'A', path }], [migrationsPlan], {
         ...breaking,
