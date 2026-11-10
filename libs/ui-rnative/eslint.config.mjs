@@ -21,10 +21,6 @@ export default [
       'react-native-a11y/has-accessibility-hint': 'off',
     },
   }),
-  // The RN twin of better-tailwindcss' `enforce-logical-properties`: start/end
-  // keys mirror in RTL whatever `I18nManager.swapLeftAndRightInRTL` says.
-  // `src/styles` is the `lx` API, which keeps the physical keys for consumers.
-  // Charts plot on physical x coordinates, so their insets stay left/right.
   defineProdRules({
     name: 'react-native-logical-properties',
     ignores: ['src/styles/**', 'src/lib/Components/visualization/**'],
