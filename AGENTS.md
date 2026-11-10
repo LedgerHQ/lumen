@@ -25,7 +25,7 @@ with `git diff origin/main...HEAD --name-only | cut -d/ -f1-2 | sort -u`.
 | `libs/utils-shared` | `@ledgerhq/lumen-utils-shared` | Cross-platform TS/React | —                                                        | Vitest                               | —                                                 |
 | `libs/lint-plugin`  | `@ledgerhq/lumen-lint-plugin`  | ESLint + oxlint         | — (plain ESM JS + JSDoc, no build to lint)               | Vitest                               | —                                                 |
 | `libs/migrations`   | `@ledgerhq/lumen-migrations`   | Upgrade tooling         | — (Markdown files; `build` generates `index.json`)       | Vitest                               | `README.md` (file format)                         |
-| `libs/symbols`      | `@ledgerhq/lumen-symbols`      | Cross-platform assets   | — (asset files per kind, e.g. `lotties/`; no build)      | —                                    | `README.md`                                       |
+| `libs/symbols`      | `@ledgerhq/lumen-symbols`      | Cross-platform assets   | — (one typed module per symbol, e.g. `lotties/`; `tsc`)  | —                                    | `README.md`                                       |
 
 ## Module boundaries
 

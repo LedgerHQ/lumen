@@ -1,15 +1,25 @@
 {
   "name": "@ledgerhq/lumen-symbols",
   "version": "0.0.1",
-  "description": "Asset files for the Lumen design system, one import path per file.",
+  "description": "Symbols for the Lumen design system, one import path per symbol.",
   "license": "Apache-2.0",
   "type": "module",
   "sideEffects": false,
   "files": [
-    "lotties/**/*.json"
+    "dist",
+    "!**/*.tsbuildinfo"
   ],
   "exports": {
-    "./lotties/*.json": "./lotties/*.json",
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js",
+      "default": "./dist/types.js"
+    },
+    "./lotties/*": {
+      "types": "./dist/lotties/*.d.ts",
+      "import": "./dist/lotties/*.js",
+      "default": "./dist/lotties/*.js"
+    },
     "./package.json": "./package.json"
   },
   "nx": {
