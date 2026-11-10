@@ -10,11 +10,6 @@
     "!**/*.tsbuildinfo"
   ],
   "exports": {
-    "./types": {
-      "types": "./dist/types.d.ts",
-      "import": "./dist/types.js",
-      "default": "./dist/types.js"
-    },
     "./lotties/*": {
       "types": "./dist/lotties/*.d.ts",
       "import": "./dist/lotties/*.js",

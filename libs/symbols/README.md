@@ -5,7 +5,6 @@ Symbols for the Lumen design system, one folder per kind and one typed module pe
 | Folder     | Contents                | Import                                   |
 | ---------- | ----------------------- | ---------------------------------------- |
 | `lotties/` | Lottie animations, JSON | `@ledgerhq/lumen-symbols/lotties/<name>` |
-| `types`    | Shared types            | `@ledgerhq/lumen-symbols/types`          |
 
 ## Install
 
