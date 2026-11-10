@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "storybook-react",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["--prefix", "libs/ui-react", "storybook", "dev", "-c", "libs/ui-react/.storybook", "-p", "6006", "--no-open", "--ci"],
+      "port": 6006
+    }
+  ]
+}

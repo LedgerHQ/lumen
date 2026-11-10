@@ -12,6 +12,7 @@ npx nx run adoption-tool:report-summary   # Slack-ready summary
 npx nx run adoption-tool:report-json      # JSON snapshot
 npx nx run adoption-tool:owners           # which team owns each consumer repo
 npx nx run adoption-tool:discover         # find new or moved consumers
+npx nx run adoption-tool:start-upgrades   # run matrix for the upgrade pipeline (starts nothing)
 npx nx run adoption-tool:test
 ```
 
@@ -47,14 +48,18 @@ The report only reads `data/consumers.json`. It never uses live GitHub search,
 because search results change from run to run. You edit the registry by hand,
 in a PR.
 
-| Field              | Meaning                                                                                   |
-| ------------------ | ----------------------------------------------------------------------------------------- |
-| `repo`             | `LedgerHQ/name`                                                                           |
-| `status`           | `production` (shipped to users or partners) or `internal-tool` (used inside Ledger)       |
-| `priority`         | optional, `P1` (highest) to `P3`, for ordering migration and rollout work                 |
-| `packageJsonPath`  | package.json that declares the Lumen dependencies                                         |
-| `packageJsonPaths` | optional, per package, for monorepos where several workspaces declare it (worst one wins) |
-| `notes`            | optional                                                                                  |
+| Field              | Meaning                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------- |
+| `repo`             | `LedgerHQ/name`                                                                             |
+| `status`           | `production` (shipped to users or partners) or `internal-tool` (used inside Ledger)         |
+| `priority`         | optional, `P1` (highest) to `P3`, for ordering migration and rollout work                   |
+| `packageJsonPath`  | package.json that declares the Lumen dependencies                                           |
+| `packageJsonPaths` | optional, per package, for monorepos where several workspaces declare it (worst one wins)   |
+| `notes`            | optional                                                                                    |
+| `eligible`         | optional, opts the repo in to the upgrade pipeline (default: off)                           |
+| `upstreamPackages` | optional, `{ package, repo }` per Lumen-based package it consumes; `repo` is upgraded first |
+| `pr`               | optional, `titlePrefix` (prepended to the default title) and `labels` for the upgrade PR    |
+| `changeset`        | optional, the repo's CI requires a changeset file                                           |
 
 Prototypes, hackathon projects and experiments are not consumers. They go in
 `data/ignored-repos.json` with a `reason`, and `discover` stops reporting them.
@@ -66,13 +71,24 @@ To add a repo: run `discover`, then add each new repo to one of the two files.
 The tracked packages are listed by hand in `src/config.ts`. Add new published
 libs there.
 
+## Upgrade pipeline
+
+`start-upgrades` prints the run matrix that `.github/workflows/lumen-upgrade.yml`
+feeds to Cairn ([ADR 027](https://ledgerhq.atlassian.net/wiki/spaces/DLS/pages/7689666642)).
+It reads the registry and npm, and starts nothing itself. Only `eligible`
+repos are listed, in two groups: upstream repos first, then the
+rest by priority (`P1` to `P3`, then unset). Each item carries the plan input:
+target versions, PR title and labels, changeset flag and upstream packages.
+`--out <file>` also writes the JSON.
+
 ## Architecture
 
-| Command    | Reads                                                                                  | Writes                            |
-| ---------- | -------------------------------------------------------------------------------------- | --------------------------------- |
-| `report`   | `data/consumers.json`, each repo's package.json or pnpm catalog (GitHub), latest (npm) | `report.{md,html,slack.txt,json}` |
-| `discover` | GitHub code search, both registry files                                                | stdout only, never the registry   |
-| `owners`   | `LedgerHQ/architecture-as-code` team catalog, each repo's CODEOWNERS                   | `owners.md`                       |
+| Command          | Reads                                                                                  | Writes                            |
+| ---------------- | -------------------------------------------------------------------------------------- | --------------------------------- |
+| `report`         | `data/consumers.json`, each repo's package.json or pnpm catalog (GitHub), latest (npm) | `report.{md,html,slack.txt,json}` |
+| `discover`       | GitHub code search, both registry files                                                | stdout only, never the registry   |
+| `start-upgrades` | `data/consumers.json`, latest (npm)                                                    | stdout, `--out` file              |
+| `owners`         | `LedgerHQ/architecture-as-code` team catalog, each repo's CODEOWNERS                   | `owners.md`                       |
 
 ```
 src/

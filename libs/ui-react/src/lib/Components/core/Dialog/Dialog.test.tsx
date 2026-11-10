@@ -137,6 +137,7 @@ describe('Dialog', () => {
             notifyResize = callback;
           }
           observe = vi.fn();
+          unobserve = vi.fn();
           disconnect = vi.fn();
         },
       );
