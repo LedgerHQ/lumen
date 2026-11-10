@@ -16,6 +16,14 @@ beforeEach(() => {
   tmp = workspaceTempDir('api-surface-');
   root = join(tmp, 'pkg');
   write(
+    'node_modules/@ledgerhq/lumen-utils-shared/package.json',
+    JSON.stringify({ exports: { '.': { types: './index.d.ts' } } }),
+  );
+  write(
+    'node_modules/@ledgerhq/lumen-utils-shared/index.d.ts',
+    "export type Density = 'compact';",
+  );
+  write(
     'pkg-dom/index.d.ts',
     `export type DomProps = { dir?: 'ltr' | 'rtl' };`,
   );
@@ -37,6 +45,7 @@ beforeEach(() => {
     'pkg/dist/index.d.ts',
     `
 import type { ComponentPropsWithRef } from 'react';
+import type { Density } from '@ledgerhq/lumen-utils-shared';
 import type { DomProps } from '../../pkg-dom/index';
 type Base = { className?: string };
 export type ButtonProps = Base & DomProps & {
@@ -55,6 +64,8 @@ export declare function Link(
 export declare const sizeMap: { sm: { icon: 16 }; md: { icon: 20 } };
 export declare function cn(...inputs: string[]): string;
 export type OnlyAType = string;
+export type Size = 'sm' | 'md' | 'lg';
+export declare function Pager(props: { density?: Density }): unknown;
 export {};
 `,
   );
@@ -74,6 +85,8 @@ describe('readSurface', () => {
         'ButtonProps',
         'Link',
         'OnlyAType',
+        'Pager',
+        'Size',
         'Spot',
         'SpotProps',
         'cn',
@@ -97,6 +110,16 @@ describe('readSurface', () => {
 
     expect(props.size).toEqual({ optional: true, values: ['md', 'sm'] });
     expect(props.href).toEqual({ optional: true, values: null });
+  });
+
+  it('resolves Lumen imports to the sibling package, not the workspace', () => {
+    expect(readSurface(root).props['.#Pager']).toEqual({
+      density: { optional: true, values: ['compact'] },
+    });
+  });
+
+  it('reads the literal values of exported type aliases', () => {
+    expect(readSurface(root).types).toEqual({ '.#Size': ['lg', 'md', 'sm'] });
   });
 
   it('merges discriminated props: optional unless every member has them', () => {

@@ -1,13 +1,20 @@
 import { execFileSync } from 'node:child_process';
-import { mkdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { mkdirSync, mkdtempSync, renameSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 import { pack } from '../../../shared/pack.ts';
+import type { Lib } from '../../../shared/workspaceProjects.ts';
 
-/** Extracts a tarball into `into` and returns the package root. */
-function unpack(tarball: string, into: string): string {
-  mkdirSync(into, { recursive: true });
-  execFileSync('tar', ['-xzf', tarball, '-C', into]);
-  return join(into, 'package');
+/**
+ * Unpacks a tarball as `<side>/node_modules/<name>`, so packages unpacked on
+ * the same side import each other instead of the workspace's `libs/`.
+ */
+function install(tarball: string, side: string, name: string): string {
+  const staging = mkdtempSync(join(side, 'unpack-'));
+  execFileSync('tar', ['-xzf', tarball, '-C', staging]);
+  const root = join(side, 'node_modules', name);
+  mkdirSync(dirname(root), { recursive: true });
+  renameSync(join(staging, 'package'), root);
+  return root;
 }
 
 /** Whether `npm pack --json` failed because the package isn't on the registry. */
@@ -31,15 +38,18 @@ function packPublished(name: string, into: string): string | undefined {
   }
 }
 
-/** The unpacked `latest` release of a package, or `undefined` when it was never published. */
-export function releasedRoot(name: string, into: string): string | undefined {
-  mkdirSync(into, { recursive: true });
-  const tarball = packPublished(name, into);
-  return tarball && unpack(tarball, join(into, 'unpacked'));
+/** A package's `latest` release, unpacked on `side`, or `undefined` when it was never published. */
+export function installReleased(
+  name: string,
+  side: string,
+): string | undefined {
+  mkdirSync(side, { recursive: true });
+  const tarball = packPublished(name, side);
+  return tarball && install(tarball, side, name);
 }
 
-/** A built lib, packed and unpacked the way npm publishes it. */
-export function builtRoot(dir: string, into: string): string {
-  mkdirSync(into, { recursive: true });
-  return unpack(join(into, pack(dir, into)), join(into, 'unpacked'));
+/** A built lib, packed the way npm publishes it and unpacked on `side`. */
+export function installBuilt(lib: Lib, side: string): string {
+  mkdirSync(side, { recursive: true });
+  return install(join(side, pack(lib.dir, side)), side, lib.name);
 }

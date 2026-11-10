@@ -14,6 +14,7 @@ function surface(overrides: Partial<ApiSurface> = {}): ApiSurface {
       },
     },
     paths: {},
+    types: {},
     files: [],
     tokens: [],
     peers: {},
@@ -215,6 +216,19 @@ describe('diffSurfaces', () => {
         change: 'removed',
         surface: 'module',
         ref: '@ledgerhq/lumen-ui-react/tailwind.css',
+      },
+    ]);
+  });
+
+  it('reports values removed from an exported type alias', () => {
+    const before = surface({ types: { '.#Density': ['compact', 'expanded'] } });
+    const after = surface({ types: { '.#Density': ['expanded'] } });
+
+    expect(diffSurfaces(name, before, after)).toEqual([
+      {
+        change: 'removed',
+        surface: 'value',
+        ref: '@ledgerhq/lumen-ui-react#Density=compact',
       },
     ]);
   });

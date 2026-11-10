@@ -9,7 +9,11 @@ import {
   typeEntries,
   servedFiles,
 } from './utils/manifest.ts';
-import { isPlainObject, objectPaths } from './utils/typeShapes.ts';
+import {
+  isPlainObject,
+  literalValues,
+  objectPaths,
+} from './utils/typeShapes.ts';
 
 export type { PropInfo } from './utils/componentProps.ts';
 
@@ -20,6 +24,8 @@ export type ApiSurface = {
   props: Record<string, Props>;
   /** `<entry>#<export>` → leaf paths of an exported object. */
   paths: Record<string, string[]>;
+  /** `<entry>#<Type>` → literal values of an exported type alias. */
+  types: Record<string, string[]>;
   /** Subpaths imported as files (`./symbols/apex.svg`, `./tailwind.css`). */
   files: string[];
   /** CSS custom properties declared in the shipped files. */
@@ -29,7 +35,7 @@ export type ApiSurface = {
   optionalPeers: string[];
 };
 
-type Shape = { props?: Props; paths?: string[] };
+type Shape = { props?: Props; paths?: string[]; values?: string[] };
 type Exported = { name: string; shape: Shape };
 
 /** A TypeScript program over the given `.d.ts` files. */
@@ -61,7 +67,30 @@ function moduleExports(program: ts.Program, file: string): ts.Symbol[] {
   return module ? checker.getExportsOfModule(module) : [];
 }
 
+/** A type alias's literal values (`Density` → `compact`, `expanded`). */
+function typeShape(checker: ts.TypeChecker, symbol: ts.Symbol): Shape {
+  const values = literalValues(checker.getDeclaredTypeOfSymbol(symbol));
+  return values === null ? {} : { values };
+}
+
 /** What a value export exposes: component props, or an object's leaf paths. */
+function valueShape(
+  checker: ts.TypeChecker,
+  name: string,
+  symbol: ts.Symbol,
+  isOwn: (symbol: ts.Symbol) => boolean,
+): Shape {
+  const type = checker.getTypeOfSymbol(symbol);
+  const props = /^[A-Z]/.test(name)
+    ? componentProps(checker, type, isOwn)
+    : undefined;
+  if (props !== undefined) return { props };
+  if (!isPlainObject(type)) return {};
+  const paths = objectPaths(checker, type);
+  return paths.length > 0 ? { paths } : {};
+}
+
+/** What an export exposes, through re-exports: a value's shape or a type's values. */
 function shapeOf(
   checker: ts.TypeChecker,
   exported: ts.Symbol,
@@ -71,15 +100,12 @@ function shapeOf(
     exported.flags & ts.SymbolFlags.Alias
       ? checker.getAliasedSymbol(exported)
       : exported;
-  if (!(symbol.flags & ts.SymbolFlags.Value)) return {};
-  const type = checker.getTypeOfSymbol(symbol);
-  const props = /^[A-Z]/.test(exported.name)
-    ? componentProps(checker, type, isOwn)
-    : undefined;
-  if (props !== undefined) return { props };
-  if (!isPlainObject(type)) return {};
-  const paths = objectPaths(checker, type);
-  return paths.length > 0 ? { paths } : {};
+  if (symbol.flags & ts.SymbolFlags.Value) {
+    return valueShape(checker, exported.name, symbol, isOwn);
+  }
+  return symbol.flags & ts.SymbolFlags.TypeAlias
+    ? typeShape(checker, symbol)
+    : {};
 }
 
 /** Entry point → each export's name and shape. */
@@ -131,6 +157,7 @@ export function readSurface(root: string): ApiSurface {
     ),
     props: byKey(exports, (shape) => shape.props),
     paths: byKey(exports, (shape) => shape.paths),
+    types: byKey(exports, (shape) => shape.values),
     files: servedFiles(root),
     tokens: cssTokens(root),
     peers: readManifest(root).peerDependencies ?? {},

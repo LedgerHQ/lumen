@@ -134,6 +134,19 @@ function removedPaths(
   );
 }
 
+/** Literal values removed from exported type aliases that still exist. */
+function removedTypeValues(
+  name: string,
+  before: ApiSurface,
+  after: ApiSurface,
+): ApiChange[] {
+  return sharedKeys(before.types, after.types).flatMap((key) =>
+    missing(before.types[key], after.types[key]).map((value) =>
+      toChange('removed', 'value', `${exportRef(name, key)}=${value}`),
+    ),
+  );
+}
+
 /** CSS custom properties no longer declared. */
 function removedTokens(
   name: string,
@@ -196,6 +209,7 @@ export function diffSurfaces(
     ...removedFiles(name, before, after),
     ...propsChanges(name, before, after),
     ...removedPaths(name, before, after),
+    ...removedTypeValues(name, before, after),
     ...removedTokens(name, before, after),
     ...peerChanges(before, after),
   ];

@@ -10,9 +10,27 @@ import { type ApiChange, diffSurfaces } from './apiDiff.ts';
 import { readSurface } from './apiSurface.ts';
 import { workspaceTempDir } from './utils/files.ts';
 import { migrationRefs, uncovered } from './utils/migrationRefs.ts';
-import { builtRoot, releasedRoot } from './utils/tarball.ts';
+import { installBuilt, installReleased } from './utils/tarball.ts';
 
 const migrationsDir = join(workspaceRoot, 'libs/migrations/src');
+
+type Roots = { released: string | undefined; built: string };
+
+/**
+ * Unpacks every lib's latest release on one side and its build on the other,
+ * so a release's types import the released siblings, and a build's the built ones.
+ */
+function installAll(libs: Lib[], tmp: string): Map<Lib, Roots> {
+  return new Map(
+    libs.map((lib) => [
+      lib,
+      {
+        released: installReleased(lib.name, join(tmp, 'released')),
+        built: installBuilt(lib, join(tmp, 'built')),
+      },
+    ]),
+  );
+}
 
 /**
  * What a built lib breaks since its last release and no migration covers, or
@@ -20,12 +38,10 @@ const migrationsDir = join(workspaceRoot, 'libs/migrations/src');
  */
 function unmigrated(
   lib: Lib,
+  { released, built }: Roots,
   refs: string[],
-  tmp: string,
 ): ApiChange[] | undefined {
-  const released = releasedRoot(lib.name, join(tmp, lib.slug, 'released'));
   if (released === undefined) return undefined;
-  const built = builtRoot(lib.dir, join(tmp, lib.slug, 'built'));
   const changes = diffSurfaces(
     lib.name,
     readSurface(released),
@@ -60,8 +76,9 @@ function checkBreakingChanges(): number {
   const tmp = workspaceTempDir('breaking-changes-');
   step('Checking breaking changes since the last release have a migration');
   try {
-    return publishableLibs().filter((lib) =>
-      report(lib, unmigrated(lib, refs, tmp)),
+    const roots = installAll(publishableLibs(), tmp);
+    return [...roots].filter(([lib, libRoots]) =>
+      report(lib, unmigrated(lib, libRoots, refs)),
     ).length;
   } finally {
     rmSync(tmp, { recursive: true, force: true });
