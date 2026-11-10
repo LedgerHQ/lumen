@@ -1,0 +1,115 @@
+name: Lumen Upgrade
+
+# Starts one Cairn run per eligible consumer repo (ADR 027).
+# Upstream repos run first, then the rest by priority. The matrix comes from
+# `adoption-tool:start-upgrades`; nothing here knows how to upgrade a repo.
+
+concurrency:
+  group: lumen-upgrade
+  cancel-in-progress: false
+
+on:
+  workflow_run:
+    workflows: ['Release All']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Print the run matrix without starting any Cairn run'
+        required: true
+        type: boolean
+        default: true
+      cairn-url:
+        description: "Cairn instance URL; leave empty for production. Use Cairn's sandbox instance with LedgerHQ/cairn@main for tests"
+        required: false
+        type: string
+
+env:
+  NX_NO_CLOUD: true
+  # Test phase: only this repo is upgraded, without reading consumers.json.
+  # Set to '' to upgrade every eligible consumer from the registry.
+  TEST_REPO: 'LedgerHQ/lumen-test-app'
+
+permissions:
+  contents: read
+
+jobs:
+  registry:
+    name: Build run matrix
+    # Never start upgrades for a release that failed.
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: public-ledgerhq-shared-small
+    outputs:
+      upstream: ${{ steps.matrix.outputs.upstream }}
+      downstream: ${{ steps.matrix.outputs.downstream }}
+    steps:
+      - name: Checkout repository
+        if: env.TEST_REPO == ''
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: ./.github/actions/setup
+        if: env.TEST_REPO == ''
+        with:
+          set-shas: 'false'
+
+      - name: Build run matrix
+        id: matrix
+        run: |
+          if [ -n "$TEST_REPO" ]; then
+            echo 'upstream=[]' >> "$GITHUB_OUTPUT"
+            echo "downstream=[{\"name\":\"$TEST_REPO\",\"inputs\":\"{}\"}]" >> "$GITHUB_OUTPUT"
+          else
+            npx nx run adoption-tool:start-upgrades --out "$RUNNER_TEMP/matrix.json" > /dev/null
+            echo "upstream=$(jq -c .upstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
+            echo "downstream=$(jq -c .downstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
+          fi
+
+  upstream:
+    name: Upstream ${{ matrix.repo.name }}
+    needs: registry
+    if: ${{ !inputs.dry-run && needs.registry.outputs.upstream != '[]' }}
+    runs-on: public-ledgerhq-shared-small
+    strategy:
+      fail-fast: false # one repo failing doesn't stop the others
+      max-parallel: 5
+      matrix:
+        repo: ${{ fromJson(needs.registry.outputs.upstream) }}
+    steps:
+      - uses: LedgerHQ/cairn@stable
+        with:
+          workflow: run-plan
+          url: ${{ inputs.cairn-url }}
+          token: ${{ secrets.CAIRN_TOKEN }}
+          wait: 'true'
+          timeout: '7200'
+          interval: '30'
+          input: |-
+            repoUrl: https://github.com/${{ matrix.repo.name }}
+            planPath: .koda/plans/lumen-upgrade.ts
+            inputs: ${{ matrix.repo.inputs }}
+
+  downstream:
+    name: ${{ matrix.repo.name }}
+    needs: [registry, upstream]
+    # Run even when an upstream run failed or was skipped: the plan itself
+    # reports `blocked by <package>` when an upstream still pins an old Lumen.
+    if: ${{ !cancelled() && needs.registry.result == 'success' && !inputs.dry-run && needs.registry.outputs.downstream != '[]' }}
+    runs-on: public-ledgerhq-shared-small
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        repo: ${{ fromJson(needs.registry.outputs.downstream) }}
+    steps:
+      - uses: LedgerHQ/cairn@stable
+        with:
+          workflow: run-plan
+          url: ${{ inputs.cairn-url }}
+          token: ${{ secrets.CAIRN_TOKEN }}
+          wait: 'true'
+          timeout: '7200'
+          interval: '30'
+          input: |-
+            repoUrl: https://github.com/${{ matrix.repo.name }}
+            planPath: .koda/plans/lumen-upgrade.ts
+            inputs: ${{ matrix.repo.inputs }}

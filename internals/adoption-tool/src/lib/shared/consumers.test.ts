@@ -53,6 +53,51 @@ describe('parseConsumers', () => {
     );
   });
 
+  it('accepts the upgrade pipeline fields', () => {
+    expect(
+      parseConsumers([
+        {
+          ...valid,
+          eligible: true,
+          changeset: true,
+          pr: { titlePrefix: 'LIVE-1 ', labels: ['deps'] },
+          upstreamPackages: [
+            { package: '@ledgerhq/kit', repo: 'LedgerHQ/kit' },
+          ],
+        },
+        { ...valid, repo: 'LedgerHQ/kit' },
+      ]),
+    ).toHaveLength(2);
+  });
+
+  it('rejects malformed upgrade pipeline fields', () => {
+    expect(() => parseConsumers([{ ...valid, eligible: 'yes' }])).toThrow(
+      '"eligible" must be a boolean',
+    );
+    expect(() => parseConsumers([{ ...valid, pr: { title: 'x' } }])).toThrow(
+      '"pr" has unknown key "title"',
+    );
+    expect(() => parseConsumers([{ ...valid, pr: { labels: [''] } }])).toThrow(
+      '"pr.labels" must be an array of non-empty strings',
+    );
+    expect(() =>
+      parseConsumers([{ ...valid, upstreamPackages: [{ package: 'x' }] }]),
+    ).toThrow('"upstreamPackages[0]".repo must look like "Org/name"');
+  });
+
+  it('requires upstream repos to be registered and distinct from the repo', () => {
+    const upstream = (repo: string) => ({
+      ...valid,
+      upstreamPackages: [{ package: '@ledgerhq/kit', repo }],
+    });
+    expect(() => parseConsumers([upstream('LedgerHQ/missing')])).toThrow(
+      'upstream repo "LedgerHQ/missing" is not in the registry',
+    );
+    expect(() => parseConsumers([upstream('LedgerHQ/app')])).toThrow(
+      'cannot reference itself',
+    );
+  });
+
   it('rejects a registry that is not an array', () => {
     expect(() => parseConsumers({})).toThrow('must be a JSON array');
   });
