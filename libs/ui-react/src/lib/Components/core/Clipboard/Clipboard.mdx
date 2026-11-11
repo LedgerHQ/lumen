@@ -1,0 +1,64 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ClipboardStories from './Clipboard.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Clipboard' of={ClipboardStories} />
+
+# Clipboard
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+**Clipboard** displays a value the user can copy, such as an address, an ID or a code. The whole surface is clickable: clicking it copies the value and switches the copy icon to a check icon for 3 seconds.
+
+## Anatomy
+
+- **Value**: the text that is displayed and copied. Long values wrap onto multiple lines.
+- **Icon**: the copy icon, replaced by a check icon once the value is copied. Hovering anywhere on the clipboard highlights it.
+
+## Properties
+
+### Overview
+
+<Canvas of={ClipboardStories.Base} />
+<Controls of={ClipboardStories.Base} />
+
+### Multi-line
+
+The clipboard takes the full width of its container and wraps long values, breaking inside words when needed (e.g. addresses).
+
+<Canvas of={ClipboardStories.ResponsivenessShowcase} />
+
+### With a toast
+
+Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
+
+<Canvas of={ClipboardStories.WithToast} />
+
+## Accessibility
+
+- Renders a native `button`, reachable with the keyboard and activated with `Enter` or `Space`.
+- The accessible name is the value followed by "Copy", then "Copied" once the value is copied (translated with the library locale).
+- The copied state only shows when the clipboard write succeeds; it is skipped when the browser denies clipboard access (insecure context or missing permission).
+
+  </Tab>
+<Tab label="Implementation">
+
+<SetupNote />
+
+### Basic Usage
+
+<Source of={ClipboardStories.Base} />
+
+### With a toast
+
+<Source of={ClipboardStories.WithToast} />
+
+  </Tab>
+</CustomTabs>
