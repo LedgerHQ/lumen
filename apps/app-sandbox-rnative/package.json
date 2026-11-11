@@ -16,6 +16,7 @@
     "@ledgerhq/lumen-ui-rnative": "*",
     "@sbaiahmed1/react-native-blur": "^4.5.5",
     "expo": "~57.0.31",
+    "expo-clipboard": "~57.0.2",
     "expo-constants": "~57.0.22",
     "expo-dev-client": "~57.0.20",
     "expo-font": "~57.0.4",
