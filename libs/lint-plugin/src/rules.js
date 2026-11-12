@@ -122,7 +122,6 @@ export const RULES = {
     ...betterTailwindcss.configs['recommended-error'].rules,
     // Conflicts with Prettier, which owns line breaks.
     'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
-    // `ms-*` over `ml-*`: the layout mirrors itself in right-to-left locales.
     'better-tailwindcss/enforce-logical-properties': [
       'error',
       LOGICAL_PROPERTIES_OPTIONS,
