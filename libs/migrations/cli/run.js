@@ -146,7 +146,8 @@ function show(id, options, io) {
  */
 function check(options, io) {
   const entries = migrationsInRange(options, io);
-  const results = checkMigrations(entries, options.cwd ?? io.cwd);
+  const cwd = options.cwd ?? io.cwd;
+  const results = checkMigrations(entries, cwd, options.package);
   const ok = results.every((result) => result.status !== 'pending');
   io.write(options.json ? toJson({ ok, results }) : formatCheck(results));
   return ok ? 0 : 1;
