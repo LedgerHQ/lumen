@@ -7,6 +7,7 @@ import {
   jest,
 } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
+import { DisabledProvider } from '@ledgerhq/lumen-utils-shared';
 import {
   act,
   fireEvent,
@@ -104,5 +105,38 @@ describe('Clipboard', () => {
     expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
       'Label, Copy',
     );
+  });
+
+  it('should not report a copy when the clipboard write resolves false', async () => {
+    setStringAsync.mockImplementation(() => Promise.resolve(false));
+    const onCopy = jest.fn();
+    renderClipboard(
+      <Clipboard testID='clipboard' value='Label' onCopy={onCopy} />,
+    );
+
+    fireEvent.press(screen.getByTestId('clipboard'));
+
+    await waitFor(() => expect(setStringAsync).toHaveBeenCalled());
+    expect(onCopy).not.toHaveBeenCalled();
+    expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
+      'Label, Copy',
+    );
+  });
+
+  it('should be disabled and not copy inside a disabled ancestor', () => {
+    const onCopy = jest.fn();
+    renderClipboard(
+      <DisabledProvider value={{ disabled: true }}>
+        <Clipboard testID='clipboard' value='Label' onCopy={onCopy} />
+      </DisabledProvider>,
+    );
+
+    const root = screen.getByTestId('clipboard');
+    expect(root.props.accessibilityState).toMatchObject({ disabled: true });
+
+    fireEvent.press(root);
+
+    expect(setStringAsync).not.toHaveBeenCalled();
+    expect(onCopy).not.toHaveBeenCalled();
   });
 });

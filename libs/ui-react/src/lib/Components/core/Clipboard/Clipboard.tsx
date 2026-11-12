@@ -1,5 +1,8 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
-import { useTemporaryFlag } from '@ledgerhq/lumen-utils-shared';
+import {
+  useDisabledContext,
+  useTemporaryFlag,
+} from '@ledgerhq/lumen-utils-shared';
 import type { MouseEvent } from 'react';
 import { useCommonTranslation } from '../../../../translations';
 import { Check, Copy } from '../../symbols';
@@ -31,6 +34,7 @@ export const Clipboard = ({
   ...props
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
+  const disabled = useDisabledContext({ consumerName: 'Clipboard' });
   const [copied, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
   const Icon = copied ? Check : Copy;
 
@@ -52,7 +56,10 @@ export const Clipboard = ({
       ref={ref}
       type='button'
       className={cn(
-        'group flex w-full cursor-pointer items-start gap-8 rounded-sm bg-muted py-6 ps-12 pe-6 text-start transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        'group flex min-h-48 w-full items-center gap-8 rounded-sm p-8 ps-16 text-start transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        disabled
+          ? 'cursor-not-allowed bg-disabled text-disabled'
+          : 'cursor-pointer bg-muted text-base',
         className,
       )}
       aria-label={`${value}, ${
@@ -60,13 +67,18 @@ export const Clipboard = ({
           ? t('components.clipboard.copiedAriaLabel')
           : t('components.clipboard.copyAriaLabel')
       }`}
+      disabled={disabled}
       onClick={handleClick}
       {...props}
     >
-      <span className='min-w-0 flex-1 py-2 body-2 wrap-break-word text-base'>
-        {value}
-      </span>
-      <span className='shrink-0 rounded-full p-4 text-base transition-colors group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed'>
+      <span className='min-w-0 flex-1 body-2 wrap-break-word'>{value}</span>
+      <span
+        className={cn(
+          'shrink-0 rounded-full p-8 transition-colors',
+          !disabled &&
+            'group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed',
+        )}
+      >
         <Icon size={16} />
       </span>
     </button>

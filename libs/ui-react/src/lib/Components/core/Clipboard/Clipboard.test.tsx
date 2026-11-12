@@ -1,3 +1,4 @@
+import { DisabledProvider } from '@ledgerhq/lumen-utils-shared';
 import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -89,5 +90,22 @@ describe('Clipboard', () => {
   it('should apply a custom className', () => {
     render(<Clipboard value='Label' className='mt-4' />);
     expect(screen.getByRole('button')).toHaveClass('mt-4');
+  });
+
+  it('should be disabled and not copy inside a disabled ancestor', async () => {
+    const onCopy = vi.fn();
+    render(
+      <DisabledProvider value={{ disabled: true }}>
+        <Clipboard value='Label' onCopy={onCopy} />
+      </DisabledProvider>,
+    );
+
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+
+    await userEvent.click(button);
+
+    expect(writeText).not.toHaveBeenCalled();
+    expect(onCopy).not.toHaveBeenCalled();
   });
 });

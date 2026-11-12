@@ -1,4 +1,7 @@
-import { useTemporaryFlag } from '@ledgerhq/lumen-utils-shared';
+import {
+  useDisabledContext,
+  useTemporaryFlag,
+} from '@ledgerhq/lumen-utils-shared';
 import * as ExpoClipboard from 'expo-clipboard';
 import type { GestureResponderEvent } from 'react-native';
 import { StyleSheet, View } from 'react-native';
@@ -10,37 +13,55 @@ import type { ClipboardProps } from './types';
 
 const COPIED_DURATION_MS = 3000;
 
-const useStyles = ({ pressed }: { pressed: boolean }) => {
+const useStyles = ({
+  pressed,
+  disabled,
+}: {
+  pressed: boolean;
+  disabled: boolean;
+}) => {
   return useStyleSheet(
-    (t) => ({
-      container: {
-        flexDirection: 'row',
-        alignItems: 'flex-start',
-        gap: t.spacings.s8,
-        paddingVertical: t.spacings.s6,
-        paddingLeft: t.spacings.s12,
-        paddingRight: t.spacings.s6,
-        borderRadius: t.borderRadius.sm,
-        backgroundColor: t.colors.bg.muted,
-      },
-      value: StyleSheet.flatten([
-        t.typographies.body2,
-        {
-          flex: 1,
-          paddingVertical: t.spacings.s2,
-          color: t.colors.text.base,
+    (t) => {
+      const foregroundColor = disabled
+        ? t.colors.text.disabled
+        : t.colors.text.base;
+
+      return {
+        container: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: t.spacings.s8,
+          minHeight: t.sizes.s48,
+          padding: t.spacings.s8,
+          paddingLeft: t.spacings.s16,
+          borderRadius: t.borderRadius.sm,
+          backgroundColor: disabled ? t.colors.bg.disabled : t.colors.bg.muted,
         },
-      ]),
-      iconWrapper: StyleSheet.flatten([
-        {
-          flexShrink: 0,
-          padding: t.spacings.s4,
-          borderRadius: t.borderRadius.full,
+        value: StyleSheet.flatten([
+          t.typographies.body2,
+          {
+            flex: 1,
+            textAlign: 'left',
+            color: foregroundColor,
+          },
+        ]),
+        iconWrapper: StyleSheet.flatten([
+          {
+            flexShrink: 0,
+            padding: t.spacings.s8,
+            borderRadius: t.borderRadius.full,
+          },
+          pressed &&
+            !disabled && {
+              backgroundColor: t.colors.bg.baseTransparentPressed,
+            },
+        ]),
+        icon: {
+          color: foregroundColor,
         },
-        pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
-      ]),
-    }),
-    [pressed],
+      };
+    },
+    [pressed, disabled],
   );
 };
 
@@ -69,13 +90,16 @@ export const Clipboard = ({
   ...props
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
+  const disabled = useDisabledContext({ consumerName: 'Clipboard' });
   const [copied, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
 
   const handlePress = async (event: GestureResponderEvent) => {
     onPress?.(event);
 
     try {
-      await ExpoClipboard.setStringAsync(value);
+      // On web, Expo resolves `false` instead of rejecting when the write is denied.
+      const success = await ExpoClipboard.setStringAsync(value);
+      if (!success) return;
     } catch {
       return;
     }
@@ -94,11 +118,18 @@ export const Clipboard = ({
           ? t('components.clipboard.copiedAriaLabel')
           : t('components.clipboard.copyAriaLabel')
       }`}
+      accessibilityState={{ disabled }}
+      disabled={disabled}
       onPress={handlePress}
       {...props}
     >
       {({ pressed }) => (
-        <ClipboardContent value={value} copied={copied} pressed={pressed} />
+        <ClipboardContent
+          value={value}
+          copied={copied}
+          pressed={pressed}
+          disabled={disabled}
+        />
       )}
     </Pressable>
   );
@@ -108,19 +139,21 @@ const ClipboardContent = ({
   value,
   copied,
   pressed,
+  disabled,
 }: {
   value: string;
   copied: boolean;
   pressed: boolean;
+  disabled: boolean;
 }) => {
-  const styles = useStyles({ pressed });
+  const styles = useStyles({ pressed, disabled });
   const Icon = copied ? Check : Copy;
 
   return (
     <View style={styles.container}>
       <Text style={styles.value}>{value}</Text>
       <View style={styles.iconWrapper}>
-        <Icon size={16} />
+        <Icon size={16} style={styles.icon} />
       </View>
     </View>
   );
