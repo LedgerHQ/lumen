@@ -172,7 +172,10 @@ function isRequiredPeer(surface: ApiSurface, peer: string): boolean {
   return peer in surface.peers && !surface.optionalPeers.includes(peer);
 }
 
-/** How one peer of `after` changed: newly required, or its range dropped versions. */
+/**
+ * How one peer of `after` changed: newly required, or its range dropped
+ * versions. Lumen's own pins move every release, so only their requiredness counts.
+ */
 function peerChange(
   before: ApiSurface,
   after: ApiSurface,
@@ -183,16 +186,18 @@ function peerChange(
   if (isRequiredPeer(after, peer) && !isRequiredPeer(before, peer)) {
     return [toChange('required', 'dependency', peer, range)];
   }
-  return previous !== undefined && narrows(previous, range)
+  return previous !== undefined &&
+    !lumenPeer.test(peer) &&
+    narrows(previous, range)
     ? [toChange('changed', 'dependency', peer, `${previous} → ${range}`)]
     : [];
 }
 
-/** Peer changes, Lumen's own excluded. */
+/** Changes of every peer of `after`. */
 function peerChanges(before: ApiSurface, after: ApiSurface): ApiChange[] {
-  return Object.entries(after.peers)
-    .filter(([peer]) => !lumenPeer.test(peer))
-    .flatMap(([peer, range]) => peerChange(before, after, peer, range));
+  return Object.entries(after.peers).flatMap(([peer, range]) =>
+    peerChange(before, after, peer, range),
+  );
 }
 
 /**

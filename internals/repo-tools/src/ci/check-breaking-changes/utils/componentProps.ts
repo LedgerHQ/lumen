@@ -8,9 +8,6 @@ import {
 export type PropInfo = { optional: boolean; values: string[] | null };
 export type Props = Record<string, PropInfo>;
 
-/** A prop inherited from React or the DOM: only its presence can break. */
-const inherited: PropInfo = { optional: true, values: null };
-
 /** Whether a prop is optional, and the literal values it accepts. */
 function propInfo(checker: ts.TypeChecker, prop: ts.Symbol): PropInfo {
   return {
@@ -21,19 +18,12 @@ function propInfo(checker: ts.TypeChecker, prop: ts.Symbol): PropInfo {
   };
 }
 
-/** Props of one object type, detailed only for those `isOwn` accepts. */
-function memberProps(
-  checker: ts.TypeChecker,
-  member: ts.Type,
-  isOwn: (symbol: ts.Symbol) => boolean,
-): Props {
+/** Props of one object type, inherited ones included. */
+function memberProps(checker: ts.TypeChecker, member: ts.Type): Props {
   return Object.fromEntries(
     checker
       .getPropertiesOfType(member)
-      .map((prop) => [
-        prop.name,
-        isOwn(prop) ? propInfo(checker, prop) : inherited,
-      ]),
+      .map((prop) => [prop.name, propInfo(checker, prop)]),
   );
 }
 
@@ -63,17 +53,15 @@ function mergeUnionProps(members: Props[]): Props {
   );
 }
 
-/** Props of a component type, or `undefined` when it takes none. */
+/** Props of a component type (none for `Button()`), or `undefined` when it isn't callable. */
 export function componentProps(
   checker: ts.TypeChecker,
   type: ts.Type,
-  isOwn: (symbol: ts.Symbol) => boolean,
 ): Props | undefined {
+  if (type.getCallSignatures().length === 0) return undefined;
   const propsType = firstParameterType(checker, type);
-  if (propsType === undefined) return undefined;
+  if (propsType === undefined) return {};
   return mergeUnionProps(
-    unionMembers(propsType).map((member) =>
-      memberProps(checker, member, isOwn),
-    ),
+    unionMembers(propsType).map((member) => memberProps(checker, member)),
   );
 }

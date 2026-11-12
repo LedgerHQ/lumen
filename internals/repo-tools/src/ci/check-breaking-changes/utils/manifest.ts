@@ -60,7 +60,7 @@ function wildcardSubpaths(root: string, key: string, target: string): string[] {
   return filesUnder(base)
     .filter((path) => path.endsWith(suffix))
     .map((path) =>
-      key.replace(
+      key.replaceAll(
         '*',
         path.slice(base.length + 1, path.length - suffix.length),
       ),

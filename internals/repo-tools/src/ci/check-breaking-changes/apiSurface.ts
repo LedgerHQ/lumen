@@ -1,5 +1,4 @@
 import { existsSync } from 'node:fs';
-import { resolve, sep } from 'node:path';
 import ts from 'typescript';
 import { componentProps, type Props } from './utils/componentProps.ts';
 import { cssTokens } from './utils/cssTokens.ts';
@@ -50,15 +49,6 @@ function compile(files: string[]): ts.Program {
   });
 }
 
-/** Whether a symbol is declared in the package, not inherited from React or the DOM. */
-function declaredUnder(root: string): (symbol: ts.Symbol) => boolean {
-  const base = resolve(root) + sep;
-  return (symbol) =>
-    symbol.declarations?.some((declaration) =>
-      resolve(declaration.getSourceFile().fileName).startsWith(base),
-    ) ?? false;
-}
-
 /** The symbols a `.d.ts` file exports. */
 function moduleExports(program: ts.Program, file: string): ts.Symbol[] {
   const checker = program.getTypeChecker();
@@ -78,30 +68,21 @@ function valueShape(
   checker: ts.TypeChecker,
   name: string,
   symbol: ts.Symbol,
-  isOwn: (symbol: ts.Symbol) => boolean,
 ): Shape {
   const type = checker.getTypeOfSymbol(symbol);
-  const props = /^[A-Z]/.test(name)
-    ? componentProps(checker, type, isOwn)
-    : undefined;
+  const props = /^[A-Z]/.test(name) ? componentProps(checker, type) : undefined;
   if (props !== undefined) return { props };
-  if (!isPlainObject(type)) return {};
-  const paths = objectPaths(checker, type);
-  return paths.length > 0 ? { paths } : {};
+  return isPlainObject(type) ? { paths: objectPaths(checker, type) } : {};
 }
 
 /** What an export exposes, through re-exports: a value's shape or a type's values. */
-function shapeOf(
-  checker: ts.TypeChecker,
-  exported: ts.Symbol,
-  isOwn: (symbol: ts.Symbol) => boolean,
-): Shape {
+function shapeOf(checker: ts.TypeChecker, exported: ts.Symbol): Shape {
   const symbol =
     exported.flags & ts.SymbolFlags.Alias
       ? checker.getAliasedSymbol(exported)
       : exported;
   if (symbol.flags & ts.SymbolFlags.Value) {
-    return valueShape(checker, exported.name, symbol, isOwn);
+    return valueShape(checker, exported.name, symbol);
   }
   return symbol.flags & ts.SymbolFlags.TypeAlias
     ? typeShape(checker, symbol)
@@ -115,13 +96,12 @@ function readExports(root: string): Record<string, Exported[]> {
   );
   const program = compile(entries.map(([, file]) => file));
   const checker = program.getTypeChecker();
-  const isOwn = declaredUnder(root);
   return Object.fromEntries(
     entries.map(([entry, file]) => [
       entry,
       moduleExports(program, file).map((symbol) => ({
         name: symbol.name,
-        shape: shapeOf(checker, symbol, isOwn),
+        shape: shapeOf(checker, symbol),
       })),
     ]),
   );

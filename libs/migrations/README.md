@@ -48,7 +48,8 @@ pr: 716 # optional: the PR that shipped the update, when this file lands later
 ## Verify
 ````
 
-A `ref` is an address: `module#Export.member=value`, cut at the surface's
+A `ref` is an address: `module#Export.member=value` (`module#Type=value` for a
+type's value), cut at the surface's
 depth. A token is `module#token`, a dependency its package name. `*` matches
 any text, so one ref can cover a family (`#themes.*.bg.error`).
 

@@ -15,10 +15,11 @@ function literalValue(type: ts.Type): string | undefined {
 }
 
 /**
- * The string and number literals a type accepts, or `null` when it also
- * accepts anything wider. Boolean literals are left out.
+ * The string and number literals a type accepts (none for `never`), or `null`
+ * when it also accepts anything wider. Boolean literals are left out.
  */
 export function literalValues(type: ts.Type): string[] | null {
+  if (type.flags & ts.TypeFlags.Never) return [];
   const members = unionMembers(type).filter(
     (member) => !(member.flags & ts.TypeFlags.BooleanLiteral),
   );

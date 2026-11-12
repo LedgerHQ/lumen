@@ -66,6 +66,9 @@ export declare function cn(...inputs: string[]): string;
 export type OnlyAType = string;
 export type Size = 'sm' | 'md' | 'lg';
 export declare function Pager(props: { density?: Density }): unknown;
+export declare function Divider(): unknown;
+export declare const emptyMap: {};
+export type Nothing = never;
 export {};
 `,
   );
@@ -87,21 +90,24 @@ describe('readSurface', () => {
       '.': [
         'Button',
         'ButtonProps',
+        'Divider',
         'Link',
+        'Nothing',
         'OnlyAType',
         'Pager',
         'Size',
         'Spot',
         'SpotProps',
         'cn',
+        'emptyMap',
         'sizeMap',
       ],
     });
   });
 
-  it('reads component props, detailing only those the package declares', () => {
+  it('reads component props with their literal values, inherited ones included', () => {
     expect(readSurface(root).props['.#Button']).toEqual({
-      dir: { optional: true, values: null },
+      dir: { optional: true, values: ['ltr', 'rtl'] },
       className: { optional: true, values: null },
       size: { optional: true, values: ['md', 'sm'] },
       label: { optional: false, values: null },
@@ -123,7 +129,14 @@ describe('readSurface', () => {
   });
 
   it('reads the literal values of exported type aliases', () => {
-    expect(readSurface(root).types).toEqual({ '.#Size': ['lg', 'md', 'sm'] });
+    expect(readSurface(root).types).toEqual({
+      '.#Nothing': [],
+      '.#Size': ['lg', 'md', 'sm'],
+    });
+  });
+
+  it('reads a component without props as having none', () => {
+    expect(readSurface(root).props['.#Divider']).toEqual({});
   });
 
   it('merges discriminated props: optional unless every member has them', () => {
@@ -137,7 +150,10 @@ describe('readSurface', () => {
   it('lists the leaf paths of exported objects, not functions', () => {
     const { paths } = readSurface(root);
 
-    expect(paths).toEqual({ '.#sizeMap': ['md.icon', 'sm.icon'] });
+    expect(paths).toEqual({
+      '.#emptyMap': [],
+      '.#sizeMap': ['md.icon', 'sm.icon'],
+    });
   });
 
   it('reads served files, CSS tokens and peers', () => {

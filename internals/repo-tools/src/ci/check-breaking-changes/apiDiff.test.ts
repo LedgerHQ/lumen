@@ -232,4 +232,38 @@ describe('diffSurfaces', () => {
       },
     ]);
   });
+
+  it('reports a newly required Lumen peer, not its pin moving', () => {
+    const before = surface({
+      peers: { '@ledgerhq/lumen-utils-shared': '0.1.1' },
+    });
+    const after = surface({
+      peers: {
+        '@ledgerhq/lumen-utils-shared': '0.1.2',
+        '@ledgerhq/lumen-design-core': '0.1.5',
+      },
+    });
+
+    expect(diffSurfaces(name, before, after)).toEqual([
+      {
+        change: 'required',
+        surface: 'dependency',
+        ref: '@ledgerhq/lumen-design-core',
+        detail: '0.1.5',
+      },
+    ]);
+  });
+
+  it('reports the last path removed from an exported object', () => {
+    const before = surface({ paths: { '.#sizeMap': ['sm.icon'] } });
+    const after = surface({ paths: { '.#sizeMap': [] } });
+
+    expect(diffSurfaces(name, before, after)).toEqual([
+      {
+        change: 'removed',
+        surface: 'token',
+        ref: '@ledgerhq/lumen-ui-react#sizeMap.sm.icon',
+      },
+    ]);
+  });
 });
