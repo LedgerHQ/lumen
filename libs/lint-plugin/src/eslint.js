@@ -36,9 +36,13 @@ export {
 } from './rules.js';
 
 export const configs = {
-  recommended: toConfig('recommended'),
-  strict: toConfig('strict'),
-  'react-native-strict': toConfig('react-native-strict'),
+  react: {
+    recommended: toConfig('recommended'),
+    strict: toConfig('strict'),
+  },
+  reactnative: {
+    strict: toConfig('react-native-strict'),
+  },
 };
 
 // eslint-disable-next-line import/no-default-export

@@ -154,7 +154,7 @@ const defineTokenRulesExemptions = () =>
  * @returns {Linter.Config}
  */
 export const defineLumenReactNativeRules = (ignores) => {
-  const { plugins, rules } = lumen.configs['react-native-strict'];
+  const { plugins, rules } = lumen.configs.reactnative.strict;
   return defineProdRules({
     name: 'lumen-react-native-rules',
     plugins,
@@ -170,7 +170,7 @@ export const defineLumenReactNativeRules = (ignores) => {
  * @returns {Linter.Config[]}
  */
 export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
-  lumen.configs.strict,
+  lumen.configs.react.strict,
   {
     name: 'lumen-react-rules',
     files: tsJsFilePatterns,

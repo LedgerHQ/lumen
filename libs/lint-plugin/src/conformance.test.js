@@ -160,7 +160,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
   it('recommended: the core only', async () => {
     const [eslint, json] = await Promise.all([
-      lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.react.recommended, tailwindSettings]),
       lintWithOxlint(oxlintrc('recommended.json'), page),
     ]);
 
@@ -177,8 +177,8 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
   it('strict: a few more rules, and class-merging imports raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
-      lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
-      lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.react.recommended, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.react.strict, tailwindSettings]),
       lintWithOxlint(fixture('oxlint.config.ts'), page),
       lintWithOxlint(oxlintrc('strict.json'), page),
     ]);
@@ -217,7 +217,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     };
     const [eslint, json] = await Promise.all([
       lintWithEslint(page, [
-        lumen.configs.recommended,
+        lumen.configs.react.recommended,
         tailwindSettings,
         { rules },
       ]),
@@ -241,7 +241,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     };
     const [eslint, json] = await Promise.all([
       lintWithEslint(page, [
-        lumen.configs.recommended,
+        lumen.configs.react.recommended,
         tailwindSettings,
         { rules },
       ]),
@@ -255,7 +255,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
   it('react-native-strict: start/end style keys, without Tailwind', async () => {
     const styles = fixture('src/styles.native.tsx');
     const [eslint, oxlint, json] = await Promise.all([
-      lintWithEslint(styles, [lumen.configs['react-native-strict']]),
+      lintWithEslint(styles, [lumen.configs.reactnative.strict]),
       lintWithOxlint(fixture('oxlint.native.config.ts'), styles),
       lintWithOxlint(oxlintrc('react-native-strict.json'), styles),
     ]);
@@ -276,7 +276,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
       lintWithEslint(
         dir,
         [
-          { ...lumen.configs.strict, files: ['**/*.web.{ts,tsx}'] },
+          { ...lumen.configs.react.strict, files: ['**/*.web.{ts,tsx}'] },
           tailwindSettings,
         ],
         options,

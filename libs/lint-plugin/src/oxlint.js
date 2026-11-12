@@ -26,13 +26,17 @@ export {
 // No `settings`: oxlint ignores those of an extended config, so each app sets
 // `settings["better-tailwindcss"].entryPoint` in its own config.
 export const configs = {
-  recommended: toOxlintConfig('recommended', {
-    resolvePlugin: resolvePluginFile,
-  }),
-  strict: toOxlintConfig('strict', { resolvePlugin: resolvePluginFile }),
-  'react-native-strict': toOxlintConfig('react-native-strict', {
-    resolvePlugin: resolvePluginFile,
-  }),
+  react: {
+    recommended: toOxlintConfig('recommended', {
+      resolvePlugin: resolvePluginFile,
+    }),
+    strict: toOxlintConfig('strict', { resolvePlugin: resolvePluginFile }),
+  },
+  reactnative: {
+    strict: toOxlintConfig('react-native-strict', {
+      resolvePlugin: resolvePluginFile,
+    }),
+  },
 };
 
 // eslint-disable-next-line import/no-default-export

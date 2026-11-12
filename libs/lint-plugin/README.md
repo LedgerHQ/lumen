@@ -15,7 +15,7 @@ You also need `eslint` or `oxlint`, and `tailwindcss` v4 for the web presets.
 
 ## Usage
 
-`recommended` and `strict` are for web apps. `react-native-strict` is for React Native apps and needs no Tailwind `settings`.
+`react.recommended` and `react.strict` are for web apps. `reactnative.strict` is for React Native apps and needs no Tailwind `settings`.
 
 Pick a preset, then set your Tailwind CSS entry (the file with `@import 'tailwindcss'`).
 Without it, every Lumen class is reported as unknown.
@@ -33,7 +33,7 @@ import tseslint from 'typescript-eslint';
 
 export default [
   ...tseslint.configs.recommended, // any TypeScript parser setup works
-  lumen.configs.recommended, // or lumen.configs.strict, or lumen.configs['react-native-strict']
+  lumen.configs.react.recommended, // or lumen.configs.react.strict, or lumen.configs.reactnative.strict
   { settings: { 'better-tailwindcss': { entryPoint: 'src/global.css' } } },
 ];
 ```
@@ -54,7 +54,7 @@ import { defineConfig } from 'oxlint';
 import lumen from '@ledgerhq/lumen-lint-plugin/oxlint';
 
 export default defineConfig({
-  extends: [lumen.configs.recommended],
+  extends: [lumen.configs.react.recommended],
   settings: { 'better-tailwindcss': { entryPoint: 'src/global.css' } },
 });
 ```
@@ -116,12 +116,12 @@ The presets are plain config objects.
 
   ```js
   // ESLint
-  { ...lumen.configs.strict, files: ['src/**/*.web.tsx'] }
+  { ...lumen.configs.react.strict, files: ['src/**/*.web.tsx'] }
   ```
 
   ```ts
   // oxlint.config.ts (`.oxlintrc.json` cannot scope an extended preset)
-  const { jsPlugins, rules } = lumen.configs.strict;
+  const { jsPlugins, rules } = lumen.configs.react.strict;
 
   export default defineConfig({
     jsPlugins,

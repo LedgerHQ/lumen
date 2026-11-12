@@ -19,7 +19,8 @@ import {
   RULES,
 } from './rules.js';
 
-/** @import { ESLint } from 'eslint' */
+/** @import { ESLint, Linter } from 'eslint' */
+/** @import { OxlintConfig } from 'oxlint' */
 /** @import { PresetName } from './rules.js' */
 
 /** @param {Record<string, unknown>} rules */
@@ -117,18 +118,21 @@ describe('presets', () => {
   });
 });
 
-/** @type {[PresetName, string[]][]} */
+/** @type {[PresetName, 'react' | 'reactnative', 'recommended' | 'strict', string[]][]} */
 const PRESET_PLUGINS = [
-  ['recommended', ['better-tailwindcss', 'shadcn']],
-  ['strict', ['better-tailwindcss', 'shadcn']],
-  ['react-native-strict', ['lumen']],
+  ['recommended', 'react', 'recommended', ['better-tailwindcss', 'shadcn']],
+  ['strict', 'react', 'strict', ['better-tailwindcss', 'shadcn']],
+  ['react-native-strict', 'reactnative', 'strict', ['lumen']],
 ];
 
 describe('ESLint entry', () => {
   it.each(PRESET_PLUGINS)(
     'registers the %s plugins with its rules and no settings',
-    (name, plugins) => {
-      const config = eslint.configs[name];
+    (name, platform, level, plugins) => {
+      const config =
+        /** @type {Record<string, Record<string, Linter.Config>>} */ (
+          eslint.configs
+        )[platform][level];
       expect(Object.keys(config.plugins ?? {})).toEqual(plugins);
       expect(config.rules).toEqual(RULES[name]);
       expect(config.files).toEqual(['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}']);
@@ -140,8 +144,11 @@ describe('ESLint entry', () => {
 describe('oxlint entry', () => {
   it.each(PRESET_PLUGINS)(
     'loads the %s plugins from absolute paths with its rules',
-    (name, plugins) => {
-      const config = oxlint.configs[name];
+    (name, platform, level, plugins) => {
+      const config =
+        /** @type {Record<string, Record<string, OxlintConfig>>} */ (
+          oxlint.configs
+        )[platform][level];
       expect(
         config.jsPlugins?.map((p) => typeof p !== 'string' && p.name),
       ).toEqual(plugins);
