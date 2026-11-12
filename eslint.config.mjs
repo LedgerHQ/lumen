@@ -67,11 +67,16 @@ export const sharedConfig = defineConfig(
               onlyDependOnLibsWithTags: ['type:utils', 'type:tokens'],
             },
             {
+              sourceTag: 'type:assets',
+              onlyDependOnLibsWithTags: ['type:assets'],
+            },
+            {
               sourceTag: 'scope:react-native',
               onlyDependOnLibsWithTags: [
                 'scope:react-native',
                 'type:utils',
                 'type:tokens',
+                'type:assets',
               ],
               notDependOnLibsWithTags: ['scope:internal'],
             },
@@ -81,6 +86,7 @@ export const sharedConfig = defineConfig(
                 'scope:react',
                 'type:utils',
                 'type:tokens',
+                'type:assets',
               ],
               notDependOnLibsWithTags: ['scope:internal'],
             },
