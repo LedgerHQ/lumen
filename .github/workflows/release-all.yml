@@ -1,5 +1,8 @@
 name: Release All
 
+# Lets `lumen-upgrade.yml` tell a dry run apart: `workflow_run` carries no inputs.
+run-name: Release All${{ inputs.dry-run && ' (dry-run)' || '' }}
+
 concurrency:
   group: release-all-${{ github.ref }}
   cancel-in-progress: false # release action, we shouldn't cancel in-progress actions.
