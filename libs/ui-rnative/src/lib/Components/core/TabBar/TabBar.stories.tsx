@@ -167,6 +167,51 @@ export const DensityShowcase: Story = {
   },
 };
 
+export const WithDensityTransition: Story = {
+  args: {} as React.ComponentProps<typeof TabBar>,
+  render: () => {
+    const [active, setActive] = useState('home');
+    const [density, setDensity] = useState<'expanded' | 'compact'>('expanded');
+
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setDensity((current) =>
+          current === 'expanded' ? 'compact' : 'expanded',
+        );
+      }, 3000);
+      return () => clearInterval(interval);
+    }, []);
+
+    return (
+      <TabBar
+        density={density}
+        active={active}
+        onTabPress={setActive}
+        lx={{ width: 's320' }}
+      >
+        <TabBarItem
+          value='home'
+          label='Home'
+          icon={Home}
+          activeIcon={HomeFill}
+        />
+        <TabBarItem
+          value='pay'
+          label='Pay'
+          icon={CreditCard}
+          activeIcon={CreditCardFill}
+        />
+        <TabBarItem
+          value='help'
+          label='Help'
+          icon={LifeRing}
+          activeIcon={LifeRingFill}
+        />
+      </TabBar>
+    );
+  },
+};
+
 export const MissingLabel: Story = {
   args: {} as React.ComponentProps<typeof TabBar>,
   render: () => {
