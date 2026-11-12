@@ -178,7 +178,7 @@ export const WithDensityTransition: Story = {
         setDensity((current) =>
           current === 'expanded' ? 'compact' : 'expanded',
         );
-      }, 3000);
+      }, 2000);
       return () => clearInterval(interval);
     }, []);
 
