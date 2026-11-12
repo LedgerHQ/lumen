@@ -1,0 +1,4 @@
+{
+  "jsPlugins": [{ "name": "lumen", "specifier": "../src/plugins/lumen.js" }],
+  "rules": { "lumen/enforce-logical-properties": "error" }
+}

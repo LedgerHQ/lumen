@@ -2,6 +2,7 @@ import reactNativeA11y from 'eslint-plugin-react-native-a11y';
 import { prodConfig } from '../../eslint.config.mjs';
 import {
   defineDependencyChecks,
+  defineLumenReactNativeRules,
   defineProdRules,
 } from '../../eslint.shared.mjs';
 
@@ -21,33 +22,10 @@ export default [
       'react-native-a11y/has-accessibility-hint': 'off',
     },
   }),
-  defineProdRules({
-    name: 'react-native-logical-properties',
-    ignores: ['src/styles/**', 'src/lib/Components/visualization/**'],
-    rules: {
-      'no-restricted-syntax': [
-        'error',
-        {
-          selector:
-            'Property > Identifier.key[name=/^(margin|padding)(Left|Right)$|^border(Left|Right)(Width|Color)$|^border(Top|Bottom)(Left|Right)Radius$/]',
-          message:
-            'Use the logical key (marginStart, paddingEnd, borderStartWidth, borderTopStartRadius…) so the layout mirrors in right-to-left locales.',
-        },
-        {
-          selector:
-            "ObjectExpression:not(:has(> Property[key.name='right'])) > Property > Identifier.key[name='left']",
-          message:
-            'Use `start` so the element sits on the leading side in right-to-left locales.',
-        },
-        {
-          selector:
-            "ObjectExpression:not(:has(> Property[key.name='left'])) > Property > Identifier.key[name='right']",
-          message:
-            'Use `end` so the element sits on the trailing side in right-to-left locales.',
-        },
-      ],
-    },
-  }),
+  defineLumenReactNativeRules([
+    'src/styles/**',
+    'src/lib/Components/visualization/**',
+  ]),
   defineDependencyChecks({
     ignoredFiles: [
       // SVGR template read by `internals/sync-figma` codegen, never imported.

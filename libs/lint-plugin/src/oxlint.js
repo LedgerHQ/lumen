@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 
 import { toOxlintConfig } from './oxlint-config.js';
 
-/** @import { PluginName } from './oxlint-config.js' */
+/** @import { PluginName } from './rules.js' */
 
 /**
  * oxlint resolves a bare plugin specifier from the *consumer's* config
@@ -30,6 +30,9 @@ export const configs = {
     resolvePlugin: resolvePluginFile,
   }),
   strict: toOxlintConfig('strict', { resolvePlugin: resolvePluginFile }),
+  'react-native-strict': toOxlintConfig('react-native-strict', {
+    resolvePlugin: resolvePluginFile,
+  }),
 };
 
 // eslint-disable-next-line import/no-default-export

@@ -10,6 +10,7 @@ import { buildOxlintPresets } from '../scripts/generate-oxlint-json.js';
 
 import eslint from './eslint.js';
 import oxlint from './oxlint.js';
+import lumen from './plugins/lumen.js';
 import {
   LOGICAL_PROPERTIES_OPTIONS,
   NO_ARBITRARY_VALUES_OPTIONS,
@@ -17,6 +18,9 @@ import {
   NO_RESTRICTED_IMPORTS_OPTIONS,
   RULES,
 } from './rules.js';
+
+/** @import { ESLint } from 'eslint' */
+/** @import { PresetName } from './rules.js' */
 
 /** @param {Record<string, unknown>} rules */
 const levels = (rules) =>
@@ -57,7 +61,13 @@ describe('presets', () => {
     });
   });
 
-  it.each(['recommended', 'strict'])(
+  it("react-native-strict is Lumen's own logical-properties rule only", () => {
+    expect(levels(RULES['react-native-strict'])).toEqual({
+      'lumen/enforce-logical-properties': 'error',
+    });
+  });
+
+  it.each(['recommended', 'strict', 'react-native-strict'])(
     '%s only names rules the plugins or ESLint core really have',
     (preset) => {
       const known = [
@@ -65,11 +75,10 @@ describe('presets', () => {
           (rule) => `better-tailwindcss/${rule}`,
         ),
         ...Object.keys(shadcn.rules ?? {}).map((rule) => `shadcn/${rule}`),
+        ...Object.keys(lumen.rules ?? {}).map((rule) => `lumen/${rule}`),
         ...builtinRules.keys(),
       ];
-      for (const id of Object.keys(
-        RULES[/** @type {'recommended' | 'strict'} */ (preset)],
-      )) {
+      for (const id of Object.keys(RULES[/** @type {PresetName} */ (preset)])) {
         expect(known).toContain(id);
       }
     },
@@ -108,16 +117,19 @@ describe('presets', () => {
   });
 });
 
+/** @type {[PresetName, string[]][]} */
+const PRESET_PLUGINS = [
+  ['recommended', ['better-tailwindcss', 'shadcn']],
+  ['strict', ['better-tailwindcss', 'shadcn']],
+  ['react-native-strict', ['lumen']],
+];
+
 describe('ESLint entry', () => {
-  it.each(['recommended', 'strict'])(
-    'registers both plugins with the %s rules and no settings',
-    (preset) => {
-      const name = /** @type {'recommended' | 'strict'} */ (preset);
+  it.each(PRESET_PLUGINS)(
+    'registers the %s plugins with its rules and no settings',
+    (name, plugins) => {
       const config = eslint.configs[name];
-      expect(Object.keys(config.plugins ?? {})).toEqual([
-        'better-tailwindcss',
-        'shadcn',
-      ]);
+      expect(Object.keys(config.plugins ?? {})).toEqual(plugins);
       expect(config.rules).toEqual(RULES[name]);
       expect(config.files).toEqual(['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}']);
       expect(config).not.toHaveProperty('settings');
@@ -126,14 +138,13 @@ describe('ESLint entry', () => {
 });
 
 describe('oxlint entry', () => {
-  it.each(['recommended', 'strict'])(
-    'loads both plugins from absolute paths with the %s rules',
-    (preset) => {
-      const name = /** @type {'recommended' | 'strict'} */ (preset);
+  it.each(PRESET_PLUGINS)(
+    'loads the %s plugins from absolute paths with its rules',
+    (name, plugins) => {
       const config = oxlint.configs[name];
       expect(
         config.jsPlugins?.map((p) => typeof p !== 'string' && p.name),
-      ).toEqual(['better-tailwindcss', 'shadcn']);
+      ).toEqual(plugins);
       for (const plugin of config.jsPlugins ?? []) {
         const specifier =
           typeof plugin === 'string' ? plugin : plugin.specifier;
@@ -193,55 +204,47 @@ describe('README rules table', () => {
     ['⚠️', 'warn'],
     ['', 'off'],
   ]);
-  const PLUGINS = /** @type {const} */ ([
-    ['better-tailwindcss', betterTailwindcss],
-    ['shadcn', shadcn],
-  ]);
+  /** @type {[string, ESLint.Plugin, PresetName[]][]} */
+  const PLUGINS = [
+    ['better-tailwindcss', betterTailwindcss, ['recommended', 'strict']],
+    ['shadcn', shadcn, ['recommended', 'strict']],
+    ['lumen', lumen, ['react-native-strict']],
+  ];
   const rows = new Map(
     [
       ...readFileSync(
         new URL('../README.md', import.meta.url),
         'utf8',
-      ).matchAll(
-        /^\| \[`([^`]+)`\]\((\S+)\)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|/gm,
-      ),
-    ].map(([, rule, url, recommended, strict, fix]) => {
-      const plugin = url.includes('shadcn') ? 'shadcn' : 'better-tailwindcss';
-      return [
-        `${plugin}/${rule}`,
-        {
-          url,
-          recommended: ICONS.get(recommended.trim()),
-          strict: ICONS.get(strict.trim()),
-          fixable: fix.trim() === '🔧',
-        },
-      ];
-    }),
+      ).matchAll(/^\| \[`([^`]+)`\]\((\S+)\)\s*\|(.*)\|\s*$/gm),
+    ].map(([, rule, url, rest]) => [
+      url,
+      { rule, cells: rest.split('|').map((cell) => cell.trim()) },
+    ]),
   );
-  const allRules = PLUGINS.flatMap(([plugin, { rules = {} }]) =>
-    Object.entries(rules).map(([rule, { meta }]) => ({
+  const allRules = PLUGINS.flatMap(([plugin, { rules = {} }, presets]) =>
+    Object.entries(rules).map(([rule, module]) => ({
       id: `${plugin}/${rule}`,
-      meta,
+      rule,
+      meta: typeof module === 'function' ? undefined : module.meta,
+      presets,
     })),
   );
 
-  it('lists every rule of both plugins, and nothing else', () => {
+  it('lists every rule of the plugins, and nothing else', () => {
     expect([...rows.keys()].sort()).toEqual(
-      allRules.map(({ id }) => id).sort(),
+      allRules.map(({ meta }) => meta?.docs?.url).sort(),
     );
   });
 
   it.each(allRules)(
-    '$id: docs link, levels and fixable match',
-    ({ id, meta }) => {
-      /** @param {Record<string, unknown>} rules */
-      const levelOf = (rules) => levels(rules)[id] ?? 'off';
-      expect(rows.get(id)).toEqual({
-        url: meta?.docs?.url,
-        recommended: levelOf(RULES.recommended),
-        strict: levelOf(RULES.strict),
-        fixable: Boolean(meta?.fixable),
-      });
+    '$id: name, levels and fixable match',
+    ({ id, rule, meta, presets }) => {
+      const row = rows.get(meta?.docs?.url ?? '');
+      expect(row?.rule).toBe(rule);
+      expect(presets.map((_, i) => ICONS.get(row?.cells[i] ?? ''))).toEqual(
+        presets.map((preset) => levels(RULES[preset])[id] ?? 'off'),
+      );
+      expect(row?.cells[presets.length] === '🔧').toBe(Boolean(meta?.fixable));
     },
   );
 });

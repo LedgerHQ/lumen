@@ -26,7 +26,7 @@ const oxlintBin = join(
   'bin',
   'oxlint',
 );
-const OUR_PLUGINS = new Set(['better-tailwindcss', 'shadcn']);
+const OUR_PLUGINS = new Set(['better-tailwindcss', 'shadcn', 'lumen']);
 const OUR_CORE_RULES = new Set(['no-restricted-imports']);
 
 /** @param {string} name */
@@ -250,6 +250,23 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
     expect(json).toEqual(eslint);
     expect(eslint).toContain('no-restricted-imports:3:error');
+  });
+
+  it('react-native-strict: start/end style keys, without Tailwind', async () => {
+    const styles = fixture('src/styles.native.tsx');
+    const [eslint, oxlint, json] = await Promise.all([
+      lintWithEslint(styles, [lumen.configs['react-native-strict']]),
+      lintWithOxlint(fixture('oxlint.native.config.ts'), styles),
+      lintWithOxlint(oxlintrc('react-native-strict.json'), styles),
+    ]);
+
+    expect(oxlint).toEqual(eslint);
+    expect(json).toEqual(eslint);
+    expect(eslint).toEqual([
+      'lumen/enforce-logical-properties:2:error',
+      'lumen/enforce-logical-properties:3:error',
+      'lumen/enforce-logical-properties:5:error',
+    ]);
   });
 
   it('a consumer scopes a preset to some files with its own glob', async () => {

@@ -1,8 +1,7 @@
 # @ledgerhq/lumen-lint-plugin
 
 [better-tailwindcss](https://github.com/schoero/eslint-plugin-better-tailwindcss) and
-[`@shadcn/lint`](https://github.com/shadcn-ui/lint), preconfigured for apps built with Lumen.
-Same presets for ESLint and oxlint.
+[`@shadcn/lint`](https://github.com/shadcn-ui/lint), preconfigured for apps built with Lumen, plus a React Native preset. Same presets for ESLint and oxlint.
 
 > The oxlint side is experimental: oxlint's JS plugin API is still alpha.
 
@@ -12,9 +11,11 @@ Same presets for ESLint and oxlint.
 npm install -D @ledgerhq/lumen-lint-plugin
 ```
 
-You also need `eslint` or `oxlint`, and `tailwindcss` v4.
+You also need `eslint` or `oxlint`, and `tailwindcss` v4 for the web presets.
 
 ## Usage
+
+`recommended` and `strict` are for web apps. `react-native-strict` is for React Native apps and needs no Tailwind `settings`.
 
 Pick a preset, then set your Tailwind CSS entry (the file with `@import 'tailwindcss'`).
 Without it, every Lumen class is reported as unknown.
@@ -32,7 +33,7 @@ import tseslint from 'typescript-eslint';
 
 export default [
   ...tseslint.configs.recommended, // any TypeScript parser setup works
-  lumen.configs.recommended, // or lumen.configs.strict
+  lumen.configs.recommended, // or lumen.configs.strict, or lumen.configs['react-native-strict']
   { settings: { 'better-tailwindcss': { entryPoint: 'src/global.css' } } },
 ];
 ```
@@ -98,6 +99,12 @@ export default defineConfig({
 | Rule                                                                                         | Recommended | Strict | 🔧  | Flags                                                                                  |
 | -------------------------------------------------------------------------------------------- | :---------: | :----: | :-: | -------------------------------------------------------------------------------------- |
 | `no-restricted-imports` ([docs](https://eslint.org/docs/latest/rules/no-restricted-imports)) |     ⚠️      |   ✅   |     | `tailwind-merge`, `clsx`, `classnames`: use `cn` from `@ledgerhq/lumen-design-core/cn` |
+
+### React Native
+
+| Rule                                                                                                                | RN strict | 🔧  | Flags                                                                      |
+| ------------------------------------------------------------------------------------------------------------------- | :-------: | :-: | -------------------------------------------------------------------------- |
+| [`enforce-logical-properties`](https://github.com/LedgerHQ/lumen/blob/main/libs/lint-plugin/README.md#react-native) |    ✅     | 🔧  | `marginLeft`, `borderTopRightRadius`, a lone `left`/`right`: use start/end |
 
 ## Customize
 

@@ -94,7 +94,15 @@ export const NO_RESTRICTED_CLASSES_OPTIONS = deepFreeze({
   ],
 });
 
-/** @typedef {'recommended' | 'strict'} PresetName */
+/** @typedef {'recommended' | 'strict' | 'react-native-strict'} PresetName */
+/** @typedef {'better-tailwindcss' | 'shadcn' | 'lumen'} PluginName */
+
+/** @type {Record<PresetName, PluginName[]>} */
+export const PLUGINS = {
+  recommended: ['better-tailwindcss', 'shadcn'],
+  strict: ['better-tailwindcss', 'shadcn'],
+  'react-native-strict': ['lumen'],
+};
 
 /** @type {Record<PresetName, Record<string, unknown>>} */
 export const RULES = {
@@ -126,5 +134,8 @@ export const RULES = {
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
+  },
+  'react-native-strict': {
+    'lumen/enforce-logical-properties': 'error',
   },
 };

@@ -49,17 +49,17 @@ Derive the touched libs from the changed paths (`git diff origin/main...HEAD
 The concrete, diff-verifiable violations for each topic live in that topic
 skill's `## Review checks` table — this skill does **not** restate them:
 
-| Topic | Skill (see its `## Review checks`) |
-| --- | --- |
-| API design & composition (props, compound, controlled state, parity) | `component-architecture` |
-| Styling (Tailwind vs `useStyleSheet`) | `component-styling` |
-| Tests (Vitest vs Jest) | `component-testing` |
-| File/folder layout & required files | `component-anatomy` |
-| Stories | `component-stories` |
-| MDX docs | `component-mdx` |
-| Code Connect | `code-connect` |
-| Dependencies (any `package.json`, `.syncpackrc.json`) | `dependency-management` |
-| Version plan | `release-plan` (scored below) |
+| Topic                                                                | Skill (see its `## Review checks`) |
+| -------------------------------------------------------------------- | ---------------------------------- |
+| API design & composition (props, compound, controlled state, parity) | `component-architecture`           |
+| Styling (Tailwind vs `useStyleSheet`)                                | `component-styling`                |
+| Tests (Vitest vs Jest)                                               | `component-testing`                |
+| File/folder layout & required files                                  | `component-anatomy`                |
+| Stories                                                              | `component-stories`                |
+| MDX docs                                                             | `component-mdx`                    |
+| Code Connect                                                         | `code-connect`                     |
+| Dependencies (any `package.json`, `.syncpackrc.json`)                | `dependency-management`            |
+| Version plan                                                         | `release-plan` (scored below)      |
 
 Rules:
 
@@ -69,8 +69,8 @@ Rules:
   prop names, defaults, and variant vocabulary should match across the two
   implementations unless there's a platform reason not to (`Parity`).
 - **Never apply Tailwind rules to an RN file or `useStyleSheet` rules to a web
-  file.** The token *vocabulary* is shared (`bg-muted` ↔ `t.colors.bg.muted`),
-  the *mechanism* is not.
+  file.** The token _vocabulary_ is shared (`bg-muted` ↔ `t.colors.bg.muted`),
+  the _mechanism_ is not.
 - **Chart / lib exceptions** are described once in each skill's Review checks (e.g. RN charts under
   `Components/visualization/` use `useTheme()` + flat stories, no `.mdx`/figma).
   Don't flag files a lib does not use.
@@ -107,7 +107,8 @@ spend findings on things a linter can't catch. Do **not** raise:
   `border-l`, `text-left` on web (`better-tailwindcss/enforce-logical-properties`),
   `left-*`/`right-*` on web (`better-tailwindcss/no-restricted-classes`),
   `marginLeft`, `paddingRight`, `borderTopLeftRadius` and a lone `left`/`right`
-  in RN style objects (`no-restricted-syntax` in `libs/ui-rnative`). Not linted:
+  in RN style objects (`lumen/enforce-logical-properties`, the lint plugin's
+  `react-native-strict` preset). Not linted:
   physical anchors paired with measured `x`/`translateX` (keep them physical,
   as SegmentedControl and Switch do), and directional icons that should mirror.
 
@@ -150,7 +151,7 @@ Apply these regardless of platform; platform specifics are in the references.
   empty arrays, error/loading states)?
 - Async: race conditions, cleanup on unmount, no unhandled rejections.
 - Nullable/optional values handled safely; user-facing error messages helpful.
-- Comments explain **intent** (the *why*), never restate the code — flag
+- Comments explain **intent** (the _why_), never restate the code — flag
   comments that just narrate mechanics, and complex logic left uncommented.
 
 ### Type safety
@@ -224,15 +225,16 @@ lib, marking each item pass/fail]
 
 ## Findings
 
-| # | Severity | Category | Finding | Location |
-|---|----------|----------|---------|----------|
-| 1 | 9/10 | Type Safety | Uses `any` for payload type | `libs/ui-react/src/lib/Components/core/Menu/types.ts:28` |
-| 2 | 7/10 | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:26` |
+| #   | Severity | Category    | Finding                                                    | Location                                                 |
+| --- | -------- | ----------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| 1   | 9/10     | Type Safety | Uses `any` for payload type                                | `libs/ui-react/src/lib/Components/core/Menu/types.ts:28` |
+| 2   | 7/10     | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:26` |
 
 ### Details
 
 **1. [Finding title]** — 9/10 Type Safety — `libs/ui-react/src/lib/Components/core/Menu/types.ts:28`
 [1-3 sentence description]
+
 > **Fix**: [concrete suggestion]
 ```
 

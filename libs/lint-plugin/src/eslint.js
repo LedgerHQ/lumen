@@ -1,14 +1,16 @@
 import { plugin as shadcn } from '@shadcn/lint';
 import betterTailwindcss from 'eslint-plugin-better-tailwindcss';
 
-import { RULES } from './rules.js';
+import lumen from './plugins/lumen.js';
+import { PLUGINS, RULES } from './rules.js';
 
 /** @import { ESLint, Linter } from 'eslint' */
-/** @import { PresetName } from './rules.js' */
+/** @import { PluginName, PresetName } from './rules.js' */
 
-const plugins = /** @type {Record<string, ESLint.Plugin>} */ ({
+const plugins = /** @type {Record<PluginName, ESLint.Plugin>} */ ({
   'better-tailwindcss': betterTailwindcss,
   shadcn,
+  lumen,
 });
 
 /**
@@ -19,7 +21,9 @@ const plugins = /** @type {Record<string, ESLint.Plugin>} */ ({
 const toConfig = (preset) => ({
   name: `lumen/${preset}`,
   files: ['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}'],
-  plugins,
+  plugins: Object.fromEntries(
+    PLUGINS[preset].map((name) => [name, plugins[name]]),
+  ),
   rules: /** @type {Linter.RulesRecord} */ (RULES[preset]),
 });
 
@@ -34,6 +38,7 @@ export {
 export const configs = {
   recommended: toConfig('recommended'),
   strict: toConfig('strict'),
+  'react-native-strict': toConfig('react-native-strict'),
 };
 
 // eslint-disable-next-line import/no-default-export
