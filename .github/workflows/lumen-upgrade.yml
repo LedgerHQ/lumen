@@ -3,6 +3,8 @@ name: Lumen Upgrade
 # Starts one Cairn run per eligible consumer repo (ADR 027).
 # Upstream repos run first, then the rest by priority. The matrix comes from
 # `adoption-tool:start-upgrades`; nothing here knows how to upgrade a repo.
+# Test phase: only `lumen-test-app` has `eligible: true` in consumers.json;
+# opt more repos in there to widen the rollout.
 
 concurrency:
   group: lumen-upgrade
@@ -26,9 +28,6 @@ on:
 
 env:
   NX_NO_CLOUD: true
-  # Test phase: only this repo is upgraded, without reading consumers.json.
-  # Set to '' to upgrade every eligible consumer from the registry.
-  TEST_REPO: 'LedgerHQ/lumen-test-app'
 
 permissions:
   contents: read
@@ -44,25 +43,19 @@ jobs:
       downstream: ${{ steps.matrix.outputs.downstream }}
     steps:
       - name: Checkout repository
-        if: env.TEST_REPO == ''
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
       - uses: ./.github/actions/setup
-        if: env.TEST_REPO == ''
         with:
           set-shas: 'false'
 
       - name: Build run matrix
         id: matrix
         run: |
-          if [ -n "$TEST_REPO" ]; then
-            echo 'upstream=[]' >> "$GITHUB_OUTPUT"
-            echo "downstream=[{\"name\":\"$TEST_REPO\",\"inputs\":\"{}\"}]" >> "$GITHUB_OUTPUT"
-          else
-            npx nx run adoption-tool:start-upgrades --out "$RUNNER_TEMP/matrix.json" > /dev/null
-            echo "upstream=$(jq -c .upstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
-            echo "downstream=$(jq -c .downstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
-          fi
+          npx nx run adoption-tool:start-upgrades --out "$RUNNER_TEMP/matrix.json" > /dev/null
+          jq . "$RUNNER_TEMP/matrix.json"
+          echo "upstream=$(jq -c .upstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
+          echo "downstream=$(jq -c .downstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
 
   upstream:
     name: Upstream ${{ matrix.repo.name }}

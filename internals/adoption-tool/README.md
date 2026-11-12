@@ -48,18 +48,18 @@ The report only reads `data/consumers.json`. It never uses live GitHub search,
 because search results change from run to run. You edit the registry by hand,
 in a PR.
 
-| Field              | Meaning                                                                                     |
-| ------------------ | ------------------------------------------------------------------------------------------- |
-| `repo`             | `LedgerHQ/name`                                                                             |
-| `status`           | `production` (shipped to users or partners) or `internal-tool` (used inside Ledger)         |
-| `priority`         | optional, `P1` (highest) to `P3`, for ordering migration and rollout work                   |
-| `packageJsonPath`  | package.json that declares the Lumen dependencies                                           |
-| `packageJsonPaths` | optional, per package, for monorepos where several workspaces declare it (worst one wins)   |
-| `notes`            | optional                                                                                    |
-| `eligible`         | optional, opts the repo in to the upgrade pipeline (default: off)                           |
-| `upstreamPackages` | optional, `{ package, repo }` per Lumen-based package it consumes; `repo` is upgraded first |
-| `pr`               | optional, `titlePrefix` (prepended to the default title) and `labels` for the upgrade PR    |
-| `changeset`        | optional, the repo's CI requires a changeset file                                           |
+| Field              | Meaning                                                                                                                       |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| `repo`             | `LedgerHQ/name`                                                                                                               |
+| `status`           | `production` (shipped to users or partners) or `internal-tool` (used inside Ledger)                                           |
+| `priority`         | optional, `P1` (highest) to `P3`, for ordering migration and rollout work                                                     |
+| `packageJsonPath`  | package.json that declares the Lumen dependencies                                                                             |
+| `packageJsonPaths` | optional, per package, for monorepos where several workspaces declare it (worst one wins)                                     |
+| `notes`            | optional                                                                                                                      |
+| `eligible`         | optional, opts the repo in to the upgrade pipeline (default: off)                                                             |
+| `upstreamPackages` | optional, `{ package, repo }` per Lumen-based package it consumes; `repo` is upgraded first, and cannot have upstreams itself |
+| `pr`               | optional, `titlePrefix` (prepended to the default title) and `labels` for the upgrade PR                                      |
+| `changeset`        | optional, the repo's CI requires a changeset file                                                                             |
 
 Prototypes, hackathon projects and experiments are not consumers. They go in
 `data/ignored-repos.json` with a `reason`, and `discover` stops reporting them.

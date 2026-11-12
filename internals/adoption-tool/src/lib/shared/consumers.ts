@@ -173,17 +173,29 @@ function validateEntry(entry: unknown): string[] {
   return errors;
 }
 
-/** Upstream repos must be registered and must not depend on themselves. */
+/**
+ * Upstream repos must be registered, distinct from the repo, and have no
+ * upstream of their own: the pipeline runs a single upstream tier, so a chain
+ * (or a cycle) would run in parallel instead of in order.
+ */
 function validateUpstreamRepos(entries: ConsumerEntry[]): string[] {
-  const repos = new Set(entries.map((entry) => entry.repo));
+  const byRepo = new Map(entries.map((entry) => [entry.repo, entry]));
   return entries.flatMap((entry) =>
     (entry.upstreamPackages ?? []).flatMap(({ repo }) => {
       if (repo === entry.repo) {
         return [`${entry.repo}: "upstreamPackages" cannot reference itself`];
       }
-      return repos.has(repo)
-        ? []
-        : [`${entry.repo}: upstream repo "${repo}" is not in the registry`];
+      const upstream = byRepo.get(repo);
+      if (!upstream) {
+        return [
+          `${entry.repo}: upstream repo "${repo}" is not in the registry`,
+        ];
+      }
+      return upstream.upstreamPackages?.length
+        ? [
+            `${entry.repo}: upstream repo "${repo}" has its own "upstreamPackages"; only one upstream level is supported`,
+          ]
+        : [];
     }),
   );
 }

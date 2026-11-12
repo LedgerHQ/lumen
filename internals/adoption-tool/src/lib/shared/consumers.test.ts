@@ -96,6 +96,18 @@ describe('parseConsumers', () => {
     expect(() => parseConsumers([upstream('LedgerHQ/app')])).toThrow(
       'cannot reference itself',
     );
+    expect(() =>
+      parseConsumers([
+        upstream('LedgerHQ/kit'),
+        {
+          ...valid,
+          repo: 'LedgerHQ/kit',
+          upstreamPackages: [
+            { package: '@ledgerhq/base', repo: 'LedgerHQ/app' },
+          ],
+        },
+      ]),
+    ).toThrow('only one upstream level is supported');
   });
 
   it('rejects a registry that is not an array', () => {
