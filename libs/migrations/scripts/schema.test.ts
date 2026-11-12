@@ -57,6 +57,7 @@ describe('migrationFrontmatter', () => {
     ['a module', 'module', '@ledgerhq/lumen-ui-react/symbols'],
     ['an export', 'export', '@ledgerhq/lumen-ui-react#MenuPortal'],
     ['a value', 'value', '@ledgerhq/lumen-ui-react#Spot.appearance=number'],
+    ['a type value', 'value', '@ledgerhq/lumen-utils-shared#Density=compact'],
     ['a token', 'token', '@ledgerhq/lumen-design-core#bg-muted-subtle'],
     ['a dependency', 'dependency', '@radix-ui/react-switch'],
   ])('accepts %s address', (_, surface, ref) => {

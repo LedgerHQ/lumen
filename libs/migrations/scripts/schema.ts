@@ -12,7 +12,7 @@ const refShapes = {
   module: new RegExp(`^${modulePath}$`),
   export: new RegExp(`^${modulePath}#${name}$`),
   member: new RegExp(`^${modulePath}#${name}\\.${name}$`),
-  value: new RegExp(`^${modulePath}#${name}\\.${name}=\\S+$`),
+  value: new RegExp(`^${modulePath}#${name}(?:\\.${name})?=\\S+$`),
   token: new RegExp(`^${modulePath}#\\S+$`),
   dependency: new RegExp(`^${packageName}$`),
 } as const;

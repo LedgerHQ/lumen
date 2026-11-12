@@ -48,8 +48,10 @@ pr: 716 # optional: the PR that shipped the update, when this file lands later
 ## Verify
 ````
 
-A `ref` is an address: `module#Export.member=value`, cut at the surface's
-depth. A token is `module#token`, a dependency its package name.
+A `ref` is an address: `module#Export.member=value` (`module#Type=value` for a
+type's value), cut at the surface's
+depth. A token is `module#token`, a dependency its package name. `*` matches
+any text, so one ref can cover a family (`#themes.*.bg.error`).
 
 `detect` patterns are regexes. `in: manifests` searches `package.json` files
 instead of source. `expect: review` lists hits for a human instead of
@@ -90,5 +92,10 @@ it in line with the schema).
   also needs the plan of each Lumen package its refs point into (any package
   for an external dependency change), or a `pr` already released in them.
 - `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above.
+- `npm run check:breaking-changes` (CI, after a build) diffs each lib against
+  its latest release and fails on any removed export, prop, prop value, token,
+  icon or new peer that no unreleased migration's `ref` matches (released ones
+  never cover a new break). It can't see behavior or visual changes:
+  those still need a migration, flagged `silent` or `visual`.
 - A replacement with no 1:1 mapping is a `removed` change; the body explains
   what to use instead.

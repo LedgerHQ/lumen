@@ -49,17 +49,17 @@ Derive the touched libs from the changed paths (`git diff origin/main...HEAD
 The concrete, diff-verifiable violations for each topic live in that topic
 skill's `## Review checks` table — this skill does **not** restate them:
 
-| Topic | Skill (see its `## Review checks`) |
-| --- | --- |
-| API design & composition (props, compound, controlled state, parity) | `component-architecture` |
-| Styling (Tailwind vs `useStyleSheet`) | `component-styling` |
-| Tests (Vitest vs Jest) | `component-testing` |
-| File/folder layout & required files | `component-anatomy` |
-| Stories | `component-stories` |
-| MDX docs | `component-mdx` |
-| Code Connect | `code-connect` |
-| Dependencies (any `package.json`, `.syncpackrc.json`) | `dependency-management` |
-| Version plan | `release-plan` (scored below) |
+| Topic                                                                | Skill (see its `## Review checks`) |
+| -------------------------------------------------------------------- | ---------------------------------- |
+| API design & composition (props, compound, controlled state, parity) | `component-architecture`           |
+| Styling (Tailwind vs `useStyleSheet`)                                | `component-styling`                |
+| Tests (Vitest vs Jest)                                               | `component-testing`                |
+| File/folder layout & required files                                  | `component-anatomy`                |
+| Stories                                                              | `component-stories`                |
+| MDX docs                                                             | `component-mdx`                    |
+| Code Connect                                                         | `code-connect`                     |
+| Dependencies (any `package.json`, `.syncpackrc.json`)                | `dependency-management`            |
+| Version plan                                                         | `release-plan` (scored below)      |
 
 Rules:
 
@@ -69,8 +69,8 @@ Rules:
   prop names, defaults, and variant vocabulary should match across the two
   implementations unless there's a platform reason not to (`Parity`).
 - **Never apply Tailwind rules to an RN file or `useStyleSheet` rules to a web
-  file.** The token *vocabulary* is shared (`bg-muted` ↔ `t.colors.bg.muted`),
-  the *mechanism* is not.
+  file.** The token _vocabulary_ is shared (`bg-muted` ↔ `t.colors.bg.muted`),
+  the _mechanism_ is not.
 - **Chart / lib exceptions** are described once in each skill's Review checks (e.g. RN charts under
   `Components/visualization/` use `useTheme()` + flat stories, no `.mdx`/figma).
   Don't flag files a lib does not use.
@@ -103,6 +103,8 @@ spend findings on things a linter can't catch. Do **not** raise:
 - Arbitrary Tailwind values (`shadcn/no-arbitrary-values` from
   `@ledgerhq/lumen-lint-plugin`). They are warnings in this repo, so a new one in
   a diff is already visible.
+- Removed exports, props, prop values, tokens, icons and new peers without a
+  matching migration (`npm run check:breaking-changes`, `bundle-checks` job).
 
 Caveat: a **valid** token class that is the wrong one for the design lints
 clean, and hardcoded colors in style objects or SVG props are not linted at all —
@@ -143,7 +145,7 @@ Apply these regardless of platform; platform specifics are in the references.
   empty arrays, error/loading states)?
 - Async: race conditions, cleanup on unmount, no unhandled rejections.
 - Nullable/optional values handled safely; user-facing error messages helpful.
-- Comments explain **intent** (the *why*), never restate the code — flag
+- Comments explain **intent** (the _why_), never restate the code — flag
   comments that just narrate mechanics, and complex logic left uncommented.
 
 ### Type safety
@@ -191,6 +193,19 @@ git diff origin/main...HEAD --name-only -- .nx/version-plans/
 - Plan names the **wrong package** for the changed paths (see the mapping in
   `release-plan`) → **Moderate (6/10)**, `Release`.
 
+## Migration check
+
+CI fails on structural breaks without a migration; it cannot see behavior or
+visual changes. For every change under `libs/*/src/`, ask: **would a consumer
+see or feel a difference after upgrading?** (new default, different DOM, focus
+or event behavior, spacing, density, colors.)
+
+- Yes, and no migration in `libs/migrations/src/` covers it → **Major (8/10)**,
+  category `Release`. Recommend a migration with `signal: silent` (behavior)
+  or `signal: visual` (appearance).
+- A migration exists but its `signal` is `loud` for a change no code search can
+  find → **Moderate (6/10)**, `Release`.
+
 ## Output
 
 If the review is short (fewer than ~15 findings), return it directly. If long,
@@ -217,15 +232,16 @@ lib, marking each item pass/fail]
 
 ## Findings
 
-| # | Severity | Category | Finding | Location |
-|---|----------|----------|---------|----------|
-| 1 | 9/10 | Type Safety | Uses `any` for payload type | `libs/ui-react/src/lib/Components/core/Menu/types.ts:28` |
-| 2 | 7/10 | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:26` |
+| #   | Severity | Category    | Finding                                                    | Location                                                 |
+| --- | -------- | ----------- | ---------------------------------------------------------- | -------------------------------------------------------- |
+| 1   | 9/10     | Type Safety | Uses `any` for payload type                                | `libs/ui-react/src/lib/Components/core/Menu/types.ts:28` |
+| 2   | 7/10     | Consistency | Raw Tailwind color `text-gray-500` instead of `text-muted` | `libs/ui-react/src/lib/Components/core/Menu/Menu.tsx:26` |
 
 ### Details
 
 **1. [Finding title]** — 9/10 Type Safety — `libs/ui-react/src/lib/Components/core/Menu/types.ts:28`
 [1-3 sentence description]
+
 > **Fix**: [concrete suggestion]
 ```
 
