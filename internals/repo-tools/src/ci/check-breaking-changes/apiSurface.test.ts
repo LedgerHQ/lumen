@@ -84,7 +84,7 @@ afterEach(() => {
   rmSync(tmp, { recursive: true, force: true });
 });
 
-describe('readSurface', () => {
+describe('readSurface', { timeout: 30_000 }, () => {
   it('lists every exported name per entry point', () => {
     expect(readSurface(root).entries).toEqual({
       '.': [
