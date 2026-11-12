@@ -74,14 +74,35 @@ matches a `before` block and, unless `expect: review`, no `after` block.
 
 `index.json` lists every migration with what git knows about it: `id`,
 `title`, `pr`, `commit` and `introduced` (package → first release with the
-change), oldest first. It's generated, never committed, and exported as
+change), oldest first, and `packages`, the published Lumen packages. It's generated, never committed, and exported as
 `@ledgerhq/lumen-migrations/index.json`, typed by `index.d.cts` (a test keeps
-it in line with the schema).
+it in line with the schema). The index has no body: a migration's file is
+exported as `@ledgerhq/lumen-migrations/<id>.md`.
 
 - `nx run @ledgerhq/lumen-migrations:build` builds it and warns on anything
   unresolved (dev tarballs, local runs).
 - The release publish runs `build-release` after tagging, which fails on
   anything unresolved. A dry run only warns, since it creates no tags.
+
+## CLI
+
+Run it at latest, so the index knows every release:
+
+```sh
+npx @ledgerhq/lumen-migrations@latest list --package @ledgerhq/lumen-ui-react --from 0.1.10 --to 0.1.14
+npx @ledgerhq/lumen-migrations@latest show media-button-rename
+npx @ledgerhq/lumen-migrations@latest check --package @ledgerhq/lumen-ui-react --from 0.1.10
+```
+
+- `list`: migrations in range, oldest first. A migration is in range when it
+  was introduced in the package after `--from` and up to `--to`. Without
+  `--package`, every migration.
+- `show <id>`: the migration file, frontmatter and instructions.
+- `check`: runs the `detect` patterns of the migrations in range on the repo
+  (`--cwd`, default the current directory), skipping git-ignored files. Exits 1
+  while an `expect: none` pattern has hits. `expect: review` hits are listed
+  without failing.
+- `--json` prints machine-readable output for the upgrade plan.
 
 ## Rules
 

@@ -16,7 +16,7 @@
  * tagging (`build-release` target); `build` only warns, for dev tarballs.
  */
 import { execFileSync } from 'node:child_process';
-import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import semver from 'semver';
@@ -284,6 +284,27 @@ function byLandingOrder(
     position(a.commit) - position(b.commit) || a.id.localeCompare(b.id);
 }
 
+/**
+ * Published Lumen packages, migrations or not, so the CLI can tell a typo from
+ * a package with nothing to migrate.
+ */
+export function lumenPackages(repoRoot: string): string[] {
+  const libs = join(repoRoot, 'libs');
+  return readdirSync(libs, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => join(libs, entry.name, 'package.json'))
+    .filter((manifest) => existsSync(manifest))
+    .map((manifest) => JSON.parse(readFileSync(manifest, 'utf8')))
+    .filter(
+      ({ name, private: isPrivate }) =>
+        name.startsWith('@ledgerhq/lumen-') &&
+        !isPrivate &&
+        name !== migrationsPackage,
+    )
+    .map(({ name }) => name)
+    .sort();
+}
+
 /** @returns the index, and why an entry could not be fully resolved */
 export function buildIndex(repoRoot: string): {
   index: MigrationIndex;
@@ -294,7 +315,11 @@ export function buildIndex(repoRoot: string): {
     .map((migration) => resolveEntry(repoRoot, migration))
     .sort(byLandingOrder(repoRoot));
   return {
-    index: { formatVersion, migrations: entries },
+    index: {
+      formatVersion,
+      packages: lumenPackages(repoRoot),
+      migrations: entries,
+    },
     issues: [...issues, ...entries.flatMap(unresolvedIssues)],
   };
 }
