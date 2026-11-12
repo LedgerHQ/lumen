@@ -6,5 +6,10 @@
     "tsBuildInfoFile": "out-tsc/tsconfig.tsbuildinfo",
     "types": ["node"]
   },
-  "include": ["src/**/*.ts", "src/**/*.mts"]
+  "include": ["src/**/*.ts", "src/**/*.mts"],
+  "references": [
+    {
+      "path": "../design-sources"
+    }
+  ]
 }

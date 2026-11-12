@@ -74,9 +74,9 @@ Rules:
 - **Chart / lib exceptions** are described once in each skill's Review checks (e.g. RN charts under
   `Components/visualization/` use `useTheme()` + flat stories, no `.mdx`/figma).
   Don't flag files a lib does not use.
-- `libs/design-core/**`: the CSS/Tailwind tokens and the JS theme objects must
-  stay in sync (see the `figma-token-sync` skill). If a token is added/changed
-  on one side only, flag it under `Consistency`.
+- `libs/design-core/src/lib/generated/**` is written by `design-build` and
+  never edited by hand: flag any hand edit under `Consistency`, and ask for the
+  change in `internals/design-sources` (or the target) instead.
 - `libs/utils-shared/**`: cross-platform TS/React — apply the shared criteria
   below, no styling rules.
 
@@ -99,7 +99,7 @@ spend findings on things a linter can't catch. Do **not** raise:
   (`@nx/enforce-module-boundaries` scope tags).
 - Unknown/invalid Tailwind classnames (`eslint-plugin-better-tailwindcss`). This
   includes raw palette and typography classes (`text-gray-500`, `font-bold`):
-  Lumen's preset removes them, so they are unknown classes.
+  Lumen's theme removes them, so they are unknown classes.
 - Arbitrary Tailwind values (`shadcn/no-arbitrary-values` from
   `@ledgerhq/lumen-lint-plugin`). They are warnings in this repo, so a new one in
   a diff is already visible.

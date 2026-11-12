@@ -6,7 +6,7 @@
 
 - **UI components** available via `@ledgerhq/lumen-ui-react`
 - **Design tokens** (colors, spacing, typography) available via `@ledgerhq/lumen-design-core`
-- **Multiple brand presets**: available via `@ledgerhq/lumen-design-core`
+- **Multiple brand themes**: available via `@ledgerhq/lumen-design-core`
 
 ## Setup Requirements
 
@@ -15,7 +15,7 @@
 - Import components from `@ledgerhq/lumen-ui-react`
 - Import icons from `@ledgerhq/lumen-ui-react/symbols` (not from main package)
 - Import charts from `@ledgerhq/lumen-ui-react/visualization` (not from main package)
-- Import design tokens/presets from `@ledgerhq/lumen-design-core`
+- Import design tokens and brand themes from `@ledgerhq/lumen-design-core`
 - Import `cn` from `@ledgerhq/lumen-design-core/cn` (subpath only, not the package root)
 
 ### Font Family (REQUIRED)
@@ -24,15 +24,23 @@ Lumen typography classes set `font-family: Inter` via design tokens. The consume
 
 ### Tailwind Configuration (REQUIRED)
 
-- Check the installed Tailwind major version first — the two paths differ:
-- **Tailwind v4 (recommended):** the main stylesheet MUST import Lumen's
-  stylesheet so Tailwind scans the compiled components:
-  `@import '@ledgerhq/lumen-ui-react/tailwind.css';` — that single import
-  covers charts too. Do NOT also add
-  `./node_modules/@ledgerhq/lumen-ui-react/dist/**` to the `content` array —
-  that path is internal and may change in any release.
-- Always use a preset from `@ledgerhq/lumen-design-core`: ledgerLivePreset, enterprisePreset or websitesPreset
-- Import presets: `import { ledgerLivePreset } from '@ledgerhq/lumen-design-core'`
+- Tailwind v4 is required. No `tailwind.config` is needed: the main stylesheet
+  imports Tailwind, one Lumen brand theme, then Lumen's stylesheet:
+
+  ```css
+  @import 'tailwindcss';
+  @import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
+  @import '@ledgerhq/lumen-ui-react/tailwind.css';
+  ```
+
+- Brand themes: `ledger-live.css`, `enterprise.css`, `websites.css`, or
+  `all-brands.css` (brand switched by a class on a parent).
+- `@ledgerhq/lumen-ui-react/tailwind.css` makes Tailwind scan the compiled
+  components, charts included. Do NOT add
+  `./node_modules/@ledgerhq/lumen-ui-react/dist/**` as a source — that path is
+  internal and may change in any release.
+- The JS presets (`ledgerLivePreset`, …) are removed: replace an
+  `@config` that loads one with the matching brand theme import.
 
 ### Linting
 
@@ -160,8 +168,8 @@ To verify or discover additional values, explore:
 
 - Compose every `className` with `cn` from `@ledgerhq/lumen-design-core/cn`. Do not write a local `twMerge(clsx(...))` helper: plain tailwind-merge misreads Lumen classes
 - Put the incoming `className` last: `cn('p-16 text-base', className)`. On conflict, the later class wins
-- `cn` is configured for the Lumen preset:
-  - Lumen `text-*` tokens are colors, including `text-base` (`text-base` + `text-muted` → `text-muted`). Tailwind size names (`text-sm`, `text-2xl`) and arbitrary lengths (`text-[14px]`) stay font sizes, so they never drop a color. The preset emits no CSS for size names: use typography classes instead
+- `cn` is configured for the Lumen theme:
+  - Lumen `text-*` tokens are colors, including `text-base` (`text-base` + `text-muted` → `text-muted`). Tailwind size names (`text-sm`, `text-2xl`) and arbitrary lengths (`text-[14px]`) stay font sizes, so they never drop a color. The Lumen theme emits no CSS for size names: use typography classes instead
   - Typography classes (`responsive-display-*`, `heading-*`, `body-*`) replace each other, and replace earlier `font-*`, `leading-*`, `tracking-*` and `text-*` font sizes. A later `font-*` / `leading-*` is kept as a partial override: `cn('body-2', 'font-bold')` → both
   - `bg-gradient-{name}` is a background image and coexists with `bg-*` colors. `bg-gradient-{n}` / `bg-gradient-overlay-{n}` are color tokens
 - Not merged (both kept, CSS order decides): `icon-*`, `spot-*`, `z-*`, `scrollbar-*`, `mask-fade-*`, `animate-*`, and app-defined custom classes

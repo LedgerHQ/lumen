@@ -1,10 +1,10 @@
-import { primitiveLayoutTokens } from '../themes/js/primitives/primitives.others.js';
+import { coreTokens } from '../generated/js/primitives.js';
 
 /**
  * Breakpoint min-widths in px (mobile-first). Single source for the Tailwind
  * `screens` and any responsive logic in JS.
  */
-export const breakpoints = primitiveLayoutTokens.breakpoints;
+export const breakpoints = coreTokens.breakpoints;
 
 export type Breakpoint = keyof typeof breakpoints;
 

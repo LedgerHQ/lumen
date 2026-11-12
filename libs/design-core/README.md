@@ -1,6 +1,6 @@
 # @ledgerhq/lumen-design-core
 
-**Design tokens and Tailwind presets for Ledger Design System** - Centralized design tokens that ensure consistency across React and React Native applications. All design tokens are automatically synchronized with Figma via the Figma REST API.
+**Design tokens and Tailwind theme for Ledger Design System** - Centralized design tokens that ensure consistency across React and React Native applications. All design tokens are automatically synchronized with Figma via the Figma REST API.
 
 ## 📦 Installation
 
@@ -15,30 +15,46 @@ npm install tailwindcss@^4.1.17 @tailwindcss/postcss
 
 ## ⚡ Quick Setup
 
-Create or update your `tailwind.config.js`:
-
-```typescript
-import type { Config } from 'tailwindcss';
-import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
-
-const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'],
-  presets: [ledgerLivePreset],
-} satisfies Config;
-
-export default config;
-```
-
-If you also use `@ledgerhq/lumen-ui-react`, import its stylesheet next to
-Tailwind in your main CSS file — it registers the compiled components as a
-Tailwind source so their utilities are emitted:
+The theme ships as Tailwind v4 CSS: tokens, utilities and variants are all
+defined in CSS, so no `tailwind.config` is needed. Import Tailwind, then the
+theme for your brand, in your main CSS file:
 
 ```css
 @import 'tailwindcss';
-@import '@ledgerhq/lumen-ui-react/tailwind.css';
-@config '../tailwind.config.ts';
+@import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
 ```
 
+There is one file per brand: `enterprise.css`, `ledger-live.css` and
+`websites.css`. `all-brands.css` defines all three, switched by a
+`.ledger-live`, `.enterprise` or `.websites` class on a parent. They share a
+generated `theme.css`: import a brand file, not that one.
+
+If you also use `@ledgerhq/lumen-ui-react`, import its stylesheet after the
+theme — it registers the compiled components as a Tailwind source so their
+utilities are emitted:
+
+```css
+@import '@ledgerhq/lumen-ui-react/tailwind.css';
+```
+
+Dark mode is class-based (`.dark` on a parent).
+
+### Migrating from the JS presets
+
+The JS presets (`ledgerLivePreset`, `enterprisePreset`, `websitesPreset`,
+`allBrandsPreset`) and their plugins are removed. The CSS files generate
+exactly the classes and token values the presets did, so switching changes
+nothing on screen:
+
+1. Replace `@config '…/tailwind.config.ts'` in your stylesheet with the
+   `@import` of the matching brand file (`allBrandsPreset` →
+   `all-brands.css`).
+2. Keep `@ledgerhq/lumen-ui-react/tailwind.css` (or your own `@source` globs):
+   the CSS file holds the theme, not your content paths.
+3. Delete the Lumen preset from `tailwind.config.ts`, and the file itself if
+   nothing else is in it. Point any tooling that read the config (the
+   Prettier Tailwind plugin, `eslint-plugin-better-tailwindcss`) at your
+   stylesheet instead.
 
 ## 🎨 Design Tokens
 

@@ -1,0 +1,24 @@
+{
+  "duration": {
+    "75": {
+      "$value": {
+        "value": 75,
+        "unit": "ms"
+      }
+    },
+    "100": {
+      "$value": {
+        "value": 100,
+        "unit": "ms"
+      }
+    },
+    "700": {
+      "$value": {
+        "value": 700,
+        "unit": "ms"
+      }
+    },
+    "$type": "duration",
+    "$description": "Durations components use that the Figma motion collection does not have yet."
+  }
+}

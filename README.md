@@ -20,33 +20,27 @@ Lumen is a comprehensive design system that provides consistent UI components fo
 ```bash
 # Install the UI Kit and required peer dependencies
 npm install @ledgerhq/lumen-ui-react @ledgerhq/lumen-design-core class-variance-authority
+
+# Tailwind CSS v4 (if not already installed), set up for your bundler
+npm install tailwindcss@4
 ```
 
 2. Configure Tailwind:
 
-In your main stylesheet, import Lumen's stylesheet alongside Tailwind. It
-registers Lumen's compiled components as a Tailwind source, so the utilities our
-components rely on end up in your CSS:
+In your main stylesheet, import Tailwind, then the Lumen theme for your brand
+and Lumen's stylesheet. The theme defines every token and utility; the
+stylesheet registers Lumen's compiled components as a Tailwind source, so the
+utilities our components rely on end up in your CSS. No `tailwind.config` is
+needed:
 
 ```css
 @import 'tailwindcss';
+@import '@ledgerhq/lumen-design-core/tailwind/ledger-live.css';
 @import '@ledgerhq/lumen-ui-react/tailwind.css';
-@config '../tailwind.config.ts';
 ```
 
-Then point your config at your own files and add the preset:
-
-```typescript
-import type { Config } from 'tailwindcss';
-import { ledgerLivePreset } from '@ledgerhq/lumen-design-core';
-
-const config = {
-  content: ['./src/**/*.{js,ts,jsx,tsx}'], // Your project's files
-  presets: [ledgerLivePreset], // the installed tailwind preset
-} satisfies Config;
-
-export default config;
-```
+The brand themes are `ledger-live.css`, `enterprise.css` and `websites.css`
+(`all-brands.css` switches brand with a class on a parent).
 
 3. Use components:
 

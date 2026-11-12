@@ -1,0 +1,12 @@
+{
+  "border-width": {
+    "1": {
+      "$value": "{stroke.1}"
+    },
+    "2": {
+      "$value": "{stroke.2}"
+    },
+    "$type": "dimension",
+    "$description": "Border widths React Native reads by step; the same values as the stroke primitives."
+  }
+}

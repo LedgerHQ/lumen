@@ -1,0 +1,179 @@
+name: Sync Figma Symbols
+
+# Exports the icons from Figma, rebuilds the published SVGs and the React and
+# React Native symbol components, and opens a symbols PR. `sync-figma-all.yml` calls it with
+# `open-pull-request: false` and opens one combined PR instead.
+
+on:
+  workflow_dispatch:
+    inputs:
+      figma_symbols_file_key:
+        description: 'Figma Symbols File Key (use default if empty)'
+      figma_icons_canvas:
+        description: 'Figma Icons Canvas (use default if empty)'
+      open-pull-request:
+        description: 'Open a pull request with the result'
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      figma_symbols_file_key:
+        type: string
+        required: false
+      figma_icons_canvas:
+        type: string
+        required: false
+      open-pull-request:
+        type: boolean
+        default: true
+    secrets:
+      FIGMA_API_TOKEN:
+        required: true
+      # Only the pull-request job reads them, which a caller that opens its own
+      # PR skips (open-pull-request: false).
+      LUMEN_RELEASE_APP_ID:
+        required: false
+      LUMEN_RELEASE_APP_KEY:
+        required: false
+    outputs:
+      changed:
+        description: 'Whether the export changed any committed file'
+        value: ${{ jobs.symbols.outputs.changed }}
+
+concurrency:
+  # `github.workflow` is the caller's name when called, so a standalone run and
+  # a run inside `sync-figma-all` don't cancel each other.
+  group: ${{ github.workflow }}-symbols
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NX_NO_CLOUD: true
+
+jobs:
+  symbols:
+    name: Export and generate symbols
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.patch.outputs.changed }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          set-shas: 'false'
+
+      - name: Keep the sources before the export, for the diff report
+        run: mkdir -p "$RUNNER_TEMP/before" && cp -R internals/design-sources/icons "$RUNNER_TEMP/before/"
+
+      - name: Export icons from Figma
+        run: npx nx run sync-figma:extract --kind=icons
+        env:
+          FIGMA_API_TOKEN: ${{ secrets.FIGMA_API_TOKEN }}
+          FIGMA_SYMBOLS_FILE_KEY: ${{ inputs.figma_symbols_file_key || vars.FIGMA_SYMBOLS_FILE_KEY }}
+          FIGMA_ICONS_CANVAS: ${{ inputs.figma_icons_canvas || vars.FIGMA_ICONS_CANVAS }}
+
+      - name: Build symbol outputs
+        run: npx nx run design-build:icons
+
+      - name: Write the diff report
+        run: |
+          mkdir -p "$RUNNER_TEMP/report"
+          npx tsx internals/design-build/src/cli.ts report --before "$RUNNER_TEMP/before" > "$RUNNER_TEMP/report/symbols.md"
+          cat "$RUNNER_TEMP/report/symbols.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the diff report
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: figma-symbols-report
+          path: ${{ runner.temp }}/report/symbols.md
+
+      # A patch carries deletions too (a pruned icon, a removed mode), which
+      # copying folders over a fresh checkout would bring back.
+      # An unchanged export gives an empty patch, which `git apply` rejects, so
+      # the pull-request jobs only run when `changed` is true.
+      - name: Record the changes as a patch
+        id: patch
+        shell: bash
+        run: |
+          git add -A
+          git diff --cached --binary > "$RUNNER_TEMP/symbols.patch"
+          echo "changed=$([ -s "$RUNNER_TEMP/symbols.patch" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the changes
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: figma-symbols
+          path: ${{ runner.temp }}/symbols.patch
+
+  pull-request:
+    name: Open the symbols pull request
+    needs: symbols
+    if: ${{ inputs.open-pull-request && needs.symbols.outputs.changed == 'true' }}
+    runs-on: ubuntu-latest
+    # The push and the PR use the app token, so GITHUB_TOKEN stays read-only.
+    permissions:
+      contents: read
+    steps:
+      # Opened as the Lumen release app: GITHUB_TOKEN events trigger no workflow,
+      # so the PR checks (output check, removal gate) would not run on the bot PR.
+      - name: Get a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.LUMEN_RELEASE_APP_ID }}
+          private-key: ${{ secrets.LUMEN_RELEASE_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: true # create-pull-request pushes with it
+
+      - name: Download the changes
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: figma-symbols
+          path: ${{ runner.temp }}/changes
+
+      - name: Apply the changes
+        run: git apply --index "$RUNNER_TEMP/changes/symbols.patch"
+
+      - name: Download the diff report
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: figma-symbols-report
+          # Outside the checkout, so the pull request doesn't commit it.
+          path: ${{ runner.temp }}/report
+
+      - name: Add release plan
+        run: |
+          mkdir -p .nx/version-plans
+          TIMESTAMP=$(node -e "console.log(Date.now())")
+          cat << EOF > .nx/version-plans/version-plan-$TIMESTAMP.md
+          ---
+          '@ledgerhq/lumen-design-core': patch
+          '@ledgerhq/lumen-ui-rnative': patch
+          '@ledgerhq/lumen-ui-react': patch
+          ---
+
+          Sync Figma Symbols
+          EOF
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+        with:
+          commit-message: '💄 (figma): Sync Figma Symbols'
+          title: '💄 (figma): Sync Figma Symbols'
+          body-path: ${{ runner.temp }}/report/symbols.md
+          token: ${{ steps.app-token.outputs.token }}
+          branch: sync-figma-symbols

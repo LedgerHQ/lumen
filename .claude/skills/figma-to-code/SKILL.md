@@ -62,9 +62,13 @@ object shape — see `component-styling/references/rnative.md`).
 - **Typography keys are camelCase**: `body/3` → `t.typographies.body3`,
   `body/2-semi-bold` → `t.typographies.body2SemiBold`.
 - Source of truth for the key sets:
-  `libs/design-core/src/lib/themes/js/primitives/primitives.others.ts` (spacings,
-  sizes, borderRadius) and the per-brand `theme.*.ts` colour objects. Confirm a
-  key there rather than inventing one.
+  `libs/design-core/src/lib/generated/js/primitives.ts` (spacings,
+  sizes, borderRadius) and the per-brand colour objects
+  (`generated/js/<brand>.ts`). Confirm a key there rather than inventing one.
+- Everything under `generated/` is built from `internals/design-sources` by
+  `design-build`, on both platforms. A missing or wrong token is fixed in Figma
+  (then synced) or in `internals/design-sources/tokens/code/`, never in the
+  generated files.
 
 ## When a Figma size has no token (both platforms)
 

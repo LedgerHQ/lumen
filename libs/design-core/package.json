@@ -23,17 +23,26 @@
       "import": "./dist/cn.js",
       "default": "./dist/cn.js"
     },
-    "./symbols/*": "./symbols/icons/*"
+    "./symbols/*": "./symbols/icons/*",
+    "./tailwind/*": "./tailwind/*"
   },
   "files": [
     "dist",
     "symbols",
+    "tailwind",
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {
     "clsx": "^2.1.1",
     "tailwind-merge": "^3.7.0",
-    "tailwindcss": "^4.1.17",
     "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.1.17"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
   }
 }
