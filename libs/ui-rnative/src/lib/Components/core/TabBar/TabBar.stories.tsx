@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useEffect, useState } from 'react';
+import { useReducedMotion } from 'react-native-reanimated';
 import { Box } from '../../primitives';
 import {
   BasketPutIn,
@@ -168,19 +169,25 @@ export const DensityShowcase: Story = {
 };
 
 export const WithDensityTransition: Story = {
-  args: {} as React.ComponentProps<typeof TabBar>,
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
   render: () => {
     const [active, setActive] = useState('home');
     const [density, setDensity] = useState<'expanded' | 'compact'>('expanded');
+    const reducedMotion = useReducedMotion();
 
     useEffect(() => {
+      if (reducedMotion) {
+        return;
+      }
       const interval = setInterval(() => {
         setDensity((current) =>
           current === 'expanded' ? 'compact' : 'expanded',
         );
       }, 2000);
       return () => clearInterval(interval);
-    }, []);
+    }, [reducedMotion]);
 
     return (
       <TabBar
