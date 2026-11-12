@@ -1,11 +1,15 @@
-import { execFileSync } from 'node:child_process';
-import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { basename, extname, join, relative } from 'node:path';
+import { inScope, readRepoFiles } from './files.js';
 
 /** @import { Detect, IndexEntry } from '../index.d.cts' */
+/** @import { RepoFile } from './files.js' */
+
+/**
+ * @typedef {Detect & { ref: string, refPackage: string | undefined }} Rule
+ */
 
 /**
  * @typedef {object} Hit
+ * @property {string} ref The change the pattern detects.
  * @property {string} pattern
  * @property {Detect['expect']} expect
  * @property {string} file Relative to the scanned repo.
@@ -21,99 +25,64 @@ import { basename, extname, join, relative } from 'node:path';
  * @property {Hit[]} hits
  */
 
-/**
- * @typedef {object} RepoFile
- * @property {string} path
- * @property {string} content
- */
+const lumenPackage = /^@ledgerhq\/lumen-[^/#]+/;
 
-const sourceExtensions = new Set([
-  '.js',
-  '.jsx',
-  '.mjs',
-  '.cjs',
-  '.ts',
-  '.tsx',
-  '.mts',
-  '.cts',
-  '.css',
-  '.scss',
-  '.mdx',
-]);
-
-const ignoredDir = /(^|\/)(node_modules|\.git|dist|build)\//;
+// One platform's API can be valid on the other: a file that only imports the
+// other platform is never checked against this one's changes.
+const platforms = ['@ledgerhq/lumen-ui-react', '@ledgerhq/lumen-ui-rnative'];
 
 /**
- * Tracked and untracked files, minus what `.gitignore` excludes.
- * @param {string} cwd
- * @returns {string[]}
+ * @param {IndexEntry} entry
+ * @returns {Rule[]}
  */
-function gitFiles(cwd) {
-  const output = execFileSync(
-    'git',
-    ['ls-files', '-z', '--cached', '--others', '--exclude-standard'],
-    {
-      cwd,
-      encoding: 'utf8',
-      maxBuffer: 256 * 1024 * 1024,
-      stdio: ['ignore', 'pipe', 'ignore'],
-    },
+function rulesOf(entry) {
+  return entry.changes.flatMap(({ ref, detect = [] }) =>
+    detect.map((rule) => ({
+      ...rule,
+      ref,
+      refPackage: ref.match(lumenPackage)?.[0],
+    })),
   );
-  return output.split('\0').filter(Boolean);
 }
 
 /**
- * Outside a git repo, every file.
- * @param {string} cwd
- * @returns {string[]}
- */
-function walkFiles(cwd) {
-  return readdirSync(cwd, { recursive: true, withFileTypes: true })
-    .filter((entry) => entry.isFile())
-    .map((entry) => relative(cwd, join(entry.parentPath, entry.name)));
-}
-
-/**
- * @param {string} cwd
- * @returns {string[]}
- */
-function allFiles(cwd) {
-  try {
-    return gitFiles(cwd);
-  } catch {
-    return walkFiles(cwd);
-  }
-}
-
-/**
- * Dependencies and build output are skipped even when committed.
- * @param {string} cwd
- * @returns {string[]}
- */
-export function listFiles(cwd) {
-  return allFiles(cwd).filter((path) => !ignoredDir.test(path));
-}
-
-/**
- * @param {string} path
- * @param {Detect['in']} scope
+ * Keeps the rules for the upgraded package. A rule for another package that
+ * ships the same migration is checked when that package is upgraded; one for
+ * an external dependency or an unversioned package always applies.
+ * @param {Rule} rule
+ * @param {IndexEntry} entry
+ * @param {string | undefined} packageName
  * @returns {boolean}
  */
-function inScope(path, scope) {
-  return scope === 'manifests'
-    ? basename(path) === 'package.json'
-    : sourceExtensions.has(extname(path)) && !path.endsWith('.d.ts');
+function appliesToUpgrade(rule, entry, packageName) {
+  if (packageName === undefined || rule.refPackage === undefined) return true;
+  return (
+    rule.refPackage === packageName || !(rule.refPackage in entry.introduced)
+  );
+}
+
+/**
+ * @param {Rule} rule
+ * @param {RepoFile} file
+ * @returns {boolean}
+ */
+function isOtherPlatformFile(rule, file) {
+  const own = rule.refPackage;
+  if (own === undefined || !platforms.includes(own)) return false;
+  if (file.content.includes(own)) return false;
+  return platforms.some((name) => file.content.includes(name));
 }
 
 /**
  * Patterns run on the whole file: many span lines (`[^>]*` across JSX props).
- * @param {Detect} rule
+ * @param {Rule} rule
  * @param {RepoFile} file
  * @returns {Hit[]}
  */
 function findHits(rule, file) {
   const regex = new RegExp(rule.pattern, 'g');
   return [...file.content.matchAll(regex)].map((match) => ({
+    ref: rule.ref,
     pattern: rule.pattern,
     expect: rule.expect,
     file: file.path,
@@ -123,11 +92,15 @@ function findHits(rule, file) {
 }
 
 /**
- * @param {IndexEntry} entry
- * @returns {Detect[]}
+ * @param {Rule} rule
+ * @param {RepoFile[]} files
+ * @returns {Hit[]}
  */
-function detectRules(entry) {
-  return entry.changes.flatMap((change) => change.detect ?? []);
+function ruleHits(rule, files) {
+  return files
+    .filter((file) => inScope(file.path, rule.in))
+    .filter((file) => !isOtherPlatformFile(rule, file))
+    .flatMap((file) => findHits(rule, file));
 }
 
 /**
@@ -144,43 +117,23 @@ function statusOf(hits) {
 /**
  * @param {IndexEntry} entry
  * @param {RepoFile[]} files
+ * @param {string | undefined} packageName
  * @returns {MigrationResult}
  */
-function checkMigration(entry, files) {
-  const hits = detectRules(entry).flatMap((rule) =>
-    files
-      .filter((file) => inScope(file.path, rule.in))
-      .flatMap((file) => findHits(rule, file)),
-  );
+function checkMigration(entry, files, packageName) {
+  const hits = rulesOf(entry)
+    .filter((rule) => appliesToUpgrade(rule, entry, packageName))
+    .flatMap((rule) => ruleHits(rule, files));
   return { id: entry.id, title: entry.title, status: statusOf(hits), hits };
-}
-
-/**
- * Git still lists files deleted from the working tree, and submodules.
- * @param {string} path
- * @returns {boolean}
- */
-function isFile(path) {
-  return statSync(path, { throwIfNoEntry: false })?.isFile() ?? false;
-}
-
-/**
- * @param {string} cwd
- * @returns {RepoFile[]}
- */
-function readRepoFiles(cwd) {
-  return listFiles(cwd)
-    .filter((path) => inScope(path, 'source') || inScope(path, 'manifests'))
-    .filter((path) => isFile(join(cwd, path)))
-    .map((path) => ({ path, content: readFileSync(join(cwd, path), 'utf8') }));
 }
 
 /**
  * @param {IndexEntry[]} migrations
  * @param {string} cwd
+ * @param {string} [packageName] The upgraded package, when one is given.
  * @returns {MigrationResult[]}
  */
-export function checkMigrations(migrations, cwd) {
+export function checkMigrations(migrations, cwd, packageName) {
   const files = readRepoFiles(cwd);
-  return migrations.map((entry) => checkMigration(entry, files));
+  return migrations.map((entry) => checkMigration(entry, files, packageName));
 }

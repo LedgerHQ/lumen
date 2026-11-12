@@ -123,6 +123,7 @@ describe('check', () => {
     const { code, output } = exec(['check', ...range, '--cwd', cwd]);
     expect(code).toBe(1);
     expect(output).toContain('src/Menu.tsx:2  <MenuItem');
+    expect(output).not.toContain('node_modules');
   });
 
   it('respects .gitignore in a git repo', () => {
