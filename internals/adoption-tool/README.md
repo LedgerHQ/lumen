@@ -87,7 +87,7 @@ target versions, PR title and labels, changeset flag and upstream packages.
 | ---------------- | -------------------------------------------------------------------------------------- | --------------------------------- |
 | `report`         | `data/consumers.json`, each repo's package.json or pnpm catalog (GitHub), latest (npm) | `report.{md,html,slack.txt,json}` |
 | `discover`       | GitHub code search, both registry files                                                | stdout only, never the registry   |
-| `start-upgrades` | `data/consumers.json`, latest (npm)                                                    | stdout, `--out` file              |
+| `start-upgrades` | `data/consumers.json`, `libs/*/package.json` versions                                  | stdout, `--out` file              |
 | `owners`         | `LedgerHQ/architecture-as-code` team catalog, each repo's CODEOWNERS                   | `owners.md`                       |
 
 ```

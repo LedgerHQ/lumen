@@ -35,8 +35,13 @@ permissions:
 jobs:
   registry:
     name: Build run matrix
-    # Never start upgrades for a release that failed.
-    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    # Only a real release from main starts upgrades: not a failed one, a dry
+    # run (nothing published) or one run from another branch.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      !contains(github.event.workflow_run.display_title, '(dry-run)'))
     runs-on: public-ledgerhq-shared-small
     outputs:
       upstream: ${{ steps.matrix.outputs.upstream }}
@@ -53,7 +58,12 @@ jobs:
         id: matrix
         run: |
           npx nx run adoption-tool:start-upgrades --out "$RUNNER_TEMP/matrix.json" > /dev/null
-          jq . "$RUNNER_TEMP/matrix.json"
+          {
+            echo '### Run matrix'
+            echo '```json'
+            jq . "$RUNNER_TEMP/matrix.json"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
           echo "upstream=$(jq -c .upstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
           echo "downstream=$(jq -c .downstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
 
