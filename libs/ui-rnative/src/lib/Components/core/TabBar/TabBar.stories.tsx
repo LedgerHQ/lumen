@@ -17,7 +17,12 @@ import {
   CreditCard,
   CreditCardFill,
 } from '../../symbols';
-import { createTabBar, TabBar, TabBarItem } from './TabBar';
+import {
+  createTabBar,
+  TAB_BAR_EXPANDED_HEIGHT,
+  TabBar,
+  TabBarItem,
+} from './TabBar';
 
 const meta = {
   id: 'rnative-tabbar',
@@ -172,6 +177,18 @@ export const WithDensityTransition: Story = {
   parameters: {
     chromatic: { disableSnapshot: true },
   },
+  decorators: [
+    (Story) => (
+      <Box
+        style={{
+          minHeight: TAB_BAR_EXPANDED_HEIGHT,
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Story />
+      </Box>
+    ),
+  ],
   render: () => {
     const [active, setActive] = useState('home');
     const [density, setDensity] = useState<'expanded' | 'compact'>('expanded');
