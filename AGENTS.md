@@ -155,6 +155,7 @@ frontmatter controls auto-attach.
 | opening a PR from the current branch (manual — run `/open-pr`)         | `open-pr`             |
 | reviewing a PR, a branch, or code changes                              | `pr-review`           |
 | generating an Nx version plan (`.nx/version-plans/`)                   | `release-plan`        |
+| a branch breaks or changes a public API: write its migration and plans | `write-migration`     |
 | announcing a shipped release in Slack from a GitHub Releases dump      | `release-notes-slack` |
 
 ### Discovery
