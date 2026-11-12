@@ -4,6 +4,7 @@ import { filesUnder } from './files.ts';
 
 type Manifest = {
   name?: string;
+  version?: string;
   exports?: Record<string, unknown>;
   peerDependencies?: Record<string, string>;
   peerDependenciesMeta?: Record<string, { optional?: boolean }>;
@@ -12,6 +13,13 @@ type Manifest = {
 /** The parsed `package.json` of an unpacked package. */
 export function readManifest(root: string): Manifest {
   return JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'));
+}
+
+/** The version of an unpacked package. */
+export function manifestVersion(root: string): string {
+  const { version } = readManifest(root);
+  if (version === undefined) throw new Error(`${root} has no version`);
+  return version;
 }
 
 /** Peers a consumer may leave uninstalled. */

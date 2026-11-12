@@ -1,9 +1,8 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import type { ApiChange } from '../apiDiff.ts';
-import { migrationRefs, uncovered } from './migrationRefs.ts';
+import { type Migration, pendingRefs, uncovered } from './migrationRefs.ts';
+
+const name = '@ledgerhq/lumen-ui-react';
 
 const removed = (ref: string): ApiChange => ({
   change: 'removed',
@@ -11,34 +10,25 @@ const removed = (ref: string): ApiChange => ({
   ref,
 });
 
-describe('migrationRefs', () => {
-  let dir: string;
+const migration = (
+  introduced: Migration['introduced'],
+  ref: string,
+): Migration => ({ introduced, changes: [{ ref }] });
 
-  beforeEach(() => {
-    dir = mkdtempSync(join(tmpdir(), 'migration-refs-'));
-  });
+describe('pendingRefs', () => {
+  it('keeps refs of migrations not released in the package yet', () => {
+    const migrations = [
+      migration({ [name]: null }, 'pkg#Unreleased'),
+      migration({ [name]: '0.1.74' }, 'pkg#Newer'),
+      migration({ [name]: '0.1.60' }, 'pkg#Shipped'),
+      migration({ [name]: '0.1.73' }, 'pkg#Current'),
+      migration({ '@ledgerhq/lumen-ui-rnative': null }, 'pkg#Other'),
+    ];
 
-  afterEach(() => {
-    rmSync(dir, { recursive: true, force: true });
-  });
-
-  it('reads the refs of every migration file', () => {
-    writeFileSync(
-      join(dir, 'a.md'),
-      "---\nchanges:\n  - ref: 'pkg#A'\n  - ref: 'pkg#B'\n---\n# A\n",
-    );
-    writeFileSync(
-      join(dir, 'notes.txt'),
-      "---\nchanges:\n  - ref: 'pkg#C'\n---\n",
-    );
-
-    expect(migrationRefs(dir)).toEqual(['pkg#A', 'pkg#B']);
-  });
-
-  it('ignores files without frontmatter', () => {
-    writeFileSync(join(dir, 'a.md'), '# No frontmatter\n');
-
-    expect(migrationRefs(dir)).toEqual([]);
+    expect(pendingRefs(migrations, name, '0.1.73')).toEqual([
+      'pkg#Unreleased',
+      'pkg#Newer',
+    ]);
   });
 });
 

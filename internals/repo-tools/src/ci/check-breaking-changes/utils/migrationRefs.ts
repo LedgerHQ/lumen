@@ -1,26 +1,47 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import { parse } from 'yaml';
+import { existsSync, readFileSync } from 'node:fs';
+import semver from 'semver';
 import type { ApiChange } from '../apiDiff.ts';
 
-const frontmatter = /^---\n([\s\S]*?)\n---/;
+export type Migration = {
+  /** Package → first version that ships the change, `null` until released. */
+  introduced: Record<string, string | null>;
+  changes: { ref: string }[];
+};
 
-/** The `changes[].ref` of one migration file. */
-function fileRefs(content: string): string[] {
-  const yaml = content.match(frontmatter)?.[1];
-  const data = yaml === undefined ? undefined : parse(yaml);
-  const changes: unknown = data?.changes;
-  if (!Array.isArray(changes)) return [];
-  return changes
-    .map((change) => change?.ref)
-    .filter((ref): ref is string => typeof ref === 'string');
+/** The migrations listed in `@ledgerhq/lumen-migrations`' built `index.json`. */
+export function readMigrations(indexPath: string): Migration[] {
+  if (!existsSync(indexPath)) {
+    throw new Error(
+      `${indexPath} is missing: run \`npx nx run @ledgerhq/lumen-migrations:build\` first.`,
+    );
+  }
+  return JSON.parse(readFileSync(indexPath, 'utf8')).migrations;
 }
 
-/** Every ref the migration files in `dir` declare. */
-export function migrationRefs(dir: string): string[] {
-  return readdirSync(dir)
-    .filter((name) => name.endsWith('.md'))
-    .flatMap((name) => fileRefs(readFileSync(join(dir, name), 'utf8')));
+/** Whether a migration ships in `name` after `released`, or isn't released yet. */
+function isPending(
+  migration: Migration,
+  name: string,
+  released: string,
+): boolean {
+  if (!(name in migration.introduced)) return false;
+  const version = migration.introduced[name];
+  return version === null || semver.gt(version, released);
+}
+
+/**
+ * Refs that can cover `name`'s changes since its `released` version: only
+ * those of migrations not shipped yet, so a released wildcard ref doesn't
+ * excuse future breaks.
+ */
+export function pendingRefs(
+  migrations: Migration[],
+  name: string,
+  released: string,
+): string[] {
+  return migrations
+    .filter((migration) => isPending(migration, name, released))
+    .flatMap((migration) => migration.changes.map((change) => change.ref));
 }
 
 /** A ref as a full-match pattern, where `*` stands for any text. */

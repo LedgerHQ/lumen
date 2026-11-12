@@ -9,10 +9,16 @@ import {
 import { type ApiChange, diffSurfaces } from './apiDiff.ts';
 import { readSurface } from './apiSurface.ts';
 import { workspaceTempDir } from './utils/files.ts';
-import { migrationRefs, uncovered } from './utils/migrationRefs.ts';
+import { manifestVersion } from './utils/manifest.ts';
+import {
+  type Migration,
+  pendingRefs,
+  readMigrations,
+  uncovered,
+} from './utils/migrationRefs.ts';
 import { installBuilt, installReleased } from './utils/tarball.ts';
 
-const migrationsDir = join(workspaceRoot, 'libs/migrations/src');
+const migrationsIndex = join(workspaceRoot, 'libs/migrations/index.json');
 
 type Roots = { released: string | undefined; built: string };
 
@@ -33,13 +39,13 @@ function installAll(libs: Lib[], tmp: string): Map<Lib, Roots> {
 }
 
 /**
- * What a built lib breaks since its last release and no migration covers, or
- * `undefined` when it was never released.
+ * What a built lib breaks since its last release and no unreleased migration
+ * covers, or `undefined` when it was never released.
  */
 function unmigrated(
   lib: Lib,
   { released, built }: Roots,
-  refs: string[],
+  migrations: Migration[],
 ): ApiChange[] | undefined {
   if (released === undefined) return undefined;
   const changes = diffSurfaces(
@@ -47,6 +53,7 @@ function unmigrated(
     readSurface(released),
     readSurface(built),
   );
+  const refs = pendingRefs(migrations, lib.name, manifestVersion(released));
   return uncovered(changes, refs);
 }
 
@@ -72,13 +79,13 @@ function report(lib: Lib, changes: ApiChange[] | undefined): boolean {
 
 /** Checks every built lib and returns how many break without a migration. */
 function checkBreakingChanges(): number {
-  const refs = migrationRefs(migrationsDir);
+  const migrations = readMigrations(migrationsIndex);
   const tmp = workspaceTempDir('breaking-changes-');
   step('Checking breaking changes since the last release have a migration');
   try {
     const roots = installAll(publishableLibs(), tmp);
     const failed = [...roots].map(([lib, libRoots]) =>
-      report(lib, unmigrated(lib, libRoots, refs)),
+      report(lib, unmigrated(lib, libRoots, migrations)),
     );
     return failed.filter(Boolean).length;
   } finally {
@@ -89,7 +96,7 @@ function checkBreakingChanges(): number {
 if (import.meta.url === `file://${process.argv[1]}`) {
   if (checkBreakingChanges() > 0) {
     console.error(
-      '\nAdd a migration in libs/migrations/src whose `changes[].ref` matches each line above (`*` matches any text). See libs/migrations/README.md.',
+      '\nAdd a migration in libs/migrations/src whose `changes[].ref` matches each line above (`*` matches any text). Released migrations no longer count. See libs/migrations/README.md.',
     );
     process.exit(1);
   }

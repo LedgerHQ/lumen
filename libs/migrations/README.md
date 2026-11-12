@@ -93,7 +93,8 @@ it in line with the schema).
 - `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above.
 - `npm run check:breaking-changes` (CI, after a build) diffs each lib against
   its latest release and fails on any removed export, prop, prop value, token,
-  icon or new peer no `ref` matches. It can't see behavior or visual changes:
+  icon or new peer that no unreleased migration's `ref` matches (released ones
+  never cover a new break). It can't see behavior or visual changes:
   those still need a migration, flagged `silent` or `visual`.
 - A replacement with no 1:1 mapping is a `removed` change; the body explains
   what to use instead.

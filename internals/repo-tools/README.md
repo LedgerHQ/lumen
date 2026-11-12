@@ -37,7 +37,7 @@ use-case folder imports from `shared/` only, never from another use case.
 > sibling files in this project, nothing else. `ci/check-package-exports/` uses
 > `publint`, `ci/check-package-types/` uses `@arethetypeswrong/core`,
 > `ci/check-peer-deps/` uses `semver`, `ci/check-breaking-changes/` uses
-> `typescript`, `semver` and `yaml`.
+> `typescript` and `semver`.
 
 ## PR report
 
