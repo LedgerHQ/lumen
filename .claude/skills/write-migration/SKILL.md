@@ -36,10 +36,13 @@ Copy this checklist and tick it off:
 
 ```bash
 git fetch origin main
-git diff origin/main --name-only -- 'libs/*/src/**'
+base=$(git merge-base origin/main HEAD)
+git diff "$base" --name-only -- 'libs/*/src/**' 'libs/*/package.json'
 ```
 
-If the fetch fails, say so: the diff may run against a stale `origin/main`.
+Diff against the merge base, never `origin/main` itself: once main moves on,
+its new changes would show up reversed as this branch's. If the fetch fails,
+say so: the base may be stale.
 
 The libs touched are the second path segment. Read the diff of their public
 surface: `index.ts` exports, each component file and its props type
@@ -108,16 +111,18 @@ or whether a behavior change is intended. Offer the options and your pick.
 
 ## 5. Write the version plans
 
-Follow the `release-plan` skill: `patch`, one package per file. Plans already
-on the branch count:
+Follow the `release-plan` skill: `patch`, one package per file. Plans this
+branch adds count, whether committed or not:
 
 ```bash
-git diff origin/main --name-only -- .nx/version-plans
+git diff "$base" --name-only --diff-filter=A -- .nx/version-plans
+git ls-files --others --exclude-standard .nx/version-plans
 ```
 
 Needed:
 
-- one per lib with a change under `libs/*/src/`;
+- one per lib with a change under `libs/*/src/` or to its `package.json`
+  (a dependency-only migration needs one too);
 - one for `@ledgerhq/lumen-migrations` when a migration is added or changed.
 
 Get the timestamp with `node -p 'Date.now()'`. The message is the conventional
@@ -135,11 +140,14 @@ npx nx run @ledgerhq/lumen-migrations:validate
 It checks the schema, the body sections, and that each source `detect` pattern
 matches a `before` example and, unless `expect: review`, no `after` example.
 
-The rest only sees **committed** files: a migration counts for
-`check:breaking-changes` once the index dates it from its commit, and the
-"Changes since the base" part of `validate` (plans present, ids kept) passes
-trivially before. So ask the user before committing the migration and plans,
-then run:
+The rest only sees **committed** files. The "Changes since the base" part of
+`validate` (plans present, ids kept) passes trivially before. The index takes a
+migration's packages from the plans added in **the commit that adds it**, and
+`check:breaking-changes` ignores it without them. So ask the user before
+committing, then commit the migration together with the plans of the packages
+it breaks. If those plans are already in an earlier commit, a later commit
+won't fix it: ask before squashing them into one. CI sees the PR as one merge
+commit, so this only matters locally. Then run:
 
 ```bash
 npx nx run @ledgerhq/lumen-migrations:validate
@@ -147,7 +155,7 @@ npx nx run @ledgerhq/lumen-migrations:build
 npm run check:breaking-changes
 ```
 
-Fix each error, amend or add a commit, rebuild the index, and run again. Only
+Fix each error, amend the commit, rebuild the index, and run again. Only
 stop when all three pass. If the libs changed since step 2, rebuild them too.
 
 ## Report
