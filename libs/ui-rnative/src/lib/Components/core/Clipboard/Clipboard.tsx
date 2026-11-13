@@ -30,7 +30,7 @@ const useStyles = ({
       return {
         container: {
           flexDirection: 'row',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           gap: t.spacings.s8,
           minHeight: t.sizes.s48,
           padding: t.spacings.s8,

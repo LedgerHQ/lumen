@@ -61,7 +61,7 @@ export const Clipboard = ({
       ref={ref}
       type='button'
       className={cn(
-        'group flex min-h-48 w-full items-center gap-8 rounded-sm p-8 ps-16 text-start transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
+        'group flex min-h-48 w-full items-start gap-8 rounded-sm p-8 ps-16 text-start transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-focus',
         disabled
           ? 'cursor-not-allowed bg-disabled text-disabled'
           : 'cursor-pointer bg-muted text-base',
