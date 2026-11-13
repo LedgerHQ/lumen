@@ -118,9 +118,7 @@ describe('Clipboard', () => {
         }),
     );
     const onCopy = jest.fn();
-    renderClipboard(
-      <Clipboard testID='clipboard' value='A' onCopy={onCopy} />,
-    );
+    renderClipboard(<Clipboard testID='clipboard' value='A' onCopy={onCopy} />);
 
     fireEvent.press(screen.getByTestId('clipboard'));
     screen.rerender(
