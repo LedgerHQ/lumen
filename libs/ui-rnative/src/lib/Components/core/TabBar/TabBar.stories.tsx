@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { useEffect, useState } from 'react';
+import { useReducedMotion } from 'react-native-reanimated';
 import { Box } from '../../primitives';
 import {
   BasketPutIn,
@@ -16,7 +17,12 @@ import {
   CreditCard,
   CreditCardFill,
 } from '../../symbols';
-import { createTabBar, TabBar, TabBarItem } from './TabBar';
+import {
+  createTabBar,
+  TAB_BAR_EXPANDED_HEIGHT,
+  TabBar,
+  TabBarItem,
+} from './TabBar';
 
 const meta = {
   id: 'rnative-tabbar',
@@ -163,6 +169,69 @@ export const DensityShowcase: Story = {
           </TabBar>
         ))}
       </Box>
+    );
+  },
+};
+
+export const WithDensityTransition: Story = {
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
+  decorators: [
+    (Story) => (
+      <Box
+        style={{
+          minHeight: TAB_BAR_EXPANDED_HEIGHT,
+          justifyContent: 'flex-end',
+        }}
+      >
+        <Story />
+      </Box>
+    ),
+  ],
+  render: () => {
+    const [active, setActive] = useState('home');
+    const [density, setDensity] = useState<'expanded' | 'compact'>('expanded');
+    const reducedMotion = useReducedMotion();
+
+    useEffect(() => {
+      if (reducedMotion) {
+        return;
+      }
+      const interval = setInterval(() => {
+        setDensity((current) =>
+          current === 'expanded' ? 'compact' : 'expanded',
+        );
+      }, 2000);
+      return () => clearInterval(interval);
+    }, [reducedMotion]);
+
+    return (
+      <TabBar
+        density={density}
+        active={active}
+        onTabPress={setActive}
+        lx={{ width: 's320' }}
+      >
+        <TabBarItem
+          value='home'
+          label='Home'
+          icon={Home}
+          activeIcon={HomeFill}
+        />
+        <TabBarItem
+          value='pay'
+          label='Pay'
+          icon={CreditCard}
+          activeIcon={CreditCardFill}
+        />
+        <TabBarItem
+          value='help'
+          label='Help'
+          icon={LifeRing}
+          activeIcon={LifeRingFill}
+        />
+      </TabBar>
     );
   },
 };

@@ -1,0 +1,26 @@
+{
+  "name": "@ledgerhq/lumen-symbols",
+  "version": "0.0.1",
+  "description": "Symbols for the Lumen design system, one import path per symbol.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "!**/*.tsbuildinfo"
+  ],
+  "exports": {
+    "./lotties/*": {
+      "types": "./dist/lotties/*.d.ts",
+      "import": "./dist/lotties/*.js",
+      "default": "./dist/lotties/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "nx": {
+    "tags": [
+      "scope:shared",
+      "type:assets"
+    ]
+  }
+}

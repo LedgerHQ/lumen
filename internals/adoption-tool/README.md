@@ -73,9 +73,10 @@ libs there.
 
 ## Upgrade pipeline
 
-`start-upgrades` prints the run matrix that `.github/workflows/lumen-upgrade.yml`
-feeds to Cairn ([ADR 027](https://ledgerhq.atlassian.net/wiki/spaces/DLS/pages/7689666642)).
-It reads the registry and npm, and starts nothing itself. Only `eligible`
+`start-upgrades` prints the run matrix that the upgrade workflow in the private
+`LedgerHQ/lumen-automation` repo feeds to Cairn ([ADR 027](https://ledgerhq.atlassian.net/wiki/spaces/DLS/pages/7689666642)).
+`.github/workflows/lumen-upgrade.yml` only notifies that repo after a release.
+It reads the registry and the libs' versions, and starts nothing itself. Only `eligible`
 repos are listed, in two groups: upstream repos first, then the
 rest by priority (`P1` to `P3`, then unset). Each item carries the plan input:
 target versions, PR title and labels, changeset flag and upstream packages.
