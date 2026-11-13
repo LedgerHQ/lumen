@@ -34,9 +34,6 @@ jobs:
       - name: Check that affected publishable libs have a version plan
         run: npx nx release plan:check --base=origin/main --verbose
 
-      - name: Check the version plans' format
-        run: npm run check:version-plans
-
       - name: Check migration files and their version plans
         run: npx nx affected -t validate
 

@@ -194,7 +194,6 @@ git diff origin/main...HEAD --name-only -- .nx/version-plans/
   `release-plan`) → **Moderate (6/10)**, `Release`.
 - Plan message isn't one `type(Scope): summary` line, or a breaking change
   lacks `!` (format in `release-plan`) → **Minor (4/10)**, `Release`.
-  `npm run check:version-plans` catches the format.
 
 ## Migration check
 

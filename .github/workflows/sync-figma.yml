@@ -215,7 +215,7 @@ jobs:
           name: react-native-symbols
           path: libs/ui-rnative/src/lib/Components/symbols/
 
-      # One plan per package, in the format check:version-plans enforces.
+      # One plan per package, in the format of the release-plan skill.
       - name: Add release plans
         run: |
           mkdir -p .nx/version-plans

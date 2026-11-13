@@ -45,10 +45,6 @@ format is for readers.
 | `fix(Dialog): animate the whole DialogContent height`         | `BREAKING_CHANGE(DataTable): remove …` (not a type)      |
 | `chore(deps): require react-native-reanimated ^4.3.0 as peer` | `fix(Spot): Use a 16px icon.` (capital, trailing period) |
 
-`npm run check:version-plans` checks every plan added or edited since
-`origin/main` (CI runs it). Released plans are deleted by the release, so it
-never sees them.
-
 ## One package per file
 
 Each release plan file MUST list a single package in its frontmatter — never
