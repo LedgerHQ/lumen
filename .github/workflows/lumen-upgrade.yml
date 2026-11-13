@@ -1,10 +1,8 @@
 name: Lumen Upgrade
 
-# Starts one Cairn run per eligible consumer repo (ADR 027).
-# Upstream repos run first, then the rest by priority. The matrix comes from
-# `adoption-tool:start-upgrades`; nothing here knows how to upgrade a repo.
-# Test phase: only `lumen-test-app` has `eligible: true` in consumers.json;
-# opt more repos in there to widen the rollout.
+# Tells the private LedgerHQ/lumen-automation repo that Lumen was released
+# (ADR 027). The upgrade runs live there: this repo is public, so it cannot use
+# the internal Cairn action. Run the upgrade by hand from that repo to test it.
 
 concurrency:
   group: lumen-upgrade
@@ -15,26 +13,13 @@ on:
     workflows: ['Release All']
     types: [completed]
   workflow_dispatch:
-    inputs:
-      dry-run:
-        description: 'Print the run matrix without starting any Cairn run'
-        required: true
-        type: boolean
-        default: true
-      cairn-url:
-        description: "Cairn instance URL; leave empty for production. Use Cairn's sandbox instance with LedgerHQ/cairn@main for tests"
-        required: false
-        type: string
-
-env:
-  NX_NO_CLOUD: true
 
 permissions:
   contents: read
 
 jobs:
-  registry:
-    name: Build run matrix
+  dispatch:
+    name: Notify lumen-automation
     # Only a real release from main starts upgrades: not a failed one, a dry
     # run (nothing published) or one run from another branch.
     if: >-
@@ -43,76 +28,18 @@ jobs:
       github.event.workflow_run.head_branch == 'main' &&
       !contains(github.event.workflow_run.display_title, '(dry-run)'))
     runs-on: public-ledgerhq-shared-small
-    outputs:
-      upstream: ${{ steps.matrix.outputs.upstream }}
-      downstream: ${{ steps.matrix.outputs.downstream }}
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-
-      - uses: ./.github/actions/setup
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
         with:
-          set-shas: 'false'
+          app-id: ${{ secrets.LUMEN_RELEASE_APP_ID }}
+          private-key: ${{ secrets.LUMEN_RELEASE_APP_KEY }}
+          owner: LedgerHQ
+          repositories: lumen-automation
+          permission-contents: write # required to send a repository_dispatch
 
-      - name: Build run matrix
-        id: matrix
-        run: |
-          npx nx run adoption-tool:start-upgrades --out "$RUNNER_TEMP/matrix.json" > /dev/null
-          {
-            echo '### Run matrix'
-            echo '```json'
-            jq . "$RUNNER_TEMP/matrix.json"
-            echo '```'
-          } | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "upstream=$(jq -c .upstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
-          echo "downstream=$(jq -c .downstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
-
-  upstream:
-    name: Upstream ${{ matrix.repo.name }}
-    needs: registry
-    if: ${{ !inputs.dry-run && needs.registry.outputs.upstream != '[]' }}
-    runs-on: public-ledgerhq-shared-small
-    strategy:
-      fail-fast: false # one repo failing doesn't stop the others
-      max-parallel: 5
-      matrix:
-        repo: ${{ fromJson(needs.registry.outputs.upstream) }}
-    steps:
-      - uses: LedgerHQ/cairn@stable
-        with:
-          workflow: run-plan
-          url: ${{ inputs.cairn-url }}
-          token: ${{ secrets.CAIRN_TOKEN }}
-          wait: 'true'
-          timeout: '7200'
-          interval: '30'
-          input: |-
-            repoUrl: https://github.com/${{ matrix.repo.name }}
-            planPath: .koda/plans/lumen-upgrade.ts
-            inputs: ${{ matrix.repo.inputs }}
-
-  downstream:
-    name: ${{ matrix.repo.name }}
-    needs: [registry, upstream]
-    # Run even when an upstream run failed or was skipped: the plan itself
-    # reports `blocked by <package>` when an upstream still pins an old Lumen.
-    if: ${{ !cancelled() && needs.registry.result == 'success' && !inputs.dry-run && needs.registry.outputs.downstream != '[]' }}
-    runs-on: public-ledgerhq-shared-small
-    strategy:
-      fail-fast: false
-      max-parallel: 5
-      matrix:
-        repo: ${{ fromJson(needs.registry.outputs.downstream) }}
-    steps:
-      - uses: LedgerHQ/cairn@stable
-        with:
-          workflow: run-plan
-          url: ${{ inputs.cairn-url }}
-          token: ${{ secrets.CAIRN_TOKEN }}
-          wait: 'true'
-          timeout: '7200'
-          interval: '30'
-          input: |-
-            repoUrl: https://github.com/${{ matrix.repo.name }}
-            planPath: .koda/plans/lumen-upgrade.ts
-            inputs: ${{ matrix.repo.inputs }}
+      - name: Send lumen-released
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: gh api repos/LedgerHQ/lumen-automation/dispatches -f event_type=lumen-released
