@@ -26,16 +26,17 @@ feat(Select): add render prop and SelectButtonTrigger
 
 ## Message
 
-One line: `type(Scope): summary`. Nx renders it in the GitHub Release, which
-the `release-notes-slack` skill announces.
+One line: `type(Scope): summary`. Nx copies it as is into the GitHub Release,
+which the `release-notes-slack` skill announces. Nx doesn't parse it: the
+format is for readers.
 
 - `type`: `feat`, `fix`, `refactor`, `perf`, `chore` or `docs`.
 - `Scope`: the component or area (`Button`, `tokens`, `deps`, `migrations`).
 - `summary`: imperative, lowercase first letter, no trailing period, at most
   100 characters. Say what changed, not how to update: that goes in the
   migration (`libs/migrations/README.md`).
-- Breaking change: add `!` after the scope. Nx reads it as the breaking marker;
-  `BREAKING_CHANGE(...)` is not a type it knows.
+- Breaking change: add `!` after the scope, so readers of the release notes
+  see it. Not `BREAKING_CHANGE(...)`.
 
 | Good                                                          | Bad                                                      |
 | ------------------------------------------------------------- | -------------------------------------------------------- |

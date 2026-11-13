@@ -2,8 +2,8 @@
 /**
  * Version plans added or edited since the base must follow the format in the
  * `release-plan` skill: one package, a `patch` bump, and a one-line
- * `type(Scope): summary` message. Nx renders that message in the GitHub
- * Release, and only reads the type and the `!` breaking marker from this shape.
+ * `type(Scope): summary` message. Nx copies that message unparsed into the
+ * GitHub Release, so the shape (and `!` for a breaking change) is for readers.
  *
  * Run: node internals/repo-tools/src/ci/check-version-plans/versionPlans.ts
  */
