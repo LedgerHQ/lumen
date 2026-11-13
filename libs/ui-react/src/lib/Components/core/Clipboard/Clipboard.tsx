@@ -71,10 +71,12 @@ export const Clipboard = ({
       onClick={handleClick}
       {...props}
     >
-      <span className='min-w-0 flex-1 body-2 wrap-break-word'>{value}</span>
+      <span className='min-w-0 flex-1 py-4 body-1 wrap-break-word'>
+        {value}
+      </span>
       <span
         className={cn(
-          'shrink-0 rounded-full p-8 transition-colors',
+          'flex shrink-0 rounded-full p-8 transition-colors',
           !disabled &&
             'group-hover:bg-base-transparent-hover group-active:bg-base-transparent-pressed',
         )}

@@ -38,9 +38,10 @@ const useStyles = ({
           backgroundColor: disabled ? t.colors.bg.disabled : t.colors.bg.muted,
         },
         value: StyleSheet.flatten([
-          t.typographies.body2,
+          t.typographies.body1,
           {
             flex: 1,
+            paddingVertical: t.spacings.s4,
             textAlign: 'left',
             color: foregroundColor,
           },
