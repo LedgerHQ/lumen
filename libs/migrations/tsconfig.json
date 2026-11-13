@@ -6,6 +6,8 @@
     "declarationMap": false,
     "emitDeclarationOnly": false,
     "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
     "allowImportingTsExtensions": true,
     "erasableSyntaxOnly": true,
     "verbatimModuleSyntax": true,
@@ -14,5 +16,5 @@
     "lib": ["es2022"],
     "types": ["node"]
   },
-  "include": ["scripts/**/*.ts", "vitest.config.ts"]
+  "include": ["scripts/**/*.ts", "cli/**/*.js", "vitest.config.ts"]
 }

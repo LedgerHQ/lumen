@@ -3,7 +3,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { buildIndex, parseSubject } from './build-index.ts';
+import { buildIndex, lumenPackages, parseSubject } from './build-index.ts';
 import { migrationFrontmatter } from './schema.ts';
 import { checkBreakingPr } from './validate.ts';
 
@@ -113,6 +113,32 @@ describe('parseSubject', () => {
   });
 });
 
+describe('lumenPackages', () => {
+  it('lists published Lumen libs, without this package', () => {
+    const manifest = (name: string, extra = {}): string =>
+      JSON.stringify({ name, ...extra });
+    write('libs/ui-react/package.json', manifest('@ledgerhq/lumen-ui-react'));
+    write(
+      'libs/design-core/package.json',
+      manifest('@ledgerhq/lumen-design-core'),
+    );
+    write(
+      'libs/migrations/package.json',
+      manifest('@ledgerhq/lumen-migrations'),
+    );
+    write(
+      'libs/demo/package.json',
+      manifest('@ledgerhq/lumen-demo', { private: true }),
+    );
+    write('libs/other/package.json', manifest('left-pad'));
+
+    expect(lumenPackages(root)).toEqual([
+      '@ledgerhq/lumen-design-core',
+      '@ledgerhq/lumen-ui-react',
+    ]);
+  });
+});
+
 describe('buildIndex', () => {
   it('derives every field from the commit, its plans and its tags', () => {
     const sha = addMigration(
@@ -129,6 +155,7 @@ describe('buildIndex', () => {
     expect(issues).toEqual([]);
     expect(index).toEqual({
       formatVersion: 1,
+      packages: [],
       migrations: [
         {
           id: 'menu-base-ui',
@@ -382,7 +409,7 @@ pr: 587
     commit('feat: broken (#1)');
 
     expect(buildIndex(root)).toEqual({
-      index: { formatVersion: 1, migrations: [] },
+      index: { formatVersion: 1, packages: [], migrations: [] },
       issues: ['broken: invalid frontmatter, run the validate target'],
     });
   });
