@@ -66,6 +66,10 @@
     },
     "subheader": {
       "moreInfoAriaLabel": "More information"
+    },
+    "clipboard": {
+      "copyAriaLabel": "Copy",
+      "copiedAriaLabel": "Copied"
     }
   }
 }

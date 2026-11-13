@@ -34,6 +34,10 @@
       "nextPageAriaLabel": "下一页",
       "pageAriaLabel": "第 {{page}} 页",
       "pageOfTotal": "{{current}} / {{total}}"
+    },
+    "clipboard": {
+      "copyAriaLabel": "复制",
+      "copiedAriaLabel": "已复制"
     }
   }
 }

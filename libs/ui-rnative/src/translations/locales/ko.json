@@ -34,6 +34,10 @@
       "nextPageAriaLabel": "다음 페이지",
       "pageAriaLabel": "{{page}} 페이지",
       "pageOfTotal": "{{current}} / {{total}}"
+    },
+    "clipboard": {
+      "copyAriaLabel": "복사",
+      "copiedAriaLabel": "복사됨"
     }
   }
 }

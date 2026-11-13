@@ -10,6 +10,7 @@ const transformIncludePatterns = [
   '(jest-)?react-native',
   '@react-native(-community)?',
   '@sbaiahmed1/react-native-blur',
+  'expo-clipboard',
   'expo-haptics',
   'expo-modules-core',
   // d3-scale and d3-shape are pure ESM and must be transformed for Jest

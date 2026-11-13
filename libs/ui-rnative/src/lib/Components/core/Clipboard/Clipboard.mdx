@@ -1,0 +1,72 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ClipboardStories from './Clipboard.stories';
+import { CustomTabs, Tab } from '../../../../../.storybook/components';
+
+<Meta title='Core/Clipboard' of={ClipboardStories} />
+
+# Clipboard
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+**Clipboard** displays a value the user can copy, such as an address, an ID or a code. The whole surface is pressable: pressing it copies the value and switches the copy icon to a check icon for 3 seconds.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=23359-110294).
+
+## Anatomy
+
+- **Value**: the text that is displayed and copied. Long values wrap onto multiple lines.
+- **Icon**: the copy icon, replaced by a check icon once the value is copied. Pressing anywhere on the clipboard highlights it.
+
+## Properties
+
+### Overview
+
+<Canvas of={ClipboardStories.Base} />
+<Controls of={ClipboardStories.Base} />
+
+### Multi-line
+
+The clipboard takes the full width of its container and wraps long values.
+
+<Canvas of={ClipboardStories.ResponsivenessShowcase} />
+
+## Accessibility
+
+- Exposed as a button. Its accessibility label is the value followed by "Copy", then "Copied" once the value is copied (translated with the library locale).
+- The copied state only shows when the clipboard write succeeds.
+
+</Tab>
+<Tab label="Implementation">
+
+## Setup
+
+Install and set up the library with our [Setup Guide →](?path=/docs/getting-started-setup--docs).
+
+Clipboard writes through [`expo-clipboard`](https://docs.expo.dev/versions/latest/sdk/clipboard/), a peer dependency of the library. Install it in your app:
+
+```sh
+npx expo install expo-clipboard
+```
+
+### Basic Usage
+
+<Source of={ClipboardStories.Base} />
+
+### With a toast
+
+Clipboard does not show a toast by itself. Use `onCopy` to trigger one:
+
+```tsx
+import { Clipboard, toast } from '@ledgerhq/lumen-ui-rnative';
+
+<Clipboard
+  value='0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
+  onCopy={() => toast.info({ title: 'Copied to clipboard' })}
+/>;
+```
+
+</Tab>
+</CustomTabs>
