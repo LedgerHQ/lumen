@@ -59,6 +59,47 @@ describe('Clipboard', () => {
     ).toBeInTheDocument();
   });
 
+  it('should not show a new value as copied when it changes during the confirmation', async () => {
+    const { rerender } = render(<Clipboard value='A' />);
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(
+      await screen.findByRole('button', {
+        name: 'A, components.clipboard.copiedAriaLabel',
+      }),
+    ).toBeInTheDocument();
+
+    rerender(<Clipboard value='B' />);
+    expect(
+      screen.getByRole('button', {
+        name: 'B, components.clipboard.copyAriaLabel',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('should not show a new value as copied when the previous write settles after it renders', async () => {
+    let resolveWrite: () => void = () => undefined;
+    writeText.mockImplementation(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveWrite = resolve;
+        }),
+    );
+    const onCopy = vi.fn();
+    const { rerender } = render(<Clipboard value='A' onCopy={onCopy} />);
+
+    await userEvent.click(screen.getByRole('button'));
+    rerender(<Clipboard value='B' onCopy={onCopy} />);
+    await act(async () => resolveWrite());
+
+    expect(onCopy).toHaveBeenCalledWith('A');
+    expect(
+      screen.getByRole('button', {
+        name: 'B, components.clipboard.copyAriaLabel',
+      }),
+    ).toBeInTheDocument();
+  });
+
   it('should not report a copy when the clipboard write fails', async () => {
     writeText.mockImplementation(() => Promise.reject(new Error('denied')));
     const onCopy = vi.fn();

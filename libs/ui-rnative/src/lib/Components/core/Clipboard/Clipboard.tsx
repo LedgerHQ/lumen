@@ -3,6 +3,7 @@ import {
   useTemporaryFlag,
 } from '@ledgerhq/lumen-utils-shared';
 import * as ExpoClipboard from 'expo-clipboard';
+import { useState } from 'react';
 import type { GestureResponderEvent } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
@@ -92,7 +93,10 @@ export const Clipboard = ({
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
   const disabled = useDisabledContext({ consumerName: 'Clipboard' });
-  const [copied, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
+  const [copyConfirmed, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
+  const [copiedValue, setCopiedValue] = useState<string>();
+
+  const copied = copyConfirmed && copiedValue === value;
 
   const handlePress = async (event: GestureResponderEvent) => {
     onPress?.(event);
@@ -104,6 +108,7 @@ export const Clipboard = ({
     } catch {
       return;
     }
+    setCopiedValue(value);
     markCopied();
     onCopy?.(value);
   };

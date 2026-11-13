@@ -89,6 +89,53 @@ describe('Clipboard', () => {
     );
   });
 
+  it('should not show a new value as copied when it changes during the confirmation', async () => {
+    renderClipboard(<Clipboard testID='clipboard' value='A' />);
+
+    fireEvent.press(screen.getByTestId('clipboard'));
+    await waitFor(() =>
+      expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
+        'A, Copied',
+      ),
+    );
+
+    screen.rerender(
+      <TestWrapper>
+        <Clipboard testID='clipboard' value='B' />
+      </TestWrapper>,
+    );
+    expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
+      'B, Copy',
+    );
+  });
+
+  it('should not show a new value as copied when the previous write settles after it renders', async () => {
+    let resolveWrite: (success: boolean) => void = () => undefined;
+    setStringAsync.mockImplementation(
+      () =>
+        new Promise<boolean>((resolve) => {
+          resolveWrite = resolve;
+        }),
+    );
+    const onCopy = jest.fn();
+    renderClipboard(
+      <Clipboard testID='clipboard' value='A' onCopy={onCopy} />,
+    );
+
+    fireEvent.press(screen.getByTestId('clipboard'));
+    screen.rerender(
+      <TestWrapper>
+        <Clipboard testID='clipboard' value='B' onCopy={onCopy} />
+      </TestWrapper>,
+    );
+    await act(async () => resolveWrite(true));
+
+    expect(onCopy).toHaveBeenCalledWith('A');
+    expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
+      'B, Copy',
+    );
+  });
+
   it('should not report a copy when the clipboard write fails', async () => {
     setStringAsync.mockImplementation(() =>
       Promise.reject(new Error('denied')),

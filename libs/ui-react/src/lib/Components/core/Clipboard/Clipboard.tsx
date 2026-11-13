@@ -3,6 +3,7 @@ import {
   useDisabledContext,
   useTemporaryFlag,
 } from '@ledgerhq/lumen-utils-shared';
+import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useCommonTranslation } from '../../../../translations';
 import { Check, Copy } from '../../symbols';
@@ -35,7 +36,10 @@ export const Clipboard = ({
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
   const disabled = useDisabledContext({ consumerName: 'Clipboard' });
-  const [copied, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
+  const [copyConfirmed, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
+  const [copiedValue, setCopiedValue] = useState<string>();
+
+  const copied = copyConfirmed && copiedValue === value;
   const Icon = copied ? Check : Copy;
 
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
@@ -47,6 +51,7 @@ export const Clipboard = ({
     } catch {
       return;
     }
+    setCopiedValue(value);
     markCopied();
     onCopy?.(value);
   };
