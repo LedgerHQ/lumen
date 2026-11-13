@@ -86,8 +86,8 @@ doesn't need.
   its ADR in `docs/adr/`.
 - **How to test**: 1–3 steps or story names, and a reminder to add before/after
   screenshots for UI changes. Remove it when CI covers the change.
-- **Breaking change**: uncomment and fill (before → after, migration) for
-  `BREAKING_CHANGE`; remove it otherwise.
+- **Breaking change**: uncomment and fill (before → after, migration) when the
+  title has `!` after the scope; remove it otherwise.
 
 Put deeper detail in a collapsible block, and only when it helps the reviewer
 (a tricky root cause, a rejected alternative, repro measurements). Leave it out

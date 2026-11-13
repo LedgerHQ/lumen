@@ -82,7 +82,10 @@ export function checkPlan(content: string): string[] {
   return [...checkEntries(entries), ...checkMessage(message[0])];
 }
 
-/** Plans added or edited since the base Nx affected compares against. */
+/**
+ * Plans added, edited, renamed or copied since the base Nx affected compares
+ * against. A renamed plan is listed under its new path, so it is checked too.
+ */
 function changedPlans(): string[] {
   const base = process.env.NX_BASE ?? 'origin/main';
   return execFileSync(
@@ -90,7 +93,7 @@ function changedPlans(): string[] {
     [
       'diff',
       '--name-only',
-      '--diff-filter=AM',
+      '--diff-filter=ACMR',
       `${base}...HEAD`,
       '--',
       '.nx/version-plans/*.md',
