@@ -210,21 +210,18 @@ const useTabBarAnimations = ({
     [pillIndex, densityProgress, labelOpacity],
   );
 
-  const barStyle = useAnimatedStyle(
-    () => ({
+  const barStyle = useAnimatedStyle(() => {
+    const inset = interpolate(densityProgress.value, [0, 1], [compactInset, 0]);
+    return {
       height: interpolate(
         densityProgress.value,
         [0, 1],
         [TAB_BAR_COMPACT_HEIGHT, expandedHeight],
       ),
-      marginHorizontal: interpolate(
-        densityProgress.value,
-        [0, 1],
-        [compactInset, 0],
-      ),
-    }),
-    [densityProgress, compactInset, expandedHeight],
-  );
+      marginLeft: inset,
+      marginRight: inset,
+    };
+  }, [densityProgress, compactInset, expandedHeight]);
 
   const pillStyle = useAnimatedStyle(
     () => ({
