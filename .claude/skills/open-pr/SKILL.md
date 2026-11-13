@@ -62,9 +62,10 @@ If `gh pr view --json url` finds a PR, print its URL and stop.
 
 - `<prefix>`: the platform prefix defined in the `jira-ticket` skill, derived
   from the changed libs.
-- `<type>`: `feat`, `fix`, `refactor`, `chore`, `docs` or `test`, or
-  `BREAKING_CHANGE` when consumers must change their code (removed or renamed
-  export or prop, changed default).
+- `<type>`: `feat`, `fix`, `refactor`, `perf`, `chore`, `docs` or `test`.
+  Add `!` after the scope when consumers must change their code (removed or
+  renamed export or prop, changed default): `feat(Link)!: …`, as in the
+  version plan (see the `release-plan` skill).
 - Without a ticket, drop `DLS-<n>`.
 
 ## 6. Body

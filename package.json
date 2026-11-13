@@ -12,7 +12,8 @@
     "check:layers": "depcruise libs/ui-react/src libs/ui-rnative/src libs/design-core/src libs/utils-shared/src --config .dependency-cruiser.cjs",
     "check:deps": "syncpack lint",
     "fix:deps": "syncpack fix && npm install",
-    "check:peer-deps": "node internals/repo-tools/src/ci/check-peer-deps/peerDeps.ts"
+    "check:peer-deps": "node internals/repo-tools/src/ci/check-peer-deps/peerDeps.ts",
+    "check:version-plans": "node internals/repo-tools/src/ci/check-version-plans/versionPlans.ts"
   },
   "private": true,
   "devDependencies": {

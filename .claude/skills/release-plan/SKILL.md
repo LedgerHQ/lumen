@@ -2,7 +2,8 @@
 name: release-plan
 description: >-
   Use when generating or editing an Nx version plan in .nx/version-plans/ — the
-  bump type must always be `patch`, one package per file.
+  bump type must always be `patch`, one package per file, and the message one
+  `type(Scope): summary` line.
 ---
 
 # Release plan bump type
@@ -22,6 +23,30 @@ feat(Select): add render prop and SelectButtonTrigger
 
 - Do not infer `minor` from `feat(...)` commits.
 - Do not infer `major` from breaking changes.
+
+## Message
+
+One line: `type(Scope): summary`. Nx renders it in the GitHub Release, which
+the `release-notes-slack` skill announces.
+
+- `type`: `feat`, `fix`, `refactor`, `perf`, `chore` or `docs`.
+- `Scope`: the component or area (`Button`, `tokens`, `deps`, `migrations`).
+- `summary`: imperative, lowercase first letter, no trailing period, at most
+  100 characters. Say what changed, not how to update: that goes in the
+  migration (`libs/migrations/README.md`).
+- Breaking change: add `!` after the scope. Nx reads it as the breaking marker;
+  `BREAKING_CHANGE(...)` is not a type it knows.
+
+| Good                                                          | Bad                                                      |
+| ------------------------------------------------------------- | -------------------------------------------------------- |
+| `feat(Button): add the green appearance`                      | `Sync interface icons from Figma` (no type or scope)     |
+| `feat(Link)!: rename isExternal to external`                  | `refactor: move cn to design-core` (no scope)            |
+| `fix(Dialog): animate the whole DialogContent height`         | `BREAKING_CHANGE(DataTable): remove …` (not a type)      |
+| `chore(deps): require react-native-reanimated ^4.3.0 as peer` | `fix(Spot): Use a 16px icon.` (capital, trailing period) |
+
+`npm run check:version-plans` checks every plan added or edited since
+`origin/main` (CI runs it). Released plans are deleted by the release, so it
+never sees them.
 
 ## One package per file
 

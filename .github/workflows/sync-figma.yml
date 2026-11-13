@@ -215,19 +215,15 @@ jobs:
           name: react-native-symbols
           path: libs/ui-rnative/src/lib/Components/symbols/
 
-      - name: Add release plan
+      # One plan per package, in the format check:version-plans enforces.
+      - name: Add release plans
         run: |
           mkdir -p .nx/version-plans
           TIMESTAMP=$(node -e "console.log(Date.now())")
-          cat << EOF > .nx/version-plans/version-plan-$TIMESTAMP.md
-          ---
-          '@ledgerhq/lumen-design-core': patch
-          '@ledgerhq/lumen-ui-rnative': patch
-          '@ledgerhq/lumen-ui-react': patch
-          ---
-
-          Sync Figma Design Tokens & Symbols
-          EOF
+          for slug in design-core ui-rnative ui-react; do
+            printf -- "---\n'@ledgerhq/lumen-%s': patch\n---\n\nfeat(figma): sync design tokens and symbols from Figma\n" "$slug" \
+              > ".nx/version-plans/version-plan-$TIMESTAMP-$slug.md"
+          done
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
