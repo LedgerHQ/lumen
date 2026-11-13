@@ -34,6 +34,9 @@ jobs:
       - name: Check that affected publishable libs have a version plan
         run: npx nx release plan:check --base=origin/main --verbose
 
+      - name: Check migration files and their version plans
+        run: npx nx affected -t validate
+
   agent-drift:
     name: Agent docs & structure drift
     runs-on: ubuntu-latest
@@ -88,6 +91,8 @@ jobs:
 
       - run: npx nx run-many --targets=build-deps --all
       - run: npx nx affected -t lint typecheck
+      - name: Intra-lib layer rules (dependency-cruiser)
+        run: npm run check:layers
 
   build:
     name: Build
@@ -130,6 +135,11 @@ jobs:
       - name: Verify package types (attw)
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: npm run check:package-types
+
+      # Diffs each built lib against its latest npm release (ADR 027).
+      - name: Require a migration for every breaking change
+        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
+        run: npm run check:breaking-changes
 
   unit-testing:
     name: Unit Testing

@@ -11,6 +11,18 @@ export type ConsumerStatus = (typeof CONSUMER_STATUSES)[number];
 export const CONSUMER_PRIORITIES = ['P1', 'P2', 'P3'] as const;
 export type ConsumerPriority = (typeof CONSUMER_PRIORITIES)[number];
 
+export type UpstreamPackage = {
+  package: string;
+  /** Repo that publishes the package; it is upgraded before this one. */
+  repo: string;
+};
+
+export type PrConventions = {
+  /** Prepended verbatim to the default title, e.g. a ticket key and separator. */
+  titlePrefix?: string;
+  labels?: string[];
+};
+
 export type ConsumerEntry = {
   repo: string;
   status: ConsumerStatus;
@@ -21,6 +33,12 @@ export type ConsumerEntry = {
    * one or several workspace package.json files (the worst status wins). */
   packageJsonPaths?: Partial<Record<LumenPackage, string[]>>;
   notes?: string;
+  /** Opt-in to the automated upgrade pipeline (ADR 027). */
+  eligible?: boolean;
+  upstreamPackages?: UpstreamPackage[];
+  pr?: PrConventions;
+  /** The repo's CI requires a changeset file. */
+  changeset?: boolean;
 };
 
 const ENTRY_KEYS = [
@@ -30,7 +48,13 @@ const ENTRY_KEYS = [
   'packageJsonPath',
   'packageJsonPaths',
   'notes',
+  'eligible',
+  'upstreamPackages',
+  'pr',
+  'changeset',
 ];
+const PR_KEYS = ['titlePrefix', 'labels'];
+const UPSTREAM_KEYS = ['package', 'repo'];
 export const REPO_PATTERN = /^[\w.-]+\/[\w.-]+$/;
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -63,6 +87,50 @@ function validatePackageJsonPaths(value: unknown): string[] {
   });
 }
 
+function validateUpstreamPackages(value: unknown): string[] {
+  if (!Array.isArray(value) || value.length === 0) {
+    return ['"upstreamPackages" must be a non-empty array'];
+  }
+  return value.flatMap((item: unknown, index) => {
+    const label = `"upstreamPackages[${index}]"`;
+    if (!isRecord(item)) return [`${label} must be an object`];
+    const errors = Object.keys(item)
+      .filter((key) => !UPSTREAM_KEYS.includes(key))
+      .map((key) => `${label} has unknown key "${key}"`);
+    if (typeof item.package !== 'string' || item.package.length === 0) {
+      errors.push(`${label}.package must be a non-empty string`);
+    }
+    if (typeof item.repo !== 'string' || !REPO_PATTERN.test(item.repo)) {
+      errors.push(`${label}.repo must look like "Org/name"`);
+    }
+    return errors;
+  });
+}
+
+function validatePr(value: unknown): string[] {
+  if (!isRecord(value)) return ['"pr" must be an object'];
+  const errors = Object.keys(value)
+    .filter((key) => !PR_KEYS.includes(key))
+    .map((key) => `"pr" has unknown key "${key}"`);
+  if (
+    value.titlePrefix !== undefined &&
+    typeof value.titlePrefix !== 'string'
+  ) {
+    errors.push('"pr.titlePrefix" must be a string');
+  }
+  if (
+    value.labels !== undefined &&
+    !(Array.isArray(value.labels) && value.labels.every(isNonEmptyString))
+  ) {
+    errors.push('"pr.labels" must be an array of non-empty strings');
+  }
+  return errors;
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0;
+}
+
 function validateEntry(entry: unknown): string[] {
   if (!isRecord(entry)) return ['must be an object'];
 
@@ -91,7 +159,45 @@ function validateEntry(entry: unknown): string[] {
   if (entry.notes !== undefined && typeof entry.notes !== 'string') {
     errors.push('"notes" must be a string');
   }
+  for (const key of ['eligible', 'changeset'] as const) {
+    if (entry[key] !== undefined && typeof entry[key] !== 'boolean') {
+      errors.push(`"${key}" must be a boolean`);
+    }
+  }
+  if (entry.upstreamPackages !== undefined) {
+    errors.push(...validateUpstreamPackages(entry.upstreamPackages));
+  }
+  if (entry.pr !== undefined) {
+    errors.push(...validatePr(entry.pr));
+  }
   return errors;
+}
+
+/**
+ * Upstream repos must be registered, distinct from the repo, and have no
+ * upstream of their own: the pipeline runs a single upstream tier, so a chain
+ * (or a cycle) would run in parallel instead of in order.
+ */
+function validateUpstreamRepos(entries: ConsumerEntry[]): string[] {
+  const byRepo = new Map(entries.map((entry) => [entry.repo, entry]));
+  return entries.flatMap((entry) =>
+    (entry.upstreamPackages ?? []).flatMap(({ repo }) => {
+      if (repo === entry.repo) {
+        return [`${entry.repo}: "upstreamPackages" cannot reference itself`];
+      }
+      const upstream = byRepo.get(repo);
+      if (!upstream) {
+        return [
+          `${entry.repo}: upstream repo "${repo}" is not in the registry`,
+        ];
+      }
+      return upstream.upstreamPackages?.length
+        ? [
+            `${entry.repo}: upstream repo "${repo}" has its own "upstreamPackages"; only one upstream level is supported`,
+          ]
+        : [];
+    }),
+  );
 }
 
 /**
@@ -116,6 +222,10 @@ export function parseConsumers(raw: unknown): ConsumerEntry[] {
       seenRepos.add(entry.repo);
     }
   });
+
+  if (errors.length === 0) {
+    errors.push(...validateUpstreamRepos(raw as ConsumerEntry[]));
+  }
 
   if (errors.length > 0) {
     throw new Error(

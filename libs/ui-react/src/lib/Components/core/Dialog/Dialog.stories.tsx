@@ -456,6 +456,66 @@ export const WithMultiSteps: Story = {
   },
 };
 
+export const WithAnimatedHeight: Story = {
+  render: () => {
+    const [open, setOpen] = useState(false);
+    const [step, setStep] = useState(0);
+
+    // Steps of different heights to show the transition growing and shrinking.
+    const steps = [
+      { title: 'Short step', lines: 1 },
+      { title: 'Medium step', lines: 5 },
+      { title: 'Long step', lines: 10 },
+      { title: 'Short again', lines: 2 },
+    ];
+    const isLast = step === steps.length - 1;
+
+    const handleOpenChange = (isOpen: boolean) => {
+      setOpen(isOpen);
+      if (!isOpen) {
+        setStep(0);
+      }
+    };
+
+    return (
+      <Dialog animated open={open} onOpenChange={handleOpenChange}>
+        <DialogTrigger asChild>
+          <Button appearance='base'>Open Dialog</Button>
+        </DialogTrigger>
+        <DialogContent>
+          <DialogHeader
+            className='py-8'
+            density='expanded'
+            title={steps[step].title}
+            description={`Step ${step + 1} of ${steps.length}`}
+            onClose={() => setOpen(false)}
+            onBack={step > 0 ? () => setStep(step - 1) : undefined}
+          />
+          <DialogBody>
+            <div className='flex flex-col gap-8'>
+              {Array.from({ length: steps[step].lines }, (_, i) => (
+                <p key={i} className='body-2 text-base'>
+                  The dialog height transitions smoothly to fit this content.
+                </p>
+              ))}
+            </div>
+          </DialogBody>
+          <DialogFooter className='pt-32 pb-8'>
+            <Button
+              appearance='base'
+              size='lg'
+              isFull
+              onClick={() => (isLast ? setOpen(false) : setStep(step + 1))}
+            >
+              {isLast ? 'Done' : 'Continue'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  },
+};
+
 export const WithListsContent: Story = {
   render: () => {
     return (
@@ -525,7 +585,7 @@ export const WithStickyBodyContent: Story = {
         />
         <DialogBody>
           <div className='-mx-8 flex flex-col gap-4'>
-            <DialogBodyStickyContent className='bg-canvas'>
+            <DialogBodyStickyContent className='bg-canvas-sheet'>
               <SearchInput className='mx-8' placeholder='Search item...' />
             </DialogBodyStickyContent>
             {Array.from({ length: 12 }).map((_, i) => (

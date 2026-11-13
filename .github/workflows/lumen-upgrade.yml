@@ -1,0 +1,118 @@
+name: Lumen Upgrade
+
+# Starts one Cairn run per eligible consumer repo (ADR 027).
+# Upstream repos run first, then the rest by priority. The matrix comes from
+# `adoption-tool:start-upgrades`; nothing here knows how to upgrade a repo.
+# Test phase: only `lumen-test-app` has `eligible: true` in consumers.json;
+# opt more repos in there to widen the rollout.
+
+concurrency:
+  group: lumen-upgrade
+  cancel-in-progress: false
+
+on:
+  workflow_run:
+    workflows: ['Release All']
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: 'Print the run matrix without starting any Cairn run'
+        required: true
+        type: boolean
+        default: true
+      cairn-url:
+        description: "Cairn instance URL; leave empty for production. Use Cairn's sandbox instance with LedgerHQ/cairn@main for tests"
+        required: false
+        type: string
+
+env:
+  NX_NO_CLOUD: true
+
+permissions:
+  contents: read
+
+jobs:
+  registry:
+    name: Build run matrix
+    # Only a real release from main starts upgrades: not a failed one, a dry
+    # run (nothing published) or one run from another branch.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      !contains(github.event.workflow_run.display_title, '(dry-run)'))
+    runs-on: public-ledgerhq-shared-small
+    outputs:
+      upstream: ${{ steps.matrix.outputs.upstream }}
+      downstream: ${{ steps.matrix.outputs.downstream }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: ./.github/actions/setup
+        with:
+          set-shas: 'false'
+
+      - name: Build run matrix
+        id: matrix
+        run: |
+          npx nx run adoption-tool:start-upgrades --out "$RUNNER_TEMP/matrix.json" > /dev/null
+          {
+            echo '### Run matrix'
+            echo '```json'
+            jq . "$RUNNER_TEMP/matrix.json"
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "upstream=$(jq -c .upstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
+          echo "downstream=$(jq -c .downstream "$RUNNER_TEMP/matrix.json")" >> "$GITHUB_OUTPUT"
+
+  upstream:
+    name: Upstream ${{ matrix.repo.name }}
+    needs: registry
+    if: ${{ !inputs.dry-run && needs.registry.outputs.upstream != '[]' }}
+    runs-on: public-ledgerhq-shared-small
+    strategy:
+      fail-fast: false # one repo failing doesn't stop the others
+      max-parallel: 5
+      matrix:
+        repo: ${{ fromJson(needs.registry.outputs.upstream) }}
+    steps:
+      - uses: LedgerHQ/cairn@stable
+        with:
+          workflow: run-plan
+          url: ${{ inputs.cairn-url }}
+          token: ${{ secrets.CAIRN_TOKEN }}
+          wait: 'true'
+          timeout: '7200'
+          interval: '30'
+          input: |-
+            repoUrl: https://github.com/${{ matrix.repo.name }}
+            planPath: .koda/plans/lumen-upgrade.ts
+            inputs: ${{ matrix.repo.inputs }}
+
+  downstream:
+    name: ${{ matrix.repo.name }}
+    needs: [registry, upstream]
+    # Run even when an upstream run failed or was skipped: the plan itself
+    # reports `blocked by <package>` when an upstream still pins an old Lumen.
+    if: ${{ !cancelled() && needs.registry.result == 'success' && !inputs.dry-run && needs.registry.outputs.downstream != '[]' }}
+    runs-on: public-ledgerhq-shared-small
+    strategy:
+      fail-fast: false
+      max-parallel: 5
+      matrix:
+        repo: ${{ fromJson(needs.registry.outputs.downstream) }}
+    steps:
+      - uses: LedgerHQ/cairn@stable
+        with:
+          workflow: run-plan
+          url: ${{ inputs.cairn-url }}
+          token: ${{ secrets.CAIRN_TOKEN }}
+          wait: 'true'
+          timeout: '7200'
+          interval: '30'
+          input: |-
+            repoUrl: https://github.com/${{ matrix.repo.name }}
+            planPath: .koda/plans/lumen-upgrade.ts
+            inputs: ${{ matrix.repo.inputs }}

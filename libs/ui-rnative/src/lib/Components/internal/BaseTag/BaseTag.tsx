@@ -1,12 +1,11 @@
 import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { StyleSheet, Text } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
-import type { TagProps } from '../../core/Tag/types';
 import { Box } from '../../primitives';
 import type { BaseTagProps, BaseTagVariant } from './types';
 
-type Appearance = NonNullable<TagProps['appearance']>;
-type Size = NonNullable<TagProps['size']>;
+type Appearance = NonNullable<BaseTagProps['appearance']>;
+type Size = NonNullable<BaseTagProps['size']>;
 
 const useBaseTagStyles = ({
   appearance,

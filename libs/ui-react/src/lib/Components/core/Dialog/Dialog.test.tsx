@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, it, expect, vi } from 'vitest';
+import { afterEach, beforeEach, describe, it, expect, vi } from 'vitest';
 import { Button } from '../Button/Button';
 import {
   Dialog,
@@ -118,6 +118,88 @@ describe('Dialog', () => {
     expect(content).toBeInTheDocument();
     expect(content).toHaveClass('h-560');
     expect(content).not.toHaveClass('max-h-560');
+  });
+
+  describe('animated', () => {
+    let observersCreated: number;
+    let notifyResize: () => void;
+    let animate: ReturnType<typeof vi.fn>;
+    let offsetHeight: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      observersCreated = 0;
+      notifyResize = () => undefined;
+      vi.stubGlobal(
+        'ResizeObserver',
+        class {
+          constructor(callback: () => void) {
+            observersCreated += 1;
+            notifyResize = callback;
+          }
+          observe = vi.fn();
+          unobserve = vi.fn();
+          disconnect = vi.fn();
+        },
+      );
+      animate = vi.fn(() => ({ cancel: vi.fn() }));
+      HTMLElement.prototype.animate = animate as never;
+      offsetHeight = vi
+        .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
+        .mockReturnValue(200);
+    });
+
+    afterEach(() => {
+      offsetHeight.mockRestore();
+      vi.unstubAllGlobals();
+      // @ts-expect-error restore jsdom's lack of Element.animate
+      delete HTMLElement.prototype.animate;
+    });
+
+    const renderDialog = async (
+      props: { animated?: boolean; height?: 'fit' | 'fixed' } = {},
+    ) => {
+      const user = userEvent.setup();
+      render(
+        <Dialog {...props}>
+          <DialogTrigger asChild>
+            <Button>Open Dialog</Button>
+          </DialogTrigger>
+          <DialogContent>
+            <DialogBody>
+              <p>Animated Content</p>
+            </DialogBody>
+          </DialogContent>
+        </Dialog>,
+      );
+      await user.click(screen.getByText('Open Dialog'));
+    };
+
+    it('animates the dialog height when animated', async () => {
+      await renderDialog({ animated: true });
+      act(() => notifyResize());
+      offsetHeight.mockReturnValue(320);
+      act(() => notifyResize());
+
+      expect(animate).toHaveBeenCalledTimes(1);
+      expect(animate.mock.calls[0][0]).toMatchObject({
+        height: ['200px', '320px'],
+      });
+      expect(animate.mock.contexts[0]).toBe(
+        document.querySelector('[data-slot="dialog-content"]'),
+      );
+    });
+
+    it('does not observe the dialog by default', async () => {
+      await renderDialog();
+
+      expect(observersCreated).toBe(0);
+    });
+
+    it('does not observe the dialog with fixed height', async () => {
+      await renderDialog({ animated: true, height: 'fixed' });
+
+      expect(observersCreated).toBe(0);
+    });
   });
 
   it('applies basis-auto to DialogBody in fit mode', async () => {

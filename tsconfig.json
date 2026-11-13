@@ -26,6 +26,9 @@
     },
     {
       "path": "./internals/adoption-tool"
+    },
+    {
+      "path": "./libs/symbols"
     }
   ],
   "ts-node": {

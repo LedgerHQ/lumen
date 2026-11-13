@@ -117,6 +117,29 @@ describe('SegmentedControl', () => {
       expect(arrows).toHaveLength(2);
       arrows.forEach((arrow) => expect(arrow).toBeDisabled());
     });
+
+    it('clamps the arrow scroll to the edge instead of overshooting it', () => {
+      const { container } = renderWithControls();
+      const scroller = screen.getByRole('radiogroup')
+        .parentElement as HTMLElement;
+      Object.entries({
+        scrollWidth: 684,
+        clientWidth: 370,
+        scrollLeft: 129,
+      }).forEach(([key, value]) => {
+        Object.defineProperty(scroller, key, { configurable: true, value });
+      });
+      const scrollTo = vi.fn();
+      scroller.scrollTo = scrollTo;
+      fireEvent.scroll(scroller);
+
+      const leftArrow = container.querySelector(
+        'button[aria-hidden="true"]',
+      ) as HTMLElement;
+      fireEvent.click(leftArrow);
+
+      expect(scrollTo).toHaveBeenCalledWith({ left: 0, behavior: 'smooth' });
+    });
   });
 
   describe('createSegmentedControl', () => {

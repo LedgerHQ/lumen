@@ -36,6 +36,12 @@
         "command": "npx tsx internals/adoption-tool/src/owners.ts"
       }
     },
+    "start-upgrades": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx tsx internals/adoption-tool/src/startUpgrades.ts"
+      }
+    },
     "discover": {
       "executor": "nx:run-commands",
       "options": {

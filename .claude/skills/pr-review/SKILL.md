@@ -104,13 +104,9 @@ spend findings on things a linter can't catch. Do **not** raise:
   `@ledgerhq/lumen-lint-plugin`). They are warnings in this repo, so a new one in
   a diff is already visible.
 - Physical left/right instead of logical start/end: `ml-*`, `pr-*`,
-  `border-l`, `text-left` on web (`better-tailwindcss/enforce-logical-properties`),
-  `left-*`/`right-*` on web (`better-tailwindcss/no-restricted-classes`),
-  `marginLeft`, `paddingRight`, `borderTopLeftRadius` and a lone `left`/`right`
-  in RN style objects (`lumen/enforce-logical-properties`, the lint plugin's
-  `react-native-strict` preset). Not linted:
-  physical anchors paired with measured `x`/`translateX` (keep them physical,
-  as SegmentedControl and Switch do), and directional icons that should mirror.
+  `border-l`, `text-left` on web (`better-tailwindcss/enforce-logical-properties`), `left-*`/`right-*` on web (`better-tailwindcss/no-restricted-classes`), `marginLeft`, `paddingRight`, `borderTopLeftRadius` and a lone `left`/`right` in RN style objects (`lumen/enforce-logical-properties`, the lint plugin's `react-native-strict` preset). Not linted: physical anchors paired with measured `x`/`translateX` (keep them physical, as SegmentedControl and Switch do), and directional icons that should mirror.
+- Removed exports, props, prop values, tokens, icons and new peers
+  without a matching migration (`npm run check:breaking-changes`, `bundle-checks` job).
 
 Caveat: a **valid** token class that is the wrong one for the design lints
 clean, and hardcoded colors in style objects or SVG props are not linted at all —
@@ -198,6 +194,19 @@ git diff origin/main...HEAD --name-only -- .nx/version-plans/
   **Moderate (6/10)**, `Release`.
 - Plan names the **wrong package** for the changed paths (see the mapping in
   `release-plan`) → **Moderate (6/10)**, `Release`.
+
+## Migration check
+
+CI fails on structural breaks without a migration; it cannot see behavior or
+visual changes. For every change under `libs/*/src/`, ask: **would a consumer
+see or feel a difference after upgrading?** (new default, different DOM, focus
+or event behavior, spacing, density, colors.)
+
+- Yes, and no migration in `libs/migrations/src/` covers it → **Major (8/10)**,
+  category `Release`. Recommend a migration with `signal: silent` (behavior)
+  or `signal: visual` (appearance).
+- A migration exists but its `signal` is `loud` for a change no code search can
+  find → **Moderate (6/10)**, `Release`.
 
 ## Output
 

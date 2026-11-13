@@ -3,7 +3,10 @@
     "repo": "LedgerHQ/agent-intent-frontend",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "package.json"
+    "packageJsonPath": "package.json",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/ledger-live",
@@ -14,7 +17,10 @@
       "@ledgerhq/lumen-ui-react": ["apps/ledger-live-desktop/package.json"],
       "@ledgerhq/lumen-ui-rnative": ["apps/ledger-live-mobile/package.json"]
     },
-    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
+    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/device-sdk-ts",
@@ -37,20 +43,29 @@
     "repo": "LedgerHQ/borrow-live-app",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "packages/ui/package.json"
+    "packageJsonPath": "packages/ui/package.json",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/earn-live-app",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "package.json"
+    "packageJsonPath": "package.json",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/swap-live-app",
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "apps/live-app/package.json",
-    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml"
+    "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/perps-live-app",
@@ -95,7 +110,10 @@
     "repo": "LedgerHQ/revault",
     "status": "production",
     "priority": "P2",
-    "packageJsonPath": "packages/web/package.json"
+    "packageJsonPath": "packages/web/package.json",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/is-privacy-request",
@@ -130,5 +148,11 @@
     "repo": "LedgerHQ/coinradar-v2",
     "status": "internal-tool",
     "packageJsonPath": "package.json"
+  },
+  {
+    "repo": "LedgerHQ/lumen-test-app",
+    "status": "internal-tool",
+    "packageJsonPath": "package.json",
+    "eligible": true
   }
 ]

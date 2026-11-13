@@ -59,20 +59,34 @@ export const sharedConfig = defineConfig(
               notDependOnLibsWithTags: ['scope:internal'],
             },
             {
+              sourceTag: 'type:utils',
+              onlyDependOnLibsWithTags: ['type:utils'],
+            },
+            {
+              sourceTag: 'type:tokens',
+              onlyDependOnLibsWithTags: ['type:utils', 'type:tokens'],
+            },
+            {
+              sourceTag: 'type:assets',
+              onlyDependOnLibsWithTags: ['type:assets'],
+            },
+            {
               sourceTag: 'scope:react-native',
               onlyDependOnLibsWithTags: [
-                'scope:shared',
                 'scope:react-native',
-                'scope:ui-shared',
+                'type:utils',
+                'type:tokens',
+                'type:assets',
               ],
               notDependOnLibsWithTags: ['scope:internal'],
             },
             {
               sourceTag: 'scope:react',
               onlyDependOnLibsWithTags: [
-                'scope:shared',
                 'scope:react',
-                'scope:ui-shared',
+                'type:utils',
+                'type:tokens',
+                'type:assets',
               ],
               notDependOnLibsWithTags: ['scope:internal'],
             },
@@ -128,7 +142,7 @@ export const sharedConfig = defineConfig(
       /**
        * Others
        */
-      'eqeqeq': ['error', 'always', { null: 'ignore' }],
+      eqeqeq: ['error', 'always', { null: 'ignore' }],
       'default-param-last': 'error',
       'no-negated-condition': 'error',
       'no-unused-vars': 'off',

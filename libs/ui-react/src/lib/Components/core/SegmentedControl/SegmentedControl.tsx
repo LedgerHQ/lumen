@@ -86,7 +86,7 @@ const segmentedControlStyles = {
     },
   }),
   arrow: cva(
-    'absolute inset-y-0 z-20 flex cursor-pointer items-center justify-center rounded-sm py-8 text-muted transition-opacity duration-200 hover:text-muted-hover',
+    'absolute inset-y-0 z-20 flex cursor-pointer items-center justify-center rounded-sm py-8 text-muted hover:text-muted-hover',
     {
       variants: {
         visible: {

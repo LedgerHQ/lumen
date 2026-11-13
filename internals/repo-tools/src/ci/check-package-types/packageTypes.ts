@@ -97,7 +97,9 @@ async function checkLib(lib: Lib, tarballDir: string): Promise<string[]> {
     { excludeEntrypoints },
   );
 
-  if (!result.types) return ['ships no type declarations'];
+  if (!result.types) {
+    return ['ships no type declarations'];
+  }
   return result.problems
     .filter((problem) =>
       checkedResolutions.some((kind) =>
