@@ -42,8 +42,8 @@ describe('Divider Component', () => {
     const flatStyle = Array.isArray(style)
       ? Object.assign({}, ...style)
       : style;
-    expect(flatStyle.borderLeftWidth).toBe(1);
-    expect(flatStyle.borderLeftColor).toBe(colors.border.mutedSubtle);
+    expect(flatStyle.borderStartWidth).toBe(1);
+    expect(flatStyle.borderStartColor).toBe(colors.border.mutedSubtle);
   });
 
   it('should apply custom lx props', () => {

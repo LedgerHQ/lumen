@@ -40,8 +40,8 @@ export const Divider = ({
             }
           : {
               alignSelf: 'stretch',
-              borderLeftWidth: 's1',
-              borderLeftColor: 'mutedSubtle',
+              borderStartWidth: 's1',
+              borderStartColor: 'mutedSubtle',
             }),
         ...lx,
       }}

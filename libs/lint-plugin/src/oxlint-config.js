@@ -1,12 +1,7 @@
-import { RULES } from './rules.js';
+import { PLUGINS, RULES } from './rules.js';
 
 /** @import { OxlintConfig } from 'oxlint' */
-/** @import { PresetName } from './rules.js' */
-
-/** @typedef {'better-tailwindcss' | 'shadcn'} PluginName */
-
-/** @type {PluginName[]} */
-const PLUGIN_NAMES = ['better-tailwindcss', 'shadcn'];
+/** @import { PluginName, PresetName } from './rules.js' */
 
 /**
  * Shared by the `/oxlint` entry (absolute plugin paths) and the generated JSON
@@ -19,7 +14,7 @@ const PLUGIN_NAMES = ['better-tailwindcss', 'shadcn'];
  */
 export function toOxlintConfig(preset, { resolvePlugin }) {
   return {
-    jsPlugins: PLUGIN_NAMES.map((name) => ({
+    jsPlugins: PLUGINS[preset].map((name) => ({
       name,
       specifier: resolvePlugin(name),
     })),

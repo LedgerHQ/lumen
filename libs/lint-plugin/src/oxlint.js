@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url';
 
 import { toOxlintConfig } from './oxlint-config.js';
 
-/** @import { PluginName } from './oxlint-config.js' */
+/** @import { PluginName } from './rules.js' */
 
 /**
  * oxlint resolves a bare plugin specifier from the *consumer's* config
@@ -17,17 +17,26 @@ const resolvePluginFile = (name) =>
 
 // For consumers who change a rule's options but keep Lumen's.
 export {
+  LOGICAL_PROPERTIES_OPTIONS,
   NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTRICTED_CLASSES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
 } from './rules.js';
 
 // No `settings`: oxlint ignores those of an extended config, so each app sets
 // `settings["better-tailwindcss"].entryPoint` in its own config.
 export const configs = {
-  recommended: toOxlintConfig('recommended', {
-    resolvePlugin: resolvePluginFile,
-  }),
-  strict: toOxlintConfig('strict', { resolvePlugin: resolvePluginFile }),
+  react: {
+    recommended: toOxlintConfig('recommended', {
+      resolvePlugin: resolvePluginFile,
+    }),
+    strict: toOxlintConfig('strict', { resolvePlugin: resolvePluginFile }),
+  },
+  reactnative: {
+    strict: toOxlintConfig('react-native-strict', {
+      resolvePlugin: resolvePluginFile,
+    }),
+  },
 };
 
 // eslint-disable-next-line import/no-default-export

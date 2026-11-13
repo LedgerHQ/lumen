@@ -23,8 +23,8 @@ const renderWithProvider = (component: React.ReactElement) => {
 
 type LinkElement = ReturnType<typeof screen.getByText>;
 type IconWrapperStyle = {
-  paddingLeft?: number;
-  paddingRight?: number;
+  paddingStart?: number;
+  paddingEnd?: number;
   transform?: { translateY: number }[];
 };
 
@@ -113,7 +113,7 @@ describe('Link Component', () => {
         expect(textStyle.fontWeight).toBe(typography.fontWeight);
 
         const iconStyle = getIconWrapperStyle(screen.getByText('Link'));
-        expect(iconStyle.paddingRight).toBe(expectedGap);
+        expect(iconStyle.paddingEnd).toBe(expectedGap);
         // Keeps the inline icons optically centered on the text baseline.
         expect(iconStyle.transform).toEqual([{ translateY: expectedOffset }]);
       },
@@ -175,7 +175,7 @@ describe('Link Component', () => {
 
       const link = screen.getByText('With Icon');
       expect(getLinkChildren(link).length).toBe(2); // icon + label
-      expect(getIconWrapperStyle(link).paddingRight).toBe(spacings.s8);
+      expect(getIconWrapperStyle(link).paddingEnd).toBe(spacings.s8);
     });
 
     it('should render external link icon when isExternal is true', () => {

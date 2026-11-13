@@ -514,7 +514,7 @@ const useTriggerStyles = ({
         t.typographies.body2,
         {
           position: 'absolute',
-          left: t.spacings.s16,
+          start: t.spacings.s16,
           color: t.colors.text.muted,
           width: '100%',
         },
@@ -536,7 +536,7 @@ const useTriggerStyles = ({
         {
           flexShrink: 0,
           color: t.colors.text.muted,
-          marginLeft: t.spacings.s8,
+          marginStart: t.spacings.s8,
         },
         disabled && { color: t.colors.text.disabled },
       ]),

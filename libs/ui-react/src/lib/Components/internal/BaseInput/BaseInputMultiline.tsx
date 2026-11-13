@@ -120,7 +120,7 @@ export const BaseInputMultiline = ({
         className={cn(
           textareaVariants({ hasLabel, scrollbarWidth }),
           className,
-          'invisible absolute top-0 left-0 h-0 transform-gpu overflow-hidden py-0',
+          'invisible absolute start-0 top-0 h-0 transform-gpu overflow-hidden py-0',
         )}
       />
     </>

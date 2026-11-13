@@ -27,19 +27,19 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
       size: 'md',
       leadingContentShape: ['flat', 'none'],
       hasChevron: true,
-      class: 'py-14 pr-12 pl-16',
+      class: 'py-14 ps-16 pe-12',
     },
     {
       size: 'sm',
       leadingContentShape: ['flat', 'none'],
       hasChevron: true,
-      class: 'py-10 pr-8 pl-12',
+      class: 'py-10 ps-12 pe-8',
     },
     {
       size: 'md',
       leadingContentShape: 'rounded',
       hasChevron: true,
-      class: 'py-8 pr-12 pl-8',
+      class: 'py-8 ps-8 pe-12',
     },
     {
       size: 'sm',
@@ -69,13 +69,13 @@ const triggerVariants = cva('gap-8 body-2-semi-bold', {
       size: 'md',
       leadingContentShape: 'rounded',
       hasChevron: false,
-      class: 'py-8 pr-16 pl-8',
+      class: 'py-8 ps-8 pe-16',
     },
     {
       size: 'sm',
       leadingContentShape: 'rounded',
       hasChevron: false,
-      class: 'py-8 pr-10 pl-8',
+      class: 'py-8 ps-8 pe-10',
     },
   ],
   defaultVariants: {
@@ -164,7 +164,7 @@ export const MediaButton = ({
         {asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className='line-clamp-1 text-left'>{children}</span>
+          <span className='line-clamp-1 text-start'>{children}</span>
         )}
         {!hideChevron && <ChevronDown size={20} />}
       </span>

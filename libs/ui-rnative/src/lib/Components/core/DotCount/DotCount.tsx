@@ -109,7 +109,7 @@ const useStyles = ({
           ...(pinned && {
             position: 'absolute',
             top: t.spacings.s0,
-            right: t.spacings.s0,
+            end: t.spacings.s0,
             zIndex: 1,
           }),
           ...sizeMap[size],

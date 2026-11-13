@@ -35,6 +35,7 @@ const segmentedControlStyles = {
       },
     },
   }),
+  // eslint-disable-next-line better-tailwindcss/no-restricted-classes
   pill: cva('pointer-events-none absolute top-0 left-0 z-0 rounded-sm', {
     variants: {
       disabled: {
@@ -93,7 +94,9 @@ const segmentedControlStyles = {
           false: 'pointer-events-none opacity-0',
         },
         side: {
+          // eslint-disable-next-line better-tailwindcss/enforce-logical-properties, better-tailwindcss/no-restricted-classes
           left: 'left-0 pr-16 pl-8',
+          // eslint-disable-next-line better-tailwindcss/enforce-logical-properties, better-tailwindcss/no-restricted-classes
           right: 'right-0 pr-8 pl-16',
         },
       },

@@ -57,7 +57,52 @@ export const NO_RESTRICTED_IMPORTS_OPTIONS = deepFreeze({
   })),
 });
 
-/** @typedef {'recommended' | 'strict'} PresetName */
+/**
+ * Keeps `enforce-logical-properties` on the inline axis, the one RTL flips.
+ * The block axis only moves in vertical writing modes, and sizes (`w-*`,
+ * `size-*`) do not change with direction, so on Tailwind 4.2+ rewriting them
+ * to `inline-*`/`block-*` is churn. `left-1/2` centers with
+ * `-translate-x-1/2`, which a logical start would push off-center in RTL.
+ */
+export const LOGICAL_PROPERTIES_OPTIONS = deepFreeze({
+  ignore: [
+    '^(?:.*:)?!?-?(?:(?:scroll-)?[mp][tb]|top|bottom|border-[tb]|(?:min-|max-)?[wh]|size)(?:-|$)',
+    String.raw`^(?:.*:)?!?-?left-(?:1/2|\[50%\])$`,
+  ],
+});
+
+/**
+ * `left-*`/`right-*` until Tailwind 4.2: `enforce-logical-properties` fixes
+ * them to `inset-s-*`/`inset-e-*`, which 4.1 cannot generate, so it skips them
+ * silently. `start-*`/`end-*` exist on every Tailwind 4. `left-1/2` centering
+ * stays, as in {@link LOGICAL_PROPERTIES_OPTIONS}.
+ */
+export const NO_RESTRICTED_CLASSES_OPTIONS = deepFreeze({
+  restrict: [
+    {
+      pattern: String.raw`^((?:.*:)?!?-?)left-(?!(?:1/2|\[50%\])$)(.+)$`,
+      fix: '$1start-$2',
+      message:
+        '"$0" stays on the left in right-to-left locales: use "$1start-$2".',
+    },
+    {
+      pattern: '^((?:.*:)?!?-?)right-(.+)$',
+      fix: '$1end-$2',
+      message:
+        '"$0" stays on the right in right-to-left locales: use "$1end-$2".',
+    },
+  ],
+});
+
+/** @typedef {'recommended' | 'strict' | 'react-native-strict'} PresetName */
+/** @typedef {'better-tailwindcss' | 'shadcn' | 'lumen'} PluginName */
+
+/** @type {Record<PresetName, PluginName[]>} */
+export const PLUGINS = {
+  recommended: ['better-tailwindcss', 'shadcn'],
+  strict: ['better-tailwindcss', 'shadcn'],
+  'react-native-strict': ['lumen'],
+};
 
 /** @type {Record<PresetName, Record<string, unknown>>} */
 export const RULES = {
@@ -77,8 +122,19 @@ export const RULES = {
     ...betterTailwindcss.configs['recommended-error'].rules,
     // Conflicts with Prettier, which owns line breaks.
     'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+    'better-tailwindcss/enforce-logical-properties': [
+      'error',
+      LOGICAL_PROPERTIES_OPTIONS,
+    ],
+    'better-tailwindcss/no-restricted-classes': [
+      'error',
+      NO_RESTRICTED_CLASSES_OPTIONS,
+    ],
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
+  },
+  'react-native-strict': {
+    'lumen/enforce-logical-properties': 'error',
   },
 };

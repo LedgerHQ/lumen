@@ -55,7 +55,7 @@ export function DotIndicator({
         aria-hidden={!ariaLabel || undefined}
         className={cn(
           dotIndicatorVariants({ size, appearance, disabled }),
-          pinned && 'absolute top-0 right-0 z-1',
+          pinned && 'absolute end-0 top-0 z-1',
         )}
       />
       {children}

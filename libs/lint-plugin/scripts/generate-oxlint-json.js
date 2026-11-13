@@ -11,7 +11,7 @@ import { format, resolveConfig } from 'prettier';
 import { toOxlintConfig } from '../src/oxlint-config.js';
 
 /** @import { OxlintConfig } from 'oxlint' */
-/** @import { PluginName } from '../src/oxlint-config.js' */
+/** @import { PluginName } from '../src/rules.js' */
 /** @import { PresetName } from '../src/rules.js' */
 
 // Relative paths only: oxlint resolves a bare name from the consumer's folder,
@@ -29,6 +29,7 @@ export function buildOxlintPresets() {
   for (const preset of /** @type {PresetName[]} */ ([
     'recommended',
     'strict',
+    'react-native-strict',
   ])) {
     presets[`${preset}.json`] = toOxlintConfig(preset, { resolvePlugin });
   }

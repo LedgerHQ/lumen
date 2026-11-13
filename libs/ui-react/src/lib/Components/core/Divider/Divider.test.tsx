@@ -24,7 +24,7 @@ describe('Divider Component', () => {
     expect(dividerElement).toHaveAttribute('aria-orientation', 'vertical');
     expect(dividerElement).toHaveClass(
       'h-full',
-      'border-l',
+      'border-s',
       'border-muted-subtle',
     );
   });

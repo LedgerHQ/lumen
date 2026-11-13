@@ -38,7 +38,7 @@ const useStyles = () =>
       closeButton: {
         position: 'absolute',
         top: t.spacings.s12,
-        right: t.spacings.s12,
+        end: t.spacings.s12,
       },
       gradientOverlays: {
         color: t.colors.text.black,
