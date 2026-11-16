@@ -1,4 +1,3 @@
-export * from './lib/generated/css/index.js';
 export * from './lib/generated/js/index.js';
 export * from './lib/tailwind/presets/index.js';
 export * from './lib/cssVar/cssVar.js';

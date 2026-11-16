@@ -42,7 +42,7 @@ jobs:
           if ! git cat-file -e "$BASE_SHA:internals/design-sources"; then
             echo "No design sources on the base branch yet; nothing to compare."
             echo "compare=false" >> "$GITHUB_OUTPUT"
-          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources internals/design-build libs/design-core/tailwind libs/design-core/src/lib/generated; then
+          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources internals/design-build libs/design-core/tailwind libs/design-core/themes libs/design-core/src/lib/generated; then
             echo "This PR doesn't touch the design pipeline; nothing to compare."
             echo "compare=false" >> "$GITHUB_OUTPUT"
           else

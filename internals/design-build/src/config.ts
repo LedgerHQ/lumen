@@ -4,6 +4,7 @@ import { symbolComponentsTarget } from './icons/components.js';
 import { svgTarget } from './icons/svg.js';
 import { codeSyntaxTarget } from './tokens/codeSyntax.js';
 import { cssTarget } from './tokens/css.js';
+import { cssThemesTarget } from './tokens/cssThemes.js';
 import { jsTarget } from './tokens/js.js';
 import { tailwindTarget } from './tokens/tailwind.js';
 
@@ -14,6 +15,8 @@ import { tailwindTarget } from './tokens/tailwind.js';
 export const outputPaths = {
   css: 'libs/design-core/src/lib/generated/css',
   js: 'libs/design-core/src/lib/generated/js',
+  /** Published as `@ledgerhq/lumen-design-core/themes/css/*.css`. */
+  cssThemes: 'libs/design-core/themes/css',
   tailwind: 'libs/design-core/src/lib/generated/tailwind',
   /** Read by sync-figma `code-syntax`, which uploads it to Figma. */
   codeSyntax: 'internals/design-build/generated',
@@ -24,6 +27,7 @@ export const outputPaths = {
 
 export const tokenTargets: Target<TokenModel>[] = [
   cssTarget(outputPaths.css),
+  cssThemesTarget(outputPaths.cssThemes),
   jsTarget(outputPaths.js, '../../tokens/types.js'),
   tailwindTarget(outputPaths.tailwind),
   codeSyntaxTarget(outputPaths.codeSyntax),
