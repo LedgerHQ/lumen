@@ -7,7 +7,6 @@ description: >-
   or peer dependency, changes behavior or rendering consumers rely on, when
   `check:breaking-changes` or the migrations `validate` fails, or when asked to
   write a migration or prepare a breaking change for review.
-paths: libs/migrations/src/*.md
 ---
 
 # Write a migration
