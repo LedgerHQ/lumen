@@ -22,6 +22,10 @@ const invalid = (code, output, errors = 1) => ({
   errors: Array(errors).fill({ messageId: 'physical' }),
 });
 
+const jsx = {
+  languageOptions: { parserOptions: { ecmaFeatures: { jsx: true } } },
+};
+
 new RuleTester().run('enforce-logical-properties', rule, {
   valid: [
     'const s = { marginStart: 4, top: 0, width: 10 };',
@@ -29,6 +33,8 @@ new RuleTester().run('enforce-logical-properties', rule, {
     'const { marginLeft } = style;',
     'const s = { [marginLeft]: 4, marginRight, left() {} };',
     'const s = { toString: f, constructor: C };',
+    { code: '<Pressable hitSlop={{ left: 8 }} />', ...jsx },
+    { code: '<ScrollView contentInset={{ right: 16 }} />', ...jsx },
   ],
   invalid: [
     invalid(
@@ -39,5 +45,12 @@ new RuleTester().run('enforce-logical-properties', rule, {
     invalid('const s = { left: 8 };', 'const s = { start: 8 };'),
     invalid('const s = { right: 8 };', 'const s = { end: 8 };'),
     invalid('const s = { marginStart: 2, marginLeft: 4 };', null),
+    {
+      ...invalid(
+        '<View style={{ left: 8 }} />',
+        '<View style={{ start: 8 }} />',
+      ),
+      ...jsx,
+    },
   ],
 });
