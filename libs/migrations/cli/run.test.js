@@ -1,6 +1,7 @@
-import { execFileSync } from 'node:child_process';
+import { execFileSync, spawnSync } from 'node:child_process';
 import { writeFileSync } from 'node:fs';
 import { join, relative } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { removeTrees, writePackage, writeTree } from './fixtures.js';
 import { run } from './run.js';
@@ -160,5 +161,19 @@ describe('usage', () => {
     const { code, output } = exec(argv);
     expect(code).toBe(2);
     expect(output).toContain(message);
+  });
+});
+
+describe('bin', () => {
+  it('exits 3 with the error on stderr when the tool crashes', () => {
+    const bin = fileURLToPath(new URL('./bin.js', import.meta.url));
+    const missing = join(writeTree({}), 'missing');
+    const { status, stderr } = spawnSync(
+      process.execPath,
+      [bin, 'check', '--cwd', missing],
+      { encoding: 'utf8' },
+    );
+    expect(status).toBe(3);
+    expect(stderr).toContain('Error:');
   });
 });

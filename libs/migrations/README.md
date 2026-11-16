@@ -104,6 +104,9 @@ npx @ledgerhq/lumen-migrations@latest check --package @ledgerhq/lumen-ui-react -
   without failing.
 - `--json` prints machine-readable output for the upgrade plan.
 
+Exit codes: 0 done, 1 migrations pending (or unknown id), 2 bad usage, 3 the
+tool crashed (its error is on stderr).
+
 ## Rules
 
 - A PR that makes consumers change their code adds its migration in the same PR.

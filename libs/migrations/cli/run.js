@@ -170,7 +170,8 @@ function dispatch(command, args, options, io) {
 }
 
 /**
- * Exit codes: 0 success, 1 failed check or unknown id, 2 bad usage.
+ * Exit codes: 0 success, 1 failed check or unknown id, 2 bad usage. Other
+ * errors are thrown; `bin.js` exits 3 on them.
  * @param {string[]} argv
  * @param {Io} io
  * @returns {number}
