@@ -36,6 +36,22 @@ export const Base: Story = {
   },
 };
 
+export const CopiedState: Story = {
+  render: (args) => <Clipboard {...args} />,
+  args: {
+    value: 'Label',
+    isCopied: true,
+  },
+};
+
+export const CustomTimeout: Story = {
+  render: (args) => <Clipboard {...args} />,
+  args: {
+    value: 'Copied state lasts 1 second',
+    timeout: 1000,
+  },
+};
+
 export const ResponsivenessShowcase: Story = {
   render: () => (
     <Box lx={{ gap: 's8' }}>

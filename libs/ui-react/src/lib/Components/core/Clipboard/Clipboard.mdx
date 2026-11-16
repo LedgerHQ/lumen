@@ -15,7 +15,7 @@ import {
 
 ## Introduction
 
-**Clipboard** displays a value the user can copy, such as an address, an ID or a code. The whole surface is clickable: clicking it copies the value and switches the copy icon to a check icon for 3 seconds.
+**Clipboard** displays a value the user can copy, such as an address, an ID or a code. The whole surface is clickable: clicking it copies the value and switches the copy icon to a check icon for 3 seconds by default.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=23359-110294).
 
@@ -30,6 +30,18 @@ import {
 
 <Canvas of={ClipboardStories.Base} />
 <Controls of={ClipboardStories.Base} />
+
+### Copied state
+
+The copied state turns on after a successful copy. Set `isCopied` to control it from outside.
+
+<Canvas of={ClipboardStories.CopiedState} />
+
+### Custom timeout
+
+Use `timeout` (in milliseconds) to change how long the copied state lasts. It defaults to `3000`.
+
+<Canvas of={ClipboardStories.CustomTimeout} />
 
 ### Multi-line
 
@@ -57,6 +69,14 @@ Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
 ### Basic Usage
 
 <Source of={ClipboardStories.Base} />
+
+### Controlled copied state
+
+<Source of={ClipboardStories.CopiedState} />
+
+### Custom timeout
+
+<Source of={ClipboardStories.CustomTimeout} />
 
 ### With a toast
 

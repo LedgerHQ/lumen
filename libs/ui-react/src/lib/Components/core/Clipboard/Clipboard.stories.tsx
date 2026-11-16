@@ -38,6 +38,26 @@ export const Base: Story = {
   },
 };
 
+export const CopiedState: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+  },
+  args: {
+    value: 'Label',
+    isCopied: true,
+  },
+};
+
+export const CustomTimeout: Story = {
+  parameters: {
+    docs: { source: { type: 'dynamic' } },
+  },
+  args: {
+    value: 'Copied state lasts 1 second',
+    timeout: 1000,
+  },
+};
+
 export const WithToast: Story = {
   render: () => (
     <>
