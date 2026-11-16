@@ -106,7 +106,24 @@ describe('buildPlanInput', () => {
       labels: ['deps'],
     });
     expect(input.changeset).toBe(true);
-    expect(input.upstreamPackages).toEqual(upstreamPackages);
+    expect(input.upstreamPackages).toEqual([
+      { package: 'npm:@ledgerhq/kit', repo: 'LedgerHQ/kit' },
+    ]);
+  });
+
+  it('sends no string starting with "@", which the Cairn action reads as a file', () => {
+    const input = buildPlanInput(
+      entry('a', {
+        upstreamPackages: [{ package: '@ledgerhq/kit', repo: 'LedgerHQ/kit' }],
+      }),
+      versions,
+    );
+    const leaves: string[] = [];
+    JSON.stringify(input, (_key, value: unknown) => {
+      if (typeof value === 'string') leaves.push(value);
+      return value;
+    });
+    expect(leaves.filter((leaf) => leaf.startsWith('@'))).toEqual([]);
   });
 });
 
