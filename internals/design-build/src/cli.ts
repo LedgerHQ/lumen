@@ -3,18 +3,17 @@ import { iconTargets, tokenTargets } from './config.js';
 import { checkRendered, isClean } from './core/check.js';
 import { isBreaking, markdownReport } from './core/diffReport.js';
 import type { Target } from './core/target.js';
-import { renderTarget, WORKSPACE_ROOT, writeRendered } from './core/writer.js';
-import { publicNamesDiff, sourcesDiff } from './report.js';
+import { renderTarget, writeRendered } from './core/writer.js';
+import { sourcesDiff } from './report.js';
 import { assertEveryCollectionBuilt } from './tokens/modes.js';
 
 /**
  * `tokens` / `icons`: rebuild that kind's outputs from the committed sources.
  * `check`: fail if any committed output differs from what the sources build
  * (a hand edit, or a source change without a rebuild). Writes nothing.
- * `report --before <dir> [--before-root <dir>] [--fail-on-removal]`: Markdown
- * of what changed since a copy of `internals/design-sources` and, given a
- * checkout of the base branch, in the public names the outputs define; with
- * the flag, removals and renames fail, unless a reviewer approved them.
+ * `report --before <dir> [--fail-on-removal]`: Markdown of what changed since
+ * a copy of `internals/design-sources`; with the flag, removals and renames
+ * fail, unless a reviewer approved them.
  */
 
 type Kind = {
@@ -66,16 +65,10 @@ if (command === 'report') {
   const args = process.argv.slice(3);
   const before = args[args.indexOf('--before') + 1];
   if (!args.includes('--before') || !before) {
-    console.error(
-      'Usage: cli.ts report --before <dir> [--before-root <dir>] [--fail-on-removal]',
-    );
+    console.error('Usage: cli.ts report --before <dir> [--fail-on-removal]');
     process.exit(1);
   }
   const sections = sourcesDiff(before);
-  if (args.includes('--before-root')) {
-    const beforeRoot = args[args.indexOf('--before-root') + 1];
-    sections['Public names'] = publicNamesDiff(beforeRoot, WORKSPACE_ROOT);
-  }
   console.log(markdownReport(sections));
   const breaking = Object.values(sections).some(isBreaking);
   if (breaking && args.includes('--fail-on-removal')) {

@@ -38,41 +38,6 @@ export const iconEntries = (iconsDir: string): Entries => {
   );
 };
 
-/** Where the public names live, relative to a checkout root. */
-const CODE_SYNTAX_FILE = 'internals/design-build/generated/code-syntax.json';
-
-/**
- * The names consumers write: CSS custom properties and React Native theme
- * paths. A change in design-build or `lumen.css` can
- * rename one without touching a source token, so the gate compares these too.
- */
-export const publicNameEntries = (root: string): Entries => {
-  const entries: Entries = new Map();
-
-  const codeSyntax = path.join(root, CODE_SYNTAX_FILE);
-  if (existsSync(codeSyntax)) {
-    const collections = JSON.parse(readFileSync(codeSyntax, 'utf8')) as Record<
-      string,
-      Record<string, Record<string, string>>
-    >;
-    for (const variables of Object.values(collections)) {
-      for (const names of Object.values(variables)) {
-        for (const [platform, name] of Object.entries(names)) {
-          if (platform === 'WEB') {
-            entries.set(name.replace(/^var\(|\);?$/g, ''), 'css');
-          } else entries.set(name, 'react-native');
-        }
-      }
-    }
-  }
-
-  return entries;
-};
-
-/** Public names in a checkout of the base branch that the working tree lost or renamed. */
-export const publicNamesDiff = (beforeRoot: string, afterRoot: string): Diff =>
-  diffEntries(publicNameEntries(beforeRoot), publicNameEntries(afterRoot));
-
 /**
  * What changed between a copy of `internals/design-sources` and the working
  * tree. A kind missing from the copy is skipped: the tokens sync only keeps
