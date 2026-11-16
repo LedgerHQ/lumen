@@ -18,6 +18,34 @@ const LOGICAL_KEYS = new Map(
   }),
 );
 
+// React Native's `Insets` props take physical edges only: `start`/`end`
+// there would be dropped, so their objects are not styles to rewrite.
+const INSETS_PROPS = new Set([
+  'hitSlop',
+  'pressRetentionOffset',
+  'contentInset',
+  'scrollIndicatorInsets',
+]);
+
+// ESTree's types stop short of JSX.
+/** @typedef {{ type: string, name?: unknown, parent?: LooseNode }} LooseNode */
+
+/**
+ * @param {Rule.Node} node
+ * @returns {boolean}
+ */
+const isInsetsProp = (node) => {
+  const container = /** @type {LooseNode} */ (node).parent;
+  const attribute = container?.parent;
+  const name = /** @type {LooseNode | undefined} */ (attribute?.name);
+  return (
+    container?.type === 'JSXExpressionContainer' &&
+    attribute?.type === 'JSXAttribute' &&
+    name?.type === 'JSXIdentifier' &&
+    INSETS_PROPS.has(String(name.name))
+  );
+};
+
 /** @type {Rule.RuleModule} */
 const enforceLogicalProperties = {
   meta: {
@@ -34,6 +62,7 @@ const enforceLogicalProperties = {
   },
   create: (context) => ({
     ObjectExpression(node) {
+      if (isInsetsProp(node)) return;
       /** @type {Map<string, Property>} */
       const keys = new Map();
       for (const p of node.properties) {
