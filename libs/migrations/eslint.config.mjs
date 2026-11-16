@@ -7,6 +7,8 @@ export default [
     ignoredFiles: [
       '{projectRoot}/scripts/**/*',
       '{projectRoot}/vitest.config.ts',
+      '{projectRoot}/cli/**/*.test.js',
+      '{projectRoot}/cli/fixtures.js',
     ],
   }),
 ];
