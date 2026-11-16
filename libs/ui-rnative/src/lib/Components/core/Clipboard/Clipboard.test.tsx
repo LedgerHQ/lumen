@@ -89,6 +89,28 @@ describe('Clipboard', () => {
     );
   });
 
+  it('should show the copied state for resetAfterMs', async () => {
+    jest.useFakeTimers();
+    renderClipboard(
+      <Clipboard testID='clipboard' value='Label' resetAfterMs={1000} />,
+    );
+
+    fireEvent.press(screen.getByTestId('clipboard'));
+    await act(async () => {
+      await Promise.resolve();
+    });
+    expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
+      'Label, Copied',
+    );
+
+    act(() => {
+      jest.advanceTimersByTime(1000);
+    });
+    expect(screen.getByTestId('clipboard').props.accessibilityLabel).toBe(
+      'Label, Copy',
+    );
+  });
+
   it('should not show a new value as copied when it changes during the confirmation', async () => {
     renderClipboard(<Clipboard testID='clipboard' value='A' />);
 

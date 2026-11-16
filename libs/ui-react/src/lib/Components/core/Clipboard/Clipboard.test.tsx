@@ -59,6 +59,25 @@ describe('Clipboard', () => {
     ).toBeInTheDocument();
   });
 
+  it('should show the copied icon for resetAfterMs', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    render(<Clipboard value='Label' resetAfterMs={1000} />);
+
+    await userEvent.click(screen.getByRole('button'));
+    expect(
+      await screen.findByRole('button', {
+        name: 'Label, components.clipboard.copiedAriaLabel',
+      }),
+    ).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(1000));
+    expect(
+      screen.getByRole('button', {
+        name: 'Label, components.clipboard.copyAriaLabel',
+      }),
+    ).toBeInTheDocument();
+  });
+
   it('should not show a new value as copied when it changes during the confirmation', async () => {
     const { rerender } = render(<Clipboard value='A' />);
 
