@@ -2,7 +2,8 @@
 name: release-plan
 description: >-
   Use when generating or editing an Nx version plan in .nx/version-plans/ — the
-  bump type must always be `patch`, one package per file.
+  bump type must always be `patch`, one package per file, and the message one
+  `type(Scope): summary` line.
 ---
 
 # Release plan bump type
@@ -22,6 +23,27 @@ feat(Select): add render prop and SelectButtonTrigger
 
 - Do not infer `minor` from `feat(...)` commits.
 - Do not infer `major` from breaking changes.
+
+## Message
+
+One line: `type(Scope): summary`. Nx copies it as is into the GitHub Release,
+which the `release-notes-slack` skill announces. Nx doesn't parse it: the
+format is for readers.
+
+- `type`: `feat`, `fix`, `refactor`, `perf`, `chore` or `docs`.
+- `Scope`: the component or area (`Button`, `tokens`, `deps`, `migrations`).
+- `summary`: imperative, lowercase first letter, no trailing period, at most
+  100 characters. Say what changed, not how to update: that goes in the
+  migration (`libs/migrations/README.md`).
+- Breaking change: add `!` after the scope, so readers of the release notes
+  see it. Not `BREAKING_CHANGE(...)`.
+
+| Good                                                          | Bad                                                      |
+| ------------------------------------------------------------- | -------------------------------------------------------- |
+| `feat(Button): add the green appearance`                      | `Sync interface icons from Figma` (no type or scope)     |
+| `feat(Link)!: rename isExternal to external`                  | `refactor: move cn to design-core` (no scope)            |
+| `fix(Dialog): animate the whole DialogContent height`         | `BREAKING_CHANGE(DataTable): remove …` (not a type)      |
+| `chore(deps): require react-native-reanimated ^4.3.0 as peer` | `fix(Spot): Use a 16px icon.` (capital, trailing period) |
 
 ## One package per file
 

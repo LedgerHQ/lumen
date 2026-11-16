@@ -35,6 +35,8 @@ declare namespace index {
 
   export type MigrationIndex = {
     formatVersion: number;
+    /** Published Lumen packages, with or without migrations. */
+    packages: string[];
     migrations: IndexEntry[];
   };
 }

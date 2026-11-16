@@ -1,5 +1,5 @@
-// Entry point of `start-upgrades`: prints the upgrade run matrix for
-// `.github/workflows/lumen-upgrade.yml`. It starts no run itself.
+// Entry point of `start-upgrades`: prints the upgrade run matrix for the
+// workflow in LedgerHQ/lumen-automation. It starts no run itself.
 import { writeFileSync } from 'node:fs';
 import { parseCliArgs } from './lib/report/cliArgs.js';
 import { loadConsumers } from './lib/shared/consumers.js';
