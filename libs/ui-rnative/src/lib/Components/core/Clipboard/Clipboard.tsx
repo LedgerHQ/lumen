@@ -34,7 +34,7 @@ const useStyles = ({
           gap: t.spacings.s8,
           minHeight: t.sizes.s48,
           padding: t.spacings.s8,
-          paddingLeft: t.spacings.s16,
+          paddingStart: t.spacings.s16,
           borderRadius: t.borderRadius.sm,
           backgroundColor: disabled ? t.colors.bg.disabled : t.colors.bg.muted,
         },
