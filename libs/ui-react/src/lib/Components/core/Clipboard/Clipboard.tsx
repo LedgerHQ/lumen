@@ -1,11 +1,9 @@
 import { cn } from '@ledgerhq/lumen-design-core/cn';
-import {
-  useDisabledContext,
-  useTemporaryFlag,
-} from '@ledgerhq/lumen-utils-shared';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { useCommonTranslation } from '../../../../translations';
+import { useClipboard } from '../../../../utils/useClipboard/useClipboard';
 import { Check, Copy } from '../../symbols';
 import type { ClipboardProps } from './types';
 
@@ -29,31 +27,29 @@ export const Clipboard = ({
   className,
   value,
   onCopy,
-  isCopied,
-  timeout = 3000,
+  resetAfterMs,
   onClick,
   ...props
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
   const disabled = useDisabledContext({ consumerName: 'Clipboard' });
-  const [copyConfirmed, markCopied] = useTemporaryFlag(timeout);
   const [copiedValue, setCopiedValue] = useState<string>();
+  const { copy, isCopied } = useClipboard({
+    resetAfterMs,
+    onCopy: (copied) => {
+      setCopiedValue(copied);
+      onCopy?.(copied);
+    },
+  });
 
-  const copied = isCopied ?? (copyConfirmed && copiedValue === value);
+  const copied = isCopied && copiedValue === value;
   const Icon = copied ? Check : Copy;
 
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {
     onClick?.(event);
     if (event.defaultPrevented) return;
 
-    try {
-      await navigator.clipboard.writeText(value);
-    } catch {
-      return;
-    }
-    setCopiedValue(value);
-    markCopied();
-    onCopy?.(value);
+    await copy(value);
   };
 
   return (

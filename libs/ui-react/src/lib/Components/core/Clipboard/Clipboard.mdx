@@ -31,17 +31,11 @@ import {
 <Canvas of={ClipboardStories.Base} />
 <Controls of={ClipboardStories.Base} />
 
-### Copied state
+### Custom reset delay
 
-The copied state turns on after a successful copy. Set `isCopied` to control it from outside.
+Use `resetAfterMs` to change how long the copied state lasts. It defaults to `3000`.
 
-<Canvas of={ClipboardStories.CopiedState} />
-
-### Custom timeout
-
-Use `timeout` (in milliseconds) to change how long the copied state lasts. It defaults to `3000`.
-
-<Canvas of={ClipboardStories.CustomTimeout} />
+<Canvas of={ClipboardStories.CustomResetDelay} />
 
 ### Multi-line
 
@@ -70,13 +64,9 @@ Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
 
 <Source of={ClipboardStories.Base} />
 
-### Controlled copied state
+### Custom reset delay
 
-<Source of={ClipboardStories.CopiedState} />
-
-### Custom timeout
-
-<Source of={ClipboardStories.CustomTimeout} />
+<Source of={ClipboardStories.CustomResetDelay} />
 
 ### With a toast
 

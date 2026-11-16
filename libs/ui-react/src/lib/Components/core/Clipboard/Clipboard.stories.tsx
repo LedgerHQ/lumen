@@ -38,23 +38,13 @@ export const Base: Story = {
   },
 };
 
-export const CopiedState: Story = {
-  parameters: {
-    docs: { source: { type: 'dynamic' } },
-  },
-  args: {
-    value: 'Label',
-    isCopied: true,
-  },
-};
-
-export const CustomTimeout: Story = {
+export const CustomResetDelay: Story = {
   parameters: {
     docs: { source: { type: 'dynamic' } },
   },
   args: {
     value: 'Copied state lasts 1 second',
-    timeout: 1000,
+    resetAfterMs: 1000,
   },
 };
 
