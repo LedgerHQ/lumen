@@ -83,7 +83,8 @@
     "repo": "LedgerHQ/crypto-icons",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "lib/package.json"
+    "packageJsonPath": "lib/package.json",
+    "eligible": true
   },
   {
     "repo": "LedgerHQ/gravitee",
@@ -153,6 +154,9 @@
     "repo": "LedgerHQ/lumen-test-app",
     "status": "internal-tool",
     "packageJsonPath": "package.json",
-    "eligible": true
+    "eligible": true,
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   }
 ]
