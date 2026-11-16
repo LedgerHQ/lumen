@@ -94,13 +94,16 @@ export const NO_RESTRICTED_CLASSES_OPTIONS = deepFreeze({
   ],
 });
 
-/** @typedef {'recommended' | 'strict' | 'react-native-strict'} PresetName */
+/**
+ * @typedef {'recommended' | 'strict' | 'react-native-recommended' | 'react-native-strict'} PresetName
+ */
 /** @typedef {'better-tailwindcss' | 'shadcn' | 'lumen'} PluginName */
 
 /** @type {Record<PresetName, PluginName[]>} */
 export const PLUGINS = {
   recommended: ['better-tailwindcss', 'shadcn'],
   strict: ['better-tailwindcss', 'shadcn'],
+  'react-native-recommended': ['lumen'],
   'react-native-strict': ['lumen'],
 };
 
@@ -114,6 +117,16 @@ export const RULES = {
     'better-tailwindcss/no-concatenated-classes': 'error',
     // Never a valid choice, and `--fix` removes it.
     'better-tailwindcss/no-duplicate-classes': 'error',
+    // A warning first: physical classes are a lot of existing code, and they
+    // only break right-to-left locales. Strict raises both to errors.
+    'better-tailwindcss/enforce-logical-properties': [
+      'warn',
+      LOGICAL_PROPERTIES_OPTIONS,
+    ],
+    'better-tailwindcss/no-restricted-classes': [
+      'warn',
+      NO_RESTRICTED_CLASSES_OPTIONS,
+    ],
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
   },
   // Adds better-tailwindcss' stylistic rules (autofixable, so an error costs
@@ -133,6 +146,9 @@ export const RULES = {
     'shadcn/no-arbitrary-values': ['warn', NO_ARBITRARY_VALUES_OPTIONS],
     'shadcn/no-inline-styles': 'warn',
     'no-restricted-imports': ['error', NO_RESTRICTED_IMPORTS_OPTIONS],
+  },
+  'react-native-recommended': {
+    'lumen/enforce-logical-properties': 'warn',
   },
   'react-native-strict': {
     'lumen/enforce-logical-properties': 'error',

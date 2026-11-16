@@ -1,7 +1,7 @@
 # @ledgerhq/lumen-lint-plugin
 
 [better-tailwindcss](https://github.com/schoero/eslint-plugin-better-tailwindcss) and
-[`@shadcn/lint`](https://github.com/shadcn-ui/lint), preconfigured for apps built with Lumen, plus a React Native preset. Same presets for ESLint and oxlint.
+[`@shadcn/lint`](https://github.com/shadcn-ui/lint), preconfigured for apps built with Lumen, plus React Native presets. Same presets for ESLint and oxlint.
 
 > The oxlint side is experimental: oxlint's JS plugin API is still alpha.
 
@@ -15,7 +15,7 @@ You also need `eslint` or `oxlint`, and `tailwindcss` v4 for the web presets.
 
 ## Usage
 
-`react.recommended` and `react.strict` are for web apps. `reactnative.strict` is for React Native apps and needs no Tailwind `settings`.
+`react.recommended` and `react.strict` are for web apps. `reactnative.recommended` and `reactnative.strict` are for React Native apps and needs no Tailwind `settings`.
 
 Pick a preset, then set your Tailwind CSS entry (the file with `@import 'tailwindcss'`).
 Without it, every Lumen class is reported as unknown.
@@ -33,7 +33,7 @@ import tseslint from 'typescript-eslint';
 
 export default [
   ...tseslint.configs.recommended, // any TypeScript parser setup works
-  lumen.configs.react.recommended, // or lumen.configs.react.strict, or lumen.configs.reactnative.strict
+  lumen.configs.react.recommended, // or lumen.configs.react.strict, or lumen.configs.reactnative.recommended or .strict
   { settings: { 'better-tailwindcss': { entryPoint: 'src/global.css' } } },
 ];
 ```
@@ -73,13 +73,13 @@ export default defineConfig({
 | [`enforce-consistent-line-wrapping`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-line-wrapping.md)           |             |        | 🔧  | Long class strings (conflicts with Prettier)        |
 | [`enforce-consistent-variable-syntax`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-variable-syntax.md)       |             |        | 🔧  | Mixed CSS variable syntax                           |
 | [`enforce-consistent-variant-order`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-consistent-variant-order.md)           |             |        | 🔧  | Variants out of order                               |
-| [`enforce-logical-properties`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-logical-properties.md)                       |             |   ✅   | 🔧  | `ml-*` instead of `ms-*` (left/right only)          |
+| [`enforce-logical-properties`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-logical-properties.md)                       |     ⚠️      |   ✅   | 🔧  | `ml-*` instead of `ms-*` (left/right only)          |
 | [`enforce-shorthand-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/enforce-shorthand-classes.md)                         |             |        | 🔧  | `px-2 py-2` instead of `p-2`                        |
 | [`no-concatenated-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-concatenated-classes.md)                             |     ✅      |   ✅   |     | Classes built at runtime, like `` `text-${size}` `` |
 | [`no-conflicting-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-conflicting-classes.md)                               |     ✅      |   ✅   | 🔧  | Classes that cancel each other                      |
 | [`no-deprecated-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-deprecated-classes.md)                                 |             |   ✅   | 🔧  | Deprecated Tailwind classes                         |
 | [`no-duplicate-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-duplicate-classes.md)                                   |     ✅      |   ✅   | 🔧  | The same class twice                                |
-| [`no-restricted-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md)                                 |             |   ✅   | 🔧  | `left-*` instead of `start-*`, until Tailwind 4.2   |
+| [`no-restricted-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-restricted-classes.md)                                 |     ⚠️      |   ✅   | 🔧  | `left-*` instead of `start-*`, until Tailwind 4.2   |
 | [`no-unknown-classes`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-unknown-classes.md)                                       |     ✅      |   ✅   | 🔧  | Classes your Tailwind setup cannot generate         |
 | [`no-unnecessary-whitespace`](https://github.com/schoero/eslint-plugin-better-tailwindcss/blob/main/docs/rules/no-unnecessary-whitespace.md)                         |             |   ✅   | 🔧  | Extra spaces between classes                        |
 
@@ -102,9 +102,9 @@ export default defineConfig({
 
 ### React Native
 
-| Rule                                                                                                                | RN strict | 🔧  | Flags                                                                      |
-| ------------------------------------------------------------------------------------------------------------------- | :-------: | :-: | -------------------------------------------------------------------------- |
-| [`enforce-logical-properties`](https://github.com/LedgerHQ/lumen/blob/main/libs/lint-plugin/README.md#react-native) |    ✅     | 🔧  | `marginLeft`, `borderTopRightRadius`, a lone `left`/`right`: use start/end |
+| Rule                                                                                                                | RN recommended | RN strict | 🔧  | Flags                                                                      |
+| ------------------------------------------------------------------------------------------------------------------- | :------------: | :-------: | :-: | -------------------------------------------------------------------------- |
+| [`enforce-logical-properties`](https://github.com/LedgerHQ/lumen/blob/main/libs/lint-plugin/README.md#react-native) |       ⚠️       |    ✅     | 🔧  | `marginLeft`, `borderTopRightRadius`, a lone `left`/`right`: use start/end |
 
 ## Customize
 

@@ -33,6 +33,9 @@ export const configs = {
     strict: toOxlintConfig('strict', { resolvePlugin: resolvePluginFile }),
   },
   reactnative: {
+    recommended: toOxlintConfig('react-native-recommended', {
+      resolvePlugin: resolvePluginFile,
+    }),
     strict: toOxlintConfig('react-native-strict', {
       resolvePlugin: resolvePluginFile,
     }),

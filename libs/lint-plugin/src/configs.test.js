@@ -33,12 +33,14 @@ const levels = (rules) =>
   );
 
 describe('presets', () => {
-  it('recommended is better-tailwindcss’ correctness config plus duplicates, and class-merging imports as errors', () => {
+  it('recommended is better-tailwindcss’ correctness config plus duplicates and class-merging imports as errors, and physical classes as warnings', () => {
     expect(levels(RULES.recommended)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
+      'better-tailwindcss/enforce-logical-properties': 'warn',
+      'better-tailwindcss/no-restricted-classes': 'warn',
       'no-restricted-imports': 'error',
     });
   });
@@ -62,28 +64,36 @@ describe('presets', () => {
     });
   });
 
+  it("react-native-recommended warns with Lumen's own logical-properties rule", () => {
+    expect(levels(RULES['react-native-recommended'])).toEqual({
+      'lumen/enforce-logical-properties': 'warn',
+    });
+  });
+
   it("react-native-strict is Lumen's own logical-properties rule only", () => {
     expect(levels(RULES['react-native-strict'])).toEqual({
       'lumen/enforce-logical-properties': 'error',
     });
   });
 
-  it.each(['recommended', 'strict', 'react-native-strict'])(
-    '%s only names rules the plugins or ESLint core really have',
-    (preset) => {
-      const known = [
-        ...Object.keys(betterTailwindcss.rules ?? {}).map(
-          (rule) => `better-tailwindcss/${rule}`,
-        ),
-        ...Object.keys(shadcn.rules ?? {}).map((rule) => `shadcn/${rule}`),
-        ...Object.keys(lumen.rules ?? {}).map((rule) => `lumen/${rule}`),
-        ...builtinRules.keys(),
-      ];
-      for (const id of Object.keys(RULES[/** @type {PresetName} */ (preset)])) {
-        expect(known).toContain(id);
-      }
-    },
-  );
+  it.each([
+    'recommended',
+    'strict',
+    'react-native-recommended',
+    'react-native-strict',
+  ])('%s only names rules the plugins or ESLint core really have', (preset) => {
+    const known = [
+      ...Object.keys(betterTailwindcss.rules ?? {}).map(
+        (rule) => `better-tailwindcss/${rule}`,
+      ),
+      ...Object.keys(shadcn.rules ?? {}).map((rule) => `shadcn/${rule}`),
+      ...Object.keys(lumen.rules ?? {}).map((rule) => `lumen/${rule}`),
+      ...builtinRules.keys(),
+    ];
+    for (const id of Object.keys(RULES[/** @type {PresetName} */ (preset)])) {
+      expect(known).toContain(id);
+    }
+  });
 
   it('points every class-merging import at Lumen’s cn', () => {
     expect(RULES.recommended['no-restricted-imports']).toEqual([
@@ -122,6 +132,7 @@ describe('presets', () => {
 const PRESET_PLUGINS = [
   ['recommended', 'react', 'recommended', ['better-tailwindcss', 'shadcn']],
   ['strict', 'react', 'strict', ['better-tailwindcss', 'shadcn']],
+  ['react-native-recommended', 'reactnative', 'recommended', ['lumen']],
   ['react-native-strict', 'reactnative', 'strict', ['lumen']],
 ];
 
@@ -215,7 +226,7 @@ describe('README rules table', () => {
   const PLUGINS = [
     ['better-tailwindcss', betterTailwindcss, ['recommended', 'strict']],
     ['shadcn', shadcn, ['recommended', 'strict']],
-    ['lumen', lumen, ['react-native-strict']],
+    ['lumen', lumen, ['react-native-recommended', 'react-native-strict']],
   ];
   const rows = new Map(
     [

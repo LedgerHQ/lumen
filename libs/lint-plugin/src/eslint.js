@@ -41,6 +41,7 @@ export const configs = {
     strict: toConfig('strict'),
   },
   reactnative: {
+    recommended: toConfig('react-native-recommended'),
     strict: toConfig('react-native-strict'),
   },
 };

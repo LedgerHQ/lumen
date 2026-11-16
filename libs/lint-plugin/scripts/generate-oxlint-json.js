@@ -29,6 +29,7 @@ export function buildOxlintPresets() {
   for (const preset of /** @type {PresetName[]} */ ([
     'recommended',
     'strict',
+    'react-native-recommended',
     'react-native-strict',
   ])) {
     presets[`${preset}.json`] = toOxlintConfig(preset, { resolvePlugin });
