@@ -9,8 +9,6 @@ import { useCommonTranslation } from '../../../../translations';
 import { Check, Copy } from '../../symbols';
 import type { ClipboardProps } from './types';
 
-const COPIED_DURATION_MS = 3000;
-
 /**
  * Displays a value that is copied to the user's clipboard when the whole
  * surface is clicked. The copy icon switches to a check icon for a few
@@ -31,15 +29,17 @@ export const Clipboard = ({
   className,
   value,
   onCopy,
+  isCopied,
+  timeout = 3000,
   onClick,
   ...props
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
   const disabled = useDisabledContext({ consumerName: 'Clipboard' });
-  const [copyConfirmed, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
+  const [copyConfirmed, markCopied] = useTemporaryFlag(timeout);
   const [copiedValue, setCopiedValue] = useState<string>();
 
-  const copied = copyConfirmed && copiedValue === value;
+  const copied = isCopied ?? (copyConfirmed && copiedValue === value);
   const Icon = copied ? Check : Copy;
 
   const handleClick = async (event: MouseEvent<HTMLButtonElement>) => {

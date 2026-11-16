@@ -12,8 +12,6 @@ import { Pressable, Text } from '../../primitives';
 import { Check, Copy } from '../../symbols';
 import type { ClipboardProps } from './types';
 
-const COPIED_DURATION_MS = 3000;
-
 const useStyles = ({
   pressed,
   disabled,
@@ -88,15 +86,17 @@ export const Clipboard = ({
   style,
   value,
   onCopy,
+  isCopied,
+  timeout = 3000,
   onPress,
   ...props
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
   const disabled = useDisabledContext({ consumerName: 'Clipboard' });
-  const [copyConfirmed, markCopied] = useTemporaryFlag(COPIED_DURATION_MS);
+  const [copyConfirmed, markCopied] = useTemporaryFlag(timeout);
   const [copiedValue, setCopiedValue] = useState<string>();
 
-  const copied = copyConfirmed && copiedValue === value;
+  const copied = isCopied ?? (copyConfirmed && copiedValue === value);
 
   const handlePress = async (event: GestureResponderEvent) => {
     onPress?.(event);
