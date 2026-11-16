@@ -218,6 +218,7 @@ function useRootStyles({
       pill: {
         position: 'absolute',
         top: 0,
+        // TODO: Temporarily physical on purpose.
         // eslint-disable-next-line lumen/enforce-logical-properties
         left: 0,
         borderRadius: t.borderRadius.sm,

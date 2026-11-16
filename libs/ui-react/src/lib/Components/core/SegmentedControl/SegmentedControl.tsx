@@ -35,6 +35,7 @@ const segmentedControlStyles = {
       },
     },
   }),
+  // TODO: Temporarily physical on purpose.
   // eslint-disable-next-line better-tailwindcss/no-restricted-classes
   pill: cva('pointer-events-none absolute top-0 left-0 z-0 rounded-sm', {
     variants: {
@@ -93,6 +94,9 @@ const segmentedControlStyles = {
           true: 'opacity-100',
           false: 'pointer-events-none opacity-0',
         },
+        // Physical on purpose: each arrow pairs with `scrollLeft`, the `to right`
+        // scroll mask and its chevron, none of which flip in RTL. Autofixing to
+        // `start-0`/`end-0` would put each arrow over the opposite mask.
         side: {
           // eslint-disable-next-line better-tailwindcss/enforce-logical-properties, better-tailwindcss/no-restricted-classes
           left: 'left-0 pr-16 pl-8',
