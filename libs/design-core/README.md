@@ -27,7 +27,8 @@ theme for your brand, in your main CSS file:
 There is one file per brand: `enterprise.css`, `ledger-live.css` and
 `websites.css`. `all-brands.css` defines all three, switched by a
 `.ledger-live`, `.enterprise` or `.websites` class on a parent. They share a
-generated `theme.css`: import a brand file, not that one.
+generated `theme.css`, and read their variables from the plain CSS file of the
+same name in `themes/css/`: import a brand file, not those.
 
 If you also use `@ledgerhq/lumen-ui-react`, import its stylesheet after the
 theme — it registers the compiled components as a Tailwind source so their

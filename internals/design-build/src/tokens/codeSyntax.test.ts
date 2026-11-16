@@ -2,8 +2,8 @@ import { type CodeSyntaxFile, createTokenModel } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
 import { codeSyntaxTarget } from './codeSyntax.js';
 import { cssLayers } from './cssLayers.js';
+import { orderedBreakpoints } from './modes.js';
 import { cssVariableName } from './naming.js';
-import { orderedBreakpoints } from './selections.js';
 
 describe('codeSyntaxTarget', () => {
   it('gives Dev Mode exactly the CSS variable names the CSS outputs write', async () => {

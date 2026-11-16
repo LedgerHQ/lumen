@@ -32,7 +32,7 @@ export const tokenTargets: Target<TokenModel>[] = [
   cssThemesTarget(outputPaths.cssThemes),
   jsTarget(outputPaths.js, '../../tokens/types.js'),
   codeSyntaxTarget(outputPaths.codeSyntax),
-  tailwindTarget(outputPaths.tailwind),
+  tailwindTarget(outputPaths.tailwind, '../css'),
 ];
 
 export const iconTargets: Target<IconModel>[] = [

@@ -7,7 +7,8 @@ import {
   type Token,
   type TokenModel,
 } from '@lumen/design-sources';
-import { breakpointLayers, themeLayers } from './layers.js';
+import { groupOf } from './groups.js';
+import { breakpointLayers, themeLayers } from './modes.js';
 import { cssReference, cssVariableName } from './naming.js';
 
 /** Custom property → value, in source order. */
@@ -104,6 +105,8 @@ export const cssDeclarations = (
 
   for (const token of treeOrder(model.tokens(files))) {
     if (!collections.includes(token.source.collection)) continue;
+    // Every group reaches the web; this fails on a token with no group.
+    groupOf(token);
 
     const name = cssVariableName(token.path);
     const { id } = token;

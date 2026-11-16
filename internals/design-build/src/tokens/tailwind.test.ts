@@ -4,7 +4,9 @@ import { tailwindTarget } from './tailwind.js';
 
 describe('tailwindTarget', () => {
   it('emits a shared theme and one small entry per brand plus all brands', async () => {
-    const files = await tailwindTarget('out').emit(createTokenModel());
+    const files = await tailwindTarget('out', '../css').emit(
+      createTokenModel(),
+    );
     const byPath = Object.fromEntries(files.map((f) => [f.path, f.contents]));
 
     expect(Object.keys(byPath)).toEqual([
@@ -26,21 +28,26 @@ describe('tailwindTarget', () => {
     }
   });
 
-  it('scopes brands by class in all-brands.css and themes by .dark otherwise', async () => {
-    const files = await tailwindTarget('out').emit(createTokenModel());
+  it('pulls every variable from the plain CSS theme of the same name, into the base layer', async () => {
+    const files = await tailwindTarget('out', '../css').emit(
+      createTokenModel(),
+    );
     const byPath = Object.fromEntries(files.map((f) => [f.path, f.contents]));
 
-    expect(byPath['all-brands.css']).toContain('  .ledger-live.dark {');
-    expect(byPath['enterprise.css']).toContain('  .dark {');
-    expect(byPath['theme.css']).toContain('@media (min-width: 640px)');
+    expect(byPath['all-brands.css']).toContain(
+      "@import '../css/all-brands.css' layer(base);",
+    );
+    expect(byPath['enterprise.css']).toContain(
+      "@import '../css/enterprise.css' layer(base);",
+    );
+    expect(byPath['theme.css']).not.toContain('@layer base');
   });
 
   it('owns the generated entries only, never lumen.css', () => {
-    const target = tailwindTarget('out');
+    const target = tailwindTarget('out', '../css');
 
     expect(target.owns?.('theme.css')).toBe(true);
     expect(target.owns?.('enterprise.css')).toBe(true);
     expect(target.owns?.('lumen.css')).toBe(false);
-    expect(target.format).toBe(false);
   });
 });

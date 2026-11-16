@@ -1,7 +1,7 @@
 import type { TokenModel } from '@lumen/design-sources';
 import type { Target } from '../core/target.js';
 import { cssLayers } from './cssLayers.js';
-import { orderedBreakpoints } from './selections.js';
+import { orderedBreakpoints } from './modes.js';
 
 /** The raw light and dark palettes: a component reads the semantic layer. */
 const PALETTE = /^--color-(light|dark)-/;
