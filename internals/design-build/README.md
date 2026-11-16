@@ -16,11 +16,12 @@ design-sources (model) ──► Target.emit(model) ──► writer (prettier, 
 - `npx nx run design-build:check` — fail if a committed output differs from
   what the sources build: a hand edit, or a source change without a rebuild.
   CI runs it on every PR (`pr.yml`).
-- `cli.ts report --before <copy of design-sources> [--before-root <checkout>] [--fail-on-removal]`
+- `cli.ts report --before <copy of design-sources> [--fail-on-removal]`
   — the Markdown diff (added, changed, removed, renamed, per mode) the sync PRs
-  carry. With `--before-root`, it also compares the public names the outputs
-  define: CSS variables and React Native theme paths.
-  `design-sources-gate.yml` runs it on every PR that touches the pipeline,
+  carry. A name the outputs stop defining without a source change (CSS
+  variable, Tailwind utility, React Native path) is caught by
+  `check:breaking-changes`, which requires a migration.
+  `design-sources-gate.yml` runs it on every PR that touches the sources,
   against the PR base, and fails on removals and renames unless the PR has
   the `design-sources: approve removals` label; adding the label re-runs it.
 
