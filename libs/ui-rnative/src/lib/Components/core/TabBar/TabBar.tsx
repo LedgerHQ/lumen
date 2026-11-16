@@ -218,8 +218,8 @@ const useTabBarAnimations = ({
         [0, 1],
         [TAB_BAR_COMPACT_HEIGHT, expandedHeight],
       ),
-      marginLeft: inset,
-      marginRight: inset,
+      marginStart: inset,
+      marginEnd: inset,
     };
   }, [densityProgress, compactInset, expandedHeight]);
 
