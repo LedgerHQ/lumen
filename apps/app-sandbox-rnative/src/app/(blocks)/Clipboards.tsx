@@ -22,10 +22,9 @@ export default function Clipboards() {
       />
       <Clipboard
         value='Copied state lasts 1 second'
-        timeout={1000}
+        resetAfterMs={1000}
         onCopy={readClipboard}
       />
-      <Clipboard value='Always shown as copied' isCopied />
       <Clipboard
         value='A long label that wraps onto several lines when it does not fit on one'
         onCopy={readClipboard}

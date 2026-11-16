@@ -1,13 +1,10 @@
-import {
-  useDisabledContext,
-  useTemporaryFlag,
-} from '@ledgerhq/lumen-utils-shared';
-import * as ExpoClipboard from 'expo-clipboard';
+import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { useState } from 'react';
 import type { GestureResponderEvent } from 'react-native';
 import { StyleSheet, View } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { useCommonTranslation } from '../../../../translations';
+import { useClipboard } from '../../../utils/useClipboard/useClipboard';
 import { Pressable, Text } from '../../primitives';
 import { Check, Copy } from '../../symbols';
 import type { ClipboardProps } from './types';
@@ -86,31 +83,27 @@ export const Clipboard = ({
   style,
   value,
   onCopy,
-  isCopied,
-  timeout = 3000,
+  resetAfterMs,
   onPress,
   ...props
 }: ClipboardProps) => {
   const { t } = useCommonTranslation();
   const disabled = useDisabledContext({ consumerName: 'Clipboard' });
-  const [copyConfirmed, markCopied] = useTemporaryFlag(timeout);
   const [copiedValue, setCopiedValue] = useState<string>();
+  const { copy, isCopied } = useClipboard({
+    resetAfterMs,
+    onCopy: (copied) => {
+      setCopiedValue(copied);
+      onCopy?.(copied);
+    },
+  });
 
-  const copied = isCopied ?? (copyConfirmed && copiedValue === value);
+  const copied = isCopied && copiedValue === value;
 
   const handlePress = async (event: GestureResponderEvent) => {
     onPress?.(event);
 
-    try {
-      // On web, Expo resolves `false` instead of rejecting when the write is denied.
-      const success = await ExpoClipboard.setStringAsync(value);
-      if (!success) return;
-    } catch {
-      return;
-    }
-    setCopiedValue(value);
-    markCopied();
-    onCopy?.(value);
+    await copy(value);
   };
 
   return (
