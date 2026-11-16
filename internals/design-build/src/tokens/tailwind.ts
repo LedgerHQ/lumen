@@ -1,12 +1,16 @@
 import type { Token, TokenModel } from '@lumen/design-sources';
 import type { OutputFile, Target } from '../core/target.js';
 import { cssLayers, type Declarations } from './cssLayers.js';
-import { breakpointLayers, layerTokens } from './layers.js';
+import { groupOf } from './groups.js';
 import {
+  breakpointLayers,
+  layerTokens,
+  themeLayers,
   breakpointMinWidths,
   coreFiles,
   orderedBreakpoints,
-} from './selections.js';
+} from './modes.js';
+import { cssVariableName } from './naming.js';
 import { motion, typographyUtilities } from './tailwindBlocks.js';
 
 /** Files in the Tailwind folder that design-build never writes. */
@@ -22,24 +26,15 @@ const FALLBACK_COLORS: Declarations = {
   current: 'currentColor',
 };
 
-const block = (
-  selector: string,
-  declarations: Declarations,
-  indent = '',
-): string =>
-  `${indent}${selector} {\n${Object.entries(declarations)
-    .map(([property, value]) => `${indent}  ${property}: ${value};`)
-    .join('\n')}\n${indent}}`;
+const block = (selector: string, declarations: Declarations): string =>
+  `${selector} {\n${Object.entries(declarations)
+    .map(([property, value]) => `  ${property}: ${value};`)
+    .join('\n')}\n}`;
 
 /** `--background-canvas-muted` → `canvas-muted` for the variables with a prefix. */
-const keysWithPrefix = (
-  variables: Declarations,
-  prefix: string,
-  exclude?: string,
-): string[] =>
+const keysWithPrefix = (variables: Declarations, prefix: string): string[] =>
   Object.keys(variables)
     .filter((name) => name.startsWith(prefix))
-    .filter((name) => !exclude || !name.startsWith(exclude))
     .map((name) => name.slice(prefix.length));
 
 /** A Tailwind theme namespace reset, then mapped onto Lumen variables. */
@@ -54,20 +49,23 @@ const mapTo = (keys: string[], variablePrefix: string): Declarations =>
   Object.fromEntries(keys.map((key) => [key, `var(${variablePrefix}${key})`]));
 
 /**
- * The Tailwind v4 theme: a shared `theme.css` (namespaces, primitives,
- * typography, utilities) and one small entry per brand, plus `all-brands.css`
- * where brands switch by class, as the presets did. Wiring with no design
- * value lives in the hand-written `lumen.css`.
+ * The Tailwind v4 theme: a shared `theme.css` (namespaces, breakpoints,
+ * utilities) and one entry per brand, plus `all-brands.css` where brands switch
+ * by class. An entry pulls its variables from the plain CSS theme of the same
+ * name (`cssThemesImport`, relative to `outDir`) into the base layer, so they
+ * are written once. Wiring with no design value lives in the hand-written
+ * `lumen.css`.
  */
-export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
+export const tailwindTarget = (
+  outDir: string,
+  cssThemesImport: string,
+): Target<TokenModel> => ({
   name: 'tailwind',
   outDir,
   // Owns every CSS file but the hand-written ones, so a brand removed in Figma
   // loses its entry. A new hand-written file must join HAND_WRITTEN, or
   // `tokens` deletes it and `check` reports it as extra.
   owns: (file) => file.endsWith('.css') && !HAND_WRITTEN.has(file),
-  // Prettier would rewrite values (`0.10` → `0.1`) that the snapshot pins as written.
-  format: false,
   emit: (model) => {
     const breakpoints = orderedBreakpoints(model);
     const layers = cssLayers(model, breakpoints);
@@ -95,33 +93,34 @@ export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
     // Every brand × theme has the same keys (validation enforces it), so the
     // namespaces are shared.
     const semantic = layers.themes[0].declarations;
-    const background = keysWithPrefix(semantic, '--background-');
-    const text = keysWithPrefix(semantic, '--text-');
-    const border = keysWithPrefix(semantic, '--border-', '--border-width');
     const crypto = keysWithPrefix(semantic, '--color-crypto-');
-    const discover = keysWithPrefix(semantic, '--color-discover-');
 
-    const backgroundLike = {
-      ...mapTo(background, '--background-'),
-      ...FALLBACK_COLORS,
-      ...Object.fromEntries(
-        crypto.map((key) => [`crypto-${key}`, `var(--color-crypto-${key})`]),
-      ),
-      ...Object.fromEntries(
-        discover.map((key) => [
-          `discover-${key}`,
-          `var(--color-discover-${key})`,
-        ]),
-      ),
-    };
-    const textLike = { ...mapTo(text, '--text-'), ...FALLBACK_COLORS };
-    const borderLike = { ...mapTo(border, '--border-'), ...FALLBACK_COLORS };
+    // Each group's variables fill the Tailwind namespaces its row in GROUPS
+    // names; color namespaces also keep Tailwind's transparent and current.
+    const groupNamespaces = new Map<string, Declarations>();
+    const tokens = [
+      ...model.tokens(model.select(['primitives', 'shadow'])),
+      ...layerTokens(model, themeLayers(model)[0]),
+    ];
+    for (const token of tokens) {
+      const { key: row, group } = groupOf(token);
+      if (!group.tailwind) continue;
+      const name = cssVariableName(token.path);
+      const prefix = cssVariableName((row.split(':').pop() ?? row).split('.'));
+      const key = `${group.tailwindPrefix ?? ''}${name.slice(prefix.length + 1)}`;
+      for (const ns of group.tailwind) {
+        const values = groupNamespaces.get(ns) ?? {};
+        values[key] = `var(${name})`;
+        if (token.$type === 'color') Object.assign(values, FALLBACK_COLORS);
+        groupNamespaces.set(ns, values);
+      }
+    }
 
     const sizes = keysWithPrefix(primitives, '--size-');
     const spacing = keysWithPrefix(primitives, '--spacing-');
     const spacingKeys = new Set(spacing);
-    // The preset resolved `max-w-*` and `basis-*` from spacing first, then
-    // sizes: only the size steps spacing lacks get their own entry.
+    // Tailwind resolves `max-w-*` and `basis-*` from spacing first, then
+    // these: only the size steps spacing lacks get their own entry.
     const sizeOnly = sizes.filter((key) => !spacingKeys.has(key));
 
     const animations: Declarations = {
@@ -147,32 +146,9 @@ export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
     const themeNamespaces: Declarations = {
       '--color-*': 'initial',
       '--spacing': 'initial',
-      ...namespace('--spacing', mapTo(spacing, '--spacing-')),
-      ...namespace(
-        '--radius',
-        mapTo(
-          keysWithPrefix(primitives, '--border-radius-'),
-          '--border-radius-',
-        ),
-      ),
-      ...namespace(
-        '--backdrop-blur',
-        mapTo(
-          keysWithPrefix(primitives, '--backdrop-blur-'),
-          '--backdrop-blur-',
-        ),
-      ),
       ...Object.assign(
         {},
-        ...[
-          '--width',
-          '--height',
-          '--size',
-          '--min-width',
-          '--min-height',
-          '--max-height',
-          '--columns',
-        ].map((ns) => namespace(ns, mapTo(sizes, '--size-'))),
+        ...[...groupNamespaces].map(([ns, values]) => namespace(ns, values)),
       ),
       ...namespace('--max-width', mapTo(sizeOnly, '--size-')),
       ...namespace('--flex-basis', mapTo(sizeOnly, '--size-')),
@@ -185,23 +161,6 @@ export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
       '--text-*': 'initial',
       '--font-weight-*': 'initial',
       '--leading-*': 'initial',
-      // Tailwind builds `shadow-*` from these, layered with its ring shadows.
-      ...namespace(
-        '--shadow',
-        mapTo(keysWithPrefix(primitives, '--shadow-'), '--shadow-'),
-      ),
-      ...namespace('--background-color', backgroundLike),
-      ...namespace('--accent-color', backgroundLike),
-      ...namespace('--fill', backgroundLike),
-      ...namespace('--text-color', textLike),
-      ...namespace('--caret-color', textLike),
-      ...namespace('--placeholder-color', textLike),
-      ...namespace('--border-color', borderLike),
-      ...namespace('--stroke', borderLike),
-      ...namespace('--ring-color', borderLike),
-      ...namespace('--outline-color', borderLike),
-      ...namespace('--ring-offset-color', borderLike),
-      ...namespace('--text-decoration-color', borderLike),
     };
 
     // The classes read breakpoint-aware variables, so the base layer names them all.
@@ -252,13 +211,6 @@ export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
         ),
     ];
 
-    const typographyLayers = layers.breakpoints.map(
-      ({ breakpoint, declarations }, index) =>
-        index === 0
-          ? block(':root', declarations, '  ')
-          : `  @media (min-width: ${screens[breakpoint]}) {\n${block(':root', declarations, '    ')}\n  }`,
-    );
-
     const themeFile: OutputFile = {
       path: 'theme.css',
       contents: [
@@ -274,31 +226,16 @@ export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
             ]),
           ),
         }),
-        `@layer base {\n${[block(':root', primitives, '  '), ...typographyLayers].join('\n')}\n}`,
         ...utilities,
         '',
       ].join('\n\n'),
     };
 
-    const entry = (
-      name: string,
-      description: string,
-      selectors: { selector: string; brand: string; theme: string }[],
-    ): OutputFile => ({
+    const entry = (name: string, description: string): OutputFile => ({
       path: `${name}.css`,
       contents: [
         `${HEADER}\n\n/* ${description} */`,
-        `@import './theme.css';`,
-        `@layer base {\n${selectors
-          .map(({ selector, brand, theme }) => {
-            const layer = layers.themes.find(
-              (candidate) =>
-                candidate.brand === brand && candidate.theme === theme,
-            );
-            if (!layer) throw new Error(`No ${brand} × ${theme} theme layer`);
-            return block(selector, layer.declarations, '  ');
-          })
-          .join('\n')}\n}`,
+        `@import './theme.css';\n@import '${cssThemesImport}/${name}.css' layer(base);`,
         '',
       ].join('\n\n'),
     });
@@ -307,18 +244,11 @@ export const tailwindTarget = (outDir: string): Target<TokenModel> => ({
     return [
       themeFile,
       ...brands.map((brand) =>
-        entry(brand, `The ${brand} brand: light on :root, dark under .dark.`, [
-          { selector: ':root', brand, theme: 'light' },
-          { selector: '.dark', brand, theme: 'dark' },
-        ]),
+        entry(brand, `The ${brand} brand: light on :root, dark under .dark.`),
       ),
       entry(
         'all-brands',
         'Every brand, switched by a class on a parent (.enterprise, .ledger-live, .websites), dark under .dark.',
-        brands.flatMap((brand) => [
-          { selector: `.${brand}`, brand, theme: 'light' },
-          { selector: `.${brand}.dark`, brand, theme: 'dark' },
-        ]),
       ),
     ];
   },

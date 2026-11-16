@@ -315,10 +315,11 @@ internals/
       │  ├─ check.ts           --check against git
       │  └─ diffReport.ts
       ├─ tokens/
-      │  ├─ cssThemes.ts  js.ts  tailwind.ts  codeSyntax.ts
-      │  ├─ layers.ts             brand × theme and breakpoint layers
-      │  ├─ naming.ts  cssLayers.ts  selections.ts   shared helpers
-      │  └─ tailwindBlocks.ts  typography, shadow and motion pieces
+      │  ├─ cssThemes.ts  js.ts  tailwind.ts  codeSyntax.ts  cssVarNames.ts
+      │  ├─ groups.ts             where each token group goes
+      │  ├─ modes.ts              breakpoints, brand × theme, built collections
+      │  ├─ naming.ts  cssLayers.ts   shared helpers
+      │  └─ tailwindBlocks.ts  typography and motion pieces
       └─ icons/
          └─ svg.ts  components.ts   react and rnative via svgr + svgo
 
@@ -332,7 +333,8 @@ libs/design-core/
 │  ├─ css/<brand>.css          written by ③: plain CSS variables, any web app
 │  └─ tailwind/                Tailwind v4 theme (ticket 8)
 │     ├─ theme.css             written by ③
-│     ├─ <brand>.css           written by ③, one per brand + all-brands.css
+│     ├─ <brand>.css           written by ③, one per brand + all-brands.css:
+│     │                        theme.css + css/<brand>.css in the base layer
 │     └─ lumen.css             hand-written wiring
 └─ symbols/icons/              published as ./symbols/*, path unchanged
 ```
@@ -580,7 +582,9 @@ Lumen is on Tailwind v4 but ships its theme as a JS preset loaded with
 - One file per brand, or one file with a brand selector (to decide).
 - One shared generated `theme.css`, a small entry per brand and
   `all-brands.css` (brand classes on a parent), plus a hand-written
-  `lumen.css` for the utilities and variants that are not tokens.
+  `lumen.css` for the utilities and variants that are not tokens. An entry
+  imports the plain CSS theme of the same name into the base layer, so the
+  variables are written once.
 - Generated first alongside the preset and checked against it, then the preset
   and its plugins are removed in the same epic (decided on 2026-11-09):
   `ui-react` moves to the CSS, and the consumer migration (`@config` →

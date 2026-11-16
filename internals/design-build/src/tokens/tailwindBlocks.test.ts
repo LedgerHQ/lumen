@@ -1,6 +1,6 @@
 import { createTokenModel, type Token } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
-import { coreFiles, orderedBreakpoints } from './selections.js';
+import { coreFiles, orderedBreakpoints } from './modes.js';
 import { motion, typographyUtilities } from './tailwindBlocks.js';
 
 const model = createTokenModel();

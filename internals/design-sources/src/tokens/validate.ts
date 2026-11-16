@@ -57,6 +57,12 @@ const isShadowLayer = (value: unknown): boolean => {
   );
 };
 
+/**
+ * Stricter than DTCG on purpose, so not Terrazzo's lint: the outputs read a
+ * color's `hex` and durations in `ms`, which DTCG leaves optional or allows in
+ * `s`. Terrazzo's lint catches the other cases, so swapping would only split
+ * the checks in two.
+ */
 const VALUE_CHECKS: Record<DtcgType, (value: unknown) => boolean> = {
   color: isColor,
   dimension: isDimension,

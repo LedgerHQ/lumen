@@ -33,10 +33,18 @@ design-sources (model) ──► Target.emit(model) ──► writer (prettier, 
 - `src/tokens/` — one target per output, each a plain function of the model
   (`design-sources` already resolves references and modes, so no token engine
   sits in between). `cssLayers.ts` builds the CSS declarations every CSS-shaped
-  output serializes, `selections.ts` the mode combinations every target reads,
-  and `naming.ts` is the one place Figma names become output names.
+  output serializes, `modes.ts` the mode combinations every target reads,
+  `naming.ts` is the one place Figma names become output names, and
+  `groups.ts` says where each token group goes.
 - `src/config.ts` — every output folder. A target owns its folder (or the
   part `owns` names): files it stops emitting are deleted.
+
+## Adding a token group
+
+Add one row to `GROUPS` in `src/tokens/groups.ts`: the Tailwind namespaces
+its variables fill and its React Native theme path. Every output reads that
+table, and a token without a row fails the build. Every group reaches the web;
+`webOnly` keeps one out of the React Native theme and says why.
 
 ## Adding an output
 
@@ -56,6 +64,8 @@ proves the CSS names and the Dev Mode names are the same set.
 ## Rules
 
 - **Generated files are never edited by hand**: fix the source or the target.
+  The React Native types (`libs/design-core/src/lib/tokens/types.ts`) are
+  hand-written shapes over the generated key sets (`generated/js/keys.ts`).
 - **The CSS variables hold every web value**: the Tailwind theme only maps its
   namespaces onto them (`--shadow-md: var(--shadow-md)`), so Tailwind and the
   plain CSS themes can't drift apart.

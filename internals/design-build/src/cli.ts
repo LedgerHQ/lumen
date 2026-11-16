@@ -5,7 +5,7 @@ import { isBreaking, markdownReport } from './core/diffReport.js';
 import type { Target } from './core/target.js';
 import { renderTarget, WORKSPACE_ROOT, writeRendered } from './core/writer.js';
 import { publicNamesDiff, sourcesDiff } from './report.js';
-import { assertEveryCollectionBuilt } from './tokens/selections.js';
+import { assertEveryCollectionBuilt } from './tokens/modes.js';
 
 /**
  * `tokens` / `icons`: rebuild that kind's outputs from the committed sources.

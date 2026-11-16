@@ -1,7 +1,7 @@
 import { createTokenModel } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
 import { cssDeclarations, cssLayers, cssValue } from './cssLayers.js';
-import { orderedBreakpoints } from './selections.js';
+import { orderedBreakpoints } from './modes.js';
 
 describe('cssValue', () => {
   it('writes dimensions with their unit and everything else as a string', () => {
@@ -28,15 +28,25 @@ describe('cssLayers', () => {
         collection: 'primitives',
         mode: 'value',
         tokens: {
-          'gap large': { $type: 'dimension', $value: { value: 1, unit: 'px' } },
-          'gap-large': { $type: 'dimension', $value: { value: 2, unit: 'px' } },
+          spacing: {
+            'gap large': {
+              $type: 'dimension',
+              $value: { value: 1, unit: 'px' },
+            },
+            'gap-large': {
+              $type: 'dimension',
+              $value: { value: 2, unit: 'px' },
+            },
+          },
         },
       },
     ]);
 
     expect(() =>
       cssDeclarations(model, model.select(['primitives']), ['primitives']),
-    ).toThrow('gap large and gap-large both build to --gap-large');
+    ).toThrow(
+      'spacing.gap large and spacing.gap-large both build to --spacing-gap-large',
+    );
   });
 
   it('has a layer per brand × theme and per breakpoint, base first', () => {
