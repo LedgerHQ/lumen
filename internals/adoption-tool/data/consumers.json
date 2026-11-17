@@ -22,6 +22,7 @@
       "@ledgerhq/lumen-ui-rnative": ["apps/ledger-live-mobile/package.json"]
     },
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
+    "eligible": true,
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
       {
