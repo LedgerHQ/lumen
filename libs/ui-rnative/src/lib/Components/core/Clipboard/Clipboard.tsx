@@ -38,7 +38,6 @@ const useStyles = ({
           {
             flex: 1,
             paddingVertical: t.spacings.s4,
-            textAlign: 'left',
             color: foregroundColor,
           },
         ]),
