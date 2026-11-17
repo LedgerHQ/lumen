@@ -16,6 +16,7 @@ export const blocks: BlockMeta[] = [
   { slug: 'CardButtons', title: 'CardButton' },
   { slug: 'Cards', title: 'Card' },
   { slug: 'Checkboxes', title: 'Checkbox' },
+  { slug: 'Clipboards', title: 'Clipboard' },
   { slug: 'ContentBanners', title: 'ContentBanner' },
   { slug: 'DescriptionLists', title: 'DescriptionList' },
   { slug: 'Dividers', title: 'Divider' },
