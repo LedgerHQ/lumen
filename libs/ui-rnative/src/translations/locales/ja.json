@@ -34,10 +34,6 @@
       "nextPageAriaLabel": "次のページ",
       "pageAriaLabel": "{{page}} ページ",
       "pageOfTotal": "{{current}} / {{total}}"
-    },
-    "clipboard": {
-      "copyAriaLabel": "コピー",
-      "copiedAriaLabel": "コピーしました"
     }
   }
 }
