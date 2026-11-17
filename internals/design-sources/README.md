@@ -1,17 +1,15 @@
 # design-sources
 
 Dev-only Nx project holding the **design sources**: the committed DTCG token
-files and icon SVGs every output is built from, and the in-memory models that
-read them.
+files every output is built from, and the in-memory models that read them and
+the icon SVGs. The SVGs are published as exported, so their source is the
+published folder, `libs/design-core/symbols/icons/` (written by sync-figma).
 Never published — see `## Internals` in [AGENTS.md](../../AGENTS.md).
 
 ```text
 tokens/
 ├─ figma/*.tokens.json   written by sync-figma, never edited by hand
 └─ code/*.tokens.json    hand-written: values Figma variables can't hold
-icons/
-├─ *.svg                 written by sync-figma, never edited by hand
-└─ icons.json            the export manifest (Figma node ids, last modified)
 src/icons/model.ts       load and validate the icons
 src/tokens/
 ├─ load.ts       read and flatten the files

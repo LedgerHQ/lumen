@@ -70,7 +70,7 @@ jobs:
           set-shas: 'false'
 
       - name: Keep the sources before the export, for the diff report
-        run: mkdir -p "$RUNNER_TEMP/before" && cp -R internals/design-sources/icons "$RUNNER_TEMP/before/"
+        run: mkdir -p "$RUNNER_TEMP/before" && cp -R libs/design-core/symbols/icons "$RUNNER_TEMP/before/"
 
       - name: Export icons from Figma
         run: npx nx run sync-figma:extract --kind=icons

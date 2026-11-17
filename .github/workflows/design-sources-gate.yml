@@ -42,7 +42,7 @@ jobs:
           if ! git cat-file -e "$BASE_SHA:internals/design-sources"; then
             echo "No design sources on the base branch yet; nothing to compare."
             echo "compare=false" >> "$GITHUB_OUTPUT"
-          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources; then
+          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources libs/design-core/symbols/icons; then
             echo "This PR doesn't touch the design pipeline; nothing to compare."
             echo "compare=false" >> "$GITHUB_OUTPUT"
           else
@@ -63,7 +63,10 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           APPROVED: "${{ contains(github.event.pull_request.labels.*.name, 'design-sources: approve removals') }}"
         run: |
+          # The report reads `tokens/` and `icons/` side by side; the icons'
+          # source is their published folder.
           mkdir -p "$RUNNER_TEMP/base"
-          git archive "$BASE_SHA" internals/design-sources | tar -x -C "$RUNNER_TEMP/base"
+          git archive "$BASE_SHA" internals/design-sources/tokens | tar -x -C "$RUNNER_TEMP/base" --strip-components=2
+          git archive "$BASE_SHA" libs/design-core/symbols/icons | tar -x -C "$RUNNER_TEMP/base" --strip-components=3
           FLAG=$([ "$APPROVED" = "true" ] && echo "" || echo "--fail-on-removal")
-          npx tsx internals/design-build/src/cli.ts report --before "$RUNNER_TEMP/base/internals/design-sources" $FLAG | tee -a "$GITHUB_STEP_SUMMARY"
+          npx tsx internals/design-build/src/cli.ts report --before "$RUNNER_TEMP/base" $FLAG | tee -a "$GITHUB_STEP_SUMMARY"

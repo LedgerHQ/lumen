@@ -1,7 +1,6 @@
 import type { IconModel, TokenModel } from '@lumen/design-sources';
 import type { Target } from './core/target.js';
 import { symbolComponentsTarget } from './icons/components.js';
-import { svgTarget } from './icons/svg.js';
 import { codeSyntaxTarget } from './tokens/codeSyntax.js';
 import { cssThemesTarget } from './tokens/cssThemes.js';
 import { cssVarNamesTarget } from './tokens/cssVarNames.js';
@@ -22,7 +21,6 @@ export const outputPaths = {
   tailwind: 'libs/design-core/themes/tailwind',
   /** Read by sync-figma `code-syntax`, which uploads it to Figma. */
   codeSyntax: 'internals/design-build/generated',
-  svgSymbols: 'libs/design-core/symbols/icons',
   reactSymbols: 'libs/ui-react/src/lib/Components/symbols',
   reactNativeSymbols: 'libs/ui-rnative/src/lib/Components/symbols',
 };
@@ -36,7 +34,6 @@ export const tokenTargets: Target<TokenModel>[] = [
 ];
 
 export const iconTargets: Target<IconModel>[] = [
-  svgTarget(outputPaths.svgSymbols),
   symbolComponentsTarget({
     name: 'react-symbols',
     outDir: outputPaths.reactSymbols,

@@ -52,12 +52,10 @@ describe('validateIcons', () => {
 });
 
 describe('createIconModel', () => {
-  it('loads every committed icon and the export manifest', () => {
+  it('loads every committed icon', () => {
     const model = createIconModel();
 
     expect(model.icons).toHaveLength(308);
-    // Icons added by hand, outside a Figma export, aren't in the manifest yet.
-    expect(model.manifest.componentIds.length).toBeGreaterThan(0);
     expect(model.warnings).toHaveLength(5);
   });
 });
