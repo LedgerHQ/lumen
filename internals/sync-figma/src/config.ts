@@ -11,7 +11,8 @@ export const automationConfig = {
     WORKSPACE_ROOT,
     'internals/design-sources/tokens/figma',
   ),
-  iconsPath: path.join(WORKSPACE_ROOT, 'internals/design-sources/icons'),
+  /** Published as is: see `ICONS_DIR` in design-sources. */
+  iconsPath: path.join(WORKSPACE_ROOT, 'libs/design-core/symbols/icons'),
   /** Written by design-build; uploaded to Figma by `code-syntax`. */
   codeSyntaxPath: path.join(
     WORKSPACE_ROOT,

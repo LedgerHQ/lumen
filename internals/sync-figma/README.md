@@ -13,15 +13,16 @@ Driven in CI by three workflows, each runnable from the Actions tab:
 | [`sync-figma-symbols.yml`](../../.github/workflows/sync-figma-symbols.yml) | `extract --kind=icons`, then `design-build:icons`   | a symbols PR (`sync-figma-symbols` branch) |
 | [`sync-figma-all.yml`](../../.github/workflows/sync-figma-all.yml)         | both, as reusable workflows                         | one combined PR (`sync-figma` branch)      |
 
-| Target                  | Does                                                    | Writes to                                          |
-| ----------------------- | ------------------------------------------------------- | -------------------------------------------------- |
-| `extract --kind=tokens` | Figma variables → DTCG, one file per collection × mode  | `internals/design-sources/tokens/figma/`           |
-| `extract --kind=icons`  | Icons canvas → one SVG per component, plus `icons.json` | `internals/design-sources/icons/`                  |
-| `code-syntax`           | Uploads `design-build`'s `code-syntax.json` to Dev Mode | Figma itself — **mutates the file**, not a dry run |
+| Target                  | Does                                                           | Writes to                                           |
+| ----------------------- | -------------------------------------------------------------- | --------------------------------------------------- |
+| `extract --kind=tokens` | Figma variables → DTCG, one file per collection × mode         | `internals/design-sources/tokens/figma/`            |
+| `extract --kind=icons`  | Icons canvas → one SVG per component, plus `downloadData.json` | `libs/design-core/symbols/icons/` (published as is) |
+| `code-syntax`           | Uploads `design-build`'s `code-syntax.json` to Dev Mode        | Figma itself — **mutates the file**, not a dry run  |
 
 Run any of them with `npx nx run sync-figma:<target>` from the workspace root.
 Paths live in [`src/config.ts`](src/config.ts). This project only writes
-`internals/design-sources/`; every output in `libs/*` is built by `design-build`.
+the sources: `internals/design-sources/tokens/figma/`, and the icons, which are
+published as exported. Every other output in `libs/*` is built by `design-build`.
 
 ## Layout
 

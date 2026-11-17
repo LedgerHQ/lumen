@@ -39,9 +39,9 @@ export const iconEntries = (iconsDir: string): Entries => {
 };
 
 /**
- * What changed between a copy of `internals/design-sources` and the working
- * tree. A kind missing from the copy is skipped: the tokens sync only keeps
- * `tokens/`.
+ * What changed between a copy of the sources (`tokens/` from design-sources,
+ * `icons/` from the published symbols) and the working tree. A kind missing
+ * from the copy is skipped: the tokens sync only keeps `tokens/`.
  */
 export const sourcesDiff = (beforeDir: string): Record<string, Diff> => {
   const sections: Record<string, Diff> = {};

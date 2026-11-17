@@ -157,13 +157,13 @@ flowchart TD
   end
   subgraph S1["① internals/sync-figma — only code that knows Figma"]
     XT["extract/tokens<br/>variables → DTCG"]
-    XI["extract/icons<br/>canvas → SVG + icons.json"]
+    XI["extract/icons<br/>canvas → SVG + downloadData.json"]
     WB["write-back/codeSyntax"]
   end
   subgraph SRC["Source files (committed)"]
     TF["design-sources/tokens/figma/*.tokens.json"]
     TC["design-sources/tokens/code/*.tokens.json<br/>hand-written"]
-    IS["design-sources/icons/*.svg + icons.json"]
+    IS["design-core/symbols/icons/*.svg<br/>published as exported"]
   end
   subgraph S2["② internals/design-sources — normalize + validate, in memory"]
     TM["TokenModel"]
@@ -171,11 +171,11 @@ flowchart TD
   end
   subgraph S3["③ internals/design-build — one pure function per output"]
     OT["tokens: css · tailwind · js · codeSyntax"]
-    OI["icons: svg · react · rnative"]
+    OI["icons: react · rnative"]
   end
   subgraph OUT["Outputs (committed)"]
     G["design-core/src/lib/generated/{css,js} · themes/{css,tailwind}"]
-    SY["design-core/symbols/icons + ui-* symbols"]
+    SY["ui-* symbols"]
   end
   FV --> XT --> TF
   FS --> XI --> IS
@@ -187,11 +187,11 @@ flowchart TD
   OT -.->|"code-syntax file"| WB --> FV
 ```
 
-| Stage | Project                    | Job                                                                                                                  | May import                  | Writes to                                          | Nx targets                                    |
-| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------------------------- | --------------------------------------------- |
-| ①     | `internals/sync-figma`     | Figma REST client; extract tokens and icons; upload code syntax                                                      | `design-sources` types only | `design-sources/` source files; Figma (write-back) | `extract --kind=tokens\|icons`, `code-syntax` |
-| ②     | `internals/design-sources` | Hold the source files; load → merge → validate → resolve aliases → expand brand × theme × breakpoint; validate icons | nothing internal            | nothing                                            | `validate`, `test`                            |
-| ③     | `internals/design-build`   | Turn the model into every output file; write + prune + format; `--check` against git; diff report                    | `design-sources`            | generated folders in `libs/*`                      | `tokens`, `icons`, `check`, `test`            |
+| Stage | Project                    | Job                                                                                                                  | May import                  | Writes to                        | Nx targets                                    |
+| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------- | --------------------------------------------- |
+| ①     | `internals/sync-figma`     | Figma REST client; extract tokens and icons; upload code syntax                                                      | `design-sources` types only | source files; Figma (write-back) | `extract --kind=tokens\|icons`, `code-syntax` |
+| ②     | `internals/design-sources` | Hold the source files; load → merge → validate → resolve aliases → expand brand × theme × breakpoint; validate icons | nothing internal            | nothing                          | `validate`, `test`                            |
+| ③     | `internals/design-build`   | Turn the model into every output file; write + prune + format; `--check` against git; diff report                    | `design-sources`            | generated folders in `libs/*`    | `tokens`, `icons`, `check`, `test`            |
 
 Nothing imports ①. The import rules are enforced by Nx tags and
 `depConstraints`, like the existing `scope:internal` rule.
@@ -298,9 +298,6 @@ internals/
 │  ├─ tokens/
 │  │  ├─ figma/*.tokens.json   written by ①, never edited
 │  │  └─ code/*.tokens.json    hand-written
-│  ├─ icons/
-│  │  ├─ *.svg                 written by ①, never edited
-│  │  └─ icons.json
 │  └─ src/
 │     ├─ tokens/               load, validate, standard (Terrazzo), model
 │     └─ icons/                naming, validate
@@ -321,7 +318,7 @@ internals/
       │  ├─ naming.ts  cssLayers.ts   shared helpers
       │  └─ tailwindBlocks.ts  typography and motion pieces
       └─ icons/
-         └─ svg.ts  components.ts   react and rnative via svgr + svgo
+         └─ components.ts      react and rnative via svgr + svgo
 
 libs/design-core/
 ├─ src/lib/
@@ -336,7 +333,9 @@ libs/design-core/
 │     ├─ <brand>.css           written by ③, one per brand + all-brands.css:
 │     │                        theme.css + css/<brand>.css in the base layer
 │     └─ lumen.css             hand-written wiring
-└─ symbols/icons/              published as ./symbols/*, path unchanged
+└─ symbols/icons/              published as ./symbols/*, path unchanged: the
+                               icon sources, written by ① (*.svg +
+                               downloadData.json), never edited
 ```
 
 Package exports stay `.`, `./cn` and `./symbols/*`, so moving folders under
@@ -522,13 +521,13 @@ libs touched.
 
 Move the icon flow onto the three stages, with the same output as today.
 
-- ① `extract/icons`: SVGs plus `icons.json` (Figma node ids, last modified)
-  into `design-sources/icons/`, with write + prune instead of clearing the
-  folder.
+- ① `extract/icons`: SVGs plus `downloadData.json` (Figma node ids, last
+  modified) into `design-core/symbols/icons/`, with write + prune instead of
+  clearing the folder. The SVGs are published as exported, so the published
+  folder is their source rather than a second copy.
 - ② icon model: naming and validation (`viewBox`, `currentColor`, no stray
   fills).
-- ③ outputs: `svg` (published path unchanged), `react`, `rnative`, reusing the
-  existing svgr templates (svgr runs svgo, in design-build), formatted by the
+- ③ outputs: `react`, `rnative`, reusing the existing svgr templates (svgr runs svgo, in design-build), formatted by the
   writer.
 - Delete `figmaDownloadSvgs.ts`, `generate-symbols.mts` and the workflow's
   `lint --fix` step.
