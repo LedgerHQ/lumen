@@ -36,13 +36,4 @@ describe('jsTarget', () => {
       '"gradients": { crypto: primitiveGradientTokens.light.crypto }',
     );
   });
-
-  it('keeps React Native values that wait for a design decision', async () => {
-    const files = await jsTarget('out', '../../tokens/types.js').emit(
-      createTokenModel(),
-    );
-    const primitives = files[0].contents;
-
-    expect(primitives).toMatch(/"blur": \{[^}]*"lg": 64/);
-  });
 });

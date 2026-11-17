@@ -653,9 +653,11 @@ consumer migration steps are written down; version plan for
   `Pressed`, `gradient overlay`, `size 2` in the token files, and the
   ` nested`, `ai bubble` and `auto-Lock` icons; the two chevron icons hard-code
   `#D5D5D5`.
-- **Design (values kept as they are until decided):** `blur.lg` (Figma 16, the
-  React Native TabBar 64) and the `shadow-2xl` color (25% web, 20% mobile),
-  both listed in `design-build/src/tokens/pendingDecisions.ts`; the four motion
+- **Design (decided 2026-11-17):** React Native follows the tokens for
+  `blur.lg` (16) and the `shadow-2xl` color (25%). The TabBar keeps its blur
+  intensity of 64 locally: `blurAmount` is an intensity from 0 to 100, not
+  the pixel radius the token holds.
+- **Design (values kept as they are until decided):** the four motion
   mismatches; the web `ease-in` / `ease-out` keywords, which are not the Lumen
   easing tokens.
 - **Design (next Figma sync):** the live file has moved on since the recorded
