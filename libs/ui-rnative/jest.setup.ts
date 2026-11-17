@@ -84,6 +84,10 @@ jest.mock('expo-haptics', () => ({
   },
 }));
 
+jest.mock('expo-clipboard', () => ({
+  setStringAsync: jest.fn(() => Promise.resolve(true)),
+}));
+
 // Mock @gorhom/bottom-sheet with more detailed prop tracking
 jest.mock('@gorhom/bottom-sheet', () => {
   const mockReact = jest.requireActual<typeof import('react')>('react');
