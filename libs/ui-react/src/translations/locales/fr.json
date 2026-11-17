@@ -55,10 +55,6 @@
       "positiveAriaLabel": "Trend up {{value}}",
       "negativeAriaLabel": "Trend down {{value}}",
       "neutralAriaLabel": "Neutral trend {{value}}"
-    },
-    "clipboard": {
-      "copyAriaLabel": "Copier",
-      "copiedAriaLabel": "Copié"
     }
   }
 }

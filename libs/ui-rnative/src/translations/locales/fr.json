@@ -34,10 +34,6 @@
       "nextPageAriaLabel": "Page suivante",
       "pageAriaLabel": "Page {{page}}",
       "pageOfTotal": "{{current}} sur {{total}}"
-    },
-    "clipboard": {
-      "copyAriaLabel": "Copier",
-      "copiedAriaLabel": "Copié"
     }
   }
 }

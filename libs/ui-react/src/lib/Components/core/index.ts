@@ -7,7 +7,6 @@ export * from './Banner';
 export * from './Button';
 export * from './Card';
 export * from './CardButton';
-export * from './Clipboard';
 export * from './Checkbox';
 export * from './ContentBanner';
 export * from './DataTable';

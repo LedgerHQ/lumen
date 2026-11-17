@@ -34,10 +34,6 @@
       "nextPageAriaLabel": "หน้าถัดไป",
       "pageAriaLabel": "หน้า {{page}}",
       "pageOfTotal": "{{current}} จาก {{total}}"
-    },
-    "clipboard": {
-      "copyAriaLabel": "คัดลอก",
-      "copiedAriaLabel": "คัดลอกแล้ว"
     }
   }
 }
