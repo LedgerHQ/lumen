@@ -26,6 +26,8 @@ export const TAB_BAR_COMPACT_HEIGHT = 44;
 const PILL_INSET = 4;
 const ICON_SIZE = 20;
 const ICON_LABEL_GAP = 4;
+// An intensity from 0 to 100, not the pixel radius the `blur` tokens hold.
+const BLUR_INTENSITY = 64;
 
 const useLabelLineHeight = (): { base: number; scaled: number } => {
   const { theme } = useTheme();
@@ -333,7 +335,7 @@ export function TabBar<T extends TabBarValue = TabBarValue>({
   ...props
 }: TabBarProps<T>) {
   const styles = useStyles();
-  const { theme, colorScheme } = useTheme();
+  const { colorScheme } = useTheme();
 
   const { densityProgress, labelOpacity, barStyle, pillStyle } =
     useTabBarAnimations({
@@ -359,7 +361,7 @@ export function TabBar<T extends TabBarValue = TabBarValue>({
           ) : (
             <BlurView
               style={styles.blur}
-              blurAmount={theme.blur.lg}
+              blurAmount={BLUR_INTENSITY}
               blurType={colorScheme === 'dark' ? 'dark' : 'light'}
               overlayColor={
                 colorScheme === 'dark'

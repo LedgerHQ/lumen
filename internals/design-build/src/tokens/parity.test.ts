@@ -5,7 +5,6 @@ import { GROUPS } from './groups.js';
 import { type JsTheme, jsTheme } from './js.js';
 import { orderedBreakpoints } from './modes.js';
 import { cssVariableName, semanticKey, stepKey } from './naming.js';
-import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
 
 /**
  * `check` proves each output matches its generator; it can't prove two
@@ -29,10 +28,6 @@ const resolve = (name: string, map: CssMap): string => {
 
 const asPx = (value: string): number | string =>
   value.endsWith('px') ? Number(value.slice(0, -2)) : value;
-
-const PENDING = new Set(
-  REACT_NATIVE_PENDING_DECISIONS.map(({ path }) => path.join('.')),
-);
 
 describe('CSS and JS targets agree', () => {
   const model = createTokenModel();
@@ -85,7 +80,7 @@ describe('CSS and JS targets agree', () => {
     expect(actual).toEqual(expected);
   });
 
-  it('layout primitives, apart from the pending design decisions', () => {
+  it('layout primitives', () => {
     const primitives = css.primitives;
     const core = js.core;
     const groups: [string, string][] = [
@@ -112,7 +107,7 @@ describe('CSS and JS targets agree', () => {
         const variable = `${prefix}${key.replace(/^s(?=\d)/, '')}`;
         if (!(variable in primitives)) continue; // code-only, e.g. sizes.full
         const cssValue = asPx(resolve(variable, primitives));
-        if (cssValue !== value && !PENDING.has(tokenPath)) {
+        if (cssValue !== value) {
           issues.push(`${tokenPath}: CSS=${cssValue}, JS=${String(value)}`);
         }
       }
@@ -173,7 +168,7 @@ describe('CSS and JS targets agree', () => {
     expect(issues).toEqual([]);
   });
 
-  it('shadows, apart from the pending design decisions', () => {
+  it('shadows', () => {
     const variables = css.primitives;
     const issues: string[] = [];
 
@@ -189,7 +184,6 @@ describe('CSS and JS targets agree', () => {
           ),
         );
       layers.forEach((layer, index) => {
-        if (PENDING.has(`shadows.${size}.${index}.color`)) return;
         const expected = [
           layer.offsetX,
           layer.offsetY,
@@ -208,9 +202,5 @@ describe('CSS and JS targets agree', () => {
     }
 
     expect(issues).toEqual([]);
-  });
-
-  it('only overrides the values listed as pending decisions', () => {
-    expect([...PENDING]).toEqual(['blur.lg', 'shadows.2xl.0.color']);
   });
 });

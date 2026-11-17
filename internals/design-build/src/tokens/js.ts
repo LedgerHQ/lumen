@@ -22,7 +22,6 @@ import {
   semanticKey,
   stepKey,
 } from './naming.js';
-import { REACT_NATIVE_PENDING_DECISIONS } from './pendingDecisions.js';
 
 type Json = string | number | boolean | Json[] | { [key: string]: Json };
 type JsonObject = Record<string, Json>;
@@ -39,25 +38,6 @@ const setPath = (root: JsonObject, path: string[], value: Json): void => {
     node = node[key] as JsonObject;
   }
   node[path[path.length - 1]] = value;
-};
-
-const getPath = (root: JsonObject, path: string[]): Json | undefined =>
-  path.reduce<Json | undefined>(
-    (node, key) =>
-      node && typeof node === 'object'
-        ? (node as Record<string, Json>)[key]
-        : undefined,
-    root,
-  );
-
-const applyPendingDecisions = (theme: JsonObject): JsonObject => {
-  for (const { path, value } of REACT_NATIVE_PENDING_DECISIONS) {
-    if (getPath(theme, path) === undefined) {
-      throw new Error(`Pending decision on ${path.join('.')}: no such JS key`);
-    }
-    setPath(theme, path, value);
-  }
-  return theme;
 };
 
 type Resolver = (token: Token) => unknown;
@@ -414,13 +394,13 @@ export const jsTheme = (model: TokenModel): JsTheme => {
     );
   }
 
-  const core = applyPendingDecisions({
+  const core: JsonObject = {
     ...layoutTokens(tokens, resolveCore, used),
     fontFamilies: { sans: fontFamily },
     shadows: shadowTokens(tokens, resolveCore, used),
     typographies,
     motion: motionTokens(tokens, resolveCore),
-  });
+  };
 
   const gradients = cryptoGradients(primitiveColorTokens);
   const colors: JsTheme['colors'] = {};
