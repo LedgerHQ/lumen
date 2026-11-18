@@ -152,6 +152,26 @@ describe('LottieView', () => {
     expect(resume).toHaveBeenCalledTimes(1);
   });
 
+  it('resumes without rewinding after the source changes', () => {
+    const reset = spyOn('reset');
+    const resume = spyOn('resume');
+    const ref = createRef<LottieViewRef>();
+    const { rerender } = renderLottie({ ref });
+
+    fireEvent(screen.getByTestId('lottie'), 'animationFinish', false);
+    rerender(
+      <LottieView
+        ref={ref}
+        testID='lottie'
+        animation={{ light: 2, dark: 3 }}
+      />,
+    );
+    act(() => ref.current?.play());
+
+    expect(reset).not.toHaveBeenCalled();
+    expect(resume).toHaveBeenCalledTimes(1);
+  });
+
   it('resolves lx into the style', () => {
     renderLottie({ lx: { width: 's80' } });
     expect(screen.getByTestId('lottie').props.style).toMatchObject({

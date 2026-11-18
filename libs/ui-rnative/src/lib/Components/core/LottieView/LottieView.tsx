@@ -41,7 +41,7 @@ export const LottieView = ({
 
   const resolvedAppearance =
     appearance ?? (colorScheme === 'light' ? 'light' : 'dark');
-
+  const source = animation[resolvedAppearance];
   const loopsFromJs = loop && onLoop !== undefined;
 
   const restart = (): void => {
@@ -68,6 +68,10 @@ export const LottieView = ({
     }),
     [],
   );
+
+  useEffect(() => {
+    hasCompletedRef.current = false;
+  }, [source]);
 
   useEffect(() => {
     if (wasPausedRef.current === paused) {
@@ -97,7 +101,7 @@ export const LottieView = ({
   return (
     <RNLottieView
       ref={lottieRef}
-      source={animation[resolvedAppearance] as RNLottieViewProps['source']}
+      source={source as RNLottieViewProps['source']}
       autoPlay={autoPlay && !paused}
       loop={loop && !loopsFromJs}
       speed={speed}
