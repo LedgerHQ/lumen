@@ -1,14 +1,14 @@
-export type LottieData = Record<string, unknown>;
+export type LottieSource = string | number | { uri: string };
 
 export type LottieAppearance = 'light' | 'dark';
 
-export type LottieViewSource = Record<LottieAppearance, LottieData>;
+export type LottieAnimation = Record<LottieAppearance, LottieSource>;
 
 export type LottieViewBaseProps = {
   /**
-   * The animation to play.
+   * The animation to play, with a variant per appearance.
    */
-  source: LottieViewSource;
+  animation: LottieAnimation;
   /**
    * Forces light or dark. Follows the theme by default.
    */

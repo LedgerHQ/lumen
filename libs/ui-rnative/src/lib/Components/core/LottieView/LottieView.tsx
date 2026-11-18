@@ -1,4 +1,6 @@
-import RNLottieView, { type AnimationObject } from 'lottie-react-native';
+import RNLottieView, {
+  type LottieViewProps as RNLottieViewProps,
+} from 'lottie-react-native';
 import { useEffect, useImperativeHandle, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { useResolveViewStyle, useTheme } from '../../../../styles';
@@ -9,14 +11,14 @@ import type { LottieViewProps } from './types';
  * Control playback declaratively with `paused`, or imperatively through `ref`.
  *
  * @example
- * <LottieView source={success} lx={{ width: 's80', height: 's80' }} />
+ * <LottieView animation={success} lx={{ width: 's80', height: 's80' }} />
  *
  * @example
  * // Looping, forced to its dark variant
- * <LottieView source={loading} appearance='dark' loop />
+ * <LottieView animation={loading} appearance='dark' loop />
  */
 export const LottieView = ({
-  source,
+  animation,
   appearance,
   autoPlay = true,
   loop = false,
@@ -95,7 +97,7 @@ export const LottieView = ({
   return (
     <RNLottieView
       ref={lottieRef}
-      source={source[resolvedAppearance] as unknown as AnimationObject}
+      source={animation[resolvedAppearance] as RNLottieViewProps['source']}
       autoPlay={autoPlay && !paused}
       loop={loop && !loopsFromJs}
       speed={speed}
