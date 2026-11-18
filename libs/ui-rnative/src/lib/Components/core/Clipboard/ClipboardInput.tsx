@@ -32,6 +32,7 @@ const useStyles = ({
           t.typographies.body1,
           {
             flex: 1,
+            minWidth: 0,
             paddingVertical: t.spacings.s4,
             color: foregroundColor,
           },
