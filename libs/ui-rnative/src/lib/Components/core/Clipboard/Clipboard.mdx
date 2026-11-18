@@ -41,6 +41,12 @@ The clipboard takes the full width of its container and wraps long values.
 
 <Canvas of={ClipboardStories.ResponsivenessShowcase} />
 
+### With a toast
+
+Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
+
+<Canvas of={ClipboardStories.WithToast} />
+
 ### Custom render
 
 `render` receives the copy state and returns the element that triggers the copy:
@@ -78,22 +84,13 @@ npx expo install expo-clipboard
 
 <Source of={ClipboardStories.CustomResetDelay} />
 
+### With a toast
+
+<Source of={ClipboardStories.WithToast} />
+
 ### Custom render
 
 <Source of={ClipboardStories.WithCustomRender} />
-
-### With a toast
-
-Clipboard does not show a toast by itself. Use `onCopy` to trigger one:
-
-```tsx
-import { Clipboard, toast } from '@ledgerhq/lumen-ui-rnative';
-
-<Clipboard
-  value='0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
-  onCopy={() => toast.info({ title: 'Copied to clipboard' })}
-/>;
-```
 
 </Tab>
 </CustomTabs>

@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Box } from '../../primitives';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
+import { toast, Toaster } from '../Toast';
 import { Clipboard } from './Clipboard';
 import { ClipboardInput } from './ClipboardInput';
 
@@ -12,7 +14,7 @@ const meta = {
   subcomponents: { ClipboardInput },
   decorators: [
     (Story) => (
-      <Box lx={{ width: 's256' }}>
+      <Box lx={{ width: 's320' }}>
         <Story />
       </Box>
     ),
@@ -48,19 +50,34 @@ export const CustomResetDelay: Story = {
   },
 };
 
+export const WithToast: Story = {
+  render: () => (
+    <SafeAreaProvider>
+      <Box lx={{ height: 's256', justifyContent: 'center' }}>
+        <Clipboard
+          value='Copy'
+          onCopy={() => toast.info({ title: 'Copied to clipboard' })}
+        />
+        <Toaster />
+      </Box>
+    </SafeAreaProvider>
+  ),
+};
+
 export const WithCustomRender: Story = {
   render: () => (
-    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+    <Box
+      lx={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 's16',
+      }}
+    >
       <Clipboard
         value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
         render={({ handleCopy, Icon, statusLabel }) => (
-          <Button
-            appearance='gray'
-            size='sm'
-            icon={Icon}
-            lx={{ alignSelf: 'flex-start' }}
-            onPress={handleCopy}
-          >
+          <Button appearance='gray' size='sm' icon={Icon} onPress={handleCopy}>
             {statusLabel}
           </Button>
         )}
