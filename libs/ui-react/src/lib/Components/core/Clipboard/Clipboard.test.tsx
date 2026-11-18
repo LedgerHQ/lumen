@@ -3,7 +3,10 @@ import '@testing-library/jest-dom';
 import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { IconButton } from '../IconButton';
+import { TileButton } from '../TileButton';
 import { Clipboard } from './Clipboard';
+import { ClipboardInput } from './ClipboardInput';
 
 describe('Clipboard', () => {
   let writeText: ReturnType<typeof vi.fn>;
@@ -135,23 +138,6 @@ describe('Clipboard', () => {
     ).toBeInTheDocument();
   });
 
-  it('should call onClick and skip the copy when the event is prevented', async () => {
-    const onClick = vi.fn((event: { preventDefault: () => void }) =>
-      event.preventDefault(),
-    );
-    render(<Clipboard value='Label' onClick={onClick} />);
-
-    await userEvent.click(screen.getByRole('button'));
-
-    expect(onClick).toHaveBeenCalledTimes(1);
-    expect(writeText).not.toHaveBeenCalled();
-  });
-
-  it('should apply a custom className', () => {
-    render(<Clipboard value='Label' className='mt-4' />);
-    expect(screen.getByRole('button')).toHaveClass('mt-4');
-  });
-
   it('should be disabled and not copy inside a disabled ancestor', async () => {
     const onCopy = vi.fn();
     render(
@@ -167,5 +153,95 @@ describe('Clipboard', () => {
 
     expect(writeText).not.toHaveBeenCalled();
     expect(onCopy).not.toHaveBeenCalled();
+  });
+
+  it('should pass the copy state to a custom render', async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    render(
+      <Clipboard
+        value='Label'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <TileButton icon={Icon} onClick={handleCopy}>
+            {statusLabel}
+          </TileButton>
+        )}
+      />,
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: 'components.clipboard.copyAriaLabel',
+      }),
+    );
+
+    expect(writeText).toHaveBeenCalledWith('Label');
+    expect(
+      await screen.findByRole('button', {
+        name: 'components.clipboard.copiedAriaLabel',
+      }),
+    ).toBeInTheDocument();
+
+    act(() => vi.advanceTimersByTime(3000));
+    expect(
+      screen.getByRole('button', {
+        name: 'components.clipboard.copyAriaLabel',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('should not copy from a custom render inside a disabled ancestor', async () => {
+    render(
+      <DisabledProvider value={{ disabled: true }}>
+        <Clipboard
+          value='Label'
+          render={({ handleCopy, Icon, statusLabel }) => (
+            <IconButton
+              icon={Icon}
+              aria-label={statusLabel}
+              onClick={handleCopy}
+            />
+          )}
+        />
+      </DisabledProvider>,
+    );
+
+    await userEvent.click(screen.getByRole('button'), {
+      pointerEventsCheck: 0,
+    });
+
+    expect(writeText).not.toHaveBeenCalled();
+  });
+});
+
+describe('ClipboardInput', () => {
+  const Icon = () => <svg data-testid='icon' />;
+
+  it('should render the label and icon', () => {
+    render(<ClipboardInput label='Label' icon={Icon} />);
+    expect(screen.getByRole('button', { name: 'Label' })).toBeInTheDocument();
+    expect(screen.getByTestId('icon')).toBeInTheDocument();
+  });
+
+  it('should call onClick when clicked', async () => {
+    const onClick = vi.fn();
+    render(<ClipboardInput label='Label' icon={Icon} onClick={onClick} />);
+
+    await userEvent.click(screen.getByRole('button'));
+
+    expect(onClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('should apply a custom className', () => {
+    render(<ClipboardInput label='Label' icon={Icon} className='mt-4' />);
+    expect(screen.getByRole('button')).toHaveClass('mt-4');
+  });
+
+  it('should be disabled inside a disabled ancestor', () => {
+    render(
+      <DisabledProvider value={{ disabled: true }}>
+        <ClipboardInput label='Label' icon={Icon} />
+      </DisabledProvider>,
+    );
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 });

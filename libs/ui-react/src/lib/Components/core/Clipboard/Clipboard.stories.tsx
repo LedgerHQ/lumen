@@ -12,7 +12,7 @@ const meta = {
   subcomponents: { ClipboardInput },
   decorators: [
     (Story) => (
-      <div className='w-256'>
+      <div className='w-320'>
         <Story />
       </div>
     ),
@@ -53,6 +53,9 @@ export const CustomResetDelay: Story = {
 };
 
 export const WithToast: Story = {
+  parameters: {
+    docs: { story: { inline: false, height: '256px' } },
+  },
   render: () => (
     <>
       <Clipboard
@@ -66,7 +69,7 @@ export const WithToast: Story = {
 
 export const WithCustomRender: Story = {
   render: () => (
-    <div className='flex items-center gap-16'>
+    <div className='flex items-center justify-center gap-16'>
       <Clipboard
         value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
         render={({ handleCopy, Icon, statusLabel }) => (
