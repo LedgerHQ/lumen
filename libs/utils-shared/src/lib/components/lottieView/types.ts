@@ -30,6 +30,7 @@ export type LottieViewBaseProps = {
   speed?: number;
   /**
    * Pauses the animation.
+   * @default false
    */
   paused?: boolean;
   /**
