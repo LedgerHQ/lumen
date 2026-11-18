@@ -85,7 +85,6 @@ export function DotCount({
         aria-hidden={!ariaLabel || undefined}
         className={cn(
           dotCountVariants({ size, appearance, disabled }),
-          // above a popup trigger lifted to z-menu while its popup is open
           pinned &&
             'absolute top-0 right-0 z-1 group-has-data-popup-open/dot-count:z-trigger-indicator',
         )}
