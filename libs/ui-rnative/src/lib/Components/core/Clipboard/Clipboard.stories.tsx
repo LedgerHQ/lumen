@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives';
+import { IconButton } from '../IconButton';
+import { TileButton } from '../TileButton';
 import { Clipboard } from './Clipboard';
+import { ClipboardInput } from './ClipboardInput';
 
 const meta = {
   id: 'rnative-clipboard',
   title: 'Core/Clipboard',
   component: Clipboard,
+  subcomponents: { ClipboardInput },
   decorators: [
     (Story) => (
       <Box lx={{ width: 's256' }}>
@@ -42,6 +46,32 @@ export const CustomResetDelay: Story = {
     value: 'Copied state lasts 1 second',
     resetAfterMs: 1000,
   },
+};
+
+export const WithCustomRender: Story = {
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'center', gap: 's16' }}>
+      <Clipboard
+        value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <TileButton icon={Icon} onPress={handleCopy}>
+            {statusLabel}
+          </TileButton>
+        )}
+      />
+      <Clipboard
+        value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <IconButton
+            appearance='gray'
+            icon={Icon}
+            accessibilityLabel={statusLabel}
+            onPress={handleCopy}
+          />
+        )}
+      />
+    </Box>
+  ),
 };
 
 export const ResponsivenessShowcase: Story = {

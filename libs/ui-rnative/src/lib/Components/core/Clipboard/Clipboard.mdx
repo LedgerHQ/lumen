@@ -11,14 +11,16 @@ import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
 ## Introduction
 
-**Clipboard** displays a value the user can copy, such as an address, an ID or a code. The whole surface is pressable: pressing it copies the value and switches the copy icon to a check icon for 3 seconds by default.
+**Clipboard** copies a value the user needs, such as an address, an ID or a code. It owns the copy behavior and the copied state; the element it renders only triggers it. Pressing copies the value and switches the copy icon to a check icon for 3 seconds by default.
+
+By default, Clipboard renders a **ClipboardInput**: a full-width surface displaying the value. Use the `render` prop to trigger the copy from any other component, such as a `TileButton` or an `IconButton`.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=23359-110294).
 
 ## Anatomy
 
-- **Value**: the text that is displayed and copied. Long values wrap onto multiple lines.
-- **Icon**: the copy icon, replaced by a check icon once the value is copied. Pressing anywhere on the clipboard highlights it.
+- **Clipboard**: the behavior. It copies `value`, tracks the copied state and passes it to `render`.
+- **ClipboardInput**: the default visual. It displays a `label` (long values wrap onto multiple lines) and an `icon`; pressing anywhere on it highlights the icon.
 
 ## Properties
 
@@ -39,9 +41,20 @@ The clipboard takes the full width of its container and wraps long values.
 
 <Canvas of={ClipboardStories.ResponsivenessShowcase} />
 
+### Custom render
+
+`render` receives the copy state and returns the element that triggers the copy:
+
+- `handleCopy`: copies the value. Does nothing inside a disabled ancestor.
+- `Icon`: the copy icon, or the check icon while the copied state lasts.
+- `statusLabel`: the translated "Copy" label, or "Copied" while the copied state lasts.
+- `isCopied` and `value`, for anything else.
+
+<Canvas of={ClipboardStories.WithCustomRender} />
+
 ## Accessibility
 
-- Exposed as a button. Its accessibility label is the value followed by "Copy", then "Copied" once the value is copied (translated with the library locale).
+- ClipboardInput is exposed as a button. By default, its accessibility label is the value followed by "Copy", then "Copied" once the value is copied (translated with the library locale). With a custom render, use `statusLabel` in the accessibility label (e.g. an `IconButton`'s `accessibilityLabel`).
 - The copied state only shows when the clipboard write succeeds.
 
 </Tab>
@@ -64,6 +77,10 @@ npx expo install expo-clipboard
 ### Custom reset delay
 
 <Source of={ClipboardStories.CustomResetDelay} />
+
+### Custom render
+
+<Source of={ClipboardStories.WithCustomRender} />
 
 ### With a toast
 
