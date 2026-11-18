@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import { useRef } from 'react';
 import { describe, it, expect, vi } from 'vitest';
 import { Button } from '../Button/Button';
+import { DotIndicator } from '../DotIndicator';
 import {
   Popover,
   PopoverTrigger,
@@ -44,6 +45,34 @@ describe('Popover', () => {
     await waitFor(() => {
       expect(screen.getByText('Popover Content')).toBeInTheDocument();
     });
+  });
+
+  it('exposes data-popup-open on a trigger wrapped by a DotIndicator', async () => {
+    const user = userEvent.setup();
+    render(
+      <Popover>
+        <DotIndicator aria-label='New notifications'>
+          <PopoverTrigger
+            render={<Button appearance='gray'>Open Popover</Button>}
+          />
+        </DotIndicator>
+        <PopoverContent>
+          <p>Popover Content</p>
+        </PopoverContent>
+      </Popover>,
+    );
+
+    const trigger = screen.getByRole('button', { name: 'Open Popover' });
+    expect(trigger).not.toHaveAttribute('data-popup-open');
+
+    await user.click(trigger);
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('data-popup-open');
+    });
+    expect(screen.getByLabelText('New notifications')).toHaveClass(
+      'group-has-data-popup-open/dot-indicator:z-trigger-indicator',
+    );
   });
 
   it('supports controlled open state', async () => {

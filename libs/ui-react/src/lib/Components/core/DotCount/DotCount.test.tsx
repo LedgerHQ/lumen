@@ -88,6 +88,19 @@ describe('DotCount', () => {
     expect(screen.getByTestId('dot-count')).toHaveClass('relative');
   });
 
+  it('should keep the pinned dot above an open popup trigger', () => {
+    render(
+      <DotCount data-testid='dot-count' value={3} aria-label='3 notifications'>
+        <span>Child</span>
+      </DotCount>,
+    );
+
+    expect(screen.getByTestId('dot-count')).toHaveClass('group/dot-count');
+    expect(screen.getByRole('img', { name: '3 notifications' })).toHaveClass(
+      'group-has-data-popup-open/dot-count:z-trigger-indicator',
+    );
+  });
+
   it('should accept additional HTML attributes', () => {
     render(<DotCount value={3} data-testid='dot-count' id='my-dot' />);
     expect(screen.getByTestId('dot-count')).toHaveAttribute('id', 'my-dot');

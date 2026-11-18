@@ -83,4 +83,17 @@ describe('createPrimitivesPlugin', () => {
     );
     expect(Number(zIndex.tooltip)).toBeGreaterThan(Number(zIndex.toast));
   });
+
+  it('should layer trigger indicators above an open trigger but below toasts', () => {
+    const { zIndex } = themeConfig.extend as {
+      zIndex: Record<string, string>;
+    };
+
+    expect(Number(zIndex['trigger-indicator'])).toBeGreaterThan(
+      Number(zIndex.menu),
+    );
+    expect(Number(zIndex.toast)).toBeGreaterThan(
+      Number(zIndex['trigger-indicator']),
+    );
+  });
 });

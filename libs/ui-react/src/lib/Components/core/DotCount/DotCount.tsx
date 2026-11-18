@@ -73,7 +73,10 @@ export function DotCount({
   return (
     <div
       ref={ref}
-      className={cn(pinned && 'relative inline-flex w-fit', className)}
+      className={cn(
+        pinned && 'group/dot-count relative inline-flex w-fit',
+        className,
+      )}
       {...props}
     >
       <div
@@ -82,7 +85,9 @@ export function DotCount({
         aria-hidden={!ariaLabel || undefined}
         className={cn(
           dotCountVariants({ size, appearance, disabled }),
-          pinned && 'absolute top-0 right-0 z-1',
+          // above a popup trigger lifted to z-menu while its popup is open
+          pinned &&
+            'absolute top-0 right-0 z-1 group-has-data-popup-open/dot-count:z-trigger-indicator',
         )}
       >
         {value > 0 && (

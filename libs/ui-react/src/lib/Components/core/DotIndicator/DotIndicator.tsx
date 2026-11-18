@@ -47,7 +47,10 @@ export function DotIndicator({
   return (
     <div
       ref={ref}
-      className={cn(pinned && 'relative inline-flex w-fit', className)}
+      className={cn(
+        pinned && 'group/dot-indicator relative inline-flex w-fit',
+        className,
+      )}
       {...props}
     >
       <div
@@ -55,7 +58,9 @@ export function DotIndicator({
         aria-hidden={!ariaLabel || undefined}
         className={cn(
           dotIndicatorVariants({ size, appearance, disabled }),
-          pinned && 'absolute top-0 right-0 z-1',
+          // above a popup trigger lifted to z-menu while its popup is open
+          pinned &&
+            'absolute top-0 right-0 z-1 group-has-data-popup-open/dot-indicator:z-trigger-indicator',
         )}
       />
       {children}

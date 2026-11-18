@@ -76,6 +76,21 @@ describe('DotIndicator', () => {
     expect(screen.getByText('Content')).toBeInTheDocument();
   });
 
+  it('should keep the pinned dot above an open popup trigger', () => {
+    render(
+      <DotIndicator data-testid='dot-indicator' aria-label='New notifications'>
+        <span>Content</span>
+      </DotIndicator>,
+    );
+
+    expect(screen.getByTestId('dot-indicator')).toHaveClass(
+      'group/dot-indicator',
+    );
+    expect(screen.getByLabelText('New notifications')).toHaveClass(
+      'group-has-data-popup-open/dot-indicator:z-trigger-indicator',
+    );
+  });
+
   it('should accept additional HTML attributes', () => {
     render(<DotIndicator data-testid='dot-indicator' id='my-dot' />);
     expect(screen.getByTestId('dot-indicator')).toHaveAttribute('id', 'my-dot');
