@@ -24,11 +24,7 @@
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
     "eligible": true,
     "upstreamPackages": [
-      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
-      {
-        "package": "@ledgerhq/device-mockserver-react",
-        "repo": "LedgerHQ/device-sdk-ts"
-      }
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
   },
   {
