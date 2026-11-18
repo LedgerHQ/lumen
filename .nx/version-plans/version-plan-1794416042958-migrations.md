@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-migrations': patch
 ---
 
-feat(migrations): add the `expo-clipboard-peer` migration
+feat(migrations): add the `clipboard-expo-clipboard-peer` migration
