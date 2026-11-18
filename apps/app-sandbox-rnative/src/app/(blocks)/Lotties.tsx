@@ -1,7 +1,7 @@
 import type {
-  LottieData,
+  LottieAnimation,
   LottieViewRef,
-  LottieViewSource,
+  LottieSource,
 } from '@ledgerhq/lumen-ui-rnative';
 import { Box, Button, LottieView, Text } from '@ledgerhq/lumen-ui-rnative';
 import { useRef, useState } from 'react';
@@ -14,10 +14,10 @@ const lottieContext = require.context(
 
 // TODO: these animations have no dark variant yet, so both appearances share one file.
 const animations = lottieContext.keys().map((key) => {
-  const data = lottieContext(key) as LottieData;
-  const source: LottieViewSource = { light: data, dark: data };
+  const asset = lottieContext(key) as LottieSource;
+  const animation: LottieAnimation = { light: asset, dark: asset };
   const name = key.replace(/^\.\/(lottie-)?/, '').replace(/\.lottie$/, '');
-  return { name, source };
+  return { name, animation };
 });
 
 export default function Lotties() {
@@ -35,10 +35,10 @@ export default function Lotties() {
       <Box lx={{ gap: 's12' }}>
         <Text typography='body2SemiBold'>Looping</Text>
         <Box lx={{ flexDirection: 'row', flexWrap: 'wrap', gap: 's24' }}>
-          {animations.map(({ name, source }) => (
+          {animations.map(({ name, animation }) => (
             <Box key={name} lx={{ alignItems: 'center', gap: 's4' }}>
               <LottieView
-                source={source}
+                animation={animation}
                 loop
                 paused={paused}
                 lx={{ width: 's80', height: 's80' }}
@@ -57,7 +57,7 @@ export default function Lotties() {
         <Text typography='body2SemiBold'>Played once</Text>
         <LottieView
           ref={onceRef}
-          source={first.source}
+          animation={first.animation}
           lx={{ width: 's80', height: 's80' }}
         />
         <Box lx={{ flexDirection: 'row', gap: 's8' }}>
@@ -72,7 +72,7 @@ export default function Lotties() {
       <Box lx={{ gap: 's12' }}>
         <Text typography='body2SemiBold'>Loop counter</Text>
         <LottieView
-          source={first.source}
+          animation={first.animation}
           loop
           onLoop={() => setLoops((count) => count + 1)}
           lx={{ width: 's80', height: 's80' }}

@@ -1,7 +1,7 @@
 export type {
+  LottieAnimation,
   LottieAppearance,
-  LottieData,
+  LottieSource,
   LottieViewBaseProps,
   LottieViewRef,
-  LottieViewSource,
 } from './types';
