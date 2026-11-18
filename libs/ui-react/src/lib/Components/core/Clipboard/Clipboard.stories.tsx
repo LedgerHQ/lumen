@@ -1,11 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { Button } from '../Button';
+import { IconButton } from '../IconButton';
 import { toast, Toaster } from '../Toast';
 import { Clipboard } from './Clipboard';
+import { ClipboardInput } from './ClipboardInput';
 
 const meta = {
   id: 'react-clipboard',
   title: 'Core/Clipboard',
   component: Clipboard,
+  subcomponents: { ClipboardInput },
   decorators: [
     (Story) => (
       <div className='w-256'>
@@ -57,6 +61,32 @@ export const WithToast: Story = {
       />
       <Toaster />
     </>
+  ),
+};
+
+export const WithCustomRender: Story = {
+  render: () => (
+    <div className='flex items-center gap-16'>
+      <Clipboard
+        value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <Button appearance='gray' size='sm' icon={Icon} onClick={handleCopy}>
+            {statusLabel}
+          </Button>
+        )}
+      />
+      <Clipboard
+        value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <IconButton
+            appearance='gray'
+            icon={Icon}
+            aria-label={statusLabel}
+            onClick={handleCopy}
+          />
+        )}
+      />
+    </div>
   ),
 };
 

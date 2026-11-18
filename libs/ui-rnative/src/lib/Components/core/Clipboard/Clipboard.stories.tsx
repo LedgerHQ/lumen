@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
 import { Box } from '../../primitives';
+import { Button } from '../Button';
 import { IconButton } from '../IconButton';
-import { TileButton } from '../TileButton';
 import { Clipboard } from './Clipboard';
 import { ClipboardInput } from './ClipboardInput';
 
@@ -54,9 +54,15 @@ export const WithCustomRender: Story = {
       <Clipboard
         value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
         render={({ handleCopy, Icon, statusLabel }) => (
-          <TileButton icon={Icon} onPress={handleCopy}>
+          <Button
+            appearance='gray'
+            size='sm'
+            icon={Icon}
+            lx={{ alignSelf: 'flex-start' }}
+            onPress={handleCopy}
+          >
             {statusLabel}
-          </TileButton>
+          </Button>
         )}
       />
       <Clipboard
