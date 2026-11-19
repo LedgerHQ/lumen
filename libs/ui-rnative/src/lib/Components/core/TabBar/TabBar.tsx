@@ -427,7 +427,7 @@ const useStyles = () =>
       },
       itemText: {
         ...t.typographies.body4,
-        paddingHorizontal: t.spacings.s12,
+        paddingHorizontal: t.spacings.s8,
         color: t.colors.text.base,
       },
       itemIcon: {

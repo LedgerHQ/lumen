@@ -5,7 +5,11 @@
     "priority": "P1",
     "packageJsonPath": "package.json",
     "upstreamPackages": [
-      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
+      {
+        "package": "@ledgerhq/ledger-wallet-provider",
+        "repo": "LedgerHQ/ledger-button"
+      }
     ]
   },
   {
@@ -18,6 +22,7 @@
       "@ledgerhq/lumen-ui-rnative": ["apps/ledger-live-mobile/package.json"]
     },
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
+    "eligible": true,
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
@@ -148,7 +153,10 @@
   {
     "repo": "LedgerHQ/coinradar-v2",
     "status": "internal-tool",
-    "packageJsonPath": "package.json"
+    "packageJsonPath": "package.json",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/lumen-test-app",

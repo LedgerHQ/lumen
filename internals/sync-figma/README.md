@@ -1,39 +1,50 @@
 # sync-figma
 
-Dev-only Nx project holding everything that crosses the Figma boundary. Never
-published, so changes here need no version plan — see `## Internals` in
-[AGENTS.md](../../AGENTS.md) for the category's rules.
+Dev-only Nx project holding everything that crosses the Figma boundary: it is
+the only code that talks to Figma. Never published, so changes here need no
+version plan — see `## Internals` in [AGENTS.md](../../AGENTS.md) for the
+category's rules.
 
-Driven in CI by [`sync-figma.yml`](../../.github/workflows/sync-figma.yml),
-which runs these targets and opens a PR with the result.
+Driven in CI by three workflows, each runnable from the Actions tab:
 
-| Pipeline | Targets | Writes to |
-| --- | --- | --- |
-| Design tokens | `figma-export` → `design-tokens-etl` | `tokens/` → `libs/design-core/src/lib/themes/css/` |
-| SVG symbols | `figma-download-svgs` → `generate-symbols-react` / `-react-native` | `libs/design-core/symbols/icons/` → `libs/ui-{react,rnative}/src/lib/Components/symbols/` |
-| Write-back | `code-syntax` | Figma itself — **mutates the file**, not a dry run |
+| Workflow                                                                   | Runs                                                | Opens                                      |
+| -------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------ |
+| [`sync-figma-tokens.yml`](../../.github/workflows/sync-figma-tokens.yml)   | `extract --kind=tokens`, then `design-build:tokens` | a tokens PR (`sync-figma-tokens` branch)   |
+| [`sync-figma-symbols.yml`](../../.github/workflows/sync-figma-symbols.yml) | `extract --kind=icons`, then `design-build:icons`   | a symbols PR (`sync-figma-symbols` branch) |
+| [`sync-figma-all.yml`](../../.github/workflows/sync-figma-all.yml)         | both, as reusable workflows                         | one combined PR (`sync-figma` branch)      |
+
+| Target                  | Does                                                    | Writes to                                          |
+| ----------------------- | ------------------------------------------------------- | -------------------------------------------------- |
+| `extract --kind=tokens` | Figma variables → DTCG, one file per collection × mode  | `internals/design-sources/tokens/figma/`           |
+| `extract --kind=icons`  | Icons canvas → one SVG per component, plus `icons.json` | `internals/design-sources/icons/`                  |
+| `code-syntax`           | Uploads `design-build`'s `code-syntax.json` to Dev Mode | Figma itself — **mutates the file**, not a dry run |
 
 Run any of them with `npx nx run sync-figma:<target>` from the workspace root.
-Paths live in [`src/config.ts`](src/config.ts) — the single place this project's
-coupling to `libs/*` is declared, so add new ones there.
+Paths live in [`src/config.ts`](src/config.ts). This project only writes
+`internals/design-sources/`; every output in `libs/*` is built by `design-build`.
+
+## Layout
+
+- `src/client/` — the Figma REST client (auth, retry on rate limits). Every
+  call to Figma goes through it.
+- `src/extract/` — `tokens.ts` (variables → DTCG, with the type mapping in
+  `dtcg.ts`) and `icons.ts` (canvas → SVG).
+- `src/write-back/` — uploads the code syntax `design-build` generated (read by
+  path, never imported).
+- `src/shared/writeSourceFiles.ts` — write + prune, shared by every kind.
+- `src/testing/` — recorded API responses. Tests never call the network.
 
 ## Gotchas
 
-- **Credentials.** `figma-export`, `figma-download-svgs` and `code-syntax` need
-  `FIGMA_API_TOKEN` plus the file keys in the repo-root `.env`; see the `env:`
-  blocks in `sync-figma.yml` for which target needs which.
-- **`figma-download-svgs` clears** `libs/design-core/symbols/icons/` first.
-- **`figma-export` mirrors the library.** It deletes any `tokens/*.json` that
-  no collection or mode produced, such as a removed brand. A collection whose
-  variables are all of an unsupported type (EASING, TIMING) produces no file,
-  so its old file is deleted too.
-- **Only the ETL formats its own output.** It runs prettier, so it must produce
-  an empty `git diff`. The `generate-symbols-*` targets emit raw svgr output, so
-  run `nx run-many --target=lint --fix` before diffing or you will see ~590
-  files of formatting noise — that is why the workflow does the same.
-- **Regenerated symbols are ordinary lib source** and do need a version plan for
-  `@ledgerhq/lumen-ui-react` / `-ui-rnative`; see the `release-plan` skill.
-- **The CSS under `libs/design-core/src/lib/themes/css/` is generated** — fix the
-  tokens or the ETL, never the output.
+- **Credentials.** Every Figma target needs `FIGMA_API_TOKEN` plus its file
+  keys in the environment; `src/cli.ts` names the missing ones.
+- **The export mirrors Figma.** It deletes any `*.tokens.json` (or icon `.svg`)
+  that the export no longer produces, such as a removed brand. An empty export
+  fails instead of wiping the folder.
+- **Unsupported variables fail the export.** A Figma variable with no DTCG
+  mapping (see `src/extract/dtcg.ts`) stops the sync instead of being skipped;
+  booleans are the only type dropped on purpose.
+- **This project only writes sources.** Every token output is built by
+  `design-build` from `design-sources`; this project imports their types only.
 
 Icon usage is documented for consumers in Storybook, not here.
