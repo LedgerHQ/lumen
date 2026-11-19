@@ -25,7 +25,7 @@
     "@eslint/js": "^9.8.0",
     "@figma/code-connect": "^1.4.7",
     "@figma/rest-api-spec": "^0.28.0",
-    "@gorhom/bottom-sheet": "^5.2.6",
+    "@gorhom/bottom-sheet": "^5.2.14",
     "@ledgerhq/crypto-icons": "^2.0.6",
     "@nx/eslint": "22.5.3",
     "@nx/eslint-plugin": "22.5.3",
