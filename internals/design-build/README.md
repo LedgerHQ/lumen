@@ -23,7 +23,7 @@ design-sources (model) ──► Target.emit(model) ──► writer (prettier, 
 - `cli.ts report --before <copy of design-sources> [--before-root <checkout>] [--fail-on-removal]`
   — the Markdown diff (added, changed, removed, renamed, per mode) the sync PRs
   carry. With `--before-root`, it also compares the public names the outputs
-  define: CSS variables, Tailwind utilities and React Native theme paths.
+  define: CSS variables and React Native theme paths.
   `design-sources-gate.yml` runs it on every PR that touches the pipeline,
   against the PR base, and fails on removals and renames unless the PR has
   the `design-sources: approve removals` label; adding the label re-runs it.

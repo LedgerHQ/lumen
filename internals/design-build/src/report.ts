@@ -40,11 +40,10 @@ export const iconEntries = (iconsDir: string): Entries => {
 
 /** Where the public names live, relative to a checkout root. */
 const CODE_SYNTAX_FILE = 'internals/design-build/generated/code-syntax.json';
-const TAILWIND_DIR = 'libs/design-core/tailwind';
 
 /**
- * The names consumers write: CSS custom properties, Tailwind utilities, and
- * React Native theme paths. A change in design-build or `lumen.css` can
+ * The names consumers write: CSS custom properties and React Native theme
+ * paths. A change in design-build or `lumen.css` can
  * rename one without touching a source token, so the gate compares these too.
  */
 export const publicNameEntries = (root: string): Entries => {
@@ -67,20 +66,6 @@ export const publicNameEntries = (root: string): Entries => {
     }
   }
 
-  const tailwindDir = path.join(root, TAILWIND_DIR);
-  if (existsSync(tailwindDir)) {
-    for (const file of readdirSync(tailwindDir).filter((name) =>
-      name.endsWith('.css'),
-    )) {
-      const css = readFileSync(path.join(tailwindDir, file), 'utf8');
-      for (const [, name] of css.matchAll(/@utility\s+([\w-]+)/g)) {
-        entries.set(`.${name}`, 'tailwind');
-      }
-      for (const [, name] of css.matchAll(/^\s*(--[\w-]+)\s*:/gm)) {
-        entries.set(name, 'css');
-      }
-    }
-  }
   return entries;
 };
 

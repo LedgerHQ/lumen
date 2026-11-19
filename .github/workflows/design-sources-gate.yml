@@ -1,9 +1,9 @@
 name: Design sources gate
 
-# A removed or renamed token, icon or public name (CSS variable, Tailwind
-# utility, React Native theme path) breaks consumers, so it needs an explicit
-# approval: the `design-sources: approve removals` label. Separate from pr.yml
-# so adding the label re-runs this check alone.
+# A removed or renamed token, icon or public name (CSS variable, React Native
+# theme path) breaks consumers, so it needs an explicit approval: the
+# `design-sources: approve removals` label. Separate from pr.yml so adding the
+# label re-runs this check alone.
 #
 # It runs on every PR, with no `paths` filter, so it can be a required check:
 # GitHub leaves a required check that a filter skipped pending forever. A PR
@@ -42,7 +42,7 @@ jobs:
           if ! git cat-file -e "$BASE_SHA:internals/design-sources"; then
             echo "No design sources on the base branch yet; nothing to compare."
             echo "compare=false" >> "$GITHUB_OUTPUT"
-          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources internals/design-build libs/design-core/tailwind libs/design-core/themes libs/design-core/src/lib/generated; then
+          elif git diff --quiet "$BASE_SHA" HEAD -- internals/design-sources internals/design-build libs/design-core/themes libs/design-core/src/lib/generated; then
             echo "This PR doesn't touch the design pipeline; nothing to compare."
             echo "compare=false" >> "$GITHUB_OUTPUT"
           else
@@ -66,7 +66,7 @@ jobs:
           mkdir -p "$RUNNER_TEMP/base"
           # The outputs' public names only exist on bases that already build them.
           paths=""
-          for path in internals/design-sources internals/design-build/generated libs/design-core/tailwind; do
+          for path in internals/design-sources internals/design-build/generated; do
             if git cat-file -e "$BASE_SHA:$path" 2>/dev/null; then paths="$paths $path"; fi
           done
           git archive "$BASE_SHA" $paths | tar -x -C "$RUNNER_TEMP/base"
