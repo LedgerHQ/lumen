@@ -16,6 +16,7 @@ import type {
   SectionListProps,
   VirtualizedListProps,
 } from 'react-native';
+import type { AnimatedProps } from 'react-native-reanimated';
 
 import type { StyledViewProps } from '../../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
@@ -188,15 +189,15 @@ export type BottomSheetHeaderProps = {
 export type BottomSheetContentProps = StyledViewProps;
 export type BottomSheetViewProps = Parameters<typeof GorhomBottomSheetView>[0];
 /*
- * The list props are built from react-native's own list types, not derived
- * from gorhom's components: gorhom's generic list components resolve `item`
+ * The list props mirror gorhom's own list types instead of being derived
+ * from its components: gorhom's generic list components resolve `item`
  * to `any` or `unknown` depending on its version, and `Parameters<>` drops
  * the generic. Building them here keeps `item` inferred from `data` on every
  * gorhom 5.x a consumer may have installed.
  */
 type GorhomListOmittedProps = 'decelerationRate' | 'scrollEventThrottle';
 export type BottomSheetFlatListProps<T = unknown> = Omit<
-  FlatListProps<T>,
+  AnimatedProps<FlatListProps<T>>,
   GorhomListOmittedProps | 'onScroll'
 > &
   BottomSheetScrollableProps & {
@@ -205,7 +206,10 @@ export type BottomSheetFlatListProps<T = unknown> = Omit<
 export type BottomSheetSectionListProps<
   ItemT = unknown,
   SectionT = DefaultSectionT,
-> = Omit<SectionListProps<ItemT, SectionT>, GorhomListOmittedProps> &
+> = Omit<
+  AnimatedProps<SectionListProps<ItemT, SectionT>>,
+  GorhomListOmittedProps
+> &
   BottomSheetScrollableProps & {
     ref?: Ref<BottomSheetSectionListMethods>;
   };
@@ -213,7 +217,7 @@ export type BottomSheetScrollViewProps = Parameters<
   typeof GorhomBottomSheetScrollView
 >[0];
 export type BottomSheetVirtualizedListProps<T = unknown> = Omit<
-  VirtualizedListProps<T>,
+  AnimatedProps<VirtualizedListProps<T>>,
   GorhomListOmittedProps
 > &
   BottomSheetScrollableProps & {
