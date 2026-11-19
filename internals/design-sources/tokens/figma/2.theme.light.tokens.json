@@ -1,0 +1,4651 @@
+{
+  "color": {
+    "background": {
+      "canvas": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "muted": {
+          "$type": "color",
+          "$value": "{color.light.grey.100}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "sheet": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "sheet-transparent": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "overlay": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-60%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "overlay-subtle": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "overlay-chart": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-60%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "white": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "grey": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "black": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "section": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.075}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "surface": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.100}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{color.light.grey.100}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "surface-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-2%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-5%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-2%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "surface-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.100-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "base": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.100}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "base-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-5%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "disabled": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "disabled-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.400}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-5%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-20%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "disabled": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-5%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.200-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.600}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "accent": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.blue.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.blue.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "interactive": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.900}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "active": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.blue.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.blue.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "active-subtle": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.050}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.100}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.200}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.050}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.blue.100}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.blue.200}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "website": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.050}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.100}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.200}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "error-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.600-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.red.600-20%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.red.600-30%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "error": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "error-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "error-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.600-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.600-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.600-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.green.600-20%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.green.600-30%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.600-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "native": {
+        "default": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9686,
+              0.9686,
+              0.9686
+            ],
+            "hex": "#f7f7f7"
+          },
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "gradient": {
+        "100%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "80%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-80%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "70%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-70%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "40%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-40%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "30%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-30%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "10%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-10%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "0%": {
+          "$type": "color",
+          "$value": "{color.light.grey.050-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "gradient-overlay": {
+        "80%": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-80%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "0%": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "decorative": {
+        "blue": {
+          "$type": "color",
+          "$value": "{color.light.decorative.blue.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "{color.light.decorative.pink.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "{color.light.decorative.turquoise.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "{color.light.decorative.yellow.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "orange": {
+          "$type": "color",
+          "$value": "{color.light.decorative.orange.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "{color.light.decorative.red.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "{color.light.decorative.green.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "{color.light.decorative.purple.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "decorative-strong": {
+        "orange": {
+          "$type": "color",
+          "$value": "{color.light.decorative.orange.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "{color.light.decorative.green.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "blue": {
+          "$type": "color",
+          "$value": "{color.light.decorative.blue.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "{color.light.decorative.purple.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "{color.light.decorative.red.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "{color.light.decorative.yellow.600}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "{color.light.decorative.turquoise.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "{color.light.decorative.pink.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "text": {
+      "black": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "white": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.constant.200}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.constant.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "grey": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "base": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.900}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "disabled": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.900}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted-subtle": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.400}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "active": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "interactive": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.900}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.950}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.blue.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.blue.900}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.900}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.950}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "error": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "error-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "error-on-interactive": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.400}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning-on-interactive": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.400}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success-on-interactive": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.400}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "on-accent": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.grey.950}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.grey.050}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.grey.950}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "on-interactive": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "on-error-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "on-warning-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "on-success-strong": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "native": {
+        "default": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0,
+              0.4784,
+              1
+            ],
+            "hex": "#007aff"
+          },
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "decorative": {
+        "orange": {
+          "$type": "color",
+          "$value": "{color.light.decorative.orange.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "{color.light.decorative.green.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "blue": {
+          "$type": "color",
+          "$value": "{color.light.decorative.blue.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "{color.light.decorative.purple.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "{color.light.decorative.red.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "{color.light.decorative.yellow.600}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "{color.light.decorative.turquoise.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "{color.light.decorative.pink.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        }
+      },
+      "decorative-strong": {
+        "orange": {
+          "$type": "color",
+          "$value": "{color.light.decorative.orange.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "green": {
+          "$type": "color",
+          "$value": "{color.light.decorative.green.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "blue": {
+          "$type": "color",
+          "$value": "{color.light.decorative.blue.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": "{color.light.decorative.purple.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "red": {
+          "$type": "color",
+          "$value": "{color.light.decorative.red.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "yellow": {
+          "$type": "color",
+          "$value": "{color.light.decorative.yellow.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "turquoise": {
+          "$type": "color",
+          "$value": "{color.light.decorative.turquoise.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        },
+        "pink": {
+          "$type": "color",
+          "$value": "{color.light.decorative.pink.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": [
+                "ALL_SCOPES"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "border": {
+      "black": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "white": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.constant.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "base": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.900}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "Pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "base-transparent-0": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-0%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "base-inverted": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.050}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "disabled": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.600}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted-subtle": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.300}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.grey.400}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.grey.500}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "muted-subtle-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.300-50%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "active": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.blue.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.blue.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.600}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "hover": {
+            "$type": "color",
+            "$value": "{color.light.purple.700}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          },
+          "pressed": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "focus": {
+        "ledger-live": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.purple.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "enterprise": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.blue.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        },
+        "websites": {
+          "default": {
+            "$type": "color",
+            "$value": "{color.light.orange.800}",
+            "$description": "",
+            "$extensions": {
+              "com.figma": {
+                "hiddenFromPublishing": true,
+                "scopes": []
+              }
+            }
+          }
+        }
+      },
+      "error": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "hover": {
+          "$type": "color",
+          "$value": "{color.light.red.800}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": "{color.light.red.900}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "error-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.red.600-50%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "warning": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.yellow.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.700}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "success-transparent": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.green.600-50%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      },
+      "icon": {
+        "default": {
+          "$type": "color",
+          "$value": "{color.light.grey.950-5%}",
+          "$description": "",
+          "$extensions": {
+            "com.figma": {
+              "hiddenFromPublishing": true,
+              "scopes": []
+            }
+          }
+        }
+      }
+    },
+    "crypto": {
+      "aion": {
+        "$type": "color",
+        "$value": "{color.light.crypto.aion}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "aion-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.aion-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "algorand": {
+        "$type": "color",
+        "$value": "{color.light.crypto.algorand}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "algorand-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.algorand-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "avax": {
+        "$type": "color",
+        "$value": "{color.light.crypto.avax}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "avax-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.avax-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bat": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bat}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bat-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bat-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bgb": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bgb}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bgb-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bgb-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-cash": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-cash}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-cash-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-cash-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-gold": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-gold}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-gold-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-gold-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-sv": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-sv}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bitcoin-sv-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bitcoin-sv-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "binance": {
+        "$type": "color",
+        "$value": "{color.light.crypto.binance}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "binance-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.binance-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bytecoin": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bytecoin}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "bytecoin-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.bytecoin-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "cardano": {
+        "$type": "color",
+        "$value": "{color.light.crypto.cardano}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "cardano-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.cardano-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "cosmos": {
+        "$type": "color",
+        "$value": "{color.light.crypto.cosmos}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "cosmos-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.cosmos-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "compound": {
+        "$type": "color",
+        "$value": "{color.light.crypto.compound}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "compound-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.compound-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "celo": {
+        "$type": "color",
+        "$value": "{color.light.crypto.celo}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "celo-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.celo-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "celo-2": {
+        "$type": "color",
+        "$value": "{color.light.crypto.celo-2}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "celo-2-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.celo-2-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "chainlink": {
+        "$type": "color",
+        "$value": "{color.light.crypto.chainlink}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "chainlink-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.chainlink-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "cro": {
+        "$type": "color",
+        "$value": "{color.light.crypto.cro}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "cro-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.cro-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dash": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dash}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dash-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dash-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dai": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dai}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dai-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dai-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "decred": {
+        "$type": "color",
+        "$value": "{color.light.crypto.decred}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "decred-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.decred-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "digibyte": {
+        "$type": "color",
+        "$value": "{color.light.crypto.digibyte}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "digibyte-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.digibyte-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dogecoin": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dogecoin}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dogecoin-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dogecoin-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dydx": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dydx}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dydx-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dydx-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dym": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dym}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "dym-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.dym-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "elrond": {
+        "$type": "color",
+        "$value": "{color.light.crypto.elrond}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "elrond-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.elrond-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "eng": {
+        "$type": "color",
+        "$value": "{color.light.crypto.eng}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "eng-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.eng-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "eos": {
+        "$type": "color",
+        "$value": "{color.light.crypto.eos}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "eos-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.eos-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ethergem": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ethergem}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ethergem-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ethergem-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ethereum": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ethereum}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ethereum-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ethereum-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ethereum-classic": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ethereum-classic}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ethereum-classic-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ethereum-classic-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "flr": {
+        "$type": "color",
+        "$value": "{color.light.crypto.flr}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "flr-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.flr-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ftm": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ftm}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "ftm-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.ftm-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "hedera": {
+        "$type": "color",
+        "$value": "{color.light.crypto.hedera}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "hedera-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.hedera-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "hnt": {
+        "$type": "color",
+        "$value": "{color.light.crypto.hnt}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "hnt-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.hnt-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "huobi": {
+        "$type": "color",
+        "$value": "{color.light.crypto.huobi}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "huobi-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.huobi-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "iota": {
+        "$type": "color",
+        "$value": "{color.light.crypto.iota}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "iota-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.iota-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "komodo": {
+        "$type": "color",
+        "$value": "{color.light.crypto.komodo}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "komodo-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.komodo-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "leo": {
+        "$type": "color",
+        "$value": "{color.light.crypto.leo}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "leo-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.leo-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "litecoin": {
+        "$type": "color",
+        "$value": "{color.light.crypto.litecoin}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "litecoin-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.litecoin-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "monero": {
+        "$type": "color",
+        "$value": "{color.light.crypto.monero}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "monero-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.monero-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "multiverse-x": {
+        "$type": "color",
+        "$value": "{color.light.crypto.multiverse-x}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "multiverse-x-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.multiverse-x-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "nano": {
+        "$type": "color",
+        "$value": "{color.light.crypto.nano}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "nano-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.nano-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "near": {
+        "$type": "color",
+        "$value": "{color.light.crypto.near}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "near-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.near-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "neo": {
+        "$type": "color",
+        "$value": "{color.light.crypto.neo}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "neo-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.neo-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "nimiq": {
+        "$type": "color",
+        "$value": "{color.light.crypto.nimiq}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "nimiq-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.nimiq-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "omg-network": {
+        "$type": "color",
+        "$value": "{color.light.crypto.omg-network}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "omg-network-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.omg-network-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "okb": {
+        "$type": "color",
+        "$value": "{color.light.crypto.okb}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "okb-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.okb-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "osmo": {
+        "$type": "color",
+        "$value": "{color.light.crypto.osmo}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "osmo-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.osmo-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "peercoin": {
+        "$type": "color",
+        "$value": "{color.light.crypto.peercoin}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "peercoin-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.peercoin-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "pirl": {
+        "$type": "color",
+        "$value": "{color.light.crypto.pirl}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "pirl-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.pirl-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "pivx": {
+        "$type": "color",
+        "$value": "{color.light.crypto.pivx}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "pivx-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.pivx-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "polkadot": {
+        "$type": "color",
+        "$value": "{color.light.crypto.polkadot}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "polkadot-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.polkadot-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "polygon": {
+        "$type": "color",
+        "$value": "{color.light.crypto.polygon}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "polygon-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.polygon-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "qnt": {
+        "$type": "color",
+        "$value": "{color.light.crypto.qnt}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "qnt-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.qnt-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "sats": {
+        "$type": "color",
+        "$value": "{color.light.crypto.sats}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "sats-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.sats-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "stellar": {
+        "$type": "color",
+        "$value": "{color.light.crypto.stellar}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "stellar-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.stellar-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "sol": {
+        "$type": "color",
+        "$value": "{color.light.crypto.sol}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "sol-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.sol-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tether-usdt": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tether-usdt}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tether-usdt-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tether-usdt-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tezos": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tezos}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tezos-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tezos-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tkx": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tkx}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tkx-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tkx-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tron": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tron}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tron-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tron-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "uniswap": {
+        "$type": "color",
+        "$value": "{color.light.crypto.uniswap}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "uniswap-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.uniswap-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tusd": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tusd}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "tusd-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.tusd-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "usdc": {
+        "$type": "color",
+        "$value": "{color.light.crypto.usdc}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "usdc-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.usdc-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "uni": {
+        "$type": "color",
+        "$value": "{color.light.crypto.uni}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "uni-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.uni-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "waves": {
+        "$type": "color",
+        "$value": "{color.light.crypto.waves}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "waves-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.waves-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "xrp": {
+        "$type": "color",
+        "$value": "{color.light.crypto.xrp}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "xrp-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.xrp-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "xin": {
+        "$type": "color",
+        "$value": "{color.light.crypto.xin}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "xin-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.xin-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "yieldly": {
+        "$type": "color",
+        "$value": "{color.light.crypto.yieldly}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "yieldly-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.yieldly-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "zcash": {
+        "$type": "color",
+        "$value": "{color.light.crypto.zcash}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      },
+      "zcash-0%": {
+        "$type": "color",
+        "$value": "{color.light.crypto.zcash-0%}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": true,
+            "scopes": [
+              "ALL_SCOPES"
+            ]
+          }
+        }
+      }
+    },
+    "discover": {
+      "1inch": {
+        "$type": "color",
+        "$value": "{color.light.discover.1inch}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "changelly": {
+        "$type": "color",
+        "$value": "{color.light.discover.changelly}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "compound": {
+        "$type": "color",
+        "$value": "{color.light.discover.compound}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "deversifi": {
+        "$type": "color",
+        "$value": "{color.light.discover.deversifi}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "lido": {
+        "$type": "color",
+        "$value": "{color.light.discover.lido}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "opensea": {
+        "$type": "color",
+        "$value": "{color.light.discover.opensea}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "paraswap": {
+        "$type": "color",
+        "$value": "{color.light.discover.paraswap}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "rarible": {
+        "$type": "color",
+        "$value": "{color.light.discover.rarible}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "zerion": {
+        "$type": "color",
+        "$value": "{color.light.discover.zerion}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "bitrefill": {
+        "$type": "color",
+        "$value": "{color.light.discover.bitrefill}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "loopipay-blue": {
+        "$type": "color",
+        "$value": "{color.light.discover.loopipay-blue}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "loopipay-black": {
+        "$type": "color",
+        "$value": "{color.light.discover.loopipay-black}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "loopipay-lime": {
+        "$type": "color",
+        "$value": "{color.light.discover.loopipay-lime}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "simplex": {
+        "$type": "color",
+        "$value": "{color.light.discover.simplex}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "baanx": {
+        "$type": "color",
+        "$value": "{color.light.discover.baanx}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "mercuryo": {
+        "$type": "color",
+        "$value": "{color.light.discover.mercuryo}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "juno": {
+        "$type": "color",
+        "$value": "{color.light.discover.juno}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      },
+      "sardine": {
+        "$type": "color",
+        "$value": "{color.light.discover.sardine}",
+        "$description": "",
+        "$extensions": {
+          "com.figma": {
+            "hiddenFromPublishing": false,
+            "scopes": [
+              "FRAME_FILL",
+              "SHAPE_FILL",
+              "STROKE_COLOR",
+              "EFFECT_COLOR"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

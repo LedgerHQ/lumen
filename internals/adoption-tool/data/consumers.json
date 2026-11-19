@@ -5,7 +5,11 @@
     "priority": "P1",
     "packageJsonPath": "package.json",
     "upstreamPackages": [
-      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
+      {
+        "package": "@ledgerhq/ledger-wallet-provider",
+        "repo": "LedgerHQ/ledger-button"
+      }
     ]
   },
   {
@@ -18,6 +22,7 @@
       "@ledgerhq/lumen-ui-rnative": ["apps/ledger-live-mobile/package.json"]
     },
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
+    "eligible": true,
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
@@ -83,7 +88,8 @@
     "repo": "LedgerHQ/crypto-icons",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "lib/package.json"
+    "packageJsonPath": "lib/package.json",
+    "eligible": true
   },
   {
     "repo": "LedgerHQ/gravitee",
@@ -147,12 +153,18 @@
   {
     "repo": "LedgerHQ/coinradar-v2",
     "status": "internal-tool",
-    "packageJsonPath": "package.json"
+    "packageJsonPath": "package.json",
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   },
   {
     "repo": "LedgerHQ/lumen-test-app",
     "status": "internal-tool",
     "packageJsonPath": "package.json",
-    "eligible": true
+    "eligible": true,
+    "upstreamPackages": [
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
+    ]
   }
 ]

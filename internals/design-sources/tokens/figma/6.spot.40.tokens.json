@@ -1,0 +1,93 @@
+{
+  "spot-width": {
+    "$type": "dimension",
+    "$value": "{spot-width.40}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "WIDTH_HEIGHT"
+        ]
+      }
+    }
+  },
+  "spot-height": {
+    "$type": "dimension",
+    "$value": "{spot-height.40}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "WIDTH_HEIGHT"
+        ]
+      }
+    }
+  },
+  "spot-icon-width": {
+    "$type": "dimension",
+    "$value": "{icon-width.16}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "WIDTH_HEIGHT"
+        ]
+      }
+    }
+  },
+  "spot-icon-height": {
+    "$type": "dimension",
+    "$value": "{icon-height.16}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "WIDTH_HEIGHT"
+        ]
+      }
+    }
+  },
+  "icon-border-width": {
+    "$type": "dimension",
+    "$value": "{icon-border-width.16}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "STROKE_FLOAT"
+        ]
+      }
+    }
+  },
+  "number-size": {
+    "$type": "dimension",
+    "$value": "{font-style.body.1.size}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "FONT_SIZE"
+        ]
+      }
+    }
+  },
+  "number-weight": {
+    "$type": "fontWeight",
+    "$value": "{font-style.body.1.weight-medium}",
+    "$description": "",
+    "$extensions": {
+      "com.figma": {
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "FONT_STYLE"
+        ]
+      }
+    }
+  }
+}

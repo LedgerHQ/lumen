@@ -1,0 +1,42 @@
+{
+  "screen": {
+    "$type": "dimension",
+    "$description": "Breakpoint min-widths, mobile-first. Figma breakpoints are modes, not values, so the widths live here.",
+    "xs": {
+      "$value": {
+        "value": 360,
+        "unit": "px"
+      }
+    },
+    "sm": {
+      "$value": {
+        "value": 640,
+        "unit": "px"
+      }
+    },
+    "md": {
+      "$value": {
+        "value": 768,
+        "unit": "px"
+      }
+    },
+    "lg": {
+      "$value": {
+        "value": 1024,
+        "unit": "px"
+      }
+    },
+    "xl": {
+      "$value": {
+        "value": 1280,
+        "unit": "px"
+      }
+    },
+    "2xl": {
+      "$value": {
+        "value": 1536,
+        "unit": "px"
+      }
+    }
+  }
+}

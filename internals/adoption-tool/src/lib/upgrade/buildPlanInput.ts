@@ -10,6 +10,13 @@ export type PlanInput = {
   upstreamPackages: UpstreamPackage[];
 };
 
+/**
+ * The Cairn action reads any input string starting with `@` as a file path
+ * and fails when it is missing, so a scoped package name can't be sent as is.
+ * The plan strips the prefix.
+ */
+const NPM_PREFIX = 'npm:';
+
 export function buildPlanInput(
   entry: ConsumerEntry,
   targetVersions: Record<LumenPackage, string>,
@@ -21,6 +28,9 @@ export function buildPlanInput(
       labels: entry.pr?.labels ?? [],
     },
     changeset: entry.changeset ?? false,
-    upstreamPackages: entry.upstreamPackages ?? [],
+    upstreamPackages: (entry.upstreamPackages ?? []).map((upstream) => ({
+      ...upstream,
+      package: `${NPM_PREFIX}${upstream.package}`,
+    })),
   };
 }

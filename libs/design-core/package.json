@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-design-core",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "license": "Apache-2.0",
   "keywords": [
     "design-system",
@@ -23,11 +23,13 @@
       "import": "./dist/cn.js",
       "default": "./dist/cn.js"
     },
-    "./symbols/*": "./symbols/icons/*"
+    "./symbols/*": "./symbols/icons/*",
+    "./themes/*": "./themes/*"
   },
   "files": [
     "dist",
     "symbols",
+    "themes",
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {
