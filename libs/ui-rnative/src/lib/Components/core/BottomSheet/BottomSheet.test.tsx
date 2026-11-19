@@ -597,6 +597,23 @@ describe('BottomSheetScrollView sticky header', () => {
     ).not.toBe('transparent');
   });
 
+  it('should neither pin nor fill a header wrapped in another element', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetScrollView testID='scroll-view'>
+        <View>
+          <BottomSheetHeader title='Title' testID='header' />
+        </View>
+      </BottomSheetScrollView>,
+    );
+
+    expect(
+      getByTestId('scroll-view').props.stickyHeaderIndices,
+    ).toBeUndefined();
+    expect(
+      StyleSheet.flatten(getByTestId('header').props.style).backgroundColor,
+    ).toBe('transparent');
+  });
+
   it('should keep a transparent background outside of a scroll view', () => {
     const { getByTestId } = renderScrollView(
       <BottomSheetHeader title='Title' testID='header' />,

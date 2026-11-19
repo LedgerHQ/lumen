@@ -7,7 +7,7 @@ import { Box, Text } from '../../primitives';
 import { ArrowLeft, Close } from '../../symbols';
 import { IconButton } from '../IconButton';
 import { useBottomSheetContext } from './BottomSheet';
-import { useIsInsideScrollView } from './BottomSheetScrollViewContext';
+import { useBottomSheetStickyHeaderContext } from './BottomSheetStickyHeaderContext';
 import type { BottomSheetHeaderProps } from './types';
 
 type DensityValue = NonNullable<BottomSheetHeaderProps['density']>;
@@ -118,7 +118,10 @@ export const BottomSheetHeader = ({
     close();
   }, [close, onHeaderClosePressed]);
 
-  const insideScrollView = useIsInsideScrollView();
+  const { isSticky = false } = useBottomSheetStickyHeaderContext({
+    consumerName: 'BottomSheetHeader',
+    contextRequired: false,
+  });
 
   const hasTitleSection = Boolean(title || description);
   const hasIcons = Boolean(onBack || !hideCloseButton);
@@ -127,7 +130,7 @@ export const BottomSheetHeader = ({
     density,
     spacing,
     hidden: !hasIcons && density !== 'compact',
-    pinned: sticky && insideScrollView,
+    pinned: sticky && isSticky,
   });
 
   const titleComponent = hasTitleSection ? (

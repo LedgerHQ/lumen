@@ -11,13 +11,14 @@ import {
   isValidElement,
   useContext,
   useMemo,
+  type ReactElement,
   type ReactNode,
 } from 'react';
 import type { DefaultSectionT } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { useBottomSheetContext } from './BottomSheet';
 import { BottomSheetHeader } from './BottomSheetHeader';
-import { BottomSheetScrollViewContext } from './BottomSheetScrollViewContext';
+import { BottomSheetStickyHeaderProvider } from './BottomSheetStickyHeaderContext';
 import type {
   BottomSheetHeaderProps,
   BottomSheetViewProps,
@@ -107,18 +108,36 @@ export const BottomSheetSectionList = <ItemT, SectionT = DefaultSectionT>({
   );
 };
 
+const isStickyHeader = (child: ReactNode): child is ReactElement =>
+  isValidElement<BottomSheetHeaderProps>(child) &&
+  child.type === BottomSheetHeader &&
+  child.props.sticky !== false;
+
 /**
- * Indices (as seen by ScrollView, which flattens children with Children.toArray)
- * of the BottomSheetHeader children that should stay pinned while scrolling.
+ * Pins the direct BottomSheetHeader children. Each one gets its own provider so only
+ * pinned headers turn opaque; wrapping one element per child keeps the indices that
+ * ScrollView computes with Children.toArray.
  */
-const getStickyHeaderIndices = (children: ReactNode): number[] =>
-  Children.toArray(children).flatMap((child, index) =>
-    isValidElement<BottomSheetHeaderProps>(child) &&
-    child.type === BottomSheetHeader &&
-    child.props.sticky !== false
-      ? [index]
-      : [],
-  );
+const pinStickyHeaders = (
+  children: ReactNode,
+): { children: ReactNode[]; indices: number[] } => {
+  const indices: number[] = [];
+  const mapped = Children.toArray(children).map((child, index) => {
+    if (!isStickyHeader(child)) {
+      return child;
+    }
+    indices.push(index);
+    return (
+      <BottomSheetStickyHeaderProvider
+        key={child.key}
+        value={{ isSticky: true }}
+      >
+        {child}
+      </BottomSheetStickyHeaderProvider>
+    );
+  });
+  return { children: mapped, indices };
+};
 
 export const BottomSheetScrollView = ({
   children,
@@ -129,28 +148,27 @@ export const BottomSheetScrollView = ({
 }: BottomSheetScrollViewProps) => {
   const styles = useScrollableStyles();
 
-  const mergedStickyHeaderIndices = useMemo(() => {
-    const indices = new Set([
-      ...getStickyHeaderIndices(children),
-      ...(stickyHeaderIndices ?? []),
-    ]);
-    return indices.size > 0
-      ? [...indices].sort((a, b) => a - b)
-      : stickyHeaderIndices;
+  const pinned = useMemo(() => {
+    const { children: pinnedChildren, indices } = pinStickyHeaders(children);
+    const merged = new Set([...indices, ...(stickyHeaderIndices ?? [])]);
+    return {
+      children: pinnedChildren,
+      stickyHeaderIndices:
+        merged.size > 0
+          ? [...merged].sort((a, b) => a - b)
+          : stickyHeaderIndices,
+    };
   }, [children, stickyHeaderIndices]);
 
-  // The provider wraps the scroll view rather than its children so they stay direct children for stickyHeaderIndices.
   return (
-    <BottomSheetScrollViewContext.Provider value={true}>
-      <GorhomBottomSheetScrollView
-        ref={ref}
-        style={[styles.container, style]}
-        stickyHeaderIndices={mergedStickyHeaderIndices}
-        {...props}
-      >
-        {children}
-      </GorhomBottomSheetScrollView>
-    </BottomSheetScrollViewContext.Provider>
+    <GorhomBottomSheetScrollView
+      ref={ref}
+      style={[styles.container, style]}
+      stickyHeaderIndices={pinned.stickyHeaderIndices}
+      {...props}
+    >
+      {pinned.children}
+    </GorhomBottomSheetScrollView>
   );
 };
 
