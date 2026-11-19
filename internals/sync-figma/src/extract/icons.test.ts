@@ -13,13 +13,13 @@ const document = {
       name: 'Icons',
       type: 'CANVAS',
       children: [
-        { id: '1:1', name: 'arrow-up', type: 'COMPONENT', children: [] },
+        { id: '1:1', name: '/arrow-up', type: 'COMPONENT', children: [] },
         {
           id: '1:2',
           name: 'Group',
           type: 'FRAME',
           children: [
-            { id: '1:3', name: 'check', type: 'COMPONENT', children: [] },
+            { id: '1:3', name: ' check ', type: 'COMPONENT', children: [] },
             { id: '1:4', name: 'arrow-up', type: 'COMPONENT', children: [] },
           ],
         },
@@ -52,6 +52,12 @@ describe('findIconComponents', () => {
       '1:3',
       '1:4',
     ]);
+  });
+
+  it('trims stray spaces and slashes around a name', () => {
+    expect(
+      findIconComponents(document, 'Icons').map(({ name }) => name),
+    ).toEqual(['arrow-up', 'check', 'arrow-up']);
   });
 });
 

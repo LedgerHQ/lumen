@@ -34,6 +34,14 @@ const mapWithLimit = async <Item, Result>(
   return results;
 };
 
+/**
+ * A Figma name with a stray space or slash at either end (`/nft-hide`,
+ * `hourglass `) names the same icon: the file keeps the name designers meant,
+ * as the previous export did, rather than failing the sync or renaming it.
+ */
+const toIconName = (name: string): string =>
+  name.replace(/^[\s/]+|[\s/]+$/g, '');
+
 /** Every component on the icons canvas, in document order. */
 export const findIconComponents = (
   document: Node,
@@ -49,7 +57,7 @@ export const findIconComponents = (
     if ('children' in node)
       frontier.push(...[...(node.children ?? [])].reverse());
     if (node.type === 'COMPONENT') {
-      components.push({ id: node.id, name: node.name });
+      components.push({ id: node.id, name: toIconName(node.name) });
     }
   }
   return components;
