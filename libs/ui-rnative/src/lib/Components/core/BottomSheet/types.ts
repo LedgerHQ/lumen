@@ -1,27 +1,28 @@
 import type {
   BottomSheetModal as GorhomBottomSheetModal,
   BottomSheetView as GorhomBottomSheetView,
-  BottomSheetFlatList as GorhomBottomSheetFlatList,
-  BottomSheetSectionList as GorhomBottomSheetSectionList,
   BottomSheetScrollView as GorhomBottomSheetScrollView,
-  BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
   BottomSheetBackgroundProps,
+  BottomSheetFlatListMethods,
+  BottomSheetScrollableProps,
+  BottomSheetSectionListMethods,
+  BottomSheetVirtualizedListMethods,
 } from '@gorhom/bottom-sheet';
 import type { Density } from '@ledgerhq/lumen-utils-shared';
+import type { FC, PropsWithChildren, ReactNode, Ref } from 'react';
 import type {
-  ComponentRef,
-  FC,
-  PropsWithChildren,
-  ReactNode,
-  Ref,
-} from 'react';
+  DefaultSectionT,
+  FlatListProps,
+  SectionListProps,
+  VirtualizedListProps,
+} from 'react-native';
 
 import type { StyledViewProps } from '../../../../styles';
 export type BottomSheetProps = PropsWithChildren & {
   /**
    * Ref to the bottom sheet component.
    */
-  ref?: Ref<ComponentRef<typeof GorhomBottomSheetModal>>;
+  ref?: Ref<GorhomBottomSheetModal>;
   /**
    * Used to locate this view in end-to-end tests.
    */
@@ -186,16 +187,36 @@ export type BottomSheetHeaderProps = {
 } & Omit<StyledViewProps, 'children'>;
 export type BottomSheetContentProps = StyledViewProps;
 export type BottomSheetViewProps = Parameters<typeof GorhomBottomSheetView>[0];
-export type BottomSheetFlatListProps = Parameters<
-  typeof GorhomBottomSheetFlatList
->[0];
-export type BottomSheetSectionListProps = Parameters<
-  typeof GorhomBottomSheetSectionList
->[0];
+/*
+ * The list props are built from react-native's own list types, not derived
+ * from gorhom's components: gorhom's generic list components resolve `item`
+ * to `any` or `unknown` depending on its version, and `Parameters<>` drops
+ * the generic. Building them here keeps `item` inferred from `data` on every
+ * gorhom 5.x a consumer may have installed.
+ */
+type GorhomListOmittedProps = 'decelerationRate' | 'scrollEventThrottle';
+export type BottomSheetFlatListProps<T = unknown> = Omit<
+  FlatListProps<T>,
+  GorhomListOmittedProps | 'onScroll'
+> &
+  BottomSheetScrollableProps & {
+    ref?: Ref<BottomSheetFlatListMethods>;
+  };
+export type BottomSheetSectionListProps<
+  ItemT = unknown,
+  SectionT = DefaultSectionT,
+> = Omit<SectionListProps<ItemT, SectionT>, GorhomListOmittedProps> &
+  BottomSheetScrollableProps & {
+    ref?: Ref<BottomSheetSectionListMethods>;
+  };
 export type BottomSheetScrollViewProps = Parameters<
   typeof GorhomBottomSheetScrollView
 >[0];
-export type BottomSheetVirtualizedListProps = Parameters<
-  typeof GorhomBottomSheetVirtualizedList
->[0];
+export type BottomSheetVirtualizedListProps<T = unknown> = Omit<
+  VirtualizedListProps<T>,
+  GorhomListOmittedProps
+> &
+  BottomSheetScrollableProps & {
+    ref?: Ref<BottomSheetVirtualizedListMethods>;
+  };
 export type BottomSheetFooterProps = StyledViewProps;
