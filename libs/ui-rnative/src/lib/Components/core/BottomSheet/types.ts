@@ -185,6 +185,12 @@ export type BottomSheetHeaderProps = {
    * @default false
    */
   spacing?: boolean;
+  /**
+   * Keep the header pinned to the top while the content scrolls, when it is a direct child of a `BottomSheetScrollView`.
+   * Outside of a scroll view the header doesn't scroll, so this has no effect.
+   * @default true
+   */
+  sticky?: boolean;
 } & Omit<StyledViewProps, 'children'>;
 export type BottomSheetContentProps = StyledViewProps;
 export type BottomSheetViewProps = Parameters<typeof GorhomBottomSheetView>[0];

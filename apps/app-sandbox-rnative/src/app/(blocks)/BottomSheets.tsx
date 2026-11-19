@@ -169,6 +169,50 @@ const BottomSheetDynamicSize = ({ ref, ...props }: BottomSheetProps) => {
   );
 };
 
+const BottomSheetStickyHeader = ({ ref, ...props }: BottomSheetProps) => {
+  const data = Array.from({ length: 30 }, (_, i) => ({
+    id: i.toString(),
+    title: `Item ${i + 1}`,
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit.',
+  }));
+
+  return (
+    <BottomSheet
+      {...props}
+      ref={ref}
+      snapPoints={['50%']}
+      backdropPressBehavior='close'
+    >
+      <BottomSheetScrollView>
+        <BottomSheetHeader
+          title='Sticky Header'
+          density='compact'
+          description='The header stays pinned while the ScrollView scrolls'
+        />
+        {data.map((item) => (
+          <Box
+            key={item.id}
+            lx={{
+              flexDirection: 'column',
+              gap: 's4',
+              borderBottomWidth: 's1',
+              borderColor: 'base',
+              paddingVertical: 's12',
+            }}
+          >
+            <Text typography='body2SemiBold' lx={{ color: 'base' }}>
+              {item.title}
+            </Text>
+            <Text typography='body3' lx={{ color: 'muted' }}>
+              {item.description}
+            </Text>
+          </Box>
+        ))}
+      </BottomSheetScrollView>
+    </BottomSheet>
+  );
+};
+
 const BottomSheetWithFooter = ({ ref, ...props }: BottomSheetProps) => {
   return (
     <BottomSheet
@@ -290,6 +334,7 @@ export default function BottomSheets() {
   const flatListsRef = useBottomSheetRef();
   const dynamicSizeRef = useBottomSheetRef();
   const gradientRef = useBottomSheetRef();
+  const stickyHeaderRef = useBottomSheetRef();
   const withFooterRef = useBottomSheetRef();
   const footerFlatListRef = useBottomSheetRef();
   const footerDynamicRef = useBottomSheetRef();
@@ -307,6 +352,12 @@ export default function BottomSheets() {
       </Button>
       <Button appearance='base' onPress={() => gradientRef.current?.present()}>
         Gradient Background
+      </Button>
+      <Button
+        appearance='base'
+        onPress={() => stickyHeaderRef.current?.present()}
+      >
+        Sticky Header (ScrollView)
       </Button>
       <Button
         appearance='base'
@@ -329,6 +380,7 @@ export default function BottomSheets() {
       <BottomSheetFlatLists ref={flatListsRef} />
       <BottomSheetDynamicSize ref={dynamicSizeRef} />
       <BottomSheetWithGradient ref={gradientRef} />
+      <BottomSheetStickyHeader ref={stickyHeaderRef} />
       <BottomSheetWithFooter ref={withFooterRef} />
       <BottomSheetFooterWithFlatList ref={footerFlatListRef} />
       <BottomSheetFooterWithDynamicSize ref={footerDynamicRef} />

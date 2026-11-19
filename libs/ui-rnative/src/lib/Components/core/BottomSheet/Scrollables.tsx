@@ -5,11 +5,21 @@ import {
   BottomSheetScrollView as GorhomBottomSheetScrollView,
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
-import { createContext, useContext } from 'react';
+import {
+  Children,
+  createContext,
+  isValidElement,
+  useContext,
+  useMemo,
+  type ReactNode,
+} from 'react';
 import type { DefaultSectionT } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { useBottomSheetContext } from './BottomSheet';
+import { BottomSheetHeader } from './BottomSheetHeader';
+import { BottomSheetScrollViewContext } from './BottomSheetScrollViewContext';
 import type {
+  BottomSheetHeaderProps,
   BottomSheetViewProps,
   BottomSheetFlatListProps,
   BottomSheetSectionListProps,
@@ -97,22 +107,50 @@ export const BottomSheetSectionList = <ItemT, SectionT = DefaultSectionT>({
   );
 };
 
+/**
+ * Indices (as seen by ScrollView, which flattens children with Children.toArray)
+ * of the BottomSheetHeader children that should stay pinned while scrolling.
+ */
+const getStickyHeaderIndices = (children: ReactNode): number[] =>
+  Children.toArray(children).flatMap((child, index) =>
+    isValidElement<BottomSheetHeaderProps>(child) &&
+    child.type === BottomSheetHeader &&
+    child.props.sticky !== false
+      ? [index]
+      : [],
+  );
+
 export const BottomSheetScrollView = ({
   children,
   style,
   ref,
+  stickyHeaderIndices,
   ...props
 }: BottomSheetScrollViewProps) => {
   const styles = useScrollableStyles();
 
+  const mergedStickyHeaderIndices = useMemo(() => {
+    const indices = new Set([
+      ...getStickyHeaderIndices(children),
+      ...(stickyHeaderIndices ?? []),
+    ]);
+    return indices.size > 0
+      ? [...indices].sort((a, b) => a - b)
+      : stickyHeaderIndices;
+  }, [children, stickyHeaderIndices]);
+
+  // The provider wraps the scroll view rather than its children so they stay direct children for stickyHeaderIndices.
   return (
-    <GorhomBottomSheetScrollView
-      ref={ref}
-      style={[styles.container, style]}
-      {...props}
-    >
-      {children}
-    </GorhomBottomSheetScrollView>
+    <BottomSheetScrollViewContext.Provider value={true}>
+      <GorhomBottomSheetScrollView
+        ref={ref}
+        style={[styles.container, style]}
+        stickyHeaderIndices={mergedStickyHeaderIndices}
+        {...props}
+      >
+        {children}
+      </GorhomBottomSheetScrollView>
+    </BottomSheetScrollViewContext.Provider>
   );
 };
 
