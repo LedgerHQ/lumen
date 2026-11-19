@@ -546,7 +546,7 @@ export const StickyHeaderContent: Story = {
         <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
           Toggle open virtual-list
         </Button>
-        <Button size='sm' onPress={() => bottomSheetRef.current?.present()}>
+        <Button size='sm' onPress={() => bottomSheetRef2.current?.present()}>
           Toggle open scrollview
         </Button>
         <BottomSheet {...args} ref={bottomSheetRef}>
@@ -601,7 +601,7 @@ export const StickyHeaderContent: Story = {
         </BottomSheet>
 
         <BottomSheet {...args} ref={bottomSheetRef2}>
-          <BottomSheetScrollView stickyHeaderIndices={[0]}>
+          <BottomSheetScrollView>
             <BottomSheetHeader
               spacing
               title='BottomSheetScrollView'
