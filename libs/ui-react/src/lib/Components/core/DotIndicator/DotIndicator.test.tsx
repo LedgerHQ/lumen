@@ -65,6 +65,13 @@ describe('DotIndicator', () => {
     expect(container.firstChild).toBeInTheDocument();
   });
 
+  it('should let the disabled background override the appearance background', () => {
+    const { container } = render(<DotIndicator disabled />);
+    const dot = container.firstElementChild?.firstElementChild;
+    expect(dot).toHaveClass('bg-disabled');
+    expect(dot).not.toHaveClass('bg-interactive');
+  });
+
   it('should render pinned overlay when children provided', () => {
     render(
       <DotIndicator data-testid='dot-indicator'>
@@ -74,6 +81,21 @@ describe('DotIndicator', () => {
 
     expect(screen.getByTestId('dot-indicator')).toHaveClass('relative');
     expect(screen.getByText('Content')).toBeInTheDocument();
+  });
+
+  it('should keep the pinned dot above an open popup trigger', () => {
+    render(
+      <DotIndicator data-testid='dot-indicator' aria-label='New notifications'>
+        <span>Content</span>
+      </DotIndicator>,
+    );
+
+    expect(screen.getByTestId('dot-indicator')).toHaveClass(
+      'group/dot-indicator',
+    );
+    expect(screen.getByLabelText('New notifications')).toHaveClass(
+      'group-has-data-popup-open/dot-indicator:z-above-popup-trigger',
+    );
   });
 
   it('should accept additional HTML attributes', () => {

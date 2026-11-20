@@ -3,6 +3,15 @@ import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { DotIndicatorProps } from './types';
 
+const rootVariants = cva('', {
+  variants: {
+    pinned: {
+      true: 'group/dot-indicator relative inline-flex w-fit',
+      false: '',
+    },
+  },
+});
+
 const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
   variants: {
     size: {
@@ -19,11 +28,16 @@ const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
       true: 'bg-disabled',
       false: '',
     },
+    pinned: {
+      true: 'absolute end-0 top-0 z-1 group-has-data-popup-open/dot-indicator:z-above-popup-trigger',
+      false: '',
+    },
   },
   defaultVariants: {
     size: 'md',
     appearance: 'base',
     disabled: false,
+    pinned: false,
   },
 });
 
@@ -47,15 +61,14 @@ export function DotIndicator({
   return (
     <div
       ref={ref}
-      className={cn(pinned && 'relative inline-flex w-fit', className)}
+      className={cn(rootVariants({ pinned }), className)}
       {...props}
     >
       <div
         aria-label={ariaLabel}
         aria-hidden={!ariaLabel || undefined}
         className={cn(
-          dotIndicatorVariants({ size, appearance, disabled }),
-          pinned && 'absolute end-0 top-0 z-1',
+          dotIndicatorVariants({ size, appearance, disabled, pinned }),
         )}
       />
       {children}

@@ -62,6 +62,13 @@ describe('DotCount', () => {
     expect(screen.getByText('5')).toBeInTheDocument();
   });
 
+  it('should let the disabled background override the appearance background', () => {
+    render(<DotCount value={5} disabled aria-label='count' />);
+    const dot = screen.getByRole('img');
+    expect(dot).toHaveClass('bg-disabled');
+    expect(dot).not.toHaveClass('bg-interactive');
+  });
+
   it('should render in md size', () => {
     render(<DotCount value={5} size='md' />);
     expect(screen.getByText('5')).toBeInTheDocument();
@@ -86,6 +93,19 @@ describe('DotCount', () => {
       </DotCount>,
     );
     expect(screen.getByTestId('dot-count')).toHaveClass('relative');
+  });
+
+  it('should keep the pinned dot above an open popup trigger', () => {
+    render(
+      <DotCount data-testid='dot-count' value={3} aria-label='3 notifications'>
+        <span>Child</span>
+      </DotCount>,
+    );
+
+    expect(screen.getByTestId('dot-count')).toHaveClass('group/dot-count');
+    expect(screen.getByRole('img', { name: '3 notifications' })).toHaveClass(
+      'group-has-data-popup-open/dot-count:z-above-popup-trigger',
+    );
   });
 
   it('should accept additional HTML attributes', () => {

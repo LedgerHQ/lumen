@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { Bell } from '../../symbols/icons/Bell';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
+import { DotIndicator } from '../DotIndicator';
+import { IconButton } from '../IconButton';
 import { Tag } from '../Tag';
 import {
   Popover,
@@ -238,6 +241,30 @@ export const WithOverlay: Story = {
         </PopoverContent>
       </Popover>
     </div>
+  ),
+};
+
+export const WithDotIndicator: Story = {
+  render: () => (
+    <Popover overlay>
+      <DotIndicator appearance='red' size='lg'>
+        <PopoverTrigger
+          render={
+            <IconButton
+              aria-label='Notifications'
+              appearance='gray'
+              icon={Bell}
+            />
+          }
+        />
+      </DotIndicator>
+
+      <PopoverContent width='fixed'>
+        <p className='body-2 text-muted'>
+          The dot stays pinned to the trigger, above the overlay.
+        </p>
+      </PopoverContent>
+    </Popover>
   ),
 };
 
