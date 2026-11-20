@@ -149,6 +149,10 @@ export const BottomSheetScrollView = ({
   const styles = useScrollableStyles();
 
   const pinned = useMemo(() => {
+    // An animated SharedValue can't be merged with, so the consumer keeps full control.
+    if (stickyHeaderIndices && !Array.isArray(stickyHeaderIndices)) {
+      return { children, stickyHeaderIndices };
+    }
     const { children: pinnedChildren, indices } = pinStickyHeaders(children);
     const merged = new Set([...indices, ...(stickyHeaderIndices ?? [])]);
     return {
