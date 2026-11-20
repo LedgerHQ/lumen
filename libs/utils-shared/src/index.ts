@@ -6,6 +6,7 @@ export * from './lib/colors';
 export * from './lib/context';
 export * from './lib/isTextChildren';
 export * from './lib/useMergeRef';
+export * from './lib/useTemporaryFlag';
 export * from './lib/getObjectPath';
 export * from './lib/resolveProps';
 export * from './lib/components';

@@ -1,0 +1,93 @@
+import { Meta, Canvas, Controls, Source } from '@storybook/addon-docs/blocks';
+import * as ClipboardStories from './Clipboard.stories';
+import {
+  CustomTabs,
+  Tab,
+  SetupNote,
+} from '../../../../../.storybook/components';
+
+<Meta title='Core/Clipboard' of={ClipboardStories} />
+
+# Clipboard
+
+<CustomTabs>
+  <Tab label="Overview">
+
+## Introduction
+
+**Clipboard** copies a value the user needs, such as an address, an ID or a code. It owns the copy behavior and the copied state; the element it renders only triggers it. Clicking copies the value and switches the copy icon to a check icon for 3 seconds by default.
+
+By default, Clipboard renders a **ClipboardInput**: a full-width surface displaying the value. Use the `render` prop to trigger the copy from any other component, such as a `Button` or an `IconButton`.
+
+> View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=23359-110294).
+
+## Anatomy
+
+- **Clipboard**: the behavior. It copies `value`, tracks the copied state and passes it to `render`.
+- **ClipboardInput**: the default visual. It displays a `label` (long values wrap onto multiple lines) and an `icon`; hovering anywhere on it highlights the icon.
+
+## Properties
+
+### Overview
+
+<Canvas of={ClipboardStories.Base} />
+<Controls of={ClipboardStories.Base} />
+
+### Custom reset delay
+
+Use `resetAfterMs` to change how long the copied state lasts. It defaults to `3000`.
+
+<Canvas of={ClipboardStories.CustomResetDelay} />
+
+### Multi-line
+
+The clipboard takes the full width of its container and wraps long values, breaking inside words when needed (e.g. addresses).
+
+<Canvas of={ClipboardStories.ResponsivenessShowcase} />
+
+### With a toast
+
+Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
+
+<Canvas of={ClipboardStories.WithToast} />
+
+### Custom render
+
+`render` receives the copy state and returns the element that triggers the copy:
+
+- `handleCopy`: copies the value. Does nothing inside a disabled ancestor.
+- `Icon`: the copy icon, or the check icon while the copied state lasts.
+- `statusLabel`: the translated "Copy" label, or "Copied" while the copied state lasts.
+- `isCopied` and `value`, for anything else.
+
+<Canvas of={ClipboardStories.WithCustomRender} />
+
+## Accessibility
+
+- ClipboardInput renders a native `button`, reachable with the keyboard and activated with `Enter` or `Space`.
+- By default, the accessible name is the value followed by "Copy", then "Copied" once the value is copied (translated with the library locale). With a custom render, use `statusLabel` in the accessible name (e.g. an `IconButton`'s `aria-label`).
+- The copied state only shows when the clipboard write succeeds; it is skipped when the browser denies clipboard access (insecure context or missing permission).
+
+</Tab>
+<Tab label="Implementation">
+
+<SetupNote />
+
+### Basic Usage
+
+<Source of={ClipboardStories.Base} />
+
+### Custom reset delay
+
+<Source of={ClipboardStories.CustomResetDelay} />
+
+### With a toast
+
+<Source of={ClipboardStories.WithToast} />
+
+### Custom render
+
+<Source of={ClipboardStories.WithCustomRender} />
+
+</Tab>
+</CustomTabs>
