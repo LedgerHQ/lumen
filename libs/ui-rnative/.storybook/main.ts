@@ -34,6 +34,9 @@ const config: StorybookConfig = {
       '@sbaiahmed1/react-native-blur': fileURLToPath(
         new URL('./mocks/blur.tsx', import.meta.url),
       ),
+      'lottie-react-native': fileURLToPath(
+        new URL('./mocks/lottie.tsx', import.meta.url),
+      ),
       // Third-party packages (@ledgerhq/crypto-icons) import the lib by name.
       // Without this they load a second copy from dist/, whose theme context is
       // a different object than the one ThemeProvider fills from source.
