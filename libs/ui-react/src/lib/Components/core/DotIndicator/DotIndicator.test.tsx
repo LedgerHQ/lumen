@@ -65,6 +65,13 @@ describe('DotIndicator', () => {
     expect(container.firstChild).toBeInTheDocument();
   });
 
+  it('should let the disabled background override the appearance background', () => {
+    const { container } = render(<DotIndicator disabled />);
+    const dot = container.firstElementChild?.firstElementChild;
+    expect(dot).toHaveClass('bg-disabled');
+    expect(dot).not.toHaveClass('bg-interactive');
+  });
+
   it('should render pinned overlay when children provided', () => {
     render(
       <DotIndicator data-testid='dot-indicator'>

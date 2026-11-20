@@ -62,6 +62,13 @@ describe('DotCount', () => {
     expect(screen.getByText('5')).toBeInTheDocument();
   });
 
+  it('should let the disabled background override the appearance background', () => {
+    render(<DotCount value={5} disabled aria-label='count' />);
+    const dot = screen.getByRole('img');
+    expect(dot).toHaveClass('bg-disabled');
+    expect(dot).not.toHaveClass('bg-interactive');
+  });
+
   it('should render in md size', () => {
     render(<DotCount value={5} size='md' />);
     expect(screen.getByText('5')).toBeInTheDocument();

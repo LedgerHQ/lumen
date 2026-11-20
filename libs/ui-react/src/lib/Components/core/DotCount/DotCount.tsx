@@ -94,7 +94,7 @@ export function DotCount({
         role='img'
         aria-label={ariaLabel}
         aria-hidden={!ariaLabel || undefined}
-        className={dotCountVariants({ size, appearance, disabled, pinned })}
+        className={cn(dotCountVariants({ size, appearance, disabled, pinned }))}
       >
         {value > 0 && (
           <span className={cn(textVariants({ size, appearance, disabled }))}>

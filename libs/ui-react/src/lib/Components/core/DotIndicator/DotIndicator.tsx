@@ -67,12 +67,9 @@ export function DotIndicator({
       <div
         aria-label={ariaLabel}
         aria-hidden={!ariaLabel || undefined}
-        className={dotIndicatorVariants({
-          size,
-          appearance,
-          disabled,
-          pinned,
-        })}
+        className={cn(
+          dotIndicatorVariants({ size, appearance, disabled, pinned }),
+        )}
       />
       {children}
     </div>
