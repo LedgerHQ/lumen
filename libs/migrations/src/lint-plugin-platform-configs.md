@@ -6,28 +6,28 @@ changes:
     to: '@ledgerhq/lumen-lint-plugin/eslint#configs.react.recommended'
     signal: silent # spreading the old preset yields an empty config
     detect:
-      - { pattern: '\bconfigs\.recommended\b' }
+      - { pattern: '\b\w*[Ll]umen\w*\.configs\.recommended\b' }
   - change: renamed
     surface: token
     ref: '@ledgerhq/lumen-lint-plugin/eslint#*configs.strict*'
     to: '@ledgerhq/lumen-lint-plugin/eslint#configs.react.strict'
     signal: silent
     detect:
-      - { pattern: '\bconfigs\.strict\b' }
+      - { pattern: '\b\w*[Ll]umen\w*\.configs\.strict\b' }
   - change: renamed
     surface: token
     ref: '@ledgerhq/lumen-lint-plugin/oxlint#*configs.recommended*'
     to: '@ledgerhq/lumen-lint-plugin/oxlint#configs.react.recommended'
     signal: silent
     detect:
-      - { pattern: '\bconfigs\.recommended\b' }
+      - { pattern: '\b\w*[Ll]umen\w*\.configs\.recommended\b' }
   - change: renamed
     surface: token
     ref: '@ledgerhq/lumen-lint-plugin/oxlint#*configs.strict*'
     to: '@ledgerhq/lumen-lint-plugin/oxlint#configs.react.strict'
     signal: silent
     detect:
-      - { pattern: '\bconfigs\.strict\b' }
+      - { pattern: '\b\w*[Ll]umen\w*\.configs\.strict\b' }
 ---
 
 ## Before → after
@@ -79,7 +79,11 @@ The presets are grouped by platform: `configs.react.recommended`,
 `configs.reactnative.strict`, the same on the `/eslint` and `/oxlint` entries.
 The old names are gone: a direct reference fails the config, a spread
 (`{ ...lumen.configs.strict }`) silently lints nothing. The `oxlint/*.json`
-paths are unchanged.
+paths are unchanged. Other plugins' presets (`js.configs.recommended`,
+`tseslint.configs.strict`) are not Lumen's: leave them as they are.
+
+`detect` matches the Lumen import by a binding named like `lumen`. If the
+plugin is imported under another name, search that binding's `configs.*` too.
 
 - Web apps: rename every `configs.recommended` / `configs.strict` to
   `configs.react.*`. Default: keep the same level.
@@ -100,6 +104,6 @@ comment saying why.
 
 ## Verify
 
-Zero `configs.recommended` / `configs.strict` hits outside `configs.react.*` and
-`configs.reactnative.*`. ESLint and oxlint load without a config error and
+No Lumen `configs.recommended` / `configs.strict` reference left, only
+`configs.react.*` and `configs.reactnative.*`. ESLint and oxlint load without a config error and
 report on a file with `ml-4` (web) or `marginLeft` (React Native).

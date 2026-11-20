@@ -35,6 +35,14 @@ new RuleTester().run('enforce-logical-properties', rule, {
     'const s = { toString: f, constructor: C };',
     { code: '<Pressable hitSlop={{ left: 8 }} />', ...jsx },
     { code: '<ScrollView contentInset={{ right: 16 }} />', ...jsx },
+    {
+      code: '<Pressable hitSlop={big ? { left: 16 } : { left: 8 }} />',
+      ...jsx,
+    },
+    'const hitSlop = { left: 8 };',
+    'const insets = a ?? { left: 0 };',
+    'const props = { hitSlop: { left: 8 }, pressRetentionOffset: { right: 8 } };',
+    'const s = { left: 0, right };',
   ],
   invalid: [
     invalid(
@@ -45,6 +53,16 @@ new RuleTester().run('enforce-logical-properties', rule, {
     invalid('const s = { left: 8 };', 'const s = { start: 8 };'),
     invalid('const s = { right: 8 };', 'const s = { end: 8 };'),
     invalid('const s = { marginStart: 2, marginLeft: 4 };', null),
+    invalid('const s = { marginStart, marginLeft: 4 };', null),
+    invalid("const s = { 'marginStart': 2, marginLeft: 4 };", null),
+    invalid(
+      'const s = { [marginStart]: 2, marginLeft: 4 };',
+      'const s = { [marginStart]: 2, marginStart: 4 };',
+    ),
+    invalid(
+      'const props = { hitSlop: { left: 8 }, style: { left: 8 } };',
+      'const props = { hitSlop: { left: 8 }, style: { start: 8 } };',
+    ),
     {
       ...invalid(
         '<View style={{ left: 8 }} />',

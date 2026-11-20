@@ -86,6 +86,12 @@ changes:
       - { pattern: '<Divider\b(?:[^>]|=>)*?\blx=(?:[^>]|=>)*?\b(?:(?:margin|padding|border)(?:Left|Right)\w*|border(?:Top|Bottom)(?:Left|Right)Radius|left|right)\s*:', expect: review }
   - change: changed
     surface: member
+    ref: '@ledgerhq/lumen-ui-rnative#MediaTag.style'
+    signal: visual
+    detect:
+      - { pattern: '<MediaTag\b(?:[^>]|=>)*?\b(?:style|lx)=(?:[^>]|=>)*?\b(?:(?:margin|padding|border)(?:Left|Right)\w*|border(?:Top|Bottom)(?:Left|Right)Radius|left|right)\s*:', expect: review }
+  - change: changed
+    surface: member
     ref: '@ledgerhq/lumen-ui-rnative#Toast.style'
     signal: visual
     detect:
@@ -129,12 +135,14 @@ React Native:
 ```tsx before
 <ContentBanner style={{ paddingRight: 24 }} onClose={close}>{content}</ContentBanner>
 <Divider orientation='vertical' lx={{ borderLeftWidth: 's2' }} />
+<MediaTag style={{ paddingRight: 12 }} label='NFT' leadingContent={icon} />
 <Toast style={{ paddingLeft: 24 }} title='Saved' />
 ```
 
 ```tsx after
 <ContentBanner style={{ paddingEnd: 24 }} onClose={close}>{content}</ContentBanner>
 <Divider orientation='vertical' lx={{ borderStartWidth: 's2' }} />
+<MediaTag style={{ paddingEnd: 12 }} label='NFT' leadingContent={icon} />
 <Toast style={{ paddingStart: 24 }} title='Saved' />
 ```
 

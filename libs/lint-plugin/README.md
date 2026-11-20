@@ -15,7 +15,7 @@ You also need `eslint` or `oxlint`, and `tailwindcss` v4 for the web presets.
 
 ## Usage
 
-`react.recommended` and `react.strict` are for web apps. `reactnative.recommended` and `reactnative.strict` are for React Native apps and needs no Tailwind `settings`.
+`react.recommended` and `react.strict` are for web apps. `reactnative.recommended` and `reactnative.strict` are for React Native apps and need no Tailwind `settings`.
 
 Pick a preset, then set your Tailwind CSS entry (the file with `@import 'tailwindcss'`).
 Without it, every Lumen class is reported as unknown.
@@ -105,6 +105,8 @@ export default defineConfig({
 | Rule                                                                                                                | RN recommended | RN strict | 🔧  | Flags                                                                      |
 | ------------------------------------------------------------------------------------------------------------------- | :------------: | :-------: | :-: | -------------------------------------------------------------------------- |
 | [`enforce-logical-properties`](https://github.com/LedgerHQ/lumen/blob/main/libs/lint-plugin/README.md#react-native) |       ⚠️       |    ✅     | 🔧  | `marginLeft`, `borderTopRightRadius`, a lone `left`/`right`: use start/end |
+
+Objects passed as an `Insets` (`hitSlop`, `contentInset`, `pressRetentionOffset`, safe-area `insets`) are skipped: they take physical edges only.
 
 ## Customize
 
