@@ -33,7 +33,7 @@ export function createPrimitivesPlugin(): TailwindPlugin {
     'dialog-content': '100',
     select: '120',
     menu: '120',
-    'trigger-indicator': '121',
+    'trigger-indicator': '130',
     toast: '150',
     tooltip: '200',
   };

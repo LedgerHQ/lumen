@@ -3,6 +3,15 @@ import { useDisabledContext } from '@ledgerhq/lumen-utils-shared';
 import { cva } from 'class-variance-authority';
 import type { DotCountProps } from './types';
 
+const rootVariants = cva('', {
+  variants: {
+    pinned: {
+      true: 'group/dot-count relative inline-flex w-fit',
+      false: '',
+    },
+  },
+});
+
 const dotCountVariants = cva(
   'pointer-events-none flex items-center justify-center rounded-full',
   {
@@ -19,11 +28,16 @@ const dotCountVariants = cva(
         true: 'bg-disabled',
         false: '',
       },
+      pinned: {
+        true: 'absolute top-0 right-0 z-1 group-has-data-popup-open/dot-count:z-trigger-indicator',
+        false: '',
+      },
     },
     defaultVariants: {
       size: 'md',
       appearance: 'base',
       disabled: false,
+      pinned: false,
     },
   },
 );
@@ -73,21 +87,14 @@ export function DotCount({
   return (
     <div
       ref={ref}
-      className={cn(
-        pinned && 'group/dot-count relative inline-flex w-fit',
-        className,
-      )}
+      className={cn(rootVariants({ pinned }), className)}
       {...props}
     >
       <div
         role='img'
         aria-label={ariaLabel}
         aria-hidden={!ariaLabel || undefined}
-        className={cn(
-          dotCountVariants({ size, appearance, disabled }),
-          pinned &&
-            'absolute top-0 right-0 z-1 group-has-data-popup-open/dot-count:z-trigger-indicator',
-        )}
+        className={dotCountVariants({ size, appearance, disabled, pinned })}
       >
         {value > 0 && (
           <span className={cn(textVariants({ size, appearance, disabled }))}>
