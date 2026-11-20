@@ -50,6 +50,29 @@ const staticName = (node) => {
 };
 
 /**
+ * The name `child` is given by its parent JSX prop, property or variable.
+ * @param {LooseNode | undefined} parent
+ * @param {LooseNode} child
+ * @returns {string | undefined}
+ */
+const ownerName = (parent, child) => {
+  if (parent?.type === 'JSXAttribute') {
+    return staticName(/** @type {LooseNode} */ (parent.name));
+  }
+  if (
+    parent?.type === 'Property' &&
+    parent.value === child &&
+    !parent.computed
+  ) {
+    return staticName(parent.key);
+  }
+  if (parent?.type === 'VariableDeclarator') {
+    return staticName(parent.id);
+  }
+  return undefined;
+};
+
+/**
  * Whether the object is the value of a JSX prop, property or variable named
  * like an `Insets`.
  * @param {Rule.Node} node
@@ -62,17 +85,31 @@ const isInsets = (node) => {
     child = parent;
     parent = parent.parent;
   }
-  const name =
-    parent?.type === 'JSXAttribute'
-      ? staticName(/** @type {LooseNode} */ (parent.name))
-      : parent?.type === 'Property' &&
-          parent.value === child &&
-          !parent.computed
-        ? staticName(parent.key)
-        : parent?.type === 'VariableDeclarator'
-          ? staticName(parent.id)
-          : undefined;
+  const name = ownerName(parent, child);
   return name !== undefined && INSETS_NAME.test(name);
+};
+
+/**
+ * Every statically named key, shorthand or quoted ones included, so a fix
+ * never collides with a logical key already there; and the plain identifier
+ * keys a fix can rename.
+ * @param {Rule.Node & { type: 'ObjectExpression' }} node
+ * @returns {{ names: Set<string>, keys: Map<string, Property> }}
+ */
+const collectKeys = (node) => {
+  const names = new Set();
+  /** @type {Map<string, Property>} */
+  const keys = new Map();
+  for (const p of node.properties) {
+    if (p.type !== 'Property' || p.computed) continue;
+    const name = staticName(/** @type {LooseNode} */ (p.key));
+    if (name === undefined) continue;
+    names.add(name);
+    if (p.key.type === 'Identifier' && !p.shorthand && !p.method) {
+      keys.set(name, p);
+    }
+  }
+  return { names, keys };
 };
 
 /** @type {Rule.RuleModule} */
@@ -92,20 +129,7 @@ const enforceLogicalProperties = {
   create: (context) => ({
     ObjectExpression(node) {
       if (isInsets(node)) return;
-      // Every statically named key, shorthand or quoted ones included, so a
-      // fix never collides with a logical key already there.
-      const names = new Set();
-      /** @type {Map<string, Property>} */
-      const keys = new Map();
-      for (const p of node.properties) {
-        if (p.type !== 'Property' || p.computed) continue;
-        const name = staticName(/** @type {LooseNode} */ (p.key));
-        if (name === undefined) continue;
-        names.add(name);
-        if (p.key.type === 'Identifier' && !p.shorthand && !p.method) {
-          keys.set(name, p);
-        }
-      }
+      const { names, keys } = collectKeys(node);
       // `left` with `right` spans edge to edge, the same in both directions.
       const insets = new Map(
         names.has('left') && names.has('right')
