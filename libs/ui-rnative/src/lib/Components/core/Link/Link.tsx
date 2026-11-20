@@ -73,12 +73,12 @@ const useStyles = ({ appearance, size, underline, pressed }: StyleParams) => {
         // Inline attachments only reserve their own layout box, so the spacing
         // has to be padding on a wrapper — a margin on the icon is dropped.
         leadingIconWrapper: {
-          paddingRight: gap,
+          paddingEnd: gap,
           pointerEvents: 'none',
           transform: [{ translateY: iconOffset }],
         },
         trailingIconWrapper: {
-          paddingLeft: gap,
+          paddingStart: gap,
           pointerEvents: 'none',
           transform: [{ translateY: iconOffset }],
         },

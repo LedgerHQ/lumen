@@ -62,6 +62,8 @@ const useSwitchStyles = ({
         thumbWrapper: {
           position: 'absolute',
           top: t.spacings.s2,
+          // TODO: Temporarily physical on purpose.
+          // eslint-disable-next-line lumen/enforce-logical-properties
           left: t.spacings.s2,
         },
         thumb: StyleSheet.flatten([

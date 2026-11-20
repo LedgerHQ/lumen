@@ -26,7 +26,7 @@ const BackButton: FC<{ onBack: () => void }> = ({ onBack }) => {
       size='sm'
       icon={ArrowLeft}
       onClick={onBack}
-      className='-ml-12 shrink-0'
+      className='-ms-12 shrink-0'
       aria-label={t('components.dialogHeader.goBackAriaLabel')}
     />
   );
@@ -42,7 +42,7 @@ const CloseButton: FC<{ onClose?: () => void }> = ({ onClose }) => {
         size='xs'
         icon={Close}
         onClick={onClose}
-        className='-mr-8 shrink-0'
+        className='-me-8 shrink-0'
         aria-label={t('components.dialogHeader.closeAriaLabel')}
       />
     </DialogClose>
@@ -112,7 +112,7 @@ const DialogHeaderComponent = ({
           {onBack && <BackButton onBack={onBack} />}
           <div
             className={cn('flex min-w-0 flex-1 flex-col', {
-              'pl-40': !onBack,
+              'ps-40': !onBack,
             })}
           >
             {title && (
@@ -133,7 +133,7 @@ const DialogHeaderComponent = ({
         <>
           <div className='flex h-40 flex-row items-center'>
             {onBack && <BackButton onBack={onBack} />}
-            <div className='ml-auto'>
+            <div className='ms-auto'>
               <CloseButton onClose={onClose} />
             </div>
           </div>

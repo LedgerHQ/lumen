@@ -124,7 +124,7 @@ const MenuSubTrigger = ({
     {...props}
   >
     {children}
-    <ChevronRight size={20} className='ml-auto text-muted' />
+    <ChevronRight size={20} className='ms-auto text-muted' />
   </MenuPrimitive.SubmenuTrigger>
 );
 
@@ -234,7 +234,7 @@ const MenuCheckboxItem = ({
         {...props}
       >
         {children}
-        <span className='ml-auto flex size-24 items-center justify-center'>
+        <span className='ms-auto flex size-24 items-center justify-center'>
           <MenuPrimitive.CheckboxItemIndicator>
             <Check disabled={disabled} size={24} className='text-active' />
           </MenuPrimitive.CheckboxItemIndicator>
@@ -280,7 +280,7 @@ const MenuSwitchItem = ({
         {...props}
       >
         {children}
-        <span className='pointer-events-none ml-auto flex'>
+        <span className='pointer-events-none ms-auto flex'>
           <Switch
             selected={checked}
             disabled={disabled}
@@ -315,7 +315,7 @@ const MenuRadioItem = <T extends MenuRadioValue = MenuRadioValue>({
         {...props}
       >
         {children}
-        <span className='ml-auto flex size-24 items-center justify-center'>
+        <span className='ms-auto flex size-24 items-center justify-center'>
           <MenuPrimitive.RadioItemIndicator>
             <Check disabled={disabled} size={24} className='text-active' />
           </MenuPrimitive.RadioItemIndicator>

@@ -264,7 +264,7 @@ const useStyles = ({ density }: StyleParams) => {
           {
             ...(density === 'compact' && {
               position: 'absolute',
-              left: t.spacings.s4,
+              start: t.spacings.s4,
               zIndex: 1,
             }),
           },
@@ -277,13 +277,13 @@ const useStyles = ({ density }: StyleParams) => {
           {
             ...(density === 'compact' && {
               position: 'absolute',
-              right: t.spacings.s4,
+              end: t.spacings.s4,
               zIndex: 1,
             }),
           },
           {
             ...(density === 'expanded' && {
-              marginLeft: 'auto',
+              marginStart: 'auto',
             }),
           },
         ]),

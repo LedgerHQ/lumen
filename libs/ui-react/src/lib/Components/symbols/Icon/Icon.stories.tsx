@@ -126,7 +126,7 @@ export const Gallery: StoryObj = {
           </div>
 
           <div className='mb-4'>
-            <span className='ml-8 body-3 text-muted'>
+            <span className='ms-8 body-3 text-muted'>
               {filteredIcons.length} of {Object.keys(Icons).length} icons
               {searchTerm && ` matching "${searchTerm}"`}
             </span>

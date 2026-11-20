@@ -12,20 +12,20 @@ import type { MediaImageGroupItem, MediaImageGroupProps } from './types';
 
 const mediaImageGroupVariants = {
   slot: cva(
-    'relative flex shrink-0 overflow-hidden bg-base ring-base-inverted first:ml-0',
+    'relative flex shrink-0 overflow-hidden bg-base ring-base-inverted first:ms-0',
     {
       variants: {
         size: {
-          12: '-ml-2 rounded-xs ring',
-          16: '-ml-2 rounded-xs ring',
-          20: '-ml-4 rounded-xs ring',
-          24: '-ml-4 rounded-sm ring',
-          32: '-ml-6 rounded-sm ring',
-          40: '-ml-6 rounded-md ring-2',
-          48: '-ml-8 rounded-md ring-2',
-          56: '-ml-10 rounded-lg ring-2',
-          64: '-ml-12 rounded-lg ring-2',
-          72: '-ml-12 rounded-lg ring-2',
+          12: '-ms-2 rounded-xs ring',
+          16: '-ms-2 rounded-xs ring',
+          20: '-ms-4 rounded-xs ring',
+          24: '-ms-4 rounded-sm ring',
+          32: '-ms-6 rounded-sm ring',
+          40: '-ms-6 rounded-md ring-2',
+          48: '-ms-8 rounded-md ring-2',
+          56: '-ms-10 rounded-lg ring-2',
+          64: '-ms-12 rounded-lg ring-2',
+          72: '-ms-12 rounded-lg ring-2',
         },
         shape: {
           square: '',

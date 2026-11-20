@@ -86,7 +86,7 @@ export const MediaBanner = ({
           appearance='white'
           icon={Close}
           size={16}
-          className='absolute top-8 right-8'
+          className='absolute end-8 top-8'
           onClick={onClose}
           aria-label={closeAriaLabel || t('components.banner.closeAriaLabel')}
         />

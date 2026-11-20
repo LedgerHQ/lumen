@@ -34,7 +34,7 @@ export const Divider = ({
       aria-orientation={orientation}
       className={cn(
         'border-muted-subtle',
-        orientation === 'horizontal' ? 'w-full border-t' : 'h-full border-l',
+        orientation === 'horizontal' ? 'w-full border-t' : 'h-full border-s',
         className,
       )}
       {...props}

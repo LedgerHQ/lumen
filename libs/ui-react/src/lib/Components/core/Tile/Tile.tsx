@@ -270,7 +270,7 @@ export const TileSecondaryAction = ({
   return (
     <InteractiveIcon
       className={cn(
-        'absolute top-8 right-4 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100',
+        'absolute end-4 top-8 opacity-0 transition-opacity duration-200 group-hover:opacity-100 focus-within:opacity-100',
         className,
       )}
       data-secondary-button-container

@@ -55,13 +55,13 @@ const useBaseTagStyles = ({
 
       const mediaPadding = {
         md: {
-          paddingLeft: t.spacings.s4,
-          paddingRight: t.spacings.s8,
+          paddingStart: t.spacings.s4,
+          paddingEnd: t.spacings.s8,
           paddingVertical: t.spacings.s4,
         },
         sm: {
-          paddingLeft: t.spacings.s4,
-          paddingRight: t.spacings.s4,
+          paddingStart: t.spacings.s4,
+          paddingEnd: t.spacings.s4,
           paddingVertical: t.spacings.s2,
         },
       } satisfies Record<Size, object>;

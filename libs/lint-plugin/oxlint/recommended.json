@@ -11,6 +11,32 @@
     "better-tailwindcss/no-conflicting-classes": "error",
     "better-tailwindcss/no-unknown-classes": "error",
     "better-tailwindcss/no-duplicate-classes": "error",
+    "better-tailwindcss/enforce-logical-properties": [
+      "warn",
+      {
+        "ignore": [
+          "^(?:.*:)?!?-?(?:(?:scroll-)?[mp][tb]|top|bottom|border-[tb]|(?:min-|max-)?[wh]|size)(?:-|$)",
+          "^(?:.*:)?!?-?left-(?:1/2|\\[50%\\])$"
+        ]
+      }
+    ],
+    "better-tailwindcss/no-restricted-classes": [
+      "warn",
+      {
+        "restrict": [
+          {
+            "pattern": "^((?:.*:)?!?-?)left-(?!(?:1/2|\\[50%\\])$)(.+)$",
+            "fix": "$1start-$2",
+            "message": "\"$0\" stays on the left in right-to-left locales: use \"$1start-$2\"."
+          },
+          {
+            "pattern": "^((?:.*:)?!?-?)right-(.+)$",
+            "fix": "$1end-$2",
+            "message": "\"$0\" stays on the right in right-to-left locales: use \"$1end-$2\"."
+          }
+        ]
+      }
+    ],
     "no-restricted-imports": [
       "error",
       {

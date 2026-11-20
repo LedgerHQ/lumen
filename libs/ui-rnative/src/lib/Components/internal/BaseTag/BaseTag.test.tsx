@@ -105,15 +105,15 @@ describe('BaseTag Component', () => {
       renderWithProvider(<BaseTag {...baseProps} variant='tag' />);
       const style = screen.getByTestId('base-tag').props.style;
       expect(style.paddingHorizontal).toBeDefined();
-      expect(style.paddingLeft).toBeUndefined();
-      expect(style.paddingRight).toBeUndefined();
+      expect(style.paddingStart).toBeUndefined();
+      expect(style.paddingEnd).toBeUndefined();
     });
 
-    it('should use asymmetric paddingLeft / paddingRight for media variant', () => {
+    it('should use asymmetric paddingStart / paddingEnd for media variant', () => {
       renderWithProvider(<BaseTag {...baseProps} variant='media' />);
       const style = screen.getByTestId('base-tag').props.style;
-      expect(style.paddingLeft).toBeDefined();
-      expect(style.paddingRight).toBeDefined();
+      expect(style.paddingStart).toBeDefined();
+      expect(style.paddingEnd).toBeDefined();
       expect(style.paddingHorizontal).toBeUndefined();
     });
   });

@@ -459,7 +459,7 @@ export const TableGroupHeaderRow = ({
 
 const cellVariants = {
   root: cva(
-    'h-64 truncate p-12 body-3 text-base first:rounded-l-md last:rounded-r-md',
+    'h-64 truncate p-12 body-3 text-base first:rounded-s-md last:rounded-e-md',
     {
       variants: {
         hideBelow: {
@@ -785,7 +785,7 @@ export const TableActionBarTrailing = ({
   return (
     <div
       ref={ref}
-      className={cn('ml-auto flex items-center gap-8', className)}
+      className={cn('ms-auto flex items-center gap-8', className)}
       {...props}
     >
       {children}

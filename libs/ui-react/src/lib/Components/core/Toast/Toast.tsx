@@ -81,14 +81,14 @@ export const Toast = ({
         )
       )}
       <div className='flex min-w-0 flex-1 flex-wrap items-start gap-8'>
-        <div className='min-w-0 flex-auto pt-10 pr-16 last:pb-10'>
+        <div className='min-w-0 flex-auto pe-16 pt-10 last:pb-10'>
           <p className='line-clamp-5 body-2'>{title}</p>
         </div>
         {action && (
           <Button
             appearance='base'
             size='sm'
-            className={cn('shrink-0', hasLeading && '-ml-16')}
+            className={cn('shrink-0', hasLeading && '-ms-16')}
             onClick={action.onAction}
           >
             {action.label}
