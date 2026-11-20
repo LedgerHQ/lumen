@@ -30,7 +30,8 @@
   {
     "repo": "LedgerHQ/device-sdk-ts",
     "status": "internal-tool",
-    "packageJsonPath": "apps/device-mock-server-ui/package.json"
+    "packageJsonPath": "apps/device-mock-server-ui/package.json",
+    "eligible": true
   },
   {
     "repo": "LedgerHQ/app-openpgp",
