@@ -104,7 +104,7 @@ describe('DotCount', () => {
 
     expect(screen.getByTestId('dot-count')).toHaveClass('group/dot-count');
     expect(screen.getByRole('img', { name: '3 notifications' })).toHaveClass(
-      'group-has-data-popup-open/dot-count:z-above-trigger',
+      'group-has-data-popup-open/dot-count:z-above-popup-trigger',
     );
   });
 

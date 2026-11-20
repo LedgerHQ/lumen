@@ -71,7 +71,7 @@ describe('Popover', () => {
       expect(trigger).toHaveAttribute('data-popup-open');
     });
     expect(screen.getByLabelText('New notifications')).toHaveClass(
-      'group-has-data-popup-open/dot-indicator:z-above-trigger',
+      'group-has-data-popup-open/dot-indicator:z-above-popup-trigger',
     );
   });
 
