@@ -1,6 +1,6 @@
-export type LottieData = Record<string, unknown>;
+export type LottieSource = string | number | { uri: string };
 
 export type LottieAnimation = {
-  light: LottieData;
-  dark: LottieData;
+  light: LottieSource;
+  dark: LottieSource;
 };
