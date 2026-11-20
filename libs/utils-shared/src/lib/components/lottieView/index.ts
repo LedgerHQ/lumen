@@ -1,6 +1,7 @@
+export { resolveLottieSource } from './resolveLottieSource';
 export type {
   LottieAnimation,
-  LottieAppearance,
+  LottieColorScheme,
   LottieSource,
   LottieViewBaseProps,
   LottieViewRef,

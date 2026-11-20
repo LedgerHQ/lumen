@@ -1,3 +1,4 @@
+import { resolveLottieSource } from '@ledgerhq/lumen-utils-shared';
 import RNLottieView, {
   type LottieViewProps as RNLottieViewProps,
 } from 'lottie-react-native';
@@ -15,11 +16,11 @@ import type { LottieViewProps } from './types';
  *
  * @example
  * // Looping, forced to its dark variant
- * <LottieView animation={loading} appearance='dark' loop />
+ * <LottieView animation={loading} colorScheme='dark' loop />
  */
 export const LottieView = ({
   animation,
-  appearance,
+  colorScheme,
   autoPlay = true,
   loop = false,
   speed = 1,
@@ -33,15 +34,16 @@ export const LottieView = ({
   testID,
   ref,
 }: LottieViewProps) => {
-  const { colorScheme } = useTheme();
+  const { colorScheme: themeColorScheme } = useTheme();
   const resolvedStyle = useResolveViewStyle(lx);
   const lottieRef = useRef<RNLottieView>(null);
   const hasCompletedRef = useRef(false);
   const wasPausedRef = useRef(paused);
 
-  const resolvedAppearance =
-    appearance ?? (colorScheme === 'light' ? 'light' : 'dark');
-  const source = animation[resolvedAppearance];
+  const source = resolveLottieSource(
+    animation,
+    colorScheme ?? (themeColorScheme === 'light' ? 'light' : 'dark'),
+  );
   const loopsFromJs = loop && onLoop !== undefined;
 
   const restart = (): void => {
