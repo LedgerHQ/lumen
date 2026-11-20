@@ -218,15 +218,15 @@ const useTabBarAnimations = ({
         [0, 1],
         [TAB_BAR_COMPACT_HEIGHT, expandedHeight],
       ),
-      marginLeft: inset,
-      marginRight: inset,
+      marginStart: inset,
+      marginEnd: inset,
     };
   }, [densityProgress, compactInset, expandedHeight]);
 
   const pillStyle = useAnimatedStyle(
     () => ({
       width: `${100 / count}%`,
-      left: `${(pillIndex.value * 100) / count}%`,
+      start: `${(pillIndex.value * 100) / count}%`,
     }),
     [pillIndex, count],
   );

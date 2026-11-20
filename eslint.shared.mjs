@@ -150,13 +150,27 @@ const defineTokenRulesExemptions = () =>
   });
 
 /**
+ * @param {string[]} ignores
+ * @returns {Linter.Config}
+ */
+export const defineLumenReactNativeRules = (ignores) => {
+  const { plugins, rules } = lumen.configs.reactnative.strict;
+  return defineProdRules({
+    name: 'lumen-react-native-rules',
+    plugins,
+    rules,
+    ignores,
+  });
+};
+
+/**
  * Lumen's own React web rules: the `strict` preset that consumers can pick,
  * plus what only the design system itself needs.
  * @param {{ entryPoint: string, tailwindConfig: string }} options
  * @returns {Linter.Config[]}
  */
 export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
-  lumen.configs.strict,
+  lumen.configs.react.strict,
   {
     name: 'lumen-react-rules',
     files: tsJsFilePatterns,

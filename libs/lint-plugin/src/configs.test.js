@@ -10,11 +10,18 @@ import { buildOxlintPresets } from '../scripts/generate-oxlint-json.js';
 
 import eslint from './eslint.js';
 import oxlint from './oxlint.js';
+import lumen from './plugins/lumen.js';
 import {
+  LOGICAL_PROPERTIES_OPTIONS,
   NO_ARBITRARY_VALUES_OPTIONS,
+  NO_RESTRICTED_CLASSES_OPTIONS,
   NO_RESTRICTED_IMPORTS_OPTIONS,
   RULES,
 } from './rules.js';
+
+/** @import { ESLint, Linter } from 'eslint' */
+/** @import { OxlintConfig } from 'oxlint' */
+/** @import { PresetName } from './rules.js' */
 
 /** @param {Record<string, unknown>} rules */
 const levels = (rules) =>
@@ -26,12 +33,14 @@ const levels = (rules) =>
   );
 
 describe('presets', () => {
-  it('recommended is better-tailwindcss’ correctness config plus duplicates, and class-merging imports as errors', () => {
+  it('recommended is better-tailwindcss’ correctness config plus duplicates and class-merging imports as errors, and physical classes as warnings', () => {
     expect(levels(RULES.recommended)).toEqual({
       'better-tailwindcss/no-unknown-classes': 'error',
       'better-tailwindcss/no-conflicting-classes': 'error',
       'better-tailwindcss/no-concatenated-classes': 'error',
       'better-tailwindcss/no-duplicate-classes': 'error',
+      'better-tailwindcss/enforce-logical-properties': 'warn',
+      'better-tailwindcss/no-restricted-classes': 'warn',
       'no-restricted-imports': 'error',
     });
   });
@@ -47,29 +56,44 @@ describe('presets', () => {
       'better-tailwindcss/no-duplicate-classes': 'error',
       'better-tailwindcss/no-unnecessary-whitespace': 'error',
       'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/enforce-logical-properties': 'error',
+      'better-tailwindcss/no-restricted-classes': 'error',
       'shadcn/no-arbitrary-values': 'warn',
       'shadcn/no-inline-styles': 'warn',
       'no-restricted-imports': 'error',
     });
   });
 
-  it.each(['recommended', 'strict'])(
-    '%s only names rules the plugins or ESLint core really have',
-    (preset) => {
-      const known = [
-        ...Object.keys(betterTailwindcss.rules ?? {}).map(
-          (rule) => `better-tailwindcss/${rule}`,
-        ),
-        ...Object.keys(shadcn.rules ?? {}).map((rule) => `shadcn/${rule}`),
-        ...builtinRules.keys(),
-      ];
-      for (const id of Object.keys(
-        RULES[/** @type {'recommended' | 'strict'} */ (preset)],
-      )) {
-        expect(known).toContain(id);
-      }
-    },
-  );
+  it("react-native-recommended warns with Lumen's own logical-properties rule", () => {
+    expect(levels(RULES['react-native-recommended'])).toEqual({
+      'lumen/enforce-logical-properties': 'warn',
+    });
+  });
+
+  it("react-native-strict is Lumen's own logical-properties rule only", () => {
+    expect(levels(RULES['react-native-strict'])).toEqual({
+      'lumen/enforce-logical-properties': 'error',
+    });
+  });
+
+  it.each([
+    'recommended',
+    'strict',
+    'react-native-recommended',
+    'react-native-strict',
+  ])('%s only names rules the plugins or ESLint core really have', (preset) => {
+    const known = [
+      ...Object.keys(betterTailwindcss.rules ?? {}).map(
+        (rule) => `better-tailwindcss/${rule}`,
+      ),
+      ...Object.keys(shadcn.rules ?? {}).map((rule) => `shadcn/${rule}`),
+      ...Object.keys(lumen.rules ?? {}).map((rule) => `lumen/${rule}`),
+      ...builtinRules.keys(),
+    ];
+    for (const id of Object.keys(RULES[/** @type {PresetName} */ (preset)])) {
+      expect(known).toContain(id);
+    }
+  });
 
   it('points every class-merging import at Lumen’s cn', () => {
     expect(RULES.recommended['no-restricted-imports']).toEqual([
@@ -95,6 +119,8 @@ describe('presets', () => {
       expect(Object.isFrozen(options.componentImports)).toBe(true);
     }
     expect(Object.isFrozen(NO_RESTRICTED_IMPORTS_OPTIONS.paths)).toBe(true);
+    expect(Object.isFrozen(LOGICAL_PROPERTIES_OPTIONS.ignore)).toBe(true);
+    expect(Object.isFrozen(NO_RESTRICTED_CLASSES_OPTIONS.restrict)).toBe(true);
   });
 
   it('leave the selectors to better-tailwindcss’ defaults', () => {
@@ -102,16 +128,23 @@ describe('presets', () => {
   });
 });
 
+/** @type {[PresetName, 'react' | 'reactnative', 'recommended' | 'strict', string[]][]} */
+const PRESET_PLUGINS = [
+  ['recommended', 'react', 'recommended', ['better-tailwindcss', 'shadcn']],
+  ['strict', 'react', 'strict', ['better-tailwindcss', 'shadcn']],
+  ['react-native-recommended', 'reactnative', 'recommended', ['lumen']],
+  ['react-native-strict', 'reactnative', 'strict', ['lumen']],
+];
+
 describe('ESLint entry', () => {
-  it.each(['recommended', 'strict'])(
-    'registers both plugins with the %s rules and no settings',
-    (preset) => {
-      const name = /** @type {'recommended' | 'strict'} */ (preset);
-      const config = eslint.configs[name];
-      expect(Object.keys(config.plugins ?? {})).toEqual([
-        'better-tailwindcss',
-        'shadcn',
-      ]);
+  it.each(PRESET_PLUGINS)(
+    'registers the %s plugins with its rules and no settings',
+    (name, platform, level, plugins) => {
+      const config =
+        /** @type {Record<string, Record<string, Linter.Config>>} */ (
+          eslint.configs
+        )[platform][level];
+      expect(Object.keys(config.plugins ?? {})).toEqual(plugins);
       expect(config.rules).toEqual(RULES[name]);
       expect(config.files).toEqual(['**/*.{js,jsx,mjs,cjs,ts,tsx,mts,cts}']);
       expect(config).not.toHaveProperty('settings');
@@ -120,14 +153,16 @@ describe('ESLint entry', () => {
 });
 
 describe('oxlint entry', () => {
-  it.each(['recommended', 'strict'])(
-    'loads both plugins from absolute paths with the %s rules',
-    (preset) => {
-      const name = /** @type {'recommended' | 'strict'} */ (preset);
-      const config = oxlint.configs[name];
+  it.each(PRESET_PLUGINS)(
+    'loads the %s plugins from absolute paths with its rules',
+    (name, platform, level, plugins) => {
+      const config =
+        /** @type {Record<string, Record<string, OxlintConfig>>} */ (
+          oxlint.configs
+        )[platform][level];
       expect(
         config.jsPlugins?.map((p) => typeof p !== 'string' && p.name),
-      ).toEqual(['better-tailwindcss', 'shadcn']);
+      ).toEqual(plugins);
       for (const plugin of config.jsPlugins ?? []) {
         const specifier =
           typeof plugin === 'string' ? plugin : plugin.specifier;
@@ -187,55 +222,47 @@ describe('README rules table', () => {
     ['⚠️', 'warn'],
     ['', 'off'],
   ]);
-  const PLUGINS = /** @type {const} */ ([
-    ['better-tailwindcss', betterTailwindcss],
-    ['shadcn', shadcn],
-  ]);
+  /** @type {[string, ESLint.Plugin, PresetName[]][]} */
+  const PLUGINS = [
+    ['better-tailwindcss', betterTailwindcss, ['recommended', 'strict']],
+    ['shadcn', shadcn, ['recommended', 'strict']],
+    ['lumen', lumen, ['react-native-recommended', 'react-native-strict']],
+  ];
   const rows = new Map(
     [
       ...readFileSync(
         new URL('../README.md', import.meta.url),
         'utf8',
-      ).matchAll(
-        /^\| \[`([^`]+)`\]\((\S+)\)\s*\|([^|]*)\|([^|]*)\|([^|]*)\|/gm,
-      ),
-    ].map(([, rule, url, recommended, strict, fix]) => {
-      const plugin = url.includes('shadcn') ? 'shadcn' : 'better-tailwindcss';
-      return [
-        `${plugin}/${rule}`,
-        {
-          url,
-          recommended: ICONS.get(recommended.trim()),
-          strict: ICONS.get(strict.trim()),
-          fixable: fix.trim() === '🔧',
-        },
-      ];
-    }),
+      ).matchAll(/^\| \[`([^`]+)`\]\((\S+)\)\s*\|(.*)\|\s*$/gm),
+    ].map(([, rule, url, rest]) => [
+      url,
+      { rule, cells: rest.split('|').map((cell) => cell.trim()) },
+    ]),
   );
-  const allRules = PLUGINS.flatMap(([plugin, { rules = {} }]) =>
-    Object.entries(rules).map(([rule, { meta }]) => ({
+  const allRules = PLUGINS.flatMap(([plugin, { rules = {} }, presets]) =>
+    Object.entries(rules).map(([rule, module]) => ({
       id: `${plugin}/${rule}`,
-      meta,
+      rule,
+      meta: typeof module === 'function' ? undefined : module.meta,
+      presets,
     })),
   );
 
-  it('lists every rule of both plugins, and nothing else', () => {
+  it('lists every rule of the plugins, and nothing else', () => {
     expect([...rows.keys()].sort()).toEqual(
-      allRules.map(({ id }) => id).sort(),
+      allRules.map(({ meta }) => meta?.docs?.url).sort(),
     );
   });
 
   it.each(allRules)(
-    '$id: docs link, levels and fixable match',
-    ({ id, meta }) => {
-      /** @param {Record<string, unknown>} rules */
-      const levelOf = (rules) => levels(rules)[id] ?? 'off';
-      expect(rows.get(id)).toEqual({
-        url: meta?.docs?.url,
-        recommended: levelOf(RULES.recommended),
-        strict: levelOf(RULES.strict),
-        fixable: Boolean(meta?.fixable),
-      });
+    '$id: name, levels and fixable match',
+    ({ id, rule, meta, presets }) => {
+      const row = rows.get(meta?.docs?.url ?? '');
+      expect(row?.rule).toBe(rule);
+      expect(presets.map((_, i) => ICONS.get(row?.cells[i] ?? ''))).toEqual(
+        presets.map((preset) => levels(RULES[preset])[id] ?? 'off'),
+      );
+      expect(row?.cells[presets.length] === '🔧').toBe(Boolean(meta?.fixable));
     },
   );
 });

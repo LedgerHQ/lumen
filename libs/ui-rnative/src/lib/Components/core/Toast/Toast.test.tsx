@@ -92,7 +92,7 @@ describe('Toast', () => {
         </TestWrapper>,
       );
       expect(
-        StyleSheet.flatten(getByTestId('toast-action').props.style).marginLeft,
+        StyleSheet.flatten(getByTestId('toast-action').props.style).marginStart,
       ).toBeUndefined();
     });
 
@@ -107,7 +107,7 @@ describe('Toast', () => {
         </TestWrapper>,
       );
       expect(
-        StyleSheet.flatten(getByTestId('toast-action').props.style).marginLeft,
+        StyleSheet.flatten(getByTestId('toast-action').props.style).marginStart,
       ).toBe(-16);
     });
 
@@ -122,7 +122,7 @@ describe('Toast', () => {
         </TestWrapper>,
       );
       expect(
-        StyleSheet.flatten(getByTestId('toast-action').props.style).marginLeft,
+        StyleSheet.flatten(getByTestId('toast-action').props.style).marginStart,
       ).toBe(-16);
     });
   });

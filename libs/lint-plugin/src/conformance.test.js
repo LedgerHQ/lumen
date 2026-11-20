@@ -26,7 +26,7 @@ const oxlintBin = join(
   'bin',
   'oxlint',
 );
-const OUR_PLUGINS = new Set(['better-tailwindcss', 'shadcn']);
+const OUR_PLUGINS = new Set(['better-tailwindcss', 'shadcn', 'lumen']);
 const OUR_CORE_RULES = new Set(['no-restricted-imports']);
 
 /** @param {string} name */
@@ -158,17 +158,19 @@ const ruleIds = (entries) =>
 describe('every way of setting the presets up reports the same diagnostics', () => {
   const page = fixture('src/page.web.tsx');
 
-  it('recommended: the core only', async () => {
+  it('recommended: the core, and physical classes as warnings', async () => {
     const [eslint, json] = await Promise.all([
-      lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.react.recommended, tailwindSettings]),
       lintWithOxlint(oxlintrc('recommended.json'), page),
     ]);
 
     expect(json).toEqual(eslint);
     expect(eslint).toEqual([
+      'better-tailwindcss/enforce-logical-properties:15:warn',
       'better-tailwindcss/no-concatenated-classes:11:error',
       'better-tailwindcss/no-conflicting-classes:9:error',
       'better-tailwindcss/no-conflicting-classes:9:error',
+      'better-tailwindcss/no-restricted-classes:16:warn',
       'better-tailwindcss/no-unknown-classes:12:error',
       'better-tailwindcss/no-unknown-classes:7:error',
       'no-restricted-imports:3:error',
@@ -177,8 +179,8 @@ describe('every way of setting the presets up reports the same diagnostics', () 
 
   it('strict: a few more rules, and class-merging imports raised', async () => {
     const [recommended, strict, oxlint, json] = await Promise.all([
-      lintWithEslint(page, [lumen.configs.recommended, tailwindSettings]),
-      lintWithEslint(page, [lumen.configs.strict, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.react.recommended, tailwindSettings]),
+      lintWithEslint(page, [lumen.configs.react.strict, tailwindSettings]),
       lintWithOxlint(fixture('oxlint.config.ts'), page),
       lintWithOxlint(oxlintrc('strict.json'), page),
     ]);
@@ -193,6 +195,16 @@ describe('every way of setting the presets up reports the same diagnostics', () 
         'no-restricted-imports:3:error',
       ]),
     );
+    expect(
+      strict.filter((e) =>
+        e.startsWith('better-tailwindcss/enforce-logical-properties'),
+      ),
+    ).toEqual(['better-tailwindcss/enforce-logical-properties:15:error']);
+    expect(
+      strict.filter((e) =>
+        e.startsWith('better-tailwindcss/no-restricted-classes'),
+      ),
+    ).toEqual(['better-tailwindcss/no-restricted-classes:16:error']);
     // Every core rule still reports; strict only adds rules.
     expect(ruleIds(strict)).toEqual(
       expect.arrayContaining(ruleIds(recommended)),
@@ -207,7 +219,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     };
     const [eslint, json] = await Promise.all([
       lintWithEslint(page, [
-        lumen.configs.recommended,
+        lumen.configs.react.recommended,
         tailwindSettings,
         { rules },
       ]),
@@ -231,7 +243,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     };
     const [eslint, json] = await Promise.all([
       lintWithEslint(page, [
-        lumen.configs.recommended,
+        lumen.configs.react.recommended,
         tailwindSettings,
         { rules },
       ]),
@@ -242,6 +254,38 @@ describe('every way of setting the presets up reports the same diagnostics', () 
     expect(eslint).toContain('no-restricted-imports:3:error');
   });
 
+  it('react-native-recommended: the same keys, as warnings', async () => {
+    const styles = fixture('src/styles.native.tsx');
+    const [eslint, json] = await Promise.all([
+      lintWithEslint(styles, [lumen.configs.reactnative.recommended]),
+      lintWithOxlint(oxlintrc('react-native-recommended.json'), styles),
+    ]);
+
+    expect(json).toEqual(eslint);
+    expect(eslint).toEqual([
+      'lumen/enforce-logical-properties:2:warn',
+      'lumen/enforce-logical-properties:3:warn',
+      'lumen/enforce-logical-properties:5:warn',
+    ]);
+  });
+
+  it('react-native-strict: start/end style keys, without Tailwind', async () => {
+    const styles = fixture('src/styles.native.tsx');
+    const [eslint, oxlint, json] = await Promise.all([
+      lintWithEslint(styles, [lumen.configs.reactnative.strict]),
+      lintWithOxlint(fixture('oxlint.native.config.ts'), styles),
+      lintWithOxlint(oxlintrc('react-native-strict.json'), styles),
+    ]);
+
+    expect(oxlint).toEqual(eslint);
+    expect(json).toEqual(eslint);
+    expect(eslint).toEqual([
+      'lumen/enforce-logical-properties:2:error',
+      'lumen/enforce-logical-properties:3:error',
+      'lumen/enforce-logical-properties:5:error',
+    ]);
+  });
+
   it('a consumer scopes a preset to some files with its own glob', async () => {
     const dir = fixture('src');
     const options = { withFile: true };
@@ -249,7 +293,7 @@ describe('every way of setting the presets up reports the same diagnostics', () 
       lintWithEslint(
         dir,
         [
-          { ...lumen.configs.strict, files: ['**/*.web.{ts,tsx}'] },
+          { ...lumen.configs.react.strict, files: ['**/*.web.{ts,tsx}'] },
           tailwindSettings,
         ],
         options,

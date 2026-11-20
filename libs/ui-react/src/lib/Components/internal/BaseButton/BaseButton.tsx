@@ -138,7 +138,7 @@ export const BaseButton = ({
         (asChild ? (
           <Slottable>{children}</Slottable>
         ) : (
-          <span className='line-clamp-2 text-left'>{children}</span>
+          <span className='line-clamp-2 text-start'>{children}</span>
         ))}
     </Comp>
   );
