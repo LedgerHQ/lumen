@@ -1,6 +1,6 @@
 export type {
   LottieAnimation,
-  LottieAppearance,
+  LottieColorScheme,
   LottieSource,
   LottieViewRef,
 } from '@ledgerhq/lumen-utils-shared';

@@ -41,9 +41,15 @@ describe('LottieView', () => {
     expect(screen.getByTestId('lottie').props.source).toBe(animation.light);
   });
 
-  it('plays the forced appearance over the theme', () => {
-    renderLottie({ appearance: 'light' }, 'dark');
+  it('plays the forced color scheme over the theme', () => {
+    renderLottie({ colorScheme: 'light' }, 'dark');
     expect(screen.getByTestId('lottie').props.source).toBe(animation.light);
+  });
+
+  it('plays a single source whatever the theme', () => {
+    const source = { uri: 'https://example.com/single.lottie' };
+    renderLottie({ animation: source }, 'light');
+    expect(screen.getByTestId('lottie').props.source).toBe(source);
   });
 
   it('applies the playback defaults', () => {

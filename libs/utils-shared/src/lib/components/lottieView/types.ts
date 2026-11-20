@@ -1,18 +1,18 @@
 export type LottieSource = string | number | { uri: string };
 
-export type LottieAppearance = 'light' | 'dark';
+export type LottieColorScheme = 'light' | 'dark';
 
-export type LottieAnimation = Record<LottieAppearance, LottieSource>;
+export type LottieAnimation = Record<LottieColorScheme, LottieSource>;
 
 export type LottieViewBaseProps = {
   /**
-   * The animation to play, with a variant per appearance.
+   * The animation to play: a single source, or a variant per color scheme.
    */
-  animation: LottieAnimation;
+  animation: LottieSource | LottieAnimation;
   /**
-   * Forces light or dark. Follows the theme by default.
+   * Forces the light or dark variant. Follows the theme by default.
    */
-  appearance?: LottieAppearance;
+  colorScheme?: LottieColorScheme;
   /**
    * Plays as soon as it loads.
    * @default true
@@ -42,7 +42,8 @@ export type LottieViewBaseProps = {
    */
   onComplete?: () => void;
   /**
-   * Called each time the animation loops.
+   * Called each time the animation loops. On React Native, setting it replays
+   * each loop from JS instead of looping natively.
    */
   onLoop?: () => void;
   /**
