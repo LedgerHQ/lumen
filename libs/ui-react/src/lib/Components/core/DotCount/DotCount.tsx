@@ -29,7 +29,7 @@ const dotCountVariants = cva(
         false: '',
       },
       pinned: {
-        true: 'absolute end-0 top-0 z-1 group-has-data-popup-open/dot-count:z-trigger-indicator',
+        true: 'absolute end-0 top-0 z-1 group-has-data-popup-open/dot-count:z-above-trigger',
         false: '',
       },
     },

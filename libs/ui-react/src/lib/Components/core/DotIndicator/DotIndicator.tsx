@@ -29,7 +29,7 @@ const dotIndicatorVariants = cva('pointer-events-none rounded-full', {
       false: '',
     },
     pinned: {
-      true: 'absolute end-0 top-0 z-1 group-has-data-popup-open/dot-indicator:z-trigger-indicator',
+      true: 'absolute end-0 top-0 z-1 group-has-data-popup-open/dot-indicator:z-above-trigger',
       false: '',
     },
   },

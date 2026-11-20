@@ -89,11 +89,11 @@ describe('createPrimitivesPlugin', () => {
       zIndex: Record<string, string>;
     };
 
-    expect(Number(zIndex['trigger-indicator'])).toBeGreaterThan(
+    expect(Number(zIndex['above-trigger'])).toBeGreaterThan(
       Number(zIndex.menu),
     );
     expect(Number(zIndex.toast)).toBeGreaterThan(
-      Number(zIndex['trigger-indicator']),
+      Number(zIndex['above-trigger']),
     );
   });
 });
