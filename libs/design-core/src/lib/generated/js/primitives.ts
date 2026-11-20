@@ -2154,7 +2154,7 @@ export const coreTokens = {
   blur: {
     sm: 8,
     md: 12,
-    lg: 64,
+    lg: 16,
     xl: 24,
   },
   breakpoints: {
@@ -2239,7 +2239,7 @@ export const coreTokens = {
         offsetY: 25,
         blurRadius: 50,
         spreadDistance: -12,
-        color: '#00000033',
+        color: '#00000040',
       },
     ],
   },

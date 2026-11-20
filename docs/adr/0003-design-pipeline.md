@@ -157,13 +157,13 @@ flowchart TD
   end
   subgraph S1["① internals/sync-figma — only code that knows Figma"]
     XT["extract/tokens<br/>variables → DTCG"]
-    XI["extract/icons<br/>canvas → SVG + icons.json"]
+    XI["extract/icons<br/>canvas → SVG + downloadData.json"]
     WB["write-back/codeSyntax"]
   end
   subgraph SRC["Source files (committed)"]
     TF["design-sources/tokens/figma/*.tokens.json"]
     TC["design-sources/tokens/code/*.tokens.json<br/>hand-written"]
-    IS["design-sources/icons/*.svg + icons.json"]
+    IS["design-core/symbols/icons/*.svg<br/>published as exported"]
   end
   subgraph S2["② internals/design-sources — normalize + validate, in memory"]
     TM["TokenModel"]
@@ -171,11 +171,11 @@ flowchart TD
   end
   subgraph S3["③ internals/design-build — one pure function per output"]
     OT["tokens: css · tailwind · js · codeSyntax"]
-    OI["icons: svg · react · rnative"]
+    OI["icons: react · rnative"]
   end
   subgraph OUT["Outputs (committed)"]
-    G["design-core/src/lib/generated/{css,tailwind,js}"]
-    SY["design-core/symbols/icons + ui-* symbols"]
+    G["design-core/src/lib/generated/{css,js} · themes/{css,tailwind}"]
+    SY["ui-* symbols"]
   end
   FV --> XT --> TF
   FS --> XI --> IS
@@ -187,11 +187,11 @@ flowchart TD
   OT -.->|"code-syntax file"| WB --> FV
 ```
 
-| Stage | Project                    | Job                                                                                                                  | May import                  | Writes to                                          | Nx targets                                    |
-| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------------------------- | --------------------------------------------- |
-| ①     | `internals/sync-figma`     | Figma REST client; extract tokens and icons; upload code syntax                                                      | `design-sources` types only | `design-sources/` source files; Figma (write-back) | `extract --kind=tokens\|icons`, `code-syntax` |
-| ②     | `internals/design-sources` | Hold the source files; load → merge → validate → resolve aliases → expand brand × theme × breakpoint; validate icons | nothing internal            | nothing                                            | `validate`, `test`                            |
-| ③     | `internals/design-build`   | Turn the model into every output file; write + prune + format; `--check` against git; diff report                    | `design-sources`            | generated folders in `libs/*`                      | `tokens`, `icons`, `check`, `test`            |
+| Stage | Project                    | Job                                                                                                                  | May import                  | Writes to                        | Nx targets                                    |
+| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------- | --------------------------------------------- |
+| ①     | `internals/sync-figma`     | Figma REST client; extract tokens and icons; upload code syntax                                                      | `design-sources` types only | source files; Figma (write-back) | `extract --kind=tokens\|icons`, `code-syntax` |
+| ②     | `internals/design-sources` | Hold the source files; load → merge → validate → resolve aliases → expand brand × theme × breakpoint; validate icons | nothing internal            | nothing                          | `validate`, `test`                            |
+| ③     | `internals/design-build`   | Turn the model into every output file; write + prune + format; `--check` against git; diff report                    | `design-sources`            | generated folders in `libs/*`    | `tokens`, `icons`, `check`, `test`            |
 
 Nothing imports ①. The import rules are enforced by Nx tags and
 `depConstraints`, like the existing `scope:internal` rule.
@@ -241,12 +241,12 @@ hand-written `lumen.css` out of the Tailwind target's prune.
 
 #### Where each kind of value lives
 
-| Kind                                                                              | Examples                                                                                       | Lives in                                                                            |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| Values designers own in Figma                                                     | colors, spacing, sizes, radius, typography, icon and spot sizes, durations, easings            | `design-sources/tokens/figma/` (written by ①)                                       |
-| Values designers own that Figma variables can't hold, or that both platforms need | shadows, extra sizes, border widths, the durations Figma lacks, delays, breakpoint min-widths  | `design-sources/tokens/code/` as DTCG `shadow`, `dimension`, `duration`             |
-| Mappings from Tailwind class names to variables                                   | `.heading-0 { font-size: var(--font-style-heading-0-size) … }`, theme color keys, spacing keys | generated by ③ into `design-core/tailwind/theme.css` and the per-brand entries      |
-| CSS behavior with no design value and no React Native equivalent                  | dark variant, keyframe shapes, web `zIndex` layers, scrollbar, mask and gradient geometry      | hand-written in `design-core/tailwind/lumen.css`, imported by every generated entry |
+| Kind                                                                              | Examples                                                                                       | Lives in                                                                                   |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Values designers own in Figma                                                     | colors, spacing, sizes, radius, typography, icon and spot sizes, durations, easings            | `design-sources/tokens/figma/` (written by ①)                                              |
+| Values designers own that Figma variables can't hold, or that both platforms need | shadows, extra sizes, border widths, the durations Figma lacks, delays, breakpoint min-widths  | `design-sources/tokens/code/` as DTCG `shadow`, `dimension`, `duration`                    |
+| Mappings from Tailwind class names to variables                                   | `.heading-0 { font-size: var(--font-style-heading-0-size) … }`, theme color keys, spacing keys | generated by ③ into `design-core/themes/tailwind/theme.css` and the per-brand entries      |
+| CSS behavior with no design value and no React Native equivalent                  | dark variant, keyframe shapes, web `zIndex` layers, scrollbar, mask and gradient geometry      | hand-written in `design-core/themes/tailwind/lumen.css`, imported by every generated entry |
 
 The rule: a value goes to `design-sources` if designers own it or more than one
 platform needs it. Code that only wires tokens into Tailwind stays in
@@ -298,9 +298,6 @@ internals/
 │  ├─ tokens/
 │  │  ├─ figma/*.tokens.json   written by ①, never edited
 │  │  └─ code/*.tokens.json    hand-written
-│  ├─ icons/
-│  │  ├─ *.svg                 written by ①, never edited
-│  │  └─ icons.json
 │  └─ src/
 │     ├─ tokens/               load, validate, standard (Terrazzo), model
 │     └─ icons/                naming, validate
@@ -315,28 +312,34 @@ internals/
       │  ├─ check.ts           --check against git
       │  └─ diffReport.ts
       ├─ tokens/
-      │  ├─ css.ts  js.ts  tailwindV4.ts  codeSyntax.ts
-      │  ├─ layers.ts             brand × theme and breakpoint layers
-      │  ├─ naming.ts  cssLayers.ts  selections.ts   shared helpers
-      │  └─ tailwindBlocks.ts  typography, shadow and motion pieces
+      │  ├─ cssThemes.ts  js.ts  tailwind.ts  codeSyntax.ts  cssVarNames.ts
+      │  ├─ groups.ts             where each token group goes
+      │  ├─ modes.ts              breakpoints, brand × theme, built collections
+      │  ├─ naming.ts  cssLayers.ts   shared helpers
+      │  └─ tailwindBlocks.ts  typography and motion pieces
       └─ icons/
-         └─ svg.ts  components.ts   react and rnative via svgr + svgo
+         └─ components.ts      react and rnative via svgr + svgo
 
 libs/design-core/
 ├─ src/lib/
 │  ├─ generated/               written by ③, never edited
-│  │  ├─ css/                  today's themes/css
+│  │  ├─ css/                  the CSSVarName type cssVar checks names against
 │  │  └─ js/                   today's themes/js (ticket 4)
-│  └─ tailwind/                the Tailwind snapshot test
-├─ tailwind/                   published as ./tailwind/* (ticket 8)
-│  ├─ theme.css                written by ③
-│  ├─ <brand>.css              written by ③, one per brand + all-brands.css
-│  └─ lumen.css                hand-written wiring
-└─ symbols/icons/              published as ./symbols/*, path unchanged
+│  └─ tailwind/                the Tailwind class test
+├─ themes/                     published as ./themes/*
+│  ├─ css/<brand>.css          written by ③: plain CSS variables, any web app
+│  └─ tailwind/                Tailwind v4 theme (ticket 8)
+│     ├─ theme.css             written by ③
+│     ├─ <brand>.css           written by ③, one per brand + all-brands.css:
+│     │                        theme.css + css/<brand>.css in the base layer
+│     └─ lumen.css             hand-written wiring
+└─ symbols/icons/              published as ./symbols/*, path unchanged: the
+                               icon sources, written by ① (*.svg +
+                               downloadData.json), never edited
 ```
 
 Package exports stay `.`, `./cn` and `./symbols/*`, so moving folders under
-`src/` is invisible to consumers; ticket 8 adds `./tailwind/*`. The `dist/`
+`src/` is invisible to consumers; ticket 8 adds `themes/tailwind/`. The `dist/`
 restructure (DLS-919) is a separate change.
 
 #### How a sync runs
@@ -518,13 +521,13 @@ libs touched.
 
 Move the icon flow onto the three stages, with the same output as today.
 
-- ① `extract/icons`: SVGs plus `icons.json` (Figma node ids, last modified)
-  into `design-sources/icons/`, with write + prune instead of clearing the
-  folder.
+- ① `extract/icons`: SVGs plus `downloadData.json` (Figma node ids, last
+  modified) into `design-core/symbols/icons/`, with write + prune instead of
+  clearing the folder. The SVGs are published as exported, so the published
+  folder is their source rather than a second copy.
 - ② icon model: naming and validation (`viewBox`, `currentColor`, no stray
   fills).
-- ③ outputs: `svg` (published path unchanged), `react`, `rnative`, reusing the
-  existing svgr templates (svgr runs svgo, in design-build), formatted by the
+- ③ outputs: `react`, `rnative`, reusing the existing svgr templates (svgr runs svgo, in design-build), formatted by the
   writer.
 - Delete `figmaDownloadSvgs.ts`, `generate-symbols.mts` and the workflow's
   `lint --fix` step.
@@ -578,7 +581,9 @@ Lumen is on Tailwind v4 but ships its theme as a JS preset loaded with
 - One file per brand, or one file with a brand selector (to decide).
 - One shared generated `theme.css`, a small entry per brand and
   `all-brands.css` (brand classes on a parent), plus a hand-written
-  `lumen.css` for the utilities and variants that are not tokens.
+  `lumen.css` for the utilities and variants that are not tokens. An entry
+  imports the plain CSS theme of the same name into the base layer, so the
+  variables are written once.
 - Generated first alongside the preset and checked against it, then the preset
   and its plugins are removed in the same epic (decided on 2026-11-09):
   `ui-react` moves to the CSS, and the consumer migration (`@config` →
@@ -648,9 +653,11 @@ consumer migration steps are written down; version plan for
   `Pressed`, `gradient overlay`, `size 2` in the token files, and the
   ` nested`, `ai bubble` and `auto-Lock` icons; the two chevron icons hard-code
   `#D5D5D5`.
-- **Design (values kept as they are until decided):** `blur.lg` (Figma 16, the
-  React Native TabBar 64) and the `shadow-2xl` color (25% web, 20% mobile),
-  both listed in `design-build/src/tokens/pendingDecisions.ts`; the four motion
+- **Design (decided 2026-11-17):** React Native follows the tokens for
+  `blur.lg` (16) and the `shadow-2xl` color (25%). The TabBar keeps its blur
+  intensity of 64 locally: `blurAmount` is an intensity from 0 to 100, not
+  the pixel radius the token holds.
+- **Design (values kept as they are until decided):** the four motion
   mismatches; the web `ease-in` / `ease-out` keywords, which are not the Lumen
   easing tokens.
 - **Design (next Figma sync):** the live file has moved on since the recorded

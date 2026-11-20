@@ -1,11 +1,12 @@
-import { createTokenModel } from '@lumen/design-sources';
-import type { CodeSyntaxFile } from '@lumen/design-sources';
+import { type CodeSyntaxFile, createTokenModel } from '@lumen/design-sources';
 import { describe, expect, it } from 'vitest';
 import { codeSyntaxTarget } from './codeSyntax.js';
-import { cssTarget } from './css.js';
+import { cssLayers } from './cssLayers.js';
+import { orderedBreakpoints } from './modes.js';
+import { cssVariableName } from './naming.js';
 
 describe('codeSyntaxTarget', () => {
-  it('gives Dev Mode exactly the CSS variable names the CSS target writes', async () => {
+  it('gives Dev Mode exactly the CSS variable names the CSS outputs write', async () => {
     const model = createTokenModel();
     const [file] = await codeSyntaxTarget('out').emit(model);
     const syntax = JSON.parse(file.contents) as CodeSyntaxFile;
@@ -15,12 +16,21 @@ describe('codeSyntaxTarget', () => {
       ),
     );
 
+    // Dev Mode only shows Figma variables: hand-written tokens (shadows) aren't in it.
+    const codeOnly = new Set(
+      model
+        .tokens(model.sources.filter(({ origin }) => origin === 'code'))
+        .map(({ path }) => cssVariableName(path)),
+    );
+    const layers = cssLayers(model, orderedBreakpoints(model));
     const cssNames = new Set(
-      (await cssTarget('out').emit(model))
-        .filter(({ path }) => path !== 'index.ts')
-        .flatMap(({ contents }) =>
-          [...contents.matchAll(/"(--[a-z0-9-]+)":/g)].map(([, name]) => name),
-        ),
+      [
+        layers.primitives,
+        ...layers.themes.map(({ declarations }) => declarations),
+        ...layers.breakpoints.map(({ declarations }) => declarations),
+      ]
+        .flatMap(Object.keys)
+        .filter((name) => !codeOnly.has(name)),
     );
 
     expect([...cssNames].filter((name) => !devModeNames.has(name))).toEqual([]);

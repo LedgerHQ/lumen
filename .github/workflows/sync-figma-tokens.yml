@@ -76,12 +76,6 @@ jobs:
       - name: Build token outputs
         run: npx nx run design-build:tokens
 
-      # The snapshot hashes token values, so every value change from Figma
-      # moves it. The diff report and the removal gate review those changes;
-      # the snapshot is there for hand edits to the Tailwind theme.
-      - name: Refresh the Tailwind snapshot
-        run: npx nx run @ledgerhq/lumen-design-core:test -- -u tailwind.snapshot
-
       - name: Write the diff report
         run: |
           mkdir -p "$RUNNER_TEMP/report"

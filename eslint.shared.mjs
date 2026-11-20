@@ -152,10 +152,11 @@ const defineTokenRulesExemptions = () =>
 /**
  * Lumen's own React web rules: the `strict` preset that consumers can pick,
  * plus what only the design system itself needs.
- * @param {{ entryPoint: string, tailwindConfig: string }} options
+ * @param {{ entryPoint: string }} options The Tailwind v4 stylesheet the lint
+ *   resolves classes against.
  * @returns {Linter.Config[]}
  */
-export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
+export const defineLumenReactRules = ({ entryPoint }) => [
   lumen.configs.strict,
   {
     name: 'lumen-react-rules',
@@ -163,7 +164,6 @@ export const defineLumenReactRules = ({ entryPoint, tailwindConfig }) => [
     settings: {
       'better-tailwindcss': {
         entryPoint,
-        tailwindConfig,
         // Lumen components take `containerClassName`-style props. Setting
         // selectors replaces the defaults, so they are spread first.
         selectors: [

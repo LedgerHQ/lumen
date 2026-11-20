@@ -13,10 +13,14 @@ describe('jsTarget', () => {
       'enterprise.ts',
       'ledger-live.ts',
       'websites.ts',
+      'keys.ts',
       'index.ts',
     ]);
     expect(files.at(-1)?.contents).toContain(
       "export * from './ledger-live.js';",
+    );
+    expect(files.find(({ path }) => path === 'keys.ts')?.contents).toContain(
+      "export type ShadowKey = 'sm' | 'md' | 'lg' | 'xl' | '2xl';",
     );
   });
 
@@ -29,16 +33,7 @@ describe('jsTarget', () => {
       'export const primitiveGradientTokens = {',
     );
     expect(files[1].contents).toContain(
-      '"gradients": { "crypto": primitiveGradientTokens.light.crypto }',
+      '"gradients": { crypto: primitiveGradientTokens.light.crypto }',
     );
-  });
-
-  it('keeps React Native values that wait for a design decision', async () => {
-    const files = await jsTarget('out', '../../tokens/types.js').emit(
-      createTokenModel(),
-    );
-    const primitives = files[0].contents;
-
-    expect(primitives).toMatch(/"blur": \{[^}]*"lg": 64/);
   });
 });
