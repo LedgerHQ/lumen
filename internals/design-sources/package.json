@@ -1,0 +1,10 @@
+{
+  "name": "@lumen/design-sources",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Dev-only design sources (DTCG tokens) and the in-memory model every output is built from. Never published.",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

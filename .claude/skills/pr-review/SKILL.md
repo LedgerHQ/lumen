@@ -74,9 +74,9 @@ Rules:
 - **Chart / lib exceptions** are described once in each skill's Review checks (e.g. RN charts under
   `Components/visualization/` use `useTheme()` + flat stories, no `.mdx`/figma).
   Don't flag files a lib does not use.
-- `libs/design-core/**`: the CSS/Tailwind tokens and the JS theme objects must
-  stay in sync (see the `figma-token-sync` skill). If a token is added/changed
-  on one side only, flag it under `Consistency`.
+- `libs/design-core/src/lib/generated/**` is written by `design-build` and
+  never edited by hand: flag any hand edit under `Consistency`, and ask for the
+  change in `internals/design-sources` (or the target) instead.
 - `libs/utils-shared/**`: cross-platform TS/React — apply the shared criteria
   below, no styling rules.
 

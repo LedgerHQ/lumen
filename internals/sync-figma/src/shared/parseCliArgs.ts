@@ -1,0 +1,19 @@
+/** Parses `--key value` and `--key=value` pairs. */
+export const parseCliArgs = (args: string[]): Record<string, string> => {
+  const params: Record<string, string> = {};
+  for (let i = 0; i < args.length; i++) {
+    if (!args[i].startsWith('--')) continue;
+
+    const [key, inlineValue] = args[i].substring(2).split(/=(.*)/s);
+    if (inlineValue !== undefined) {
+      params[key] = inlineValue;
+      continue;
+    }
+    const value = args[i + 1];
+    if (value && !value.startsWith('--')) {
+      params[key] = value;
+      i++;
+    }
+  }
+  return params;
+};

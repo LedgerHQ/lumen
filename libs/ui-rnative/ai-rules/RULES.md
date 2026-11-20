@@ -6,7 +6,7 @@
 
 - **UI components** available via `@ledgerhq/lumen-ui-rnative`
 - **Design tokens** (colors, spacing, typography) available via `@ledgerhq/lumen-design-core`
-- **Multiple brand presets**: available via `@ledgerhq/lumen-design-core`
+- **Multiple brand themes**: available via `@ledgerhq/lumen-design-core`
 
 ## Setup Requirements
 
@@ -15,7 +15,7 @@
 - Import components from `@ledgerhq/lumen-ui-rnative`
 - Import icons from `@ledgerhq/lumen-ui-rnative/symbols` (not from main package)
 - Import charts from `@ledgerhq/lumen-ui-rnative/visualization` (not from main package)
-- Import design tokens/presets from `@ledgerhq/lumen-design-core`
+- Import design tokens and brand themes from `@ledgerhq/lumen-design-core`
 
 ### Font Family (REQUIRED)
 
@@ -91,7 +91,7 @@ Below is a complete list of all available Lumen React Native components. Click a
 
 ## React Native Style System
 
-Lumen React Native uses a custom style system called `lx` that provides type-safe access to design tokens. 
+Lumen React Native uses a custom style system called `lx` that provides type-safe access to design tokens.
 
 Explore the complete theme reference:
 
@@ -104,12 +104,10 @@ Explore the complete theme reference:
 
 ### Style System Usage
 
-
 - [Style System](https://ldls-react-native.vercel.app/?path=/docs/style-system-style-system--docs) - high level guidelines
 - [useTheme](https://ldls-react-native.vercel.app/?path=/docs/style-system-usetheme--docs) - useTheme hook
 - [useStyleSheet](https://ldls-react-native.vercel.app/?path=/docs/style-system-usestylesheet--docs) - useStyleSheet
 - [lx property](https://ldls-react-native.vercel.app/?path=/docs/style-system-lx--docs) - lx property
-
 
 ---
 

@@ -1,0 +1,207 @@
+{
+  "status": 200,
+  "error": false,
+  "meta": {
+    "variableCollections": {
+      "VariableCollectionId:9:1": {
+        "defaultModeId": "9:0",
+        "id": "VariableCollectionId:9:1",
+        "name": "7.motion",
+        "remote": false,
+        "modes": [
+          {
+            "modeId": "9:0",
+            "name": "Mode 1"
+          }
+        ],
+        "key": "motion",
+        "hiddenFromPublishing": true,
+        "variableIds": [
+          "VariableID:9:2",
+          "VariableID:9:3",
+          "VariableID:9:4",
+          "VariableID:9:5",
+          "VariableID:9:6",
+          "VariableID:9:7",
+          "VariableID:9:8",
+          "VariableID:9:9",
+          "VariableID:9:10"
+        ]
+      }
+    },
+    "variables": {
+      "VariableID:9:2": {
+        "id": "VariableID:9:2",
+        "name": "duration/150",
+        "remote": false,
+        "key": "d150",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "FLOAT",
+        "description": "",
+        "hiddenFromPublishing": true,
+        "valuesByMode": {
+          "9:0": 150
+        },
+        "scopes": [],
+        "codeSyntax": {}
+      },
+      "VariableID:9:3": {
+        "id": "VariableID:9:3",
+        "name": "easing/ease-in",
+        "remote": false,
+        "key": "ein",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "STRING",
+        "description": "",
+        "hiddenFromPublishing": true,
+        "valuesByMode": {
+          "9:0": "cubic-bezier(0.4, 0, 1, 1)"
+        },
+        "scopes": [],
+        "codeSyntax": {}
+      },
+      "VariableID:9:4": {
+        "id": "VariableID:9:4",
+        "name": "easing/ease-out",
+        "remote": false,
+        "key": "eout",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "EASING",
+        "description": "",
+        "hiddenFromPublishing": true,
+        "valuesByMode": {
+          "9:0": {
+            "easingType": 7,
+            "bezierValues": {
+              "p1x": 0,
+              "p1y": 0,
+              "p2x": 0.2,
+              "p2y": 1
+            }
+          }
+        },
+        "scopes": [],
+        "codeSyntax": {}
+      },
+      "VariableID:9:5": {
+        "id": "VariableID:9:5",
+        "name": "utility/is-dark",
+        "remote": false,
+        "key": "dark",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "BOOLEAN",
+        "description": "",
+        "hiddenFromPublishing": true,
+        "valuesByMode": {
+          "9:0": false
+        },
+        "scopes": [
+          "ALL_SCOPES"
+        ],
+        "codeSyntax": {}
+      },
+      "VariableID:9:6": {
+        "id": "VariableID:9:6",
+        "name": "font/weight/semi-bold",
+        "remote": false,
+        "key": "fw",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "STRING",
+        "description": "",
+        "hiddenFromPublishing": false,
+        "valuesByMode": {
+          "9:0": "600"
+        },
+        "scopes": [
+          "FONT_STYLE"
+        ],
+        "codeSyntax": {}
+      },
+      "VariableID:9:7": {
+        "id": "VariableID:9:7",
+        "name": "number-weight",
+        "remote": false,
+        "key": "nw",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "STRING",
+        "description": "",
+        "hiddenFromPublishing": false,
+        "valuesByMode": {
+          "9:0": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:9:6"
+          }
+        },
+        "scopes": [
+          "FONT_STYLE"
+        ],
+        "codeSyntax": {}
+      },
+      "VariableID:9:8": {
+        "id": "VariableID:9:8",
+        "name": "transition/fast",
+        "remote": false,
+        "key": "tf",
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "resolvedType": "FLOAT",
+        "description": "",
+        "hiddenFromPublishing": false,
+        "valuesByMode": {
+          "9:0": {
+            "type": "VARIABLE_ALIAS",
+            "id": "VariableID:9:2"
+          }
+        },
+        "scopes": [],
+        "codeSyntax": {}
+      },
+      "VariableID:9:9": {
+        "remote": false,
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "description": "",
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "ALL_SCOPES"
+        ],
+        "codeSyntax": {},
+        "id": "VariableID:9:9",
+        "name": "duration/75",
+        "key": "d75",
+        "resolvedType": "TIMING",
+        "valuesByMode": {
+          "9:0": 0.07500000298023224
+        }
+      },
+      "VariableID:9:10": {
+        "remote": false,
+        "variableCollectionId": "VariableCollectionId:9:1",
+        "description": "",
+        "hiddenFromPublishing": false,
+        "scopes": [
+          "ALL_SCOPES"
+        ],
+        "codeSyntax": {},
+        "id": "VariableID:9:10",
+        "name": "easing/ease-in-out",
+        "key": "eio",
+        "resolvedType": "EASING",
+        "valuesByMode": {
+          "9:0": {
+            "easingType": 7,
+            "springValues": {
+              "mass": 1,
+              "stiffness": 100,
+              "damping": 15
+            },
+            "bezierValues": {
+              "p1x": 0.4000000059604645,
+              "p1y": 0,
+              "p2x": 0.20000000298023224,
+              "p2y": 1
+            }
+          }
+        }
+      }
+    }
+  }
+}

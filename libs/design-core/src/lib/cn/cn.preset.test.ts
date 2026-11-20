@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 
-import { allBrandsCSSTheme } from '../themes/css/index.js';
+import { allBrandsCSSTheme } from '../generated/css/index.js';
 import {
   createGradientPlugin,
   createPrimitivesPlugin,
   createThemePlugin,
   createTypographyPlugin,
-} from '../utils/index.js';
+} from '../tailwind/plugins/index.js';
 import { cn } from './cn.js';
 
 type Plugin = ReturnType<typeof createThemePlugin>;
