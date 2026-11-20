@@ -29,7 +29,7 @@ const renderClipboardInput = ({
  * @see {@link https://ldls-react-native.vercel.app/?path=/docs/rnative-clipboard--docs Guidelines}
  *
  * @example
- * import { Clipboard, IconButton } from '@ledgerhq/lumen-ui-rnative';
+ * import { Clipboard, IconButton, toast } from '@ledgerhq/lumen-ui-rnative';
  *
  * <Clipboard
  *   value='0x71C7656EC7ab88b098defB751B7401B5f6d8976F'

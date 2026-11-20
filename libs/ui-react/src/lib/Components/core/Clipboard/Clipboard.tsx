@@ -29,7 +29,7 @@ const renderClipboardInput = ({
  * @see {@link https://ldls.vercel.app/?path=/docs/react-clipboard--docs Storybook}
  *
  * @example
- * import { Clipboard, IconButton } from '@ledgerhq/lumen-ui-react';
+ * import { Clipboard, IconButton, toast } from '@ledgerhq/lumen-ui-react';
  *
  * <Clipboard
  *   value='0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
