@@ -2,13 +2,13 @@ import { describe, it, expect, jest } from '@jest/globals';
 import { ledgerLiveThemes } from '@ledgerhq/lumen-design-core';
 import type { RenderOptions } from '@testing-library/react-native';
 import { fireEvent, render } from '@testing-library/react-native';
-import { Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { BottomSheet as BottomSheetComponent } from './BottomSheet';
 import { BottomSheetContent } from './BottomSheetContent';
 import { BottomSheetFooter } from './BottomSheetFooter';
 import { BottomSheetHeader } from './BottomSheetHeader';
-import { BottomSheetView } from './Scrollables';
+import { BottomSheetScrollView, BottomSheetView } from './Scrollables';
 // Mock react-native-gesture-handler which is used by @gorhom/bottom-sheet
 jest.mock('react-native-gesture-handler', () => ({}));
 
@@ -535,5 +535,92 @@ describe('BottomSheetView', () => {
         </BottomSheet>,
       ),
     ).not.toThrow();
+  });
+});
+
+describe('BottomSheetScrollView sticky header', () => {
+  const renderScrollView = (ui: React.ReactElement) => {
+    const { BottomSheet } = require('./BottomSheet');
+    return renderWithTheme(
+      <BottomSheet testID='bottom-sheet'>{ui}</BottomSheet>,
+    );
+  };
+
+  it('should pin a BottomSheetHeader child by default', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetScrollView testID='scroll-view'>
+        <Text>Before</Text>
+        <BottomSheetHeader title='Title' />
+        <Text>Content</Text>
+      </BottomSheetScrollView>,
+    );
+
+    expect(getByTestId('scroll-view').props.stickyHeaderIndices).toEqual([1]);
+  });
+
+  it('should not pin the header when sticky is false', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetScrollView testID='scroll-view'>
+        <BottomSheetHeader title='Title' sticky={false} />
+        <Text>Content</Text>
+      </BottomSheetScrollView>,
+    );
+
+    expect(
+      getByTestId('scroll-view').props.stickyHeaderIndices,
+    ).toBeUndefined();
+  });
+
+  it('should merge the header index with consumer stickyHeaderIndices', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetScrollView testID='scroll-view' stickyHeaderIndices={[2]}>
+        <BottomSheetHeader title='Title' />
+        <Text>Content</Text>
+        <Text>Section</Text>
+      </BottomSheetScrollView>,
+    );
+
+    expect(getByTestId('scroll-view').props.stickyHeaderIndices).toEqual([
+      0, 2,
+    ]);
+  });
+
+  it('should give the pinned header an opaque background', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetScrollView testID='scroll-view'>
+        <BottomSheetHeader title='Title' testID='header' />
+      </BottomSheetScrollView>,
+    );
+
+    expect(
+      StyleSheet.flatten(getByTestId('header').props.style).backgroundColor,
+    ).not.toBe('transparent');
+  });
+
+  it('should neither pin nor fill a header wrapped in another element', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetScrollView testID='scroll-view'>
+        <View>
+          <BottomSheetHeader title='Title' testID='header' />
+        </View>
+      </BottomSheetScrollView>,
+    );
+
+    expect(
+      getByTestId('scroll-view').props.stickyHeaderIndices,
+    ).toBeUndefined();
+    expect(
+      StyleSheet.flatten(getByTestId('header').props.style).backgroundColor,
+    ).toBe('transparent');
+  });
+
+  it('should keep a transparent background outside of a scroll view', () => {
+    const { getByTestId } = renderScrollView(
+      <BottomSheetHeader title='Title' testID='header' />,
+    );
+
+    expect(
+      StyleSheet.flatten(getByTestId('header').props.style).backgroundColor,
+    ).toBe('transparent');
   });
 });
