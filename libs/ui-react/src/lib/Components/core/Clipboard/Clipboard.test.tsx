@@ -7,6 +7,21 @@ import { IconButton } from '../IconButton';
 import { TileButton } from '../TileButton';
 import { Clipboard } from './Clipboard';
 import { ClipboardInput } from './ClipboardInput';
+import type { ClipboardRenderProps } from './types';
+
+const renderInput = ({
+  value,
+  handleCopy,
+  Icon,
+  statusLabel,
+}: ClipboardRenderProps) => (
+  <ClipboardInput
+    label={value}
+    icon={Icon}
+    aria-label={`${value}, ${statusLabel}`}
+    onClick={handleCopy}
+  />
+);
 
 describe('Clipboard', () => {
   let writeText: ReturnType<typeof vi.fn>;
@@ -24,7 +39,7 @@ describe('Clipboard', () => {
   });
 
   it('should render the value', () => {
-    render(<Clipboard value='Label' />);
+    render(<Clipboard value='Label' render={renderInput} />);
     expect(
       screen.getByRole('button', {
         name: 'Label, components.clipboard.copyAriaLabel',
@@ -34,7 +49,7 @@ describe('Clipboard', () => {
 
   it('should copy the value and call onCopy when clicked', async () => {
     const onCopy = vi.fn();
-    render(<Clipboard value='Label' onCopy={onCopy} />);
+    render(<Clipboard value='Label' onCopy={onCopy} render={renderInput} />);
 
     await userEvent.click(screen.getByRole('button'));
 
@@ -45,7 +60,7 @@ describe('Clipboard', () => {
 
   it('should show the copied icon for 3 seconds', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
-    render(<Clipboard value='Label' />);
+    render(<Clipboard value='Label' render={renderInput} />);
 
     await userEvent.click(screen.getByRole('button'));
     expect(
@@ -62,9 +77,9 @@ describe('Clipboard', () => {
     ).toBeInTheDocument();
   });
 
-  it('should show the copied icon for resetAfterMs', async () => {
+  it('should show the copied icon for resetDelay', async () => {
     vi.useFakeTimers({ shouldAdvanceTime: true });
-    render(<Clipboard value='Label' resetAfterMs={1000} />);
+    render(<Clipboard value='Label' resetDelay={1000} render={renderInput} />);
 
     await userEvent.click(screen.getByRole('button'));
     expect(
@@ -82,7 +97,7 @@ describe('Clipboard', () => {
   });
 
   it('should not show a new value as copied when it changes during the confirmation', async () => {
-    const { rerender } = render(<Clipboard value='A' />);
+    const { rerender } = render(<Clipboard value='A' render={renderInput} />);
 
     await userEvent.click(screen.getByRole('button'));
     expect(
@@ -91,7 +106,7 @@ describe('Clipboard', () => {
       }),
     ).toBeInTheDocument();
 
-    rerender(<Clipboard value='B' />);
+    rerender(<Clipboard value='B' render={renderInput} />);
     expect(
       screen.getByRole('button', {
         name: 'B, components.clipboard.copyAriaLabel',
@@ -108,10 +123,12 @@ describe('Clipboard', () => {
         }),
     );
     const onCopy = vi.fn();
-    const { rerender } = render(<Clipboard value='A' onCopy={onCopy} />);
+    const { rerender } = render(
+      <Clipboard value='A' onCopy={onCopy} render={renderInput} />,
+    );
 
     await userEvent.click(screen.getByRole('button'));
-    rerender(<Clipboard value='B' onCopy={onCopy} />);
+    rerender(<Clipboard value='B' onCopy={onCopy} render={renderInput} />);
     await act(async () => resolveWrite());
 
     expect(onCopy).toHaveBeenCalledWith('A');
@@ -125,7 +142,7 @@ describe('Clipboard', () => {
   it('should not report a copy when the clipboard write fails', async () => {
     writeText.mockImplementation(() => Promise.reject(new Error('denied')));
     const onCopy = vi.fn();
-    render(<Clipboard value='Label' onCopy={onCopy} />);
+    render(<Clipboard value='Label' onCopy={onCopy} render={renderInput} />);
 
     await userEvent.click(screen.getByRole('button'));
 
@@ -142,7 +159,7 @@ describe('Clipboard', () => {
     const onCopy = vi.fn();
     render(
       <DisabledProvider value={{ disabled: true }}>
-        <Clipboard value='Label' onCopy={onCopy} />
+        <Clipboard value='Label' onCopy={onCopy} render={renderInput} />
       </DisabledProvider>,
     );
 
@@ -150,6 +167,63 @@ describe('Clipboard', () => {
     expect(button).toBeDisabled();
 
     await userEvent.click(button);
+
+    expect(writeText).not.toHaveBeenCalled();
+    expect(onCopy).not.toHaveBeenCalled();
+  });
+
+  it('should announce the copy in a polite live region', async () => {
+    render(<Clipboard value='Label' render={renderInput} />);
+
+    await userEvent.click(screen.getByRole('button'));
+
+    expect(
+      await screen.findByText('components.clipboard.copiedAriaLabel'),
+    ).toHaveAttribute('aria-live', 'polite');
+  });
+
+  it('should resolve handleCopy with whether the copy succeeded', async () => {
+    writeText.mockImplementation(() => Promise.reject(new Error('denied')));
+    const onResult = vi.fn();
+    render(
+      <Clipboard
+        value='Label'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <IconButton
+            icon={Icon}
+            aria-label={statusLabel}
+            onClick={async () => onResult(await handleCopy())}
+          />
+        )}
+      />,
+    );
+
+    await userEvent.click(screen.getByRole('button'));
+
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith(false));
+  });
+
+  it('should disable the rendered trigger and not copy when disabled', async () => {
+    const onCopy = vi.fn();
+    render(
+      <Clipboard
+        value='Label'
+        disabled
+        onCopy={onCopy}
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <IconButton
+            icon={Icon}
+            aria-label={statusLabel}
+            onClick={handleCopy}
+          />
+        )}
+      />,
+    );
+
+    const button = screen.getByRole('button');
+    expect(button).toBeDisabled();
+
+    await userEvent.click(button, { pointerEventsCheck: 0 });
 
     expect(writeText).not.toHaveBeenCalled();
     expect(onCopy).not.toHaveBeenCalled();
@@ -242,6 +316,11 @@ describe('ClipboardInput', () => {
         <ClipboardInput label='Label' icon={Icon} />
       </DisabledProvider>,
     );
+    expect(screen.getByRole('button')).toBeDisabled();
+  });
+
+  it('should be disabled with the disabled prop', () => {
+    render(<ClipboardInput label='Label' icon={Icon} disabled />);
     expect(screen.getByRole('button')).toBeDisabled();
   });
 });

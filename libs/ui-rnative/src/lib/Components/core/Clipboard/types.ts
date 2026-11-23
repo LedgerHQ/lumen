@@ -14,9 +14,10 @@ export type ClipboardRenderProps = {
    */
   value: string;
   /**
-   * Copies the value to the user's clipboard. Does nothing inside a disabled ancestor.
+   * Copies the value to the user's clipboard. Resolves `false` when the copy
+   * fails or `Clipboard` is disabled, e.g. to show an error.
    */
-  handleCopy: () => Promise<void>;
+  handleCopy: () => Promise<boolean>;
   /**
    * The copy icon, or the check icon while the copied state lasts.
    */
@@ -46,12 +47,17 @@ export type ClipboardProps = {
    * How long the copied state lasts after a successful copy, in milliseconds.
    * @default 3000
    */
-  resetAfterMs?: number;
+  resetDelay?: number;
+  /**
+   * Prevents the copy and disables the rendered trigger through the shared disabled context.
+   * @default false
+   */
+  disabled?: boolean;
   /**
    * Renders the element that triggers the copy, from the copy state.
-   * Defaults to a `ClipboardInput` displaying the value.
+   * @required
    */
-  render?: (props: ClipboardRenderProps) => ReactElement;
+  render: (props: ClipboardRenderProps) => ReactElement;
 };
 
 export type ClipboardInputProps = {
@@ -65,4 +71,9 @@ export type ClipboardInputProps = {
    * @required
    */
   icon: ClipboardIcon;
+  /**
+   * When `true`, prevents the user from interacting with the input.
+   * @default false
+   */
+  disabled?: boolean;
 } & Omit<StyledPressableProps, 'children' | 'disabled'>;

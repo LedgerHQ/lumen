@@ -1,4 +1,4 @@
-import { useTemporaryFlag } from '@ledgerhq/lumen-utils-shared';
+import { useTimeoutFlag } from '@ledgerhq/lumen-utils-shared';
 import * as ExpoClipboard from 'expo-clipboard';
 
 export type UseClipboardOptions = {
@@ -6,7 +6,7 @@ export type UseClipboardOptions = {
    * How long `isCopied` stays true after a successful copy, in milliseconds.
    * @default 3000
    */
-  resetAfterMs?: number;
+  resetDelay?: number;
   /**
    * Callback fired after a value has been written to the clipboard.
    */
@@ -20,7 +20,7 @@ export type UseClipboardResult = {
    */
   copy: (value: string) => Promise<boolean>;
   /**
-   * True for `resetAfterMs` after the most recent successful copy, then reverts.
+   * True for `resetDelay` after the most recent successful copy, then reverts.
    * Drive the copied confirmation (e.g. a copy → check icon flip) off this.
    */
   isCopied: boolean;
@@ -30,10 +30,10 @@ export type UseClipboardResult = {
  * Copies text to the user's clipboard and exposes a temporary copied state.
  */
 export const useClipboard = ({
-  resetAfterMs = 3000,
+  resetDelay = 3000,
   onCopy,
 }: UseClipboardOptions = {}): UseClipboardResult => {
-  const [isCopied, markCopied] = useTemporaryFlag(resetAfterMs);
+  const [isCopied, markCopied] = useTimeoutFlag(resetDelay);
 
   const copy = async (value: string): Promise<boolean> => {
     try {
