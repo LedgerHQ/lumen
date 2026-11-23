@@ -2,6 +2,15 @@
   "name": "@ledgerhq/lumen-ui-react",
   "version": "0.1.75",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LedgerHQ/lumen.git",
+    "directory": "libs/ui-react"
+  },
+  "homepage": "https://lumen-ldls.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/LedgerHQ/lumen/issues"
+  },
   "sideEffects": false,
   "keywords": [
     "react",

@@ -2,6 +2,15 @@
   "name": "@ledgerhq/lumen-ui-rnative",
   "version": "0.1.76",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LedgerHQ/lumen.git",
+    "directory": "libs/ui-rnative"
+  },
+  "homepage": "https://lumen-ldls.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/LedgerHQ/lumen/issues"
+  },
   "keywords": [
     "react-native",
     "ui",

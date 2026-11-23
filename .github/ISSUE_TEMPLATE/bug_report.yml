@@ -1,7 +1,7 @@
 name: Bug Report
 description: Report a bug to help us improve
-title: "[Bug] "
-labels: ["bug"]
+title: '[Bug] '
+labels: ['bug']
 body:
   - type: markdown
     attributes:
@@ -13,11 +13,13 @@ body:
     attributes:
       label: Which package(s) are affected?
       options:
-        - label: "@ledgerhq/lumen-design-core (design tokens)"
-        - label: "@ledgerhq/lumen-ui-react (React UI kit, incl. charts)"
-        - label: "@ledgerhq/lumen-ui-rnative (React Native UI kit, incl. charts)"
-        - label: "@ledgerhq/lumen-utils-shared (shared utilities)"
-        - label: "@ledgerhq/lumen-lint-plugin (ESLint and oxlint presets)"
+        - label: '@ledgerhq/lumen-design-core (design tokens)'
+        - label: '@ledgerhq/lumen-ui-react (React UI kit, incl. charts)'
+        - label: '@ledgerhq/lumen-ui-rnative (React Native UI kit, incl. charts)'
+        - label: '@ledgerhq/lumen-utils-shared (shared utilities)'
+        - label: '@ledgerhq/lumen-symbols (icons and symbols)'
+        - label: '@ledgerhq/lumen-lint-plugin (ESLint and oxlint presets)'
+        - label: '@ledgerhq/lumen-migrations (upgrade guides)'
     validations:
       required: true
 
@@ -25,7 +27,7 @@ body:
     id: package-version
     attributes:
       label: Package version(s)
-      placeholder: "e.g., @ledgerhq/lumen-ui-react@1.2.3"
+      placeholder: 'e.g., @ledgerhq/lumen-ui-react@1.2.3'
     validations:
       required: true
 
@@ -33,7 +35,7 @@ body:
     id: component
     attributes:
       label: Component(s) affected
-      placeholder: "e.g., Button, Input, Card, or N/A"
+      placeholder: 'e.g., Button, Input, Card, or N/A'
     validations:
       required: false
 
@@ -60,7 +62,7 @@ body:
     id: environment
     attributes:
       label: Environment
-      description: "React version, platform (iOS/Android/Web), browser, OS, etc."
+      description: 'React version, platform (iOS/Android/Web), browser, OS, etc.'
       placeholder: |
         - React/React Native version: 
         - Platform: 
@@ -77,4 +79,3 @@ body:
       placeholder: You can paste code or drag and drop images here
     validations:
       required: false
-

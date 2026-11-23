@@ -1,0 +1,48 @@
+name: Feature Request
+description: Suggest a new component, prop, token or improvement
+title: '[Feature] '
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion! Please check the [Storybook](https://lumen-ldls.vercel.app/) first — it may already exist.
+
+  - type: checkboxes
+    id: affected-packages
+    attributes:
+      label: Which package(s) does this concern?
+      options:
+        - label: '@ledgerhq/lumen-design-core (design tokens)'
+        - label: '@ledgerhq/lumen-ui-react (React UI kit, incl. charts)'
+        - label: '@ledgerhq/lumen-ui-rnative (React Native UI kit, incl. charts)'
+        - label: '@ledgerhq/lumen-utils-shared (shared utilities)'
+        - label: '@ledgerhq/lumen-symbols (icons and symbols)'
+        - label: '@ledgerhq/lumen-lint-plugin (ESLint and oxlint presets)'
+        - label: '@ledgerhq/lumen-migrations (upgrade guides)'
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem does this solve?
+      description: Describe the use case and why the current components don't cover it
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: The API, behavior or visuals you have in mind. A Figma link or code sketch helps.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Workarounds you use today, or other approaches you thought about
+    validations:
+      required: false

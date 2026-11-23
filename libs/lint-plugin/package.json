@@ -3,6 +3,15 @@
   "version": "0.1.5",
   "description": "ESLint and oxlint presets (better-tailwindcss and @shadcn/lint) for apps built with the Ledger Lumen design system.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LedgerHQ/lumen.git",
+    "directory": "libs/lint-plugin"
+  },
+  "homepage": "https://lumen-ldls.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/LedgerHQ/lumen/issues"
+  },
   "type": "module",
   "files": [
     "src",
