@@ -12,14 +12,14 @@ changes:
 
 ```json before
 "dependencies": {
-  "@ledgerhq/lumen-ui-rnative": "0.1.75",
+  "@ledgerhq/lumen-ui-rnative": "0.1.76",
   "expo": "~57.0.31"
 }
 ```
 
 ```json after
 "dependencies": {
-  "@ledgerhq/lumen-ui-rnative": "0.1.76",
+  "@ledgerhq/lumen-ui-rnative": "0.1.77",
   "expo": "~57.0.31",
   "expo-clipboard": "~57.0.2"
 }
