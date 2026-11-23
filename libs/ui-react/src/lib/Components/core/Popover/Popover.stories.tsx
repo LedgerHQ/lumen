@@ -373,3 +373,41 @@ export const WithDetachedTrigger: Story = {
     );
   },
 };
+
+export const WithDefaultOpen: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  render: () => (
+    <Popover defaultOpen>
+      <PopoverTrigger
+        render={<Button appearance='gray'>Open Popover</Button>}
+      />
+      <PopoverContent className='w-400'>
+        <div className='flex flex-col gap-8'>
+          <p className='heading-4-semi-bold text-base'>Notifications</p>
+          <p className='body-2 text-muted'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
+};
+
+export const WithDefaultOpenOverlay: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  render: () => (
+    <Popover defaultOpen overlay>
+      <PopoverTrigger
+        render={<Button appearance='gray'>Open Popover</Button>}
+      />
+      <PopoverContent className='w-400'>
+        <div className='flex flex-col gap-8'>
+          <p className='heading-4-semi-bold text-base'>Notifications</p>
+          <p className='body-2 text-muted'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
+};

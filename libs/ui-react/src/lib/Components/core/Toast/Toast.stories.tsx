@@ -1,6 +1,6 @@
 import { toast } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '../Button';
 import { Toast } from './Toast';
 import { Toaster } from './Toaster';
@@ -276,4 +276,22 @@ export const WithPromise: Story = {
       </Button>
     </>
   ),
+};
+
+export const WithVisibleToasts: Story = {
+  render: () => {
+    useEffect(() => {
+      const ids = RANDOM_APPEARANCES.map(
+        (appearance) =>
+          toast.notify({
+            appearance,
+            title: `${appearance} toast`,
+            duration: 0,
+          }).id,
+      );
+      return () => ids.forEach((id) => toast.dismiss(id));
+    }, []);
+
+    return <Toaster maxItems={RANDOM_APPEARANCES.length} />;
+  },
 };

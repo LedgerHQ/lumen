@@ -933,3 +933,26 @@ export const TypesafeFactory: StoryObj<typeof Select> = {
     );
   },
 };
+
+export const WithDefaultOpen: Story = {
+  render: () => (
+    <div className='h-256 w-400'>
+      <Select items={baseOptions} defaultOpen>
+        <SelectTrigger aria-label='Select option' label='Label' />
+        <SelectContent>
+          <SelectList
+            renderItem={(item) => (
+              <SelectItem
+                key={item.value}
+                value={item.value}
+                disabled={item.disabled}
+              >
+                <SelectItemText>{item.label}</SelectItemText>
+              </SelectItem>
+            )}
+          />
+        </SelectContent>
+      </Select>
+    </div>
+  ),
+};

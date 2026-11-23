@@ -155,3 +155,21 @@ export const CustomDelay: Story = {
     },
   },
 };
+
+export const WithDefaultOpen: Story = {
+  args: {
+    children: 'This is a basic tooltip',
+    side: 'top',
+    sideOffset: 0,
+  },
+  render: (args) => (
+    <div className='flex h-256 items-center justify-center'>
+      <Tooltip defaultOpen>
+        <TooltipTrigger asChild>
+          <Button>Hover me</Button>
+        </TooltipTrigger>
+        <TooltipContent {...args} />
+      </Tooltip>
+    </div>
+  ),
+};

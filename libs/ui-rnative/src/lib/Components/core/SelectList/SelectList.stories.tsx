@@ -1,6 +1,6 @@
 import CryptoIcon from '@ledgerhq/crypto-icons/native';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Text } from '../../primitives';
 import { Settings } from '../../symbols';
 import { BottomSheet } from '../BottomSheet';
@@ -1120,6 +1120,51 @@ export const TypesafeFactory: Story = {
           />
         </NetworkList.SelectList>
       </Box>
+    );
+  },
+};
+
+export const WithDefaultOpen: Story = {
+  args: {
+    items: CURRENCIES,
+    children: null,
+  },
+  render: (args) => {
+    const [value, setValue] = useState<string | null>(null);
+    const bottomSheetRef = useBottomSheetRef();
+
+    useEffect(() => {
+      bottomSheetRef.current?.present();
+    }, [bottomSheetRef]);
+
+    return (
+      <>
+        <SelectListTrigger
+          label='Currency'
+          onPress={() => bottomSheetRef.current?.present()}
+        />
+        <BottomSheet
+          ref={bottomSheetRef}
+          enableDynamicSizing
+          snapPoints={null}
+          onClose={() => bottomSheetRef.current?.dismiss()}
+        >
+          <BottomSheetView>
+            <BottomSheetHeader title='Select currency' />
+            <SelectList {...args} value={value} onValueChange={setValue}>
+              <SelectListContent
+                renderItem={(item) => (
+                  <SelectListItem value={item.value}>
+                    <SelectListItemContent>
+                      <SelectListItemText>{item.label}</SelectListItemText>
+                    </SelectListItemContent>
+                  </SelectListItem>
+                )}
+              />
+            </SelectList>
+          </BottomSheetView>
+        </BottomSheet>
+      </>
     );
   },
 };

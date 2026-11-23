@@ -742,3 +742,34 @@ export const InfoStateVariants: Story = {
     );
   },
 };
+
+export const WithDefaultOpen: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  render: () => (
+    <Dialog defaultOpen>
+      <DialogTrigger asChild>
+        <Button appearance='base'>Open Dialog</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader
+          density='compact'
+          title='Sheet Title'
+          description='Additional information'
+        />
+        <DialogBody>
+          <p className='body-2 text-base'>
+            The content area after the DialogHeader can contain any components.
+          </p>
+        </DialogBody>
+        <DialogFooter>
+          <DialogClose asChild>
+            <Button appearance='no-background'>Cancel</Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button appearance='base'>Done</Button>
+          </DialogClose>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  ),
+};
