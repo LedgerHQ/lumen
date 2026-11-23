@@ -91,7 +91,7 @@ export const WithToast: Story = {
     <SafeAreaProvider>
       <Box lx={{ height: 's256', justifyContent: 'center' }}>
         <Clipboard
-          value='Copy'
+          value='0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
           onCopy={() => toast.info({ title: 'Copied to clipboard' })}
           render={({ value, handleCopy, Icon, statusLabel }) => (
             <ClipboardInput
