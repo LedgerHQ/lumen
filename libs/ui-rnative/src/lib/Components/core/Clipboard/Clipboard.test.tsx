@@ -17,11 +17,13 @@ import {
 } from '@testing-library/react-native';
 import * as ExpoClipboard from 'expo-clipboard';
 import type { ReactNode } from 'react';
+import { AccessibilityInfo } from 'react-native';
 import { IconButton } from '../IconButton';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { TileButton } from '../TileButton';
 import { Clipboard } from './Clipboard';
 import { ClipboardInput } from './ClipboardInput';
+import type { ClipboardRenderProps } from './types';
 
 const setStringAsync = jest.mocked(ExpoClipboard.setStringAsync);
 
@@ -34,6 +36,20 @@ const TestWrapper = ({ children }: { children: ReactNode }) => (
 const renderClipboard = (ui: ReactNode) =>
   render(<TestWrapper>{ui}</TestWrapper>);
 
+const renderInput = ({
+  value,
+  handleCopy,
+  Icon,
+  statusLabel,
+}: ClipboardRenderProps) => (
+  <ClipboardInput
+    label={value}
+    icon={Icon}
+    accessibilityLabel={`${value}, ${statusLabel}`}
+    onPress={handleCopy}
+  />
+);
+
 describe('Clipboard', () => {
   beforeEach(() => {
     setStringAsync.mockClear();
@@ -45,7 +61,7 @@ describe('Clipboard', () => {
   });
 
   it('should render the value with a copy label', () => {
-    renderClipboard(<Clipboard value='Label' />);
+    renderClipboard(<Clipboard value='Label' render={renderInput} />);
 
     expect(screen.getByText('Label')).toBeTruthy();
     expect(screen.getByRole('button').props.accessibilityLabel).toBe(
@@ -55,7 +71,9 @@ describe('Clipboard', () => {
 
   it('should copy the value and call onCopy when pressed', async () => {
     const onCopy = jest.fn();
-    renderClipboard(<Clipboard value='Label' onCopy={onCopy} />);
+    renderClipboard(
+      <Clipboard value='Label' onCopy={onCopy} render={renderInput} />,
+    );
 
     fireEvent.press(screen.getByRole('button'));
 
@@ -65,7 +83,7 @@ describe('Clipboard', () => {
 
   it('should show the copied state for 3 seconds', async () => {
     jest.useFakeTimers();
-    renderClipboard(<Clipboard value='Label' />);
+    renderClipboard(<Clipboard value='Label' render={renderInput} />);
 
     fireEvent.press(screen.getByRole('button'));
     await act(async () => {
@@ -83,9 +101,11 @@ describe('Clipboard', () => {
     );
   });
 
-  it('should show the copied state for resetAfterMs', async () => {
+  it('should show the copied state for resetDelay', async () => {
     jest.useFakeTimers();
-    renderClipboard(<Clipboard value='Label' resetAfterMs={1000} />);
+    renderClipboard(
+      <Clipboard value='Label' resetDelay={1000} render={renderInput} />,
+    );
 
     fireEvent.press(screen.getByRole('button'));
     await act(async () => {
@@ -104,7 +124,7 @@ describe('Clipboard', () => {
   });
 
   it('should not show a new value as copied when it changes during the confirmation', async () => {
-    renderClipboard(<Clipboard value='A' />);
+    renderClipboard(<Clipboard value='A' render={renderInput} />);
 
     fireEvent.press(screen.getByRole('button'));
     await waitFor(() =>
@@ -115,7 +135,7 @@ describe('Clipboard', () => {
 
     screen.rerender(
       <TestWrapper>
-        <Clipboard value='B' />
+        <Clipboard value='B' render={renderInput} />
       </TestWrapper>,
     );
     expect(screen.getByRole('button').props.accessibilityLabel).toBe('B, Copy');
@@ -130,12 +150,14 @@ describe('Clipboard', () => {
         }),
     );
     const onCopy = jest.fn();
-    renderClipboard(<Clipboard value='A' onCopy={onCopy} />);
+    renderClipboard(
+      <Clipboard value='A' onCopy={onCopy} render={renderInput} />,
+    );
 
     fireEvent.press(screen.getByRole('button'));
     screen.rerender(
       <TestWrapper>
-        <Clipboard value='B' onCopy={onCopy} />
+        <Clipboard value='B' onCopy={onCopy} render={renderInput} />
       </TestWrapper>,
     );
     await act(async () => resolveWrite(true));
@@ -149,7 +171,9 @@ describe('Clipboard', () => {
       Promise.reject(new Error('denied')),
     );
     const onCopy = jest.fn();
-    renderClipboard(<Clipboard value='Label' onCopy={onCopy} />);
+    renderClipboard(
+      <Clipboard value='Label' onCopy={onCopy} render={renderInput} />,
+    );
 
     fireEvent.press(screen.getByRole('button'));
 
@@ -163,7 +187,9 @@ describe('Clipboard', () => {
   it('should not report a copy when the clipboard write resolves false', async () => {
     setStringAsync.mockImplementation(() => Promise.resolve(false));
     const onCopy = jest.fn();
-    renderClipboard(<Clipboard value='Label' onCopy={onCopy} />);
+    renderClipboard(
+      <Clipboard value='Label' onCopy={onCopy} render={renderInput} />,
+    );
 
     fireEvent.press(screen.getByRole('button'));
 
@@ -178,8 +204,56 @@ describe('Clipboard', () => {
     const onCopy = jest.fn();
     renderClipboard(
       <DisabledProvider value={{ disabled: true }}>
-        <Clipboard value='Label' onCopy={onCopy} />
+        <Clipboard value='Label' onCopy={onCopy} render={renderInput} />
       </DisabledProvider>,
+    );
+
+    const root = screen.getByRole('button');
+    expect(root.props.accessibilityState).toMatchObject({ disabled: true });
+
+    fireEvent.press(root);
+
+    expect(setStringAsync).not.toHaveBeenCalled();
+    expect(onCopy).not.toHaveBeenCalled();
+  });
+
+  it('should announce the copy to screen readers', async () => {
+    const announce = jest
+      .spyOn(AccessibilityInfo, 'announceForAccessibility')
+      .mockImplementation(() => undefined);
+    renderClipboard(<Clipboard value='Label' render={renderInput} />);
+
+    fireEvent.press(screen.getByRole('button'));
+
+    await waitFor(() => expect(announce).toHaveBeenCalledWith('Copied'));
+    announce.mockRestore();
+  });
+
+  it('should resolve handleCopy with whether the copy succeeded', async () => {
+    setStringAsync.mockImplementation(() => Promise.resolve(false));
+    const onResult = jest.fn();
+    renderClipboard(
+      <Clipboard
+        value='Label'
+        render={({ handleCopy, Icon, statusLabel }) => (
+          <IconButton
+            icon={Icon}
+            accessibilityLabel={statusLabel}
+            onPress={async () => onResult(await handleCopy())}
+          />
+        )}
+      />,
+    );
+
+    fireEvent.press(screen.getByRole('button'));
+
+    await waitFor(() => expect(onResult).toHaveBeenCalledWith(false));
+  });
+
+  it('should disable the rendered trigger and not copy when disabled', () => {
+    const onCopy = jest.fn();
+    renderClipboard(
+      <Clipboard value='Label' disabled onCopy={onCopy} render={renderInput} />,
     );
 
     const root = screen.getByRole('button');
@@ -281,5 +355,15 @@ describe('ClipboardInput', () => {
     expect(input.props.accessibilityState).toMatchObject({ disabled: true });
     fireEvent.press(input);
     expect(onPress).not.toHaveBeenCalled();
+  });
+
+  it('should be disabled with the disabled prop', () => {
+    renderClipboard(
+      <ClipboardInput testID='input' label='Label' icon={Icon} disabled />,
+    );
+
+    expect(screen.getByTestId('input').props.accessibilityState).toMatchObject({
+      disabled: true,
+    });
   });
 });

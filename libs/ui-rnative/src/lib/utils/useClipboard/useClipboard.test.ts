@@ -45,8 +45,8 @@ describe('useClipboard', () => {
     expect(result.current.isCopied).toBe(false);
   });
 
-  it('should revert after resetAfterMs, counted from the most recent copy', async () => {
-    const { result } = renderHook(() => useClipboard({ resetAfterMs: 1000 }));
+  it('should revert after resetDelay, counted from the most recent copy', async () => {
+    const { result } = renderHook(() => useClipboard({ resetDelay: 1000 }));
 
     await act(async () => {
       await result.current.copy('A');
