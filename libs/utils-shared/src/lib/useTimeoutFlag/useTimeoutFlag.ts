@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
  *
  * @param duration - How long the flag stays active, in ms.
  */
-export const useTemporaryFlag = (
+export const useTimeoutFlag = (
   duration: number,
 ): [active: boolean, trigger: () => void] => {
   const [active, setActive] = useState(false);

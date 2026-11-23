@@ -1,9 +1,9 @@
 import { act, renderHook } from '@testing-library/react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { useTemporaryFlag } from './useTemporaryFlag';
+import { useTimeoutFlag } from './useTimeoutFlag';
 
-describe('useTemporaryFlag', () => {
+describe('useTimeoutFlag', () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -13,12 +13,12 @@ describe('useTemporaryFlag', () => {
   });
 
   it('starts inactive', () => {
-    const { result } = renderHook(() => useTemporaryFlag(1000));
+    const { result } = renderHook(() => useTimeoutFlag(1000));
     expect(result.current[0]).toBe(false);
   });
 
   it('is active for the given duration after trigger', () => {
-    const { result } = renderHook(() => useTemporaryFlag(1000));
+    const { result } = renderHook(() => useTimeoutFlag(1000));
 
     act(() => result.current[1]());
     expect(result.current[0]).toBe(true);
@@ -31,7 +31,7 @@ describe('useTemporaryFlag', () => {
   });
 
   it('restarts the timer when triggered again', () => {
-    const { result } = renderHook(() => useTemporaryFlag(1000));
+    const { result } = renderHook(() => useTimeoutFlag(1000));
 
     act(() => result.current[1]());
     act(() => vi.advanceTimersByTime(600));
@@ -44,7 +44,7 @@ describe('useTemporaryFlag', () => {
   });
 
   it('clears the pending timer on unmount', () => {
-    const { result, unmount } = renderHook(() => useTemporaryFlag(1000));
+    const { result, unmount } = renderHook(() => useTimeoutFlag(1000));
 
     act(() => result.current[1]());
     unmount();
