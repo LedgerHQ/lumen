@@ -85,9 +85,13 @@ export const ClipboardInput = ({
   style,
   label,
   icon,
+  disabled: disabledProp = false,
   ...props
 }: ClipboardInputProps) => {
-  const disabled = useDisabledContext({ consumerName: 'ClipboardInput' });
+  const disabled = useDisabledContext({
+    consumerName: 'ClipboardInput',
+    mergeWith: { disabled: disabledProp },
+  });
 
   return (
     <Pressable

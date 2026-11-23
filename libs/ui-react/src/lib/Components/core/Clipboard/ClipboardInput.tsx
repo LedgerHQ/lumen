@@ -29,9 +29,13 @@ export const ClipboardInput = ({
   className,
   label,
   icon: Icon,
+  disabled: disabledProp = false,
   ...props
 }: ClipboardInputProps) => {
-  const disabled = useDisabledContext({ consumerName: 'ClipboardInput' });
+  const disabled = useDisabledContext({
+    consumerName: 'ClipboardInput',
+    mergeWith: { disabled: disabledProp },
+  });
 
   return (
     <button

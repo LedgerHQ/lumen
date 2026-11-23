@@ -13,14 +13,14 @@ import { CustomTabs, Tab } from '../../../../../.storybook/components';
 
 **Clipboard** copies a value the user needs, such as an address, an ID or a code. It owns the copy behavior and the copied state; the element it renders only triggers it. Pressing copies the value and switches the copy icon to a check icon for 3 seconds by default.
 
-By default, Clipboard renders a **ClipboardInput**: a full-width surface displaying the value. Use the `render` prop to trigger the copy from any other component, such as a `Button` or an `IconButton`.
+Clipboard renders nothing by itself: its `render` prop returns the element that triggers the copy. Render a **ClipboardInput**, a full-width surface displaying the value, or any other component, such as a `Button` or an `IconButton`.
 
 > View in [Figma](https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=23359-110294).
 
 ## Anatomy
 
 - **Clipboard**: the behavior. It copies `value`, tracks the copied state and passes it to `render`.
-- **ClipboardInput**: the default visual. It displays a `label` (long values wrap onto multiple lines) and an `icon`; pressing anywhere on it highlights the icon.
+- **ClipboardInput**: the input-style visual. It displays a `label` (long values wrap onto multiple lines) and an `icon`; pressing anywhere on it highlights the icon.
 
 ## Properties
 
@@ -31,7 +31,7 @@ By default, Clipboard renders a **ClipboardInput**: a full-width surface display
 
 ### Custom reset delay
 
-Use `resetAfterMs` to change how long the copied state lasts. It defaults to `3000`.
+Use `resetDelay` to change how long the copied state lasts. It defaults to `3000`.
 
 <Canvas of={ClipboardStories.CustomResetDelay} />
 
@@ -40,6 +40,12 @@ Use `resetAfterMs` to change how long the copied state lasts. It defaults to `30
 The clipboard takes the full width of its container and wraps long values.
 
 <Canvas of={ClipboardStories.ResponsivenessShowcase} />
+
+### Disabled
+
+Use `disabled` to prevent the copy. It disables the rendered trigger through the shared disabled context, as a disabled ancestor does.
+
+<Canvas of={ClipboardStories.Disabled} />
 
 ### With a toast
 
@@ -51,7 +57,7 @@ Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
 
 `render` receives the copy state and returns the element that triggers the copy:
 
-- `handleCopy`: copies the value. Does nothing inside a disabled ancestor.
+- `handleCopy`: copies the value. Resolves `false` when the copy fails or Clipboard is disabled, e.g. to show an error.
 - `Icon`: the copy icon, or the check icon while the copied state lasts.
 - `statusLabel`: the translated "Copy" label, or "Copied" while the copied state lasts.
 - `isCopied` and `value`, for anything else.
@@ -60,7 +66,8 @@ Clipboard does not show a toast by itself. Use `onCopy` to trigger one.
 
 ## Accessibility
 
-- ClipboardInput is exposed as a button. By default, its accessibility label is the value followed by "Copy", then "Copied" once the value is copied (translated with the library locale). With a custom render, use `statusLabel` in the accessibility label (e.g. an `IconButton`'s `accessibilityLabel`).
+- ClipboardInput is exposed as a button. Use `statusLabel` in the trigger's accessibility label: the value followed by "Copy" for a ClipboardInput, or "Copy" alone for an `IconButton`'s `accessibilityLabel`. It switches to "Copied" once the value is copied (translated with the library locale).
+- Clipboard also announces "Copied" to VoiceOver and TalkBack, since they don't re-read the label of the focused trigger when it changes.
 - The copied state only shows when the clipboard write succeeds.
 
 </Tab>

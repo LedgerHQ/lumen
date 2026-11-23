@@ -6,6 +6,21 @@ import { IconButton } from '../IconButton';
 import { toast, Toaster } from '../Toast';
 import { Clipboard } from './Clipboard';
 import { ClipboardInput } from './ClipboardInput';
+import type { ClipboardRenderProps } from './types';
+
+const renderClipboardInput = ({
+  value,
+  handleCopy,
+  Icon,
+  statusLabel,
+}: ClipboardRenderProps) => (
+  <ClipboardInput
+    label={value}
+    icon={Icon}
+    accessibilityLabel={`${value}, ${statusLabel}`}
+    onPress={handleCopy}
+  />
+);
 
 const meta = {
   id: 'rnative-clipboard',
@@ -26,7 +41,7 @@ const meta = {
       source: {
         language: 'tsx',
         format: true,
-        type: 'dynamic',
+        type: 'code',
       },
     },
   },
@@ -36,18 +51,39 @@ export default meta;
 type Story = StoryObj<typeof Clipboard>;
 
 export const Base: Story = {
-  render: (args) => <Clipboard {...args} />,
+  render: (args) => (
+    <Clipboard
+      {...args}
+      render={({ value, handleCopy, Icon, statusLabel }) => (
+        <ClipboardInput
+          label={value}
+          icon={Icon}
+          accessibilityLabel={`${value}, ${statusLabel}`}
+          onPress={handleCopy}
+        />
+      )}
+    />
+  ),
   args: {
     value: 'Label',
   },
 };
 
 export const CustomResetDelay: Story = {
-  render: (args) => <Clipboard {...args} />,
-  args: {
-    value: 'Copied state lasts 1 second',
-    resetAfterMs: 1000,
-  },
+  render: () => (
+    <Clipboard
+      value='Copied state lasts 1 second'
+      resetDelay={1000}
+      render={({ value, handleCopy, Icon, statusLabel }) => (
+        <ClipboardInput
+          label={value}
+          icon={Icon}
+          accessibilityLabel={`${value}, ${statusLabel}`}
+          onPress={handleCopy}
+        />
+      )}
+    />
+  ),
 };
 
 export const WithToast: Story = {
@@ -57,6 +93,14 @@ export const WithToast: Story = {
         <Clipboard
           value='Copy'
           onCopy={() => toast.info({ title: 'Copied to clipboard' })}
+          render={({ value, handleCopy, Icon, statusLabel }) => (
+            <ClipboardInput
+              label={value}
+              icon={Icon}
+              accessibilityLabel={`${value}, ${statusLabel}`}
+              onPress={handleCopy}
+            />
+          )}
         />
         <Toaster />
       </Box>
@@ -97,11 +141,34 @@ export const WithCustomRender: Story = {
   ),
 };
 
+export const Disabled: Story = {
+  render: () => (
+    <Clipboard
+      value='Label'
+      disabled
+      render={({ value, handleCopy, Icon, statusLabel }) => (
+        <ClipboardInput
+          label={value}
+          icon={Icon}
+          accessibilityLabel={`${value}, ${statusLabel}`}
+          onPress={handleCopy}
+        />
+      )}
+    />
+  ),
+};
+
 export const ResponsivenessShowcase: Story = {
   render: () => (
     <Box lx={{ gap: 's8' }}>
-      <Clipboard value='A long label that wraps onto several lines when it does not fit on one' />
-      <Clipboard value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq' />
+      <Clipboard
+        value='A long label that wraps onto several lines when it does not fit on one'
+        render={renderClipboardInput}
+      />
+      <Clipboard
+        value='bc1qar0srrr7xfkvy5l643lydnw9re59gtzzwf5mdq'
+        render={renderClipboardInput}
+      />
     </Box>
   ),
 };
