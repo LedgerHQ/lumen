@@ -289,7 +289,11 @@ export const WithVisibleToasts: Story = {
             duration: 0,
           }).id,
       );
-      return () => ids.forEach((id) => toast.dismiss(id));
+      return () =>
+        ids.forEach((id) => {
+          toast.dismiss(id);
+          toast.dismiss(id);
+        });
     }, []);
 
     return <Toaster maxItems={RANDOM_APPEARANCES.length} />;

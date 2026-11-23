@@ -483,7 +483,6 @@ export const TypesafeFactory: Story = {
 export const WithCollapsedTooltip: Story = {
   parameters: {
     backgrounds: { default: 'light' },
-    docs: { source: { type: 'dynamic' } },
   },
   play: async ({ canvasElement }) => {
     await userEvent.hover(
