@@ -3,6 +3,15 @@
   "version": "0.0.4",
   "description": "Migration guides for Lumen updates, read by the automated upgrade pipeline in consumer repos.",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LedgerHQ/lumen.git",
+    "directory": "libs/migrations"
+  },
+  "homepage": "https://lumen-ldls.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/LedgerHQ/lumen/issues"
+  },
   "type": "module",
   "files": [
     "cli",

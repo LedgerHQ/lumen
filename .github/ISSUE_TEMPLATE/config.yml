@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a security vulnerability
+    url: https://donjon.ledger.com/bounty/
+    about: Do not open a public issue. Report vulnerabilities to the Ledger Donjon bug bounty program.
+  - name: Documentation and Storybook
+    url: https://lumen-ldls.vercel.app/
+    about: Component docs, usage guidelines and live examples.
