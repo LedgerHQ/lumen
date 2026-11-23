@@ -7,9 +7,9 @@ const BaseSkeleton = ({ lx, ...props }: SkeletonProps) => {
   return (
     <Box
       lx={{
-        borderRadius: 'md',
         backgroundColor: 'mutedTransparent',
         ...lx,
+        borderRadius: lx?.borderRadius ?? 'md',
       }}
       {...props}
     />
@@ -127,7 +127,11 @@ const Skeleton = ({ lx, component, style, ...props }: SkeletonProps) => {
     <Pulse animate style={style} lx={lx}>
       <BaseSkeleton
         testID='skeleton'
-        lx={{ width: 'full', height: 'full' }}
+        lx={{
+          width: 'full',
+          height: 'full',
+          borderRadius: lx?.borderRadius,
+        }}
         {...props}
       />
     </Pulse>
