@@ -20,6 +20,7 @@ export * from './DotSymbol';
 export * from './IconButton';
 export * from './InteractiveIcon';
 export * from './Link';
+export * from './LottieView';
 export * from './ListItem';
 export * from './MediaBanner';
 export * from './MediaButton';
