@@ -1,6 +1,6 @@
 import { toast } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Box } from '../../primitives';
 import { Button } from '../Button';
@@ -246,4 +246,30 @@ export const AppearanceShowcase: Story = {
       <Toast loading title='Processing payment' />
     </Box>
   ),
+};
+
+export const WithVisibleToasts: Story = {
+  render: () => {
+    useEffect(() => {
+      const ids = RANDOM_APPEARANCES.map(
+        (appearance) =>
+          toast.notify({
+            appearance,
+            title: `${appearance} toast`,
+            duration: 0,
+          }).id,
+      );
+      return () =>
+        ids.forEach((id) => {
+          toast.dismiss(id);
+          toast.dismiss(id);
+        });
+    }, []);
+
+    return (
+      <SafeAreaProvider>
+        <Toaster maxItems={RANDOM_APPEARANCES.length} />
+      </SafeAreaProvider>
+    );
+  },
 };

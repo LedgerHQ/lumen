@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useState } from 'react';
+import { userEvent, within } from 'storybook/test';
 import {
   Home,
   HomeFill,
@@ -477,4 +478,45 @@ export const TypesafeFactory: Story = {
       </div>
     );
   },
+};
+
+export const WithCollapsedTooltip: Story = {
+  parameters: {
+    backgrounds: { default: 'light' },
+  },
+  play: async ({ canvasElement }) => {
+    await userEvent.hover(
+      await within(canvasElement).findByRole('button', { name: 'Wallet' }),
+    );
+    await within(document.body).findByRole('tooltip');
+  },
+  render: () => (
+    <div className='flex h-480'>
+      <SideBar collapsed active='home' aria-label='Collapsed navigation'>
+        <SideBarLeading>
+          <SideBarItem
+            value='home'
+            icon={Home}
+            activeIcon={HomeFill}
+            label='Home'
+          />
+          <SideBarItem
+            value='wallet'
+            icon={Wallet}
+            activeIcon={Wallet}
+            label='Wallet'
+          />
+          <SideBarItem
+            value='discover'
+            icon={Compass}
+            activeIcon={Compass}
+            label='Discover'
+          />
+        </SideBarLeading>
+        <SideBarTrailing>
+          <SideBarCollapseToggle />
+        </SideBarTrailing>
+      </SideBar>
+    </div>
+  ),
 };
