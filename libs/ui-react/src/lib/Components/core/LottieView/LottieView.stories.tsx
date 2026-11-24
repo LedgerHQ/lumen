@@ -1,6 +1,6 @@
 import type { LottieViewRef } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '../Button';
 import { LottieView } from './LottieView';
 
@@ -36,25 +36,45 @@ export const Base: Story = {
 export const WithRef: Story = {
   render: () => {
     const ref = useRef<LottieViewRef>(null);
+    const [status, setStatus] = useState<'playing' | 'paused' | 'stopped'>(
+      'playing',
+    );
+
+    const togglePlayback = (): void => {
+      if (status === 'playing') {
+        ref.current?.pause();
+        setStatus('paused');
+      } else {
+        // eslint-disable-next-line storybook/context-in-play-function -- LottieViewRef.play, not a story play function
+        ref.current?.play();
+        setStatus('playing');
+      }
+    };
+
+    const stop = (): void => {
+      ref.current?.stop();
+      setStatus('stopped');
+    };
+
+    const toggleLabel = {
+      playing: 'Pause',
+      paused: 'Resume',
+      stopped: 'Start',
+    }[status];
 
     return (
       <div className='flex flex-col items-center gap-16'>
         <LottieView
           ref={ref}
-          animation='lotties/lottie-loading.lottie'
-          autoPlay={false}
+          animation='lotties/lottie-success.lottie'
           loop
           className='size-80'
         />
         <div className='flex gap-8'>
-          {/* eslint-disable-next-line storybook/context-in-play-function -- LottieViewRef.play, not a story play function */}
-          <Button size='sm' onClick={() => ref.current?.play()}>
-            Play
+          <Button size='sm' onClick={togglePlayback}>
+            {toggleLabel}
           </Button>
-          <Button size='sm' onClick={() => ref.current?.pause()}>
-            Pause
-          </Button>
-          <Button size='sm' onClick={() => ref.current?.stop()}>
+          <Button size='sm' onClick={stop}>
             Stop
           </Button>
         </div>
