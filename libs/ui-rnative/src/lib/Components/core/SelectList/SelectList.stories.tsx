@@ -1125,6 +1125,7 @@ export const TypesafeFactory: Story = {
 };
 
 export const WithDefaultOpen: Story = {
+  parameters: { chromatic: { delay: 2000 } },
   args: {
     items: CURRENCIES,
     children: null,
