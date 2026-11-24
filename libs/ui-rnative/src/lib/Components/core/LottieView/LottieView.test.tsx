@@ -28,7 +28,7 @@ const renderLottie = (
     wrapper: createWrapper(colorScheme),
   });
 
-const spyOn = (method: 'pause' | 'resume' | 'reset') =>
+const spyOn = (method: 'play' | 'pause' | 'resume' | 'reset') =>
   jest.spyOn(RNLottieView.prototype, method);
 
 describe('LottieView', () => {
@@ -52,17 +52,67 @@ describe('LottieView', () => {
     expect(screen.getByTestId('lottie').props.source).toBe(source);
   });
 
+  it('wraps a remote URL string so it is not read as a bundled name', () => {
+    renderLottie({
+      animation: { light: 'local', dark: 'https://example.com/a.lottie' },
+    });
+    expect(screen.getByTestId('lottie').props.source).toEqual({
+      uri: 'https://example.com/a.lottie',
+    });
+  });
+
+  it('keeps a non-URL string as a bundled animation name', () => {
+    renderLottie({ animation: 'local' });
+    expect(screen.getByTestId('lottie').props.source).toBe('local');
+  });
+
   it('applies the playback defaults', () => {
     renderLottie();
     const lottie = screen.getByTestId('lottie');
-    expect(lottie.props.autoPlay).toBe(true);
     expect(lottie.props.loop).toBe(false);
     expect(lottie.props.speed).toBe(1);
   });
 
+  it('autoplays from JS once loaded, never through native autoPlay', () => {
+    const play = spyOn('play');
+    renderLottie();
+    const lottie = screen.getByTestId('lottie');
+    expect(lottie.props.autoPlay).toBe(false);
+
+    fireEvent(lottie, 'animationLoaded');
+    expect(play).toHaveBeenCalledTimes(1);
+  });
+
   it('does not autoplay when initially paused', () => {
+    const play = spyOn('play');
     renderLottie({ paused: true });
-    expect(screen.getByTestId('lottie').props.autoPlay).toBe(false);
+    fireEvent(screen.getByTestId('lottie'), 'animationLoaded');
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('does not autoplay when autoPlay is false', () => {
+    const play = spyOn('play');
+    renderLottie({ autoPlay: false });
+    fireEvent(screen.getByTestId('lottie'), 'animationLoaded');
+    expect(play).not.toHaveBeenCalled();
+  });
+
+  it('keeps a paused animation paused when its speed changes', () => {
+    const pause = spyOn('pause');
+    const { rerender } = renderLottie({ paused: true });
+    expect(pause).not.toHaveBeenCalled();
+
+    rerender(
+      <LottieView testID='lottie' animation={animation} paused speed={2} />,
+    );
+    expect(pause).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not pause a playing animation when its speed changes', () => {
+    const pause = spyOn('pause');
+    const { rerender } = renderLottie();
+    rerender(<LottieView testID='lottie' animation={animation} speed={2} />);
+    expect(pause).not.toHaveBeenCalled();
   });
 
   it('pauses and resumes when `paused` changes', () => {
@@ -106,6 +156,28 @@ describe('LottieView', () => {
     expect(onComplete).not.toHaveBeenCalled();
     expect(reset).toHaveBeenCalledTimes(1);
     expect(resume).toHaveBeenCalledTimes(1);
+  });
+
+  it('lets onLoop stop playback after the restart', () => {
+    const calls: string[] = [];
+    jest
+      .spyOn(RNLottieView.prototype, 'reset')
+      .mockImplementation(() => calls.push('reset'));
+    jest
+      .spyOn(RNLottieView.prototype, 'resume')
+      .mockImplementation(() => calls.push('resume'));
+    const ref = createRef<LottieViewRef>();
+    renderLottie({
+      ref,
+      loop: true,
+      onLoop: () => {
+        calls.push('onLoop');
+        ref.current?.stop();
+      },
+    });
+
+    fireEvent(screen.getByTestId('lottie'), 'animationFinish', false);
+    expect(calls).toEqual(['reset', 'resume', 'onLoop', 'reset']);
   });
 
   it('keeps native looping when onLoop is not set', () => {

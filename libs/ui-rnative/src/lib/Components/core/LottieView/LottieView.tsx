@@ -1,4 +1,7 @@
-import { resolveLottieSource } from '@ledgerhq/lumen-utils-shared';
+import {
+  resolveLottieSource,
+  type LottieSource,
+} from '@ledgerhq/lumen-utils-shared';
 import RNLottieView, {
   type LottieViewProps as RNLottieViewProps,
 } from 'lottie-react-native';
@@ -6,6 +9,11 @@ import { useEffect, useImperativeHandle, useRef } from 'react';
 import { StyleSheet } from 'react-native';
 import { useResolveViewStyle, useTheme } from '../../../../styles';
 import type { LottieViewProps } from './types';
+
+const toNativeSource = (source: LottieSource): LottieSource =>
+  typeof source === 'string' && /^https?:\/\//i.test(source)
+    ? { uri: source }
+    : source;
 
 /**
  * Plays a Lottie animation, picking the light or dark variant from the theme.
@@ -40,9 +48,11 @@ export const LottieView = ({
   const hasCompletedRef = useRef(false);
   const wasPausedRef = useRef(paused);
 
-  const source = resolveLottieSource(
-    animation,
-    colorScheme ?? (themeColorScheme === 'light' ? 'light' : 'dark'),
+  const source = toNativeSource(
+    resolveLottieSource(
+      animation,
+      colorScheme ?? (themeColorScheme === 'light' ? 'light' : 'dark'),
+    ),
   );
   const loopsFromJs = loop && onLoop !== undefined;
 
@@ -71,9 +81,10 @@ export const LottieView = ({
     [],
   );
 
+  const sourceKey = typeof source === 'object' ? source.uri : String(source);
   useEffect(() => {
     hasCompletedRef.current = false;
-  }, [source]);
+  }, [sourceKey]);
 
   useEffect(() => {
     if (wasPausedRef.current === paused) {
@@ -87,13 +98,31 @@ export const LottieView = ({
     }
   }, [paused]);
 
+  const previousSpeedRef = useRef(speed);
+  useEffect(() => {
+    if (previousSpeedRef.current === speed) {
+      return;
+    }
+    previousSpeedRef.current = speed;
+    if (paused) {
+      lottieRef.current?.pause();
+    }
+  }, [speed, paused]);
+
+  const handleLoad = (): void => {
+    if (autoPlay && !paused) {
+      lottieRef.current?.play();
+    }
+    onLoad?.();
+  };
+
   const handleFinish = (isCancelled: boolean): void => {
     if (isCancelled) {
       return;
     }
     if (loopsFromJs) {
-      onLoop?.();
       restart();
+      onLoop?.();
       return;
     }
     hasCompletedRef.current = true;
@@ -104,12 +133,12 @@ export const LottieView = ({
     <RNLottieView
       ref={lottieRef}
       source={source as RNLottieViewProps['source']}
-      autoPlay={autoPlay && !paused}
+      autoPlay={false}
       loop={loop && !loopsFromJs}
       speed={speed}
       style={StyleSheet.flatten([style, resolvedStyle])}
       testID={testID}
-      onAnimationLoaded={onLoad}
+      onAnimationLoaded={handleLoad}
       onAnimationFinish={handleFinish}
       onAnimationFailure={(error) => onError?.(new Error(error))}
     />
