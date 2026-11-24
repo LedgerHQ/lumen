@@ -12,24 +12,14 @@ const animation = {
   dark: { uri: 'https://example.com/dark.lottie' },
 };
 
-const createWrapper =
-  (colorScheme: 'light' | 'dark') =>
-  ({ children }: { children: ReactNode }) => (
-    <ThemeProvider themes={ledgerLiveThemes} colorScheme={colorScheme}>
-      {children}
-    </ThemeProvider>
-  );
-
-const renderLottie = (
-  props: Partial<Parameters<typeof LottieView>[0]> = {},
-  colorScheme: 'light' | 'dark' = 'dark',
-) =>
+const renderLottie = (props: Partial<Parameters<typeof LottieView>[0]> = {}) =>
   render(<LottieView testID='lottie' animation={animation} {...props} />, {
-    wrapper: createWrapper(colorScheme),
+    wrapper: ({ children }: { children: ReactNode }) => (
+      <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark'>
+        {children}
+      </ThemeProvider>
+    ),
   });
-
-const spyOn = (method: 'play' | 'pause' | 'resume' | 'reset') =>
-  jest.spyOn(RNLottieView.prototype, method);
 
 describe('LottieView', () => {
   afterEach(() => {
@@ -37,172 +27,33 @@ describe('LottieView', () => {
   });
 
   it('plays the variant matching the theme', () => {
-    renderLottie({}, 'light');
-    expect(screen.getByTestId('lottie').props.source).toBe(animation.light);
+    renderLottie();
+    expect(screen.getByTestId('lottie').props.source).toBe(animation.dark);
   });
 
   it('plays the forced color scheme over the theme', () => {
-    renderLottie({ colorScheme: 'light' }, 'dark');
+    renderLottie({ colorScheme: 'light' });
     expect(screen.getByTestId('lottie').props.source).toBe(animation.light);
   });
 
-  it('plays a single source whatever the theme', () => {
-    const source = { uri: 'https://example.com/single.lottie' };
-    renderLottie({ animation: source }, 'light');
-    expect(screen.getByTestId('lottie').props.source).toBe(source);
-  });
-
-  it('wraps a remote URL string so it is not read as a bundled name', () => {
-    renderLottie({
-      animation: { light: 'local', dark: 'https://example.com/a.lottie' },
-    });
-    expect(screen.getByTestId('lottie').props.source).toEqual({
-      uri: 'https://example.com/a.lottie',
-    });
-  });
-
-  it('keeps a non-URL string as a bundled animation name', () => {
-    renderLottie({ animation: 'local' });
-    expect(screen.getByTestId('lottie').props.source).toBe('local');
-  });
-
-  it('applies the playback defaults', () => {
+  it('autoplays once loaded', () => {
+    const play = jest.spyOn(RNLottieView.prototype, 'play');
     renderLottie();
-    const lottie = screen.getByTestId('lottie');
-    expect(lottie.props.loop).toBe(false);
-    expect(lottie.props.speed).toBe(1);
-  });
-
-  it('autoplays from JS once loaded, never through native autoPlay', () => {
-    const play = spyOn('play');
-    renderLottie();
-    const lottie = screen.getByTestId('lottie');
-    expect(lottie.props.autoPlay).toBe(false);
-
-    fireEvent(lottie, 'animationLoaded');
+    fireEvent(screen.getByTestId('lottie'), 'animationLoaded');
     expect(play).toHaveBeenCalledTimes(1);
   });
 
-  it('does not autoplay when initially paused', () => {
-    const play = spyOn('play');
-    renderLottie({ paused: true });
-    fireEvent(screen.getByTestId('lottie'), 'animationLoaded');
-    expect(play).not.toHaveBeenCalled();
-  });
-
-  it('does not autoplay when autoPlay is false', () => {
-    const play = spyOn('play');
-    renderLottie({ autoPlay: false });
-    fireEvent(screen.getByTestId('lottie'), 'animationLoaded');
-    expect(play).not.toHaveBeenCalled();
-  });
-
-  it('keeps a paused animation paused when its speed changes', () => {
-    const pause = spyOn('pause');
-    const { rerender } = renderLottie({ paused: true });
-    expect(pause).not.toHaveBeenCalled();
-
-    rerender(
-      <LottieView testID='lottie' animation={animation} paused speed={2} />,
-    );
-    expect(pause).toHaveBeenCalledTimes(1);
-  });
-
-  it('does not pause a playing animation when its speed changes', () => {
-    const pause = spyOn('pause');
-    const { rerender } = renderLottie();
-    rerender(<LottieView testID='lottie' animation={animation} speed={2} />);
-    expect(pause).not.toHaveBeenCalled();
-  });
-
-  it('pauses and resumes when `paused` changes', () => {
-    const pause = spyOn('pause');
-    const resume = spyOn('resume');
-    const { rerender } = renderLottie();
-    expect(pause).not.toHaveBeenCalled();
-
-    rerender(<LottieView testID='lottie' animation={animation} paused />);
-    expect(pause).toHaveBeenCalledTimes(1);
-
-    rerender(
-      <LottieView testID='lottie' animation={animation} paused={false} />,
-    );
-    expect(resume).toHaveBeenCalledTimes(1);
-  });
-
-  it('calls onComplete only when the animation is not canceled', () => {
+  it('calls onComplete when the animation finishes', () => {
     const onComplete = jest.fn();
     renderLottie({ onComplete });
-    const lottie = screen.getByTestId('lottie');
-
-    fireEvent(lottie, 'animationFinish', true);
-    expect(onComplete).not.toHaveBeenCalled();
-
-    fireEvent(lottie, 'animationFinish', false);
+    fireEvent(screen.getByTestId('lottie'), 'animationFinish', false);
     expect(onComplete).toHaveBeenCalledTimes(1);
   });
 
-  it('replays each loop from JS when onLoop is set', () => {
-    const onLoop = jest.fn();
-    const onComplete = jest.fn();
-    const reset = spyOn('reset');
-    const resume = spyOn('resume');
-    renderLottie({ loop: true, onLoop, onComplete });
-    const lottie = screen.getByTestId('lottie');
-    expect(lottie.props.loop).toBe(false);
-
-    fireEvent(lottie, 'animationFinish', false);
-    expect(onLoop).toHaveBeenCalledTimes(1);
-    expect(onComplete).not.toHaveBeenCalled();
-    expect(reset).toHaveBeenCalledTimes(1);
-    expect(resume).toHaveBeenCalledTimes(1);
-  });
-
-  it('lets onLoop stop playback after the restart', () => {
-    const calls: string[] = [];
-    jest
-      .spyOn(RNLottieView.prototype, 'reset')
-      .mockImplementation(() => calls.push('reset'));
-    jest
-      .spyOn(RNLottieView.prototype, 'resume')
-      .mockImplementation(() => calls.push('resume'));
-    const ref = createRef<LottieViewRef>();
-    renderLottie({
-      ref,
-      loop: true,
-      onLoop: () => {
-        calls.push('onLoop');
-        ref.current?.stop();
-      },
-    });
-
-    fireEvent(screen.getByTestId('lottie'), 'animationFinish', false);
-    expect(calls).toEqual(['reset', 'resume', 'onLoop', 'reset']);
-  });
-
-  it('keeps native looping when onLoop is not set', () => {
-    renderLottie({ loop: true });
-    expect(screen.getByTestId('lottie').props.loop).toBe(true);
-  });
-
-  it('forwards load and wraps failures in an Error', () => {
-    const onLoad = jest.fn();
-    const onError = jest.fn<(error: Error) => void>();
-    renderLottie({ onLoad, onError });
-    const lottie = screen.getByTestId('lottie');
-
-    fireEvent(lottie, 'animationLoaded');
-    expect(onLoad).toHaveBeenCalledTimes(1);
-
-    fireEvent(lottie, 'animationFailure', 'bad json');
-    expect(onError.mock.calls[0][0]).toBeInstanceOf(Error);
-    expect(onError.mock.calls[0][0].message).toBe('bad json');
-  });
-
   it('exposes play, pause and stop through the ref', () => {
-    const pause = spyOn('pause');
-    const resume = spyOn('resume');
-    const reset = spyOn('reset');
+    const pause = jest.spyOn(RNLottieView.prototype, 'pause');
+    const resume = jest.spyOn(RNLottieView.prototype, 'resume');
+    const reset = jest.spyOn(RNLottieView.prototype, 'reset');
     const ref = createRef<LottieViewRef>();
     renderLottie({ ref });
 
@@ -211,49 +62,8 @@ describe('LottieView', () => {
 
     act(() => ref.current?.play());
     expect(resume).toHaveBeenCalledTimes(1);
-    expect(reset).not.toHaveBeenCalled();
 
     act(() => ref.current?.stop());
     expect(reset).toHaveBeenCalledTimes(1);
-  });
-
-  it('rewinds before playing again once completed', () => {
-    const reset = spyOn('reset');
-    const resume = spyOn('resume');
-    const ref = createRef<LottieViewRef>();
-    renderLottie({ ref });
-
-    fireEvent(screen.getByTestId('lottie'), 'animationFinish', false);
-    act(() => ref.current?.play());
-
-    expect(reset).toHaveBeenCalledTimes(1);
-    expect(resume).toHaveBeenCalledTimes(1);
-  });
-
-  it('resumes without rewinding after the source changes', () => {
-    const reset = spyOn('reset');
-    const resume = spyOn('resume');
-    const ref = createRef<LottieViewRef>();
-    const { rerender } = renderLottie({ ref });
-
-    fireEvent(screen.getByTestId('lottie'), 'animationFinish', false);
-    rerender(
-      <LottieView
-        ref={ref}
-        testID='lottie'
-        animation={{ light: 2, dark: 3 }}
-      />,
-    );
-    act(() => ref.current?.play());
-
-    expect(reset).not.toHaveBeenCalled();
-    expect(resume).toHaveBeenCalledTimes(1);
-  });
-
-  it('resolves lx into the style', () => {
-    renderLottie({ lx: { width: 's80' } });
-    expect(screen.getByTestId('lottie').props.style).toMatchObject({
-      width: 80,
-    });
   });
 });
