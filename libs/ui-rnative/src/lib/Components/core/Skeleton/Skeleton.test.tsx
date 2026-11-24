@@ -4,8 +4,6 @@ import { render } from '@testing-library/react-native';
 import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
 import { Skeleton } from './Skeleton';
 
-const { borderRadius } = ledgerLiveThemes.dark;
-
 const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ThemeProvider themes={ledgerLiveThemes} colorScheme='dark' locale='en'>
     {children}
@@ -56,11 +54,9 @@ describe('Skeleton Component', () => {
   it('should forward lx borderRadius to the skeleton element', () => {
     const { getByTestId } = render(
       <TestWrapper>
-        <Skeleton testID='radius-skeleton' lx={{ borderRadius: 'full' }} />
+        <Skeleton testID='radius-skeleton' style={{ borderRadius: 24 }} />
       </TestWrapper>,
     );
-    expect(getByTestId('radius-skeleton').props.style.borderRadius).toBe(
-      borderRadius.full,
-    );
+    expect(getByTestId('radius-skeleton').props.style.borderRadius).toBe(24);
   });
 });

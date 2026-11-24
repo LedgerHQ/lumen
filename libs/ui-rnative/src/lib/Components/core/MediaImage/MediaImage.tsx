@@ -23,11 +23,6 @@ export const borderRadiusMap: Record<MediaImageSize, BorderRadiusKey> = {
   72: 'lg',
 };
 
-const getBorderRadiusKey = (
-  size: MediaImageSize,
-  shape: MediaImageShape,
-): BorderRadiusKey => (shape === 'circle' ? 'full' : borderRadiusMap[size]);
-
 export const fontSizeMap: Record<MediaImageSize, number> = {
   12: 10,
   16: 10,
@@ -53,7 +48,10 @@ const useStyles = ({
   return useStyleSheet(
     (t) => {
       const sizeValue = t.sizes[`s${size}` as keyof typeof t.sizes] as number;
-      const radius = t.borderRadius[getBorderRadiusKey(size, shape)];
+      const radius =
+        shape === 'circle'
+          ? t.borderRadius.full
+          : t.borderRadius[borderRadiusMap[size]];
 
       return {
         root: {
@@ -77,6 +75,7 @@ const useStyles = ({
         skeleton: {
           width: '100%',
           height: '100%',
+          borderRadius: radius,
         },
       };
     },
@@ -135,12 +134,7 @@ export const MediaImage = ({
       accessibilityState={{ disabled }}
       {...props}
     >
-      {loading && (
-        <Skeleton
-          style={styles.skeleton}
-          lx={{ borderRadius: getBorderRadiusKey(size, shape) }}
-        />
-      )}
+      {loading && <Skeleton style={styles.skeleton} />}
       {!loading && shouldFallback && fallback && (
         <Text
           style={{
