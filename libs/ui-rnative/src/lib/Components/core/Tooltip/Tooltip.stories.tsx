@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react-native-web-vite';
-import { userEvent, within } from 'storybook/test';
 import { Box } from '../../primitives/Box';
 import { Text } from '../../primitives/Text';
 import { Information } from '../../symbols';
@@ -181,39 +180,4 @@ export const WithChangeCallback: Story = {
       </>
     );
   },
-};
-
-export const WithDefaultOpen: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
-  args: {
-    children: null,
-  },
-  play: async ({ canvasElement }) => {
-    await userEvent.click(
-      await within(canvasElement).findByRole('button', { name: 'Press me' }),
-    );
-  },
-  render: () => (
-    <>
-      <Box
-        lx={{
-          minHeight: 's400',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 's24',
-        }}
-      >
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button>Press me</Button>
-          </TooltipTrigger>
-          <TooltipContent
-            title='My tooltip title'
-            content={<Text typography='body2'>This is a helpful tooltip</Text>}
-          />
-        </Tooltip>
-      </Box>
-      <GlobalTooltipBottomSheet />
-    </>
-  ),
 };

@@ -268,7 +268,9 @@ export const WithVisibleToasts: Story = {
 
     return (
       <SafeAreaProvider>
-        <Toaster maxItems={RANDOM_APPEARANCES.length} />
+        <Box lx={{ width: 's320', height: 's480' }}>
+          <Toaster maxItems={RANDOM_APPEARANCES.length} position='top' />
+        </Box>
       </SafeAreaProvider>
     );
   },
