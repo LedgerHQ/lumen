@@ -12,6 +12,8 @@ const config: StorybookConfig = {
     './docs/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
+  staticDirs: [{ from: './assets/lotties', to: '/lotties' }],
+
   addons: [
     getAbsolutePath('@storybook/addon-themes'),
     getAbsolutePath('@storybook/addon-docs'),

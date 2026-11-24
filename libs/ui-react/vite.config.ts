@@ -87,6 +87,7 @@ export default defineConfig(() => ({
         '@tanstack/react-table',
         '@base-ui/react',
         /^d3-/,
+        /^@lottiefiles\//,
         'internmap',
         // Tripwires: nothing inside this package may import it by name. A
         // leftover self-import would otherwise resolve through the workspace
