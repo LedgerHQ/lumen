@@ -5,13 +5,12 @@ the only code that talks to Figma. Never published, so changes here need no
 version plan — see `## Internals` in [AGENTS.md](../../AGENTS.md) for the
 category's rules.
 
-Driven in CI by three workflows, each runnable from the Actions tab:
-
-| Workflow                                                                   | Runs                                                | Opens                                      |
-| -------------------------------------------------------------------------- | --------------------------------------------------- | ------------------------------------------ |
-| [`sync-figma-tokens.yml`](../../.github/workflows/sync-figma-tokens.yml)   | `extract --kind=tokens`, then `design-build:tokens` | a tokens PR (`sync-figma-tokens` branch)   |
-| [`sync-figma-symbols.yml`](../../.github/workflows/sync-figma-symbols.yml) | `extract --kind=icons`, then `design-build:icons`   | a symbols PR (`sync-figma-symbols` branch) |
-| [`sync-figma-all.yml`](../../.github/workflows/sync-figma-all.yml)         | both, as reusable workflows                         | one combined PR (`sync-figma` branch)      |
+Driven in CI by [`sync-figma.yml`](../../.github/workflows/sync-figma.yml),
+run from the Actions tab with a `kind` (`all`, `tokens` or `symbols`). It runs
+`extract --kind=tokens` and/or `--kind=icons`, then `design-build:tokens` /
+`:icons`, and opens a PR on the `sync-figma-<kind>` branch with the diff report
+as its description. When the build fails, the PR opens as a draft with the
+error, so the fix lands on that branch.
 
 | Target                  | Does                                                           | Writes to                                           |
 | ----------------------- | -------------------------------------------------------------- | --------------------------------------------------- |

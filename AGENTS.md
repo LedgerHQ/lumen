@@ -61,7 +61,7 @@ no, it belongs here — codegen, ETL, external-API sync and their input data.
 Rules for adding one:
 
 - Folder = the job, named after the workflow that drives it, or after its role
-  when it serves several (`sync-figma` ↔ `.github/workflows/sync-figma-*.yml`,
+  when it serves several (`sync-figma` ↔ `.github/workflows/sync-figma.yml`,
   `repo-tools`). Nx project name = folder name, unscoped.
 - `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
   in the root manifest. Never needs a version plan.
