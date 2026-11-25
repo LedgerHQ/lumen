@@ -106,7 +106,7 @@ spend findings on things a linter can't catch. Do **not** raise:
 - Physical left/right instead of logical start/end: `ml-*`, `pr-*`,
   `border-l`, `text-left` on web (`better-tailwindcss/enforce-logical-properties`), `left-*`/`right-*` on web (`better-tailwindcss/no-restricted-classes`), `marginLeft`, `paddingRight`, `borderTopLeftRadius` and a lone `left`/`right` in RN style objects (`lumen/enforce-logical-properties`, the lint plugin's `react-native-strict` preset). Not linted: physical anchors paired with measured `x`/`translateX` (keep them physical, as SegmentedControl and Switch do), and directional icons that should mirror.
 - Removed exports, props, prop values, tokens, icons and new peers
-  without a matching migration (`npm run check:breaking-changes`, `bundle-checks` job).
+  without a matching migration (`npm run check:breaking-changes`, `breaking-changes` job).
 
 Caveat: a **valid** token class that is the wrong one for the design lints
 clean, and hardcoded colors in style objects or SVG props are not linted at all —
