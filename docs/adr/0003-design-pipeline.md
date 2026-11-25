@@ -141,7 +141,7 @@ review, and CI fails if anyone edits them by hand or if they fall out of date.
 | 4. A standard format      | `design-sources` holds valid DTCG (ticket 2)                                                                                                      |
 | 5. Any output             | Every output implements the same small `Target` contract; Android, iOS or slides are one more target                                              |
 | 6. One pipeline           | The three steps carry shared tools (Figma client, write + prune, check, diff report); icons join in ticket 6                                      |
-| 7. Safe, reviewable       | Snapshots first (ticket 1), byte-identical refactors, diff report and rename/removal gate in the sync PR (ticket 7)                               |
+| 7. Safe, reviewable       | Snapshots first (ticket 1), byte-identical refactors, diff report in the sync PR, migrations for removals (ticket 7)                              |
 
 ### Design details
 
@@ -544,13 +544,13 @@ Make drift impossible to merge, and token or symbol changes easy to review.
 - `design-sources:validate` and `design-build:check` on every PR.
 - Diff report in the sync PR body: added, changed, removed, renamed, per
   mode.
-- Removals and renames fail unless explicitly approved: a separate gate
-  workflow re-runs on the `design-sources: approve removals` label, so adding
-  the label is enough. It compares the source tokens and icons, and the public
-  names the outputs define (CSS variables, Tailwind utilities, React Native
-  `t.*` paths), so a rename made in design-build is caught too. It runs on
-  every PR and exits early when the pipeline isn't touched, so it can be a
-  required check.
+- Removals and renames fail `check:breaking-changes` until a migration covers
+  them. It compares each published package with its latest release, so a
+  public name the outputs stop defining (CSS variable, Tailwind utility, React
+  Native `t.*` path, icon) is caught whether the change came from Figma or
+  from design-build. An earlier label-approved gate workflow was dropped: the
+  sync PR is explicit about what it removes, and a migration says more than
+  a label.
 - A multi-mode collection no output builds fails the build, unless it is
   listed with the reason (`icon` and `spot` are Figma component size modes
   whose values point at built primitives).
@@ -665,7 +665,7 @@ consumer migration steps are written down; version plan for
   its durations are now 75, 100, 150, 200, 300, 500, 700 and 1000 ms: 0, 250
   and 2000 are gone. The code duration tokens and the 250 ms
   `translate-from-right` animation need a decision before that sync merges;
-  the removal gate holds it until then.
+  `check:breaking-changes` holds it until a migration covers the removals.
 - **Engineering:** `boolean` variables are dropped, as nothing reads them.
   Figma `EASING` variables can also hold spring values, which DTCG has no
   type for; the export fails on them until one is needed.

@@ -3,7 +3,6 @@ import os from 'node:os';
 import path from 'node:path';
 import { TOKENS_DIR } from '@lumen/design-sources';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { isBreaking } from './core/diffReport.js';
 import { sourcesDiff, tokenEntries } from './report.js';
 
 describe('sourcesDiff', () => {
@@ -18,8 +17,12 @@ describe('sourcesDiff', () => {
   it('reports nothing when the sources did not change', () => {
     const { Tokens } = sourcesDiff(before);
 
-    expect(isBreaking(Tokens)).toBe(false);
-    expect(Tokens.changed).toEqual([]);
+    expect(Tokens).toEqual({
+      added: [],
+      removed: [],
+      changed: [],
+      renamed: [],
+    });
   });
 
   it('only diffs the kinds the copy holds', () => {

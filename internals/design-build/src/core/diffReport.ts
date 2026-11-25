@@ -45,9 +45,6 @@ export const diffEntries = (before: Entries, after: Entries): Diff => {
   };
 };
 
-export const isBreaking = ({ removed, renamed }: Diff): boolean =>
-  removed.length + renamed.length > 0;
-
 const LIST_LIMIT = 50;
 
 const list = (items: string[]): string => {
@@ -70,12 +67,12 @@ export const markdownReport = (sections: Record<string, Diff>): string => {
     );
     if (renamed.length) {
       parts.push(
-        `**Renamed (${renamed.length})** — breaking for consumers\n${list(renamed.map(([from, to]) => `${from}\` → \`${to}`))}`,
+        `**Renamed (${renamed.length})** — breaking: needs a migration\n${list(renamed.map(([from, to]) => `${from}\` → \`${to}`))}`,
       );
     }
     if (removed.length) {
       parts.push(
-        `**Removed (${removed.length})** — breaking for consumers\n${list(removed)}`,
+        `**Removed (${removed.length})** — breaking: needs a migration\n${list(removed)}`,
       );
     }
     if (changed.length)

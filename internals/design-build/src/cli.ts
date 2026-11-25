@@ -1,7 +1,7 @@
 import { createIconModel, createTokenModel } from '@lumen/design-sources';
 import { iconTargets, tokenTargets } from './config.js';
 import { checkRendered, isClean } from './core/check.js';
-import { isBreaking, markdownReport } from './core/diffReport.js';
+import { markdownReport } from './core/diffReport.js';
 import type { Target } from './core/target.js';
 import { renderTarget, writeRendered } from './core/writer.js';
 import { sourcesDiff } from './report.js';
@@ -11,9 +11,9 @@ import { assertEveryCollectionBuilt } from './tokens/modes.js';
  * `tokens` / `icons`: rebuild that kind's outputs from the committed sources.
  * `check`: fail if any committed output differs from what the sources build
  * (a hand edit, or a source change without a rebuild). Writes nothing.
- * `report --before <dir> [--fail-on-removal]`: Markdown of what changed since
- * a copy of `internals/design-sources`; with the flag, removals and renames
- * fail, unless a reviewer approved them.
+ * `report --before <dir>`: Markdown of what changed since a copy of
+ * `internals/design-sources`, for the sync PR description. It never fails:
+ * `check:breaking-changes` blocks a removal without a migration.
  */
 
 type Kind = {
@@ -65,18 +65,11 @@ if (command === 'report') {
   const args = process.argv.slice(3);
   const before = args[args.indexOf('--before') + 1];
   if (!args.includes('--before') || !before) {
-    console.error('Usage: cli.ts report --before <dir> [--fail-on-removal]');
+    console.error('Usage: cli.ts report --before <dir>');
     process.exit(1);
   }
   const sections = sourcesDiff(before);
   console.log(markdownReport(sections));
-  const breaking = Object.values(sections).some(isBreaking);
-  if (breaking && args.includes('--fail-on-removal')) {
-    console.error(
-      'Tokens or icons were removed or renamed: this breaks consumers. Add the `design-sources: approve removals` label once reviewed.',
-    );
-    process.exit(1);
-  }
   process.exit(0);
 }
 

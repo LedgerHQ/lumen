@@ -76,8 +76,8 @@ jobs:
         run: npx nx run design-sources:validate
 
       # Fails on a hand edit in a generated folder, or a source change
-      # committed without its rebuilt outputs. Removals and renames are
-      # gated in design-sources-gate.yml, which re-runs on label changes.
+      # committed without its rebuilt outputs. A removal or rename without a
+      # migration fails `check:breaking-changes` (bundle-checks).
       - name: Check generated outputs are up to date
         run: npx nx run design-build:check
 
