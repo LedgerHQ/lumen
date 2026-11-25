@@ -1,7 +1,7 @@
 import type { Token, TokenModel } from '@lumen/design-sources';
 import type { OutputFile, Target } from '../core/target.js';
 import { cssLayers, type Declarations } from './cssLayers.js';
-import { groupOf } from './groups.js';
+import { groupOf, parseGroupKey } from './groups.js';
 import {
   breakpointLayers,
   layerTokens,
@@ -106,7 +106,7 @@ export const tailwindTarget = (
       const { key: row, group } = groupOf(token);
       if (!group.tailwind) continue;
       const name = cssVariableName(token.path);
-      const prefix = cssVariableName((row.split(':').pop() ?? row).split('.'));
+      const prefix = cssVariableName(parseGroupKey(row).prefix);
       const key = `${group.tailwindPrefix ?? ''}${name.slice(prefix.length + 1)}`;
       for (const ns of group.tailwind) {
         const values = groupNamespaces.get(ns) ?? {};

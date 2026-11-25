@@ -3,7 +3,7 @@
  * classes and motion values.
  */
 import type { Token } from '@lumen/design-sources';
-import { cssVariableName, outputSegment } from './naming.js';
+import { cssVariableName, outputSegment, typographyStyles } from './naming.js';
 
 type Declarations = Record<string, string>;
 
@@ -23,21 +23,12 @@ export const typographyUtilities = (
   breakpointTokens: Token[],
 ): Record<string, Declarations> => {
   const utilities: Record<string, Declarations> = {};
-  for (const token of breakpointTokens) {
-    const [root, group, step, property] = token.path;
-    if (root !== 'font-style' || property !== 'size') continue;
+  for (const { group, step, weights } of typographyStyles(breakpointTokens)) {
     const base = ['font-style', group, step];
     const name = `.${outputSegment(group)}-${outputSegment(step)}`;
-    const variants: [string, string][] =
-      group === 'responsive-display'
-        ? [[name, 'weight']]
-        : [
-            [name, 'weight-medium'],
-            [`${name}-semi-bold`, 'weight-semi-bold'],
-          ];
 
-    for (const [className, weight] of variants) {
-      utilities[className] = {
+    for (const { weight, semiBold } of weights) {
+      utilities[semiBold ? `${name}-semi-bold` : name] = {
         'font-family': cssVar(['font-family', 'font']),
         'font-size': cssVar([...base, 'size']),
         'font-weight': cssVar([...base, weight]),

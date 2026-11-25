@@ -7,7 +7,7 @@ import {
 } from '@lumen/design-sources';
 import type { OutputFile, Target } from '../core/target.js';
 import { colorToHex } from './cssLayers.js';
-import { GROUPS, groupOf } from './groups.js';
+import { GROUPS, groupOf, parseGroupKey } from './groups.js';
 import {
   breakpointLayers,
   layerTokens,
@@ -21,6 +21,7 @@ import {
   outputSegment,
   semanticKey,
   stepKey,
+  typographyStyles,
 } from './naming.js';
 
 type Json = string | number | boolean | Json[] | { [key: string]: Json };
@@ -97,10 +98,6 @@ const BUILT_BY_FUNCTION = new Set([
   'typographies',
   'motion',
 ]);
-
-/** Row key → the path prefix it matches, without its collection. */
-const prefixOf = (key: string): string[] =>
-  (key.includes(':') ? key.split(':')[1] : key).split('.');
 
 const layoutTokens = (
   tokens: Token[],
@@ -182,21 +179,14 @@ const typographyTokens = (
     return resolve(token);
   };
 
-  for (const token of tokens) {
-    const [root, group, step, property] = token.path;
-    if (root !== 'font-style' || property !== 'size') continue;
+  for (const { group, step, weights } of typographyStyles(tokens)) {
     const base = `font-style.${group}.${step}`;
     const name = `${camelKey(group)}${step}`;
     const jsGroup = group === 'responsive-display' ? 'responsive' : group;
-    const variants: [string, string][] =
-      jsGroup === 'responsive'
-        ? [[name, `${base}.weight`]]
-        : [
-            [name, `${base}.weight-medium`],
-            [`${name}SemiBold`, `${base}.weight-semi-bold`],
-          ];
 
-    for (const [key, weight] of variants) {
+    for (const { weight: weightKey, semiBold } of weights) {
+      const key = semiBold ? `${name}SemiBold` : name;
+      const weight = `${base}.${weightKey}`;
       const at = (property: string): string[] | null =>
         jsGroup === 'responsive' ? null : ['typographies', key, property];
       setPath(styles, [jsGroup, key], {
@@ -225,7 +215,7 @@ const semanticColors = (
     const { key: row, group: match } = groupOf(token);
     if (!match.reactNative?.startsWith('colors.')) continue;
     const group = match.reactNative.slice(7);
-    const prefix = `${cssVariableName(prefixOf(row))}-`;
+    const prefix = `${cssVariableName(parseGroupKey(row).prefix)}-`;
     const key = semanticKey(cssVariableName(token.path).slice(prefix.length));
     used.set(token, themePath(['colors', group, key]));
     setPath(colors, [group, key], colorToHex(resolve(token)));

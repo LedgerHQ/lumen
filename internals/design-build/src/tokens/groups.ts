@@ -109,15 +109,22 @@ export const GROUPS: Record<string, Group> = {
   easing: { reactNative: 'motion.easings' },
 };
 
+/** `brand:border-width` → `{ collection: 'brand', prefix: ['border-width'] }`. */
+export const parseGroupKey = (
+  key: string,
+): { collection: string | null; prefix: string[] } => {
+  const [collection, prefix] = key.includes(':') ? key.split(':') : [null, key];
+  return { collection, prefix: prefix.split('.') };
+};
+
 /** The row a token belongs to, with its key; throws when none matches. */
 export const groupOf = (token: Token): { key: string; group: Group } => {
   const path = token.path.join('.');
   const matches = Object.keys(GROUPS).filter((key) => {
-    const [collection, prefix] = key.includes(':')
-      ? key.split(':')
-      : [null, key];
+    const { collection, prefix } = parseGroupKey(key);
     if (collection && collection !== token.source.collection) return false;
-    return path === prefix || path.startsWith(`${prefix}.`);
+    const joined = prefix.join('.');
+    return path === joined || path.startsWith(`${joined}.`);
   });
   if (!matches.length) {
     throw new Error(

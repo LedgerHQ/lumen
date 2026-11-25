@@ -1,7 +1,7 @@
 import { createTokenModel } from '@lumen/design-sources';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { type CssLayers, cssLayers } from './cssLayers.js';
-import { GROUPS } from './groups.js';
+import { GROUPS, parseGroupKey } from './groups.js';
 import { type JsTheme, jsTheme } from './js.js';
 import { orderedBreakpoints } from './modes.js';
 import { cssVariableName, semanticKey, stepKey } from './naming.js';
@@ -42,7 +42,12 @@ describe('CSS and JS targets agree', () => {
   // CSS prefix → React Native color group, from the rows under `colors.`.
   const COLOR_GROUPS = Object.entries(GROUPS).flatMap(([key, group]) =>
     group.reactNative?.startsWith('colors.')
-      ? [[`${cssVariableName(key.split('.'))}-`, group.reactNative.slice(7)]]
+      ? [
+          [
+            `${cssVariableName(parseGroupKey(key).prefix)}-`,
+            group.reactNative.slice(7),
+          ],
+        ]
       : [],
   );
 
