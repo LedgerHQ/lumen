@@ -160,9 +160,23 @@ jobs:
         if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: npm run check:package-types
 
+  breaking-changes:
+    name: Breaking changes
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+
+      - name: Build publishable libs
+        run: npx nx run-many -t build --projects='libs/*'
+
       # Diffs each built lib against its latest npm release (ADR 027).
       - name: Require a migration for every breaking change
-        if: ${{ !cancelled() && steps.build.outcome == 'success' }}
         run: npm run check:breaking-changes
 
   unit-testing:
