@@ -11,9 +11,5 @@
     "types": ["node"]
   },
   "include": ["src/**/*.js", "scripts/**/*.js", "vitest.config.mjs"],
-  "references": [
-    {
-      "path": "../design-core"
-    }
-  ]
+  "references": []
 }
