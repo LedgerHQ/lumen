@@ -90,6 +90,12 @@ export type CardContentTitleProps = {
    */
   children: ReactNode;
   /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps.
+   * @default true
+   */
+  truncate?: boolean;
+  /**
    * Additional CSS classes for layout adjustments.
    */
   className?: string;
@@ -100,6 +106,12 @@ export type CardContentDescriptionProps = {
    * The description text or custom inline content.
    */
   children: ReactNode;
+  /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps.
+   * @default true
+   */
+  truncate?: boolean;
   /**
    * Additional CSS classes for layout adjustments.
    */

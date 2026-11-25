@@ -40,8 +40,8 @@ Card is a flexible container component that uses a composite pattern for display
 - **CardLeading**: Left section containing visual element and content. Reusable in both header and footer.
 - **CardContent**: Column wrapper for title + description. Supports right alignment when inside `CardTrailing`.
 - **CardContentRow**: Horizontal row for placing title/description alongside additional inline content (e.g. Tag).
-- **CardContentTitle**: Primary text label with single-line truncation.
-- **CardContentDescription**: Secondary muted text with single-line truncation.
+- **CardContentTitle**: Primary text label. Truncated to a single line by default, see `truncate`.
+- **CardContentDescription**: Secondary muted text. Truncated to a single line by default, see `truncate`.
 - **CardTrailing**: Right section for trailing content (Button, Tag, right-aligned values, etc.).
 - **CardFooter**: Footer container. `appearance="plain"` (default) uses a muted background; `appearance="no-background"` blends with the card surface. Collapses with a 300ms animation when `expanded === false`.
 - **CardFooterActions**: Horizontal row for action buttons.
@@ -92,6 +92,12 @@ Cards default to full width. Use `lx` prop to control sizing: `maxWidth: 's320'`
 Cards stack their content horizontally by default. To build a vertical card, with the leading visual above the text, override the layout of `CardLeading` with `lx` (`flexDirection: 'column'`, `alignItems: 'flex-start'`, `flex: 0`).
 
 <Canvas of={CardStories.WithVerticalLayout} />
+
+## Truncation
+
+`CardContentTitle` and `CardContentDescription` clamp to a single line with an ellipsis by default. Set `truncate={false}` to let the text wrap instead.
+
+<Canvas of={CardStories.TruncationShowcase} />
 
 ## Compositions
 
