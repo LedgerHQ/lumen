@@ -34,6 +34,10 @@
       "nextPageAriaLabel": "Sonraki sayfa",
       "pageAriaLabel": "Sayfa {{page}}",
       "pageOfTotal": "{{current}} / {{total}}"
+    },
+    "clipboard": {
+      "copyAriaLabel": "Kopyala",
+      "copiedAriaLabel": "Kopyalandı"
     }
   }
 }
