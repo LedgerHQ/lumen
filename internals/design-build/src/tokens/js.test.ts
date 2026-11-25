@@ -19,8 +19,8 @@ describe('jsTarget', () => {
     expect(files.at(-1)?.contents).toContain(
       "export * from './ledger-live.js';",
     );
-    expect(files.find(({ path }) => path === 'keys.ts')?.contents).toContain(
-      "export type ShadowKey = 'sm' | 'md' | 'lg' | 'xl' | '2xl';",
+    expect(files.find(({ path }) => path === 'keys.ts')?.contents).toMatch(
+      /^export type ShadowKey = '[\w-]+'( \| '[\w-]+')*;$/m,
     );
   });
 

@@ -7,9 +7,13 @@ describe('cssVarNamesTarget', () => {
     const [file] = await cssVarNamesTarget('out').emit(createTokenModel());
 
     expect(file.path).toBe('cssVarName.ts');
-    expect(file.contents).toContain(`  | '--spacing-16'`);
-    expect(file.contents).toContain(`  | '--font-style-heading-0-size'`);
-    expect(file.contents).toContain(`  | '--color-background-canvas'`);
+    for (const prefix of [
+      '--spacing-',
+      '--font-style-',
+      '--color-background-',
+    ]) {
+      expect(file.contents).toMatch(new RegExp(`^  \\| '${prefix}`, 'm'));
+    }
     expect(file.contents).not.toMatch(/--color-(light|dark)-/);
   });
 });

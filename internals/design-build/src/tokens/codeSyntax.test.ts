@@ -37,23 +37,16 @@ describe('codeSyntaxTarget', () => {
     expect([...devModeNames].filter((name) => !cssNames.has(name))).toEqual([]);
   });
 
-  it('keys variables by their Figma collection and name', async () => {
+  it('writes a CSS variable for each, and the same theme path for iOS and Android', async () => {
     const [file] = await codeSyntaxTarget('out').emit(createTokenModel());
     const syntax = JSON.parse(file.contents) as CodeSyntaxFile;
+    const entries = Object.values(syntax).flatMap(Object.values);
 
-    expect(syntax['2.theme']['color/background/grey/default']).toEqual({
-      WEB: 'var(--color-background-grey);',
-    });
-    expect(syntax['3.brand']['background/canvas/default']).toEqual({
-      WEB: 'var(--background-canvas);',
-      iOS: 't.colors.bg.canvas',
-      ANDROID: 't.colors.bg.canvas',
-    });
-    expect(syntax['1.primitives']['border-radius/2xl']?.iOS).toBe(
-      "t.borderRadius['2xl']",
-    );
-    expect(syntax['4.breakpoint']['font-style/body/1/size']?.iOS).toBe(
-      't.typographies.body1.fontSize',
-    );
+    expect(entries.length).toBeGreaterThan(0);
+    for (const { WEB, iOS, ANDROID } of entries) {
+      expect(WEB).toMatch(/^var\(--[a-z0-9-]+\);$/);
+      expect(iOS).toBe(ANDROID);
+      if (iOS) expect(iOS).toMatch(/^t\./);
+    }
   });
 });

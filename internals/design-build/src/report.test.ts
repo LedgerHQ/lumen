@@ -36,8 +36,9 @@ describe('tokenEntries', () => {
     cpSync(TOKENS_DIR, dir, { recursive: true });
     unlinkSync(path.join(dir, 'figma/4.breakpoint.2xl.tokens.json'));
 
+    const after = tokenEntries(dir);
     const removed = [...tokenEntries(TOKENS_DIR).keys()].filter(
-      (id) => !tokenEntries(dir).has(id),
+      (id) => !after.has(id),
     );
 
     expect(removed.length).toBeGreaterThan(0);

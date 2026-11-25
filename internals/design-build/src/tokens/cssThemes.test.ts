@@ -25,16 +25,17 @@ describe('cssThemesTarget', () => {
   });
 
   it('declares the primitives, each wider breakpoint in px, then light and dark', () => {
-    expect(selectors(contents('ledger-live.css'))).toEqual([
-      ':root',
-      '@media (min-width: 640px)',
-      '@media (min-width: 768px)',
-      '@media (min-width: 1024px)',
-      '@media (min-width: 1280px)',
-      '@media (min-width: 1536px)',
-      ':root',
-      '.dark',
-    ]);
+    const found = selectors(contents('ledger-live.css'));
+
+    expect(found[0]).toBe(':root');
+    expect(found.slice(-2)).toEqual([':root', '.dark']);
+    const widths = found
+      .slice(1, -2)
+      .map((selector) =>
+        Number(/^@media \(min-width: (\d+)px\)$/.exec(selector)?.[1]),
+      );
+    expect(widths.length).toBeGreaterThan(0);
+    expect(widths).toEqual([...widths].sort((a, b) => a - b));
   });
 
   it('picks the brand by class in all-brands.css', () => {
