@@ -320,7 +320,10 @@ describe('Card', () => {
 
       for (const text of ['Long title', 'Long description']) {
         expect(screen.getByText(text)).not.toHaveClass('truncate');
-        expect(screen.getByText(text)).toHaveClass('wrap-break-word');
+        expect(screen.getByText(text)).toHaveClass(
+          'min-w-0',
+          'wrap-break-word',
+        );
       }
     });
 

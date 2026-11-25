@@ -317,7 +317,7 @@ export const CardContentTitle = ({
       ref={ref}
       className={cn(
         'body-2-semi-bold',
-        truncate ? 'truncate' : 'wrap-break-word',
+        truncate ? 'truncate' : 'min-w-0 wrap-break-word',
         disabled && 'text-disabled',
         className,
       )}
@@ -348,7 +348,7 @@ export const CardContentDescription = ({
       ref={ref}
       className={cn(
         'body-3',
-        truncate ? 'truncate' : 'wrap-break-word',
+        truncate ? 'truncate' : 'min-w-0 wrap-break-word',
         disabled ? 'text-disabled' : 'text-muted',
         className,
       )}

@@ -543,6 +543,7 @@ export const LayoutShowcase: Story = {
 };
 
 export const TruncationShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
   args: {
     type: 'info',
   },
