@@ -71,11 +71,8 @@ jobs:
         with:
           set-shas: 'false'
 
-      # Our rules, then the DTCG standard (Terrazzo).
-      - name: Validate the design sources
-        run: npx nx run design-sources:validate
-
-      # Fails on a hand edit in a generated folder, or a source change
+      # Fails on invalid sources (our rules, then the DTCG standard through
+      # Terrazzo), a hand edit in a generated folder, or a source change
       # committed without its rebuilt outputs. A removal or rename without a
       # migration fails `check:breaking-changes` (bundle-checks).
       - name: Check generated outputs are up to date

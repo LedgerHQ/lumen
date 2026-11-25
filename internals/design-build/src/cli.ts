@@ -1,4 +1,9 @@
-import { createIconModel, createTokenModel } from '@lumen/design-sources';
+import {
+  checkDtcgStandard,
+  createIconModel,
+  createTokenModel,
+  loadTokenSources,
+} from '@lumen/design-sources';
 import { iconTargets, tokenTargets } from './config.js';
 import { checkRendered, isClean } from './core/check.js';
 import { markdownReport } from './core/diffReport.js';
@@ -74,7 +79,10 @@ if (command === 'report') {
 }
 
 if (command === 'check') {
-  let clean = true;
+  // Our rules run as each model loads; the DTCG standard (Terrazzo) only here.
+  const standard = await checkDtcgStandard(loadTokenSources());
+  standard.forEach((problem) => console.error(`❌ DTCG: ${problem}`));
+  let clean = standard.length === 0;
   for (const kind of Object.values(KINDS)) {
     clean = (await build(kind, true)) && clean;
   }

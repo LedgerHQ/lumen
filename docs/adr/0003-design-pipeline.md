@@ -275,7 +275,7 @@ the points. A spring easing fails, since it still carries a stale Bézier
 curve and DTCG has no spring type. Variables deleted in Figma but still
 referenced are skipped, so the dangling reference fails validation. File
 names are lowercased and hyphenated (`Ledger Live` → `ledger-live`), and a
-test checks design-sources can read every one. `design-sources:validate` parses every file with
+test checks design-sources can read every one. `design-build:check` parses every file with
 Terrazzo's DTCG parser and fails on any warning, since the parser only warns
 on, for example, a hex string color.
 
@@ -533,7 +533,8 @@ a fake asset kind needs no change to `core/`.
 
 Make drift impossible to merge, and token or symbol changes easy to review.
 
-- `design-sources:validate` and `design-build:check` on every PR.
+- `design-build:check` on every PR: it validates the sources (our rules, then
+  the DTCG standard), then compares every output.
 - Diff report in the sync PR body: added, changed, removed, renamed, per
   mode.
 - Removals and renames fail `check:breaking-changes` until a migration covers

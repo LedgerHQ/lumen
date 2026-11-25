@@ -24,8 +24,8 @@ read from these names, so a new mode in Figma is built without a code change.
 
 ## Commands
 
-- `npx nx run design-sources:validate` — our rules, then the DTCG standard
-  (Terrazzo), as CI does.
+- `npx nx run design-build:check` validates the sources (our rules, then the
+  DTCG standard through Terrazzo) before comparing the outputs, as CI does.
 - `npx nx run design-sources:test`
 
 ## Rules
