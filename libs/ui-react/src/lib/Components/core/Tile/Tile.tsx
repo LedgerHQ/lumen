@@ -140,11 +140,12 @@ export const TileContent = ({
 
 /**
  * The primary text label for a Tile. Automatically inherits the disabled state from the parent Tile.
- * Text will truncate with ellipsis if it exceeds the available width.
+ * Text will truncate with ellipsis if it exceeds the available width, unless `truncate` is `false`.
  */
 export const TileTitle = ({
   children,
   className,
+  truncate = true,
   ...props
 }: TileTitleProps) => {
   const disabled = useDisabledContext({
@@ -154,7 +155,8 @@ export const TileTitle = ({
   return (
     <div
       className={cn(
-        'w-full truncate body-2-semi-bold',
+        'w-full body-2-semi-bold',
+        truncate ? 'truncate' : 'wrap-break-word',
         disabled && 'text-disabled',
         className,
       )}
@@ -167,11 +169,12 @@ export const TileTitle = ({
 
 /**
  * The secondary text label for a Tile. Automatically inherits the disabled state from the parent Tile.
- * Text will truncate with ellipsis if it exceeds the available width.
+ * Text will truncate with ellipsis if it exceeds the available width, unless `truncate` is `false`.
  */
 export const TileDescription = ({
   children,
   className,
+  truncate = true,
   ...props
 }: TileDescriptionProps) => {
   const disabled = useDisabledContext({
@@ -181,7 +184,8 @@ export const TileDescription = ({
   return (
     <div
       className={cn(
-        'w-full truncate body-3',
+        'w-full body-3',
+        truncate ? 'truncate' : 'wrap-break-word',
         disabled ? 'text-disabled' : 'text-muted',
         className,
       )}

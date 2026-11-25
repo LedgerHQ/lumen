@@ -79,6 +79,12 @@ export type TileTitleProps = {
    */
   children: ReactNode;
   /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the tile grows taller.
+   * @default true
+   */
+  truncate?: boolean;
+  /**
    * Additional CSS classes for the title.
    */
   className?: string;
@@ -89,6 +95,12 @@ export type TileDescriptionProps = {
    * The description text to display.
    */
   children: ReactNode;
+  /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the tile grows taller.
+   * @default true
+   */
+  truncate?: boolean;
   /**
    * Additional CSS classes for the description.
    */

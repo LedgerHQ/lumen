@@ -230,10 +230,15 @@ const useTitleStyles = ({ disabled }: { disabled: boolean }) => {
 
 /**
  * The primary text label for a Tile. Automatically inherits the disabled state from the parent Tile.
- * Text will truncate with ellipsis if it exceeds the available width.
+ * Text will truncate with ellipsis if it exceeds the available width, unless `truncate` is `false`.
  * If children is a string, it will be automatically wrapped in a Text component.
  */
-export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
+export const TileTitle = ({
+  children,
+  lx,
+  style,
+  truncate = true,
+}: TileTitleProps) => {
   const disabled = useDisabledContext({
     consumerName: 'TileTitle',
     contextRequired: true,
@@ -244,7 +249,7 @@ export const TileTitle = ({ children, lx, style }: TileTitleProps) => {
     return (
       <Text
         testID='tile-title'
-        numberOfLines={1}
+        numberOfLines={truncate ? 1 : undefined}
         lx={lx}
         style={StyleSheet.flatten([styles.text, style])}
       >
@@ -287,7 +292,7 @@ const useDescriptionStyles = ({ disabled }: { disabled: boolean }) => {
 
 /**
  * The secondary text label for a Tile. Automatically inherits the disabled state from the parent Tile.
- * Text will truncate with ellipsis if it exceeds the available width.
+ * Text will truncate with ellipsis if it exceeds the available width, unless `truncate` is `false`.
  * If children is a string, it will be automatically wrapped in a Text component.
  *
  * @example
@@ -302,6 +307,7 @@ export const TileDescription = ({
   children,
   lx,
   style,
+  truncate = true,
 }: TileDescriptionProps) => {
   const disabled = useDisabledContext({
     consumerName: 'TileDescription',
@@ -313,7 +319,7 @@ export const TileDescription = ({
     return (
       <Text
         lx={lx}
-        numberOfLines={1}
+        numberOfLines={truncate ? 1 : undefined}
         style={StyleSheet.flatten([styles.text, style])}
         testID='tile-description'
       >
