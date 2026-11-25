@@ -6,6 +6,7 @@ import {
   BottomSheetVirtualizedList as GorhomBottomSheetVirtualizedList,
 } from '@gorhom/bottom-sheet';
 import { createContext, useContext } from 'react';
+import type { DefaultSectionT } from 'react-native';
 import { useStyleSheet } from '../../../../styles';
 import { useBottomSheetContext } from './BottomSheet';
 import type {
@@ -58,16 +59,16 @@ export const BottomSheetView = ({
   );
 };
 
-export const BottomSheetFlatList = ({
+export const BottomSheetFlatList = <T,>({
   children,
   style,
   ref,
   ...props
-}: BottomSheetFlatListProps) => {
+}: BottomSheetFlatListProps<T>) => {
   const styles = useScrollableStyles();
 
   return (
-    <GorhomBottomSheetFlatList
+    <GorhomBottomSheetFlatList<T>
       ref={ref}
       style={[styles.container, style]}
       {...props}
@@ -77,16 +78,16 @@ export const BottomSheetFlatList = ({
   );
 };
 
-export const BottomSheetSectionList = ({
+export const BottomSheetSectionList = <ItemT, SectionT = DefaultSectionT>({
   children,
   style,
   ref,
   ...props
-}: BottomSheetSectionListProps) => {
+}: BottomSheetSectionListProps<ItemT, SectionT>) => {
   const styles = useScrollableStyles();
 
   return (
-    <GorhomBottomSheetSectionList
+    <GorhomBottomSheetSectionList<ItemT, SectionT>
       ref={ref}
       style={[styles.container, style]}
       {...props}
@@ -115,16 +116,16 @@ export const BottomSheetScrollView = ({
   );
 };
 
-export const BottomSheetVirtualizedList = ({
+export const BottomSheetVirtualizedList = <T,>({
   children,
   style,
   ref,
   ...props
-}: BottomSheetVirtualizedListProps) => {
+}: BottomSheetVirtualizedListProps<T>) => {
   const styles = useScrollableStyles();
 
   return (
-    <GorhomBottomSheetVirtualizedList
+    <GorhomBottomSheetVirtualizedList<T>
       ref={ref}
       style={[styles.container, style]}
       {...props}

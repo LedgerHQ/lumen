@@ -167,7 +167,7 @@ export const NavBarTrailing = ({
   return (
     <div
       ref={ref}
-      className={cn('ml-auto flex shrink-0 items-center gap-4', className)}
+      className={cn('ms-auto flex shrink-0 items-center gap-4', className)}
       data-slot='navbar-trailing'
       {...props}
     >

@@ -77,8 +77,8 @@ describe('MediaButton', () => {
   });
 
   it('should apply custom className', () => {
-    render(<MediaButton className='ml-16'>Label</MediaButton>);
-    expect(screen.getByRole('button')).toHaveClass('ml-16');
+    render(<MediaButton className='ms-16'>Label</MediaButton>);
+    expect(screen.getByRole('button')).toHaveClass('ms-16');
   });
 
   it('should default to type="button" so it does not submit a form', () => {

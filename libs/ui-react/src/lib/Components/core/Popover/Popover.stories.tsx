@@ -1,7 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { Bell } from '../../symbols/icons/Bell';
 import { Avatar } from '../Avatar/Avatar';
 import { Button } from '../Button/Button';
+import { DotIndicator } from '../DotIndicator';
+import { IconButton } from '../IconButton';
 import { Tag } from '../Tag';
 import {
   Popover,
@@ -241,6 +244,30 @@ export const WithOverlay: Story = {
   ),
 };
 
+export const WithDotIndicator: Story = {
+  render: () => (
+    <Popover overlay>
+      <DotIndicator appearance='red' size='lg'>
+        <PopoverTrigger
+          render={
+            <IconButton
+              aria-label='Notifications'
+              appearance='gray'
+              icon={Bell}
+            />
+          }
+        />
+      </DotIndicator>
+
+      <PopoverContent width='fixed'>
+        <p className='body-2 text-muted'>
+          The dot stays pinned to the trigger, above the overlay.
+        </p>
+      </PopoverContent>
+    </Popover>
+  ),
+};
+
 export const WithControlledState: Story = {
   render: () => {
     const [open, setOpen] = useState(false);
@@ -345,4 +372,42 @@ export const WithDetachedTrigger: Story = {
       </div>
     );
   },
+};
+
+export const WithDefaultOpen: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  render: () => (
+    <Popover defaultOpen>
+      <PopoverTrigger
+        render={<Button appearance='gray'>Open Popover</Button>}
+      />
+      <PopoverContent className='w-400'>
+        <div className='flex flex-col gap-8'>
+          <p className='heading-4-semi-bold text-base'>Notifications</p>
+          <p className='body-2 text-muted'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
+};
+
+export const WithDefaultOpenOverlay: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  render: () => (
+    <Popover defaultOpen overlay>
+      <PopoverTrigger
+        render={<Button appearance='gray'>Open Popover</Button>}
+      />
+      <PopoverContent className='w-400'>
+        <div className='flex flex-col gap-8'>
+          <p className='heading-4-semi-bold text-base'>Notifications</p>
+          <p className='body-2 text-muted'>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit.
+          </p>
+        </div>
+      </PopoverContent>
+    </Popover>
+  ),
 };

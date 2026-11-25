@@ -60,7 +60,7 @@ export function MediaBanner({
       closeButton: {
         position: 'absolute',
         top: 8.5,
-        right: 8.5,
+        end: 8.5,
       },
     }),
     [],

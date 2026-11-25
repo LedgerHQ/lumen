@@ -4,6 +4,7 @@
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "package.json",
+    "eligible": true,
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
       {
@@ -24,17 +25,14 @@
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
     "eligible": true,
     "upstreamPackages": [
-      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
-      {
-        "package": "@ledgerhq/device-mockserver-react",
-        "repo": "LedgerHQ/device-sdk-ts"
-      }
+      { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
   },
   {
     "repo": "LedgerHQ/device-sdk-ts",
     "status": "internal-tool",
-    "packageJsonPath": "apps/device-mock-server-ui/package.json"
+    "packageJsonPath": "apps/device-mock-server-ui/package.json",
+    "eligible": true
   },
   {
     "repo": "LedgerHQ/app-openpgp",
@@ -53,6 +51,7 @@
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "packages/ui/package.json",
+    "eligible": true,
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
@@ -71,6 +70,7 @@
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "apps/live-app/package.json",
+    "eligible": true,
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
@@ -114,7 +114,8 @@
     "repo": "LedgerHQ/protect-frontend-lumen",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "package.json"
+    "packageJsonPath": "package.json",
+    "eligible": true
   },
   {
     "repo": "LedgerHQ/revault",
@@ -141,7 +142,8 @@
     "repo": "LedgerHQ/predictions-live-app",
     "status": "production",
     "priority": "P1",
-    "packageJsonPath": "package.json"
+    "packageJsonPath": "package.json",
+    "eligible": true
   },
   {
     "repo": "LedgerHQ/connect-dashboard",

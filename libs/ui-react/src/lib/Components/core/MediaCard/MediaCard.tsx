@@ -12,7 +12,7 @@ const mediaCardVariants = {
     [
       'group relative overflow-hidden rounded-md',
       'flex h-[164px] w-full flex-col items-start justify-end p-12',
-      'bg-muted text-left',
+      'bg-muted text-start',
     ],
     {
       variants: {
@@ -46,7 +46,7 @@ const GradientOverlays = () => {
 
       <div
         aria-hidden='true'
-        className='pointer-events-none absolute inset-y-0 right-0 size-full bg-linear-[45deg] from-gradient-overlay-0 from-70% to-gradient-overlay-80'
+        className='pointer-events-none absolute inset-y-0 end-0 size-full bg-linear-[45deg] from-gradient-overlay-0 from-70% to-gradient-overlay-80'
       />
     </>
   );
@@ -145,7 +145,7 @@ export const MediaCard = ({
           icon={Close}
           size={20}
           aria-label={closeAriaLabel || t('common.closeAriaLabel')}
-          className='absolute top-12 right-12 z-10'
+          className='absolute end-12 top-12 z-10'
           onClick={(e) => {
             e.stopPropagation();
             onClose();

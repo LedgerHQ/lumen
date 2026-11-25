@@ -4,7 +4,7 @@ import { defineConfig } from 'oxlint';
 
 import lumen from '@ledgerhq/lumen-lint-plugin/oxlint';
 
-const { jsPlugins, rules } = lumen.configs.strict;
+const { jsPlugins, rules } = lumen.configs.react.strict;
 
 // What a consumer writes to lint only some files: the glob is theirs.
 export default defineConfig({

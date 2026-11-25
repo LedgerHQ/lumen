@@ -19,7 +19,7 @@ MDX, README, RULES.md, icon template) and Figma dev-mode links. The stable story
 This agent runs in two phases with a mandatory gate between them:
 
 1. **Phase 1 — Dry-run audit (READ-ONLY).** Inspect everything and compute exactly what would change. Make NO edits, NO `--fix`, and NO Figma writes.
-2. **Approval gate.** Output a single consolidated dry-run report and STOP. Wait for the developer to explicitly approve (e.g. "apply" / "yes"). 
+2. **Approval gate.** Output a single consolidated dry-run report and STOP. Wait for the developer to explicitly approve (e.g. "apply" / "yes").
 3. **Phase 2 — Apply.** Only after explicit approval, perform exactly what the report described.
 
 NEVER edit files or write to Figma before the developer accepts the report. If they ask for changes, adjust and re-present the report. Do not commit; leave changes staged for review.

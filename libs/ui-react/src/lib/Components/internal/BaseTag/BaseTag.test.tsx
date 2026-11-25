@@ -81,14 +81,14 @@ describe('BaseTag', () => {
       renderBaseTag({ variant: 'tag', size: 'md' });
       const root = screen.getByTestId('base-tag');
       expect(root).toHaveClass('px-8');
-      expect(root).not.toHaveClass('pl-4');
+      expect(root).not.toHaveClass('ps-4');
     });
 
     it('should use asymmetric padding for media variant', () => {
       renderBaseTag({ variant: 'media', size: 'md' });
       const root = screen.getByTestId('base-tag');
-      expect(root).toHaveClass('pl-4');
-      expect(root).toHaveClass('pr-8');
+      expect(root).toHaveClass('ps-4');
+      expect(root).toHaveClass('pe-8');
       expect(root).not.toHaveClass('px-8');
     });
   });

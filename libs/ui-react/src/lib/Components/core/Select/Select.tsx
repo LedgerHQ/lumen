@@ -119,7 +119,7 @@ const triggerStyles = cn(
 );
 
 const labelStyles = cn(
-  'pointer-events-none absolute left-16 origin-left text-muted transition-all duration-300',
+  'pointer-events-none absolute start-16 origin-left text-muted transition-all duration-300 rtl:origin-right',
   'top-10 -translate-y-4 body-4',
   'group-data-placeholder:top-14 group-data-placeholder:translate-y-0 group-data-placeholder:body-2',
   'group-data-disabled:text-disabled',
@@ -152,7 +152,7 @@ const SelectInputTrigger = ({
       )}
       <span
         className={cn(
-          'flex-1 truncate text-left',
+          'flex-1 truncate text-start',
           label &&
             'mt-16 opacity-100 transition-opacity delay-100 duration-300',
           label && !hasValue && 'mt-0 opacity-0',
@@ -314,7 +314,7 @@ const SelectItem = <T extends SelectValue = SelectValue>({
     {...props}
   >
     {children}
-    <Combobox.ItemIndicator className='ml-auto flex shrink-0 items-center justify-center'>
+    <Combobox.ItemIndicator className='ms-auto flex shrink-0 items-center justify-center'>
       <Check size={24} className='shrink-0 text-active' />
     </Combobox.ItemIndicator>
   </Combobox.Item>

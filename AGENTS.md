@@ -50,17 +50,19 @@ Import rules are enforced in CI at two levels. Don't import across a boundary.
 Litmus test: _would a consumer of `@ledgerhq/lumen-_` ever load this code?\* If
 no, it belongs here — codegen, ETL, external-API sync and their input data.
 
-| Path                      | Purpose                                                                                                                    |
-| ------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
-| `internals/sync-figma`    | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md` |
-| `internals/repo-tools`    | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                           |
-| `internals/adoption-tool` | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                       |
+| Path                       | Purpose                                                                                                                                                  |
+| -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `internals/sync-figma`     | Everything crossing the Figma boundary — tokens, symbols, code-syntax write-back. Targets and usage in its own `README.md`                               |
+| `internals/design-sources` | The committed design sources (DTCG tokens, icon SVGs) and the models every output is built from (load, validate, resolve modes). See its own `README.md` |
+| `internals/design-build`   | Builds every token and icon output from the sources into `libs/*`, and checks they are up to date. See its own `README.md`                               |
+| `internals/repo-tools`     | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                                                         |
+| `internals/adoption-tool`  | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                                                     |
 
 Rules for adding one:
 
-- Folder = the job, named after the workflow that drives it (`sync-figma` ↔
-  `.github/workflows/sync-figma.yml`), or after its role when it serves several
-  (`repo-tools`). Nx project name = folder name, unscoped.
+- Folder = the job, named after the workflow that drives it, or after its role
+  when it serves several (`sync-figma` ↔ `.github/workflows/sync-figma-*.yml`,
+  `repo-tools`). Nx project name = folder name, unscoped.
 - `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
   in the root manifest. Never needs a version plan.
 - Tags `["scope:internal", "type:tooling"]` in `project.json` — the tag is what
@@ -143,7 +145,6 @@ frontmatter controls auto-attach.
 | a component has or owns a `disabled` state                                | `disabled-context`       |
 | implementing a component from a Figma link                                | `figma-to-code`          |
 | creating/updating Figma Code Connect (`*.figma.tsx`)                      | `code-connect`           |
-| syncing design tokens to React Native JS themes after a Figma sync        | `figma-token-sync`       |
 | adding, upgrading or moving a dependency, or a failing `check:deps`       | `dependency-management`  |
 | running Nx tasks/generators, or asking workspace questions                | `nx`                     |
 

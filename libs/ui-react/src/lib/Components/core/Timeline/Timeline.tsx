@@ -65,7 +65,7 @@ const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
     >
       <span
         aria-hidden
-        className='h-4 w-0 shrink-0 border-l-2 border-muted-subtle-hover group-first/item:invisible'
+        className='h-4 w-0 shrink-0 border-s-2 border-muted-subtle-hover group-first/item:invisible'
         data-line='in'
       />
       <span className='my-4 flex size-20 shrink-0 items-center justify-center'>
@@ -73,7 +73,7 @@ const TimelineRail = ({ status }: { status?: TimelineItemStatus }) => {
       </span>
       <span
         aria-hidden
-        className='w-0 flex-1 border-l-2 border-muted-subtle-hover group-last/item:invisible'
+        className='w-0 flex-1 border-s-2 border-muted-subtle-hover group-last/item:invisible'
         data-line='out'
       />
     </div>
@@ -309,7 +309,7 @@ export const TimelineItemBody = ({
         aria-hidden
         className='pointer-events-none flex w-20 shrink-0 justify-center group-last/item:invisible'
       >
-        <span className='h-full w-0 border-l-2 border-muted-subtle-hover' />
+        <span className='h-full w-0 border-s-2 border-muted-subtle-hover' />
       </div>
       <div className='min-w-0 flex-1 pb-8'>{children}</div>
     </div>

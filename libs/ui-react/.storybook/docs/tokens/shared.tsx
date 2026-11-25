@@ -50,7 +50,7 @@ export const TokenTable = ({
             {cells.map((cell, index) => (
               <td
                 key={index}
-                className='border border-muted-subtle p-12 text-left align-middle'
+                className='border border-muted-subtle p-12 text-start align-middle'
               >
                 {cell}
               </td>

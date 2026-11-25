@@ -77,7 +77,7 @@ const useFloatingLabelStyles = ({
       label: StyleSheet.flatten([
         {
           position: 'absolute',
-          left: t.spacings.s16,
+          start: t.spacings.s16,
           width: t.sizes.full,
           color: t.colors.text.muted,
         },

@@ -74,9 +74,9 @@ Rules:
 - **Chart / lib exceptions** are described once in each skill's Review checks (e.g. RN charts under
   `Components/visualization/` use `useTheme()` + flat stories, no `.mdx`/figma).
   Don't flag files a lib does not use.
-- `libs/design-core/**`: the CSS/Tailwind tokens and the JS theme objects must
-  stay in sync (see the `figma-token-sync` skill). If a token is added/changed
-  on one side only, flag it under `Consistency`.
+- `libs/design-core/src/lib/generated/**` is written by `design-build` and
+  never edited by hand: flag any hand edit under `Consistency`, and ask for the
+  change in `internals/design-sources` (or the target) instead.
 - `libs/utils-shared/**`: cross-platform TS/React — apply the shared criteria
   below, no styling rules.
 
@@ -103,8 +103,10 @@ spend findings on things a linter can't catch. Do **not** raise:
 - Arbitrary Tailwind values (`shadcn/no-arbitrary-values` from
   `@ledgerhq/lumen-lint-plugin`). They are warnings in this repo, so a new one in
   a diff is already visible.
-- Removed exports, props, prop values, tokens, icons and new peers without a
-  matching migration (`npm run check:breaking-changes`, `bundle-checks` job).
+- Physical left/right instead of logical start/end: `ml-*`, `pr-*`,
+  `border-l`, `text-left` on web (`better-tailwindcss/enforce-logical-properties`), `left-*`/`right-*` on web (`better-tailwindcss/no-restricted-classes`), `marginLeft`, `paddingRight`, `borderTopLeftRadius` and a lone `left`/`right` in RN style objects (`lumen/enforce-logical-properties`, the lint plugin's `react-native-strict` preset). Not linted: physical anchors paired with measured `x`/`translateX` (keep them physical, as SegmentedControl and Switch do), and directional icons that should mirror.
+- Removed exports, props, prop values, tokens, icons and new peers
+  without a matching migration (`npm run check:breaking-changes`, `breaking-changes` job).
 
 Caveat: a **valid** token class that is the wrong one for the design lints
 clean, and hardcoded colors in style objects or SVG props are not linted at all —

@@ -39,7 +39,6 @@ Tailwind source so their utilities are emitted:
 @config '../tailwind.config.ts';
 ```
 
-
 ## 🎨 Design Tokens
 
 ### Colors & Typography
@@ -75,7 +74,16 @@ All design tokens automatically support dark mode:
 
 ## 🔧 Alternative Usage
 
-For non-Tailwind projects, use CSS custom properties:
+Without the Tailwind preset, import the brand's CSS variables in your main
+stylesheet. Each file is plain CSS, light on `:root` and dark under `.dark`:
+
+```css
+@import '@ledgerhq/lumen-design-core/themes/css/ledger-live.css';
+```
+
+There is one file per brand (`enterprise.css`, `ledger-live.css`,
+`websites.css`), and `all-brands.css`, where a `.ledger-live`, `.enterprise` or
+`.websites` class on a parent picks the brand. Then use the variables:
 
 ```css
 .my-component {

@@ -46,8 +46,8 @@ const useStyles = ({
           marginBottom: t.spacings.s16,
           width: t.sizes.full,
           flex: 1,
-          borderTopLeftRadius: t.borderRadius.xl,
-          borderTopRightRadius: t.borderRadius.xl,
+          borderTopStartRadius: t.borderRadius.xl,
+          borderTopEndRadius: t.borderRadius.xl,
           overflow: 'hidden',
         },
         shadow && {

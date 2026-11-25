@@ -1,7 +1,16 @@
 {
   "name": "@ledgerhq/lumen-design-core",
-  "version": "0.1.35",
+  "version": "0.1.37",
   "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LedgerHQ/lumen.git",
+    "directory": "libs/design-core"
+  },
+  "homepage": "https://lumen-ldls.vercel.app/",
+  "bugs": {
+    "url": "https://github.com/LedgerHQ/lumen/issues"
+  },
   "keywords": [
     "design-system",
     "tailwind",
@@ -23,11 +32,13 @@
       "import": "./dist/cn.js",
       "default": "./dist/cn.js"
     },
-    "./symbols/*": "./symbols/icons/*"
+    "./symbols/*": "./symbols/icons/*",
+    "./themes/*": "./themes/*"
   },
   "files": [
     "dist",
     "symbols",
+    "themes",
     "!**/*.tsbuildinfo"
   ],
   "dependencies": {

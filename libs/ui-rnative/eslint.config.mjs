@@ -2,6 +2,7 @@ import reactNativeA11y from 'eslint-plugin-react-native-a11y';
 import { prodConfig } from '../../eslint.config.mjs';
 import {
   defineDependencyChecks,
+  defineLumenReactNativeRules,
   defineProdRules,
 } from '../../eslint.shared.mjs';
 
@@ -21,6 +22,10 @@ export default [
       'react-native-a11y/has-accessibility-hint': 'off',
     },
   }),
+  defineLumenReactNativeRules([
+    'src/styles/**',
+    'src/lib/Components/visualization/**',
+  ]),
   defineDependencyChecks({
     ignoredFiles: [
       // SVGR template read by `internals/sync-figma` codegen, never imported.

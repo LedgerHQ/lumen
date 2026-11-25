@@ -106,10 +106,10 @@ const useStyles = (size: AmountDisplaySize) => {
         color: t.colors.text.muted,
       },
       spacingStart: {
-        marginRight: t.spacings.s4,
+        marginEnd: t.spacings.s4,
       },
       spacingEnd: {
-        marginLeft: t.spacings.s4,
+        marginStart: t.spacings.s4,
       },
     }),
     [typography],

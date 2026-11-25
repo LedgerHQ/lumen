@@ -216,7 +216,7 @@ export const LargeAmountDisplay: Story = {
           size='xs'
           appearance='gray'
           aria-label='Toggle currency'
-          className='absolute top-12 right-8'
+          className='absolute end-8 top-12'
           onClick={() => setIsEth(!isEth)}
         />
       </div>
