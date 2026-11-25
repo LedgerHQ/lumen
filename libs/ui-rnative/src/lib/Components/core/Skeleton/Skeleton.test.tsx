@@ -50,4 +50,13 @@ describe('Skeleton Component', () => {
     const skeletonElement = getByTestId('custom-skeleton');
     expect(skeletonElement).toBeTruthy();
   });
+
+  it('should forward lx borderRadius to the skeleton element', () => {
+    const { getByTestId } = render(
+      <TestWrapper>
+        <Skeleton testID='radius-skeleton' style={{ borderRadius: 24 }} />
+      </TestWrapper>,
+    );
+    expect(getByTestId('radius-skeleton').props.style.borderRadius).toBe(24);
+  });
 });
