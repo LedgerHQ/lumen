@@ -7,6 +7,7 @@ changes:
     detect:
       - { pattern: '\b(ledgerLive|enterprise|websites|allBrands)Preset\b' }
       - { pattern: '@config\s', expect: review }
+      - { pattern: '"tailwindcss":\s*"[~^]?3\.', in: manifests, expect: review }
   - change: removed
     surface: token
     ref: '@ledgerhq/lumen-design-core#--tw-shadow*'
@@ -52,6 +53,9 @@ export default { presets: [ledgerLivePreset], content: ['./src/**/*.tsx'] };
 The Tailwind JS presets and their plugins are gone: the theme ships as
 Tailwind v4 CSS, with the same classes and token values, so nothing changes on
 screen.
+
+- The theme needs Tailwind v4. A project still on Tailwind 3 upgrades it first
+  (`npx @tailwindcss/upgrade`), then applies the steps below.
 
 - In the main stylesheet, replace the `@config` line with an import of the
   matching brand file, right after `@import 'tailwindcss'`:

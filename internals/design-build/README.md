@@ -33,7 +33,9 @@ A new output is a `Target` in `src/tokens/`, added to `tokenTargets`.
 ## Rules
 
 - **Generated files are never edited by hand.** `types.ts` in design-core is
-  hand-written, over the generated key sets (`generated/js/keys.ts`).
+  hand-written, over the generated key sets (`generated/js/keys.ts`): a new
+  shadow, breakpoint, text style or color family needs no type edit, and
+  `cn` reads its typography classes from `generated/cn/typography.ts`.
 - **The CSS variables hold every web value:** Tailwind only maps its
   namespaces onto them, so the two can't drift.
 - **A refactor keeps outputs byte-identical:** run `check` before and after.

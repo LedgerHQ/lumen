@@ -1,41 +1,24 @@
 import type {
   BreakpointKey,
+  PrimitiveColorGroupKey,
   ShadowKey,
   TypographyStyleKey,
 } from '../generated/js/keys.js';
+
+type ColorScale = Record<string, string>;
+
+/** Every color family is a scale; `decorative` nests one more level. */
+type PrimitiveColorGroups = Record<
+  Exclude<PrimitiveColorGroupKey, 'decorative'>,
+  ColorScale
+> & { decorative: Record<string, ColorScale> };
 
 /**
  * Color primitives
  */
 export type PrimitiveColorTokens = {
-  light: {
-    constant: Record<string, string>;
-    grey: Record<string, string>;
-    orange: Record<string, string>;
-    purple: Record<string, string>;
-    blue: Record<string, string>;
-    green: Record<string, string>;
-    yellow: Record<string, string>;
-    red: Record<string, string>;
-    crypto: Record<string, string>;
-    cryptoTransparent: Record<string, string>;
-    discover: Record<string, string>;
-    decorative: Record<string, Record<string, string>>;
-  };
-  dark: {
-    constant: Record<string, string>;
-    grey: Record<string, string>;
-    purple: Record<string, string>;
-    orange: Record<string, string>;
-    blue: Record<string, string>;
-    green: Record<string, string>;
-    yellow: Record<string, string>;
-    red: Record<string, string>;
-    crypto: Record<string, string>;
-    cryptoTransparent: Record<string, string>;
-    discover: Record<string, string>;
-    decorative: Record<string, Record<string, string>>;
-  };
+  light: PrimitiveColorGroups;
+  dark: PrimitiveColorGroups;
 };
 
 export type PrimitiveGradientTokens = {
@@ -103,9 +86,21 @@ export type ShadowTokenDefinition = {
 /** Innermost layer first. */
 export type PrimitiveShadowTokens = Record<ShadowKey, ShadowTokenDefinition[]>;
 
+/** The CSS numeric weights, as strings: what React Native's `fontWeight` takes. */
+export type FontWeight =
+  | '100'
+  | '200'
+  | '300'
+  | '400'
+  | '500'
+  | '600'
+  | '700'
+  | '800'
+  | '900';
+
 export type TypographyDefinition = {
   fontFamily: string;
-  fontWeight: any;
+  fontWeight: FontWeight;
   fontSize: number;
   lineHeight: number;
   letterSpacing: number;

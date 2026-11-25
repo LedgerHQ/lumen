@@ -485,17 +485,26 @@ export type ${Name}LightTheme = typeof ${name}LightTheme;
     }
 
     // The key sets the hand-written theme types build on, so a new shadow,
-    // breakpoint or typography style needs no type edit.
+    // breakpoint, typography style or color family needs no type edit.
     const union = (keys: string[]): string =>
       keys.map((key) => `'${key}'`).join(' | ');
     const core = theme.core as Record<string, JsonObject>;
     const [baseTypography] = Object.values(core.typographies) as JsonObject[];
+    const colorGroups = [
+      ...new Set(
+        Object.values(theme.primitiveColors).flatMap((groups) =>
+          Object.keys(groups as JsonObject),
+        ),
+      ),
+    ];
     files.push({
       path: 'keys.ts',
       contents: `${HEADER}
 export type BreakpointKey = ${union(Object.keys(core.breakpoints))};
 
 export type ShadowKey = ${union(Object.keys(core.shadows))};
+
+export type PrimitiveColorGroupKey = ${union(colorGroups)};
 
 export type TypographyStyleKey = {
 ${Object.entries(baseTypography)
@@ -514,6 +523,7 @@ ${Object.entries(baseTypography)
 ${brands.map((brand) => `export * from './${brand}.js';`).join('\n')}
 export { primitiveColorTokens } from './primitives.js';
 export type {
+  FontWeight,
   ThemeCoreTokens,
   ThemeColorTokens,
   TypographyTokens,

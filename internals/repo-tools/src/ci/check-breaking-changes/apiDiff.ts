@@ -147,7 +147,7 @@ function removedTypeValues(
   );
 }
 
-/** CSS custom properties no longer declared. */
+/** CSS custom properties, Tailwind utilities and variants no longer defined. */
 function removedTokens(
   name: string,
   before: ApiSurface,

@@ -27,7 +27,7 @@ export type ApiSurface = {
   types: Record<string, string[]>;
   /** Subpaths imported as files (`./symbols/apex.svg`, `./tailwind.css`). */
   files: string[];
-  /** CSS custom properties declared in the shipped files. */
+  /** CSS custom properties, Tailwind utilities (`.name`) and variants (`@name`) the shipped files define. */
   tokens: string[];
   peers: Record<string, string>;
   /** Peers marked optional in `peerDependenciesMeta`. */

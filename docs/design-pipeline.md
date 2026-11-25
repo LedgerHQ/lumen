@@ -107,6 +107,6 @@ run by hand. The token needs the `file_variables:write` scope.
 - `design-build:check` (`pr.yml`): the sources are valid DTCG, and every
   committed output matches them.
 - `check:breaking-changes`: a removed or renamed public name (CSS variable,
-  Tailwind utility, React Native path, icon) needs a migration
+  Tailwind utility or variant, React Native path, icon) needs a migration
   ([write-migration](../.claude/skills/write-migration/SKILL.md)).
 - Chromatic: the visual change, on web and React Native.

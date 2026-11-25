@@ -1,6 +1,7 @@
 import type { IconModel, TokenModel } from '@lumen/design-sources';
 import type { Target } from './core/target.js';
 import { symbolComponentsTarget } from './icons/components.js';
+import { cnClassesTarget } from './tokens/cnClasses.js';
 import { codeSyntaxTarget } from './tokens/codeSyntax.js';
 import { cssThemesTarget } from './tokens/cssThemes.js';
 import { cssVarNamesTarget } from './tokens/cssVarNames.js';
@@ -14,6 +15,8 @@ import { tailwindTarget } from './tokens/tailwind.js';
 export const outputPaths = {
   /** The `CSSVarName` type `cssVar` checks names against. */
   cssVarNames: 'libs/design-core/src/lib/generated/css',
+  /** The typography class steps `cn` merges. */
+  cnClasses: 'libs/design-core/src/lib/generated/cn',
   js: 'libs/design-core/src/lib/generated/js',
   /** Published as `@ledgerhq/lumen-design-core/themes/css/*.css`. */
   cssThemes: 'libs/design-core/themes/css',
@@ -27,6 +30,7 @@ export const outputPaths = {
 
 export const tokenTargets: Target<TokenModel>[] = [
   cssVarNamesTarget(outputPaths.cssVarNames),
+  cnClassesTarget(outputPaths.cnClasses),
   cssThemesTarget(outputPaths.cssThemes),
   jsTarget(outputPaths.js, '../../tokens/types.js'),
   codeSyntaxTarget(outputPaths.codeSyntax),

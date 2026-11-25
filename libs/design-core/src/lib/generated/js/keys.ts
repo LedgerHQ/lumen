@@ -6,6 +6,20 @@ export type BreakpointKey = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 export type ShadowKey = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
+export type PrimitiveColorGroupKey =
+  | 'constant'
+  | 'grey'
+  | 'orange'
+  | 'purple'
+  | 'blue'
+  | 'green'
+  | 'yellow'
+  | 'red'
+  | 'crypto'
+  | 'cryptoTransparent'
+  | 'discover'
+  | 'decorative';
+
 export type TypographyStyleKey = {
   responsive:
     | 'responsiveDisplay1'
