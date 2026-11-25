@@ -1,16 +1,20 @@
+import { StyleSheet } from 'react-native';
+import { useStyleSheet } from '../../../../styles';
 import { Pulse } from '../../animations/Pulse';
 import { Box } from '../../primitives';
 import type { SkeletonProps } from './types';
 
 /** Internal base skeleton element */
-const BaseSkeleton = ({ lx, ...props }: SkeletonProps) => {
+const BaseSkeleton = ({ lx, style, ...props }: SkeletonProps) => {
+  const styles = useStyleSheet(
+    (t) => ({ root: { borderRadius: t.borderRadius.md } }),
+    [],
+  );
+
   return (
     <Box
-      lx={{
-        borderRadius: 'md',
-        backgroundColor: 'mutedTransparent',
-        ...lx,
-      }}
+      lx={{ backgroundColor: 'mutedTransparent', ...lx }}
+      style={[styles.root, style]}
       {...props}
     />
   );
@@ -123,11 +127,14 @@ const Skeleton = ({ lx, component, style, ...props }: SkeletonProps) => {
     );
   }
 
+  const borderRadius = StyleSheet.flatten(style)?.borderRadius;
+
   return (
     <Pulse animate style={style} lx={lx}>
       <BaseSkeleton
         testID='skeleton'
         lx={{ width: 'full', height: 'full' }}
+        style={borderRadius === undefined ? undefined : { borderRadius }}
         {...props}
       />
     </Pulse>

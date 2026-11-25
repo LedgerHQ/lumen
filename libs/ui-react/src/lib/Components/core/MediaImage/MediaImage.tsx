@@ -99,7 +99,7 @@ export const MediaImage = ({
       aria-label={alt}
       {...props}
     >
-      {loading && <Skeleton className='absolute inset-0' />}
+      {loading && <Skeleton className='absolute inset-0 rounded-[inherit]' />}
       {!loading && shouldFallback && fallback && (
         <span
           className='text-base select-none'

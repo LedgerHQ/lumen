@@ -162,6 +162,12 @@ describe('MediaImage Component', () => {
       expect(screen.getByTestId('skeleton')).toBeInTheDocument();
     });
 
+    it('should make the skeleton inherit the root border radius', () => {
+      render(<MediaImage alt='Test' size={72} shape='circle' loading />);
+
+      expect(screen.getByTestId('skeleton')).toHaveClass('rounded-[inherit]');
+    });
+
     it('should hide the image when loading is true even if src is valid', () => {
       const { container } = render(
         <MediaImage src={validSrc} alt='Test' loading />,
