@@ -24,6 +24,12 @@ export type ListItemProps = {
    */
   priority?: Priority;
   /**
+   * Whether the title and description are clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the row grows taller than its density height.
+   * @default true
+   */
+  truncate?: boolean;
+  /**
    * Whether the list item is disabled.
    */
   disabled?: boolean;

@@ -29,6 +29,11 @@ const [ListItemPriorityProvider, useListItemPriorityContext] =
     priority: undefined,
   });
 
+const [ListItemTruncateProvider, useListItemTruncateContext] =
+  createSafeContext<{ truncate: boolean }>('ListItemTruncate', {
+    truncate: true,
+  });
+
 const listItemVariants = cva(
   [
     'flex w-full items-center gap-16 overflow-hidden px-8',
@@ -37,8 +42,12 @@ const listItemVariants = cva(
   {
     variants: {
       density: {
-        compact: 'h-40',
-        expanded: 'h-64',
+        compact: '',
+        expanded: '',
+      },
+      truncate: {
+        true: '',
+        false: 'py-8',
       },
       interactive: {
         true: '',
@@ -54,6 +63,10 @@ const listItemVariants = cva(
       },
     },
     compoundVariants: [
+      { density: 'compact', truncate: true, className: 'h-40' },
+      { density: 'compact', truncate: false, className: 'min-h-40' },
+      { density: 'expanded', truncate: true, className: 'h-64' },
+      { density: 'expanded', truncate: false, className: 'min-h-64' },
       {
         interactive: true,
         disabled: false,
@@ -108,6 +121,7 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
     disabled: disabledProp = false,
     density = 'expanded',
     priority = 'end',
+    truncate = true,
     active = false,
     ...buttonProps
   } = props;
@@ -115,27 +129,29 @@ export const ListItem = ({ onClick, ref, ...props }: ListItemProps) => {
     consumerName: 'ListItem',
     mergeWith: { disabled: disabledProp },
   });
-
   return (
     <DisabledProvider value={{ disabled }}>
       <ListItemPriorityProvider value={{ priority }}>
-        <div
-          ref={ref}
-          {...getButtonA11yProps({ onClick, disabled })}
-          aria-selected={active || undefined}
-          className={cn(
-            listItemVariants({
-              density,
-              interactive: !!onClick,
-              active,
-              disabled,
-            }),
-            className,
-          )}
-          {...buttonProps}
-        >
-          {children}
-        </div>
+        <ListItemTruncateProvider value={{ truncate }}>
+          <div
+            ref={ref}
+            {...getButtonA11yProps({ onClick, disabled })}
+            aria-selected={active || undefined}
+            className={cn(
+              listItemVariants({
+                density,
+                truncate,
+                interactive: !!onClick,
+                active,
+                disabled,
+              }),
+              className,
+            )}
+            {...buttonProps}
+          >
+            {children}
+          </div>
+        </ListItemTruncateProvider>
       </ListItemPriorityProvider>
     </DisabledProvider>
   );
@@ -247,12 +263,17 @@ export const ListItemTitle = ({
     consumerName: 'ListItemTitle',
     contextRequired: false,
   });
+  const { truncate } = useListItemTruncateContext({
+    consumerName: 'ListItemTitle',
+    contextRequired: false,
+  });
 
   return (
     <div
       ref={ref}
       className={cn(
-        'min-w-0 truncate body-2-semi-bold',
+        'min-w-0 body-2-semi-bold',
+        truncate ? 'truncate' : 'wrap-break-word',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
@@ -282,12 +303,17 @@ export const ListItemDescription = ({
     consumerName: 'ListItemDescription',
     contextRequired: false,
   });
+  const { truncate } = useListItemTruncateContext({
+    consumerName: 'ListItemDescription',
+    contextRequired: false,
+  });
 
   return (
     <div
       ref={ref}
       className={cn(
-        'min-w-0 items-center truncate body-3 text-muted',
+        'min-w-0 items-center body-3 text-muted',
+        truncate ? 'truncate' : 'wrap-break-word',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,

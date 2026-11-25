@@ -84,6 +84,12 @@ ListItems adapt to their container width, truncating long titles and description
 
 <Canvas of={ListItemStories.ResponsiveLayout} />
 
+### Truncation
+
+`ListItem` clamps the title and description to a single line with an ellipsis by default. Set `truncate={false}` on `ListItem` to let the text wrap. The row then grows taller than its density height.
+
+<Canvas of={ListItemStories.TruncationShowcase} />
+
 ### Composition
 
 ListItems follow a composite component pattern to allow for maximum flexibility over layout and content through composable sub-components.

@@ -227,4 +227,42 @@ describe('ListItem', () => {
       expect(screen.getByText('BTC')).toBeTruthy();
     });
   });
+
+  describe('truncate', () => {
+    it('truncates text to one line and keeps the fixed height by default', () => {
+      renderListItem();
+
+      for (const text of ['Title', 'Description']) {
+        expect(screen.getByText(text).props.numberOfLines).toBe(1);
+        expect(screen.getByText(text).props.ellipsizeMode).toBe('tail');
+      }
+      const inner = screen.getByTestId('list-item-content');
+      expect(inner.props.style).toEqual(
+        expect.objectContaining({ height: 64 }),
+      );
+    });
+
+    it('wraps text and lets the row grow when truncate is false', () => {
+      renderListItem({ truncate: false });
+
+      for (const text of ['Title', 'Description']) {
+        expect(screen.getByText(text).props.numberOfLines).toBeUndefined();
+        expect(screen.getByText(text).props.ellipsizeMode).toBeUndefined();
+      }
+      const inner = screen.getByTestId('list-item-content');
+      expect(inner.props.style).toEqual(
+        expect.objectContaining({ minHeight: 64, paddingVertical: 8 }),
+      );
+      expect(inner.props.style.height).toBeUndefined();
+    });
+
+    it('keeps the compact minimum height when truncate is false', () => {
+      renderListItem({ truncate: false, density: 'compact' });
+
+      const inner = screen.getByTestId('list-item-content');
+      expect(inner.props.style).toEqual(
+        expect.objectContaining({ minHeight: 40 }),
+      );
+    });
+  });
 });

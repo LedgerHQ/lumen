@@ -408,6 +408,51 @@ export const ResponsiveLayout: Story = {
   ),
 };
 
+export const TruncationShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  render: () => (
+    <div className='flex w-480 flex-col gap-32'>
+      <ListItem className='w-320' onClick={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>
+              Defined width (320px) with a long title that wraps when truncation
+              is off
+            </ListItemTitle>
+            <ListItemDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos.
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} className='text-muted' />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem truncate={false} className='w-320' onClick={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>
+              Defined width (320px) with a long title that wraps when truncation
+              is off
+            </ListItemTitle>
+            <ListItemDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos.
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} className='text-muted' />
+        </ListItemTrailing>
+      </ListItem>
+    </div>
+  ),
+};
+
 export const PriorityShowcase: Story = {
   render: () => (
     <div className='flex w-320 flex-col gap-8'>

@@ -415,6 +415,53 @@ export const ResponsiveLayout: Story = {
   ),
 };
 
+export const TruncationShowcase: Story = {
+  args: {
+    children: null,
+  },
+  render: () => (
+    <Box lx={{ flexDirection: 'column', width: 's480', gap: 's32' }}>
+      <ListItem lx={{ width: 's320' }} onPress={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>
+              Defined width (320px) with a long title that wraps when truncation
+              is off
+            </ListItemTitle>
+            <ListItemDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos.
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+
+      <ListItem truncate={false} lx={{ width: 's320' }} onPress={() => {}}>
+        <ListItemLeading>
+          <Spot size={48} icon={Settings} />
+          <ListItemContent>
+            <ListItemTitle>
+              Defined width (320px) with a long title that wraps when truncation
+              is off
+            </ListItemTitle>
+            <ListItemDescription>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
+              quos.
+            </ListItemDescription>
+          </ListItemContent>
+        </ListItemLeading>
+        <ListItemTrailing>
+          <ChevronRight size={24} />
+        </ListItemTrailing>
+      </ListItem>
+    </Box>
+  ),
+};
+
 export const PriorityShowcase: Story = {
   args: {
     children: null,
