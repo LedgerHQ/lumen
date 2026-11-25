@@ -164,9 +164,10 @@ Stories highlighting specific features.
 
 #### 4. Truncation / Responsiveness Stories
 
-Stories that demonstrate how a component truncates or adapts to constrained space.
+Stories that demonstrate how a component truncates text or adapts to constrained space.
 
-- Use: `ResponsivenessShowcase`
+- Use `ResponsivenessShowcase` for how the component adapts to constrained space or width.
+- Use `TruncationShowcase` for how text is clamped or wraps (e.g. a `truncate` or `numberOfLines` prop).
 - Do not use: `TruncateShowcase`, `Truncation`, `LongLabel`
 
 ## Comments
@@ -187,7 +188,7 @@ Rules verifiable from a diff.
 | Check                                                                                                       | Applies to              | Detect                                                                                                                                                                                                                                                      | Skip                                                              |
 | ----------------------------------------------------------------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
 | Base story named `Default`/`Primary`/`Basic` instead of `Base`                                              | all stories             | export name                                                                                                                                                                                                                                                 | —                                                                 |
-| Showcase/feature story off-convention                                                                       | all stories             | not `{Property}Showcase` / `With{Feature}` / `ResponsivenessShowcase`                                                                                                                                                                                       | —                                                                 |
+| Showcase/feature story off-convention                                                                       | all stories             | not `{Property}Showcase` / `With{Feature}` / `ResponsivenessShowcase` / `TruncationShowcase`                                                                                                                                                                | —                                                                 |
 | Missing `layout: 'centered'` + `backgrounds: { default: 'light' }`                                          | all stories             | `Base` parameters                                                                                                                                                                                                                                           | —                                                                 |
 | `Base` or a feature story (`With{Feature}`) reads its data from a module-level const instead of inlining it | all stories             | `data={<const>}` / `args: { data: <const> }` in `Base` or `With{Feature}`                                                                                                                                                                                   | `{Property}Showcase` and variation stories                        |
 | `type: 'dynamic'` applied to a story with function props, hooks, state or handlers                          | all stories             | `docs.source.type: 'dynamic'` (on `meta` or the story) where a story has `use*` hooks, component or icon references (`icon={Settings}`), or function props with a meaningful body (`render*`, `get*`, function children, multi-statement handlers, helpers) | stories with plain-data props only                                |
