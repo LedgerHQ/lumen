@@ -6,6 +6,8 @@
   DLS-393 as the discovery ticket. Tickets are listed in [Plan](#plan).
 - **Reference:** the DLS-393 discovery benchmark (Coinbase CDS, Primer,
   Spectrum, MetaMask), and the [DTCG format](https://www.designtokens.org/tr/drafts/format/).
+- **How to use it today:** [docs/design-pipeline.md](../design-pipeline.md).
+  This record keeps the decision as it was taken.
 
 ---
 

@@ -58,6 +58,10 @@ no, it belongs here — codegen, ETL, external-API sync and their input data.
 | `internals/repo-tools`     | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                                                         |
 | `internals/adoption-tool`  | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                                                     |
 
+`sync-figma`, `design-sources` and `design-build` form the design pipeline; its
+processes (sync, new token, new token group) are in
+[`docs/design-pipeline.md`](docs/design-pipeline.md).
+
 Rules for adding one:
 
 - Folder = the job, named after the workflow that drives it, or after its role
