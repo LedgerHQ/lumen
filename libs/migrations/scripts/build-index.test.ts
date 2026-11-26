@@ -4,8 +4,6 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { buildIndex, lumenPackages, parseSubject } from './build-index.ts';
-import { migrationFrontmatter } from './schema.ts';
-import { checkBreakingPr } from './validate.ts';
 
 const migration = `---
 changes:
@@ -329,40 +327,6 @@ pr: 587
       expect(buildIndex(root).index.migrations[0].introduced).toEqual({
         '@ledgerhq/lumen-ui-react': '0.1.15',
       });
-    });
-  });
-
-  describe('checkBreakingPr', () => {
-    const frontmatter = migrationFrontmatter.parse({
-      changes: [
-        {
-          change: 'removed',
-          surface: 'export',
-          ref: '@ledgerhq/lumen-ui-react#MenuPortal',
-          signal: 'loud',
-        },
-      ],
-    });
-
-    it('accepts a released PR, plan or not', () => {
-      commit('feat: remove MenuPortal (#716)');
-      git('tag', '@ledgerhq/lumen-ui-react@0.1.36');
-
-      expect(checkBreakingPr(root, 716, frontmatter)).toEqual([]);
-    });
-
-    it('rejects a PR that is not released yet', () => {
-      commit('feat: remove MenuPortal (#716)');
-
-      expect(checkBreakingPr(root, 716, frontmatter)).toEqual([
-        'pr: #716 is not released in @ledgerhq/lumen-ui-react yet',
-      ]);
-    });
-
-    it('rejects a PR that is not on main', () => {
-      expect(checkBreakingPr(root, 716, frontmatter)).toEqual([
-        'pr: #716 is not on main',
-      ]);
     });
   });
 

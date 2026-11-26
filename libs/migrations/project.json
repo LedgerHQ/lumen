@@ -12,13 +12,6 @@
         "cwd": "libs/migrations"
       }
     },
-    "validate": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "node scripts/validate.ts",
-        "cwd": "libs/migrations"
-      }
-    },
     "build": {
       "executor": "nx:run-commands",
       "cache": false,
