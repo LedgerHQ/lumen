@@ -59,6 +59,7 @@ describe('parseConsumers', () => {
         {
           ...valid,
           eligible: true,
+          baseBranch: 'develop',
           changeset: true,
           pr: { titlePrefix: 'LIVE-1 ', labels: ['deps'] },
           upstreamPackages: [
@@ -73,6 +74,12 @@ describe('parseConsumers', () => {
   it('rejects malformed upgrade pipeline fields', () => {
     expect(() => parseConsumers([{ ...valid, eligible: 'yes' }])).toThrow(
       '"eligible" must be a boolean',
+    );
+    expect(() => parseConsumers([{ ...valid, eligible: true }])).toThrow(
+      '"baseBranch" is required when "eligible" is true',
+    );
+    expect(() => parseConsumers([{ ...valid, baseBranch: '' }])).toThrow(
+      '"baseBranch" must be a non-empty string',
     );
     expect(() => parseConsumers([{ ...valid, pr: { title: 'x' } }])).toThrow(
       '"pr" has unknown key "title"',

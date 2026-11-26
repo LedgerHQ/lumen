@@ -35,6 +35,8 @@ export type ConsumerEntry = {
   notes?: string;
   /** Opt-in to the automated upgrade pipeline (ADR 027). */
   eligible?: boolean;
+  /** The branch Koda upgrades and targets, sent to Cairn as `ref`. Required when eligible. */
+  baseBranch?: string;
   upstreamPackages?: UpstreamPackage[];
   pr?: PrConventions;
   /** The repo's CI requires a changeset file. */
@@ -49,6 +51,7 @@ const ENTRY_KEYS = [
   'packageJsonPaths',
   'notes',
   'eligible',
+  'baseBranch',
   'upstreamPackages',
   'pr',
   'changeset',
@@ -163,6 +166,12 @@ function validateEntry(entry: unknown): string[] {
     if (entry[key] !== undefined && typeof entry[key] !== 'boolean') {
       errors.push(`"${key}" must be a boolean`);
     }
+  }
+  if (entry.baseBranch !== undefined && !isNonEmptyString(entry.baseBranch)) {
+    errors.push('"baseBranch" must be a non-empty string');
+  }
+  if (entry.eligible === true && entry.baseBranch === undefined) {
+    errors.push('"baseBranch" is required when "eligible" is true');
   }
   if (entry.upstreamPackages !== undefined) {
     errors.push(...validateUpstreamPackages(entry.upstreamPackages));

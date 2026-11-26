@@ -21,6 +21,7 @@ function entry(
     status: 'production',
     packageJsonPath: 'package.json',
     eligible: true,
+    baseBranch: 'main',
     ...extra,
   };
 }
@@ -136,5 +137,19 @@ describe('buildMatrix', () => {
       'chore(deps): upgrade Lumen',
     );
     expect(downstream[0].inputs).not.toContain('\n');
+  });
+
+  it('sends the base branch as the ref Cairn clones', () => {
+    const { downstream } = buildMatrix(
+      [entry('a', { baseBranch: 'develop' })],
+      versions,
+    );
+    expect(downstream[0].ref).toBe('develop');
+  });
+
+  it('refuses to run a repo without a base branch', () => {
+    expect(() =>
+      buildMatrix([entry('a', { baseBranch: undefined })], versions),
+    ).toThrow('LedgerHQ/a: "baseBranch" is required to run an upgrade');
   });
 });

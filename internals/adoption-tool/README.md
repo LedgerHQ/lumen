@@ -78,7 +78,10 @@ libs there.
 `.github/workflows/lumen-upgrade.yml` only notifies that repo after a release.
 It reads the registry and the libs' versions, and starts nothing itself. Only `eligible`
 repos are listed, in two groups: upstream repos first, then the
-rest by priority (`P1` to `P3`, then unset). Each item carries the plan input:
+rest by priority (`P1` to `P3`, then unset). Each item carries the repo's
+`baseBranch`, required for eligible repos, as the `ref` Cairn clones: without
+it, Cairn updates whatever the sandbox image left checked out, and fails on a
+detached checkout. Each item also carries the plan input:
 target versions, PR title and labels, changeset flag and upstream packages
 (names prefixed with `npm:`, as the Cairn action reads a leading `@` as a file).
 `--out <file>` also writes the JSON.

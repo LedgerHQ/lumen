@@ -5,6 +5,7 @@
     "priority": "P1",
     "packageJsonPath": "package.json",
     "eligible": true,
+    "baseBranch": "main",
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" },
       {
@@ -24,6 +25,7 @@
     },
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
     "eligible": true,
+    "baseBranch": "develop",
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
@@ -32,7 +34,8 @@
     "repo": "LedgerHQ/device-sdk-ts",
     "status": "internal-tool",
     "packageJsonPath": "apps/device-mock-server-ui/package.json",
-    "eligible": true
+    "eligible": true,
+    "baseBranch": "develop"
   },
   {
     "repo": "LedgerHQ/app-openpgp",
@@ -52,6 +55,7 @@
     "priority": "P1",
     "packageJsonPath": "packages/ui/package.json",
     "eligible": true,
+    "baseBranch": "main",
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
@@ -71,6 +75,7 @@
     "priority": "P1",
     "packageJsonPath": "apps/live-app/package.json",
     "eligible": true,
+    "baseBranch": "develop",
     "notes": "pnpm catalog — versions pinned in pnpm-workspace.yaml",
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
@@ -93,7 +98,8 @@
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "lib/package.json",
-    "eligible": true
+    "eligible": true,
+    "baseBranch": "main"
   },
   {
     "repo": "LedgerHQ/gravitee",
@@ -115,7 +121,8 @@
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "package.json",
-    "eligible": true
+    "eligible": true,
+    "baseBranch": "main"
   },
   {
     "repo": "LedgerHQ/revault",
@@ -143,7 +150,8 @@
     "status": "production",
     "priority": "P1",
     "packageJsonPath": "package.json",
-    "eligible": true
+    "eligible": true,
+    "baseBranch": "main"
   },
   {
     "repo": "LedgerHQ/connect-dashboard",
@@ -169,6 +177,7 @@
     "status": "internal-tool",
     "packageJsonPath": "package.json",
     "eligible": true,
+    "baseBranch": "main",
     "upstreamPackages": [
       { "package": "@ledgerhq/crypto-icons", "repo": "LedgerHQ/crypto-icons" }
     ]
