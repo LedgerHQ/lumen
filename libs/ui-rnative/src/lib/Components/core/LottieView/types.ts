@@ -3,12 +3,8 @@ import type {
   LottieViewRef,
 } from '@ledgerhq/lumen-utils-shared';
 import type { Ref } from 'react';
-import type { StyleProp, ViewStyle } from 'react-native';
-import type { LumenViewStyle } from '../../../../styles';
+import type { StyledViewProps } from '../../../../styles';
 
 export type LottieViewProps = LottieViewBaseProps & {
   ref?: Ref<LottieViewRef>;
-  testID?: string;
-  lx?: LumenViewStyle;
-  style?: StyleProp<ViewStyle>;
-};
+} & Omit<StyledViewProps, 'children' | 'ref'>;
