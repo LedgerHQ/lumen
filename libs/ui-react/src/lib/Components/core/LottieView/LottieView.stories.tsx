@@ -1,3 +1,4 @@
+import { success } from '@ledgerhq/lumen-symbols/lotties/success';
 import type { LottieViewRef } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useRef, useState } from 'react';
@@ -24,10 +25,7 @@ export const Base: Story = {
     docs: { source: { type: 'dynamic' } },
   },
   args: {
-    animation: {
-      light: 'lotties/lottie-success.lottie',
-      dark: 'lotties/lottie-success.lottie',
-    },
+    animation: success,
     loop: true,
     className: 'size-80',
   },
@@ -64,12 +62,7 @@ export const WithRef: Story = {
 
     return (
       <div className='flex flex-col items-center gap-16'>
-        <LottieView
-          ref={ref}
-          animation='lotties/lottie-success.lottie'
-          loop
-          className='size-80'
-        />
+        <LottieView ref={ref} animation={success} loop className='size-80' />
         <div className='flex gap-8'>
           <Button size='sm' onClick={togglePlayback}>
             {toggleLabel}

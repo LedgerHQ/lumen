@@ -50,10 +50,13 @@
   ],
   "references": [
     {
-      "path": "../design-core/tsconfig.lib.json"
+      "path": "../utils-shared/tsconfig.lib.json"
     },
     {
-      "path": "../utils-shared/tsconfig.lib.json"
+      "path": "../symbols/tsconfig.lib.json"
+    },
+    {
+      "path": "../design-core/tsconfig.lib.json"
     }
   ]
 }

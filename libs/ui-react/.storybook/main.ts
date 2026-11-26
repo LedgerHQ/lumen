@@ -12,8 +12,6 @@ const config: StorybookConfig = {
     './docs/**/*.stories.@(js|jsx|ts|tsx|mdx)',
   ],
 
-  staticDirs: [{ from: './assets/lotties', to: '/lotties' }],
-
   addons: [
     getAbsolutePath('@storybook/addon-themes'),
     getAbsolutePath('@storybook/addon-docs'),
@@ -54,6 +52,8 @@ const config: StorybookConfig = {
 
     return mergeConfig(viteConfig, {
       plugins: [nxViteTsPaths()],
+      // `@ledgerhq/lumen-symbols` imports its `.lottie` archives as assets.
+      assetsInclude: ['**/*.lottie'],
       css: {
         postcss: {
           plugins: [(await import('@tailwindcss/postcss')).default],
