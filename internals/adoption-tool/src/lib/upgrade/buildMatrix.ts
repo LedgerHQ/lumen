@@ -4,13 +4,23 @@ import type { ConsumerEntry } from '../shared/consumers.js';
 import { buildPlanInput } from './buildPlanInput.js';
 import { selectRuns } from './selectRuns.js';
 
-/** One GitHub Actions matrix item; `inputs` is compact JSON, ready to inline. */
-export type RunMatrixItem = { name: string; inputs: string };
+/** One GitHub Actions matrix item; `ref` is the branch Cairn clones, `inputs` compact JSON, ready to inline. */
+export type RunMatrixItem = { name: string; ref: string; inputs: string };
 
 export type RunMatrix = {
   upstream: RunMatrixItem[];
   downstream: RunMatrixItem[];
 };
+
+/** Cairn updates whatever an image left checked out unless told a branch, and fails on a detached one. */
+function refOf(entry: ConsumerEntry): string {
+  if (!entry.baseBranch) {
+    throw new Error(
+      `${entry.repo}: "baseBranch" is required to run an upgrade`,
+    );
+  }
+  return entry.baseBranch;
+}
 
 export function buildMatrix(
   registry: ConsumerEntry[],
@@ -18,6 +28,7 @@ export function buildMatrix(
 ): RunMatrix {
   const toItem = (entry: ConsumerEntry): RunMatrixItem => ({
     name: entry.repo,
+    ref: refOf(entry),
     inputs: JSON.stringify(buildPlanInput(entry, targetVersions)),
   });
   const { upstream, downstream } = selectRuns(registry);
