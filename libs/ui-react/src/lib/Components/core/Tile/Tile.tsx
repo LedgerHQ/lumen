@@ -156,7 +156,7 @@ export const TileTitle = ({
     <div
       className={cn(
         'w-full body-2-semi-bold',
-        truncate ? 'truncate' : 'wrap-break-word',
+        truncate ? 'truncate' : 'wrap-anywhere',
         disabled && 'text-disabled',
         className,
       )}
@@ -185,7 +185,7 @@ export const TileDescription = ({
     <div
       className={cn(
         'w-full body-3',
-        truncate ? 'truncate' : 'wrap-break-word',
+        truncate ? 'truncate' : 'wrap-anywhere',
         disabled ? 'text-disabled' : 'text-muted',
         className,
       )}

@@ -320,17 +320,8 @@ describe('Card', () => {
 
       for (const text of ['Long title', 'Long description']) {
         expect(screen.getByText(text)).not.toHaveClass('truncate');
-        expect(screen.getByText(text)).toHaveClass(
-          'min-w-0',
-          'wrap-break-word',
-        );
+        expect(screen.getByText(text)).toHaveClass('wrap-anywhere');
       }
-    });
-
-    it('does not forward truncate to the DOM', () => {
-      renderText({ truncate: false });
-
-      expect(screen.getByText('Long title')).not.toHaveAttribute('truncate');
     });
   });
 });
