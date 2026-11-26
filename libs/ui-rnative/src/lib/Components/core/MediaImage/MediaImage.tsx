@@ -75,6 +75,7 @@ const useStyles = ({
         skeleton: {
           width: '100%',
           height: '100%',
+          borderRadius: radius,
         },
       };
     },

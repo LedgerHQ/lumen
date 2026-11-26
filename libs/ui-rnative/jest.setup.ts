@@ -110,6 +110,10 @@ jest.mock('lottie-react-native', () => {
   return { __esModule: true, default: MockLottieView };
 });
 
+jest.mock('expo-clipboard', () => ({
+  setStringAsync: jest.fn(() => Promise.resolve(true)),
+}));
+
 // Mock @gorhom/bottom-sheet with more detailed prop tracking
 jest.mock('@gorhom/bottom-sheet', () => {
   const mockReact = jest.requireActual<typeof import('react')>('react');

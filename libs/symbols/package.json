@@ -1,6 +1,6 @@
 {
   "name": "@ledgerhq/lumen-symbols",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Symbols for the Lumen design system, one import path per symbol.",
   "license": "Apache-2.0",
   "repository": {

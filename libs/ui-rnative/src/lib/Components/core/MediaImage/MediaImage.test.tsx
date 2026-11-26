@@ -257,6 +257,18 @@ describe('MediaImage Component', () => {
       expect(getByTestId('skeleton')).toBeTruthy();
     });
 
+    it('should match the skeleton border radius to the root', () => {
+      const { getByTestId } = render(
+        <TestWrapper>
+          <MediaImage alt='Test' size={24} loading />
+        </TestWrapper>,
+      );
+
+      expect(getByTestId('skeleton').props.style.borderRadius).toBe(
+        borderRadius.sm,
+      );
+    });
+
     it('should hide the image when loading is true even if src is valid', () => {
       const { queryByTestId } = render(
         <TestWrapper>
