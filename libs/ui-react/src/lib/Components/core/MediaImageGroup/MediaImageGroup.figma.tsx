@@ -9,7 +9,7 @@ const imports = [
 
 figma.connect(
   MediaImageGroup,
-  'https://www.figma.com/design/UCnMvFYyI50pCA2yJEcpXt?node-id=7970-737',
+  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=7970-737',
   {
     imports,
     props: {
@@ -65,7 +65,7 @@ figma.connect(
 
 figma.connect(
   MediaImageGroup,
-  'https://www.figma.com/design/UCnMvFYyI50pCA2yJEcpXt?node-id=6330-1183',
+  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=6330-1183',
   {
     imports,
     props: {
