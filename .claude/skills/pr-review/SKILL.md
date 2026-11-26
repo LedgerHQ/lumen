@@ -99,7 +99,7 @@ spend findings on things a linter can't catch. Do **not** raise:
   (`@nx/enforce-module-boundaries` scope tags).
 - Unknown/invalid Tailwind classnames (`eslint-plugin-better-tailwindcss`). This
   includes raw palette and typography classes (`text-gray-500`, `font-bold`):
-  Lumen's preset removes them, so they are unknown classes.
+  Lumen's theme removes them, so they are unknown classes.
 - Arbitrary Tailwind values (`shadcn/no-arbitrary-values` from
   `@ledgerhq/lumen-lint-plugin`). They are warnings in this repo, so a new one in
   a diff is already visible.

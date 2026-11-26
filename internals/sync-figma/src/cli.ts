@@ -76,9 +76,10 @@ const extractIconFiles = async (): Promise<void> => {
       extension: '.svg',
     }),
   );
+  // Shipped in the package since before this pipeline, minified.
   writeFileSync(
-    path.join(automationConfig.iconsPath, 'icons.json'),
-    toJsonFile({
+    path.join(automationConfig.iconsPath, 'downloadData.json'),
+    JSON.stringify({
       lastModified: icons.lastModified,
       componentIds: icons.components.map(({ id }) => id),
     }),

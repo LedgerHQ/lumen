@@ -6,6 +6,8 @@
   DLS-393 as the discovery ticket. Tickets are listed in [Plan](#plan).
 - **Reference:** the DLS-393 discovery benchmark (Coinbase CDS, Primer,
   Spectrum, MetaMask), and the [DTCG format](https://www.designtokens.org/tr/drafts/format/).
+- **How to use it today:** [docs/design-pipeline.md](../design-pipeline.md).
+  This record keeps the decision as it was taken.
 
 ---
 
@@ -141,7 +143,7 @@ review, and CI fails if anyone edits them by hand or if they fall out of date.
 | 4. A standard format      | `design-sources` holds valid DTCG (ticket 2)                                                                                                      |
 | 5. Any output             | Every output implements the same small `Target` contract; Android, iOS or slides are one more target                                              |
 | 6. One pipeline           | The three steps carry shared tools (Figma client, write + prune, check, diff report); icons join in ticket 6                                      |
-| 7. Safe, reviewable       | Snapshots first (ticket 1), byte-identical refactors, diff report and rename/removal gate in the sync PR (ticket 7)                               |
+| 7. Safe, reviewable       | Snapshots first (ticket 1), byte-identical refactors, diff report in the sync PR, migrations for removals (ticket 7)                              |
 
 ### Design details
 
@@ -157,13 +159,13 @@ flowchart TD
   end
   subgraph S1["① internals/sync-figma — only code that knows Figma"]
     XT["extract/tokens<br/>variables → DTCG"]
-    XI["extract/icons<br/>canvas → SVG + icons.json"]
+    XI["extract/icons<br/>canvas → SVG + downloadData.json"]
     WB["write-back/codeSyntax"]
   end
   subgraph SRC["Source files (committed)"]
     TF["design-sources/tokens/figma/*.tokens.json"]
     TC["design-sources/tokens/code/*.tokens.json<br/>hand-written"]
-    IS["design-sources/icons/*.svg + icons.json"]
+    IS["design-core/symbols/icons/*.svg<br/>published as exported"]
   end
   subgraph S2["② internals/design-sources — normalize + validate, in memory"]
     TM["TokenModel"]
@@ -171,11 +173,11 @@ flowchart TD
   end
   subgraph S3["③ internals/design-build — one pure function per output"]
     OT["tokens: css · tailwind · js · codeSyntax"]
-    OI["icons: svg · react · rnative"]
+    OI["icons: react · rnative"]
   end
   subgraph OUT["Outputs (committed)"]
-    G["design-core/src/lib/generated/{css,tailwind,js}"]
-    SY["design-core/symbols/icons + ui-* symbols"]
+    G["design-core/src/lib/generated/{css,js} · themes/{css,tailwind}"]
+    SY["ui-* symbols"]
   end
   FV --> XT --> TF
   FS --> XI --> IS
@@ -187,11 +189,11 @@ flowchart TD
   OT -.->|"code-syntax file"| WB --> FV
 ```
 
-| Stage | Project                    | Job                                                                                                                  | May import                  | Writes to                                          | Nx targets                                    |
-| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------------------------- | --------------------------------------------- |
-| ①     | `internals/sync-figma`     | Figma REST client; extract tokens and icons; upload code syntax                                                      | `design-sources` types only | `design-sources/` source files; Figma (write-back) | `extract --kind=tokens\|icons`, `code-syntax` |
-| ②     | `internals/design-sources` | Hold the source files; load → merge → validate → resolve aliases → expand brand × theme × breakpoint; validate icons | nothing internal            | nothing                                            | `validate`, `test`                            |
-| ③     | `internals/design-build`   | Turn the model into every output file; write + prune + format; `--check` against git; diff report                    | `design-sources`            | generated folders in `libs/*`                      | `tokens`, `icons`, `check`, `test`            |
+| Stage | Project                    | Job                                                                                                                  | May import                  | Writes to                        | Nx targets                                    |
+| ----- | -------------------------- | -------------------------------------------------------------------------------------------------------------------- | --------------------------- | -------------------------------- | --------------------------------------------- |
+| ①     | `internals/sync-figma`     | Figma REST client; extract tokens and icons; upload code syntax                                                      | `design-sources` types only | source files; Figma (write-back) | `extract --kind=tokens\|icons`, `code-syntax` |
+| ②     | `internals/design-sources` | Hold the source files; load → merge → validate → resolve aliases → expand brand × theme × breakpoint; validate icons | nothing internal            | nothing                          | `validate`, `test`                            |
+| ③     | `internals/design-build`   | Turn the model into every output file; write + prune + format; `--check` against git; diff report                    | `design-sources`            | generated folders in `libs/*`    | `tokens`, `icons`, `check`, `test`            |
 
 Nothing imports ①. The import rules are enforced by Nx tags and
 `depConstraints`, like the existing `scope:internal` rule.
@@ -241,12 +243,12 @@ hand-written `lumen.css` out of the Tailwind target's prune.
 
 #### Where each kind of value lives
 
-| Kind                                                                              | Examples                                                                                       | Lives in                                                                            |
-| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| Values designers own in Figma                                                     | colors, spacing, sizes, radius, typography, icon and spot sizes, durations, easings            | `design-sources/tokens/figma/` (written by ①)                                       |
-| Values designers own that Figma variables can't hold, or that both platforms need | shadows, extra sizes, border widths, the durations Figma lacks, delays, breakpoint min-widths  | `design-sources/tokens/code/` as DTCG `shadow`, `dimension`, `duration`             |
-| Mappings from Tailwind class names to variables                                   | `.heading-0 { font-size: var(--font-style-heading-0-size) … }`, theme color keys, spacing keys | generated by ③ into `design-core/tailwind/theme.css` and the per-brand entries      |
-| CSS behavior with no design value and no React Native equivalent                  | dark variant, keyframe shapes, web `zIndex` layers, scrollbar, mask and gradient geometry      | hand-written in `design-core/tailwind/lumen.css`, imported by every generated entry |
+| Kind                                                                              | Examples                                                                                       | Lives in                                                                                   |
+| --------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| Values designers own in Figma                                                     | colors, spacing, sizes, radius, typography, icon and spot sizes, durations, easings            | `design-sources/tokens/figma/` (written by ①)                                              |
+| Values designers own that Figma variables can't hold, or that both platforms need | shadows, extra sizes, border widths, the durations Figma lacks, delays, breakpoint min-widths  | `design-sources/tokens/code/` as DTCG `shadow`, `dimension`, `duration`                    |
+| Mappings from Tailwind class names to variables                                   | `.heading-0 { font-size: var(--font-style-heading-0-size) … }`, theme color keys, spacing keys | generated by ③ into `design-core/themes/tailwind/theme.css` and the per-brand entries      |
+| CSS behavior with no design value and no React Native equivalent                  | dark variant, keyframe shapes, web `zIndex` layers, scrollbar, mask and gradient geometry      | hand-written in `design-core/themes/tailwind/lumen.css`, imported by every generated entry |
 
 The rule: a value goes to `design-sources` if designers own it or more than one
 platform needs it. Code that only wires tokens into Tailwind stays in
@@ -275,7 +277,7 @@ the points. A spring easing fails, since it still carries a stale Bézier
 curve and DTCG has no spring type. Variables deleted in Figma but still
 referenced are skipped, so the dangling reference fails validation. File
 names are lowercased and hyphenated (`Ledger Live` → `ledger-live`), and a
-test checks design-sources can read every one. `design-sources:validate` parses every file with
+test checks design-sources can read every one. `design-build:check` parses every file with
 Terrazzo's DTCG parser and fails on any warning, since the parser only warns
 on, for example, a hex string color.
 
@@ -298,9 +300,6 @@ internals/
 │  ├─ tokens/
 │  │  ├─ figma/*.tokens.json   written by ①, never edited
 │  │  └─ code/*.tokens.json    hand-written
-│  ├─ icons/
-│  │  ├─ *.svg                 written by ①, never edited
-│  │  └─ icons.json
 │  └─ src/
 │     ├─ tokens/               load, validate, standard (Terrazzo), model
 │     └─ icons/                naming, validate
@@ -315,35 +314,41 @@ internals/
       │  ├─ check.ts           --check against git
       │  └─ diffReport.ts
       ├─ tokens/
-      │  ├─ css.ts  js.ts  tailwindV4.ts  codeSyntax.ts
-      │  ├─ layers.ts             brand × theme and breakpoint layers
-      │  ├─ naming.ts  cssLayers.ts  selections.ts   shared helpers
-      │  └─ tailwindBlocks.ts  typography, shadow and motion pieces
+      │  ├─ cssThemes.ts  js.ts  tailwind.ts  codeSyntax.ts  cssVarNames.ts
+      │  ├─ groups.ts             where each token group goes
+      │  ├─ modes.ts              breakpoints, brand × theme, built collections
+      │  ├─ naming.ts  cssLayers.ts   shared helpers
+      │  └─ tailwindBlocks.ts  typography and motion pieces
       └─ icons/
-         └─ svg.ts  components.ts   react and rnative via svgr + svgo
+         └─ components.ts      react and rnative via svgr + svgo
 
 libs/design-core/
 ├─ src/lib/
 │  ├─ generated/               written by ③, never edited
-│  │  ├─ css/                  today's themes/css
+│  │  ├─ css/                  the CSSVarName type cssVar checks names against
 │  │  └─ js/                   today's themes/js (ticket 4)
-│  └─ tailwind/                the Tailwind snapshot test
-├─ tailwind/                   published as ./tailwind/* (ticket 8)
-│  ├─ theme.css                written by ③
-│  ├─ <brand>.css              written by ③, one per brand + all-brands.css
-│  └─ lumen.css                hand-written wiring
-└─ symbols/icons/              published as ./symbols/*, path unchanged
+│  └─ tailwind/                the Tailwind class test
+├─ themes/                     published as ./themes/*
+│  ├─ css/<brand>.css          written by ③: plain CSS variables, any web app
+│  └─ tailwind/                Tailwind v4 theme (ticket 8)
+│     ├─ theme.css             written by ③
+│     ├─ <brand>.css           written by ③, one per brand + all-brands.css:
+│     │                        theme.css + css/<brand>.css in the base layer
+│     └─ lumen.css             hand-written wiring
+└─ symbols/icons/              published as ./symbols/*, path unchanged: the
+                               icon sources, written by ① (*.svg +
+                               downloadData.json), never edited
 ```
 
 Package exports stay `.`, `./cn` and `./symbols/*`, so moving folders under
-`src/` is invisible to consumers; ticket 8 adds `./tailwind/*`. The `dist/`
+`src/` is invisible to consumers; ticket 8 adds `themes/tailwind/`. The `dist/`
 restructure (DLS-919) is a separate change.
 
 #### How a sync runs
 
 ```mermaid
 sequenceDiagram
-  participant WF as sync-figma-all.yml (or -tokens / -symbols)
+  participant WF as sync-figma.yml (kind: all, tokens or symbols)
   participant S1 as ① sync-figma
   participant S3 as ③ design-build (reads ②)
   participant PR as Pull request
@@ -416,18 +421,10 @@ variable as valid DTCG.
   and today it only adds units to bare numbers. Add a small adapter in the ETL
   that turns the new types back into today's CSS values (`dimension` objects to
   `16px`, and so on); ticket 3 deletes it with the ETL.
-- Split the GitHub workflow into three, so tokens and symbols can be synced
-  separately:
-  - `sync-figma-tokens.yml`: export tokens, build, open a tokens PR.
-  - `sync-figma-symbols.yml`: download symbols, generate the React and React
-    Native components, open a symbols PR.
-  - `sync-figma-all.yml` (today's `sync-figma.yml`, renamed): runs both and
-    opens one combined PR.
-
-  The tokens and symbols workflows are reusable (`workflow_call` +
-  `workflow_dispatch`), so `all` calls them instead of duplicating steps. Each
-  takes only the inputs it needs and uses its own bot branch and concurrency
-  group. Update the `AGENTS.md` Internals example (`sync-figma` ↔
+- One GitHub workflow, `sync-figma.yml`, with a `kind` input (`all`,
+  `tokens` or `symbols`), so tokens and symbols can be synced separately. Each
+  kind uses its own bot branch and concurrency group. (Three reusable
+  workflows shipped first; they duplicated the PR steps and were merged.) Update the `AGENTS.md` Internals example (`sync-figma` ↔
   `sync-figma.yml`): the project now serves several workflows, so it's named
   after its role.
 
@@ -518,13 +515,13 @@ libs touched.
 
 Move the icon flow onto the three stages, with the same output as today.
 
-- ① `extract/icons`: SVGs plus `icons.json` (Figma node ids, last modified)
-  into `design-sources/icons/`, with write + prune instead of clearing the
-  folder.
+- ① `extract/icons`: SVGs plus `downloadData.json` (Figma node ids, last
+  modified) into `design-core/symbols/icons/`, with write + prune instead of
+  clearing the folder. The SVGs are published as exported, so the published
+  folder is their source rather than a second copy.
 - ② icon model: naming and validation (`viewBox`, `currentColor`, no stray
   fills).
-- ③ outputs: `svg` (published path unchanged), `react`, `rnative`, reusing the
-  existing svgr templates (svgr runs svgo, in design-build), formatted by the
+- ③ outputs: `react`, `rnative`, reusing the existing svgr templates (svgr runs svgo, in design-build), formatted by the
   writer.
 - Delete `figmaDownloadSvgs.ts`, `generate-symbols.mts` and the workflow's
   `lint --fix` step.
@@ -538,16 +535,17 @@ a fake asset kind needs no change to `core/`.
 
 Make drift impossible to merge, and token or symbol changes easy to review.
 
-- `design-sources:validate` and `design-build:check` on every PR.
+- `design-build:check` on every PR: it validates the sources (our rules, then
+  the DTCG standard), then compares every output.
 - Diff report in the sync PR body: added, changed, removed, renamed, per
   mode.
-- Removals and renames fail unless explicitly approved: a separate gate
-  workflow re-runs on the `design-sources: approve removals` label, so adding
-  the label is enough. It compares the source tokens and icons, and the public
-  names the outputs define (CSS variables, Tailwind utilities, React Native
-  `t.*` paths), so a rename made in design-build is caught too. It runs on
-  every PR and exits early when the pipeline isn't touched, so it can be a
-  required check.
+- Removals and renames fail `check:breaking-changes` until a migration covers
+  them. It compares each published package with its latest release, so a
+  public name the outputs stop defining (CSS variable, Tailwind utility, React
+  Native `t.*` path, icon) is caught whether the change came from Figma or
+  from design-build. An earlier label-approved gate workflow was dropped: the
+  sync PR is explicit about what it removes, and a migration says more than
+  a label.
 - A multi-mode collection no output builds fails the build, unless it is
   listed with the reason (`icon` and `spot` are Figma component size modes
   whose values point at built primitives).
@@ -578,7 +576,9 @@ Lumen is on Tailwind v4 but ships its theme as a JS preset loaded with
 - One file per brand, or one file with a brand selector (to decide).
 - One shared generated `theme.css`, a small entry per brand and
   `all-brands.css` (brand classes on a parent), plus a hand-written
-  `lumen.css` for the utilities and variants that are not tokens.
+  `lumen.css` for the utilities and variants that are not tokens. An entry
+  imports the plain CSS theme of the same name into the base layer, so the
+  variables are written once.
 - Generated first alongside the preset and checked against it, then the preset
   and its plugins are removed in the same epic (decided on 2026-11-09):
   `ui-react` moves to the CSS, and the consumer migration (`@config` →
@@ -648,9 +648,11 @@ consumer migration steps are written down; version plan for
   `Pressed`, `gradient overlay`, `size 2` in the token files, and the
   ` nested`, `ai bubble` and `auto-Lock` icons; the two chevron icons hard-code
   `#D5D5D5`.
-- **Design (values kept as they are until decided):** `blur.lg` (Figma 16, the
-  React Native TabBar 64) and the `shadow-2xl` color (25% web, 20% mobile),
-  both listed in `design-build/src/tokens/pendingDecisions.ts`; the four motion
+- **Design (decided 2026-11-17):** React Native follows the tokens for
+  `blur.lg` (16) and the `shadow-2xl` color (25%). The TabBar keeps its blur
+  intensity of 64 locally: `blurAmount` is an intensity from 0 to 100, not
+  the pixel radius the token holds.
+- **Design (values kept as they are until decided):** the four motion
   mismatches; the web `ease-in` / `ease-out` keywords, which are not the Lumen
   easing tokens.
 - **Design (next Figma sync):** the live file has moved on since the recorded
@@ -658,7 +660,7 @@ consumer migration steps are written down; version plan for
   its durations are now 75, 100, 150, 200, 300, 500, 700 and 1000 ms: 0, 250
   and 2000 are gone. The code duration tokens and the 250 ms
   `translate-from-right` animation need a decision before that sync merges;
-  the removal gate holds it until then.
+  `check:breaking-changes` holds it until a migration covers the removals.
 - **Engineering:** `boolean` variables are dropped, as nothing reads them.
   Figma `EASING` variables can also hold spring values, which DTCG has no
   type for; the export fails on them until one is needed.

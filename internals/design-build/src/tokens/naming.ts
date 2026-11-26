@@ -4,6 +4,36 @@
  * opacity steps and the `default` leaf dropped — `color.dark.crypto.Zcash-0%`
  * → `--color-dark-crypto-zcash-0`, `border-width.default` → `--border-width`.
  */
+/**
+ * Each text style, read from its `font-style.<group>.<step>.size` token, with
+ * the weights it comes in: the responsive display has one, the other groups a
+ * medium and a semi-bold. The JS and Tailwind outputs both name a style from it.
+ */
+export const typographyStyles = (
+  tokens: readonly { path: readonly string[] }[],
+): {
+  group: string;
+  step: string;
+  weights: { weight: string; semiBold: boolean }[];
+}[] =>
+  tokens.flatMap(({ path: [root, group, step, property] }) =>
+    root === 'font-style' && property === 'size'
+      ? [
+          {
+            group,
+            step,
+            weights:
+              group === 'responsive-display'
+                ? [{ weight: 'weight', semiBold: false }]
+                : [
+                    { weight: 'weight-medium', semiBold: false },
+                    { weight: 'weight-semi-bold', semiBold: true },
+                  ],
+          },
+        ]
+      : [],
+  );
+
 export const cssVariableName = (path: readonly string[]): string => {
   let name = path.join('-').toLowerCase().replace(/ /g, '-');
   if (name.endsWith('%')) name = name.slice(0, -1);

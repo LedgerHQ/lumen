@@ -1,10 +1,10 @@
 import type { IconModel, TokenModel } from '@lumen/design-sources';
 import type { Target } from './core/target.js';
 import { symbolComponentsTarget } from './icons/components.js';
-import { svgTarget } from './icons/svg.js';
+import { cnClassesTarget } from './tokens/cnClasses.js';
 import { codeSyntaxTarget } from './tokens/codeSyntax.js';
-import { cssTarget } from './tokens/css.js';
 import { cssThemesTarget } from './tokens/cssThemes.js';
+import { cssVarNamesTarget } from './tokens/cssVarNames.js';
 import { jsTarget } from './tokens/js.js';
 import { tailwindTarget } from './tokens/tailwind.js';
 
@@ -13,28 +13,31 @@ import { tailwindTarget } from './tokens/tailwind.js';
  * build's coupling to `libs/*` (and to sync-figma's input) is declared.
  */
 export const outputPaths = {
-  css: 'libs/design-core/src/lib/generated/css',
+  /** The `CSSVarName` type `cssVar` checks names against. */
+  cssVarNames: 'libs/design-core/src/lib/generated/css',
+  /** The typography class steps `cn` merges. */
+  cnClasses: 'libs/design-core/src/lib/generated/cn',
   js: 'libs/design-core/src/lib/generated/js',
   /** Published as `@ledgerhq/lumen-design-core/themes/css/*.css`. */
   cssThemes: 'libs/design-core/themes/css',
-  tailwind: 'libs/design-core/src/lib/generated/tailwind',
+  /** Published as `@ledgerhq/lumen-design-core/themes/tailwind/*.css`, next to the hand-written `lumen.css`. */
+  tailwind: 'libs/design-core/themes/tailwind',
   /** Read by sync-figma `code-syntax`, which uploads it to Figma. */
   codeSyntax: 'internals/design-build/generated',
-  svgSymbols: 'libs/design-core/symbols/icons',
   reactSymbols: 'libs/ui-react/src/lib/Components/symbols',
   reactNativeSymbols: 'libs/ui-rnative/src/lib/Components/symbols',
 };
 
 export const tokenTargets: Target<TokenModel>[] = [
-  cssTarget(outputPaths.css),
+  cssVarNamesTarget(outputPaths.cssVarNames),
+  cnClassesTarget(outputPaths.cnClasses),
   cssThemesTarget(outputPaths.cssThemes),
   jsTarget(outputPaths.js, '../../tokens/types.js'),
-  tailwindTarget(outputPaths.tailwind),
   codeSyntaxTarget(outputPaths.codeSyntax),
+  tailwindTarget(outputPaths.tailwind, '../css'),
 ];
 
 export const iconTargets: Target<IconModel>[] = [
-  svgTarget(outputPaths.svgSymbols),
   symbolComponentsTarget({
     name: 'react-symbols',
     outDir: outputPaths.reactSymbols,

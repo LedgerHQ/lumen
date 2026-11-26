@@ -15,12 +15,6 @@
         "command": "vitest --run",
         "cwd": "internals/design-sources"
       }
-    },
-    "validate": {
-      "executor": "nx:run-commands",
-      "options": {
-        "command": "npx tsx internals/design-sources/src/cli.ts validate"
-      }
     }
   }
 }

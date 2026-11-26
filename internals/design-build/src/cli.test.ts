@@ -17,7 +17,7 @@ const run = (...args: string[]): { status: number | null; output: string } => {
   return { status: result.status, output: result.stdout + result.stderr };
 };
 
-// The removal gate relies on these exit codes: 0 passes the PR, 1 blocks it.
+// The sync workflows put this output in the PR description.
 describe('cli report', () => {
   let before: string;
 
@@ -27,29 +27,24 @@ describe('cli report', () => {
   });
   afterEach(() => rmSync(before, { recursive: true, force: true }));
 
-  it('passes when nothing was removed', () => {
-    const { status, output } = run(
-      'report',
-      '--before',
-      before,
-      '--fail-on-removal',
-    );
+  it('reports no change when nothing changed', () => {
+    const { status, output } = run('report', '--before', before);
 
     expect(output).toContain('### Tokens: no change');
     expect(status).toBe(0);
   });
 
-  it('blocks a removal with --fail-on-removal, and only reports it without', () => {
+  it('lists a removal without failing', () => {
     // The base had a token the working tree lacks: the copy gains one.
     cpSync(
       path.join(TOKENS_DIR, 'code/delay.tokens.json'),
       path.join(before, 'tokens/code/pause.tokens.json'),
     );
 
-    expect(run('report', '--before', before).status).toBe(0);
-    const gated = run('report', '--before', before, '--fail-on-removal');
-    expect(gated.output).toContain('approve removals');
-    expect(gated.status).toBe(1);
+    const { status, output } = run('report', '--before', before);
+
+    expect(output).toContain('**Removed');
+    expect(status).toBe(0);
   });
 
   it('explains its usage when --before is missing', () => {

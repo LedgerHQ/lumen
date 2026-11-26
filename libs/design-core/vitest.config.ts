@@ -11,7 +11,7 @@ export default defineConfig({
       reporter: ['lcov', 'json-summary'],
       // Count every file, not only the ones a test imports.
       include: ['src/**/*.{ts,tsx}'],
-      exclude: ['**/*.test.{ts,tsx}'],
+      exclude: ['**/*.test.{ts,tsx}', '**/testing/**'],
       thresholds: { lines: 80, statements: 80, functions: 80, branches: 80 },
     },
   },

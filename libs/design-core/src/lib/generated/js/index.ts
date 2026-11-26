@@ -7,6 +7,7 @@ export * from './ledger-live.js';
 export * from './websites.js';
 export { primitiveColorTokens } from './primitives.js';
 export type {
+  FontWeight,
   ThemeCoreTokens,
   ThemeColorTokens,
   TypographyTokens,

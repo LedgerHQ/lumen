@@ -73,7 +73,10 @@ export {};
 `,
   );
   write('pkg/icons/apex.svg', '<svg/>');
-  write('pkg/dist/tokens.css', ':root { --color-error: red; --text-: 0; }');
+  write(
+    'pkg/dist/tokens.css',
+    ':root { --color-error: red; --text-: 0; }\n@utility scrollbar-none { scrollbar-width: none; }\n@utility tab-* { tab-size: --value(integer); }\n@custom-variant dark (&:is(.dark *));',
+  );
   write(
     'pkg/dist/reveal.js',
     "const css = '@property --reveal { syntax: ...; } .a { --reveal: 0%; }';",
@@ -160,7 +163,12 @@ describe('readSurface', { timeout: 30_000 }, () => {
     const { files, tokens, peers, optionalPeers } = readSurface(root);
 
     expect(files).toEqual(['./symbols/apex.svg', './tailwind.css']);
-    expect(tokens).toEqual(['--color-error']);
+    expect(tokens).toEqual([
+      '--color-error',
+      '.scrollbar-none',
+      '.tab-*',
+      '@dark',
+    ]);
     expect(peers).toEqual({ react: '^19.0.0', clsx: '^2.0.0' });
     expect(optionalPeers).toEqual(['clsx']);
   });
@@ -171,6 +179,12 @@ describe('readSurface', { timeout: 30_000 }, () => {
       JSON.stringify({ name: '@ledgerhq/lumen-design-core', exports: {} }),
     );
 
-    expect(readSurface(root).tokens).toEqual(['--color-error', '--reveal']);
+    expect(readSurface(root).tokens).toEqual([
+      '--color-error',
+      '--reveal',
+      '.scrollbar-none',
+      '.tab-*',
+      '@dark',
+    ]);
   });
 });

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { diffEntries, isBreaking, markdownReport } from './diffReport.js';
+import { diffEntries, markdownReport } from './diffReport.js';
 
 const entries = (record: Record<string, string>) =>
   new Map(Object.entries(record));
@@ -17,7 +17,6 @@ describe('diffEntries', () => {
       changed: ['b'],
       renamed: [['old', 'new']],
     });
-    expect(isBreaking(diff)).toBe(true);
   });
 
   it('does not guess a rename when two new ids share the content', () => {
@@ -44,7 +43,7 @@ describe('markdownReport', () => {
     });
 
     expect(report).toBe(
-      '### Tokens: 2 change(s)\n\n**Removed (1)** — breaking for consumers\n- `spacing.1`\n\n**Added (1)**\n- `spacing.2`\n\n### Icons: no change\n',
+      '### Tokens: 2 change(s)\n\n**Removed (1)** — breaking: needs a migration\n- `spacing.1`\n\n**Added (1)**\n- `spacing.2`\n\n### Icons: no change\n',
     );
   });
 });

@@ -19,4 +19,5 @@ export {
 } from './tokens/load.js';
 export type { CodeSyntax, CodeSyntaxFile } from './tokens/codeSyntax.js';
 export { createTokenModel, type TokenModel } from './tokens/model.js';
+export { checkDtcgStandard } from './tokens/standard.js';
 export { createIconModel, type IconModel, ICONS_DIR } from './icons/model.js';

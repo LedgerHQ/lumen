@@ -1,10 +1,14 @@
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 
-export const ICONS_DIR = path.resolve(import.meta.dirname, '../../icons');
-
-/** Written by the Figma export next to the SVGs: what was exported, and when. */
-export type IconManifest = { lastModified: string; componentIds: string[] };
+/**
+ * The SVGs ship byte for byte as Figma exports them, so the published folder
+ * is their source: a copy here would only be committed twice.
+ */
+export const ICONS_DIR = path.resolve(
+  import.meta.dirname,
+  '../../../../libs/design-core/symbols/icons',
+);
 
 export type IconSource = {
   /** File name without `.svg`, as named in Figma. */
@@ -14,7 +18,6 @@ export type IconSource = {
 
 export type IconModel = {
   icons: IconSource[];
-  manifest: IconManifest;
   warnings: string[];
 };
 
@@ -86,11 +89,8 @@ export const createIconModel = (dir: string = ICONS_DIR): IconModel => {
       name: file.slice(0, -'.svg'.length),
       svg: readFileSync(path.join(dir, file), 'utf8'),
     }));
-  const manifest = JSON.parse(
-    readFileSync(path.join(dir, 'icons.json'), 'utf8'),
-  ) as IconManifest;
 
   const { errors, warnings } = validateIcons(icons);
   if (errors.length) throw new IconValidationError(errors);
-  return { icons, manifest, warnings };
+  return { icons, warnings };
 };

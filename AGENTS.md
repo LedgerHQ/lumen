@@ -7,7 +7,7 @@ on-demand skill in `[.claude/skills/](.claude/skills/)` — see the index below.
 ## Stack
 
 Cross-platform design system (React + React Native) in an **Nx 22** monorepo, npm.
-Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`, `lint-plugin`. Tailwind (design-core preset),
+Libs: `design-core`, `ui-react`, `ui-rnative`, `utils-shared`, `lint-plugin`. Tailwind v4 (design-core CSS theme),
 TypeScript strict, Vitest + Testing Library, Storybook + Chromatic, Figma Code Connect.
 Dev-only tooling lives outside `libs/` in `internals/` — see `## Internals`.
 
@@ -58,10 +58,14 @@ no, it belongs here — codegen, ETL, external-API sync and their input data.
 | `internals/repo-tools`     | Repo plumbing invoked by path, not imported — CI validators and helpers. See its own `README.md`                                                         |
 | `internals/adoption-tool`  | Tracks which Lumen version external consumer repos have adopted, vs. latest. See its own `README.md`                                                     |
 
+`sync-figma`, `design-sources` and `design-build` form the design pipeline; its
+processes (sync, new token, new token group) are in
+[`docs/design-pipeline.md`](docs/design-pipeline.md).
+
 Rules for adding one:
 
 - Folder = the job, named after the workflow that drives it, or after its role
-  when it serves several (`sync-figma` ↔ `.github/workflows/sync-figma-*.yml`,
+  when it serves several (`sync-figma` ↔ `.github/workflows/sync-figma.yml`,
   `repo-tools`). Nx project name = folder name, unscoped.
 - `private: true` package.json under the `@lumen/*` scope. Dev dependencies stay
   in the root manifest. Never needs a version plan.

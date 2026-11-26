@@ -1,0 +1,203 @@
+name: Sync Figma
+
+# Exports the Figma variables and icons, rebuilds their outputs, and opens one
+# PR with the diff report as its description. When the build fails (a new
+# Figma group the pipeline doesn't know yet, say), the PR still opens, as a
+# draft with the error, so the fix lands on that branch.
+
+on:
+  workflow_dispatch:
+    inputs:
+      kind:
+        description: 'What to sync'
+        type: choice
+        options: [all, tokens, symbols]
+        default: all
+      figma_foundations_file_key:
+        description: 'Figma Foundations File Key (use default if empty)'
+      figma_symbols_file_key:
+        description: 'Figma Symbols File Key (use default if empty)'
+      figma_icons_canvas:
+        description: 'Figma Icons Canvas (use default if empty)'
+
+concurrency:
+  group: sync-figma-${{ inputs.kind }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NX_NO_CLOUD: true
+  TOKENS: ${{ inputs.kind != 'symbols' }}
+  SYMBOLS: ${{ inputs.kind != 'tokens' }}
+
+jobs:
+  export:
+    name: Export and build
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.patch.outputs.changed }}
+      build-failed: ${{ steps.build.outcome == 'failure' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: ./.github/actions/setup
+        with:
+          set-shas: 'false'
+
+      # The report reads `tokens/` and `icons/` side by side, and skips a kind
+      # the copy doesn't hold.
+      - name: Keep the sources before the export, for the diff report
+        run: |
+          mkdir -p "$RUNNER_TEMP/before"
+          if [ "$TOKENS" = true ]; then cp -R internals/design-sources/tokens "$RUNNER_TEMP/before/"; fi
+          if [ "$SYMBOLS" = true ]; then cp -R libs/design-core/symbols/icons "$RUNNER_TEMP/before/"; fi
+
+      - name: Export tokens from Figma
+        if: env.TOKENS == 'true'
+        run: npx nx run sync-figma:extract --kind=tokens
+        env:
+          FIGMA_API_TOKEN: ${{ secrets.FIGMA_API_TOKEN }}
+          FIGMA_FOUNDATIONS_FILE_KEY: ${{ inputs.figma_foundations_file_key || vars.FIGMA_FOUNDATIONS_FILE_KEY }}
+
+      - name: Export icons from Figma
+        if: env.SYMBOLS == 'true'
+        run: npx nx run sync-figma:extract --kind=icons
+        env:
+          FIGMA_API_TOKEN: ${{ secrets.FIGMA_API_TOKEN }}
+          FIGMA_SYMBOLS_FILE_KEY: ${{ inputs.figma_symbols_file_key || vars.FIGMA_SYMBOLS_FILE_KEY }}
+          FIGMA_ICONS_CANVAS: ${{ inputs.figma_icons_canvas || vars.FIGMA_ICONS_CANVAS }}
+
+      # A failure still opens the PR (as a draft): the export is worth
+      # reviewing, and the fix belongs on its branch.
+      - name: Build the outputs
+        id: build
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          {
+            if [ "$TOKENS" = true ]; then npx nx run design-build:tokens; fi
+            if [ "$SYMBOLS" = true ]; then npx nx run design-build:icons; fi
+          } 2>&1 | tee "$RUNNER_TEMP/build.log"
+
+      - name: Write the diff report
+        shell: bash
+        env:
+          BUILD_FAILED: ${{ steps.build.outcome == 'failure' }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/report"
+          report="$RUNNER_TEMP/report/report.md"
+          : > "$report"
+          if [ "$BUILD_FAILED" = true ]; then
+            {
+              echo '> [!WARNING]'
+              echo '> The outputs did not build from this export. Fix the pipeline on this branch, then run `npx nx run design-build:tokens` / `:icons`.'
+              echo
+              echo '```'
+              tail -n 40 "$RUNNER_TEMP/build.log"
+              echo '```'
+              echo
+            } >> "$report"
+          fi
+          npx tsx internals/design-build/src/cli.ts report --before "$RUNNER_TEMP/before" >> "$report" \
+            || echo 'The diff report could not be built from these sources.' >> "$report"
+          cat "$report" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the diff report
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: figma-report
+          path: ${{ runner.temp }}/report/report.md
+
+      # A patch carries deletions too (a pruned icon, a removed mode), which
+      # copying folders over a fresh checkout would bring back.
+      # An unchanged export gives an empty patch, which `git apply` rejects, so
+      # the pull-request job only runs when `changed` is true.
+      - name: Record the changes as a patch
+        id: patch
+        shell: bash
+        run: |
+          git add -A
+          git diff --cached --binary > "$RUNNER_TEMP/changes.patch"
+          echo "changed=$([ -s "$RUNNER_TEMP/changes.patch" ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
+
+      - name: Upload the changes
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: figma-changes
+          path: ${{ runner.temp }}/changes.patch
+
+  pull-request:
+    name: Open the pull request
+    needs: export
+    if: ${{ needs.export.outputs.changed == 'true' }}
+    runs-on: ubuntu-latest
+    # The push and the PR use the app token, so GITHUB_TOKEN stays read-only.
+    permissions:
+      contents: read
+    steps:
+      # Opened as the Lumen release app: GITHUB_TOKEN events trigger no workflow,
+      # so the PR checks (output check, breaking-changes check) would not run on the bot PR.
+      - name: Get a GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349 # v2.2.2
+        with:
+          app-id: ${{ secrets.LUMEN_RELEASE_APP_ID }}
+          private-key: ${{ secrets.LUMEN_RELEASE_APP_KEY }}
+          permission-contents: write
+          permission-pull-requests: write
+
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          fetch-depth: 0
+          token: ${{ steps.app-token.outputs.token }}
+          persist-credentials: true # create-pull-request pushes with it
+
+      - name: Download the changes and the report
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          pattern: figma-*
+          # Outside the checkout, so the pull request doesn't commit them.
+          path: ${{ runner.temp }}/export
+          merge-multiple: true
+
+      - name: Apply the changes
+        run: git apply --index "$RUNNER_TEMP/export/changes.patch"
+
+      # One plan per package, in the format of the release-plan skill: tokens
+      # ship in design-core, icons in design-core and both UI libs.
+      - name: Add release plans
+        id: plans
+        shell: bash
+        run: |
+          mkdir -p .nx/version-plans
+          TIMESTAMP=$(node -e "console.log(Date.now())")
+          packages="design-core"
+          if [ "$SYMBOLS" = true ]; then packages="$packages ui-react ui-rnative"; fi
+          case "${{ inputs.kind }}" in
+            tokens) synced="design tokens"; title="Design Tokens" ;;
+            symbols) synced="symbols"; title="Symbols" ;;
+            *) synced="design tokens and symbols"; title="Design Tokens & Symbols" ;;
+          esac
+          for slug in $packages; do
+            printf -- "---\n'@ledgerhq/lumen-%s': patch\n---\n\nfeat(figma): sync %s from Figma\n" "$slug" "$synced" \
+              > ".nx/version-plans/version-plan-$TIMESTAMP-$slug.md"
+          done
+          echo "title=💄 (figma): Sync Figma $title" >> "$GITHUB_OUTPUT"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676 # v7.0.11
+        with:
+          commit-message: ${{ steps.plans.outputs.title }}
+          title: ${{ steps.plans.outputs.title }}
+          body-path: ${{ runner.temp }}/export/report.md
+          draft: ${{ needs.export.outputs.build-failed == 'true' }}
+          token: ${{ steps.app-token.outputs.token }}
+          branch: sync-figma-${{ inputs.kind }}

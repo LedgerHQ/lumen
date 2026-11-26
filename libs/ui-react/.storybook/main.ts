@@ -45,6 +45,11 @@ const config: StorybookConfig = {
       '@ledgerhq/lumen-design-core/cn': fileURLToPath(
         new URL('../../design-core/src/cn.ts', import.meta.url),
       ),
+      // Before the package alias, which matches by prefix and would resolve
+      // the theme CSS under src/index.ts.
+      '@ledgerhq/lumen-design-core/themes': fileURLToPath(
+        new URL('../../design-core/themes', import.meta.url),
+      ),
       '@ledgerhq/lumen-design-core': fileURLToPath(
         new URL('../../design-core/src/index.ts', import.meta.url),
       ),
