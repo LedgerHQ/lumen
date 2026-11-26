@@ -400,6 +400,7 @@ function MyComponent() {
 ### Important Notes
 
 - **Dynamic Sizing**: When using `enableDynamicSizing`, do not define `snapPoints`
+- **Sticky Header**: A `BottomSheetHeader` placed directly inside a `BottomSheetScrollView` stays pinned to the top while the content scrolls. Pass `sticky={false}` to let it scroll away with the content.
 - **Header Spacing**: Use `spacing` prop on `BottomSheetHeader` when using FlatList/VirtualizedList or when the footer is a sibling of a list-based scrollable
 - **SectionList**: Not compatible with react-native-web. See [Gorhom documentation](https://gorhom.dev/react-native-bottom-sheet/components/bottomsheetsectionlist).
 - **FlashList**: Requires `@shopify/flash-list` package. See [Gorhom docs](https://gorhom.dev/react-native-bottom-sheet/components/bottomsheetflashlist)

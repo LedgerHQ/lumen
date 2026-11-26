@@ -7,6 +7,7 @@ import { Box, Text } from '../../primitives';
 import { ArrowLeft, Close } from '../../symbols';
 import { IconButton } from '../IconButton';
 import { useBottomSheetContext } from './BottomSheet';
+import { useBottomSheetStickyHeaderContext } from './BottomSheetStickyHeaderContext';
 import type { BottomSheetHeaderProps } from './types';
 
 type DensityValue = NonNullable<BottomSheetHeaderProps['density']>;
@@ -17,10 +18,12 @@ const useStyles = ({
   density,
   spacing,
   hidden,
+  pinned,
 }: {
   density: DensityValue;
   spacing: boolean;
   hidden: boolean;
+  pinned: boolean;
 }) => {
   return useStyleSheet(
     (t) => ({
@@ -33,6 +36,10 @@ const useStyles = ({
         },
         spacing && {
           paddingHorizontal: t.spacings.s16,
+        },
+        // Opaque so the content scrolling underneath stays hidden.
+        pinned && {
+          backgroundColor: t.colors.bg.canvasSheet,
         },
       ]),
       inner: StyleSheet.flatten([
@@ -82,7 +89,7 @@ const useStyles = ({
         height: t.sizes.s32,
       },
     }),
-    [density, spacing, hidden],
+    [density, spacing, hidden, pinned],
   );
 };
 
@@ -93,6 +100,7 @@ export const BottomSheetHeader = ({
   description,
   density = 'compact',
   spacing = false,
+  sticky = true,
   ...props
 }: BottomSheetHeaderProps) => {
   const { t } = useCommonTranslation();
@@ -110,6 +118,11 @@ export const BottomSheetHeader = ({
     close();
   }, [close, onHeaderClosePressed]);
 
+  const { isSticky = false } = useBottomSheetStickyHeaderContext({
+    consumerName: 'BottomSheetHeader',
+    contextRequired: false,
+  });
+
   const hasTitleSection = Boolean(title || description);
   const hasIcons = Boolean(onBack || !hideCloseButton);
 
@@ -117,6 +130,7 @@ export const BottomSheetHeader = ({
     density,
     spacing,
     hidden: !hasIcons && density !== 'compact',
+    pinned: sticky && isSticky,
   });
 
   const titleComponent = hasTitleSection ? (
