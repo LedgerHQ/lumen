@@ -57,7 +57,7 @@ figma.connect(
     props: {
       title: figma.string('title'),
       description: figma.string('description'),
-      leading: figma.enum('leading', {
+      leading: figma.enum('leading-content', {
         spot: <Spot icon={Wallet} />,
         coin: <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />,
         provider: (
@@ -71,7 +71,7 @@ figma.connect(
         'interface-icon': <Wallet size={20} />,
         none: undefined,
       }),
-      trailing: figma.enum('trailing', {
+      trailing: figma.enum('trailing-content', {
         value: figma.boolean('show-subvalue', {
           true: (
             <CardContent>

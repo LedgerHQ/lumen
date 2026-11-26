@@ -16,14 +16,14 @@ import {
 
 figma.connect(
   SideBar,
-  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=10860-398',
+  'https://www.figma.com/design/JxaLVMTWirCpU0rsbZ30k7/2.-Components-Library?node-id=23367-121648',
   {
     imports: [
       "import { SideBar, SideBarLeading, SideBarTrailing, SideBarItem, SideBarCollapseToggle } from '@ledgerhq/lumen-ui-react'",
       "import { Home, HomeFill, Wallet, SettingsAlt, SettingsAlt2 } from '@ledgerhq/lumen-ui-react/symbols'",
     ],
     props: {
-      appearance: figma.enum('appearance', {
+      appearance: figma.enum('density', {
         compact: true,
         expanded: false,
       }),

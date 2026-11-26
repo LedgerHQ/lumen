@@ -992,7 +992,7 @@ figma.connect(
 
 figma.connect(
   ColorPalette,
-  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=8328-68',
+  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=11149-499',
   {
     imports: [
       "import { ColorPalette } from '@ledgerhq/lumen-ui-rnative/symbols'",
@@ -2130,7 +2130,7 @@ figma.connect(
 
 figma.connect(
   Pause,
-  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=3163-119',
+  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=10772-772',
   {
     imports: ["import { Pause } from '@ledgerhq/lumen-ui-rnative/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize
@@ -2682,7 +2682,7 @@ figma.connect(
 
 figma.connect(
   Switch,
-  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=3-352',
+  'https://www.figma.com/design/zSkvGGiqcnhywp2l3HTHxA/1.-Symbol-Library?node-id=10799-109',
   {
     imports: ["import { Switch } from '@ledgerhq/lumen-ui-rnative/symbols'"],
     // @ts-expect-error — placeholder value, replace with a valid IconSize

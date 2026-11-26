@@ -7,34 +7,39 @@ figma.connect(
   {
     imports: ["import { ProgressBar } from '@ledgerhq/lumen-ui-react'"],
     props: {
-      appearance: figma.enum('appearance', {
-        base: 'base',
-        accent: 'accent',
-        success: 'success',
-        error: 'error',
-        warning: 'warning',
-        'decorative-blue': 'decorative-blue',
-        'decorative-pink': 'decorative-pink',
-        'decorative-purple': 'decorative-purple',
-        'decorative-green': 'decorative-green',
-        'decorative-turquoise': 'decorative-turquoise',
-        'decorative-yellow': 'decorative-yellow',
-        'decorative-orange': 'decorative-orange',
-        'decorative-red': 'decorative-red',
+      completion: figma.nestedProps('.completion-progress-bar', {
+        appearance: figma.enum('appearance', {
+          base: 'base',
+          accent: 'accent',
+          success: 'success',
+          error: 'error',
+          warning: 'warning',
+          'decorative-blue': 'decorative-blue',
+          'decorative-pink': 'decorative-pink',
+          'decorative-purple': 'decorative-purple',
+          'decorative-green': 'decorative-green',
+          'decorative-turquoise': 'decorative-turquoise',
+          'decorative-yellow': 'decorative-yellow',
+          'decorative-orange': 'decorative-orange',
+          'decorative-red': 'decorative-red',
+        }),
       }),
-      labelPosition: figma.enum('labelPosition', {
+      labelPosition: figma.enum('label-direction', {
         'start-top': 'start-top',
         'start-bottom': 'start-bottom',
         'end-top': 'end-top',
         'end-bottom': 'end-bottom',
       }),
-      label: figma.string('label'),
+      label: figma.boolean('show-label', {
+        true: 'Label',
+        false: undefined,
+      }),
     },
     example: (props) => (
       <ProgressBar
         value={25}
         aria-label='Progress'
-        appearance={props.appearance}
+        appearance={props.completion.appearance}
         labelPosition={props.labelPosition}
         label={props.label}
       />
