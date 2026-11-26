@@ -67,8 +67,8 @@ that PR's plans: some PRs had none, and a later plan released their change.
 ## Examples
 
 `## Before → after` holds code blocks tagged `before` and `after` (at least one
-of each). Agents follow them, and CI checks that each source `detect` pattern
-matches a `before` block and, unless `expect: review`, no `after` block.
+of each). Agents follow them, so each source `detect` pattern should match a
+`before` block and, unless `expect: review`, no `after` block.
 
 ## Index
 
@@ -111,11 +111,11 @@ tool crashed (its error is on stderr).
 
 - A PR that makes consumers change their code adds its migration in the same PR.
 - Say what changed and how to update, nothing the version plan already says.
-- The file name is permanent: never rename or delete a migration.
+- Never rename or delete a released migration: its file name is the id
+  consumers record.
 - Any change to a migration needs a version plan for this package. A new one
   also needs the plan of each Lumen package its refs point into (any package
   for an external dependency change), or a `pr` already released in them.
-- `npx nx run @ledgerhq/lumen-migrations:validate` checks all of the above.
 - `npm run check:breaking-changes` (CI, after a build) diffs each lib against
   its latest release and fails on any removed export, prop, prop value, token,
   icon or new peer that no unreleased migration's `ref` matches (released ones
