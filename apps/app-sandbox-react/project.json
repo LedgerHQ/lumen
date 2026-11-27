@@ -14,7 +14,9 @@
           "vite build --config tests/treeShaking/vite.treeshaking.config.ts",
           "node tests/treeShaking/verify-bundle.mjs --profile=main --dist=dist",
           "vite build --config tests/treeShaking/vite.visualization.config.ts",
-          "node tests/treeShaking/verify-bundle.mjs --profile=visualization --dist=dist/visualization"
+          "node tests/treeShaking/verify-bundle.mjs --profile=visualization --dist=dist/visualization",
+          "vite build --config tests/treeShaking/vite.lottie.config.ts",
+          "node tests/treeShaking/verify-bundle.mjs --profile=lottie --dist=dist/lottie"
         ],
         "cwd": "apps/app-sandbox-react",
         "parallel": false

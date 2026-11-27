@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-ui-react': patch
 ---
 
-feat(LottieView): add LottieView on the dotlottie-react runtime
+feat(LottieView): add LottieView at the `/lottie` subpath, on an optional dotlottie-react peer

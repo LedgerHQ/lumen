@@ -63,6 +63,12 @@ export default defineConfig(() => ({
           __dirname,
           'src/lib/Components/visualization/index.ts',
         ),
+        // Same for `/lottie`, which keeps the optional dotlottie peer out of
+        // the main entry.
+        'lib/Components/lottie/index': path.resolve(
+          __dirname,
+          'src/lib/Components/lottie/index.ts',
+        ),
       },
       name: '@ledgerhq/lumen-ui-react',
       fileName: (_format) => 'index.js',

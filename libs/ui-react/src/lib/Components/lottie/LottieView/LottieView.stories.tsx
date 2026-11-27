@@ -2,7 +2,7 @@ import { success } from '@ledgerhq/lumen-symbols/lotties/success';
 import type { LottieViewRef } from '@ledgerhq/lumen-utils-shared';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useRef, useState } from 'react';
-import { Button } from '../Button';
+import { Button } from '../../core/Button';
 import { LottieView } from './LottieView';
 
 const meta = {

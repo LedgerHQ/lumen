@@ -39,10 +39,10 @@ Import rules are enforced in CI at two levels. Don't import across a boundary.
 - **Inside `ui-react` / `ui-rnative`** — dependency-cruiser,
   `.dependency-cruiser.cjs`, `npm run check:layers`. Under
   `src/lib/Components`, a layer imports only the ones below:
-  `visualization`, `core` → `internal` → `primitives` / `animations` /
-  `symbols` → `utils`. An `internal` Base never imports the `core` components
-  built on it (`BASE_FAMILIES` in the config), and `visualization` is reached
-  only through its own subpath.
+  `visualization`, `lottie`, `core` → `internal` → `primitives` /
+  `animations` / `symbols` → `utils`. An `internal` Base never imports the
+  `core` components built on it (`BASE_FAMILIES` in the config), and
+  `visualization` and `lottie` are reached only through their own subpaths.
 
 ## Internals
 

@@ -2,7 +2,7 @@ import type { LottieViewRef } from '@ledgerhq/lumen-utils-shared';
 import { act, render, screen } from '@testing-library/react';
 import { createRef, useEffect, type ReactNode } from 'react';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { ThemeProvider } from '../ThemeProvider';
+import { ThemeProvider } from '../../core/ThemeProvider';
 import { LottieView } from './LottieView';
 
 const player = vi.hoisted(() => {

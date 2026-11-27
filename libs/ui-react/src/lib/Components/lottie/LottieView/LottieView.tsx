@@ -4,7 +4,7 @@ import {
 } from '@ledgerhq/lumen-utils-shared';
 import { DotLottieReact, type DotLottie } from '@lottiefiles/dotlottie-react';
 import { useEffect, useImperativeHandle, useRef, useState } from 'react';
-import { useTheme } from '../ThemeProvider';
+import { useTheme } from '../../core/ThemeProvider';
 import type { LottieViewProps } from './types';
 
 // Numeric sources are Metro asset ids, which only exist on React Native.
