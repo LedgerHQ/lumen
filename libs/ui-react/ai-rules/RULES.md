@@ -15,6 +15,7 @@
 - Import components from `@ledgerhq/lumen-ui-react`
 - Import icons from `@ledgerhq/lumen-ui-react/symbols` (not from main package)
 - Import charts from `@ledgerhq/lumen-ui-react/visualization` (not from main package)
+- Import `LottieView` from `@ledgerhq/lumen-ui-react/lottie` (not from main package); it needs `@lottiefiles/dotlottie-react` installed
 - Import design tokens/presets from `@ledgerhq/lumen-design-core`
 - Import `cn` from `@ledgerhq/lumen-design-core/cn` (subpath only, not the package root)
 

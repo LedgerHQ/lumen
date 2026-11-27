@@ -63,6 +63,12 @@ export default defineConfig(() => ({
           __dirname,
           'src/lib/Components/visualization/index.ts',
         ),
+        // Same for `/lottie`, which keeps the optional dotlottie peer out of
+        // the main entry.
+        'lib/Components/lottie/index': path.resolve(
+          __dirname,
+          'src/lib/Components/lottie/index.ts',
+        ),
       },
       name: '@ledgerhq/lumen-ui-react',
       fileName: (_format) => 'index.js',
@@ -87,6 +93,7 @@ export default defineConfig(() => ({
         '@tanstack/react-table',
         '@base-ui/react',
         /^d3-/,
+        /^@lottiefiles\//,
         'internmap',
         // Tripwires: nothing inside this package may import it by name. A
         // leftover self-import would otherwise resolve through the workspace

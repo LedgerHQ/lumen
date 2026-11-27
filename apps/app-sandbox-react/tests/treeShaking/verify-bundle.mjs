@@ -90,6 +90,9 @@ const PROFILES = {
       { name: 'visualization components', path: 'Components/visualization/' },
       { name: 'd3 (any package)', path: 'node_modules/d3-' },
       { name: 'internmap (d3-scale dep)', path: 'internmap' },
+      // LottieView ships at the ./lottie subpath only, with its optional peer.
+      { name: 'lottie components', path: 'Components/lottie/' },
+      { name: 'dotlottie runtime', path: 'node_modules/@lottiefiles/' },
     ],
   },
   visualization: {
@@ -108,6 +111,21 @@ const PROFILES = {
       { name: 'Select component', path: 'Components/core/Select/' },
       { name: 'Table component', path: 'Components/core/Table/' },
       { name: 'AddressInput component', path: 'Components/core/AddressInput/' },
+    ],
+  },
+  lottie: {
+    description: 'LottieView, imported from the ./lottie subpath',
+    required: [
+      { name: 'LottieView component', path: 'Components/lottie/LottieView/' },
+      {
+        name: 'dotlottie-react',
+        path: 'node_modules/@lottiefiles/dotlottie-react',
+      },
+    ],
+    excluded: [
+      { name: 'visualization components', path: 'Components/visualization/' },
+      { name: 'Dialog component', path: 'Components/core/Dialog/' },
+      { name: 'DataTable component', path: 'Components/core/DataTable/' },
     ],
   },
 };

@@ -52,6 +52,8 @@ const config: StorybookConfig = {
 
     return mergeConfig(viteConfig, {
       plugins: [nxViteTsPaths()],
+      // `@ledgerhq/lumen-symbols` imports its `.lottie` archives as assets.
+      assetsInclude: ['**/*.lottie'],
       css: {
         postcss: {
           plugins: [(await import('@tailwindcss/postcss')).default],

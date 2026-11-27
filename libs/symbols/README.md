@@ -20,4 +20,4 @@ Import each symbol by its own path. There is deliberately no index re-exporting 
 import { star } from '@ledgerhq/lumen-symbols/lotties/star';
 ```
 
-Each animation is a `{ light, dark }` pair of `.lottie` archives, so your bundler must treat `.lottie` as an asset (on Metro, add `lottie` to `resolver.assetExts`) and that rule must also cover `node_modules/@ledgerhq/lumen-symbols`.
+Each animation is a `{ light, dark }` pair of `.lottie` archives, so your bundler must treat `.lottie` as an asset (on Metro, add `lottie` to `resolver.assetExts`; on Vite, add `'**/*.lottie'` to `assetsInclude`) and that rule must also cover `node_modules/@ledgerhq/lumen-symbols`.
