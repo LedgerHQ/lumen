@@ -15,7 +15,6 @@ export default function Lotties() {
   const ref = useRef<LottieViewRef>(null);
   const [speed, setSpeed] = useState(1);
   const [loop, setLoop] = useState(true);
-  const [autoPlay, setAutoPlay] = useState(true);
 
   const changeSpeed = (delta: number): void =>
     setSpeed((previous) =>
@@ -26,10 +25,9 @@ export default function Lotties() {
     <Box lx={{ gap: 's24', width: 'full', paddingHorizontal: 's16' }}>
       <Box lx={{ alignItems: 'center' }}>
         <LottieView
-          key={String(autoPlay)}
           ref={ref}
           animation={success}
-          autoPlay={autoPlay}
+          autoPlay
           loop={loop}
           speed={speed}
           lx={{ width: 's144', height: 's144' }}
@@ -87,7 +85,6 @@ export default function Lotties() {
       </Section>
 
       <Section title='Props'>
-        <Toggle label='autoPlay' checked={autoPlay} onChange={setAutoPlay} />
         <Toggle label='loop' checked={loop} onChange={setLoop} />
       </Section>
     </Box>
