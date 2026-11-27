@@ -27,6 +27,9 @@
       "path": "../../libs/ui-rnative/tsconfig.lib.json"
     },
     {
+      "path": "../../libs/symbols/tsconfig.lib.json"
+    },
+    {
       "path": "../../libs/design-core/tsconfig.lib.json"
     }
   ]

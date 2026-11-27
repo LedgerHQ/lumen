@@ -49,6 +49,12 @@
       "react-native": "./src/lib/Components/visualization/index.ts",
       "import": "./dist/module/lib/Components/visualization/index.js",
       "default": "./dist/module/lib/Components/visualization/index.js"
+    },
+    "./lottie": {
+      "types": "./dist/typescript/src/lib/Components/lottie/index.d.ts",
+      "react-native": "./src/lib/Components/lottie/index.ts",
+      "import": "./dist/module/lib/Components/lottie/index.js",
+      "default": "./dist/module/lib/Components/lottie/index.js"
     }
   },
   "files": [
@@ -88,13 +94,17 @@
     "@sbaiahmed1/react-native-blur": "^4.5.5",
     "expo": ">=54.0.0",
     "expo-clipboard": "~8.0.8 || ^55.0.0 || ^56.0.0 || ^57.0.0",
-    "expo-haptics": "~15.0.8 || ^55.0.0 || ^56.0.0 || ^57.0.0"
+    "expo-haptics": "~15.0.8 || ^55.0.0 || ^56.0.0 || ^57.0.0",
+    "lottie-react-native": "^7.0.0"
   },
   "peerDependenciesMeta": {
     "react-native-gesture-handler": {
       "optional": true
     },
     "react-native-worklets": {
+      "optional": true
+    },
+    "lottie-react-native": {
       "optional": true
     }
   },

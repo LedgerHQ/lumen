@@ -17,4 +17,6 @@ config.resolver.nodeModulesPaths = [
 
 config.resolver.unstable_enablePackageExports = true;
 
+config.resolver.assetExts = [...config.resolver.assetExts, 'lottie'];
+
 module.exports = config;

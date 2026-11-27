@@ -4,7 +4,7 @@
  * guards paths inside a lib. Run: `npm run check:layers`.
  *
  * Layer order inside `src/lib/Components` (a layer may import the ones below):
- *   visualization, core -> internal -> primitives / animations (RN) / symbols -> utils
+ *   visualization, lottie, core -> internal -> primitives / animations (RN) / symbols -> utils
  * `internal` may import `core` only for Spinner and InteractiveIcon.
  * Tests, stories, Code Connect and docs are not cruised: they legitimately
  * reach across layers (e.g. a `ThemeProvider` wrapper).
@@ -33,7 +33,7 @@ module.exports = {
       comment:
         'symbols, primitives and animations are the lowest component layers.',
       from: { path: `${C}/(symbols|primitives|animations)/` },
-      to: { path: `${C}/(core|internal|visualization)/` },
+      to: { path: `${C}/(core|internal|visualization|lottie)/` },
     },
     {
       name: 'visualization-subpath-only',
@@ -42,6 +42,14 @@ module.exports = {
         'visualization is imported only via its own /visualization subpath.',
       from: { path: UI, pathNot: `${C}/visualization/` },
       to: { path: `${C}/visualization/` },
+    },
+    {
+      name: 'lottie-subpath-only',
+      severity: 'error',
+      comment:
+        'lottie is imported only via its own /lottie subpath.',
+      from: { path: UI, pathNot: `${C}/lottie/` },
+      to: { path: `${C}/lottie/` },
     },
     {
       name: 'utils-not-to-components',

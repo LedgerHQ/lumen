@@ -84,6 +84,32 @@ jest.mock('expo-haptics', () => ({
   },
 }));
 
+jest.mock('lottie-react-native', () => {
+  const mockReact = jest.requireActual<typeof import('react')>('react');
+  const mockRN =
+    jest.requireActual<typeof import('react-native')>('react-native');
+
+  class MockLottieView extends mockReact.Component<Record<string, any>> {
+    play(): void {
+      return;
+    }
+    pause(): void {
+      return;
+    }
+    resume(): void {
+      return;
+    }
+    reset(): void {
+      return;
+    }
+    override render() {
+      return mockReact.createElement(mockRN.View, this.props);
+    }
+  }
+
+  return { __esModule: true, default: MockLottieView };
+});
+
 jest.mock('expo-clipboard', () => ({
   setStringAsync: jest.fn(() => Promise.resolve(true)),
 }));

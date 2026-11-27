@@ -9,7 +9,7 @@
       "executor": "nx:run-commands",
       "outputs": ["{projectRoot}/dist"],
       "options": {
-        "command": "npx tsc -p tsconfig.lib.json",
+        "command": "npx tsc -p tsconfig.lib.json && cp -R src/lotties/assets dist/lotties/",
         "cwd": "libs/symbols"
       }
     }
