@@ -5,7 +5,13 @@ import {
 import RNLottieView, {
   type LottieViewProps as RNLottieViewProps,
 } from 'lottie-react-native';
-import { useEffect, useImperativeHandle, useRef } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import { StyleSheet } from 'react-native';
 import { useResolveViewStyle, useTheme } from '../../../../styles';
 import type { LottieViewProps } from './types';
@@ -46,6 +52,7 @@ export const LottieView = ({
   const resolvedStyle = useResolveViewStyle(lx);
   const lottieRef = useRef<RNLottieView>(null);
   const hasCompletedRef = useRef(false);
+  const isPlayingRef = useRef(false);
   const wasPausedRef = useRef(paused);
 
   const source = toNativeSource(
@@ -56,34 +63,44 @@ export const LottieView = ({
   );
   const loopsFromJs = loop && onLoop !== undefined;
 
-  const restart = (): void => {
+  const restart = useCallback((): void => {
     lottieRef.current?.reset();
     lottieRef.current?.resume();
-  };
+  }, []);
+
+  const play = useCallback((): void => {
+    isPlayingRef.current = true;
+    if (hasCompletedRef.current) {
+      hasCompletedRef.current = false;
+      restart();
+      return;
+    }
+    lottieRef.current?.resume();
+  }, [restart]);
+
+  const pause = useCallback((): void => {
+    isPlayingRef.current = false;
+    lottieRef.current?.pause();
+  }, []);
 
   useImperativeHandle(
     ref,
     () => ({
-      play: () => {
-        if (hasCompletedRef.current) {
-          hasCompletedRef.current = false;
-          restart();
-          return;
-        }
-        lottieRef.current?.resume();
-      },
-      pause: () => lottieRef.current?.pause(),
+      play,
+      pause,
       stop: () => {
+        isPlayingRef.current = false;
         hasCompletedRef.current = false;
         lottieRef.current?.reset();
       },
     }),
-    [],
+    [play, pause],
   );
 
   const sourceKey = typeof source === 'object' ? source.uri : String(source);
   useEffect(() => {
     hasCompletedRef.current = false;
+    isPlayingRef.current = false;
   }, [sourceKey]);
 
   useEffect(() => {
@@ -92,25 +109,34 @@ export const LottieView = ({
     }
     wasPausedRef.current = paused;
     if (paused) {
-      lottieRef.current?.pause();
+      pause();
     } else {
-      lottieRef.current?.resume();
+      play();
     }
-  }, [paused]);
+  }, [paused, play, pause]);
 
+  // On iOS, lottie-react-native's setSpeed calls play() whenever the animation
+  // isn't playing, so a speed change would start an idle animation or replay a
+  // finished one. We undo it so it lands before the next frame.
   const previousSpeedRef = useRef(speed);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (previousSpeedRef.current === speed) {
       return;
     }
     previousSpeedRef.current = speed;
-    if (paused) {
+    if (isPlayingRef.current) {
+      return;
+    }
+    if (hasCompletedRef.current) {
+      lottieRef.current?.reset();
+    } else {
       lottieRef.current?.pause();
     }
-  }, [speed, paused]);
+  }, [speed]);
 
   const handleLoad = (): void => {
     if (autoPlay && !paused) {
+      isPlayingRef.current = true;
       lottieRef.current?.play();
     }
     onLoad?.();
@@ -125,6 +151,7 @@ export const LottieView = ({
       onLoop?.();
       return;
     }
+    isPlayingRef.current = false;
     hasCompletedRef.current = true;
     onComplete?.();
   };
