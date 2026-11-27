@@ -409,7 +409,6 @@ export const ResponsiveLayout: Story = {
 };
 
 export const TruncationShowcase: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
   render: () => (
     <div className='flex w-480 flex-col gap-32'>
       <ListItem className='w-320' onClick={() => {}}>
@@ -431,15 +430,15 @@ export const TruncationShowcase: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem truncate={false} className='w-320' onClick={() => {}}>
+      <ListItem className='w-320' onClick={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
           <ListItemContent>
-            <ListItemTitle>
+            <ListItemTitle truncate={false}>
               Defined width (320px) with a long title that wraps when truncation
               is off
             </ListItemTitle>
-            <ListItemDescription>
+            <ListItemDescription truncate={false}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
               quos.
             </ListItemDescription>

@@ -30,21 +30,14 @@ const [ListItemPriorityProvider, useListItemPriorityContext] =
     priority: undefined,
   });
 
-const [ListItemTruncateProvider, useListItemTruncateContext] =
-  createSafeContext<{ truncate: boolean }>('ListItemTruncate', {
-    truncate: true,
-  });
-
 const useRootStyles = ({
   pressed,
   density,
-  truncate,
   active,
   disabled,
 }: {
   pressed: boolean;
   density: Density;
-  truncate: boolean;
   active: boolean;
   disabled: boolean;
 }) => {
@@ -54,6 +47,7 @@ const useRootStyles = ({
         {
           flexDirection: 'row',
           alignItems: 'center',
+          minHeight: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
           width: t.sizes.full,
           gap: t.spacings.s16,
           borderRadius: t.borderRadius.md,
@@ -61,19 +55,13 @@ const useRootStyles = ({
           paddingHorizontal: t.spacings.s8,
           overflow: 'hidden',
         },
-        truncate
-          ? { height: density === 'compact' ? t.sizes.s40 : t.sizes.s64 }
-          : {
-              minHeight: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
-              paddingVertical: t.spacings.s8,
-            },
         pressed && { backgroundColor: t.colors.bg.baseTransparentPressed },
         active && { backgroundColor: t.colors.bg.muted },
         active && pressed && { backgroundColor: t.colors.bg.mutedPressed },
         active && disabled && { backgroundColor: t.colors.bg.disabled },
       ]),
     }),
-    [pressed, density, truncate, active, disabled],
+    [pressed, density, active, disabled],
   );
 };
 
@@ -118,7 +106,6 @@ export const ListItem = ({
   disabled: disabledProp = false,
   density = 'expanded',
   priority = 'end',
-  truncate = true,
   active = false,
   onPress,
   onLongPress,
@@ -148,16 +135,13 @@ export const ListItem = ({
         >
           {({ pressed }) => (
             <ListItemPriorityProvider value={{ priority }}>
-              <ListItemTruncateProvider value={{ truncate }}>
-                <ListItemInner
-                  pressed={pressed}
-                  density={density}
-                  truncate={truncate}
-                  active={active}
-                >
-                  {children}
-                </ListItemInner>
-              </ListItemTruncateProvider>
+              <ListItemInner
+                pressed={pressed}
+                density={density}
+                active={active}
+              >
+                {children}
+              </ListItemInner>
             </ListItemPriorityProvider>
           )}
         </Pressable>
@@ -175,16 +159,9 @@ export const ListItem = ({
         {...props}
       >
         <ListItemPriorityProvider value={{ priority }}>
-          <ListItemTruncateProvider value={{ truncate }}>
-            <ListItemInner
-              pressed={false}
-              density={density}
-              truncate={truncate}
-              active={active}
-            >
-              {children}
-            </ListItemInner>
-          </ListItemTruncateProvider>
+          <ListItemInner pressed={false} density={density} active={active}>
+            {children}
+          </ListItemInner>
         </ListItemPriorityProvider>
       </Box>
     </DisabledProvider>
@@ -197,13 +174,11 @@ export const ListItem = ({
 const ListItemInner = ({
   pressed,
   density,
-  truncate,
   active,
   children,
 }: {
   pressed: boolean;
   density: Density;
-  truncate: boolean;
   active: boolean;
   children: ReactNode;
 }) => {
@@ -211,13 +186,7 @@ const ListItemInner = ({
     consumerName: 'ListItemInner',
     contextRequired: false,
   });
-  const styles = useRootStyles({
-    pressed,
-    density,
-    truncate,
-    active,
-    disabled,
-  });
+  const styles = useRootStyles({ pressed, density, active, disabled });
   return (
     <View style={styles.container} testID='list-item-content'>
       {children}
@@ -354,6 +323,7 @@ export const ListItemTitle = ({
   children,
   lx = {},
   style,
+  truncate = true,
   ref,
   ...props
 }: ListItemTitleProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
@@ -362,10 +332,6 @@ export const ListItemTitle = ({
     contextRequired: true,
   });
   const { isInTrailing } = useListItemTrailingContext({
-    consumerName: 'ListItemTitle',
-    contextRequired: false,
-  });
-  const { truncate } = useListItemTruncateContext({
     consumerName: 'ListItemTitle',
     contextRequired: false,
   });
@@ -408,6 +374,7 @@ export const ListItemDescription = ({
   children,
   lx = {},
   style,
+  truncate = true,
   ref,
   ...props
 }: ListItemDescriptionProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
@@ -416,10 +383,6 @@ export const ListItemDescription = ({
     contextRequired: true,
   });
   const { isInTrailing } = useListItemTrailingContext({
-    consumerName: 'ListItemDescription',
-    contextRequired: false,
-  });
-  const { truncate } = useListItemTruncateContext({
     consumerName: 'ListItemDescription',
     contextRequired: false,
   });

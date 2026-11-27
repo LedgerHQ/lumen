@@ -63,19 +63,20 @@ describe('ListItem', () => {
   });
 
   describe('density', () => {
-    it('defaults to expanded (h-64)', () => {
+    it('defaults to expanded (min-h-64)', () => {
       renderListItem();
-      expect(screen.getByTestId('list-item')).toHaveClass('h-64');
+      expect(screen.getByTestId('list-item')).toHaveClass('min-h-64');
+      expect(screen.getByTestId('list-item')).not.toHaveClass('h-64');
     });
 
-    it('applies h-64 for expanded density', () => {
+    it('applies min-h-64 for expanded density', () => {
       renderListItem({ density: 'expanded' });
-      expect(screen.getByTestId('list-item')).toHaveClass('h-64');
+      expect(screen.getByTestId('list-item')).toHaveClass('min-h-64');
     });
 
-    it('applies h-40 for compact density', () => {
+    it('applies min-h-40 for compact density', () => {
       renderListItem({ density: 'compact' });
-      expect(screen.getByTestId('list-item')).toHaveClass('h-40');
+      expect(screen.getByTestId('list-item')).toHaveClass('min-h-40');
     });
   });
 
@@ -224,49 +225,44 @@ describe('ListItem', () => {
   });
 
   describe('truncate', () => {
-    const renderTruncate = (props: Partial<ListItemProps> = {}) =>
+    const renderTruncate = (
+      title: { truncate?: boolean } = {},
+      description: { truncate?: boolean } = {},
+    ) =>
       render(
-        <ListItem data-testid='list-item' {...props}>
+        <ListItem>
           <ListItemLeading>
             <ListItemContent>
-              <ListItemTitle>Long title</ListItemTitle>
-              <ListItemDescription>Long description</ListItemDescription>
+              <ListItemTitle {...title}>Long title</ListItemTitle>
+              <ListItemDescription {...description}>
+                Long description
+              </ListItemDescription>
             </ListItemContent>
           </ListItemLeading>
         </ListItem>,
       );
 
-    it('truncates text and keeps the fixed height by default', () => {
+    it('truncates title and description by default', () => {
       renderTruncate();
 
       expect(screen.getByText('Long title')).toHaveClass('truncate');
       expect(screen.getByText('Long description')).toHaveClass('truncate');
-      expect(screen.getByTestId('list-item')).toHaveClass('h-64');
-      expect(screen.getByTestId('list-item')).not.toHaveClass('min-h-64');
     });
 
-    it('wraps text and lets the row grow when truncate is false', () => {
-      renderTruncate({ truncate: false });
+    it('wraps title and description when truncate is false', () => {
+      renderTruncate({ truncate: false }, { truncate: false });
 
       for (const text of ['Long title', 'Long description']) {
         expect(screen.getByText(text)).not.toHaveClass('truncate');
-        expect(screen.getByText(text)).toHaveClass('wrap-break-word');
+        expect(screen.getByText(text)).toHaveClass('wrap-anywhere');
       }
-      expect(screen.getByTestId('list-item')).toHaveClass('min-h-64', 'py-8');
-      expect(screen.getByTestId('list-item')).not.toHaveClass('h-64');
     });
 
-    it('keeps the compact minimum height when truncate is false', () => {
-      renderTruncate({ truncate: false, density: 'compact' });
+    it('lets the title truncate while the description wraps', () => {
+      renderTruncate({}, { truncate: false });
 
-      expect(screen.getByTestId('list-item')).toHaveClass('min-h-40');
-      expect(screen.getByTestId('list-item')).not.toHaveClass('h-40');
-    });
-
-    it('does not forward truncate to the DOM', () => {
-      renderTruncate({ truncate: false });
-
-      expect(screen.getByTestId('list-item')).not.toHaveAttribute('truncate');
+      expect(screen.getByText('Long title')).toHaveClass('truncate');
+      expect(screen.getByText('Long description')).not.toHaveClass('truncate');
     });
   });
 });

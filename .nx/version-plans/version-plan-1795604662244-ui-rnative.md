@@ -2,4 +2,4 @@
 '@ledgerhq/lumen-ui-rnative': patch
 ---
 
-feat(ListItem): add truncate prop to let the title and description wrap
+feat(ListItem): use a minimum height and add truncate to title and description

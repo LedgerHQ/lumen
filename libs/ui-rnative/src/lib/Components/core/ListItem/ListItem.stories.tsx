@@ -440,15 +440,15 @@ export const TruncationShowcase: Story = {
         </ListItemTrailing>
       </ListItem>
 
-      <ListItem truncate={false} lx={{ width: 's320' }} onPress={() => {}}>
+      <ListItem lx={{ width: 's320' }} onPress={() => {}}>
         <ListItemLeading>
           <Spot size={48} icon={Settings} />
           <ListItemContent>
-            <ListItemTitle>
+            <ListItemTitle truncate={false}>
               Defined width (320px) with a long title that wraps when truncation
               is off
             </ListItemTitle>
-            <ListItemDescription>
+            <ListItemDescription truncate={false}>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
               quos.
             </ListItemDescription>

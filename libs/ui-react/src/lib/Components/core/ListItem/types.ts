@@ -24,12 +24,6 @@ export type ListItemProps = {
    */
   priority?: Priority;
   /**
-   * Whether the title and description are clamped to a single line with an ellipsis.
-   * When `false`, the text wraps and the row grows taller than its density height.
-   * @default true
-   */
-  truncate?: boolean;
-  /**
    * custom classname
    */
   className?: string;
@@ -99,6 +93,12 @@ export type ListItemTitleProps = {
    */
   children: ReactNode;
   /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the row grows past its minimum height.
+   * @default true
+   */
+  truncate?: boolean;
+  /**
    * custom classname
    */
   className?: string;
@@ -112,6 +112,12 @@ export type ListItemDescriptionProps = {
    * The description text or custom content
    */
   children: ReactNode;
+  /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the row grows past its minimum height.
+   * @default true
+   */
+  truncate?: boolean;
   /**
    * custom classname
    */

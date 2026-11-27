@@ -56,27 +56,27 @@ describe('ListItem', () => {
   });
 
   describe('density', () => {
-    it('defaults to expanded height', () => {
+    it('defaults to expanded minimum height', () => {
       renderListItem();
       const inner = screen.getByTestId('list-item-content');
       expect(inner.props.style).toEqual(
-        expect.objectContaining({ height: 64 }),
+        expect.objectContaining({ minHeight: 64 }),
       );
     });
 
-    it('applies expanded height explicitly', () => {
+    it('applies expanded minimum height explicitly', () => {
       renderListItem({ density: 'expanded' });
       const inner = screen.getByTestId('list-item-content');
       expect(inner.props.style).toEqual(
-        expect.objectContaining({ height: 64 }),
+        expect.objectContaining({ minHeight: 64 }),
       );
     });
 
-    it('applies compact height', () => {
+    it('applies compact minimum height', () => {
       renderListItem({ density: 'compact' });
       const inner = screen.getByTestId('list-item-content');
       expect(inner.props.style).toEqual(
-        expect.objectContaining({ height: 40 }),
+        expect.objectContaining({ minHeight: 40 }),
       );
     });
   });
@@ -229,40 +229,50 @@ describe('ListItem', () => {
   });
 
   describe('truncate', () => {
-    it('truncates text to one line and keeps the fixed height by default', () => {
-      renderListItem();
+    const renderTruncate = (
+      title: { truncate?: boolean } = {},
+      description: { truncate?: boolean } = {},
+    ) =>
+      render(
+        <TestWrapper>
+          <ListItem>
+            <ListItemLeading>
+              <ListItemContent>
+                <ListItemTitle {...title}>Title</ListItemTitle>
+                <ListItemDescription {...description}>
+                  Description
+                </ListItemDescription>
+              </ListItemContent>
+            </ListItemLeading>
+          </ListItem>
+        </TestWrapper>,
+      );
+
+    it('truncates title and description to one line by default', () => {
+      renderTruncate();
 
       for (const text of ['Title', 'Description']) {
         expect(screen.getByText(text).props.numberOfLines).toBe(1);
         expect(screen.getByText(text).props.ellipsizeMode).toBe('tail');
       }
-      const inner = screen.getByTestId('list-item-content');
-      expect(inner.props.style).toEqual(
-        expect.objectContaining({ height: 64 }),
-      );
     });
 
-    it('wraps text and lets the row grow when truncate is false', () => {
-      renderListItem({ truncate: false });
+    it('wraps title and description when truncate is false', () => {
+      renderTruncate({ truncate: false }, { truncate: false });
 
       for (const text of ['Title', 'Description']) {
         expect(screen.getByText(text).props.numberOfLines).toBeUndefined();
         expect(screen.getByText(text).props.ellipsizeMode).toBeUndefined();
       }
-      const inner = screen.getByTestId('list-item-content');
-      expect(inner.props.style).toEqual(
-        expect.objectContaining({ minHeight: 64, paddingVertical: 8 }),
-      );
-      expect(inner.props.style.height).toBeUndefined();
     });
 
-    it('keeps the compact minimum height when truncate is false', () => {
-      renderListItem({ truncate: false, density: 'compact' });
+    it('lets the title truncate while the description wraps', () => {
+      renderTruncate({}, { truncate: false });
 
-      const inner = screen.getByTestId('list-item-content');
-      expect(inner.props.style).toEqual(
-        expect.objectContaining({ minHeight: 40 }),
-      );
+      expect(screen.getByText('Title').props.numberOfLines).toBe(1);
+      expect(
+        screen.getByText('Description').props.numberOfLines,
+      ).toBeUndefined();
     });
   });
 });
