@@ -37,8 +37,8 @@ const listItemVariants = cva(
   {
     variants: {
       density: {
-        compact: 'h-40',
-        expanded: 'h-64',
+        compact: 'min-h-40',
+        expanded: 'min-h-64',
       },
       interactive: {
         true: '',
@@ -237,6 +237,7 @@ export const ListItemTitle = ({
   ref,
   children,
   className,
+  truncate = true,
   ...props
 }: ListItemTitleProps) => {
   const disabled = useDisabledContext({
@@ -252,7 +253,8 @@ export const ListItemTitle = ({
     <div
       ref={ref}
       className={cn(
-        'min-w-0 truncate body-2-semi-bold',
+        'min-w-0 body-2-semi-bold',
+        truncate ? 'truncate' : 'wrap-anywhere',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,
@@ -272,6 +274,7 @@ export const ListItemDescription = ({
   ref,
   children,
   className,
+  truncate = true,
   ...props
 }: ListItemDescriptionProps) => {
   const disabled = useDisabledContext({
@@ -287,7 +290,8 @@ export const ListItemDescription = ({
     <div
       ref={ref}
       className={cn(
-        'min-w-0 items-center truncate body-3 text-muted',
+        'min-w-0 items-center body-3 text-muted',
+        truncate ? 'truncate' : 'wrap-anywhere',
         isInTrailing ? 'justify-end text-end' : 'justify-start text-start',
         disabled && 'text-disabled',
         className,

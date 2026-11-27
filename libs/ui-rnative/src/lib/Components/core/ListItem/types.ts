@@ -80,6 +80,12 @@ export type ListItemTitleProps = {
    * The title text or custom content
    */
   children: React.ReactNode;
+  /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the row grows past its minimum height.
+   * @default true
+   */
+  truncate?: boolean;
 } & Omit<StyledTextProps, 'children'>;
 
 /**
@@ -90,6 +96,12 @@ export type ListItemDescriptionProps = {
    * The description text or custom content
    */
   children: React.ReactNode;
+  /**
+   * Whether the text is clamped to a single line with an ellipsis.
+   * When `false`, the text wraps and the row grows past its minimum height.
+   * @default true
+   */
+  truncate?: boolean;
 } & Omit<StyledTextProps, 'children'>;
 
 /**

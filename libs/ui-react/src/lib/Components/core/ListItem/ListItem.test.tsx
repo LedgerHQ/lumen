@@ -63,19 +63,20 @@ describe('ListItem', () => {
   });
 
   describe('density', () => {
-    it('defaults to expanded (h-64)', () => {
+    it('defaults to expanded (min-h-64)', () => {
       renderListItem();
-      expect(screen.getByTestId('list-item')).toHaveClass('h-64');
+      expect(screen.getByTestId('list-item')).toHaveClass('min-h-64');
+      expect(screen.getByTestId('list-item')).not.toHaveClass('h-64');
     });
 
-    it('applies h-64 for expanded density', () => {
+    it('applies min-h-64 for expanded density', () => {
       renderListItem({ density: 'expanded' });
-      expect(screen.getByTestId('list-item')).toHaveClass('h-64');
+      expect(screen.getByTestId('list-item')).toHaveClass('min-h-64');
     });
 
-    it('applies h-40 for compact density', () => {
+    it('applies min-h-40 for compact density', () => {
       renderListItem({ density: 'compact' });
-      expect(screen.getByTestId('list-item')).toHaveClass('h-40');
+      expect(screen.getByTestId('list-item')).toHaveClass('min-h-40');
     });
   });
 
@@ -220,6 +221,48 @@ describe('ListItem', () => {
         </ListItem>,
       );
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
+    });
+  });
+
+  describe('truncate', () => {
+    const renderTruncate = (
+      title: { truncate?: boolean } = {},
+      description: { truncate?: boolean } = {},
+    ) =>
+      render(
+        <ListItem>
+          <ListItemLeading>
+            <ListItemContent>
+              <ListItemTitle {...title}>Long title</ListItemTitle>
+              <ListItemDescription {...description}>
+                Long description
+              </ListItemDescription>
+            </ListItemContent>
+          </ListItemLeading>
+        </ListItem>,
+      );
+
+    it('truncates title and description by default', () => {
+      renderTruncate();
+
+      expect(screen.getByText('Long title')).toHaveClass('truncate');
+      expect(screen.getByText('Long description')).toHaveClass('truncate');
+    });
+
+    it('wraps title and description when truncate is false', () => {
+      renderTruncate({ truncate: false }, { truncate: false });
+
+      for (const text of ['Long title', 'Long description']) {
+        expect(screen.getByText(text)).not.toHaveClass('truncate');
+        expect(screen.getByText(text)).toHaveClass('wrap-anywhere');
+      }
+    });
+
+    it('lets the title truncate while the description wraps', () => {
+      renderTruncate({}, { truncate: false });
+
+      expect(screen.getByText('Long title')).toHaveClass('truncate');
+      expect(screen.getByText('Long description')).not.toHaveClass('truncate');
     });
   });
 });

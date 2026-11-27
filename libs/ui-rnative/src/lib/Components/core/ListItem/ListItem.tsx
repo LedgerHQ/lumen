@@ -47,7 +47,7 @@ const useRootStyles = ({
         {
           flexDirection: 'row',
           alignItems: 'center',
-          height: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
+          minHeight: density === 'compact' ? t.sizes.s40 : t.sizes.s64,
           width: t.sizes.full,
           gap: t.spacings.s16,
           borderRadius: t.borderRadius.md,
@@ -323,6 +323,7 @@ export const ListItemTitle = ({
   children,
   lx = {},
   style,
+  truncate = true,
   ref,
   ...props
 }: ListItemTitleProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
@@ -355,8 +356,8 @@ export const ListItemTitle = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.title, style])}
-      numberOfLines={1}
-      ellipsizeMode='tail'
+      numberOfLines={truncate ? 1 : undefined}
+      ellipsizeMode={truncate ? 'tail' : undefined}
       allowFontScaling={false}
       {...props}
     >
@@ -373,6 +374,7 @@ export const ListItemDescription = ({
   children,
   lx = {},
   style,
+  truncate = true,
   ref,
   ...props
 }: ListItemDescriptionProps & { ref?: Ref<ComponentRef<typeof Text>> }) => {
@@ -405,8 +407,8 @@ export const ListItemDescription = ({
       ref={ref}
       lx={lx}
       style={StyleSheet.flatten([styles.description, style])}
-      numberOfLines={1}
-      ellipsizeMode='tail'
+      numberOfLines={truncate ? 1 : undefined}
+      ellipsizeMode={truncate ? 'tail' : undefined}
       allowFontScaling={false}
       {...props}
     >
