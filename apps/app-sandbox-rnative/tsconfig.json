@@ -9,6 +9,9 @@
       "path": "../../libs/ui-rnative"
     },
     {
+      "path": "../../libs/symbols"
+    },
+    {
       "path": "../../libs/design-core"
     },
     {
