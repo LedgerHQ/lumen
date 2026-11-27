@@ -69,6 +69,12 @@ By default the tile fills the width of its container. The title and description 
 
 <Canvas of={TileStories.ResponsiveLayout} />
 
+### Truncation
+
+`TileTitle` and `TileDescription` clamp to a single line with an ellipsis by default. Set `truncate={false}` to let the text wrap instead. The tile grows taller.
+
+<Canvas of={TileStories.TruncationShowcase} />
+
 ### Centered Content
 
 Use the `centered` prop to vertically center tile content. This is useful when a tile has less content than its neighbors, like a "Show more" tile in a grid.

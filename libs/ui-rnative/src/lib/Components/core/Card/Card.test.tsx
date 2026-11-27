@@ -223,4 +223,50 @@ describe('Card', () => {
       expect(screen.getByText('BTC')).toBeTruthy();
     });
   });
+
+  describe('truncate', () => {
+    const renderText = (
+      props: { truncate?: boolean; numberOfLines?: number } = {},
+    ) =>
+      render(
+        <TestWrapper>
+          <Card type='info'>
+            <CardHeader>
+              <CardLeading>
+                <CardContent>
+                  <CardContentTitle {...props}>Long title</CardContentTitle>
+                  <CardContentDescription {...props}>
+                    Long description
+                  </CardContentDescription>
+                </CardContent>
+              </CardLeading>
+            </CardHeader>
+          </Card>
+        </TestWrapper>,
+      );
+
+    it('truncates title and description to one line by default', () => {
+      renderText();
+
+      for (const text of ['Long title', 'Long description']) {
+        expect(screen.getByText(text).props.numberOfLines).toBe(1);
+        expect(screen.getByText(text).props.ellipsizeMode).toBe('tail');
+      }
+    });
+
+    it('does not clamp title and description when truncate is false', () => {
+      renderText({ truncate: false });
+
+      for (const text of ['Long title', 'Long description']) {
+        expect(screen.getByText(text).props.numberOfLines).toBeUndefined();
+        expect(screen.getByText(text).props.ellipsizeMode).toBeUndefined();
+      }
+    });
+
+    it('lets an explicit numberOfLines win over truncate', () => {
+      renderText({ numberOfLines: 2 });
+
+      expect(screen.getByText('Long title').props.numberOfLines).toBe(2);
+    });
+  });
 });

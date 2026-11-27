@@ -485,6 +485,58 @@ export const LayoutShowcase: Story = {
   ),
 };
 
+export const TruncationShowcase: Story = {
+  parameters: { docs: { source: { type: 'dynamic' } } },
+  args: {
+    type: 'info',
+    children: null,
+  },
+  render: (args) => (
+    <Box
+      lx={{
+        flexDirection: 'column',
+        gap: 's32',
+        alignItems: 'flex-start',
+        width: 'full',
+      }}
+    >
+      <Card {...args} lx={{ width: 's320' }}>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CardContent>
+              <CardContentTitle>
+                A very long card title that does not fit on a single line
+              </CardContentTitle>
+              <CardContentDescription>
+                A very long card description that keeps going well past the
+                width of the card
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+      </Card>
+
+      <Card {...args} lx={{ width: 's320' }}>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon ledgerId='bitcoin' ticker='BTC' size={48} />
+            <CardContent>
+              <CardContentTitle truncate={false}>
+                A very long card title that does not fit on a single line
+              </CardContentTitle>
+              <CardContentDescription truncate={false}>
+                A very long card description that keeps going well past the
+                width of the card
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+      </Card>
+    </Box>
+  ),
+};
+
 export const CompositionsShowcase: Story = {
   args: {
     children: null,

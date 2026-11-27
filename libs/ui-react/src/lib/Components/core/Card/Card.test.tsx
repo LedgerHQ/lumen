@@ -290,4 +290,38 @@ describe('Card', () => {
       expect(ref.current).toBeInstanceOf(HTMLDivElement);
     });
   });
+
+  describe('truncate', () => {
+    const renderText = (props: { truncate?: boolean } = {}) =>
+      render(
+        <Card type='info'>
+          <CardHeader>
+            <CardLeading>
+              <CardContent>
+                <CardContentTitle {...props}>Long title</CardContentTitle>
+                <CardContentDescription {...props}>
+                  Long description
+                </CardContentDescription>
+              </CardContent>
+            </CardLeading>
+          </CardHeader>
+        </Card>,
+      );
+
+    it('truncates title and description by default', () => {
+      renderText();
+
+      expect(screen.getByText('Long title')).toHaveClass('truncate');
+      expect(screen.getByText('Long description')).toHaveClass('truncate');
+    });
+
+    it('wraps title and description when truncate is false', () => {
+      renderText({ truncate: false });
+
+      for (const text of ['Long title', 'Long description']) {
+        expect(screen.getByText(text)).not.toHaveClass('truncate');
+        expect(screen.getByText(text)).toHaveClass('wrap-anywhere');
+      }
+    });
+  });
 });

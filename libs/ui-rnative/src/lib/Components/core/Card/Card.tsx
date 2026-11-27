@@ -467,6 +467,7 @@ export const CardContentTitle = ({
   children,
   lx = {},
   style,
+  truncate = true,
   ...props
 }: CardContentTitleProps & { ref?: Ref<View> }) => {
   const { disabled } = useCardContext({
@@ -505,8 +506,8 @@ export const CardContentTitle = ({
         ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
+        numberOfLines={truncate ? 1 : undefined}
+        ellipsizeMode={truncate ? 'tail' : undefined}
         {...props}
       >
         {children}
@@ -534,6 +535,7 @@ export const CardContentDescription = ({
   children,
   lx = {},
   style,
+  truncate = true,
   ...props
 }: CardContentDescriptionProps & { ref?: Ref<View> }) => {
   const { disabled } = useCardContext({
@@ -572,8 +574,8 @@ export const CardContentDescription = ({
         ref={ref as Ref<ComponentRef<typeof Text>>}
         lx={lx}
         style={StyleSheet.flatten([styles.asText, style])}
-        numberOfLines={1}
-        ellipsizeMode='tail'
+        numberOfLines={truncate ? 1 : undefined}
+        ellipsizeMode={truncate ? 'tail' : undefined}
         {...props}
       >
         {children}

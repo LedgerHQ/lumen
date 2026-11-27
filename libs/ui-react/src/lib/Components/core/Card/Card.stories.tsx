@@ -542,6 +542,56 @@ export const LayoutShowcase: Story = {
   ),
 };
 
+export const TruncationShowcase: Story = {
+  render: () => (
+    <div className='flex w-480 flex-col gap-32'>
+      <Card type='info' className='w-320'>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
+            <CardContent>
+              <CardContentTitle>
+                A very long card title that does not fit on a single line
+              </CardContentTitle>
+              <CardContentDescription>
+                A very long card description that keeps going well past the
+                width of the card
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+      </Card>
+
+      <Card type='info' className='w-320'>
+        <CardHeader>
+          <CardLeading>
+            <CryptoIcon
+              ledgerId='bitcoin'
+              ticker='BTC'
+              size={48}
+              alt='Bitcoin'
+            />
+            <CardContent>
+              <CardContentTitle truncate={false}>
+                A very long card title that does not fit on a single line
+              </CardContentTitle>
+              <CardContentDescription truncate={false}>
+                A very long card description that keeps going well past the
+                width of the card
+              </CardContentDescription>
+            </CardContent>
+          </CardLeading>
+        </CardHeader>
+      </Card>
+    </div>
+  ),
+};
+
 export const CompositionsShowcase: Story = {
   args: {
     className: 'w-320',

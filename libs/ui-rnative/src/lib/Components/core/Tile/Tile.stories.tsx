@@ -221,6 +221,40 @@ export const ResponsiveLayout: Story = {
   ),
 };
 
+export const TruncationShowcase: Story = {
+  args: {
+    children: null,
+  },
+  render: () => (
+    <Box lx={{ flexDirection: 'row', alignItems: 'flex-start', gap: 's16' }}>
+      <Tile lx={{ width: 's224' }} appearance='card'>
+        <Spot icon={Apps} />
+        <TileContent>
+          <TileTitle>
+            A very long tile title that does not fit on one line
+          </TileTitle>
+          <TileDescription>
+            A very long tile description that keeps going well past the width of
+            the tile
+          </TileDescription>
+        </TileContent>
+      </Tile>
+      <Tile lx={{ width: 's224' }} appearance='card'>
+        <Spot icon={Apps} />
+        <TileContent>
+          <TileTitle truncate={false}>
+            A very long tile title that does not fit on one line
+          </TileTitle>
+          <TileDescription truncate={false}>
+            A very long tile description that keeps going well past the width of
+            the tile
+          </TileDescription>
+        </TileContent>
+      </Tile>
+    </Box>
+  ),
+};
+
 export const AppearanceShowcase: Story = {
   args: {
     children: null,

@@ -304,6 +304,7 @@ export const CardContentTitle = ({
   ref,
   children,
   className,
+  truncate = true,
   ...props
 }: CardContentTitleProps) => {
   const { disabled } = useCardContext({
@@ -315,7 +316,8 @@ export const CardContentTitle = ({
     <div
       ref={ref}
       className={cn(
-        'truncate body-2-semi-bold',
+        'body-2-semi-bold',
+        truncate ? 'truncate' : 'wrap-anywhere',
         disabled && 'text-disabled',
         className,
       )}
@@ -333,6 +335,7 @@ export const CardContentDescription = ({
   ref,
   children,
   className,
+  truncate = true,
   ...props
 }: CardContentDescriptionProps) => {
   const { disabled } = useCardContext({
@@ -344,7 +347,8 @@ export const CardContentDescription = ({
     <div
       ref={ref}
       className={cn(
-        'truncate body-3',
+        'body-3',
+        truncate ? 'truncate' : 'wrap-anywhere',
         disabled ? 'text-disabled' : 'text-muted',
         className,
       )}

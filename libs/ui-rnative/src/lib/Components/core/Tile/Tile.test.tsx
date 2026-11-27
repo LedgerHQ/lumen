@@ -224,4 +224,35 @@ describe('Tile Component', () => {
       expect(getByText(tagText)).toBeTruthy();
     });
   });
+
+  describe('truncate', () => {
+    const renderText = (props: { truncate?: boolean } = {}) =>
+      render(
+        <TestWrapper>
+          <Tile>
+            <Settings size={24} />
+            <TileContent>
+              <TileTitle {...props}>Long title</TileTitle>
+              <TileDescription {...props}>Long description</TileDescription>
+            </TileContent>
+          </Tile>
+        </TestWrapper>,
+      );
+
+    it('truncates title and description to one line by default', () => {
+      const { getByTestId } = renderText();
+
+      expect(getByTestId('tile-title').props.numberOfLines).toBe(1);
+      expect(getByTestId('tile-description').props.numberOfLines).toBe(1);
+    });
+
+    it('does not clamp title and description when truncate is false', () => {
+      const { getByTestId } = renderText({ truncate: false });
+
+      expect(getByTestId('tile-title').props.numberOfLines).toBeUndefined();
+      expect(
+        getByTestId('tile-description').props.numberOfLines,
+      ).toBeUndefined();
+    });
+  });
 });

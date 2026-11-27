@@ -334,4 +334,33 @@ describe('Tile Component', () => {
       expect(screen.getByText('Second')).toBeInTheDocument();
     });
   });
+
+  describe('truncate', () => {
+    const renderText = (props: { truncate?: boolean } = {}) =>
+      render(
+        <Tile>
+          <Spot icon={Settings} />
+          <TileContent>
+            <TileTitle {...props}>Long title</TileTitle>
+            <TileDescription {...props}>Long description</TileDescription>
+          </TileContent>
+        </Tile>,
+      );
+
+    it('truncates title and description by default', () => {
+      renderText();
+
+      expect(screen.getByText('Long title')).toHaveClass('truncate');
+      expect(screen.getByText('Long description')).toHaveClass('truncate');
+    });
+
+    it('wraps title and description when truncate is false', () => {
+      renderText({ truncate: false });
+
+      for (const text of ['Long title', 'Long description']) {
+        expect(screen.getByText(text)).not.toHaveClass('truncate');
+        expect(screen.getByText(text)).toHaveClass('wrap-anywhere');
+      }
+    });
+  });
 });
