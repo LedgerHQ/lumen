@@ -4,7 +4,7 @@ import type { LottieViewRef } from '@ledgerhq/lumen-utils-shared';
 import { act, fireEvent, render, screen } from '@testing-library/react-native';
 import RNLottieView from 'lottie-react-native';
 import { createRef, type ReactNode } from 'react';
-import { ThemeProvider } from '../ThemeProvider/ThemeProvider';
+import { ThemeProvider } from '../../core/ThemeProvider';
 import { LottieView } from './LottieView';
 
 const animation = {

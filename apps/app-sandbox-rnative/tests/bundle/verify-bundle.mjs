@@ -2,8 +2,8 @@
 /**
  * React Native counterpart to the web `test:tree-shaking` fixture.
  *
- * `@ledgerhq/lumen-ui-rnative/visualization` resolves through the `react-native`
- * export condition, which points at `src/` — a path no other CI target
+ * `@ledgerhq/lumen-ui-rnative/visualization` and `/lottie` resolve through the
+ * `react-native` export condition, which points at `src/` — a path no other CI target
  * exercises. Typecheck only proves the `types` condition resolves; nothing
  * proved Metro can actually resolve the subpath, or that d3 (pure ESM, shipped
  * as a runtime dependency) survives the RN transform pipeline.
@@ -66,6 +66,12 @@ const REQUIRED = [
     name: 'visualization subpath (react-native condition → src/)',
     path: 'ui-rnative/src/lib/Components/visualization/',
   },
+  {
+    name: 'lottie subpath (react-native condition → src/)',
+    path: 'ui-rnative/src/lib/Components/lottie/',
+  },
+  // Optional peer: only the /lottie subpath imports it.
+  { name: 'lottie-react-native', path: 'node_modules/lottie-react-native' },
   { name: 'd3-scale', path: 'node_modules/d3-scale' },
   { name: 'd3-shape', path: 'node_modules/d3-shape' },
   // Optional peers: charts are the only thing in the package that needs them,
@@ -90,5 +96,7 @@ if (hasErrors) {
   process.exit(1);
 }
 
-logger.info('✅ SUCCESS: the ./visualization subpath bundles under Metro!');
+logger.info(
+  '✅ SUCCESS: the ./visualization and ./lottie subpaths bundle under Metro!',
+);
 process.exit(0);

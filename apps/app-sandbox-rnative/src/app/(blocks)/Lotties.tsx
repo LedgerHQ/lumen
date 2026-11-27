@@ -1,12 +1,9 @@
 import { success } from '@ledgerhq/lumen-symbols/lotties/success';
+import { Box, Button, Switch, Text } from '@ledgerhq/lumen-ui-rnative';
 import {
-  Box,
-  Button,
   LottieView,
-  Switch,
-  Text,
   type LottieViewRef,
-} from '@ledgerhq/lumen-ui-rnative';
+} from '@ledgerhq/lumen-ui-rnative/lottie';
 import type { ReactNode } from 'react';
 import { useRef, useState } from 'react';
 
