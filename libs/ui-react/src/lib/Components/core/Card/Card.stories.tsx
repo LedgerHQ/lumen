@@ -543,13 +543,9 @@ export const LayoutShowcase: Story = {
 };
 
 export const TruncationShowcase: Story = {
-  parameters: { docs: { source: { type: 'dynamic' } } },
-  args: {
-    type: 'info',
-  },
-  render: (args) => (
+  render: () => (
     <div className='flex w-480 flex-col gap-32'>
-      <Card {...args} className='w-320'>
+      <Card type='info' className='w-320'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
@@ -571,7 +567,7 @@ export const TruncationShowcase: Story = {
         </CardHeader>
       </Card>
 
-      <Card {...args} className='w-320'>
+      <Card type='info' className='w-320'>
         <CardHeader>
           <CardLeading>
             <CryptoIcon
