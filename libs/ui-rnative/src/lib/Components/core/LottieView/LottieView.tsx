@@ -39,8 +39,8 @@ export const LottieView = ({
   onError,
   lx = {},
   style,
-  testID,
   ref,
+  ...props
 }: LottieViewProps) => {
   const { colorScheme: themeColorScheme } = useTheme();
   const resolvedStyle = useResolveViewStyle(lx);
@@ -131,13 +131,13 @@ export const LottieView = ({
 
   return (
     <RNLottieView
+      {...props}
       ref={lottieRef}
       source={source as RNLottieViewProps['source']}
       autoPlay={false}
       loop={loop && !loopsFromJs}
       speed={speed}
       style={StyleSheet.flatten([style, resolvedStyle])}
-      testID={testID}
       onAnimationLoaded={handleLoad}
       onAnimationFinish={handleFinish}
       onAnimationFailure={(error) => onError?.(new Error(error))}
