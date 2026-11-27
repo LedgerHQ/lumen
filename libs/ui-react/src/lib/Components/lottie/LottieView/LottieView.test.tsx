@@ -6,13 +6,13 @@ import { ThemeProvider } from '../../core/ThemeProvider';
 import { LottieView } from './LottieView';
 
 const player = vi.hoisted(() => {
-  const listeners: Record<string, () => void> = {};
+  const listeners: Record<string, (event?: unknown) => void> = {};
   return {
     listeners,
     play: vi.fn(),
     pause: vi.fn(),
     stop: vi.fn(),
-    addEventListener: (type: string, listener: () => void) => {
+    addEventListener: (type: string, listener: (event?: unknown) => void) => {
       listeners[type] = listener;
     },
     removeEventListener: vi.fn(),
@@ -83,5 +83,43 @@ describe('LottieView', () => {
 
     act(() => ref.current?.stop());
     expect(player.stop).toHaveBeenCalledTimes(1);
+  });
+
+  it('does not autoplay on load when autoPlay is false', () => {
+    renderLottie({ autoPlay: false });
+    act(() => player.listeners.load?.());
+    expect(player.play).not.toHaveBeenCalled();
+  });
+
+  it('does not autoplay on load when it starts paused', () => {
+    renderLottie({ paused: true });
+    act(() => player.listeners.load?.());
+    expect(player.play).not.toHaveBeenCalled();
+  });
+
+  it('pauses then plays when paused is toggled', () => {
+    const { rerender } = renderLottie();
+
+    rerender(<LottieView animation={animation} paused />);
+    expect(player.pause).toHaveBeenCalledTimes(1);
+    expect(player.play).not.toHaveBeenCalled();
+
+    rerender(<LottieView animation={animation} paused={false} />);
+    expect(player.play).toHaveBeenCalledTimes(1);
+  });
+
+  it('calls onLoop on each loop', () => {
+    const onLoop = vi.fn();
+    renderLottie({ loop: true, onLoop });
+    act(() => player.listeners.loop?.());
+    expect(onLoop).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes the load error to onError', () => {
+    const onError = vi.fn();
+    const error = new Error('invalid animation');
+    renderLottie({ onError });
+    act(() => player.listeners.loadError?.({ error }));
+    expect(onError).toHaveBeenCalledWith(error);
   });
 });
